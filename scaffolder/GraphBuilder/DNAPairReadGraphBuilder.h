@@ -13,12 +13,13 @@ private:
     map<string, int> read1DistToEnd;
     map<string, int> read2DistToEnd;
 
+    void addInfoAboutRead(string readName, int target, BamAlignmentRecord read);
+    void addInfoAbout2Read(string readName, int target, BamAlignmentRecord read);
+
+    int readDist(BamAlignmentRecord read);
 public:
     void setDistBetweenPairReads(int distBetweenPairReads);
 
-    void addInfoAboutRead(string readName, int target, BamAlignmentRecord read);
-
-    int readDist(BamAlignmentRecord read);
 };
 
 

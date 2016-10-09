@@ -27,14 +27,19 @@ protected:
     void secondReads();
 
     void processOneFirstRead(BamAlignmentRecord read);
+    pair<string, int> processOneSecondRead(BamAlignmentRecord read);
     virtual void addInfoAboutRead(string readName, int target, BamAlignmentRecord read);
+    virtual void addInfoAbout2Read(string readName, int target, BamAlignmentRecord read);
+    void readHeaderInit();
+    string cutReadName(BamAlignmentRecord &read) const;
+    void addInfoAboutCover(int target, const BamAlignmentRecord &read) const;
+
 public:
     void setFileName2(const string &fileName2);
     void setFileName1(const string &fileName1);
 
     virtual void evaluate();
 
-    void readHeaderInit();
 };
 
 

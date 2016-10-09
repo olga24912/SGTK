@@ -55,14 +55,7 @@ void PairReadGraphBuilder::readHeaderInit() {
 
 void PairReadGraphBuilder::processOneFirstRead(BamAlignmentRecord read) {
     readRecord(read, bamFile);
-    string readName = string(toCString(read.qName));
-
-    if (readName.size() > 1) {
-        if (readName[readName.size() - 2] == '/' &&
-            readName[readName.size() - 1] == '1') {
-            readName.resize(readName.size() - 2);
-        }
-    }
+    string readName = cutReadName(read);
 
     assert(read1_target.count(read_name) == 0);
 
@@ -80,8 +73,60 @@ void PairReadGraphBuilder::processOneFirstRead(BamAlignmentRecord read) {
 
 void PairReadGraphBuilder::addInfoAboutRead(string readName, int target, BamAlignmentRecord read) {
     read1Target[readName] = target;
+    addInfoAboutCover(target, read);
+}
+
+void PairReadGraphBuilder::addInfoAbout2Read(string readName, int target, BamAlignmentRecord read) {
+    addInfoAboutCover(target, read);
+}
+
+void PairReadGraphBuilder::addInfoAboutCover(int target, const BamAlignmentRecord &read) const {
     auto readLength = getAlignmentLengthInRef(read);
     auto contigLength = getContigLength(read, bamFile);
     graph.incVertexCover(target, static_cast<double>(readLength) / contigLength);
     graph.incVertexCover(target, static_cast<double>(readLength) / contigLength);
+}
+
+void PairReadGraphBuilder::secondReads() {
+    open(bamFile, fileName2.c_str());
+    BamHeader samHeader;
+    readHeader(samHeader, bamFile);
+    BamAlignmentRecord read;
+    pair<string, int> readInfo;
+    while (!atEnd(bamFile)) {
+        readInfo = processOneSecondRead(read);
+        if (readInfo.second == -1) {
+            continue;
+        }
+        graph.incEdgeWeight(readInfo.first, readInfo.second);
+    }
+    close(bamFile);
+}
+
+pair<string, int> PairReadGraphBuilder::processOneSecondRead(BamAlignmentRecord read) {
+    readRecord(read, bamFile);
+    string readName = cutReadName(read);
+
+    bool isRev = hasFlagRC(read);
+    int target = 2 * (read.rID);
+    if (target < 0) {
+        return make_pair("", -1);
+    }
+    if (!isRev) {
+        target++;
+    }
+
+    addInfoAbout2Read(readName, target, read);
+    return make_pair(readName, target);
+}
+
+string PairReadGraphBuilder::cutReadName(BamAlignmentRecord &read) const {
+    string readName = string(toCString(read.qName));
+    if (readName.size() > 1) {
+        if (readName[readName.size() - 2] == '/' &&
+            readName[readName.size() - 1] == '2') {
+            readName.resize(readName.size() - 2);
+        }
+    }
+    return readName;
 }

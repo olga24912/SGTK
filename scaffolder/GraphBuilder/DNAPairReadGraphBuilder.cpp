@@ -20,3 +20,8 @@ int DNAPairReadGraphBuilder::readDist(BamAlignmentRecord read) {
         return (read.beginPos + read.tLen);
     }
 }
+
+void DNAPairReadGraphBuilder::addInfoAbout2Read(string readName, int target, BamAlignmentRecord read) {
+    PairReadGraphBuilder::addInfoAbout2Read(readName, target, read);
+    read2DistToEnd[readName] = readDist(read);
+}
