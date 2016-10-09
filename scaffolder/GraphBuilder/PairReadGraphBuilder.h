@@ -40,6 +40,7 @@ public:
 
     virtual void evaluate();
 
+    virtual void filterEdge();
 };
 
 

@@ -47,6 +47,7 @@ public:
     int addVertex(int id, string name, double cov, int len);
     void incVertexCover(int id, double x);
     int getTargetLength(int id);
+    int getVertexCount();
     int getLibNum();
 };
 

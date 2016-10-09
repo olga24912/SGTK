@@ -18,6 +18,7 @@ void PairReadGraphBuilder::evaluate() {
     cerr << "After first reads" << endl;
     secondReads();
     cerr << "After second reads" << endl;
+    filterEdge();
 }
 
 void PairReadGraphBuilder::firstReads() {
@@ -129,4 +130,9 @@ string PairReadGraphBuilder::cutReadName(BamAlignmentRecord &read) const {
         }
     }
     return readName;
+}
+
+void PairReadGraphBuilder::filterEdge() {
+    graph.filterByContigLen(minContigLen);
+    graph.filterByEdgeWight(minEdgeWight);
 }
