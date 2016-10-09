@@ -7,6 +7,9 @@
 
 #include "GraphBuilder.h"
 #include <bits/stdc++.h>
+#include <seqan/bam_io.h>
+#include <seqan/graph_types.h>
+
 
 using namespace std;
 using namespace seqan;
@@ -18,8 +21,13 @@ protected:
 
     BamFileIn bamFile;
 
+    map<string, int> read1Target;
+
     void firstReads();
     void secondReads();
+
+    void processOneFirstRead(BamAlignmentRecord read);
+    virtual void addInfoAboutRead(string readName, int target, BamAlignmentRecord read);
 public:
     void setFileName2(const string &fileName2);
     void setFileName1(const string &fileName1);

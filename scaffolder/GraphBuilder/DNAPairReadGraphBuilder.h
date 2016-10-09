@@ -10,10 +10,15 @@
 class DNAPairReadGraphBuilder: public PairReadGraphBuilder {
 private:
     int distBetweenPairReads;
+    map<string, int> read1DistToEnd;
+    map<string, int> read2DistToEnd;
 
 public:
     void setDistBetweenPairReads(int distBetweenPairReads);
 
+    void addInfoAboutRead(string readName, int target, BamAlignmentRecord read);
+
+    int readDist(BamAlignmentRecord read);
 };
 
 
