@@ -30,8 +30,8 @@ void DNAPairReadGraphBuilder::filterEdge() {
     PairReadGraphBuilder::filterEdge();
 
     for (int v = 0; v < graph.getVertexCount(); ++v) {
-        graph.sortEdgeByWight(v);
-        vector<int> edges_weight = graph.getEdgesWight(v);
+        graph.sortEdgeByWeight(v);
+        vector<int> edges_weight = graph.getEdgesWeight(v);
         if (edges_weight.size() == 0) {
             continue;
         }
@@ -60,4 +60,23 @@ int DNAPairReadGraphBuilder::countEdgesBeforeBreak(int v, vector<int> edges) {
     }
 
     return cnt;
+}
+
+void DNAPairReadGraphBuilder::incEdgeWeight(string readName, int target) {
+    if (read1Target.count(readName)) {
+        if (read1Target[readName] == target ||
+            read1Target[readName] == pairTarget(target)) {
+            return;
+        }
+
+        if (read1DistToEnd[readName] + read2DistToEnd[readName] >
+            distBetweenPairReads) {
+            return;
+        }
+
+        int verFID = read1Target[readName], verSID = target,
+                verRFID = pairTarget(verFID), verRSID = pairTarget(verSID);
+        graph.incEdgeWeight(verFID, verSID);
+        graph.incEdgeWeight(verRSID, verRFID);
+    }
 }

@@ -19,6 +19,8 @@ private:
     void addInfoAboutRead(string readName, int target, BamAlignmentRecord read);
     void addInfoAbout2Read(string readName, int target, BamAlignmentRecord read);
 
+    void incEdgeWeight(string readName, int target);
+
     void filterEdge();
 
     int readDist(BamAlignmentRecord read);

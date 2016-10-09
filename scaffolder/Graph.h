@@ -14,38 +14,41 @@ using namespace seqan;
 
 class Graph {
 private:
-    int libNum;
+    int libNum = -1;
+
+    int minContigLen;
 
     vector<vector<int> > graph;
     vector<int> start;
-    int startEdgeNum;
+    int startEdgeNum = 0;
     vector<int> to;
 
     vector<int> edgeLib;
     vector<int> edgeWeight;
 
-    vector<int> targetId;
+    map<string, int> targetId;
+    vector<int> vById;
+    vector<int> idByV;
     vector<string> targetName;
     vector<double> targetCoverage;
     vector<int> targetLen;
 
     vector<string> libColor;
 
-    vector< vector <int> > edgeIdByVertex;
+    vector< vector <int> > edgeIdByVertexes;
 
     string genRandomColor();
 public:
     void newLib();
-    void filterByEdgeWight(int minEdgeWight);
+    void filterByEdgeWeight(int minEdgeWeight);
     void filterByContigLen(int minContigLen);
     void writeGraphDotFormat(string fileName);
-    void writeFullGraph();
-    void sortEdgeByWight(int v);
+    void sortEdgeByWeight(int v);
     void delEdges(int v, int k);
-    vector<int> getEdgesWight(int v);
-    void incEdgeWeight(string vName, int u);
+    vector<int> getEdgesWeight(int v);
+    void incEdgeWeight(int vId, int uId);
     int addVertex(int id, string name, double cov, int len);
-    void incVertexCover(int id, double x);
+    void incTargetCover(int id, double x);
     int getTargetLength(int id);
     int getVertexCount();
     int getLibNum();

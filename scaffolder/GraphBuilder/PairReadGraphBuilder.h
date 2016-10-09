@@ -34,6 +34,9 @@ protected:
     string cutReadName(BamAlignmentRecord &read) const;
     void addInfoAboutCover(int target, const BamAlignmentRecord &read) const;
 
+    virtual void incEdgeWeight(string readName, int target);
+
+    int pairTarget(int id);
 public:
     void setFileName2(const string &fileName2);
     void setFileName1(const string &fileName1);

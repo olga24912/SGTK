@@ -4,6 +4,10 @@
 
 #include "PairReadGraphBuilder.h"
 
+int PairReadGraphBuilder::pairTarget(int id) {
+    return id ^ 1;
+}
+
 void PairReadGraphBuilder::setFileName2(const string &fileName2) {
     PairReadGraphBuilder::fileName2 = fileName2;
 }
@@ -58,7 +62,7 @@ void PairReadGraphBuilder::processOneFirstRead(BamAlignmentRecord read) {
     readRecord(read, bamFile);
     string readName = cutReadName(read);
 
-    assert(read1_target.count(read_name) == 0);
+    assert(read1Target.count(readName) == 0);
 
     bool isRev = hasFlagRC(read);
     int target = 2 * (read.rID);
@@ -84,8 +88,8 @@ void PairReadGraphBuilder::addInfoAbout2Read(string readName, int target, BamAli
 void PairReadGraphBuilder::addInfoAboutCover(int target, const BamAlignmentRecord &read) const {
     auto readLength = getAlignmentLengthInRef(read);
     auto contigLength = getContigLength(read, bamFile);
-    graph.incVertexCover(target, static_cast<double>(readLength) / contigLength);
-    graph.incVertexCover(target, static_cast<double>(readLength) / contigLength);
+    graph.incTargetCover(target, static_cast<double>(readLength) / contigLength);
+    graph.incTargetCover(target, static_cast<double>(readLength) / contigLength);
 }
 
 void PairReadGraphBuilder::secondReads() {
@@ -99,7 +103,7 @@ void PairReadGraphBuilder::secondReads() {
         if (readInfo.second == -1) {
             continue;
         }
-        graph.incEdgeWeight(readInfo.first, readInfo.second);
+        incEdgeWeight(readInfo.first, readInfo.second);
     }
     close(bamFile);
 }
@@ -134,5 +138,18 @@ string PairReadGraphBuilder::cutReadName(BamAlignmentRecord &read) const {
 
 void PairReadGraphBuilder::filterEdge() {
     graph.filterByContigLen(minContigLen);
-    graph.filterByEdgeWight(minEdgeWight);
+    graph.filterByEdgeWeight(minEdgeWight);
+}
+
+void PairReadGraphBuilder::incEdgeWeight(string readName, int target) {
+    if (read1Target.count(readName)) {
+        if (read1Target[readName] == target ||
+            read1Target[readName] == pairTarget(target)) {
+            return;
+        }
+        int verFID = read1Target[readName], verSID = target,
+                verRFID = pairTarget(verFID), verRSID = pairTarget(verSID);
+        graph.incEdgeWeight(verFID, verSID);
+        graph.incEdgeWeight(verRSID, verRFID);
+    }
 }
