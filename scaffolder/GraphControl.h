@@ -5,12 +5,12 @@
 #ifndef SCAFFOLDER_GRAPHCONTROL_H
 #define SCAFFOLDER_GRAPHCONTROL_H
 
-#include "Graph.h"
+#include "ConigGraph.h"
 #include "GraphBuilder/DNAPairReadGraphBuilder.h"
 
 class GraphControl {
 private:
-    Graph graph;
+    ConigGraph graph;
 public:
     void evaluate(int argc, char **argv);
 };

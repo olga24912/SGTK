@@ -32,7 +32,7 @@ protected:
     virtual void addInfoAbout2Read(string readName, int target, BamAlignmentRecord read);
     void readHeaderInit();
     string cutReadName(BamAlignmentRecord &read) const;
-    void addInfoAboutCover(int target, const BamAlignmentRecord &read) const;
+    void addInfoAboutCover(int target, const BamAlignmentRecord &read);
 
     virtual void incEdgeWeight(string readName, int target);
 

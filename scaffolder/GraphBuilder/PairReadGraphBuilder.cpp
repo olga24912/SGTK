@@ -85,9 +85,9 @@ void PairReadGraphBuilder::addInfoAbout2Read(string readName, int target, BamAli
     addInfoAboutCover(target, read);
 }
 
-void PairReadGraphBuilder::addInfoAboutCover(int target, const BamAlignmentRecord &read) const {
-    auto readLength = getAlignmentLengthInRef(read);
-    auto contigLength = getContigLength(read, bamFile);
+void PairReadGraphBuilder::addInfoAboutCover(int target, const BamAlignmentRecord &read) {
+    int readLength = getAlignmentLengthInRef(read);
+    int contigLength = graph.getTargetLength(target);
     graph.incTargetCover(target, static_cast<double>(readLength) / contigLength);
     graph.incTargetCover(target, static_cast<double>(readLength) / contigLength);
 }
