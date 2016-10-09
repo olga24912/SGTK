@@ -18,7 +18,7 @@ void GraphControl::evaluate(int argc, char **argv) {
 
 
         graph.newLib();
-        gb.setGraph(graph);
+        gb.setGraph(&graph);
         gb.evaluate();
 
         pos += 5;

@@ -12,6 +12,6 @@ void GraphBuilder::setMinEdgeWight(int minEdge) {
     GraphBuilder::minEdgeWight = minEdge;
 }
 
-void GraphBuilder::setGraph(ConigGraph & graph) {
+void GraphBuilder::setGraph(ConigGraph *graph) {
     GraphBuilder::graph = graph;
 }

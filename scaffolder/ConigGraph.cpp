@@ -44,7 +44,7 @@ int ConigGraph::addVertex(int id, string name, double cov, int len) {
     int v = (int)graph.size();
     graph.push_back(vector<int>());
     targetId[name] = id;
-    vById.resize(max((int)vById.size(), id + 1), -1);
+    vById.resize((unsigned long) max((int)vById.size(), id + 1), -1);
     vById[id] = v;
 
     idByV.push_back(id);
@@ -78,6 +78,7 @@ void ConigGraph::incEdgeWeight(int vId, int uId) {
         edgeLib.push_back(libNum);
         edgeIdByVertexes[v][u] = e;
         graph[v].push_back(e);
+        cerr << "add edge";
     }
 
     edgeWeight[e] += 1;
@@ -92,6 +93,7 @@ vector<int> ConigGraph::getEdgesWeight(int v) {
 }
 
 void ConigGraph::delEdges(int v, int k) {
+    cerr << "del edge";
     graph[v].resize(graph[v].size() - k);
 }
 

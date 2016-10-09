@@ -35,6 +35,7 @@ protected:
     void addInfoAboutCover(int target, const BamAlignmentRecord &read);
 
     virtual void incEdgeWeight(string readName, int target);
+    virtual void filterEdge();
 
     int pairTarget(int id);
 public:
@@ -42,8 +43,6 @@ public:
     void setFileName1(const string &fileName1);
 
     virtual void evaluate();
-
-    virtual void filterEdge();
 };
 
 

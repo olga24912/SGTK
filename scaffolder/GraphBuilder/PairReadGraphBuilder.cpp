@@ -17,6 +17,7 @@ void PairReadGraphBuilder::setFileName1(const string &fileName1) {
 }
 
 void PairReadGraphBuilder::evaluate() {
+    read1Target.clear();
     cerr << "START" << endl;
     firstReads();
     cerr << "After first reads" << endl;
@@ -27,7 +28,8 @@ void PairReadGraphBuilder::evaluate() {
 
 void PairReadGraphBuilder::firstReads() {
     open(bamFile, fileName1.c_str());
-    if (graph.getLibNum() == 0) {
+    cerr << "first read" << endl;
+    if (graph->getLibNum() == 0) {
         readHeaderInit();
     } else {
         BamHeader sam_header;
@@ -52,15 +54,17 @@ void PairReadGraphBuilder::readHeaderInit() {
     for (int i = 0; i < static_cast<int>(contig_num); ++i) {
         int length = contigLengths(bamContext)[i];
         name = string(toCString(contigNames(bamContext)[i]));
-        graph.addVertex(i, name, 0,  length);
+        graph->addVertex(2*i, name, 0,  length);
         name += "-rev";
-        graph.addVertex(i + 1, name, 0, length);
+        graph->addVertex(2*i + 1, name, 0, length);
     }
 }
 
 void PairReadGraphBuilder::processOneFirstRead(BamAlignmentRecord read) {
     readRecord(read, bamFile);
     string readName = cutReadName(read);
+
+    cerr << "read: " << readName << "\n";
 
     assert(read1Target.count(readName) == 0);
 
@@ -87,9 +91,9 @@ void PairReadGraphBuilder::addInfoAbout2Read(string readName, int target, BamAli
 
 void PairReadGraphBuilder::addInfoAboutCover(int target, const BamAlignmentRecord &read) {
     int readLength = getAlignmentLengthInRef(read);
-    int contigLength = graph.getTargetLength(target);
-    graph.incTargetCover(target, static_cast<double>(readLength) / contigLength);
-    graph.incTargetCover(target, static_cast<double>(readLength) / contigLength);
+    int contigLength = graph->getTargetLength(target);
+    graph->incTargetCover(target, static_cast<double>(readLength) / contigLength);
+    graph->incTargetCover(target, static_cast<double>(readLength) / contigLength);
 }
 
 void PairReadGraphBuilder::secondReads() {
@@ -112,6 +116,8 @@ pair<string, int> PairReadGraphBuilder::processOneSecondRead(BamAlignmentRecord 
     readRecord(read, bamFile);
     string readName = cutReadName(read);
 
+    cerr << "read2: " << readName << endl;
+
     bool isRev = hasFlagRC(read);
     int target = 2 * (read.rID);
     if (target < 0) {
@@ -129,7 +135,8 @@ string PairReadGraphBuilder::cutReadName(BamAlignmentRecord &read) const {
     string readName = string(toCString(read.qName));
     if (readName.size() > 1) {
         if (readName[readName.size() - 2] == '/' &&
-            readName[readName.size() - 1] == '2') {
+                    (readName[readName.size() - 1] == '2' ||
+                     readName[readName.size() - 1] == '1')) {
             readName.resize(readName.size() - 2);
         }
     }
@@ -137,8 +144,8 @@ string PairReadGraphBuilder::cutReadName(BamAlignmentRecord &read) const {
 }
 
 void PairReadGraphBuilder::filterEdge() {
-    graph.filterByContigLen(minContigLen);
-    graph.filterByEdgeWeight(minEdgeWight);
+    graph->filterByContigLen(minContigLen);
+    graph->filterByEdgeWeight(minEdgeWight);
 }
 
 void PairReadGraphBuilder::incEdgeWeight(string readName, int target) {
@@ -149,7 +156,7 @@ void PairReadGraphBuilder::incEdgeWeight(string readName, int target) {
         }
         int verFID = read1Target[readName], verSID = target,
                 verRFID = pairTarget(verFID), verRSID = pairTarget(verSID);
-        graph.incEdgeWeight(verFID, verSID);
-        graph.incEdgeWeight(verRSID, verRFID);
+        graph->incEdgeWeight(verFID, verSID);
+        graph->incEdgeWeight(verRSID, verRFID);
     }
 }

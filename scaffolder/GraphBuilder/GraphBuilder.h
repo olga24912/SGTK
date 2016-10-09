@@ -11,7 +11,7 @@
 
 class GraphBuilder {
 protected:
-    ConigGraph graph;
+    ConigGraph* graph;
 
     int minContigLen = 0;
     int minEdgeWight = 0;
@@ -20,7 +20,7 @@ public:
 
     void setMinContigLen(int minContigLen);
     void setMinEdgeWight(int minEdgeWight);
-    void setGraph(ConigGraph &graph);
+    void setGraph(ConigGraph* graph);
 };
 
 

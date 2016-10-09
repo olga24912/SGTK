@@ -15,7 +15,7 @@ void DNAPairReadGraphBuilder::addInfoAboutRead(string readName, int target, BamA
 
 int DNAPairReadGraphBuilder::readDist(BamAlignmentRecord read) {
     if (!hasFlagRC(read)) {
-        return (graph.getTargetLength(2 * read.rID) - read.beginPos);
+        return (graph->getTargetLength(2 * read.rID) - read.beginPos);
     } else {
         return (read.beginPos + read.tLen);
     }
@@ -29,15 +29,15 @@ void DNAPairReadGraphBuilder::addInfoAbout2Read(string readName, int target, Bam
 void DNAPairReadGraphBuilder::filterEdge() {
     PairReadGraphBuilder::filterEdge();
 
-    for (int v = 0; v < graph.getVertexCount(); ++v) {
-        graph.sortEdgeByWeight(v);
-        vector<int> edges_weight = graph.getEdgesWeight(v);
+    for (int v = 0; v < graph->getVertexCount(); ++v) {
+        graph->sortEdgeByWeight(v);
+        vector<int> edges_weight = graph->getEdgesWeight(v);
         if (edges_weight.size() == 0) {
             continue;
         }
         sort(edges_weight.begin(), edges_weight.end());
         int cnt = countEdgesBeforeBreak(v, edges_weight);
-        graph.delEdges(v, cnt);
+        graph->delEdges(v, cnt);
     }
 }
 
@@ -76,7 +76,7 @@ void DNAPairReadGraphBuilder::incEdgeWeight(string readName, int target) {
 
         int verFID = read1Target[readName], verSID = target,
                 verRFID = pairTarget(verFID), verRSID = pairTarget(verSID);
-        graph.incEdgeWeight(verFID, verSID);
-        graph.incEdgeWeight(verRSID, verRFID);
+        graph->incEdgeWeight(verFID, verSID);
+        graph->incEdgeWeight(verRSID, verRFID);
     }
 }
