@@ -3,3 +3,7 @@
 //
 
 #include "DNAPairReadGraphBuilder.h"
+
+void DNAPairReadGraphBuilder::setDistBetweenPairReads(int distBetweenPairReads) {
+    DNAPairReadGraphBuilder::distBetweenPairReads = distBetweenPairReads;
+}

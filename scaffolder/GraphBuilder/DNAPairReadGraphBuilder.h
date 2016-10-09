@@ -8,6 +8,11 @@
 #include "PairReadGraphBuilder.h"
 
 class DNAPairReadGraphBuilder: public PairReadGraphBuilder {
+private:
+    int distBetweenPairReads;
+
+public:
+    void setDistBetweenPairReads(int distBetweenPairReads);
 
 };
 

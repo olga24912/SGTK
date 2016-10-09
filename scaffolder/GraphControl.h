@@ -6,6 +6,7 @@
 #define SCAFFOLDER_GRAPHCONTROL_H
 
 #include "Graph.h"
+#include "GraphBuilder/DNAPairReadGraphBuilder.h"
 
 class GraphControl {
 private:
