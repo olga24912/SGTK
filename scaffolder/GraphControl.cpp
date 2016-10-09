@@ -3,3 +3,8 @@
 //
 
 #include "GraphControl.h"
+
+void GraphControl::evaluate(int argc, char **argv) {
+
+
+}

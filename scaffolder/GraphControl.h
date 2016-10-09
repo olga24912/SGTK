@@ -5,9 +5,13 @@
 #ifndef SCAFFOLDER_GRAPHCONTROL_H
 #define SCAFFOLDER_GRAPHCONTROL_H
 
+#include "Graph.h"
 
 class GraphControl {
-
+private:
+    Graph graph;
+public:
+    void evaluate(int argc, char **argv);
 };
 
 
