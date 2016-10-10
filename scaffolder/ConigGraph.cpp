@@ -112,7 +112,7 @@ void ConigGraph::sortEdgeByWeight(int v) {
 void ConigGraph::writeGraphDotFormat(string fileName) {
     ofstream out(fileName);
 
-    out << "digraph graph {\n";
+    out << "digraph {\n";
 
     for (int v = 0; v < (int)graph.size(); ++v) {
         int vId = idByV[v];
@@ -121,9 +121,10 @@ void ConigGraph::writeGraphDotFormat(string fileName) {
             int e = graph[v][j];
             int u = to[e];
             int uId = idByV[u];
-            out << "    " << targetName[vId] << " -> " << targetName[uId] << " [ ";
+            out << "    \"" << targetName[vId] << "\" -> \"" << targetName[uId] << "\" [ ";
             out << "color = \"" << libColor[edgeLib[e]] << "\", ";
-            out << "penwidth = "<< 1 + (int)log10(edgeWeight[e]) << "]\n";
+            out << "penwidth = "<< 1 + (int)log10(edgeWeight[e]) << ", ";
+            out << "label = " << "\" weight = " << edgeWeight[e] << "\" ]\n";
         }
     }
 

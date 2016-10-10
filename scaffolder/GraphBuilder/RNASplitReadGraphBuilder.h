@@ -8,7 +8,16 @@
 #include "GraphBuilder.h"
 
 class RNASplitReadGraphBuilder : public GraphBuilder {
+private:
+    string refFileName;
+    string rnaReadsFileName;
 
+public:
+    void evaluate();
+
+    void setRefFileName(string refFileName);
+
+    void setRnaReadFileName(string rnaReadsFileName);
 };
 
 

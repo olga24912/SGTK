@@ -104,6 +104,7 @@ void PairReadGraphBuilder::secondReads() {
     pair<string, int> readInfo;
     while (!atEnd(bamFile)) {
         readInfo = processOneSecondRead(read);
+        cerr << readInfo.first << " " << readInfo.second << endl;
         if (readInfo.second == -1) {
             continue;
         }
@@ -116,7 +117,7 @@ pair<string, int> PairReadGraphBuilder::processOneSecondRead(BamAlignmentRecord 
     readRecord(read, bamFile);
     string readName = cutReadName(read);
 
- //   cerr << "read2: " << readName << endl;
+    cerr << "read2: " << readName << endl;
 
     bool isRev = hasFlagRC(read);
     int target = 2 * (read.rID);
@@ -156,6 +157,7 @@ void PairReadGraphBuilder::incEdgeWeight(string readName, int target) {
         }
         int verFID = read1Target[readName], verSID = target,
                 verRFID = pairTarget(verFID), verRSID = pairTarget(verSID);
+        cerr << target << " " << verFID << endl;
         graph->incEdgeWeight(verFID, verSID);
         graph->incEdgeWeight(verRSID, verRFID);
     }
