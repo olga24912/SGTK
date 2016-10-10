@@ -20,7 +20,6 @@ string ConigGraph::genRandomColor() {
             res += (color[i] % 16) - 10 + 'a';
         }
     }
-    res = "color = \"" + res + "\"";
     return res;
 }
 
@@ -71,6 +70,7 @@ int ConigGraph::addVertex(int id, string name, double cov, int len) {
 void ConigGraph::incEdgeWeight(int vId, int uId) {
     int v = vById[vId], u = vById[uId];
     int e = edgeIdByVertexes[v][u];
+    cerr << v << " " << u << " " << e << endl;
     if (e == -1) {
         e = edgeWeight.size();
         edgeWeight.push_back(0);
@@ -93,7 +93,6 @@ vector<int> ConigGraph::getEdgesWeight(int v) {
 }
 
 void ConigGraph::delEdges(int v, int k) {
-    cerr << "del edge";
     graph[v].resize(graph[v].size() - k);
 }
 
@@ -122,8 +121,9 @@ void ConigGraph::writeGraphDotFormat(string fileName) {
             int e = graph[v][j];
             int u = to[e];
             int uId = idByV[u];
-            out << targetName[vId] << " -> " << targetName[uId] << " [ ";
-            out << "color = \"" << libColor[edgeLib[e]] << "]\n";
+            out << "    " << targetName[vId] << " -> " << targetName[uId] << " [ ";
+            out << "color = \"" << libColor[edgeLib[e]] << "\", ";
+            out << "penwidth = "<< 1 + (int)log10(edgeWeight[e]) << "]\n";
         }
     }
 

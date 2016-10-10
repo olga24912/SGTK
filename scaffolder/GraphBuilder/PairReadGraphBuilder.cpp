@@ -116,7 +116,7 @@ pair<string, int> PairReadGraphBuilder::processOneSecondRead(BamAlignmentRecord 
     readRecord(read, bamFile);
     string readName = cutReadName(read);
 
-    cerr << "read2: " << readName << endl;
+ //   cerr << "read2: " << readName << endl;
 
     bool isRev = hasFlagRC(read);
     int target = 2 * (read.rID);

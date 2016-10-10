@@ -37,7 +37,7 @@ void DNAPairReadGraphBuilder::filterEdge() {
         }
         sort(edges_weight.begin(), edges_weight.end());
         int cnt = countEdgesBeforeBreak(v, edges_weight);
-        graph->delEdges(v, cnt);
+        graph->delEdges(v, (int)edges_weight.size() - cnt);
     }
 }
 
