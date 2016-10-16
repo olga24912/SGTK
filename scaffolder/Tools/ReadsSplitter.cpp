@@ -14,8 +14,11 @@ void ReadsSplitter::findAndSplitNotAlignmentReads(string rnaReadsFileName, strin
     FastaToolsIn ftin;
     ftin.parse(rnaReadsFileName);
 
-    FastaToolsOut ftout;
-    ftout.putFileName(resFileName);
+    FastaToolsOut ftout1;
+    ftout1.putFileName(resFileName1);
+
+    FastaToolsOut ftout2;
+    ftout2.putFileName(resFileName2);
 
     cerr << "start rewrite reads" << endl;
 
@@ -29,17 +32,18 @@ void ReadsSplitter::findAndSplitNotAlignmentReads(string rnaReadsFileName, strin
 
             int len = (int) seq.size() / 2;
             string readName1 = readName;
-            readName1 += "_1";
+            readName1 += "/1";
             string readName2 = readName;
-            readName2 += "_2";
+            readName2 += "/2";
 
-            ftout.write(readName1, seq.substr(0, len));
-            ftout.write(readName2, seq.substr(len, seq.size() - len));
+            ftout1.write(readName1, seq.substr(0, len));
+            ftout2.write(readName2, seq.substr(len, seq.size() - len));
         }
     }
 
     ftin.close();
-    ftout.close();
+    ftout1.close();
+    ftout2.close();
 }
 
 unordered_set<string> ReadsSplitter::findAlignmentReads(string fileName) {
@@ -56,7 +60,6 @@ unordered_set<string> ReadsSplitter::findAlignmentReads(string fileName) {
     while (!atEnd(bamFile)) {
         readRecord(read, bamFile);
         string name = string(toCString(read.qName));
-        cerr << name << "\n";
         if (read.rID != -1) {
             usedReads.insert(name);
         }

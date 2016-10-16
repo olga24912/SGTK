@@ -24,7 +24,7 @@ private:
     unordered_map<string, string> reads;
 public:
     void findAndSplitNotAlignmentReads(string rnaReadsFileName, string alignmentFileName,
-                                       string resFileName1, string  resFile);
+                                       string resFileName1, string resFileName2);
 };
 
 
