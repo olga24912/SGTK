@@ -3,3 +3,7 @@
 //
 
 #include "ReadsAlignment.h"
+
+void ReadsAlignment::alignment(string refFileName, string alignfileName, string resFile1, string resFile2) {
+
+}
