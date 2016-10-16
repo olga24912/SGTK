@@ -18,11 +18,13 @@ private:
 
     string curHeader;
     string curGenRef;
+    string nextHeader;
 public:
     void parse(string fn);
     bool next();
     string currentName();
     string currentRef();
+    void close();
 };
 
 

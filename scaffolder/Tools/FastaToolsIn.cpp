@@ -8,14 +8,23 @@
 void FastaToolsIn::parse(string fn) {
     fileName = fn;
     fin.open(fn);
+
+    getline(fin, nextHeader);
 }
 
 bool FastaToolsIn::next() {
-    if (getline(fin, curHeader)) {
-        getline(fin, curGenRef);
-        return true;
+    curHeader = nextHeader;
+    if (curHeader == "") return false;
+    nextHeader = "";
+    curGenRef = "";
+    string s;
+    while (getline(fin, s) && s[0] != '>') {
+        curGenRef += s;
     }
-    return false;
+    if (s.size() > 0 && s[0] == '>') {
+        nextHeader = s;
+    }
+    return true;
 }
 
 string FastaToolsIn::currentName() {
@@ -30,4 +39,8 @@ string FastaToolsIn::currentName() {
 
 string FastaToolsIn::currentRef() {
     return curGenRef;
+}
+
+void FastaToolsIn::close() {
+    fin.close();
 }

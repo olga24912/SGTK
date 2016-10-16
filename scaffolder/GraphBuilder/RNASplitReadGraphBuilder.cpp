@@ -4,7 +4,7 @@
 
 #include "RNASplitReadGraphBuilder.h"
 #include "../Tools/WorkWithOtherTools.h"
-#include "FastaToolsIn.h"
+#include "../Tools/FastaToolsIn.h"
 #include "../ReadsAlignment.h"
 #include "RNAPairReadGraphBuilder.h"
 #include "../Tools/ReadsSplitter.h"
