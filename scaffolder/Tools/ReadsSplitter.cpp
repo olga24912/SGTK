@@ -3,75 +3,40 @@
 //
 
 #include "ReadsSplitter.h"
+#include "FastaToolsIn.h"
+#include "FastaToolsOut.h"
 
 void ReadsSplitter::findAndSplitNotAlignmentReads(string rnaReadsFileName, string alignmentFileName, string resFileName) {
     cerr << "start split reads" << endl;
     unordered_set<string> alignmentReads = findAlignmentReads(alignmentFileName);
 
-    ofstream fout(resFileName);
-    ifstream fin(rnaReadsFileName);
+    FastaToolsIn ftin;
+    ftin.parse(rnaReadsFileName);
+
+    FastaToolsOut ftout;
+    ftout.putFileName(resFileName);
 
     cerr << "start rewrite reads" << endl;
-    string cur;
-    getline(fin, cur);
-    while (true) {
-        string readName = getName(cur);
+
+    while (ftin.next()) {
+        string readName = ftin.currentName();
 
         if (alignmentReads.count(readName) == 0) {
-            string seq;
-            getline(fin, seq);
+            string seq = ftin.currentRef();
 
-            int len = (int)seq.size()/2;
+            int len = (int) seq.size() / 2;
             string readName1 = readName;
             readName1 += "_1";
             string readName2 = readName;
             readName2 += "_2";
 
-            string next;
-            if (getline(fin, next)) {
-                if (next[0] == '+') {
-                    string nn;
-                    getline(fin, nn);
-
-                    fout << cur[0] << readName1 << cur.substr(readName.size() + 1, cur.size() - readName.size() - 1) << "\n";
-                    fout << seq.substr(0, len) << "\n";
-                    fout << "+\n";
-                    fout << nn.substr(0, len) << "\n";
-
-                    fout << cur[0] << readName2 << cur.substr(readName.size() + 1, cur.size() - readName.size() - 1) << "\n";
-                    fout << seq.substr(len, seq.size() - len) << "\n";
-                    fout << "+\n";
-                    fout << nn.substr(len, seq.size() - len) << "\n";
-
-                    if (!getline(fin, cur)) {
-                        break;
-                    }
-
-                } else {
-                    fout << cur[0] << readName1 << cur.substr(readName.size() + 1, cur.size() - readName.size() - 1) << "\n";
-                    fout << seq.substr(0, len) << "\n";
-
-                    fout << cur[0] << readName2 << cur.substr(readName.size() + 1, cur.size() - readName.size() - 1) << "\n";
-                    fout << seq.substr(len, seq.size() - len) << "\n";
-                    cur = next;
-                }
-            } else {
-                fout << cur[0] << readName1 << cur.substr(readName.size() + 1, cur.size() - readName.size() - 1) << "\n";
-                fout << seq.substr(0, len) << "\n";
-
-                fout << cur[0] << readName2 << cur.substr(readName.size() + 1, cur.size() - readName.size() - 1) << "\n";
-                fout << seq.substr(len, seq.size() - len) << "\n";
-                break;
-            }
-        } else {
-            if (!getline(fin, cur)) {
-                break;
-            }
+            ftout.write(readName1, seq.substr(0, len));
+            ftout.write(readName2, seq.substr(len, seq.size() - len));
         }
     }
 
-    fout.close();
-    fin.close();
+    ftin.close();
+    ftout.close();
 }
 
 unordered_set<string> ReadsSplitter::findAlignmentReads(string fileName) {
