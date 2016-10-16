@@ -14,13 +14,15 @@ using namespace seqan;
 class FastaToolsIn {
 private:
     string fileName;
-    int pos;
     ifstream fin;
+
+    string curHeader;
+    string curGenRef;
 public:
     void parse(string fn);
-    void next();
-    void currentName();
-    void currentRef();
+    bool next();
+    string currentName();
+    string currentRef();
 };
 
 

@@ -9,7 +9,7 @@
 #include <seqan/bam_io.h>
 
 
-usign namespace seqan;
+using namespace seqan;
 using namespace std;
 
 class ReadsSplitter {
