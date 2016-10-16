@@ -49,7 +49,7 @@ void ReadsSplitter::findAndSplitNotAlignmentReads(string rnaReadsFileName, strin
 unordered_set<string> ReadsSplitter::findAlignmentReads(string fileName) {
     cerr << "start read sam file" << endl;
     unordered_set<string> usedReads;
-
+    int cnt = 0;
     BamFileIn bamFile;
     open(bamFile, fileName.c_str());
 
@@ -58,6 +58,7 @@ unordered_set<string> ReadsSplitter::findAlignmentReads(string fileName) {
 
     BamAlignmentRecord read;
     while (!atEnd(bamFile)) {
+        ++cnt;
         readRecord(read, bamFile);
         string name = string(toCString(read.qName));
         if (read.rID != -1) {
@@ -65,5 +66,6 @@ unordered_set<string> ReadsSplitter::findAlignmentReads(string fileName) {
         }
     }
     close(bamFile);
+    cerr << cnt << endl;
     return usedReads;
 }
