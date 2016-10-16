@@ -15,9 +15,16 @@ using namespace std;
 class ReadsSplitter {
 private:
     unordered_set<string> findAlignmentReads(string fileName);
-    string getName(string headerLine);
+
 public:
-    void findAndSplitNotAlignmentReads(string rnaReadsFileName, string alignmentFileName, string resFileName);
+    unordered_map<string, string> getFullNotAlignmentReads() const {
+        return reads;
+    }
+private:
+    unordered_map<string, string> reads;
+public:
+    void findAndSplitNotAlignmentReads(string rnaReadsFileName, string alignmentFileName,
+                                       string resFileName1, string  resFile);
 };
 
 

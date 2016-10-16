@@ -18,10 +18,12 @@ bool FastaToolsIn::next() {
     nextHeader = "";
     curGenRef = "";
     string s;
-    while (getline(fin, s) && s[0] != '>') {
-        curGenRef += s;
+    while (getline(fin, s) && (s[0] != '>' || s[0] != '@')) {
+        if (s[0] == 'A' || s[0] == 'G' || s[0] == 'T' || s[0] == 'C') {
+            curGenRef += s;
+        }
     }
-    if (s.size() > 0 && s[0] == '>') {
+    if (s.size() > 0 && (s[0] == '>' || s[0] == '@')) {
         nextHeader = s;
     }
     return true;

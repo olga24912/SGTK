@@ -6,7 +6,8 @@
 #include "FastaToolsIn.h"
 #include "FastaToolsOut.h"
 
-void ReadsSplitter::findAndSplitNotAlignmentReads(string rnaReadsFileName, string alignmentFileName, string resFileName) {
+void ReadsSplitter::findAndSplitNotAlignmentReads(string rnaReadsFileName, string alignmentFileName,
+                                                  string resFileName1, string resFileName2) {
     cerr << "start split reads" << endl;
     unordered_set<string> alignmentReads = findAlignmentReads(alignmentFileName);
 
@@ -23,6 +24,8 @@ void ReadsSplitter::findAndSplitNotAlignmentReads(string rnaReadsFileName, strin
 
         if (alignmentReads.count(readName) == 0) {
             string seq = ftin.currentRef();
+
+            reads[readName] = seq;
 
             int len = (int) seq.size() / 2;
             string readName1 = readName;
@@ -60,13 +63,4 @@ unordered_set<string> ReadsSplitter::findAlignmentReads(string fileName) {
     }
     close(bamFile);
     return usedReads;
-}
-
-string ReadsSplitter::getName(string headerLine) {
-    string name;
-    for (int i = 1; i < (int)headerLine.size() && headerLine[i] != ' '; ++i) {
-        name += headerLine[i];
-    }
-
-    return name;
 }
