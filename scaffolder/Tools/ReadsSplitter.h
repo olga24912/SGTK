@@ -13,9 +13,6 @@ using namespace seqan;
 using namespace std;
 
 class ReadsSplitter {
-private:
-    unordered_set<string> findAlignmentReads(string fileName);
-
 public:
     unordered_map<string, string> getFullNotAlignmentReads() const {
         return reads;
@@ -23,8 +20,8 @@ public:
 private:
     unordered_map<string, string> reads;
 public:
-    void findAndSplitNotAlignmentReads(string rnaReadsFileName, string alignmentFileName,
-                                       string resFileName1, string resFileName2);
+    void splitNotAlignmentReads(string rnaUnmappedReadsFileName,
+                                string resFileName1, string resFileName2);
 };
 
 

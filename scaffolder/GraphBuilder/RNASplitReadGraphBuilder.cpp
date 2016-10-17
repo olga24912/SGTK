@@ -16,7 +16,7 @@ void RNASplitReadGraphBuilder::evaluate() {
 
 
     wwot.alignmentRNA(refFileName, rnaReadsFileName, "rna.sam");
-    rs.findAndSplitNotAlignmentReads(rnaReadsFileName, "rna.sam", "cutPartReads1.fasta", "cutPartReads2.fasta");
+    rs.splitNotAlignmentReads("Unmapped.out.mate1", "cutPartReads1.fasta", "cutPartReads2.fasta");
     //wwot.alignmentRNA(refFileName, "cur2reads.fasta", "rnaSplit.sam");
     //ra.alignment(refFileName, rs.getFullNotAlignmentReads() ,"rnaSplit.sam", "cutPartReads1.fasta", "cutPartReads2.fasta");
 

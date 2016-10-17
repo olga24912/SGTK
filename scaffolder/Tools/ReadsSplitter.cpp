@@ -6,13 +6,11 @@
 #include "FastaToolsIn.h"
 #include "FastaToolsOut.h"
 
-void ReadsSplitter::findAndSplitNotAlignmentReads(string rnaReadsFileName, string alignmentFileName,
-                                                  string resFileName1, string resFileName2) {
+void ReadsSplitter::splitNotAlignmentReads(string rnaUnmappedReadsFileName,
+                                           string resFileName1, string resFileName2) {
     cerr << "start split reads" << endl;
-    unordered_set<string> alignmentReads = findAlignmentReads(alignmentFileName);
-
     FastaToolsIn ftin;
-    ftin.parse(rnaReadsFileName);
+    ftin.parse(rnaUnmappedReadsFileName);
 
     FastaToolsOut ftout1;
     ftout1.putFileName(resFileName1);
@@ -24,48 +22,20 @@ void ReadsSplitter::findAndSplitNotAlignmentReads(string rnaReadsFileName, strin
 
     while (ftin.next()) {
         string readName = ftin.currentName();
+        string seq = ftin.currentRef();
+        reads[readName] = seq;
 
-        if (alignmentReads.count(readName) == 0) {
-            string seq = ftin.currentRef();
+        int len = (int) seq.size() / 2;
+        string readName1 = readName;
+        readName1 += "/1";
+        string readName2 = readName;
+        readName2 += "/2";
 
-            reads[readName] = seq;
-
-            int len = (int) seq.size() / 2;
-            string readName1 = readName;
-            readName1 += "/1";
-            string readName2 = readName;
-            readName2 += "/2";
-
-            ftout1.write(readName1, seq.substr(0, len));
-            ftout2.write(readName2, seq.substr(len, seq.size() - len));
-        }
+        ftout1.write(readName1, seq.substr(0, len));
+        ftout2.write(readName2, seq.substr(len, seq.size() - len));
     }
 
     ftin.close();
     ftout1.close();
     ftout2.close();
-}
-
-unordered_set<string> ReadsSplitter::findAlignmentReads(string fileName) {
-    cerr << "start read sam file" << endl;
-    unordered_set<string> usedReads;
-    int cnt = 0;
-    BamFileIn bamFile;
-    open(bamFile, fileName.c_str());
-
-    BamHeader samHeader;
-    readHeader(samHeader, bamFile);
-
-    BamAlignmentRecord read;
-    while (!atEnd(bamFile)) {
-        ++cnt;
-        readRecord(read, bamFile);
-        string name = string(toCString(read.qName));
-        if (read.rID != -1) {
-            usedReads.insert(name);
-        }
-    }
-    close(bamFile);
-    cerr << cnt << endl;
-    return usedReads;
 }

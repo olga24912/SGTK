@@ -13,7 +13,7 @@ void WorkWithOtherTools::alignmentRNA(string refFileName, string rnaFileName, st
 
     system(command.c_str());
 
-    command = "./STAR --runThreadN 16 --genomeDir genomeDir --readFilesIn ";
+    command = "./STAR --runThreadN 16 --genomeDir genomeDir --outReadsUnmapped Fastx --readFilesIn ";
     command += rnaFileName;
 
     system(command.c_str());
