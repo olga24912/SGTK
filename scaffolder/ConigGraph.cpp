@@ -70,7 +70,6 @@ int ConigGraph::addVertex(int id, string name, double cov, int len) {
 void ConigGraph::incEdgeWeight(int vId, int uId) {
     int v = vById[vId], u = vById[uId];
     int e = edgeIdByVertexes[v][u];
-    cerr << v << " " << u << " " << e << endl;
     if (e == -1) {
         e = edgeWeight.size();
         edgeWeight.push_back(0);
@@ -78,7 +77,6 @@ void ConigGraph::incEdgeWeight(int vId, int uId) {
         edgeLib.push_back(libNum);
         edgeIdByVertexes[v][u] = e;
         graph[v].push_back(e);
-        cerr << "add edge";
     }
 
     edgeWeight[e] += 1;

@@ -46,8 +46,6 @@ pair<string,int> PairReadGraphBuilder::processOneFirstRead(BamAlignmentRecord re
     readRecord(read, bamFile1);
     string readName = SeqanUtils::cutReadName(read);
 
-    cerr << "read: " << readName << "\n";
-
     assert(read1Target.count(readName) == 0);
 
     bool isRev = hasFlagRC(read);
@@ -85,8 +83,6 @@ pair<string, int> PairReadGraphBuilder::processOneSecondRead(BamAlignmentRecord 
     readRecord(read, bamFile2);
     string readName = SeqanUtils::cutReadName(read);
 
-    cerr << "read2: " << readName << endl;
-
     bool isRev = hasFlagRC(read);
     int target = 2 * (read.rID);
     if (target < 0) {
@@ -113,7 +109,6 @@ void PairReadGraphBuilder::incEdgeWeight(string readName, int target) {
         }
         int verFID = read1Target[readName], verSID = target,
                 verRFID = pairTarget(verFID), verRSID = pairTarget(verSID);
-        cerr << target << " " << verFID << endl;
         graph->incEdgeWeight(verFID, verSID);
         graph->incEdgeWeight(verRSID, verRFID);
     }
