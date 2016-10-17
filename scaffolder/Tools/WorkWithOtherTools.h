@@ -9,8 +9,15 @@
 
 using namespace std;
 
+/*
+ * system call of other programs
+ */
 class WorkWithOtherTools {
 public:
+    /*
+     * alignment RNA reads from rnaFile to refFile
+     * result will be in resFile.
+     */
     void alignmentRNA(string refFileName, string rnaFileName, string resFileName);
 };
 

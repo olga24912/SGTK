@@ -11,6 +11,9 @@
 using namespace std;
 using namespace seqan;
 
+/*
+ * class for reading from fasta file
+ */
 class FastaToolsIn {
 private:
     string fileName;
@@ -20,10 +23,29 @@ private:
     string curGenRef;
     string nextHeader;
 public:
+    /*
+     * set the file name in fasta format witch from we gone to read.
+     */
     void parse(string fn);
+
+    /*
+     * read next pattern include name and gene
+     */
     bool next();
+
+    /*
+     * get the name of read/contig
+     */
     string currentName();
+
+    /*
+     * get gens value
+     */
     string currentRef();
+
+    /*
+     * need to call after work. Close input stream.
+     */
     void close();
 };
 

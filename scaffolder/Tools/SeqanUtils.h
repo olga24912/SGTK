@@ -12,8 +12,14 @@
 using namespace seqan;
 using namespace std;
 
+/*
+ * handling info from seqans classes
+ */
 class SeqanUtils {
 public:
+    /*
+     * return reads name without "/1", "/2" end.
+     */
     static string cutReadName(BamAlignmentRecord read);
 };
 

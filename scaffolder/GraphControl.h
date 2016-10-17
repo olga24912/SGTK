@@ -9,6 +9,11 @@
 #include "GraphBuilder/DNAPairReadGraphBuilder.h"
 #include "OutsideLib/optionparser.h"
 
+
+/*
+ * that class parse args and call other class for
+ * build conection and keep info about conection.
+ */
 class GraphControl {
 private:
     ConigGraph graph;
@@ -86,6 +91,9 @@ private:
 
 
 public:
+    /*
+     * build conection with this args
+     */
     void evaluate(int argc, char **argv);
 };
 

@@ -12,6 +12,9 @@
 using namespace seqan;
 using namespace std;
 
+/*
+ * take reads from fasta file and split it on two equal parts.
+ */
 class ReadsSplitter {
 public:
     unordered_map<string, string> getFullNotAlignmentReads() const {
@@ -20,6 +23,11 @@ public:
 private:
     unordered_map<string, string> reads;
 public:
+    /*
+     * take read from rnaUnmappedReadsFileName
+     * first part of split read will be in resFileName1
+     * second - resFileName2
+     */
     void splitNotAlignmentReads(string rnaUnmappedReadsFileName,
                                 string resFileName1, string resFileName2);
 };
