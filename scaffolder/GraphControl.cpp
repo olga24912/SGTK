@@ -51,7 +51,7 @@ void GraphControl::evaluate(int argc, char **argv) {
                 if ( dynamic_cast <PairReadGraphBuilder *> ( gb )) {
                     (dynamic_cast<PairReadGraphBuilder*> (gb)) -> setFileName1(opt.arg);
                 } else {
-                    printf("Put the pair read sam file for not pair read builder.");
+                    printf("Put the pair read sam file for not pair read builder.\n");
                     return;
                 }
                 break;
@@ -59,7 +59,15 @@ void GraphControl::evaluate(int argc, char **argv) {
                 if ( dynamic_cast <PairReadGraphBuilder *> ( gb )) {
                     (dynamic_cast<PairReadGraphBuilder*> (gb)) -> setFileName2(opt.arg);
                 } else {
-                    printf("Put the pair read sam file for not pair read builder.");
+                    printf("Put the pair read sam file for not pair read builder.\n");
+                    return;
+                }
+                break;
+            case DIST_BETWEEN_PAIR_READS:
+                if ( dynamic_cast <DNAPairReadGraphBuilder *> ( gb )) {
+                    (dynamic_cast<DNAPairReadGraphBuilder*> (gb)) -> setFileName2(opt.arg);
+                } else {
+                    printf("Put the dist between pair read not for DNA pairs.\n");
                     return;
                 }
                 break;
@@ -69,6 +77,21 @@ void GraphControl::evaluate(int argc, char **argv) {
             case MINEDGELEN:
                 gb->setMinEdgeWight(atoi(opt.arg));
                 break;
+            case REFFILE:
+                if ( dynamic_cast <RNASplitReadGraphBuilder *> ( gb )) {
+                    (dynamic_cast<RNASplitReadGraphBuilder*> (gb)) -> setRefFileName(opt.arg);
+                } else {
+                    printf("Put the ref file not for RNA split builder.\n");
+                    return;
+                }
+            case READSFILE:
+
+                if ( dynamic_cast <RNASplitReadGraphBuilder *> ( gb )) {
+                    (dynamic_cast<RNASplitReadGraphBuilder*> (gb)) -> setRnaReadFileName(opt.arg);
+                } else {
+                    printf("Put the reads file not for RNA split builder.\n");
+                    return;
+                }
             default:break;
         }
     }
@@ -76,32 +99,10 @@ void GraphControl::evaluate(int argc, char **argv) {
     if (needEval) {
         graph.newLib();
         gb -> setGraph(&graph);
-        cerr << "ok";
         gb -> evaluate();
     }
 
     delete gb;
-
-/*
-    int pos = 1;
-    while (pos < argc) {
-        //cerr << pos << " " << argc << endl;
-
-        //gb.setMinContigLen(atoi(argv[pos + 3]));
-        //gb.setFileName1(argv[pos]);
-        //gb.setFileName2(argv[pos + 1]);
-        //gb.setDistBetweenPairReads(atoi(argv[pos + 3]));
-        //gb.setMinEdgeWight(atoi(argv[pos + 2]));
-
-        //gb.setRefFileName(argv[pos]);
-        //gb.setRnaReadFileName(argv[pos + 1]);
-
-        //*graph.newLib();
-        //gb.setGraph(&graph);
-        //gb.evaluate();
-
-        pos += 2;
-    }*/
 
     graph.writeGraphDotFormat("graph.dot");
 }
