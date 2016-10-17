@@ -21,14 +21,13 @@ protected:
     string fileName1;
     string fileName2;
 
-    BamFileIn bamFile;
+    BamFileIn bamFile1;
+    BamFileIn bamFile2;
 
-    map<string, int> read1Target;
+    unordered_map<string, int> read1Target;
+    unordered_map<string, int> read2Target;
 
-    void firstReads();
-    void secondReads();
-
-    void processOneFirstRead(BamAlignmentRecord read);
+    pair<string, int> processOneFirstRead(BamAlignmentRecord read);
     pair<string, int> processOneSecondRead(BamAlignmentRecord read);
     virtual void addInfoAboutRead(string readName, int target, BamAlignmentRecord read);
     virtual void addInfoAbout2Read(string readName, int target, BamAlignmentRecord read);
@@ -46,6 +45,8 @@ public:
     void setOneSideReadFlag(bool flag);
 
     virtual void evaluate();
+
+    void handleReads();
 };
 
 

@@ -20,35 +20,16 @@ void PairReadGraphBuilder::setFileName1(const string &fileName1) {
 void PairReadGraphBuilder::evaluate() {
     read1Target.clear();
     cerr << "START" << endl;
-    firstReads();
-    cerr << "After first reads" << endl;
-    secondReads();
-    cerr << "After second reads" << endl;
+    handleReads();
     filterEdge();
-}
-
-void PairReadGraphBuilder::firstReads() {
-    open(bamFile, fileName1.c_str());
-    cerr << "first read" << endl;
-    if (graph->getLibNum() == 0) {
-        readHeaderInit();
-    } else {
-        BamHeader sam_header;
-        readHeader(sam_header, bamFile);
-    }
-    BamAlignmentRecord read;
-    while (!atEnd(bamFile)) {
-        processOneFirstRead(read);
-    }
-    close(bamFile);
 }
 
 void PairReadGraphBuilder::readHeaderInit() {
     typedef FormattedFileContext<BamFileIn, void>::Type TBamContext;
 
     BamHeader sam_header;
-    readHeader(sam_header, bamFile);
-    TBamContext const &bamContext = context(bamFile);
+    readHeader(sam_header, bamFile1);
+    TBamContext const &bamContext = context(bamFile1);
     size_t contig_num = length(contigNames(bamContext));
 
     string name;
@@ -61,8 +42,8 @@ void PairReadGraphBuilder::readHeaderInit() {
     }
 }
 
-void PairReadGraphBuilder::processOneFirstRead(BamAlignmentRecord read) {
-    readRecord(read, bamFile);
+pair<string,int> PairReadGraphBuilder::processOneFirstRead(BamAlignmentRecord read) {
+    readRecord(read, bamFile1);
     string readName = SeqanUtils::cutReadName(read);
 
     cerr << "read: " << readName << "\n";
@@ -72,13 +53,14 @@ void PairReadGraphBuilder::processOneFirstRead(BamAlignmentRecord read) {
     bool isRev = hasFlagRC(read);
     int target = 2 * (read.rID);
     if (target < 0) {
-        return;
+        return make_pair(readName, -1);
     }
     if (isRev) {
         target++;
     }
 
     addInfoAboutRead(readName, target, read);
+    return make_pair(readName, target);
 }
 
 void PairReadGraphBuilder::addInfoAboutRead(string readName, int target, BamAlignmentRecord read) {
@@ -87,6 +69,7 @@ void PairReadGraphBuilder::addInfoAboutRead(string readName, int target, BamAlig
 }
 
 void PairReadGraphBuilder::addInfoAbout2Read(string readName, int target, BamAlignmentRecord read) {
+    read2Target[readName] = target;
     addInfoAboutCover(target, read);
 }
 
@@ -97,25 +80,9 @@ void PairReadGraphBuilder::addInfoAboutCover(int target, const BamAlignmentRecor
     graph->incTargetCover(target, static_cast<double>(readLength) / contigLength);
 }
 
-void PairReadGraphBuilder::secondReads() {
-    open(bamFile, fileName2.c_str());
-    BamHeader samHeader;
-    readHeader(samHeader, bamFile);
-    BamAlignmentRecord read;
-    pair<string, int> readInfo;
-    while (!atEnd(bamFile)) {
-        readInfo = processOneSecondRead(read);
-        cerr << readInfo.first << " " << readInfo.second << endl;
-        if (readInfo.second == -1) {
-            continue;
-        }
-        incEdgeWeight(readInfo.first, readInfo.second);
-    }
-    close(bamFile);
-}
 
 pair<string, int> PairReadGraphBuilder::processOneSecondRead(BamAlignmentRecord read) {
-    readRecord(read, bamFile);
+    readRecord(read, bamFile2);
     string readName = SeqanUtils::cutReadName(read);
 
     cerr << "read2: " << readName << endl;
@@ -155,3 +122,48 @@ void PairReadGraphBuilder::incEdgeWeight(string readName, int target) {
 void PairReadGraphBuilder::setOneSideReadFlag(bool flag) {
     oneSideRead = flag;
 }
+
+void PairReadGraphBuilder::handleReads() {
+    open(bamFile1, fileName1.c_str());
+    open(bamFile2, fileName2.c_str());
+
+    BamHeader samHeader2;
+    readHeader(samHeader2, bamFile2);
+
+    if (graph->getLibNum() == 0) {
+        readHeaderInit();
+    } else {
+        BamHeader samHeader1;
+        readHeader(samHeader1, bamFile1);
+    }
+
+    BamAlignmentRecord read1, read2;
+
+    while (!atEnd(bamFile1) || !atEnd(bamFile2)) {
+        pair<string, int> readInfo1 = make_pair("", -1);
+        pair<string, int> readInfo2 = make_pair("", -1);
+
+        if (!atEnd(bamFile1)) {
+            readInfo1 = processOneFirstRead(read1);
+        }
+
+        if (!atEnd(bamFile2)) {
+            readInfo2 = processOneSecondRead(read2);
+        }
+        if (readInfo2.second != -1 && read1Target.count(readInfo2.first)) {
+            incEdgeWeight(readInfo2.first, readInfo2.second);
+            read2Target.erase(readInfo2.first);
+        }
+        read1Target.erase(readInfo2.first);
+
+        if (readInfo1.second != -1 && read2Target.count(readInfo1.first)) {
+            incEdgeWeight(readInfo1.first, read2Target[readInfo1.first]);
+            read1Target.erase(readInfo1.first);
+        }
+        read2Target.erase(readInfo1.first);
+    }
+
+    close(bamFile1);
+    close(bamFile2);
+}
+
