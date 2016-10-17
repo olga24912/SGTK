@@ -27,6 +27,7 @@ void RNASplitReadGraphBuilder::evaluate() {
 
     gb.setFileName1("rna1.sam");
     gb.setFileName2("rna2.sam");
+    gb.setOneSideReadFlag(true);
     gb.setGraph(graph);
     gb.setMinContigLen(minContigLen);
     gb.setMinEdgeWight(minEdgeWight);

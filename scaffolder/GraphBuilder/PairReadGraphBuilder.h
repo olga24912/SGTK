@@ -16,6 +16,8 @@ using namespace seqan;
 
 class PairReadGraphBuilder: public GraphBuilder {
 protected:
+    bool oneSideRead = false;
+
     string fileName1;
     string fileName2;
 
@@ -31,7 +33,6 @@ protected:
     virtual void addInfoAboutRead(string readName, int target, BamAlignmentRecord read);
     virtual void addInfoAbout2Read(string readName, int target, BamAlignmentRecord read);
     void readHeaderInit();
-    string cutReadName(BamAlignmentRecord &read) const;
     void addInfoAboutCover(int target, const BamAlignmentRecord &read);
 
     virtual void incEdgeWeight(string readName, int target);
@@ -41,6 +42,8 @@ protected:
 public:
     void setFileName2(const string &fileName2);
     void setFileName1(const string &fileName1);
+
+    void setOneSideReadFlag(bool flag);
 
     virtual void evaluate();
 };

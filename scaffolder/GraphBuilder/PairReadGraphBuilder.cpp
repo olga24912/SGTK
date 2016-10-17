@@ -3,6 +3,7 @@
 //
 
 #include "PairReadGraphBuilder.h"
+#include "../Tools/SeqanUtils.h"
 
 int PairReadGraphBuilder::pairTarget(int id) {
     return id ^ 1;
@@ -62,7 +63,7 @@ void PairReadGraphBuilder::readHeaderInit() {
 
 void PairReadGraphBuilder::processOneFirstRead(BamAlignmentRecord read) {
     readRecord(read, bamFile);
-    string readName = cutReadName(read);
+    string readName = SeqanUtils::cutReadName(read);
 
     cerr << "read: " << readName << "\n";
 
@@ -115,7 +116,7 @@ void PairReadGraphBuilder::secondReads() {
 
 pair<string, int> PairReadGraphBuilder::processOneSecondRead(BamAlignmentRecord read) {
     readRecord(read, bamFile);
-    string readName = cutReadName(read);
+    string readName = SeqanUtils::cutReadName(read);
 
     cerr << "read2: " << readName << endl;
 
@@ -124,24 +125,12 @@ pair<string, int> PairReadGraphBuilder::processOneSecondRead(BamAlignmentRecord 
     if (target < 0) {
         return make_pair("", -1);
     }
-    if (!isRev) {
+    if ((!isRev && !oneSideRead) || (isRev && oneSideRead)) {
         target++;
     }
 
     addInfoAbout2Read(readName, target, read);
     return make_pair(readName, target);
-}
-
-string PairReadGraphBuilder::cutReadName(BamAlignmentRecord &read) const {
-    string readName = string(toCString(read.qName));
-    if (readName.size() > 1) {
-        if (readName[readName.size() - 2] == '/' &&
-                    (readName[readName.size() - 1] == '2' ||
-                     readName[readName.size() - 1] == '1')) {
-            readName.resize(readName.size() - 2);
-        }
-    }
-    return readName;
 }
 
 void PairReadGraphBuilder::filterEdge() {
@@ -161,4 +150,8 @@ void PairReadGraphBuilder::incEdgeWeight(string readName, int target) {
         graph->incEdgeWeight(verFID, verSID);
         graph->incEdgeWeight(verRSID, verRFID);
     }
+}
+
+void PairReadGraphBuilder::setOneSideReadFlag(bool flag) {
+    oneSideRead = flag;
 }
