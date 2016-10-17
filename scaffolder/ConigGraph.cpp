@@ -112,6 +112,11 @@ void ConigGraph::writeGraphDotFormat(string fileName) {
 
     out << "digraph {\n";
 
+    for (int i = 0; i < targetName.size(); ++i) {
+        out << "    \"" << targetName[i] << "\"[label=\" " << targetName[i] << "\nlen = " << targetLen[i]
+        << ", cover = "<< targetCoverage[i] <<"\"];\n";
+    }
+
     for (int v = 0; v < (int)graph.size(); ++v) {
         int vId = idByV[v];
         if (targetLen[vId] < minContigLen) continue;
