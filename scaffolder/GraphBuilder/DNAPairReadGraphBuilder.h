@@ -6,7 +6,9 @@
 #define SCAFFOLDER_DNAPAIRREADGRAPHBUILDER_H
 
 #include "PairReadGraphBuilder.h"
-
+/*
+ * find conection between contigs by DNA pair reads
+ */
 class DNAPairReadGraphBuilder: public PairReadGraphBuilder {
 private:
     static constexpr double DEFAULT_DEF = 0.179;
@@ -24,10 +26,14 @@ private:
     void filterEdge();
 
     int readDist(BamAlignmentRecord read);
-public:
-    void setDistBetweenPairReads(int distBetweenPairReads);
 
     int countEdgesBeforeBreak(int v, vector<int> edges);
+public:
+    /*
+     * set max distance between DNA pair read,
+     * if  dist will be more this conatcion will be ignore/
+     */
+    void setDistBetweenPairReads(int distBetweenPairReads);
 };
 
 

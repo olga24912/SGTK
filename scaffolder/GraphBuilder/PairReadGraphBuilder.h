@@ -14,6 +14,9 @@
 using namespace std;
 using namespace seqan;
 
+/*
+ * genrate conection betwen contigs by pair reads
+ */
 class PairReadGraphBuilder: public GraphBuilder {
 protected:
     bool oneSideRead = false;
@@ -38,15 +41,25 @@ protected:
     virtual void filterEdge();
 
     int pairTarget(int id);
+
+    void handleReads();
 public:
+    /*
+     * set sam file for first pair read alignment
+     */
     void setFileName2(const string &fileName2);
+
+    /*
+     * set sam file for second pair read alignment
+     */
     void setFileName1(const string &fileName1);
 
+    /*
+     * set info about orintation  pair read
+     */
     void setOneSideReadFlag(bool flag);
 
     virtual void evaluate();
-
-    void handleReads();
 };
 
 
