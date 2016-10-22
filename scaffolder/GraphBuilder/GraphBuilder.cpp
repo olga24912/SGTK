@@ -15,3 +15,7 @@ void GraphBuilder::setMinEdgeWight(int minEdge) {
 void GraphBuilder::setGraph(ConigGraph *graph) {
     GraphBuilder::graph = graph;
 }
+
+void GraphBuilder::setLibName(string libName) {
+    this->libName = libName;
+}

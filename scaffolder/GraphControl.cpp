@@ -84,14 +84,18 @@ void GraphControl::evaluate(int argc, char **argv) {
                     printf("Put the ref file not for RNA split builder.\n");
                     return;
                 }
+                break;
             case READSFILE:
-
                 if ( dynamic_cast <RNASplitReadGraphBuilder *> ( gb )) {
                     (dynamic_cast<RNASplitReadGraphBuilder*> (gb)) -> setRnaReadFileName(opt.arg);
                 } else {
                     printf("Put the reads file not for RNA split builder.\n");
                     return;
                 }
+                break;
+            case LIBNAME:
+                gb -> setLibName(opt.arg);
+                break;
             default:break;
         }
     }

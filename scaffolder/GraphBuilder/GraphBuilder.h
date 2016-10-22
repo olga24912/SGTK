@@ -15,6 +15,7 @@ class GraphBuilder {
 protected:
     ConigGraph* graph;
 
+    string libName;
     int minContigLen = 0;
     int minEdgeWight = 0;
 public:
@@ -36,6 +37,8 @@ public:
      */
     void setMinEdgeWight(int minEdgeWight);
     void setGraph(ConigGraph* graph);
+
+    void setLibName(string libName);
 };
 
 

@@ -65,8 +65,9 @@ private:
         }
     };
 
-    enum  optionIndex { UNKNOWN, HELP, NEW, SAM1, SAM2, MINCONTIGLEN, MINEDGELEN, DIST_BETWEEN_PAIR_READS, REFFILE, READSFILE};
-    const option::Descriptor usage[11] = {
+    enum  optionIndex { UNKNOWN, HELP, NEW, SAM1, SAM2, MINCONTIGLEN, MINEDGELEN,
+        DIST_BETWEEN_PAIR_READS, REFFILE, READSFILE, LIBNAME};
+    const option::Descriptor usage[12] = {
             { UNKNOWN, 0,"", "",        Arg::Unknown, "USAGE: scaffolder [options]\n\n"
                                                               "Options:" },
             { HELP,         0,"", "help",         Arg::None,    "  \t--help  \tPrint usage and exit." },
@@ -86,6 +87,8 @@ private:
                                                                        "\t Must have an argument, file name of referense file."},
             { READSFILE, 0, "p", "read_file",    Arg::Required, " -p <arg>, \t --read_file=<arg> "
                                                                         "\t Must have an argument, file name of reads file."},
+            { LIBNAME, 0, "l", "lib_name", Arg::Required, " -l <arg>, \t --lib_name=<arg>"
+                                                                  "\t Must have an argument, the name of lib will write on edges"},
             { 0, 0, 0, 0, 0, 0 }
     };
 

@@ -127,7 +127,7 @@ void ConigGraph::writeGraphDotFormat(string fileName) {
             out << "    \"" << targetName[vId] << "\" -> \"" << targetName[uId] << "\" [ ";
             out << "color = \"" << libColor[edgeLib[e]] << "\", ";
             out << "penwidth = "<< 1 + (int)log10(edgeWeight[e]) << ", ";
-            out << "label = " << "\" weight = " << edgeWeight[e] << "\" ]\n";
+            out << "label = " << "\"" << libName[edgeLib[e]] << "\n weight = " << edgeWeight[e] << "\" ]\n";
         }
     }
 
@@ -155,6 +155,7 @@ void ConigGraph::filterByEdgeWeight(int minEdgeWeight) {
 void ConigGraph::newLib() {
     ++libNum;
     libColor.push_back(genRandomColor());
+    libName.push_back("");
     minContigLen = 0;
     for (int i = 0; i < (int)graph.size(); ++i) {
         start[i] = (int)graph[i].size();
@@ -168,4 +169,8 @@ void ConigGraph::newLib() {
         }
     }
 
+}
+
+void ConigGraph::setLibNum(string s) {
+    libName[libName.size() - 1] = s;
 }

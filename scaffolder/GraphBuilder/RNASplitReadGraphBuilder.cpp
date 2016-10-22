@@ -19,8 +19,9 @@ void RNASplitReadGraphBuilder::evaluate() {
     rs.splitReads("Unmapped.fasta", "cutPartReads1.fasta", "cutPartReads2.fasta");
     su.splitReads("rna.sam", "short1.fasta", "short2.fasta");
 
-    handlingPairReads("cutPartReads1.fasta", "cutPartReads2.fasta");
-    handlingPairReads("short1.fasta", "short2.fasta");
+    handlingPairReads("cutPartReads1.fasta", "cutPartReads2.fasta", " 50-50");
+    graph->newLib();
+    handlingPairReads("short1.fasta", "short2.fasta", " long-short");
 
     graph->filterByContigLen(minContigLen);
 }
@@ -33,7 +34,7 @@ void RNASplitReadGraphBuilder::setRnaReadFileName(string rnaReadsFileName) {
     RNASplitReadGraphBuilder::rnaReadsFileName = rnaReadsFileName;
 }
 
-void RNASplitReadGraphBuilder::handlingPairReads(string file1, string file2) {
+void RNASplitReadGraphBuilder::handlingPairReads(string file1, string file2, string libN) {
     WorkWithOtherTools wwot;
 
     wwot.alignmentRNA(refFileName, file1, "rna1.sam");
@@ -50,4 +51,5 @@ void RNASplitReadGraphBuilder::handlingPairReads(string file1, string file2) {
 
     gb.evaluate();
     graph->filterByEdgeWeight(minEdgeWight);
+    graph->setLibNum(libName + libN);
 }

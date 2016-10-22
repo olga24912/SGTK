@@ -37,75 +37,39 @@ private:
     vector<int> targetLen;
 
     vector<string> libColor;
+    vector<string> libName;
 
     vector< vector <int> > edgeIdByVertexes;
 
     string genRandomColor();
 public:
-    /*
-     * next edge library
-     */
-    void newLib();
+    void newLib(); //next edge library
 
-    /*
-     * delete edge with small wight
-     */
-    void filterByEdgeWeight(int minEdgeWeight);
+    void filterByEdgeWeight(int minEdgeWeight); //delete edge with small wight
 
-    /*
-     * fileter vertex with small len
-     */
-    void filterByContigLen(int minContigLen);
+    void filterByContigLen(int minContigLen);//fileter vertex with small len
 
-    /*
-     * write info about conig graph in dot format
-     */
-    void writeGraphDotFormat(string fileName);
+    void writeGraphDotFormat(string fileName); //write info about conig graph in dot format
 
-    /*
-     * sort edge by weight for this vertex
-     */
-    void sortEdgeByWeight(int v);
+    void sortEdgeByWeight(int v); // sort edge by weight for this vertex
 
-    /*
-     * delete last k edges for vertex v
-     */
-    void delEdges(int v, int k);
+    void delEdges(int v, int k); // delete last k edges for vertex v
 
-    /*
-     * get out edges weight for vertex v.
-     */
-    vector<int> getEdgesWeight(int v);
+    vector<int> getEdgesWeight(int v); //get out edges weight for vertex v.
 
-    /*
-     * increment edge wight between contigs with id vId and uId
-     */
-    void incEdgeWeight(int vId, int uId);
+    void incEdgeWeight(int vId, int uId); //increment edge wight between contigs with id vId and uId
 
-    /*
-     * add new vertex with this id, name, coverage and len
-     */
-    int addVertex(int id, string name, double cov, int len);
+    int addVertex(int id, string name, double cov, int len); //add new vertex with this id, name, coverage and len
 
-    /*
-     * increment coverage for contig with this id on x.
-     */
-    void incTargetCover(int id, double x);
+    void incTargetCover(int id, double x); //increment coverage for contig with this id on x.
 
-    /*
-     * get len of contig with id.
-     */
-    int getTargetLength(int id)const;
+    int getTargetLength(int id)const; // get len of contig with id.
 
-    /*
-     * get count of vertexs
-     */
-    int getVertexCount();
+    int getVertexCount(); //get count of vertexs
 
-    /*
-     * get the count of lib
-     */
-    int getLibNum();
+    int getLibNum(); //get the count of lib
+
+    void setLibNum(string s);
 };
 
 
