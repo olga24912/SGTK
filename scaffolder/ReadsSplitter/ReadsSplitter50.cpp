@@ -1,13 +1,10 @@
 //
-// Created by olga on 16.10.16.
+// Created by olga on 22.10.16.
 //
 
-#include "ReadsSplitter.h"
-#include "FastaToolsIn.h"
-#include "FastaToolsOut.h"
+#include "ReadsSplitter50.h"
 
-void ReadsSplitter::splitNotAlignmentReads(string rnaUnmappedReadsFileName,
-                                           string resFileName1, string resFileName2) {
+void ReadsSplitter50::splitReads(string rnaUnmappedReadsFileName, string resFileName1, string resFileName2) {
     cerr << "start split reads" << endl;
     FastaToolsIn ftin;
     ftin.parse(rnaUnmappedReadsFileName);
@@ -26,16 +23,11 @@ void ReadsSplitter::splitNotAlignmentReads(string rnaUnmappedReadsFileName,
         reads[readName] = seq;
 
         int len = (int) seq.size() / 2;
-        string readName1 = readName;
-        readName1 += "/1";
-        string readName2 = readName;
-        readName2 += "/2";
-
-        ftout1.write(readName1, seq.substr(0, len));
-        ftout2.write(readName2, seq.substr(len, seq.size() - len));
+        splitRead(readName, seq, len, ftout1, ftout2);
     }
 
     ftin.close();
     ftout1.close();
     ftout2.close();
 }
+

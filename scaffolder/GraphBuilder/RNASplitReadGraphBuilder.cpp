@@ -5,20 +5,17 @@
 #include "RNASplitReadGraphBuilder.h"
 #include "../Tools/WorkWithOtherTools.h"
 #include "../Tools/FastaToolsIn.h"
-#include "../ReadsAlignment.h"
 #include "RNAPairReadGraphBuilder.h"
-#include "../Tools/ReadsSplitter.h"
+#include "../ReadsSplitter/ReadsSplitter.h"
+#include "../ReadsSplitter/ReadsSplitter50.h"
 
 void RNASplitReadGraphBuilder::evaluate() {
     WorkWithOtherTools wwot;
-    ReadsSplitter rs;
-    ReadsAlignment ra;
+    ReadsSplitter50 rs;
 
 
     wwot.alignmentRNA(refFileName, rnaReadsFileName, "rna.sam");
-    rs.splitNotAlignmentReads("Unmapped.out.mate1", "cutPartReads1.fasta", "cutPartReads2.fasta");
-    //wwot.alignmentRNA(refFileName, "cur2reads.fasta", "rnaSplit.sam");
-    //ra.alignment(refFileName, rs.getFullNotAlignmentReads() ,"rnaSplit.sam", "cutPartReads1.fasta", "cutPartReads2.fasta");
+    rs.splitReads("Unmapped.out.mate1", "cutPartReads1.fasta", "cutPartReads2.fasta");
 
     wwot.alignmentRNA(refFileName, "cutPartReads1.fasta", "rna1.sam");
     wwot.alignmentRNA(refFileName, "cutPartReads2.fasta", "rna2.sam");
