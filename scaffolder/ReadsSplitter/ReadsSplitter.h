@@ -8,7 +8,6 @@
 #include <bits/stdc++.h>
 #include <seqan/bam_io.h>
 #include <seqan/seq_io.h>
-#include "../Tools/FastaToolsOut.h"
 
 
 using namespace seqan;

@@ -20,12 +20,6 @@ using namespace std;
  */
 class SplitReadsTest {
 private:
-    string refOUTFileName;
-    string refINFileName;
-    string readsFileName;
-
-    int readLen;
-
     string smallRef(string ref, int exonLen, int intronLen, int spos);
 public:
     /*

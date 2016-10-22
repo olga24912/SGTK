@@ -27,3 +27,13 @@ string SeqanUtils::dna5ToString(Dna5 *seq, int len) {
     }
     return res;
 }
+
+void SeqanUtils::writeRec(SeqFileOut& out, string name, string seq) {
+    StringSet<seqan::CharString> ids;
+    appendValue(ids, CharString(name.c_str()));
+
+    StringSet<seqan::CharString> seqs;
+    appendValue(seqs, Dna5String(seq));
+
+    writeRecords(out, ids, seqs);
+}

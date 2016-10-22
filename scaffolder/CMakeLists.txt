@@ -11,8 +11,8 @@ set(SOURCE_FILES main.cpp GraphControl.cpp GraphControl.h
         GraphBuilder/RNAPairReadGraphBuilder.cpp GraphBuilder/RNAPairReadGraphBuilder.h ConigGraph.cpp ConigGraph.h
         Tools/WorkWithOtherTools.cpp Tools/WorkWithOtherTools.h
         GenTests/SplitReadsTest.cpp GenTests/SplitReadsTest.h
-        ReadsSplitter/ReadsSplitter.cpp ReadsSplitter/ReadsSplitter.h Tools/FastaToolsOut.cpp
-        Tools/FastaToolsOut.h Tools/SeqanUtils.cpp Tools/SeqanUtils.h OutsideLib/optionparser.h
+        ReadsSplitter/ReadsSplitter.cpp ReadsSplitter/ReadsSplitter.h
+        Tools/SeqanUtils.cpp Tools/SeqanUtils.h OutsideLib/optionparser.h
         ReadsSplitter/ReadsSplitter50.cpp ReadsSplitter/ReadsSplitter50.h ReadsSplitter/SplitterByUnmappedEnd.cpp
         ReadsSplitter/SplitterByUnmappedEnd.h)
 add_executable(scaffolder ${SOURCE_FILES})

@@ -21,6 +21,8 @@ void RNASplitReadGraphBuilder::evaluate() {
 
     handlingPairReads("cutPartReads1.fasta", "cutPartReads2.fasta");
     handlingPairReads("short1.fasta", "short2.fasta");
+
+    graph->filterByContigLen(minContigLen);
 }
 
 void RNASplitReadGraphBuilder::setRefFileName(string refFileName) {
@@ -47,4 +49,5 @@ void RNASplitReadGraphBuilder::handlingPairReads(string file1, string file2) {
     gb.setMinEdgeWight(minEdgeWight);
 
     gb.evaluate();
+    graph->filterByEdgeWeight(minEdgeWight);
 }
