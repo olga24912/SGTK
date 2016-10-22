@@ -15,13 +15,27 @@ void RNASplitReadGraphBuilder::evaluate() {
     ReadsSplitter50 rs;
     SplitterByUnmappedEnd su;
 
-
     wwot.alignmentRNA(refFileName, rnaReadsFileName, "rna.sam");
-    //rs.splitReads("Unmapped.out.mate1", "cutPartReads1.fasta", "cutPartReads2.fasta");
+    rs.splitReads("Unmapped.out.mate1", "cutPartReads1.fasta", "cutPartReads2.fasta");
     su.splitReads("rna.sam", "short1.fasta", "short2.fasta");
 
-    /*wwot.alignmentRNA(refFileName, "cutPartReads1.fasta", "rna1.sam");
-    wwot.alignmentRNA(refFileName, "cutPartReads2.fasta", "rna2.sam");
+    handlingPairReads("cutPartReads1.fasta", "cutPartReads2.fasta");
+    handlingPairReads("short1.fasta", "short2.fasta");
+}
+
+void RNASplitReadGraphBuilder::setRefFileName(string refFileName) {
+    RNASplitReadGraphBuilder::refFileName = refFileName;
+}
+
+void RNASplitReadGraphBuilder::setRnaReadFileName(string rnaReadsFileName) {
+    RNASplitReadGraphBuilder::rnaReadsFileName = rnaReadsFileName;
+}
+
+void RNASplitReadGraphBuilder::handlingPairReads(string file1, string file2) {
+    WorkWithOtherTools wwot;
+
+    wwot.alignmentRNA(refFileName, file1, "rna1.sam");
+    wwot.alignmentRNA(refFileName, file2, "rna2.sam");
 
     RNAPairReadGraphBuilder gb;
 
@@ -32,13 +46,5 @@ void RNASplitReadGraphBuilder::evaluate() {
     gb.setMinContigLen(minContigLen);
     gb.setMinEdgeWight(minEdgeWight);
 
-    gb.evaluate();*/
-}
-
-void RNASplitReadGraphBuilder::setRefFileName(string refFileName) {
-    RNASplitReadGraphBuilder::refFileName = refFileName;
-}
-
-void RNASplitReadGraphBuilder::setRnaReadFileName(string rnaReadsFileName) {
-    RNASplitReadGraphBuilder::rnaReadsFileName = rnaReadsFileName;
+    gb.evaluate();
 }

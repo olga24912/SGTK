@@ -27,6 +27,8 @@ public:
      * set name of  file with rna reads in fasta format.
      */
     void setRnaReadFileName(string rnaReadsFileName);
+
+    void handlingPairReads(string file1, string file2);
 };
 
 
