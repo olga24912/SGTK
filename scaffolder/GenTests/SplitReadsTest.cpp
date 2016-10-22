@@ -3,7 +3,6 @@
 //
 
 #include "SplitReadsTest.h"
-#include "../Tools/FastaToolsIn.h"
 #include "../Tools/FastaToolsOut.h"
 
 void SplitReadsTest::genTest(string fi, string fo, string rf, int readLen) {
@@ -12,15 +11,16 @@ void SplitReadsTest::genTest(string fi, string fo, string rf, int readLen) {
     readsFileName = rf;
     this->readLen = readLen;
 
-    FastaToolsIn ftin;
+    SeqFileIn seqFileIn(fi.c_str());
+    StringSet<CharString> ids;
+    StringSet<Dna5String> seqs;
+
+    readRecords(ids, seqs, seqFileIn);
+
     FastaToolsOut ftout;
-
-    ftin.parse(fi);
-    ftin.next();
-
     ftout.putFileName(rf);
 
-    string fullref = ftin.currentRef();
+    string fullref = SeqanUtils::dna5ToString(toCString(seqs[0]), length(seqs[0]));
 
     int spos = (int) (fullref.size() / 2);
 
@@ -30,9 +30,6 @@ void SplitReadsTest::genTest(string fi, string fo, string rf, int readLen) {
         readName += to_string(i);
         ftout.write(readName, ref.substr(i, readLen));
     }
-
-    ftin.close();
-
     ftout.close();
     ftout.putFileName(fo);
 

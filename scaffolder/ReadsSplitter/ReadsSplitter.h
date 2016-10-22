@@ -7,7 +7,6 @@
 
 #include <bits/stdc++.h>
 #include <seqan/bam_io.h>
-#include "../Tools/FastaToolsIn.h"
 #include "../Tools/FastaToolsOut.h"
 
 

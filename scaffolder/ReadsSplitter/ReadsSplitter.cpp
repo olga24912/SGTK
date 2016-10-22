@@ -3,7 +3,6 @@
 //
 
 #include "ReadsSplitter.h"
-#include "../Tools/FastaToolsIn.h"
 #include "../Tools/FastaToolsOut.h"
 
 
