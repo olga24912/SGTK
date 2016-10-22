@@ -8,16 +8,19 @@
 #include "RNAPairReadGraphBuilder.h"
 #include "../ReadsSplitter/ReadsSplitter.h"
 #include "../ReadsSplitter/ReadsSplitter50.h"
+#include "../ReadsSplitter/SplitterByUnmappedEnd.h"
 
 void RNASplitReadGraphBuilder::evaluate() {
     WorkWithOtherTools wwot;
     ReadsSplitter50 rs;
+    SplitterByUnmappedEnd su;
 
 
     wwot.alignmentRNA(refFileName, rnaReadsFileName, "rna.sam");
-    rs.splitReads("Unmapped.out.mate1", "cutPartReads1.fasta", "cutPartReads2.fasta");
+    //rs.splitReads("Unmapped.out.mate1", "cutPartReads1.fasta", "cutPartReads2.fasta");
+    su.splitReads("rna.sam", "short1.fasta", "short2.fasta");
 
-    wwot.alignmentRNA(refFileName, "cutPartReads1.fasta", "rna1.sam");
+    /*wwot.alignmentRNA(refFileName, "cutPartReads1.fasta", "rna1.sam");
     wwot.alignmentRNA(refFileName, "cutPartReads2.fasta", "rna2.sam");
 
     RNAPairReadGraphBuilder gb;
@@ -29,7 +32,7 @@ void RNASplitReadGraphBuilder::evaluate() {
     gb.setMinContigLen(minContigLen);
     gb.setMinEdgeWight(minEdgeWight);
 
-    gb.evaluate();
+    gb.evaluate();*/
 }
 
 void RNASplitReadGraphBuilder::setRefFileName(string refFileName) {
