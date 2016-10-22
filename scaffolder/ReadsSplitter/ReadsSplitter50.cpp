@@ -6,8 +6,11 @@
 
 void ReadsSplitter50::splitReads(string rnaUnmappedReadsFileName, string resFileName1, string resFileName2) {
     cerr << "start split reads" << endl;
-    FastaToolsIn ftin;
-    ftin.parse(rnaUnmappedReadsFileName);
+    SeqFileIn seqFileIn(rnaUnmappedReadsFileName.c_str());
+    StringSet<CharString> ids;
+    StringSet<Dna5String> seqs;
+
+    readRecords(ids, seqs, seqFileIn);
 
     FastaToolsOut ftout1;
     ftout1.putFileName(resFileName1);
@@ -17,16 +20,15 @@ void ReadsSplitter50::splitReads(string rnaUnmappedReadsFileName, string resFile
 
     cerr << "start rewrite reads" << endl;
 
-    while (ftin.next()) {
-        string readName = ftin.currentName();
-        string seq = ftin.currentRef();
+    for (unsigned i = 0; i < length(ids); ++i) {
+        string readName = string(toCString(ids[i]));
+        string seq = SeqanUtils::dna5ToString(toCString(seqs[i]), length(seqs[i]));
         reads[readName] = seq;
 
         int len = (int) seq.size() / 2;
         splitRead(readName, seq, len, ftout1, ftout2);
     }
 
-    ftin.close();
     ftout1.close();
     ftout2.close();
 }

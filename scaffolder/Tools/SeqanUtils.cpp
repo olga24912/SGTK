@@ -16,3 +16,14 @@ string SeqanUtils::cutReadName(BamAlignmentRecord read) {
     }
     return readName;
 }
+
+string SeqanUtils::dna5ToString(Dna5 *seq, int len) {
+    string res;
+
+    string intToDNAChar = "ACGTN";
+
+    for (int i = 0; i < len; ++i) {
+        res += intToDNAChar[ordValue(seq[i])];
+    }
+    return res;
+}

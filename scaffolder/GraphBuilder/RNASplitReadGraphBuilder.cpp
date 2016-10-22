@@ -4,7 +4,6 @@
 
 #include "RNASplitReadGraphBuilder.h"
 #include "../Tools/WorkWithOtherTools.h"
-#include "../Tools/FastaToolsIn.h"
 #include "RNAPairReadGraphBuilder.h"
 #include "../ReadsSplitter/ReadsSplitter.h"
 #include "../ReadsSplitter/ReadsSplitter50.h"
@@ -16,7 +15,8 @@ void RNASplitReadGraphBuilder::evaluate() {
     SplitterByUnmappedEnd su;
 
     wwot.alignmentRNA(refFileName, rnaReadsFileName, "rna.sam");
-    rs.splitReads("Unmapped.out.mate1", "cutPartReads1.fasta", "cutPartReads2.fasta");
+    system("mv Unmapped.out.mate1 Unmapped.fasta");
+    rs.splitReads("Unmapped.fasta", "cutPartReads1.fasta", "cutPartReads2.fasta");
     su.splitReads("rna.sam", "short1.fasta", "short2.fasta");
 
     handlingPairReads("cutPartReads1.fasta", "cutPartReads2.fasta");

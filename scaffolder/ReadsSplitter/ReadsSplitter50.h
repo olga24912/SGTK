@@ -7,6 +7,11 @@
 
 
 #include "ReadsSplitter.h"
+#include "../Tools/SeqanUtils.h"
+#include <seqan/seq_io.h>
+
+using namespace std;
+using namespace seqan;
 
 class ReadsSplitter50 : public ReadsSplitter {
 public:

@@ -21,6 +21,7 @@ public:
      * return reads name without "/1", "/2" end.
      */
     static string cutReadName(BamAlignmentRecord read);
+    static string dna5ToString(Dna5* seq, int len);
 };
 
 
