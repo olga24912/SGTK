@@ -5,11 +5,8 @@
 #include "SplitterByUnmappedEnd.h"
 
 void SplitterByUnmappedEnd::splitReads(string rnaFileName, string resFileName1, string resFileName2) {
-    FastaToolsOut ftout1;
-    ftout1.putFileName(resFileName1);
-
-    FastaToolsOut ftout2;
-    ftout2.putFileName(resFileName2);
+    SeqFileOut out1(resFileName1.c_str());
+    SeqFileOut out2(resFileName2.c_str());
 
     BamFileIn bamFile;
     open(bamFile, rnaFileName.c_str());
@@ -30,14 +27,12 @@ void SplitterByUnmappedEnd::splitReads(string rnaFileName, string resFileName1, 
 
         if (first.operation == 'S') {
             if (first.count > MIN_READ_LEN) {
-                splitRead(name, seq, first.count, ftout1, ftout2);
+                splitRead(name, seq, first.count, out1, out2);
             }
         } else if (last.operation == 'S') {
             if (last.count > MIN_READ_LEN) {
-                splitRead(name, seq, seq.size() - last.count, ftout1, ftout2);
+                splitRead(name, seq, seq.size() - last.count, out1, out2);
             }
         }
     }
-    ftout1.close();
-    ftout2.close();
 }

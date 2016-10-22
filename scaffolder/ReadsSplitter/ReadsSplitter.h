@@ -7,6 +7,7 @@
 
 #include <bits/stdc++.h>
 #include <seqan/bam_io.h>
+#include <seqan/seq_io.h>
 #include "../Tools/FastaToolsOut.h"
 
 
@@ -21,7 +22,7 @@ public:
 protected:
     unordered_map<string, string> reads;
 
-    void splitRead(string readName, string seq, int len, FastaToolsOut& out1, FastaToolsOut& out2);
+    void splitRead(string readName, string seq, int len, SeqFileOut& out1, SeqFileOut& out2);
 public:
     virtual void splitReads(string rnaFileName, string resFileName1, string resFileName2) = 0;
 };

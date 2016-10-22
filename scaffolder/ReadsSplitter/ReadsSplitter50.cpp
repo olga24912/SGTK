@@ -12,11 +12,8 @@ void ReadsSplitter50::splitReads(string rnaUnmappedReadsFileName, string resFile
 
     readRecords(ids, seqs, seqFileIn);
 
-    FastaToolsOut ftout1;
-    ftout1.putFileName(resFileName1);
-
-    FastaToolsOut ftout2;
-    ftout2.putFileName(resFileName2);
+    SeqFileOut out1(resFileName1.c_str());
+    SeqFileOut out2(resFileName2.c_str());
 
     cerr << "start rewrite reads" << endl;
 
@@ -26,10 +23,7 @@ void ReadsSplitter50::splitReads(string rnaUnmappedReadsFileName, string resFile
         reads[readName] = seq;
 
         int len = (int) seq.size() / 2;
-        splitRead(readName, seq, len, ftout1, ftout2);
+        splitRead(readName, seq, len, out1, out2);
     }
-
-    ftout1.close();
-    ftout2.close();
 }
 
