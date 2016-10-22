@@ -20,7 +20,7 @@ using namespace std;
  */
 class SplitReadsTest {
 private:
-    string smallRef(string ref, int exonLen, int intronLen, int spos);
+    string smallRef(string ref, int exonLen, int intronLen, vector<int> spos);
 public:
     /*
      * function  for generate test
@@ -30,7 +30,7 @@ public:
      *
      * readLen - len of generate reads.
      */
-    void genTest(string fi, string fo, string rf, int readLen);
+    void genTest(string fi, string fo, string rf, int readLen, int contigCnt=2);
 };
 
 

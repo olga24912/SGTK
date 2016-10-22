@@ -4,7 +4,7 @@
 
 #include "SplitReadsTest.h"
 
-void SplitReadsTest::genTest(string fi, string fo, string rf, int readLen) {
+void SplitReadsTest::genTest(string fi, string fo, string rf, int readLen,int contigsCnt) {
     SeqFileIn seqFileIn(fi.c_str());
     StringSet<CharString> ids;
     StringSet<Dna5String> seqs;
@@ -14,8 +14,15 @@ void SplitReadsTest::genTest(string fi, string fo, string rf, int readLen) {
     SeqFileOut outRead(rf.c_str());
     SeqFileOut outCon(fo.c_str());
 
+    int delta = (int)(fullref.size()/contigsCnt);
+    int p = 0;
+    vector<int> spos(1, 0);
+    for (int i = 0; i < contigsCnt - 1; ++i) {
+        p += delta;
+        spos.push_back(p);
+    }
+    spos.push_back((int)fullref.size());
 
-    int spos = (int) (fullref.size() / 2);
     string ref = smallRef(fullref, 500, 1000, spos);
     for (int i = 0; i < ref.size() - readLen; ++i) {
         string readName = "read";
@@ -23,13 +30,24 @@ void SplitReadsTest::genTest(string fi, string fo, string rf, int readLen) {
         SeqanUtils::writeRec(outRead, readName, ref.substr(i, readLen));
     }
 
-    SeqanUtils::writeRec(outCon, "contig1", fullref.substr(0, spos));
-    SeqanUtils::writeRec(outCon, "contig2", fullref.substr(spos, fullref.size() - spos));
+    for (int i = 0; i < contigsCnt; ++i) {
+        string id;
+        int x = i;
+        while (x != 0) {
+            id += '0' + x%10;
+            x /= 10;
+        }
+        reverse(id.begin(), id.end());
+        SeqanUtils::writeRec(outCon, "conitg" + id, fullref.substr(spos[i], spos[i + 1] - spos[i]));
+    }
 }
 
-string SplitReadsTest::smallRef(string ref, int exonLen, int intronLen, int spos) {
-    int len1 = intronLen/2, len2 = intronLen - intronLen/2;
-
-    return ref.substr(spos - len1 - exonLen, exonLen).append(ref.substr(spos + len2, exonLen));
+string SplitReadsTest::smallRef(string ref, int exonLen, int intronLen, vector<int> spos) {
+    string res;
+    int pos = intronLen;
+    for (; pos + exonLen < ref.size(); pos += exonLen + intronLen) {
+        res.append(ref.substr(pos, exonLen));
+    }
+    return res;
 }
 
