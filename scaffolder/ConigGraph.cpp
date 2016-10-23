@@ -113,8 +113,10 @@ void ConigGraph::writeGraphDotFormat(string fileName) {
     out << "digraph {\n";
 
     for (int i = 0; i < targetName.size(); ++i) {
-        out << "    \"" << targetName[i] << "\"[label=\" " << targetName[i] << "\nlen = " << targetLen[i]
-        << ", cover = "<< targetCoverage[i] <<"\"];\n";
+        int vId = idByV[i];
+        if (targetLen[vId] < minContigLen) continue;
+        out << "    \"" << targetName[vId] << "\"[label=\" " << targetName[vId] << "\nlen = " << targetLen[vId]
+        << ", cover = "<< targetCoverage[vId] <<"\"];\n";
     }
 
     for (int v = 0; v < (int)graph.size(); ++v) {
@@ -124,6 +126,7 @@ void ConigGraph::writeGraphDotFormat(string fileName) {
             int e = graph[v][j];
             int u = to[e];
             int uId = idByV[u];
+            if (targetLen[uId] < minContigLen) continue;
             out << "    \"" << targetName[vId] << "\" -> \"" << targetName[uId] << "\" [ ";
             out << "color = \"" << libColor[edgeLib[e]] << "\", ";
             out << "penwidth = "<< 1 + (int)log10(edgeWeight[e]) << ", ";

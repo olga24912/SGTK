@@ -94,10 +94,7 @@ private:
 
 
 public:
-    /*
-     * build conection with this args
-     */
-    void evaluate(int argc, char **argv);
+    void evaluate(int argc, char **argv); //build conection with this args
 };
 
 

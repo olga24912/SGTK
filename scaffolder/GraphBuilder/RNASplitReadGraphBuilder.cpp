@@ -15,8 +15,15 @@ void RNASplitReadGraphBuilder::evaluate() {
     SplitterByUnmappedEnd su;
 
     wwot.alignmentRNA(refFileName, rnaReadsFileName, "rna.sam");
-    system("mv Unmapped.out.mate1 Unmapped.fasta");
-    rs.splitReads("Unmapped.fasta", "cutPartReads1.fasta", "cutPartReads2.fasta");
+    string unmappedName;
+    if (rnaReadsFileName[rnaReadsFileName.size() - 1] == 'q') {
+        unmappedName = "Unmapped.fastq";
+        system("mv Unmapped.out.mate1 Unmapped.fastq");
+    } else {
+        unmappedName = "Unmapped.fasta";
+        system("mv Unmapped.out.mate1 Unmapped.fasta");
+    }
+    rs.splitReads(unmappedName, "cutPartReads1.fasta", "cutPartReads2.fasta");
     su.splitReads("rna.sam", "short1.fasta", "short2.fasta");
 
     handlingPairReads("cutPartReads1.fasta", "cutPartReads2.fasta", " 50-50");
