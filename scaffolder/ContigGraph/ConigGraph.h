@@ -54,8 +54,6 @@ public:
 
     void filterByContigLen(int minContigLen);//fileter vertex with small len
 
-    //void writeGraphDotFormat(string fileName); //write info about conig graph in dot format
-
     void sortEdgeByWeight(int v); // sort edge by weight for this vertex
 
     void delEdges(int v, int k); // delete last k edges for vertex v
