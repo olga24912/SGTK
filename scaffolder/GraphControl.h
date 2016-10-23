@@ -5,7 +5,7 @@
 #ifndef SCAFFOLDER_GRAPHCONTROL_H
 #define SCAFFOLDER_GRAPHCONTROL_H
 
-#include "ContigGraph/ConigGraph.h"
+#include "ContigGraph.h"
 #include "ContigGraph/ContigGraphPrinter.h"
 #include "GraphBuilder/DNAPairReadGraphBuilder.h"
 #include "OutsideLib/optionparser.h"
@@ -19,7 +19,7 @@
  */
 class GraphControl {
 private:
-    ConigGraph graph;
+    ContigGraph graph;
 
     struct Arg: public option::Arg
     {

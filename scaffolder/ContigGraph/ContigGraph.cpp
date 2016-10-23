@@ -2,9 +2,9 @@
 // Created by olga on 09.10.16.
 //
 
-#include "ConigGraph.h"
+#include "ContigGraph.h"
 
-string ConigGraph::genRandomColor() {
+string ContigGraph::genRandomColor() {
     int color[3] = {rand() % 256, rand() % 256, rand() % 256};
     string res = "#";
     for (int i = 0; i < 3; ++i) {
@@ -23,23 +23,23 @@ string ConigGraph::genRandomColor() {
     return res;
 }
 
-int ConigGraph::getLibNum() {
-    return libNum;
+int ContigGraph::getLibNum() {
+    return (int)libName.size();
 }
 
-int ConigGraph::getVertexCount() {
+int ContigGraph::getVertexCount() {
     return (int)graph.size();
 }
 
-int ConigGraph::getTargetLength(int id)const {
+int ContigGraph::getTargetLength(int id)const {
     return targetLen[id];
 }
 
-void ConigGraph::incTargetCover(int id, double x) {
+void ContigGraph::incTargetCover(int id, double x) {
     targetCoverage[id] += x;
 }
 
-int ConigGraph::addVertex(int id, string name, double cov, int len) {
+int ContigGraph::addVertex(int id, string name, double cov, int len) {
     int v = (int)graph.size();
     graph.push_back(vector<int>());
     graphR.push_back(vector<int>());
@@ -68,7 +68,7 @@ int ConigGraph::addVertex(int id, string name, double cov, int len) {
     return v;
 }
 
-void ConigGraph::incEdgeWeight(int vId, int uId) {
+void ContigGraph::incEdgeWeight(int vId, int uId) {
     int v = vById[vId], u = vById[uId];
     int e = edgeIdByVertexes[v][u];
     if (e == -1) {
@@ -76,7 +76,7 @@ void ConigGraph::incEdgeWeight(int vId, int uId) {
         edgeWeight.push_back(0);
         to.push_back(u);
         from.push_back(v);
-        edgeLib.push_back(libNum);
+        edgeLib.push_back((int)libName.size() - 1);
         edgeIdByVertexes[v][u] = e;
         graph[v].push_back(e);
         graphR[u].push_back(e);
@@ -85,7 +85,7 @@ void ConigGraph::incEdgeWeight(int vId, int uId) {
     edgeWeight[e] += 1;
 }
 
-vector<int> ConigGraph::getEdgesWeight(int v) {
+vector<int> ContigGraph::getEdgesWeight(int v) {
     vector<int> w;
     for (int i = start[v]; i < (int)graph[v].size(); ++i) {
         w.push_back(edgeWeight[graph[v][i]]);
@@ -93,11 +93,11 @@ vector<int> ConigGraph::getEdgesWeight(int v) {
     return w;
 }
 
-void ConigGraph::delEdges(int v, int k) {
+void ContigGraph::delEdges(int v, int k) {
     graph[v].resize(graph[v].size() - k);
 }
 
-void ConigGraph::sortEdgeByWeight(int v) {
+void ContigGraph::sortEdgeByWeight(int v) {
     vector<pair<int, int> > edges;
     for (int i = start[v]; i < (int)graph[v].size(); ++i) {
         edges.push_back(make_pair(edgeWeight[graph[v][i]], graph[v][i]));
@@ -110,16 +110,15 @@ void ConigGraph::sortEdgeByWeight(int v) {
     }
 }
 
-void ConigGraph::filterByContigLen(int minContigLen) {
-    ConigGraph::minContigLen = minContigLen;
+void ContigGraph::filterByContigLen(int minContigLen) {
+    ContigGraph::minContigLen = minContigLen;
 }
 
-void ConigGraph::filterByEdgeWeight(int minEdgeWeight) {
+void ContigGraph::filterByEdgeWeight(int minEdgeWeight) {
     libMinEdgeWight[libMinEdgeWight.size() - 1] = minEdgeWeight;
 }
 
-void ConigGraph::newLib() {
-    ++libNum;
+void ContigGraph::newLib() {
     libColor.push_back(genRandomColor());
     libName.push_back("");
     libMinEdgeWight.push_back(0);
@@ -138,6 +137,6 @@ void ConigGraph::newLib() {
 
 }
 
-void ConigGraph::setLibNum(string s) {
+void ContigGraph::setLibNum(string s) {
     libName[libName.size() - 1] = s;
 }

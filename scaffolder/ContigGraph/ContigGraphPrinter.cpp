@@ -4,7 +4,7 @@
 
 #include "ContigGraphPrinter.h"
 
-void ContigGraphPrinter::writeFullGraphDotFormat(ConigGraph *g, string fileName) {
+void ContigGraphPrinter::writeFullGraphDotFormat(ContigGraph *g, string fileName) {
     ofstream out(fileName);
 
     out << "digraph {\n";
@@ -26,7 +26,7 @@ void ContigGraphPrinter::writeFullGraphDotFormat(ConigGraph *g, string fileName)
     out.close();
 }
 
-void ContigGraphPrinter::writeAllLocalGraphDotFormat(ConigGraph *g, int dist) {
+void ContigGraphPrinter::writeAllLocalGraphDotFormat(ContigGraph *g, int dist) {
     for (int i = 0; i < (g->targetName).size(); ++i) {
         string name = "";
         int x = i;
@@ -41,7 +41,7 @@ void ContigGraphPrinter::writeAllLocalGraphDotFormat(ConigGraph *g, int dist) {
 }
 
 
-void ContigGraphPrinter::writeLocalGraph(ConigGraph *g, int dist, int v, string fileName) {
+void ContigGraphPrinter::writeLocalGraph(ContigGraph *g, int dist, int v, string fileName) {
     vector<int> drawV = findAllVert(g, dist, v);
     if (drawV.size() < 2) return;
 
@@ -71,7 +71,7 @@ void ContigGraphPrinter::writeLocalGraph(ConigGraph *g, int dist, int v, string 
     out.close();
 }
 
-void ContigGraphPrinter::writeOneEdge(ConigGraph *g, ofstream &out, int v, int e) {
+void ContigGraphPrinter::writeOneEdge(ContigGraph *g, ofstream &out, int v, int e) {
     int vId = (g->idByV)[v];
     int u = (g->to)[e];
     int uId = (g->idByV)[u];
@@ -84,7 +84,7 @@ void ContigGraphPrinter::writeOneEdge(ConigGraph *g, ofstream &out, int v, int e
 }
 
 
-void ContigGraphPrinter::writeOneVertex(ConigGraph *g, ofstream &out, int v) {
+void ContigGraphPrinter::writeOneVertex(ContigGraph *g, ofstream &out, int v) {
     int vId = (g->idByV)[v];
     if ((g->targetLen)[vId] < (g->minContigLen)) return;
     out << "    \"" << (g->targetName)[vId] << "\"[label=\" " << (g->targetName)[vId] << "\nlen = "
@@ -92,7 +92,7 @@ void ContigGraphPrinter::writeOneVertex(ConigGraph *g, ofstream &out, int v) {
     << ", cover = "<< (g->targetCoverage)[vId] <<"\"];\n";
 }
 
-vector<int> ContigGraphPrinter::findAllVert(ConigGraph *g, int dist, int v) {
+vector<int> ContigGraphPrinter::findAllVert(ContigGraph *g, int dist, int v) {
     vector<int> res;
     res.push_back(v);
     if ((g->targetLen)[(g->idByV)[v]] < (g->minContigLen)) return res;

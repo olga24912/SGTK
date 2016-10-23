@@ -16,11 +16,10 @@ using namespace seqan;
  * class with contis graph
  */
 
-class ConigGraph {
+class ContigGraph {
     friend class ContigGraphPrinter;
+    friend class Serialization;
 private:
-    int libNum = -1;
-
     int minContigLen;
 
     vector<vector<int> > graph;
