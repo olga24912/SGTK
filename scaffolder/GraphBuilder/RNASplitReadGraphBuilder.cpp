@@ -3,11 +3,6 @@
 //
 
 #include "RNASplitReadGraphBuilder.h"
-#include "../Tools/WorkWithOtherTools.h"
-#include "RNAPairReadGraphBuilder.h"
-#include "../ReadsSplitter/ReadsSplitter.h"
-#include "../ReadsSplitter/ReadsSplitter50.h"
-#include "../ReadsSplitter/SplitterByUnmappedEnd.h"
 
 void RNASplitReadGraphBuilder::evaluate() {
     WorkWithOtherTools wwot;

@@ -6,7 +6,7 @@
 #define SCAFFOLDER_GRAPHBUILDER_H
 
 
-#include "../ConigGraph.h"
+#include "../ContigGraph/ConigGraph.h"
 
 /*
  * main class for generate conection between contigs.

@@ -3,8 +3,6 @@
 //
 
 #include "GraphControl.h"
-#include "GraphBuilder/RNAPairReadGraphBuilder.h"
-#include "GraphBuilder/RNASplitReadGraphBuilder.h"
 
 void GraphControl::evaluate(int argc, char **argv) {
     argc -= (argc > 0);
@@ -108,5 +106,6 @@ void GraphControl::evaluate(int argc, char **argv) {
 
     delete gb;
 
-    graph.writeGraphDotFormat("graph.dot");
+    ContigGraphPrinter::writeFullGraphDotFormat(&graph, "graph.dot");
+    ContigGraphPrinter::writeAllLocalGraphDotFormat(&graph, 2);
 }

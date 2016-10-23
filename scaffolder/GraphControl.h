@@ -5,9 +5,12 @@
 #ifndef SCAFFOLDER_GRAPHCONTROL_H
 #define SCAFFOLDER_GRAPHCONTROL_H
 
-#include "ConigGraph.h"
+#include "ContigGraph/ConigGraph.h"
+#include "ContigGraph/ContigGraphPrinter.h"
 #include "GraphBuilder/DNAPairReadGraphBuilder.h"
 #include "OutsideLib/optionparser.h"
+#include "GraphBuilder/RNAPairReadGraphBuilder.h"
+#include "GraphBuilder/RNASplitReadGraphBuilder.h"
 
 
 /*
