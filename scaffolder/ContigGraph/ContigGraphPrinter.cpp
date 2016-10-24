@@ -123,9 +123,10 @@ vector<int> ContigGraphPrinter::findAllVert(ContigGraph *g, int dist, int v) {
 }
 
 void ContigGraphPrinter::writeBigComponent(ContigGraph *g, int minSize, string fileName) {
-//    vector<int> drawV = ;
-//    if (drawV.size() < 2) return;
+    vector<int> drawV = vertexInBigComponents(g, minSize);
+    if (drawV.size() < 2) return;
 
+    writeThisVertex(g, drawV, fileName);
 }
 
 void ContigGraphPrinter::writeThisVertex(ContigGraph *g, vector<int> &drawV, string fileName) {
@@ -153,4 +154,56 @@ void ContigGraphPrinter::writeThisVertex(ContigGraph *g, vector<int> &drawV, str
 
     out << "}\n";
     out.close();
+}
+
+vector<int> ContigGraphPrinter::vertexInBigComponents(ContigGraph *g, int size) {
+    vector<int> res;
+
+    int n = (g->getVertexCount());
+    int col[n];
+    for (int i = 0; i < n; ++i) {
+        col[i] = 0;
+    }
+    int cur = 1;
+
+    for (int i = 0; i < n; ++i) {
+        if (col[i] == 0) {
+            dfsFindComponent(g, col, cur, i);
+            ++cur;
+        }
+    }
+
+    vector<int> cntCol(cur, 0);
+
+    for (int i = 0; i < n; ++i) {
+        cntCol[col[i]]++;
+    }
+
+    for (int  i  = 0; i < n; ++i) {
+        if (cntCol[i] >= size) {
+            res.push_back(i);
+        }
+    }
+
+    return res;
+}
+
+void ContigGraphPrinter::dfsFindComponent(ContigGraph *g, int *color, int currentCol, int v) {
+    color[v] = currentCol;
+
+    for (int i = 0; i < (int)g->graph[v].size(); ++i) {
+        int e = g->graph[v][i];
+        int u = g->to[e];
+        if (color[u] == 0) {
+            dfsFindComponent(g, color, currentCol, u);
+        }
+    }
+
+    for (int i = 0; i < (int)g->graphR[v].size(); ++i) {
+        int e = g->graphR[v][i];
+        int u = g->from[e];
+        if (color[u] == 0) {
+            dfsFindComponent(g, color, currentCol, u);
+        }
+    }
 }
