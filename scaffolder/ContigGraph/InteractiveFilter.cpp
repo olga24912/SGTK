@@ -26,6 +26,7 @@ const string InteractiveFilter::EXIT = "exit";
 void InteractiveFilter::main() {
     ContigGraph g;
     while(true) {
+        cout << "ok" << endl;
         string s;
         cin >> s;
         if (s == UPLOAD_GRAPH) {

@@ -46,30 +46,7 @@ void ContigGraphPrinter::writeLocalGraph(ContigGraph *g, int dist, int v, string
     vector<int> drawV = findAllVert(g, dist, v);
     if (drawV.size() < 2) return;
 
-    ofstream out(fileName);
-    out << "digraph {\n";
-    for (int i = 0; i < (int)drawV.size(); ++i) {
-        writeOneVertex(g, out, drawV[i]);
-    }
-
-    for (int i = 0; i < (int)drawV.size(); ++i) {
-        int v = drawV[i];
-        for (int j = 0; j < (g->graph)[v].size(); ++j) {
-            int e = (g->graph)[v][j];
-            int u = (g->to)[e];
-
-            int was = 0;
-            for (int h = 0; h < (int)drawV.size(); ++h) {
-                if (drawV[h] == u) was = 1;
-            }
-            if (was) {
-                writeOneEdge(g, out, v, e);
-            }
-        }
-    }
-
-    out << "}\n";
-    out.close();
+    writeThisVertex(g, drawV, fileName);
 }
 
 void ContigGraphPrinter::writeOneEdge(ContigGraph *g, ofstream &out, int v, int e) {
@@ -84,10 +61,30 @@ void ContigGraphPrinter::writeOneEdge(ContigGraph *g, ofstream &out, int v, int 
     out << "label = " << "\"" << (g->libName)[(g->edgeLib)[e]] << "\n weight = " << (g->edgeWeight)[e] << "\" ]\n";
 }
 
-
 void ContigGraphPrinter::writeOneVertex(ContigGraph *g, ofstream &out, int v) {
     int vId = (g->idByV)[v];
     if ((g->targetLen)[vId] < (g->minContigLen)) return;
+    int cntEdge = 0;
+    for (int i = 0; i < (g->graph)[v].size(); ++i) {
+        int e = (g->graph)[v][i];
+        int uid = g->idByV[(g->to)[e]];
+        if ((g->edgeWeight)[e] >= (g->libMinEdgeWight)[g->edgeLib[e]] &&
+                (g->targetLen)[uid] >= g->minContigLen) {
+            ++cntEdge;
+        }
+    }
+
+    for (int i = 0; i < (g->graphR)[v].size(); ++i) {
+        int e = (g->graphR)[v][i];
+        int uid = g->idByV[(g->from)[e]];
+        if ((g->edgeWeight)[e] >= (g->libMinEdgeWight)[g->edgeLib[e]] &&
+                (g->targetLen)[uid] >= g->minContigLen) {
+            ++cntEdge;
+        }
+    }
+
+    if (cntEdge == 0) return;
+
     out << "    \"" << (g->targetName)[vId] << "\"[label=\" " << (g->targetName)[vId] <<
     " id = " << v << "\nlen = "
     << (g->targetLen)[vId]
@@ -123,4 +120,37 @@ vector<int> ContigGraphPrinter::findAllVert(ContigGraph *g, int dist, int v) {
     res.resize(unique(res.begin(), res.end()) - res.begin());
 
     return res;
+}
+
+void ContigGraphPrinter::writeBigComponent(ContigGraph *g, int minSize, string fileName) {
+//    vector<int> drawV = ;
+//    if (drawV.size() < 2) return;
+
+}
+
+void ContigGraphPrinter::writeThisVertex(ContigGraph *g, vector<int> &drawV, string fileName) {
+    ofstream out(fileName);
+    out << "digraph {\n";
+    for (int i = 0; i < (int)drawV.size(); ++i) {
+        writeOneVertex(g, out, drawV[i]);
+    }
+
+    for (int i = 0; i < (int)drawV.size(); ++i) {
+        int v = drawV[i];
+        for (int j = 0; j < (g->graph)[v].size(); ++j) {
+            int e = (g->graph)[v][j];
+            int u = (g->to)[e];
+
+            int was = 0;
+            for (int h = 0; h < (int)drawV.size(); ++h) {
+                if (drawV[h] == u) was = 1;
+            }
+            if (was) {
+                writeOneEdge(g, out, v, e);
+            }
+        }
+    }
+
+    out << "}\n";
+    out.close();
 }

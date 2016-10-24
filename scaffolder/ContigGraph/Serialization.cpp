@@ -33,6 +33,7 @@ ContigGraph Serialization::read(string fileName) {
 
     int ln;
     in >> ln;
+    cerr << ln << endl;
     g.libName.resize(ln);
     g.libColor.resize(ln);
     g.libMinEdgeWight.resize(ln, 0);
@@ -44,12 +45,14 @@ ContigGraph Serialization::read(string fileName) {
 
     int vn;
     in >> vn;
+    cerr << vn << endl;
     g.graph.resize(vn);
     g.graphR.resize(vn);
     g.start.resize(vn);
     g.idByV.resize(vn);
-    g.edgeIdByVertexes.resize(vn, vector<int>(vn, -1));
+    //g.edgeIdByVertexes.resize(vn, vector<int>(vn, -1));
     int mxT = 0;
+
     for (int i = 0; i < vn; ++i) {
         char c;
         in >> c;
@@ -70,6 +73,7 @@ ContigGraph Serialization::read(string fileName) {
 
     int en;
     in >> en;
+    cerr << en << endl;
     g.to.resize(en);
     g.from.resize(en);
     g.edgeLib.resize(en);
