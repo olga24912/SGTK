@@ -14,5 +14,5 @@ set(SOURCE_FILES main.cpp GraphControl.cpp GraphControl.h
         ReadsSplitter/ReadsSplitter.cpp ReadsSplitter/ReadsSplitter.h
         Tools/SeqanUtils.cpp Tools/SeqanUtils.h OutsideLib/optionparser.h
         ReadsSplitter/ReadsSplitter50.cpp ReadsSplitter/ReadsSplitter50.h ReadsSplitter/SplitterByUnmappedEnd.cpp
-        ReadsSplitter/SplitterByUnmappedEnd.h ContigGraph/ContigGraphPrinter.cpp ContigGraph/ContigGraphPrinter.h ContigGraph/Serialization.cpp ContigGraph/Serialization.h)
+        ReadsSplitter/SplitterByUnmappedEnd.h ContigGraph/ContigGraphPrinter.cpp ContigGraph/ContigGraphPrinter.h ContigGraph/Serialization.cpp ContigGraph/Serialization.h ContigGraph/InteractiveFilter.cpp ContigGraph/InteractiveFilter.h)
 add_executable(scaffolder ${SOURCE_FILES})

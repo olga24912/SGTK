@@ -11,6 +11,7 @@ void WorkWithOtherTools::alignmentRNA(string refFileName, string rnaFileName, st
     command += refFileName;
     command += " --genomeSAindexNbases 10";
 
+    cerr << command << endl;
     system(command.c_str());
 
     command = "./STAR --runThreadN 16 --genomeDir genomeDir --outReadsUnmapped Fastx --readFilesIn ";

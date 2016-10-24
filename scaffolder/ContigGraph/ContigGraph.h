@@ -71,7 +71,9 @@ public:
 
     int getLibNum(); //get the count of lib
 
-    void setLibNum(string s);
+    void setLibName(string s);
+
+    void setMinEdgeWeightForLib(int libNum, int minWeight);
 };
 
 

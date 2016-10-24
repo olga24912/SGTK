@@ -137,6 +137,11 @@ void ContigGraph::newLib() {
 
 }
 
-void ContigGraph::setLibNum(string s) {
+void ContigGraph::setLibName(string s) {
     libName[libName.size() - 1] = s;
+}
+
+void ContigGraph::setMinEdgeWeightForLib(int libNum, int minWeight) {
+    if (libNum >= libMinEdgeWight.size()) return;
+    libMinEdgeWight[libNum] = minWeight;
 }

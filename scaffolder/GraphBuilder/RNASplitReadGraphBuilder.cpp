@@ -53,5 +53,5 @@ void RNASplitReadGraphBuilder::handlingPairReads(string file1, string file2, str
 
     gb.evaluate();
     graph->filterByEdgeWeight(minEdgeWight);
-    graph->setLibNum(libName + libN);
+    graph->setLibName(libName + libN);
 }

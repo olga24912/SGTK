@@ -22,7 +22,7 @@ void PairReadGraphBuilder::evaluate() {
     cerr << "START" << endl;
     handleReads();
     filterEdge();
-    graph->setLibNum(libName);
+    graph->setLibName(libName);
 }
 
 void PairReadGraphBuilder::readHeaderInit() {

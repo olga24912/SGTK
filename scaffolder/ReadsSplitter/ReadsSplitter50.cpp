@@ -19,7 +19,9 @@ void ReadsSplitter50::splitReads(string rnaUnmappedReadsFileName, string resFile
 
     for (unsigned i = 0; i < length(ids); ++i) {
         string readName = string(toCString(ids[i]));
+        cerr << readName <<  " ";
         string seq = SeqanUtils::dna5ToString(toCString(seqs[i]), length(seqs[i]));
+        cerr << seq <<" " << endl;
         reads[readName] = seq;
 
         int len = (int) seq.size() / 2;

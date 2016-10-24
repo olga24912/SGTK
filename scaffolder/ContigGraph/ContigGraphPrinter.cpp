@@ -88,7 +88,8 @@ void ContigGraphPrinter::writeOneEdge(ContigGraph *g, ofstream &out, int v, int 
 void ContigGraphPrinter::writeOneVertex(ContigGraph *g, ofstream &out, int v) {
     int vId = (g->idByV)[v];
     if ((g->targetLen)[vId] < (g->minContigLen)) return;
-    out << "    \"" << (g->targetName)[vId] << "\"[label=\" " << (g->targetName)[vId] << "\nlen = "
+    out << "    \"" << (g->targetName)[vId] << "\"[label=\" " << (g->targetName)[vId] <<
+    " id = " << v << "\nlen = "
     << (g->targetLen)[vId]
     << ", cover = "<< (g->targetCoverage)[vId] <<"\"];\n";
 }
