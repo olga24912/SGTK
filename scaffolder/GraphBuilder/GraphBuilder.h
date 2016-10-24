@@ -6,14 +6,14 @@
 #define SCAFFOLDER_GRAPHBUILDER_H
 
 
-#include "ContigGraph.h"
+#include "../ContigGraph/ContigGraph.h"
 
 /*
  * main class for generate conection between contigs.
  */
 class GraphBuilder {
 protected:
-    ConigGraph* graph;
+    ContigGraph* graph;
 
     string libName;
     int minContigLen = 0;
@@ -36,7 +36,7 @@ public:
      * Edge with smaller wieght will be remove.
      */
     void setMinEdgeWight(int minEdgeWight);
-    void setGraph(ConigGraph* graph);
+    void setGraph(ContigGraph* graph);
 
     void setLibName(string libName);
 };

@@ -5,7 +5,8 @@
 #ifndef SCAFFOLDER_GRAPHCONTROL_H
 #define SCAFFOLDER_GRAPHCONTROL_H
 
-#include "ContigGraph.h"
+#include "ContigGraph/ContigGraph.h"
+#include "ContigGraph/Serialization.h"
 #include "ContigGraph/ContigGraphPrinter.h"
 #include "GraphBuilder/DNAPairReadGraphBuilder.h"
 #include "OutsideLib/optionparser.h"

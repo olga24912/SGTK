@@ -6,6 +6,7 @@
 
 void Serialization::write(ContigGraph *g, string fileName) {
     ofstream out(fileName);
+    cerr << "Write -> gr" << endl;
 
     out << (g->libName).size() << "\n";
     for (int i = 0; i < (int)(g->libName).size(); ++i) {

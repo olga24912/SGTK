@@ -108,4 +108,5 @@ void GraphControl::evaluate(int argc, char **argv) {
 
     ContigGraphPrinter::writeFullGraphDotFormat(&graph, "graph.dot");
     ContigGraphPrinter::writeAllLocalGraphDotFormat(&graph, 2);
+    Serialization::write(&graph, "graph.gr");
 }

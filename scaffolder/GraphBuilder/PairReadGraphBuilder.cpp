@@ -126,7 +126,7 @@ void PairReadGraphBuilder::handleReads() {
     BamHeader samHeader2;
     readHeader(samHeader2, bamFile2);
 
-    if (graph->getLibNum() == 0) {
+    if (graph->getLibNum() == 1) {
         readHeaderInit();
     } else {
         BamHeader samHeader1;

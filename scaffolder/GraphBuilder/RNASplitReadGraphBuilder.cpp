@@ -21,9 +21,9 @@ void RNASplitReadGraphBuilder::evaluate() {
     rs.splitReads(unmappedName, "cutPartReads1.fasta", "cutPartReads2.fasta");
     su.splitReads("rna.sam", "short1.fasta", "short2.fasta");
 
-    handlingPairReads("cutPartReads1.fasta", "cutPartReads2.fasta", " 50-50");
+    handlingPairReads("cutPartReads1.fasta", "cutPartReads2.fasta", "-50-50");
     graph->newLib();
-    handlingPairReads("short1.fasta", "short2.fasta", " long-short");
+    handlingPairReads("short1.fasta", "short2.fasta", "-long-short");
 
     graph->filterByContigLen(minContigLen);
 }

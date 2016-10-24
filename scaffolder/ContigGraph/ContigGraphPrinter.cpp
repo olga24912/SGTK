@@ -5,6 +5,7 @@
 #include "ContigGraphPrinter.h"
 
 void ContigGraphPrinter::writeFullGraphDotFormat(ContigGraph *g, string fileName) {
+    cerr << "start write graph dot" << endl;
     ofstream out(fileName);
 
     out << "digraph {\n";
