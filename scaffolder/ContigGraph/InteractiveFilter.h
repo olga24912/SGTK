@@ -16,6 +16,7 @@ private:
     static const string MIN_CONTIG_LEN;
     static const string WRITE_FULL;
     static const string WRITE_LOCAL;
+    static const string WRITE_BIG_COMP;
     static const string EXIT;
 public:
     static void main();

@@ -12,6 +12,7 @@ const string InteractiveFilter::MIN_EDGE_WEIGHT = "minEdgeW";
 const string InteractiveFilter::MIN_CONTIG_LEN = "minContig";
 const string InteractiveFilter::WRITE_FULL = "writeFull";
 const string InteractiveFilter::WRITE_LOCAL = "writeLocal";
+const string InteractiveFilter::WRITE_BIG_COMP = "writeBig";
 const string InteractiveFilter::EXIT = "exit";
 
 /*
@@ -21,6 +22,7 @@ const string InteractiveFilter::EXIT = "exit";
  * minContig <len>
  * writeFull <fileName>
  * writeLocal <vertexID> <dist> <fileName>
+ * writeBig <size> <fileName>
  * exit
  */
 void InteractiveFilter::main() {
@@ -52,6 +54,12 @@ void InteractiveFilter::main() {
             string fileName;
             cin >> v >> dist >> fileName;
             ContigGraphPrinter::writeLocalGraph(&g, dist, v, fileName);
+        } else if (s == WRITE_BIG_COMP) {
+            int size;
+            string fileName;
+            cin >> size >> fileName;
+            ContigGraphPrinter::writeBigComponent(&g, size, fileName);
+
         } else if (s == EXIT) {
             return;
         }

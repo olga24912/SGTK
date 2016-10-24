@@ -180,7 +180,7 @@ vector<int> ContigGraphPrinter::vertexInBigComponents(ContigGraph *g, int size) 
     }
 
     for (int  i  = 0; i < n; ++i) {
-        if (cntCol[i] >= size) {
+        if (col[i] != 0 && cntCol[col[i]] >= size) {
             res.push_back(i);
         }
     }
@@ -189,11 +189,13 @@ vector<int> ContigGraphPrinter::vertexInBigComponents(ContigGraph *g, int size) 
 }
 
 void ContigGraphPrinter::dfsFindComponent(ContigGraph *g, int *color, int currentCol, int v) {
+    if (g->targetLen[g->idByV[v]] < g->minContigLen) return;
     color[v] = currentCol;
 
     for (int i = 0; i < (int)g->graph[v].size(); ++i) {
         int e = g->graph[v][i];
         int u = g->to[e];
+        if (g->edgeWeight[e] < g->libMinEdgeWight[g->edgeLib[e]]) continue;
         if (color[u] == 0) {
             dfsFindComponent(g, color, currentCol, u);
         }
@@ -202,6 +204,7 @@ void ContigGraphPrinter::dfsFindComponent(ContigGraph *g, int *color, int curren
     for (int i = 0; i < (int)g->graphR[v].size(); ++i) {
         int e = g->graphR[v][i];
         int u = g->from[e];
+        if (g->edgeWeight[e] < g->libMinEdgeWight[g->edgeLib[e]]) continue;
         if (color[u] == 0) {
             dfsFindComponent(g, color, currentCol, u);
         }
