@@ -3,6 +3,7 @@
 //
 
 #include "DNAPairReadGraphBuilder.h"
+#include "../Tools/SeqanUtils.h"
 
 void DNAPairReadGraphBuilder::setDistBetweenPairReads(int distBetweenPairReads) {
     DNAPairReadGraphBuilder::distBetweenPairReads = distBetweenPairReads;
@@ -62,21 +63,11 @@ int DNAPairReadGraphBuilder::countEdgesBeforeBreak(int v, vector<int> edges) {
     return cnt;
 }
 
-void DNAPairReadGraphBuilder::incEdgeWeight(string readName, int target) {
-    if (read1Target.count(readName)) {
-        if (read1Target[readName] == target ||
-            read1Target[readName] == pairTarget(target)) {
-            return;
-        }
-
-        if (read1DistToEnd[readName] + read2DistToEnd[readName] >
-            distBetweenPairReads) {
-            return;
-        }
-
-        int verFID = read1Target[readName], verSID = target,
-                verRFID = pairTarget(verFID), verRSID = pairTarget(verSID);
-        graph->incEdgeWeight(verFID, verSID);
-        graph->incEdgeWeight(verRSID, verRFID);
+void DNAPairReadGraphBuilder::incEdgeWeight(BamAlignmentRecord read1, BamAlignmentRecord read2) {
+    string readName = SeqanUtils::cutReadName(read1);
+    if (read1DistToEnd[readName] + read2DistToEnd[readName] >
+        distBetweenPairReads) {
+        return;
     }
+    PairReadGraphBuilder::incEdgeWeight(read1, read2);
 }

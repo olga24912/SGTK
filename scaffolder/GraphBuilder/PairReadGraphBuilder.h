@@ -25,17 +25,19 @@ protected:
     BamFileIn bamFile1;
     BamFileIn bamFile2;
 
-    unordered_map<string, int> read1Target;
-    unordered_map<string, int> read2Target;
+    unordered_map<string, BamAlignmentRecord> read1ByName;
+    unordered_map<string, BamAlignmentRecord> read2ByName;
 
     pair<string, int> processOneFirstRead(BamAlignmentRecord read);
     pair<string, int> processOneSecondRead(BamAlignmentRecord read);
     virtual void addInfoAboutRead(string readName, int target, BamAlignmentRecord read);
     virtual void addInfoAbout2Read(string readName, int target, BamAlignmentRecord read);
+    int get2Target(const BamAlignmentRecord &read) const;
+    int get1Target(const BamAlignmentRecord &read) const;
     void readHeaderInit();
     void addInfoAboutCover(int target, const BamAlignmentRecord &read);
 
-    virtual void incEdgeWeight(string readName, int target);
+    virtual void incEdgeWeight(BamAlignmentRecord read1, BamAlignmentRecord read2);
     virtual void filterEdge();
 
     int pairTarget(int id);

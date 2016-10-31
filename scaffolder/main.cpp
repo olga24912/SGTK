@@ -12,8 +12,8 @@ int main(int argc, char **argv) {
       splitReadsTest.genTest(string(argv[1]), "/home/olga/AU/bio-project/bio_scaffolder/test/ref.fasta",
                              "/home/olga/AU/bio-project/bio_scaffolder/test/reads.fasta", 100, 11);
 */
-    /*GraphControl graphControl;
-    graphControl.evaluate(argc, argv);*/
-    InteractiveFilter::main();
+    GraphControl graphControl;
+    graphControl.evaluate(argc, argv);
+  //  InteractiveFilter::main();
     return 0;
 }
