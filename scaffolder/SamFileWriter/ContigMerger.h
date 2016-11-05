@@ -29,6 +29,7 @@ private:
     string findContig(string fileIn, string name);
     void mergeContigs();
     void writeContig(string fileName);
+    void writeHeader(BamFileOut& out);
 public:
     void evaluate(string contigsINFileName, string samReads1FileName,
                   string samReads2FileName, string contigOUTFileName,

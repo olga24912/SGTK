@@ -18,6 +18,19 @@ void ContigMerger::evaluate(string contigsINFileName, string samReads1FileName, 
 
     writeContig(contigOUTFileName);
     cerr << "out contig\n";
+
+    BamFileIn fileIn(samReads1FileName.c_str());
+
+    ofstream samOut;
+    samOut.open(samOutFileName, std::ofstream::out);
+    BamFileOut fileOut(context(fileIn), samOut, Sam());
+
+    writeHeader(fileOut);
+
+    close(fileOut);
+    samOut.close();
+
+    close(fileIn);
 }
 
 string ContigMerger::findContig(string fileIn, string name) {
@@ -58,4 +71,27 @@ void ContigMerger::writeContig(string fileName) {
     appendValue(seqs, Dna5String(contigVal));
 
     writeRecords(out, ids, seqs);
+}
+
+void ContigMerger::writeHeader(BamFileOut& out) {
+    BamHeader header;
+    std::stringstream ss;
+
+    resize(header, 2);
+
+    header[0].type = seqan::BAM_HEADER_FIRST;
+    resize(header[0].tags, 1);
+    header[0].tags[0].i1 = "VN";
+    header[0].tags[0].i2 = "1.4";
+
+    header[1].type = seqan::BAM_HEADER_REFERENCE;
+    resize(header[1].tags, 2);
+
+    header[1].tags[0].i1 = "SN";
+    header[1].tags[0].i2 = contigName;
+    header[1].tags[1].i1 = "LN";
+    ss << length(contigVal);
+    header[1].tags[1].i2 = ss.str();
+
+    seqan::writeHeader(out, header);
 }
