@@ -19,18 +19,27 @@ void ContigMerger::evaluate(string contigsINFileName, string samReads1FileName, 
     writeContig(contigOUTFileName);
     cerr << "out contig\n";
 
-    BamFileIn fileIn(samReads1FileName.c_str());
+    BamFileIn fileIn1(samReads1FileName.c_str());
+    BamFileIn fileIn2(samReads2FileName.c_str());
 
     ofstream samOut;
     samOut.open(samOutFileName, std::ofstream::out);
-    BamFileOut fileOut(context(fileIn), samOut, Sam());
+
+    StringSet<CharString> contigNames;
+    appendValue(contigNames, contigName);
+    NameStoreCache<StringSet<CharString> > contigNamesCache(contigNames);
+    BamIOContext<StringSet<CharString> > bamIOContext(contigNames, contigNamesCache);
+
+    BamFileOut fileOut(context(fileIn1), samOut, Sam());
+    fileOut.context = bamIOContext;
 
     writeHeader(fileOut);
+    writeReads(fileOut, fileIn1, fileIn2);
 
     close(fileOut);
+    close(fileIn1);
+    close(fileIn2);
     samOut.close();
-
-    close(fileIn);
 }
 
 string ContigMerger::findContig(string fileIn, string name) {
@@ -74,7 +83,6 @@ void ContigMerger::writeContig(string fileName) {
 }
 
 void ContigMerger::writeHeader(BamFileOut& out) {
-    BamHeader header;
     std::stringstream ss;
 
     resize(header, 2);
@@ -94,4 +102,27 @@ void ContigMerger::writeHeader(BamFileOut& out) {
     header[1].tags[1].i2 = ss.str();
 
     seqan::writeHeader(out, header);
+}
+
+void ContigMerger::writeReads(BamFileOut &out, BamFileIn &in1, BamFileIn &in2) {
+    BamAlignmentRecord record1;
+    BamAlignmentRecord record2;
+    while (!atEnd(in1)) {
+        readRecord(record1, in1);
+        readRecord(record2, in2);
+
+        BamAlignmentRecord res1 = record1;
+        res1.qName += "/1";
+        res1.rID = 0;
+        res1._buffer = "";
+
+        BamAlignmentRecord res2 = record2;
+        res2.qName += "/2";
+        res2.rID = 0;
+        res2.beginPos += contig1Val.size() + countN;
+
+
+        writeRecord(out, res1);
+        writeRecord(out, res2);
+    }
 }

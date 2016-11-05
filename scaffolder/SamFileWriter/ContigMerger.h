@@ -15,6 +15,8 @@ using namespace seqan;
 
 class ContigMerger {
 private:
+    BamHeader header;
+
     int countN = 30;
 
     string contig1Name;
@@ -30,6 +32,7 @@ private:
     void mergeContigs();
     void writeContig(string fileName);
     void writeHeader(BamFileOut& out);
+    void writeReads(BamFileOut& out, BamFileIn &in1, BamFileIn &in2);
 public:
     void evaluate(string contigsINFileName, string samReads1FileName,
                   string samReads2FileName, string contigOUTFileName,
