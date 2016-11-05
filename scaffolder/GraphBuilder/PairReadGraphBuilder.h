@@ -6,6 +6,8 @@
 #define SCAFFOLDER_PAIRREADGRAPHBUILDER_H
 
 #include "GraphBuilder.h"
+#include "../SamFileWriter/SamFileWriter.h"
+#include "../SamFileWriter/SamFileWriteEdge.h"
 #include <bits/stdc++.h>
 #include <seqan/bam_io.h>
 #include <seqan/graph_types.h>
@@ -18,6 +20,8 @@ using namespace seqan;
 class PairReadGraphBuilder: public GraphBuilder {
 protected:
     bool oneSideRead = false;
+
+    SamFileWriteEdge samFileWriter;
 
     string fileName1;
     string fileName2;
@@ -53,6 +57,7 @@ public:
     //set info about orintation  pair read
     void setOneSideReadFlag(bool flag);
 
+    void setSamFileWriter(SamFileWriteEdge fileWriter);
     virtual void evaluate();
 };
 

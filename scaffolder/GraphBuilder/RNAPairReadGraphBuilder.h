@@ -8,7 +8,8 @@
 #include "PairReadGraphBuilder.h"
 
 class RNAPairReadGraphBuilder : public PairReadGraphBuilder {
-
+public:
+    RNAPairReadGraphBuilder(){}
 };
 
 

@@ -68,7 +68,7 @@ int ContigGraph::addVertex(int id, string name, double cov, int len) {
     return v;
 }
 
-void ContigGraph::incEdgeWeight(int vId, int uId) {
+int ContigGraph::incEdgeWeight(int vId, int uId) {
     int v = vById[vId], u = vById[uId];
     int e = edgeIdByVertexes[v][u];
     if (e == -1) {
@@ -83,6 +83,7 @@ void ContigGraph::incEdgeWeight(int vId, int uId) {
     }
 
     edgeWeight[e] += 1;
+    return e;
 }
 
 vector<int> ContigGraph::getEdgesWeight(int v) {

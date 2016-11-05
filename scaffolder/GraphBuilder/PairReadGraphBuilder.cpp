@@ -21,6 +21,10 @@ void PairReadGraphBuilder::setOneSideReadFlag(bool flag) {
     oneSideRead = flag;
 }
 
+void PairReadGraphBuilder::setSamFileWriter(SamFileWriteEdge writer) {
+    this->samFileWriter = writer;
+}
+
 void PairReadGraphBuilder::evaluate() {
     read1ByName.clear();
     cerr << "START" << endl;
@@ -70,7 +74,6 @@ int PairReadGraphBuilder::get1Target(const BamAlignmentRecord &read) const {
     return target;
 }
 
-
 int PairReadGraphBuilder::get2Target(const BamAlignmentRecord &read) const {
     bool isRev = hasFlagRC(read);
     int target = 2 * (read.rID);
@@ -97,7 +100,6 @@ void PairReadGraphBuilder::addInfoAboutCover(int target, const BamAlignmentRecor
     graph->incTargetCover(target, static_cast<double>(readLength) / contigLength);
 }
 
-
 pair<string, int> PairReadGraphBuilder::processOneSecondRead(BamAlignmentRecord read) {
     string readName = SeqanUtils::cutReadName(read);
 
@@ -110,12 +112,6 @@ pair<string, int> PairReadGraphBuilder::processOneSecondRead(BamAlignmentRecord 
     return make_pair(readName, target);
 }
 
-
-void PairReadGraphBuilder::filterEdge() {
-    graph->filterByContigLen(minContigLen);
-    graph->filterByEdgeWeight(minEdgeWight);
-}
-
 void PairReadGraphBuilder::incEdgeWeight(BamAlignmentRecord read1, BamAlignmentRecord read2) {
     int target1 = get1Target(read1);
     int target2 = get2Target(read2);
@@ -124,13 +120,18 @@ void PairReadGraphBuilder::incEdgeWeight(BamAlignmentRecord read1, BamAlignmentR
     }
 
     int verFID = target1, verSID = target2, verRFID = pairTarget(verFID), verRSID = pairTarget(verSID);
-    graph->incEdgeWeight(verFID, verSID);
-    graph->incEdgeWeight(verRSID, verRFID);
+    int e1 = graph->incEdgeWeight(verFID, verSID);
+    int e2 = graph->incEdgeWeight(verRSID, verRFID);
+
+    samFileWriter.writeEdge(e1, read1, read2);
+    samFileWriter.writeEdge(e2, read1, read2);
 }
 
 void PairReadGraphBuilder::handleReads() {
     open(bamFile1, fileName1.c_str());
     open(bamFile2, fileName2.c_str());
+
+    samFileWriter.setFileIn(&bamFile1);
 
     BamHeader samHeader2;
     readHeader(samHeader2, bamFile2);
@@ -173,3 +174,7 @@ void PairReadGraphBuilder::handleReads() {
     close(bamFile2);
 }
 
+void PairReadGraphBuilder::filterEdge() {
+    graph->filterByContigLen(minContigLen);
+    graph->filterByEdgeWeight(minEdgeWight);
+}

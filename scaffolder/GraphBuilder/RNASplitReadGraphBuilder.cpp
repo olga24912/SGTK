@@ -3,6 +3,7 @@
 //
 
 #include "RNASplitReadGraphBuilder.h"
+#include "../SamFileWriter/SamFileWriteEdge.h"
 
 void RNASplitReadGraphBuilder::evaluate() {
     WorkWithOtherTools wwot;
@@ -50,6 +51,9 @@ void RNASplitReadGraphBuilder::handlingPairReads(string file1, string file2, str
     gb.setGraph(graph);
     gb.setMinContigLen(minContigLen);
     gb.setMinEdgeWight(minEdgeWight);
+
+    SamFileWriteEdge writeEdge("reads_" + libName + libN);
+    gb.setSamFileWriter(writeEdge);
 
     gb.evaluate();
     graph->filterByEdgeWeight(minEdgeWight);

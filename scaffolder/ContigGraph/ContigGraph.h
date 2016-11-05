@@ -59,7 +59,7 @@ public:
 
     vector<int> getEdgesWeight(int v); //get out edges weight for vertex v.
 
-    void incEdgeWeight(int vId, int uId); //increment edge wight between contigs with id vId and uId
+    int incEdgeWeight(int vId, int uId); //increment edge wight between contigs with id vId and uId
 
     int addVertex(int id, string name, double cov, int len); //add new vertex with this id, name, coverage and len
 
