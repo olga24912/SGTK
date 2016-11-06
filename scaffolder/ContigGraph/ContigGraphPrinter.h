@@ -23,6 +23,9 @@ public:
     static void writeAllLocalGraphDotFormat(ContigGraph *graph, int dist);
     static void writeLocalGraph(ContigGraph *g, int dist, int v, string fileName);
     static void writeBigComponent(ContigGraph *g, int minSize, string fileName);
+    static void writeSplitBigComponent(ContigGraph *g, int minSize, string fileName);
+
+    static int findComponent(ContigGraph *g, int *col);
 };
 
 

@@ -15,7 +15,7 @@ using namespace seqan;
 
 class SplitterByUnmappedEnd : public ReadsSplitter {
 private:
-    const int MIN_READ_LEN = 10;
+    const int MIN_READ_LEN = 20;
 public:
     virtual void splitReads(string rnaFileName,
                             string resFileName1, string resFileName2);

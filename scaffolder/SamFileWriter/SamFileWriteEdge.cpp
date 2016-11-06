@@ -15,11 +15,9 @@ SamFileWriteEdge::SamFileWriteEdge(string dir) {
 }
 
 void SamFileWriteEdge::writeEdge(int edgeID, BamAlignmentRecord read1, BamAlignmentRecord read2) {
-    cerr <<"writeEdge" << endl;
-    string fileName = getName(edgeID) + "#1";
-    cerr << fileName << endl;
-    //BamFileIn in = *fileIn;
-    ofstream out;;
+    string fileName = getName(edgeID) + "#1.sam";
+
+    ofstream out;
     out.open (fileName, std::ofstream::out | std::ofstream::app);
     BamFileOut fileOut(context(*fileIn), out, Sam());
     writeRecord(fileOut, read1);
@@ -27,7 +25,7 @@ void SamFileWriteEdge::writeEdge(int edgeID, BamAlignmentRecord read1, BamAlignm
     out.close();
 
 
-    fileName = getName(edgeID) + "#2";
+    fileName = getName(edgeID) + "#2.sam";
     out.open (fileName, std::ofstream::out | std::ofstream::app);
     BamFileOut fileOut2(context(*fileIn), out, Sam());
     writeRecord(fileOut2, read2);

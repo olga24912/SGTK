@@ -106,7 +106,5 @@ void GraphControl::evaluate(int argc, char **argv) {
 
     delete gb;
 
-    ContigGraphPrinter::writeFullGraphDotFormat(&graph, "graph.dot");
-    ContigGraphPrinter::writeAllLocalGraphDotFormat(&graph, 1);
     Serialization::write(&graph, "graph.gr");
 }

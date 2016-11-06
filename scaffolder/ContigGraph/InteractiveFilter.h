@@ -17,6 +17,7 @@ private:
     static const string WRITE_FULL;
     static const string WRITE_LOCAL;
     static const string WRITE_BIG_COMP;
+    static const string WRITE_SPLIT_BIG_COMP;
     static const string EXIT;
 public:
     static void main();

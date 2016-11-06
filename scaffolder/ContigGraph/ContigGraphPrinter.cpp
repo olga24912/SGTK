@@ -58,7 +58,8 @@ void ContigGraphPrinter::writeOneEdge(ContigGraph *g, ofstream &out, int v, int 
     out << "    \"" << (g->targetName)[vId] << "\" -> \"" << (g->targetName)[uId] << "\" [ ";
     out << "color = \"" << (g->libColor)[(g->edgeLib)[e]] << "\", ";
     out << "penwidth = "<< 1 + (int)log10((g->edgeWeight)[e]) << ", ";
-    out << "label = " << "\"" << (g->libName)[(g->edgeLib)[e]] << "\n weight = " << (g->edgeWeight)[e] << "\" ]\n";
+    out << "label = " << "\"" << (g->libName)[(g->edgeLib)[e]] << "\n weight = " << (g->edgeWeight)[e];
+    out << "\n id = "<< e << "\" ]\n";
 }
 
 void ContigGraphPrinter::writeOneVertex(ContigGraph *g, ofstream &out, int v) {
@@ -158,23 +159,11 @@ void ContigGraphPrinter::writeThisVertex(ContigGraph *g, vector<int> &drawV, str
 
 vector<int> ContigGraphPrinter::vertexInBigComponents(ContigGraph *g, int size) {
     vector<int> res;
-
     int n = (g->getVertexCount());
     int col[n];
-    for (int i = 0; i < n; ++i) {
-        col[i] = 0;
-    }
-    int cur = 1;
-
-    for (int i = 0; i < n; ++i) {
-        if (col[i] == 0) {
-            dfsFindComponent(g, col, cur, i);
-            ++cur;
-        }
-    }
+    int cur = findComponent(g, col);
 
     vector<int> cntCol(cur, 0);
-
     for (int i = 0; i < n; ++i) {
         cntCol[col[i]]++;
     }
@@ -186,6 +175,21 @@ vector<int> ContigGraphPrinter::vertexInBigComponents(ContigGraph *g, int size) 
     }
 
     return res;
+}
+
+int ContigGraphPrinter::findComponent(ContigGraph *g, int *col) {
+    int n = (g->getVertexCount());
+    int cur = 1;
+    for (int i = 0; i < n; ++i) {
+        col[i] = 0;
+    }
+    for (int i = 0; i < n; ++i) {
+        if (col[i] == 0) {
+            dfsFindComponent(g, col, cur, i);
+            ++cur;
+        }
+    }
+    return cur;
 }
 
 void ContigGraphPrinter::dfsFindComponent(ContigGraph *g, int *color, int currentCol, int v) {
@@ -207,6 +211,27 @@ void ContigGraphPrinter::dfsFindComponent(ContigGraph *g, int *color, int curren
         if (g->edgeWeight[e] < g->libMinEdgeWight[g->edgeLib[e]]) continue;
         if (color[u] == 0) {
             dfsFindComponent(g, color, currentCol, u);
+        }
+    }
+}
+
+void ContigGraphPrinter::writeSplitBigComponent(ContigGraph *g, int minSize, string fileName) {
+    int n = (g->getVertexCount());
+    int col[n];
+    int cur = findComponent(g, col);
+
+    vector<int> parts[cur];
+    for (int i = 0; i < n; ++i) {
+        parts[col[i]].push_back(i);
+    }
+
+    for (int i = 1; i < cur; ++cur) {
+        if (parts[i].size() > minSize) {
+            string fn = fileName;
+            stringstream ss;
+            ss << i;
+            fn += ss.str();
+            writeThisVertex(g, parts[i], fn);
         }
     }
 }
