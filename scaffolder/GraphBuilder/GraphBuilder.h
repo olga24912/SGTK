@@ -7,6 +7,7 @@
 
 
 #include "../ContigGraph/ContigGraph.h"
+#include "../SamFileWriter/SamFileWriteEdge.h"
 
 /*
  * main class for generate conection between contigs.
@@ -14,6 +15,7 @@
 class GraphBuilder {
 protected:
     ContigGraph* graph;
+    SamFileWriteEdge samFileWriter;
 
     string libName;
     int minContigLen = 0;
@@ -39,6 +41,7 @@ public:
     void setGraph(ContigGraph* graph);
 
     void setLibName(string libName);
+    void setSamFileWriter(SamFileWriteEdge fileWriter);
 };
 
 

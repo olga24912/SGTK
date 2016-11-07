@@ -21,8 +21,6 @@ class PairReadGraphBuilder: public GraphBuilder {
 protected:
     bool oneSideRead = false;
 
-    SamFileWriteEdge samFileWriter;
-
     string fileName1;
     string fileName2;
 
@@ -57,7 +55,6 @@ public:
     //set info about orintation  pair read
     void setOneSideReadFlag(bool flag);
 
-    void setSamFileWriter(SamFileWriteEdge fileWriter);
     virtual void evaluate();
 };
 

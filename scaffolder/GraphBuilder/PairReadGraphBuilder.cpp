@@ -21,10 +21,6 @@ void PairReadGraphBuilder::setOneSideReadFlag(bool flag) {
     oneSideRead = flag;
 }
 
-void PairReadGraphBuilder::setSamFileWriter(SamFileWriteEdge writer) {
-    this->samFileWriter = writer;
-}
-
 void PairReadGraphBuilder::evaluate() {
     read1ByName.clear();
     cerr << "START" << endl;
@@ -124,7 +120,7 @@ void PairReadGraphBuilder::incEdgeWeight(BamAlignmentRecord read1, BamAlignmentR
     int e2 = graph->incEdgeWeight(verRSID, verRFID);
 
     samFileWriter.writeEdge(e1, read1, read2);
-    samFileWriter.writeEdge(e2, read1, read2);
+    samFileWriter.writeEdge(e2, read2, read1);
 }
 
 void PairReadGraphBuilder::handleReads() {

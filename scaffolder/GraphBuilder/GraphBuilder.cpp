@@ -19,3 +19,7 @@ void GraphBuilder::setGraph(ContigGraph *graph) {
 void GraphBuilder::setLibName(string libName) {
     this->libName = libName;
 }
+
+void GraphBuilder::setSamFileWriter(SamFileWriteEdge writer) {
+    this->samFileWriter = writer;
+}

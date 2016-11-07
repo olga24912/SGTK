@@ -160,7 +160,7 @@ void ContigGraphPrinter::writeThisVertex(ContigGraph *g, vector<int> &drawV, str
 vector<int> ContigGraphPrinter::vertexInBigComponents(ContigGraph *g, int size) {
     vector<int> res;
     int n = (g->getVertexCount());
-    int col[n];
+    int *col = new int[n];
     int cur = findComponent(g, col);
 
     vector<int> cntCol(cur, 0);
@@ -174,6 +174,7 @@ vector<int> ContigGraphPrinter::vertexInBigComponents(ContigGraph *g, int size) 
         }
     }
 
+    delete col;
     return res;
 }
 
@@ -217,21 +218,24 @@ void ContigGraphPrinter::dfsFindComponent(ContigGraph *g, int *color, int curren
 
 void ContigGraphPrinter::writeSplitBigComponent(ContigGraph *g, int minSize, string fileName) {
     int n = (g->getVertexCount());
-    int col[n];
+    int *col = new int[n];
     int cur = findComponent(g, col);
 
-    vector<int> parts[cur];
+    vector< vector<int> > parts(cur);
     for (int i = 0; i < n; ++i) {
+        if (col[i] == 0) continue;
         parts[col[i]].push_back(i);
     }
 
-    for (int i = 1; i < cur; ++cur) {
-        if (parts[i].size() > minSize) {
+    for (int i = 1; i < cur; ++i) {
+        if (parts[i].size() >= minSize) {
             string fn = fileName;
             stringstream ss;
             ss << i;
             fn += ss.str();
+            cerr << fn << endl;
             writeThisVertex(g, parts[i], fn);
         }
     }
+    delete col;
 }

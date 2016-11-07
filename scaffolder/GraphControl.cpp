@@ -38,8 +38,12 @@ void GraphControl::evaluate(int argc, char **argv) {
                 arg = opt.arg;
                 if (arg == "RNA_PAIR") {
                     gb = new RNAPairReadGraphBuilder();
+                    SamFileWriteEdge samFileWriter("reads_rna_pair");
+                    gb->setSamFileWriter(samFileWriter);
                 } else if (arg == "DNA_PAIR") {
                     gb = new DNAPairReadGraphBuilder();
+                    SamFileWriteEdge samFileWriter("reads_dna_pair");
+                    gb->setSamFileWriter(samFileWriter);
                 } else if (arg == "RNA_SPLIT") {
                     gb = new RNASplitReadGraphBuilder();
                 }

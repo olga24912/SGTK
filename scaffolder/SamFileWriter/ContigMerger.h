@@ -17,7 +17,7 @@ class ContigMerger {
 private:
     BamHeader header;
 
-    int countN = 30;
+    int countN = 300;
 
     string contig1Name;
     string contig2Name;
