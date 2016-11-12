@@ -33,6 +33,7 @@ private:
     void writeContig(string fileName);
     void writeHeader(BamFileOut& out);
     void writeReads(BamFileOut& out, BamFileIn &in1, BamFileIn &in2);
+    string getContigName(string s);
 public:
     void evaluate(string contigsINFileName, string samReads1FileName,
                   string samReads2FileName, string contigOUTFileName,

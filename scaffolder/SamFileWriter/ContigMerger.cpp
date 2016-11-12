@@ -50,8 +50,10 @@ string ContigMerger::findContig(string fileIn, string name) {
     readRecords(ids, seqs, seqFileIn);
 
     for (unsigned i = 0; i < length(ids); ++i) {
-        string contigName = string(toCString(ids[i]));
+        string contigName = getContigName(string(toCString(ids[i])));
         string seq = SeqanUtils::dna5ToString(toCString(seqs[i]), length(seqs[i]));
+
+        cerr << contigName << " " << name << endl;
 
         if (contigName == name) {
             return seq;
@@ -125,4 +127,12 @@ void ContigMerger::writeReads(BamFileOut &out, BamFileIn &in1, BamFileIn &in2) {
         writeRecord(out, res1);
         writeRecord(out, res2);
     }
+}
+
+string ContigMerger::getContigName(string s) {
+    string res = "";
+    for (int i = 0; i < (int)s.size() && s[i] != ' '; ++i) {
+        res += s[i];
+    }
+    return res;
 }
