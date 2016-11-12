@@ -59,6 +59,14 @@ public:
 
     vector<int> getEdgesWeight(int v); //get out edges weight for vertex v.
 
+    vector<int> getEdges(int v);
+
+    vector<int> getEdgesR(int v);
+
+    int getToVertex(int e);
+
+    int getFromVertex(int e);
+
     int incEdgeWeight(int vId, int uId); //increment edge wight between contigs with id vId and uId
 
     int addVertex(int id, string name, double cov, int len); //add new vertex with this id, name, coverage and len
@@ -74,6 +82,10 @@ public:
     void setLibName(string s);
 
     void setMinEdgeWeightForLib(int libNum, int minWeight);
+
+    bool isGoodEdge(int e);
+
+    bool isGoodVertex(int v);
 };
 
 

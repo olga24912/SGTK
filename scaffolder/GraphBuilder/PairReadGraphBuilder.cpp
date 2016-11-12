@@ -54,7 +54,7 @@ pair<string,int> PairReadGraphBuilder::processOneFirstRead(BamAlignmentRecord re
 
     int target = get1Target(read);
 
-    if (target < 0) {
+    if (target < 0 || hasFlagSecondary(read)) {
         return make_pair(readName, -1);
     }
     addInfoAboutRead(readName, target, read);
@@ -101,7 +101,7 @@ pair<string, int> PairReadGraphBuilder::processOneSecondRead(BamAlignmentRecord 
 
     int target = get2Target(read);
 
-    if (target < 0) {
+    if (target < 0 || hasFlagSecondary(read)) {
         return make_pair("", -1);
     }
     addInfoAbout2Read(readName, target, read);

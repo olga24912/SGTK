@@ -1,7 +1,3 @@
-//
-// Created by olga on 24.10.16.
-//
-
 #include "InteractiveFilter.h"
 #include "ContigGraphPrinter.h"
 
@@ -12,6 +8,7 @@ const string InteractiveFilter::WRITE_FULL = "writeFull";
 const string InteractiveFilter::WRITE_LOCAL = "writeLocal";
 const string InteractiveFilter::WRITE_BIG_COMP = "writeBig";
 const string InteractiveFilter::WRITE_SPLIT_BIG_COMP = "writeSB";
+const string InteractiveFilter::MERGE_SIMPLE_PATH = "mergeSimplePath";
 const string InteractiveFilter::EXIT = "exit";
 
 /*
@@ -23,8 +20,10 @@ const string InteractiveFilter::EXIT = "exit";
  * writeLocal <vertexID> <dist> <fileName>
  * writeBig <size> <fileName>
  * writeSB <size> <prefixFileName>
+ * mergeSimplePath <contigsFileName> <outFileName>
  * exit
  */
+
 void InteractiveFilter::main() {
     ContigGraph g;
     while(true) {
@@ -64,6 +63,12 @@ void InteractiveFilter::main() {
             string fileName;
             cin >> size >> fileName;
             ContigGraphPrinter::writeSplitBigComponent(&g, size, fileName);
+        } else if (s == MERGE_SIMPLE_PATH) {
+            string fileNameIn;
+            string fileNameOut;
+            cin >> fileNameIn >> fileNameOut;
+            ScafSimplePath ssp;
+            ssp.evaluate(&g, fileNameIn, fileNameOut);
         } else if (s == EXIT) {
             return;
         }

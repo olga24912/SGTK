@@ -146,3 +146,27 @@ void ContigGraph::setMinEdgeWeightForLib(int libNum, int minWeight) {
     if (libNum >= libMinEdgeWight.size()) return;
     libMinEdgeWight[libNum] = minWeight;
 }
+
+vector<int> ContigGraph::getEdges(int v) {
+    return graph[v];
+}
+
+vector<int> ContigGraph::getEdgesR(int v) {
+    return graphR[v];
+}
+
+int ContigGraph::getToVertex(int e) {
+    return to[e];
+}
+
+bool ContigGraph::isGoodEdge(int e) {
+    return edgeWeight[e] >= libMinEdgeWight[edgeLib[e]];
+}
+
+bool ContigGraph::isGoodVertex(int v) {
+    return targetLen[idByV[v]] >= minContigLen;
+}
+
+int ContigGraph::getFromVertex(int e) {
+    return from[e];
+}

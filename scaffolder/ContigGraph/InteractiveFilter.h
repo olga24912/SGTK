@@ -5,9 +5,9 @@
 #ifndef SCAFFOLDER_INTERACTIVEFILTER_H
 #define SCAFFOLDER_INTERACTIVEFILTER_H
 
-#include"ContigGraph.h"
+#include "ContigGraph.h"
 #include "Serialization.h"
-
+#include "../Scaffolder/ScafSimplePath.h"
 
 class InteractiveFilter {
 private:
@@ -18,6 +18,7 @@ private:
     static const string WRITE_LOCAL;
     static const string WRITE_BIG_COMP;
     static const string WRITE_SPLIT_BIG_COMP;
+    static const string MERGE_SIMPLE_PATH;
     static const string EXIT;
 public:
     static void main();
