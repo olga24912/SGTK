@@ -3,6 +3,7 @@
 //
 
 #include "GraphControl.h"
+#include "GraphBuilder/ReferenceGraphBuilder.h"
 
 void GraphControl::evaluate(int argc, char **argv) {
     argc -= (argc > 0);
@@ -46,6 +47,8 @@ void GraphControl::evaluate(int argc, char **argv) {
                     gb->setSamFileWriter(samFileWriter);
                 } else if (arg == "RNA_SPLIT") {
                     gb = new RNASplitReadGraphBuilder();
+                } else if (arg == "REF") {
+                    gb = new ReferenceGraphBuilder();
                 }
 
                 break;
@@ -82,9 +85,18 @@ void GraphControl::evaluate(int argc, char **argv) {
             case REFFILE:
                 if ( dynamic_cast <RNASplitReadGraphBuilder *> ( gb )) {
                     (dynamic_cast<RNASplitReadGraphBuilder*> (gb)) -> setRefFileName(opt.arg);
+                } else if (dynamic_cast<ReferenceGraphBuilder *> ( gb )) {
+                    (dynamic_cast<ReferenceGraphBuilder *>(gb)) -> setRefFileName(opt.arg);
                 } else {
-                    printf("Put the ref file not for RNA split builder.\n");
+                    printf("Put the ref file not for (RNA split builder or REF builder).\n");
                     return;
+                }
+                break;
+            case QUERYFILE:
+                if (dynamic_cast<ReferenceGraphBuilder *> ( gb )) {
+                    (dynamic_cast<ReferenceGraphBuilder *> (gb)) -> setQueryFileName(opt.arg);
+                } else {
+                    printf("Put query file name not for REF builder\n");
                 }
                 break;
             case READSFILE:

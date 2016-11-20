@@ -47,15 +47,27 @@ void PairReadGraphBuilder::readHeaderInit() {
     }
 }
 
+bool PairReadGraphBuilder::isUniqueMapRead(BamAlignmentRecord read) {
+    BamTagsDict tagsDict(read.tags);
+    int tagId = 0;
+    if (findTagKey(tagId, tagsDict, "NH")) {
+        int mapCnt = 0;
+        extractTagValue(mapCnt, tagsDict, tagId);
+        if (mapCnt > 1) {
+            return false;
+        }
+    }
+    return true;
+}
+
 pair<string,int> PairReadGraphBuilder::processOneFirstRead(BamAlignmentRecord read) {
     string readName = SeqanUtils::cutReadName(read);
-
     assert(read1ByName.count(readName) == 0);
 
     int target = get1Target(read);
 
-    if (target < 0 || hasFlagSecondary(read)) {
-        return make_pair(readName, -1);
+    if (target < 0 || hasFlagSecondary(read) || !isUniqueMapRead(read)) {
+        return make_pair("", -1);
     }
     addInfoAboutRead(readName, target, read);
     return make_pair(readName, target);
@@ -101,7 +113,7 @@ pair<string, int> PairReadGraphBuilder::processOneSecondRead(BamAlignmentRecord 
 
     int target = get2Target(read);
 
-    if (target < 0 || hasFlagSecondary(read)) {
+    if (target < 0 || hasFlagSecondary(read) || !isUniqueMapRead(read)) {
         return make_pair("", -1);
     }
     addInfoAbout2Read(readName, target, read);
@@ -109,6 +121,8 @@ pair<string, int> PairReadGraphBuilder::processOneSecondRead(BamAlignmentRecord 
 }
 
 void PairReadGraphBuilder::incEdgeWeight(BamAlignmentRecord read1, BamAlignmentRecord read2) {
+    assert(isUniqueMapRead(read1));
+    assert(isUniqueMapRead(read2));
     int target1 = get1Target(read1);
     int target2 = get2Target(read2);
     if (target1 == target2 || target1 == pairTarget(target2)) {

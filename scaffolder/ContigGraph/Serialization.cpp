@@ -35,12 +35,13 @@ ContigGraph Serialization::read(string fileName) {
     in >> ln;
     cerr << ln << endl;
     g.libName.resize(ln);
-    g.libColor.resize(ln);
     g.libMinEdgeWight.resize(ln, 0);
     for (int i = 0; i < ln; ++i) {
         char c;
         int id;
-        in >> c >> id >> g.libColor[i] >> g.libName[i];
+        string color;
+        in >> c >> id >> color >> g.libName[i];
+        g.libColor.push_back(g.genRandomColor());
     }
 
     int vn;
@@ -50,7 +51,6 @@ ContigGraph Serialization::read(string fileName) {
     g.graphR.resize(vn);
     g.start.resize(vn);
     g.idByV.resize(vn);
-    //g.edgeIdByVertexes.resize(vn, vector<int>(vn, -1));
     int mxT = 0;
 
     for (int i = 0; i < vn; ++i) {

@@ -16,6 +16,8 @@ private:
     static const string MIN_CONTIG_LEN;
     static const string WRITE_FULL;
     static const string WRITE_LOCAL;
+    static const string WRITE_LOCAL_VERT_IN_SEG;
+    static const string WRITE_ALL_LOCAL;
     static const string WRITE_BIG_COMP;
     static const string WRITE_SPLIT_BIG_COMP;
     static const string MERGE_SIMPLE_PATH;

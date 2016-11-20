@@ -19,6 +19,7 @@ public:
      * result will be in resFile.
      */
     void alignmentRNA(string refFileName, string rnaFileName, string resFileName);
+    static void alignmentREF(string refFileName, string queryFileName);
 };
 
 

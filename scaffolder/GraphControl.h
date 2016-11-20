@@ -61,7 +61,7 @@ private:
         static option::ArgStatus NewLib(const option::Option& option, bool msg)
         {
             string arg = option.arg;
-            if (arg == "RNA_PAIR" || arg == "RNA_SPLIT" || arg == "DNA_PAIR") {
+            if (arg == "RNA_PAIR" || arg == "RNA_SPLIT" || arg == "DNA_PAIR" || arg == "REF") {
                 return option::ARG_OK;
             }
 
@@ -70,12 +70,12 @@ private:
     };
 
     enum  optionIndex { UNKNOWN, HELP, NEW, SAM1, SAM2, MINCONTIGLEN, MINEDGELEN,
-        DIST_BETWEEN_PAIR_READS, REFFILE, READSFILE, LIBNAME};
-    const option::Descriptor usage[12] = {
+        DIST_BETWEEN_PAIR_READS, REFFILE, QUERYFILE, READSFILE, LIBNAME};
+    const option::Descriptor usage[13] = {
             { UNKNOWN, 0,"", "",        Arg::Unknown, "USAGE: scaffolder [options]\n\n"
                                                               "Options:" },
             { HELP,         0,"", "help",         Arg::None,    "  \t--help  \tPrint usage and exit." },
-            { NEW,          0,"n","new",          Arg::NewLib,  "  -n <RNA_PAIR|RNA_SPLIT|DNA_PAIR>, \t--new=<RNA_PAIR|RNA_SPLIT|DNA_PAIR>"
+            { NEW,          0,"n","new",          Arg::NewLib,  "  -n <RNA_PAIR|RNA_SPLIT|DNA_PAIR|REF>, \t--new=<RNA_PAIR|RNA_SPLIT|DNA_PAIR|REF>"
                                                               "  \tNeed to take one of string RNA_PAIR, RNA_SPLIT, DNA_PAIR" },
             { SAM1,         0,"f","sam1",         Arg::Required,"  -f <arg>, \t--sam1=<arg>  \tMust have an argument,"
                                                               "file name of first sam file. def = read1.sam" },
@@ -89,6 +89,10 @@ private:
                                                                                        "\t Take one number - minimal posible len between pair reads"},
             { REFFILE, 0, "r", "ref_file_name", Arg::Required, " -r <arg>, \t --ref_file_name=<arg>"
                                                                        "\t Must have an argument, file name of referense file."},
+            { QUERYFILE, 0, "q", "query_file_name", Arg::Required, " -q <arg>, \t --query_file_name=<arg>"
+                                                                           "\t Must have an argument, "
+                                                                           "file name of contigs will be aligned on ref contigs."
+                                                                           "ONLY REF setting"},
             { READSFILE, 0, "p", "read_file",    Arg::Required, " -p <arg>, \t --read_file=<arg> "
                                                                         "\t Must have an argument, file name of reads file."},
             { LIBNAME, 0, "l", "lib_name", Arg::Required, " -l <arg>, \t --lib_name=<arg>"

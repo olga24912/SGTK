@@ -6,6 +6,12 @@
 
 string ContigGraph::genRandomColor() {
     int color[3] = {rand() % 256, rand() % 256, rand() % 256};
+
+    if (libColor.size() < 5) {
+        string colors[5] = {"#FFFF00", "#ff0000", "#FF00FF", "#3366FF", "#33CC33"};
+        return colors[libColor.size()];
+    }
+
     string res = "#";
     for (int i = 0; i < 3; ++i) {
         if (color[i] / 16 < 10) {

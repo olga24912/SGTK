@@ -56,14 +56,15 @@ void ScafSimplePath::writeNewContigs(string fileName) {
     }
 
     for (int i = 0; i < n; ++i) {
-        cerr << i << endl;
         if (first[i] && used[i] == 0) {
             string seq = contigs[i];
             used[i] = 1;
             used[i ^ 1] = 1;
 
             int x = next[i];
+            if (x != -1) cerr << i << " ";
             while (x != -1) {
+                cerr << x << " ";
                 for (int j = 0; j < GAP_SIZE; ++j) {
                     seq += 'N';
                 }
@@ -72,13 +73,14 @@ void ScafSimplePath::writeNewContigs(string fileName) {
                 used[x^1] = 1;
                 x = next[x];
             }
+            if (next[i] != -1) cerr << endl;
 
             stringstream ss;
             ss << i;
             string readName = "path" + ss.str();
-            cerr << readName << endl;
+           // cerr << readName << endl;
             appendValue(ids, CharString(readName.c_str()));
-            cerr << seq << " " << seq.size() <<  endl;
+            //cerr << seq << " " << seq.size() <<  endl;
             appendValue(seqs, Dna5String(seq));
         }
     }

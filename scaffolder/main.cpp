@@ -14,11 +14,11 @@ int main(int argc, char **argv) {
                              "/home/olga/AU/bio-project/bio_scaffolder/test/reads.fasta", 100, 11);
 */
     /*GraphControl graphControl;
-    graphControl.evaluate(argc, argv);
-*/
+    graphControl.evaluate(argc, argv);*/
+
     InteractiveFilter::main();
 
-    /*ContigMerger cm;
+   /* ContigMerger cm;
     cm.evaluate(string(argv[1]), string(argv[2]),
     string(argv[3]), "contigOUT.fasta", "samOUT.sam",
     string(argv[4]), string(argv[5]));*/

@@ -36,7 +36,7 @@ void ContigGraphPrinter::writeAllLocalGraphDotFormat(ContigGraph *g, int dist) {
             x /= 10;
         }
         reverse(name.begin(), name.end());
-        name = "g" + name;
+        name = "gl" + name;
         writeLocalGraph(g, dist, i, name);
     }
 }
@@ -45,6 +45,24 @@ void ContigGraphPrinter::writeAllLocalGraphDotFormat(ContigGraph *g, int dist) {
 void ContigGraphPrinter::writeLocalGraph(ContigGraph *g, int dist, int v, string fileName) {
     vector<int> drawV = findAllVert(g, dist, v);
     if (drawV.size() < 2) return;
+
+    //cerr << drawV.size() << endl;
+
+    writeThisVertex(g, drawV, fileName);
+}
+
+void ContigGraphPrinter::writeLocalSegGraph(ContigGraph *g, int dist, int vb, int ve, string fileName) {
+    vector<int> drawV;
+    for (int i = vb; i <= ve; ++i) {
+        vector<int> lv = findAllVert(g, dist, i);
+        for (int j = 0; j < lv.size(); ++j) {
+            drawV.push_back(lv[j]);
+        }
+    }
+
+    sort(drawV.begin(), drawV.end());
+
+//    cerr << drawV.size() << endl;
 
     writeThisVertex(g, drawV, fileName);
 }
@@ -94,9 +112,9 @@ void ContigGraphPrinter::writeOneVertex(ContigGraph *g, ofstream &out, int v) {
 
 vector<int> ContigGraphPrinter::findAllVert(ContigGraph *g, int dist, int v) {
     vector<int> res;
-    res.push_back(v);
     if ((g->targetLen)[(g->idByV)[v]] < (g->minContigLen)) return res;
     if (dist == 0) return res;
+    res.push_back(v);
     for (int i = 0; i < (g->graph)[v].size(); ++i) {
         int e = (g->graph)[v][i];
         if ((g->edgeWeight)[e] < (g->libMinEdgeWight)[(g->edgeLib)[e]]) continue;
@@ -131,11 +149,7 @@ void ContigGraphPrinter::writeBigComponent(ContigGraph *g, int minSize, string f
 }
 
 void ContigGraphPrinter::writeThisVertex(ContigGraph *g, vector<int> &drawV, string fileName) {
-    ofstream out(fileName);
-    out << "digraph {\n";
-    for (int i = 0; i < (int)drawV.size(); ++i) {
-        writeOneVertex(g, out, drawV[i]);
-    }
+    vector<pair<int,int> > wieghtEdge;
 
     for (int i = 0; i < (int)drawV.size(); ++i) {
         int v = drawV[i];
@@ -143,14 +157,38 @@ void ContigGraphPrinter::writeThisVertex(ContigGraph *g, vector<int> &drawV, str
             int e = (g->graph)[v][j];
             int u = (g->to)[e];
 
+            if ((g->edgeWeight)[e] < (g->libMinEdgeWight)[(g->edgeLib[e])]) continue;
+
             int was = 0;
             for (int h = 0; h < (int)drawV.size(); ++h) {
                 if (drawV[h] == u) was = 1;
             }
             if (was) {
-                writeOneEdge(g, out, v, e);
+                wieghtEdge.push_back(make_pair(g->edgeWeight[e], e));
             }
         }
+    }
+
+    if (drawV.size() == 5 && wieghtEdge.size() == 4) return;
+    if (fileName == "gl10012") {
+        for (int i  = 0; i < drawV.size(); ++i) {
+            cerr << drawV[i] << " ";
+        }
+        cerr << endl;
+        for (int i = 0; i < wieghtEdge.size(); ++i) {
+            cerr << wieghtEdge[i].first << " " << wieghtEdge[i].second << endl;
+        }
+        cerr << endl;
+    }
+    ofstream out(fileName);
+    out << "digraph {\n";
+    for (int i = 0; i < (int)drawV.size(); ++i) {
+        writeOneVertex(g, out, drawV[i]);
+    }
+
+    sort(wieghtEdge.rbegin(), wieghtEdge.rend());
+    for(int i = 0; i < (int)wieghtEdge.size(); ++i) {
+        writeOneEdge(g, out, (g->from)[wieghtEdge[i].second], wieghtEdge[i].second);
     }
 
     out << "}\n";
@@ -239,3 +277,4 @@ void ContigGraphPrinter::writeSplitBigComponent(ContigGraph *g, int minSize, str
     }
     delete col;
 }
+

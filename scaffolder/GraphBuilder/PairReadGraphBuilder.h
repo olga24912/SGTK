@@ -38,6 +38,7 @@ protected:
     int get1Target(const BamAlignmentRecord &read) const;
     void readHeaderInit();
     void addInfoAboutCover(int target, const BamAlignmentRecord &read);
+    bool isUniqueMapRead(BamAlignmentRecord read);
 
     virtual void incEdgeWeight(BamAlignmentRecord read1, BamAlignmentRecord read2);
     virtual void filterEdge();

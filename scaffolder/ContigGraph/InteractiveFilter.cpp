@@ -6,6 +6,8 @@ const string InteractiveFilter::MIN_EDGE_WEIGHT = "minEdgeW";
 const string InteractiveFilter::MIN_CONTIG_LEN = "minContig";
 const string InteractiveFilter::WRITE_FULL = "writeFull";
 const string InteractiveFilter::WRITE_LOCAL = "writeLocal";
+const string InteractiveFilter::WRITE_ALL_LOCAL = "writeAllLocal";
+const string InteractiveFilter::WRITE_LOCAL_VERT_IN_SEG = "writeLocalSeg";
 const string InteractiveFilter::WRITE_BIG_COMP = "writeBig";
 const string InteractiveFilter::WRITE_SPLIT_BIG_COMP = "writeSB";
 const string InteractiveFilter::MERGE_SIMPLE_PATH = "mergeSimplePath";
@@ -18,6 +20,8 @@ const string InteractiveFilter::EXIT = "exit";
  * minContig <len>
  * writeFull <fileName>
  * writeLocal <vertexID> <dist> <fileName>
+ * writeAllLocal <dist>
+ * writeLocalSeg <vertexIDStart> <vertexIDFinish> <dist> <fileName>
  * writeBig <size> <fileName>
  * writeSB <size> <prefixFileName>
  * mergeSimplePath <contigsFileName> <outFileName>
@@ -53,6 +57,16 @@ void InteractiveFilter::main() {
             string fileName;
             cin >> v >> dist >> fileName;
             ContigGraphPrinter::writeLocalGraph(&g, dist, v, fileName);
+        } else if (s == WRITE_ALL_LOCAL) {
+            int dist;
+            cin >> dist;
+            ContigGraphPrinter::writeAllLocalGraphDotFormat(&g, dist);
+        } else if (s == WRITE_LOCAL_VERT_IN_SEG) {
+            int vb, ve;
+            int dist;
+            string fileName;
+            cin >> vb >> ve >> dist >> fileName;
+            ContigGraphPrinter::writeLocalSegGraph(&g, dist, vb, ve, fileName);
         } else if (s == WRITE_BIG_COMP) {
             int size;
             string fileName;

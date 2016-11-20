@@ -5,17 +5,17 @@
 #include "SamFileWriteEdge.h"
 
 SamFileWriteEdge::SamFileWriteEdge(string dir) {
-    this->dir = dir;
+    /*this->dir = dir;
     string commandRM = "rm -R ";
     string command = "mkdir ";
     commandRM.append(dir);
     command.append(dir);
     system(commandRM.c_str());
-    system(command.c_str());
+    system(command.c_str());*/
 }
 
 void SamFileWriteEdge::writeEdge(int edgeID, BamAlignmentRecord read1, BamAlignmentRecord read2) {
-    string fileName = getName(edgeID) + "#1.sam";
+    /*string fileName = getName(edgeID) + "#1.sam";
 
     ofstream out;
     out.open (fileName, std::ofstream::out | std::ofstream::app);
@@ -31,7 +31,7 @@ void SamFileWriteEdge::writeEdge(int edgeID, BamAlignmentRecord read1, BamAlignm
     writeRecord(fileOut2, read2);
 
     close(fileOut2);
-    out.close();
+    out.close();*/
 }
 
 string SamFileWriteEdge::getName(int edgeID) {
