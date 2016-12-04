@@ -23,7 +23,10 @@ private:
             if (g->edgeWeight[e] < g->libMinEdgeWight[g->edgeLib[e]]) {
                 return false;
             }
-            return !(libNum != -1 && g->edgeLib[e] != -1);
+            if (libNum != -1) {
+                if (g->edgeLib[e] != libNum) return false;
+            }
+            return true;
         }
 
     private:
@@ -31,7 +34,7 @@ private:
     };
 
     static void writeOneEdge(ContigGraph * graph, ofstream& out, int v, int e);
-    static void writeOneVertex(ContigGraph * g, ofstream& out, int v);
+    static void writeOneVertex(ContigGraph * g, ofstream& out, int v, bool notLast = false);
     static vector<int> findAllVert(ContigGraph *g, int dist, int v,
                                    IsGoodEdge isGoodEdge = IsGoodEdge());
     static void dfsFindComponent(ContigGraph *g, int* color, int currentCol, int v,
@@ -47,7 +50,7 @@ public:
     static void writeLocalSegGraph(ContigGraph *g, int dist, int vb, int ve, string fileName);
     static void writeBigComponent(ContigGraph *g, int minSize, string fileName);
     static void writeSplitBigComponent(ContigGraph *g, int minSize, string fileName);
-    static void writeAlongPath(ContigGraph *g, int libId, int dist, string fileName);
+    static void writeAlongPath(ContigGraph *g, int libId, int dist, int minSize, string fileName);
 
 };
 

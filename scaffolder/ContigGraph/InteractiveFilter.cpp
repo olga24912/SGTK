@@ -26,7 +26,7 @@ const string InteractiveFilter::EXIT = "exit";
  * writeBig <size> <fileName>
  * writeSB <size> <prefixFileName>
  * mergeSimplePath <contigsFileName> <outFileName>
- * writeAlongPath <libNum> <dist> <prefixFileName>
+ * writeAlongPath <libNum> <dist> <minRefPathSize> <prefixFileName>
  * exit
  */
 
@@ -88,9 +88,10 @@ void InteractiveFilter::main() {
         } else if (s == WRITE_LOCAL_ALONG_PATH) {
             int libId;
             int dist;
+            int minSize;
             string fileName;
-            cin >> libId >> dist >> fileName;
-            ContigGraphPrinter::writeAlongPath(&g, libId, dist, fileName);
+            cin >> libId >> dist >> minSize >> fileName;
+            ContigGraphPrinter::writeAlongPath(&g, libId, dist, minSize, fileName);
         } else if (s == EXIT) {
             return;
         }
