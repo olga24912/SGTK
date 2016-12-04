@@ -41,7 +41,7 @@ ContigGraph Serialization::read(string fileName) {
         int id;
         string color;
         in >> c >> id >> color >> g.libName[i];
-        g.libColor.push_back(g.genRandomColor());
+        g.libColor.push_back(color);
     }
 
     int vn;

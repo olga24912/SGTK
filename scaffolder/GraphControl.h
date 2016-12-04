@@ -10,7 +10,7 @@
 #include "ContigGraph/ContigGraphPrinter.h"
 #include "GraphBuilder/DNAPairReadGraphBuilder.h"
 #include "OutsideLib/optionparser.h"
-#include "GraphBuilder/RNAPairReadGraphBuilder.h"
+#include "GraphBuilder/PairReadGraphBuilder.h"
 #include "GraphBuilder/RNASplitReadGraphBuilder.h"
 
 

@@ -8,6 +8,7 @@
 #include <bits/stdc++.h>
 #include <seqan/bam_io.h>
 #include <seqan/graph_types.h>
+#include "../Tools/Utils.h"
 
 using namespace std;
 using namespace seqan;
@@ -86,6 +87,8 @@ public:
     bool isGoodEdge(int e);
 
     bool isGoodVertex(int v);
+
+    void setColor(string color);
 };
 
 

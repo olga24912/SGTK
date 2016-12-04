@@ -12,21 +12,7 @@ string ContigGraph::genRandomColor() {
         return colors[libColor.size()];
     }
 
-    string res = "#";
-    for (int i = 0; i < 3; ++i) {
-        if (color[i] / 16 < 10) {
-            res += (color[i] / 16) + '0';
-        } else {
-            res += (color[i] / 16) - 10 + 'a';
-        }
-
-        if (color[i] % 16 < 10) {
-            res += (color[i] % 16) + '0';
-        } else {
-            res += (color[i] % 16) - 10 + 'a';
-        }
-    }
-    return res;
+    return Utils::colorToString(color);
 }
 
 int ContigGraph::getLibNum() {
@@ -175,4 +161,8 @@ bool ContigGraph::isGoodVertex(int v) {
 
 int ContigGraph::getFromVertex(int e) {
     return from[e];
+}
+
+void ContigGraph::setColor(string color) {
+    libColor[libColor.size() - 1] = color;
 }

@@ -21,6 +21,7 @@ private:
     string refFileName;
     string rnaReadsFileName;
 
+    virtual string getLibColor();
 public:
     void evaluate();
     /*

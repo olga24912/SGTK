@@ -22,6 +22,7 @@ private:
 
     void generateVertex();
     void createGraph(string fileName);
+    virtual string getLibColor();
 public:
     void evaluate();
 

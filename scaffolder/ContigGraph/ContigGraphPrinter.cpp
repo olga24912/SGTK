@@ -151,6 +151,9 @@ void ContigGraphPrinter::writeBigComponent(ContigGraph *g, int minSize, string f
 void ContigGraphPrinter::writeThisVertex(ContigGraph *g, vector<int> &drawV, string fileName) {
     vector<pair<int,int> > wieghtEdge;
 
+    //int cnt6 = 0;
+    //int cntnot6 = 0;
+
     for (int i = 0; i < (int)drawV.size(); ++i) {
         int v = drawV[i];
         for (int j = 0; j < (g->graph)[v].size(); ++j) {
@@ -165,21 +168,14 @@ void ContigGraphPrinter::writeThisVertex(ContigGraph *g, vector<int> &drawV, str
             }
             if (was) {
                 wieghtEdge.push_back(make_pair(g->edgeWeight[e], e));
+                //if ((g->edgeLib[e]) != 5) cntnot6++;
+                //if ((g->edgeLib[e]) == 5) cnt6++;
             }
         }
     }
 
-    if (drawV.size() == 5 && wieghtEdge.size() == 4) return;
-    if (fileName == "gl10012") {
-        for (int i  = 0; i < drawV.size(); ++i) {
-            cerr << drawV[i] << " ";
-        }
-        cerr << endl;
-        for (int i = 0; i < wieghtEdge.size(); ++i) {
-            cerr << wieghtEdge[i].first << " " << wieghtEdge[i].second << endl;
-        }
-        cerr << endl;
-    }
+    //if (cntnot6 == 0 || cntnot6 + cnt6 >= 20) return;
+
     ofstream out(fileName);
     out << "digraph {\n";
     for (int i = 0; i < (int)drawV.size(); ++i) {

@@ -14,6 +14,7 @@ void GraphBuilder::setMinEdgeWight(int minEdge) {
 
 void GraphBuilder::setGraph(ContigGraph *graph) {
     GraphBuilder::graph = graph;
+    graph->setColor(getLibColor());
 }
 
 void GraphBuilder::setLibName(string libName) {

@@ -49,6 +49,7 @@ void RNASplitReadGraphBuilder::handlingPairReads(string file1, string file2, str
     gb.setFileName2("rna2.sam");
     gb.setOneSideReadFlag(true);
     gb.setGraph(graph);
+    graph->setColor(getLibColor());
     gb.setMinContigLen(minContigLen);
     gb.setMinEdgeWight(minEdgeWight);
 
@@ -58,4 +59,10 @@ void RNASplitReadGraphBuilder::handlingPairReads(string file1, string file2, str
     gb.evaluate();
     graph->filterByEdgeWeight(minEdgeWight);
     graph->setLibName(libName + libN);
+}
+
+string RNASplitReadGraphBuilder::getLibColor() {
+    int cntRB = 100 + rand()%150;
+    int color[3] = {cntRB, rand()%(cntRB/2), cntRB};
+    return Utils::colorToString(color);
 }

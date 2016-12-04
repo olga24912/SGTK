@@ -97,3 +97,8 @@ void ReferenceGraphBuilder::createGraph(string fileName) {
 
     in.close();
 }
+
+string ReferenceGraphBuilder::getLibColor() {
+    int color[3] = {255, 0, 0};
+    return Utils::colorToString(color);
+}

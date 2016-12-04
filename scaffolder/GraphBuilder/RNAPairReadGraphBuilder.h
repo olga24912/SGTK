@@ -8,6 +8,8 @@
 #include "PairReadGraphBuilder.h"
 
 class RNAPairReadGraphBuilder : public PairReadGraphBuilder {
+private:
+    virtual string getLibColor();
 public:
     RNAPairReadGraphBuilder(){}
 };

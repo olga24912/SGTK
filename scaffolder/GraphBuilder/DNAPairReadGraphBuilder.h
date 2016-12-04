@@ -28,6 +28,7 @@ private:
     int readDist(BamAlignmentRecord read);
 
     int countEdgesBeforeBreak(int v, vector<int> edges);
+    virtual string getLibColor();
 public:
     /*
      * set max distance between DNA pair read,
