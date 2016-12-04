@@ -41,7 +41,6 @@ void ContigGraphPrinter::writeAllLocalGraphDotFormat(ContigGraph *g, int dist) {
     }
 }
 
-
 void ContigGraphPrinter::writeLocalGraph(ContigGraph *g, int dist, int v, string fileName) {
     vector<int> drawV = findAllVert(g, dist, v);
     if (drawV.size() < 2) return;
@@ -110,14 +109,15 @@ void ContigGraphPrinter::writeOneVertex(ContigGraph *g, ofstream &out, int v) {
     << ", cover = "<< (g->targetCoverage)[vId] <<"\"];\n";
 }
 
-vector<int> ContigGraphPrinter::findAllVert(ContigGraph *g, int dist, int v) {
+vector<int> ContigGraphPrinter::findAllVert(ContigGraph *g, int dist, int v,
+                                            IsGoodEdge isGoodEdge) {
     vector<int> res;
     if ((g->targetLen)[(g->idByV)[v]] < (g->minContigLen)) return res;
     if (dist == 0) return res;
     res.push_back(v);
     for (int i = 0; i < (g->graph)[v].size(); ++i) {
         int e = (g->graph)[v][i];
-        if ((g->edgeWeight)[e] < (g->libMinEdgeWight)[(g->edgeLib)[e]]) continue;
+        if (!isGoodEdge(g, e)) continue;
         int u = (g->to)[e];
         vector<int> add = findAllVert(g, dist - 1, u);
         for (int j = 0; j < (int)add.size(); ++j) {
@@ -127,7 +127,7 @@ vector<int> ContigGraphPrinter::findAllVert(ContigGraph *g, int dist, int v) {
 
     for (int i = 0; i < (g->graphR)[v].size(); ++i) {
         int e = (g->graphR)[v][i];
-        if ((g->edgeWeight)[e] < (g->libMinEdgeWight)[(g->edgeLib)[e]]) continue;
+        if (!isGoodEdge(g, e)) continue;
         int u = (g->from)[e];
         vector<int> add = findAllVert(g, dist - 1, u);
         for (int j = 0; j < (int)add.size(); ++j) {
@@ -176,6 +176,8 @@ void ContigGraphPrinter::writeThisVertex(ContigGraph *g, vector<int> &drawV, str
 
     //if (cntnot6 == 0 || cntnot6 + cnt6 >= 20) return;
 
+    if (drawV.size() == 1) return;
+
     ofstream out(fileName);
     out << "digraph {\n";
     for (int i = 0; i < (int)drawV.size(); ++i) {
@@ -212,7 +214,7 @@ vector<int> ContigGraphPrinter::vertexInBigComponents(ContigGraph *g, int size) 
     return res;
 }
 
-int ContigGraphPrinter::findComponent(ContigGraph *g, int *col) {
+int ContigGraphPrinter::findComponent(ContigGraph *g, int *col, IsGoodEdge isGoodEdge) {
     int n = (g->getVertexCount());
     int cur = 1;
     for (int i = 0; i < n; ++i) {
@@ -220,32 +222,33 @@ int ContigGraphPrinter::findComponent(ContigGraph *g, int *col) {
     }
     for (int i = 0; i < n; ++i) {
         if (col[i] == 0) {
-            dfsFindComponent(g, col, cur, i);
+            dfsFindComponent(g, col, cur, i, isGoodEdge);
             ++cur;
         }
     }
     return cur;
 }
 
-void ContigGraphPrinter::dfsFindComponent(ContigGraph *g, int *color, int currentCol, int v) {
+void ContigGraphPrinter::dfsFindComponent(ContigGraph *g, int *color, int currentCol, int v,
+                                          IsGoodEdge isGoodEdge) {
     if (g->targetLen[g->idByV[v]] < g->minContigLen) return;
     color[v] = currentCol;
 
     for (int i = 0; i < (int)g->graph[v].size(); ++i) {
         int e = g->graph[v][i];
         int u = g->to[e];
-        if (g->edgeWeight[e] < g->libMinEdgeWight[g->edgeLib[e]]) continue;
+        if (!isGoodEdge(g, e)) continue;
         if (color[u] == 0) {
-            dfsFindComponent(g, color, currentCol, u);
+            dfsFindComponent(g, color, currentCol, u, isGoodEdge);
         }
     }
 
     for (int i = 0; i < (int)g->graphR[v].size(); ++i) {
         int e = g->graphR[v][i];
         int u = g->from[e];
-        if (g->edgeWeight[e] < g->libMinEdgeWight[g->edgeLib[e]]) continue;
+        if (!isGoodEdge(g, e)) continue;
         if (color[u] == 0) {
-            dfsFindComponent(g, color, currentCol, u);
+            dfsFindComponent(g, color, currentCol, u, isGoodEdge);
         }
     }
 }
@@ -274,3 +277,37 @@ void ContigGraphPrinter::writeSplitBigComponent(ContigGraph *g, int minSize, str
     delete col;
 }
 
+void ContigGraphPrinter::writeAlongPath(ContigGraph *g, int libId, int dist, string fileName) {
+    int n = (g->getVertexCount());
+    int *col = new int[n];
+    int cur = findComponent(g, col, IsGoodEdge(libId));
+
+    vector< vector<int> > parts(cur);
+    for (int i = 0; i < n; ++i) {
+        if (col[i] == 0) continue;
+        parts[col[i]].push_back(i);
+    }
+
+    for (int i = 1; i < cur; ++i) {
+        if (parts[i].size() == 0) continue;
+        string fn = fileName;
+        stringstream ss;
+        ss << i;
+        fn += ss.str();
+        cerr << fn << endl;
+
+        vector<int> res;
+        for (int j = 0; j < (int)parts[i].size(); ++j) {
+            vector<int> local = findAllVert(g, dist, parts[i][j]);
+            for (int g = 0; g < (int)local.size(); ++g) {
+                res.push_back(local[g]);
+            }
+        }
+
+        sort(res.begin(), res.end());
+        res.resize(unique(res.begin(), res.end()) - res.begin());
+
+        writeThisVertex(g, res, fn);
+    }
+    delete col;
+}

@@ -21,6 +21,7 @@ private:
     static const string WRITE_BIG_COMP;
     static const string WRITE_SPLIT_BIG_COMP;
     static const string MERGE_SIMPLE_PATH;
+    static const string WRITE_LOCAL_ALONG_PATH;
     static const string EXIT;
 public:
     static void main();
