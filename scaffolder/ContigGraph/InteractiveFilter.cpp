@@ -12,6 +12,8 @@ const string InteractiveFilter::WRITE_BIG_COMP = "writeBig";
 const string InteractiveFilter::WRITE_SPLIT_BIG_COMP = "writeSB";
 const string InteractiveFilter::MERGE_SIMPLE_PATH = "mergeSimplePath";
 const string InteractiveFilter::WRITE_LOCAL_ALONG_PATH = "writeAlongPath";
+const string InteractiveFilter::SET_IGNORE = "setIgnore";
+const string InteractiveFilter::RESET_IGNORE = "resetIgnore";
 const string InteractiveFilter::EXIT = "exit";
 
 /*
@@ -27,6 +29,8 @@ const string InteractiveFilter::EXIT = "exit";
  * writeSB <size> <prefixFileName>
  * mergeSimplePath <contigsFileName> <outFileName>
  * writeAlongPath <libNum> <dist> <minRefPathSize> <prefixFileName>
+ * setIgnore <vertexId>
+ * resetIgnore
  * exit
  */
 
@@ -92,6 +96,16 @@ void InteractiveFilter::main() {
             string fileName;
             cin >> libId >> dist >> minSize >> fileName;
             ContigGraphPrinter::writeAlongPath(&g, libId, dist, minSize, fileName);
+        } else if (s == SET_IGNORE) {
+            int v;
+            cin >> v;
+            g.setIgnore(v);
+        } else if (s == RESET_IGNORE) {
+            for (int i = 0; i < g.getVertexCount(); ++i) {
+                if (g.isIgnore(i)) {
+                    g.setIgnore(i);
+                }
+            }
         } else if (s == EXIT) {
             return;
         }

@@ -33,6 +33,8 @@ private:
         int libNum;
     };
 
+    static bool isGoodVertex(ContigGraph * g, int v);
+
     static void writeOneEdge(ContigGraph * graph, ofstream& out, int v, int e);
     static void writeOneVertex(ContigGraph * g, ofstream& out, int v, bool notLast = false);
     static vector<int> findAllVert(ContigGraph *g, int dist, int v,

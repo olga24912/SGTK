@@ -5,10 +5,17 @@
 #include "ReferenceGraphBuilder.h"
 
 void ReferenceGraphBuilder::evaluate() {
-    WorkWithOtherTools::alignmentREF(refContigFileName, queryContigsFileName);
+    if (tsvFileName == "") {
+        WorkWithOtherTools::alignmentREF(refContigFileName, queryContigsFileName);
+    }
 
     generateVertex();
-    createGraph("out.coords");
+
+    if (tsvFileName == "") {
+        createGraph(parseCoordFile("out.coords"));
+    } else {
+        createGraph(parseTSVFile(tsvFileName));
+    }
 }
 
 void ReferenceGraphBuilder::generateVertex() {
@@ -49,56 +56,86 @@ void ReferenceGraphBuilder::generateVertex() {
     }
 }
 
-void ReferenceGraphBuilder::createGraph(string fileName) {
+string ReferenceGraphBuilder::getLibColor() {
+    int color[3] = {255, 0, 0};
+    return Utils::colorToString(color);
+}
+
+void ReferenceGraphBuilder::createGraph(map<string, vector<ReferenceGraphBuilder::alignmentInfo>> contigsAlignment) {
+    for (auto it = contigsAlignment.begin(); it != contigsAlignment.end(); ++it) {
+        vector<alignmentInfo> contLPos = it->second;
+        sort(contLPos.begin(), contLPos.end());
+        for (int i = 0; i < (int)contLPos.size() - 1; ++i) {
+            graph->incEdgeWeight(contigsId[contLPos[i].contigName], contigsId[contLPos[i + 1].contigName]);
+        }
+        for (int i = (int)contLPos.size() - 1; i > 0; --i) {
+            graph->incEdgeWeight(contigsId[contLPos[i].contigName] ^ 1, contigsId[contLPos[i - 1].contigName] ^ 1);
+        }
+    }
+}
+
+map<string, vector<ReferenceGraphBuilder::alignmentInfo>> ReferenceGraphBuilder::parseCoordFile(string fileName) {
+    map<string, vector<ReferenceGraphBuilder::alignmentInfo>> contigsAlignment;
     ifstream in(fileName);
 
     int l, r, lq, rq, x;
     double xx;
     string rcont, qcont;
 
-    string currentRef = "";
-    vector< pair<int, string> > contLPos;
     while (in >> l >> r >> lq >> rq >> x >> x >> xx >> x >> x >> rcont >> qcont) {
         if (graph->getTargetLength(contigsId[qcont]) < MIN_CONTIG) {
             continue;
         }
-        if (rcont != currentRef) {
-            sort(contLPos.begin(), contLPos.end());
-            for (int i = 0; i < (int)contLPos.size() - 1; ++i) {
-                graph->incEdgeWeight(contigsId[contLPos[i].second], contigsId[contLPos[i + 1].second]);
-            }
-            for (int i = (int)contLPos.size() - 1; i > 0; --i) {
-                graph->incEdgeWeight(contigsId[contLPos[i].second] ^ 1, contigsId[contLPos[i - 1].second] ^ 1);
-            }
 
-            contLPos.resize(0);
-            currentRef = rcont;
-        }
         if (lq > rq) {
             qcont += "-rev";
             swap(lq, rq);
         }
 
-        cerr << rq - lq << " " << graph->getTargetLength(contigsId[qcont]) << " " << contigsId[qcont] << " " << qcont << endl;
         if ((rq - lq) * 10 >= graph->getTargetLength(contigsId[qcont]) * 9) {
-            cerr << "push" << endl;
-            contLPos.push_back(make_pair(l, qcont));
+            contigsAlignment[rcont].push_back(alignmentInfo(l, r, lq, rq, qcont));
         }
     }
 
-    sort(contLPos.begin(), contLPos.end());
-    for (int i = 0; i < (int)contLPos.size() - 1; ++i) {
-        graph->incEdgeWeight(contigsId[contLPos[i].second], contigsId[contLPos[i + 1].second]);
-    }
+    in.close();
 
-    for (int i = (int)contLPos.size() - 1; i > 0; --i) {
-        graph->incEdgeWeight(contigsId[contLPos[i].second] ^ 1, contigsId[contLPos[i - 1].second] ^ 1);
+    return contigsAlignment;
+}
+
+map<string, vector<ReferenceGraphBuilder::alignmentInfo>> ReferenceGraphBuilder::parseTSVFile(string fileName) {
+    cerr << "start parse TSV" << endl;
+    map<string, vector<ReferenceGraphBuilder::alignmentInfo>> contigsAlignment;
+    ifstream in(fileName);
+
+    string header;
+    getline(in, header);
+
+    cerr << header << endl;
+    int l, r, lq, rq, x;
+    double xx;
+    string bestGroup;
+
+    string rcont, qcont;
+
+    while (in >> l >> r >> lq >> rq >> rcont >> qcont >> x >> xx >> bestGroup) {
+        string status;
+        getline(in, status);
+        getline(in, status);
+
+        cerr << l << " " << r << " " << rcont << " " << qcont << endl;
+        if (r - l < MIN_CONTIG) {
+            continue;
+        }
+
+        if (lq > rq) {
+            qcont += "-rev";
+            swap(lq, rq);
+        }
+
+        contigsAlignment[rcont].push_back(alignmentInfo(l, r, lq, rq, qcont));
     }
 
     in.close();
-}
 
-string ReferenceGraphBuilder::getLibColor() {
-    int color[3] = {255, 0, 0};
-    return Utils::colorToString(color);
+    return contigsAlignment;
 }

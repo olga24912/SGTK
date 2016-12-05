@@ -46,6 +46,8 @@ private:
 
     vector< vector <int> > edgeIdByVertexes;
 
+    vector<bool> ignore;
+
     string genRandomColor();
 public:
     void newLib(); //next edge library
@@ -89,6 +91,14 @@ public:
     bool isGoodVertex(int v);
 
     void setColor(string color);
+
+    void setIgnore(int v) {
+        ignore[v] = ignore[v] ^ 1;
+    }
+
+    bool isIgnore(int v) {
+        return ignore[v];
+    }
 };
 
 

@@ -51,6 +51,8 @@ ContigGraph Serialization::read(string fileName) {
     g.graphR.resize(vn);
     g.start.resize(vn);
     g.idByV.resize(vn);
+    g.ignore.resize(vn, false);
+
     int mxT = 0;
 
     for (int i = 0; i < vn; ++i) {

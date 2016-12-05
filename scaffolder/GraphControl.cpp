@@ -110,6 +110,13 @@ void GraphControl::evaluate(int argc, char **argv) {
             case LIBNAME:
                 gb -> setLibName(opt.arg);
                 break;
+            case TSVFILE:
+                if (dynamic_cast<ReferenceGraphBuilder *> ( gb )) {
+                    (dynamic_cast<ReferenceGraphBuilder *> (gb)) -> setTsvFileName(opt.arg);
+                } else {
+                    printf("Put tsv file name not for REF builder\n");
+                }
+                break;
             default:break;
         }
     }

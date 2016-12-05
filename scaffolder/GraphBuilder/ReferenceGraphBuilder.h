@@ -16,12 +16,30 @@ class ReferenceGraphBuilder: public GraphBuilder {
 private:
     const int MIN_CONTIG = 500;
     string refContigFileName, queryContigsFileName;
+    string tsvFileName;
+
+    struct alignmentInfo {
+        int sr;
+        int er;
+        int sq;
+        int eq;
+        string contigName;
+
+        alignmentInfo(){}
+        alignmentInfo(int sr, int er, int sq, int eq, string name): sr(sr), er(er), sq(sq), eq(eq), contigName(name) {}
+
+        bool operator < (alignmentInfo b) {
+            return (sr < b.sr);
+        }
+    };
 
     map <string, int> contigsId;
     vector<string> contigsName;
 
     void generateVertex();
-    void createGraph(string fileName);
+    void createGraph(map<string, vector<alignmentInfo>> contigsAlignment);
+    map<string, vector<alignmentInfo>> parseCoordFile(string fileName);
+    map<string, vector<alignmentInfo>> parseTSVFile(string fileName);
     virtual string getLibColor();
 public:
     void evaluate();
@@ -32,6 +50,10 @@ public:
 
     void setQueryFileName(const string &queryContigsFileName) {
         ReferenceGraphBuilder::queryContigsFileName = queryContigsFileName;
+    }
+
+    void setTsvFileName(const string &tsvFileName) {
+        ReferenceGraphBuilder::tsvFileName = tsvFileName;
     }
 };
 

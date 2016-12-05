@@ -16,7 +16,7 @@ void ContigGraphPrinter::writeFullGraphDotFormat(ContigGraph *g, string fileName
 
     for (int v = 0; v < (int)(g->graph).size(); ++v) {
         int vId = (g->idByV)[v];
-        if ((g->targetLen)[vId] < (g->minContigLen)) continue;
+        if (!isGoodVertex(g, v)) continue;
         for (int j = 0; j < (int)(g->graph)[v].size(); ++j) {
             int e = (g->graph)[v][j];
             writeOneEdge(g, out, v, e);
@@ -70,7 +70,7 @@ void ContigGraphPrinter::writeOneEdge(ContigGraph *g, ofstream &out, int v, int 
     int vId = (g->idByV)[v];
     int u = (g->to)[e];
     int uId = (g->idByV)[u];
-    if ((g->targetLen)[uId] < (g->minContigLen)) return;
+    if (!isGoodVertex(g, u)) return;
     if ((g->edgeWeight)[e] < (g->libMinEdgeWight)[(g->edgeLib[e])]) return;
     out << "    \"" << (g->targetName)[vId] << "\" -> \"" << (g->targetName)[uId] << "\" [ ";
     out << "color = \"" << (g->libColor)[(g->edgeLib)[e]] << "\", ";
@@ -81,7 +81,7 @@ void ContigGraphPrinter::writeOneEdge(ContigGraph *g, ofstream &out, int v, int 
 
 void ContigGraphPrinter::writeOneVertex(ContigGraph *g, ofstream &out, int v, bool notLast) {
     int vId = (g->idByV)[v];
-    if ((g->targetLen)[vId] < (g->minContigLen)) return;
+    if (!isGoodVertex(g, v)) return;
     int cntEdge = 0;
     for (int i = 0; i < (g->graph)[v].size(); ++i) {
         int e = (g->graph)[v][i];
@@ -116,7 +116,7 @@ void ContigGraphPrinter::writeOneVertex(ContigGraph *g, ofstream &out, int v, bo
 vector<int> ContigGraphPrinter::findAllVert(ContigGraph *g, int dist, int v,
                                             IsGoodEdge isGoodEdge) {
     vector<int> res;
-    if ((g->targetLen)[(g->idByV)[v]] < (g->minContigLen)) return res;
+    if (!isGoodVertex(g, v)) return res;
     if (dist == 0) return res;
     res.push_back(v);
     for (int i = 0; i < (g->graph)[v].size(); ++i) {
@@ -166,7 +166,7 @@ void ContigGraphPrinter::writeThisVertex(ContigGraph *g, vector<int> &drawV, str
             int u = (g->to)[e];
 
             if ((g->edgeWeight)[e] < (g->libMinEdgeWight)[(g->edgeLib[e])]) continue;
-            if ((g->targetLen)[(g->idByV)[u]] < (g->minContigLen)) continue;
+            if (!isGoodVertex(g, u)) continue;
 
             int was = 0;
             for (int h = 0; h < (int)drawV.size(); ++h) {
@@ -186,7 +186,7 @@ void ContigGraphPrinter::writeThisVertex(ContigGraph *g, vector<int> &drawV, str
             int u = (g->from)[e];
 
             if ((g->edgeWeight)[e] < (g->libMinEdgeWight)[(g->edgeLib[e])]) continue;
-            if ((g->targetLen)[(g->idByV)[u]] < (g->minContigLen)) continue;
+            if (!isGoodVertex(g, u)) continue;
 
             int was = 0;
             for (int h = 0; h < (int)drawV.size(); ++h) {
@@ -255,7 +255,7 @@ int ContigGraphPrinter::findComponent(ContigGraph *g, int *col, IsGoodEdge isGoo
 
 void ContigGraphPrinter::dfsFindComponent(ContigGraph *g, int *color, int currentCol, int v,
                                           IsGoodEdge isGoodEdge) {
-    if (g->targetLen[g->idByV[v]] < g->minContigLen) return;
+    if (!isGoodVertex(g, v)) return;
     color[v] = currentCol;
 
     for (int i = 0; i < (int)g->graph[v].size(); ++i) {
@@ -334,4 +334,8 @@ void ContigGraphPrinter::writeAlongPath(ContigGraph *g, int libId, int dist, int
         writeThisVertex(g, res, fn);
     }
     delete col;
+}
+
+bool ContigGraphPrinter::isGoodVertex(ContigGraph *g, int v) {
+    return (g->targetLen[g->idByV[v]] >= g->minContigLen) & !(g->ignore[v]);
 }
