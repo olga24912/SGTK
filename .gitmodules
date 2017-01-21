@@ -1,0 +1,3 @@
+[submodule "scaffolder/tests/lib/googletest"]
+	path = scaffolder/tests/lib/googletest
+	url = https://github.com/google/googletest.git
