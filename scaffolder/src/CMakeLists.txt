@@ -7,7 +7,7 @@ set(SOURCE_FILES GraphControl.cpp GraphControl.h
         GraphBuilder/DNAPairReadGraphBuilder.cpp GraphBuilder/DNAPairReadGraphBuilder.h
         GraphBuilder/RNAPairReadGraphBuilder.cpp GraphBuilder/RNAPairReadGraphBuilder.h
         ContigGraph/ContigGraph.cpp ContigGraph/ContigGraph.h
-        Tools/WorkWithOtherTools.cpp Tools/WorkWithOtherTools.h
+        Tools/SystemTools.cpp Tools/SystemTools.h
         GenTests/SplitReadsTest.cpp GenTests/SplitReadsTest.h
         ReadsSplitter/ReadsSplitter.cpp ReadsSplitter/ReadsSplitter.h
         Tools/SeqanUtils.cpp Tools/SeqanUtils.h ExternalLib/optionparser.h

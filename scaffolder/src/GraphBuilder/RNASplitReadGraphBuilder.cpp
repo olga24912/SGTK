@@ -6,7 +6,7 @@
 #include "../SamFileWriter/SamFileWriteEdge.h"
 
 void RNASplitReadGraphBuilder::evaluate() {
-    WorkWithOtherTools wwot;
+    SystemTools wwot;
     ReadsSplitter50 rs;
     SplitterByUnmappedEnd su;
 
@@ -38,7 +38,7 @@ void RNASplitReadGraphBuilder::setRnaReadFileName(string rnaReadsFileName) {
 }
 
 void RNASplitReadGraphBuilder::handlingPairReads(string file1, string file2, string libN) {
-    WorkWithOtherTools wwot;
+    SystemTools wwot;
 
     wwot.alignmentRNA(refFileName, file1, "rna1.sam");
     wwot.alignmentRNA(refFileName, file2, "rna2.sam");

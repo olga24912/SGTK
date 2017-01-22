@@ -8,7 +8,7 @@
 
 #include "GraphBuilder.h"
 #include <seqan/seq_io.h>
-#include "Tools/WorkWithOtherTools.h"
+#include "Tools/SystemTools.h"
 #include "Tools/SeqanUtils.h"
 
 

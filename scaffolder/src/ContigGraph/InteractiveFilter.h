@@ -7,7 +7,8 @@
 
 #include "ContigGraph.h"
 #include "Serialization.h"
-#include "../Scaffolder/ScafSimplePath.h"
+#include "Scaffolder/ScafSimplePath.h"
+#include "Tools/SystemTools.h"
 
 class InteractiveFilter {
 private:
@@ -32,6 +33,16 @@ private:
 
     void readConfig();
     bool handlingRequest(istream &in);
+    void handlingWriteRequest(string req, istream &in);
+
+    struct State {
+        enum StateName {NEW, LOCAL};
+        StateName name = StateName::NEW;
+        string fileName = "";
+        int dist = 0;
+    };
+
+    State state;
 public:
     void main();
 };

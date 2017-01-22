@@ -12,6 +12,8 @@ using namespace std;
 class Utils {
 public:
     static string colorToString(int color[3]);
+    static bool isInt(string s);
+    static int strToInt(string s);
 };
 
 #endif //SCAFFOLDER_UTILS_H

@@ -2,9 +2,9 @@
 // Created by olga on 10.10.16.
 //
 
-#include "WorkWithOtherTools.h"
+#include "SystemTools.h"
 
-void WorkWithOtherTools::alignmentRNA(string refFileName, string rnaFileName, string resFileName) {
+void SystemTools::alignmentRNA(string refFileName, string rnaFileName, string resFileName) {
     system("mkdir genomeDir");
 
     string command = "./STAR --runThreadN 16 --runMode genomeGenerate --genomeDir genomeDir --genomeFastaFiles ";
@@ -26,9 +26,16 @@ void WorkWithOtherTools::alignmentRNA(string refFileName, string rnaFileName, st
     system(command.c_str());
 }
 
-void WorkWithOtherTools::alignmentREF(string refFileName, string queryFileName) {
+void SystemTools::alignmentREF(string refFileName, string queryFileName) {
     string command = "nucmer " + refFileName + " " + queryFileName;
     system(command.c_str());
     command = "show-coords out.delta -THrgl > out.coords";
+    system(command.c_str());
+}
+
+void SystemTools::showDotFile(string fileName) {
+    string command = "dot -Tps " + fileName + "* -o tmp.ps";
+    system(command.c_str());
+    command = "gnome-open tmp.ps";
     system(command.c_str());
 }

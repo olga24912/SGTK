@@ -6,7 +6,7 @@
 
 void ReferenceGraphBuilder::evaluate() {
     if (tsvFileName == "") {
-        WorkWithOtherTools::alignmentREF(refContigFileName, queryContigsFileName);
+        SystemTools::alignmentREF(refContigFileName, queryContigsFileName);
     }
 
     generateVertex();

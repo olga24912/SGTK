@@ -23,17 +23,17 @@ const string InteractiveFilter::CONFIG_FILE = "filter_config";
  * uploadGraph <filename>
  * minEdgeW <libNum> <weight>
  * minContig <len>
- * writeFull <fileName>
- * writeLocal <vertexID> <dist> <fileName>
- * writeAllLocal <dist>
- * writeLocalSeg <vertexIDStart> <vertexIDFinish> <dist> <fileName>
- * writeBig <size> <fileName>
- * writeSB <size> <prefixFileName>
  * mergeSimplePath <contigsFileName> <outFileName>
- * writeAlongPath <libNum> <dist> <minRefPathSize> <prefixFileName>
  * setIgnore <vertexIdStart> <vertexIdFinish>
  * resetIgnore
  * exit
+ * writeFull <fileName>
+ * writeLocal <fileName> <vertexID> <dist>
+ * writeAllLocal <fileName> <dist>
+ * writeLocalSeg <fileName> <vertexIDStart> <vertexIDFinish> <dist>
+ * writeBig <fileName> <size>
+ * writeSB <prefixFileName> <size>
+ * writeAlongPath <prefixFileName> <libNum> <dist> <minRefPathSize>
  */
 
 void InteractiveFilter::main() {
@@ -68,49 +68,12 @@ bool InteractiveFilter::handlingRequest(istream &in) {
         int len;
         in >> len;
         g.filterByContigLen(len);
-    } else if (s == WRITE_FULL) {
-        string fileName;
-        in >> fileName;
-        ContigGraphPrinter::writeFullGraphDotFormat(&g, fileName);
-    } else if (s == WRITE_LOCAL) {
-        int v;
-        int dist;
-        string fileName;
-        in >> v >> dist >> fileName;
-        ContigGraphPrinter::writeLocalGraph(&g, dist, v, fileName);
-    } else if (s == WRITE_ALL_LOCAL) {
-        int dist;
-        in >> dist;
-        ContigGraphPrinter::writeAllLocalGraphDotFormat(&g, dist);
-    } else if (s == WRITE_LOCAL_VERT_IN_SEG) {
-        int vb, ve;
-        int dist;
-        string fileName;
-        in >> vb >> ve >> dist >> fileName;
-        ContigGraphPrinter::writeLocalSegGraph(&g, dist, vb, ve, fileName);
-    } else if (s == WRITE_BIG_COMP) {
-        int size;
-        string fileName;
-        cin >> size >> fileName;
-        ContigGraphPrinter::writeBigComponent(&g, size, fileName);
-    } else if (s == WRITE_SPLIT_BIG_COMP) {
-        int size;
-        string fileName;
-        cin >> size >> fileName;
-        ContigGraphPrinter::writeSplitBigComponent(&g, size, fileName);
     } else if (s == MERGE_SIMPLE_PATH) {
         string fileNameIn;
         string fileNameOut;
         in >> fileNameIn >> fileNameOut;
         ScafSimplePath ssp;
         ssp.evaluate(&g, fileNameIn, fileNameOut);
-    } else if (s == WRITE_LOCAL_ALONG_PATH) {
-        int libId;
-        int dist;
-        int minSize;
-        string fileName;
-        in >> libId >> dist >> minSize >> fileName;
-        ContigGraphPrinter::writeAlongPath(&g, libId, dist, minSize, fileName);
     } else if (s == SET_IGNORE) {
         int vs;
         int vf;
@@ -125,7 +88,59 @@ bool InteractiveFilter::handlingRequest(istream &in) {
             }
         }
     } else if (s == EXIT) {
-        return false;
+            return false;
+    } else {
+        handlingWriteRequest(s, in);
     }
     return true;
+}
+
+void InteractiveFilter::handlingWriteRequest(string s, istream& in) {
+    string fileName;
+    if (!Utils::isInt(s)) {
+        in >> fileName;
+    }
+    if (s == WRITE_FULL) {
+        ContigGraphPrinter::writeFullGraphDotFormat(&g, fileName);
+    } else if (s == WRITE_LOCAL) {
+        int v;
+        int dist;
+        in >> v >> dist;
+        ContigGraphPrinter::writeLocalGraph(&g, dist, v, fileName);
+        state.name = State::LOCAL;
+        state.fileName = fileName;
+        state.dist = dist;
+    } else if (s == WRITE_ALL_LOCAL) {
+        int dist;
+        in >> dist;
+        ContigGraphPrinter::writeAllLocalGraphDotFormat(&g, dist);
+    } else if (s == WRITE_LOCAL_VERT_IN_SEG) {
+        int vb, ve;
+        int dist;
+        in >> vb >> ve >> dist;
+        ContigGraphPrinter::writeLocalSegGraph(&g, dist, vb, ve, fileName);
+    } else if (s == WRITE_BIG_COMP) {
+        int size;
+        cin >> size;
+        ContigGraphPrinter::writeBigComponent(&g, size, fileName);
+    } else if (s == WRITE_SPLIT_BIG_COMP) {
+        int size;
+        cin >> size;
+        ContigGraphPrinter::writeSplitBigComponent(&g, size, fileName);
+    } else if (s == WRITE_LOCAL_ALONG_PATH) {
+        int libId;
+        int dist;
+        int minSize;
+        in >> libId >> dist >> minSize;
+        ContigGraphPrinter::writeAlongPath(&g, libId, dist, minSize, fileName);
+    } else if (Utils::isInt(s)) {
+        if (state.name == State::LOCAL) {
+            fileName = state.fileName;
+            int dist = state.dist;
+            int v = Utils::strToInt(s);
+            ContigGraphPrinter::writeLocalGraph(&g, dist, v, fileName + "_" + s);
+        }
+    }
+
+    SystemTools::showDotFile(fileName);
 }

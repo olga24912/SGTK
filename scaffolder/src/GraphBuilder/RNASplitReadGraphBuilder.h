@@ -6,7 +6,7 @@
 #define SCAFFOLDER_RNASPLITREADGRAPHBUILDER_H
 
 #include "GraphBuilder.h"
-#include "Tools/WorkWithOtherTools.h"
+#include "Tools/SystemTools.h"
 #include "RNAPairReadGraphBuilder.h"
 #include "ReadsSplitter/ReadsSplitter.h"
 #include "ReadsSplitter/ReadsSplitter50.h"
