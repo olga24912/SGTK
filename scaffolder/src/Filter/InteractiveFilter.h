@@ -5,9 +5,9 @@
 #ifndef SCAFFOLDER_INTERACTIVEFILTER_H
 #define SCAFFOLDER_INTERACTIVEFILTER_H
 
-#include "ContigGraph.h"
-#include "Serialization.h"
-#include "Scaffolder/ScafSimplePath.h"
+#include "ContigGraph/ContigGraph.h"
+#include "ContigGraph/Serialization.h"
+#include "Filter/Scaffolder/ScafSimplePath.h"
 #include "Tools/SystemTools.h"
 
 class InteractiveFilter {

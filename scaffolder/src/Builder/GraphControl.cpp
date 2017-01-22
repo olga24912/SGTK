@@ -3,7 +3,7 @@
 //
 
 #include "GraphControl.h"
-#include "GraphBuilder/ReferenceGraphBuilder.h"
+#include "Builder/GraphBuilder/ReferenceGraphBuilder.h"
 
 void GraphControl::evaluate(int argc, char **argv) {
     argc -= (argc > 0);

@@ -1,9 +1,9 @@
 #include <iostream>
-#include "GraphControl.h"
+#include "Builder/GraphControl.h"
 
 using namespace std;
 
-#include "ContigGraph/InteractiveFilter.h"
+#include "Filter/InteractiveFilter.h"
 
 int main(int argc, char **argv) {
     InteractiveFilter filter;

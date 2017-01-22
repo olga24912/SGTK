@@ -2,7 +2,7 @@
 #define SCAFFOLDER_SCAFSIMPLEPATH_H
 
 
-#include "../ContigGraph/ContigGraph.h"
+#include "ContigGraph/ContigGraph.h"
 #include <seqan/seq_io.h>
 #include "Tools/SeqanUtils.h"
 

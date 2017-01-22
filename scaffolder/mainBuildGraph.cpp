@@ -1,10 +1,10 @@
 #include <iostream>
-#include "GraphControl.h"
+#include "Builder/GraphControl.h"
 
 using namespace std;
 
 #include "GenTests/SplitReadsTest.h"
-#include "ContigGraph/InteractiveFilter.h"
+#include "Filter/InteractiveFilter.h"
 #include "SamFileWriter/ContigMerger.h"
 
 int main(int argc, char **argv) {

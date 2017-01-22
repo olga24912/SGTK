@@ -6,8 +6,8 @@
 #define SCAFFOLDER_GRAPHBUILDER_H
 
 
-#include "../ContigGraph/ContigGraph.h"
-#include "../SamFileWriter/SamFileWriteEdge.h"
+#include "ContigGraph/ContigGraph.h"
+#include "SamFileWriter/SamFileWriteEdge.h"
 
 /*
  * main class for generate conection between contigs.

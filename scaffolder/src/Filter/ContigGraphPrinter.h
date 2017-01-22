@@ -5,7 +5,7 @@
 #ifndef SCAFFOLDER_CONTIGGRAPHPRINTER_H
 #define SCAFFOLDER_CONTIGGRAPHPRINTER_H
 
-#include "ContigGraph.h"
+#include "ContigGraph/ContigGraph.h"
 
 using namespace std;
 

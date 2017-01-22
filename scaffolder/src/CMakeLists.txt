@@ -1,21 +1,21 @@
 include_directories(.)
 
-set(SOURCE_FILES GraphControl.cpp GraphControl.h
-        GraphBuilder/GraphBuilder.cpp GraphBuilder/GraphBuilder.h
-        GraphBuilder/RNASplitReadGraphBuilder.cpp GraphBuilder/RNASplitReadGraphBuilder.h
-        GraphBuilder/PairReadGraphBuilder.cpp GraphBuilder/PairReadGraphBuilder.h
-        GraphBuilder/DNAPairReadGraphBuilder.cpp GraphBuilder/DNAPairReadGraphBuilder.h
-        GraphBuilder/RNAPairReadGraphBuilder.cpp GraphBuilder/RNAPairReadGraphBuilder.h
+set(SOURCE_FILES Builder/GraphControl.cpp Builder/GraphControl.h
+        Builder/GraphBuilder/GraphBuilder.cpp Builder/GraphBuilder/GraphBuilder.h
+        Builder/GraphBuilder/RNASplitReadGraphBuilder.cpp Builder/GraphBuilder/RNASplitReadGraphBuilder.h
+        Builder/GraphBuilder/PairReadGraphBuilder.cpp Builder/GraphBuilder/PairReadGraphBuilder.h
+        Builder/GraphBuilder/DNAPairReadGraphBuilder.cpp Builder/GraphBuilder/DNAPairReadGraphBuilder.h
+        Builder/GraphBuilder/RNAPairReadGraphBuilder.cpp Builder/GraphBuilder/RNAPairReadGraphBuilder.h
         ContigGraph/ContigGraph.cpp ContigGraph/ContigGraph.h
         Tools/SystemTools.cpp Tools/SystemTools.h
-        GenTests/SplitReadsTest.cpp GenTests/SplitReadsTest.h
-        ReadsSplitter/ReadsSplitter.cpp ReadsSplitter/ReadsSplitter.h
-        Tools/SeqanUtils.cpp Tools/SeqanUtils.h ExternalLib/optionparser.h
-        ReadsSplitter/ReadsSplitter50.cpp ReadsSplitter/ReadsSplitter50.h ReadsSplitter/SplitterByUnmappedEnd.cpp
-        ReadsSplitter/SplitterByUnmappedEnd.h ContigGraph/ContigGraphPrinter.cpp ContigGraph/ContigGraphPrinter.h
-        ContigGraph/Serialization.cpp ContigGraph/Serialization.h ContigGraph/InteractiveFilter.cpp
-        ContigGraph/InteractiveFilter.h SamFileWriter/SamFileWriter.cpp SamFileWriter/SamFileWriter.h
-        SamFileWriter/SamFileWriteEdge.cpp SamFileWriter/SamFileWriteEdge.h SamFileWriter/ContigMerger.cpp
-        SamFileWriter/ContigMerger.h Scaffolder/ScafSimplePath.cpp Scaffolder/ScafSimplePath.h
-        GraphBuilder/ReferenceGraphBuilder.cpp GraphBuilder/ReferenceGraphBuilder.h Tools/Utils.cpp Tools/Utils.h)
+        ../tests/GenTests/SplitReadsTest.cpp ../tests/GenTests/SplitReadsTest.h
+        Builder/ReadsSplitter/ReadsSplitter.cpp Builder/ReadsSplitter/ReadsSplitter.h
+        Tools/SeqanUtils.cpp Tools/SeqanUtils.h Builder/ExternalLib/optionparser.h
+        Builder/ReadsSplitter/ReadsSplitter50.cpp Builder/ReadsSplitter/ReadsSplitter50.h Builder/ReadsSplitter/SplitterByUnmappedEnd.cpp
+        Builder/ReadsSplitter/SplitterByUnmappedEnd.h Filter/ContigGraphPrinter.cpp Filter/ContigGraphPrinter.h
+        ContigGraph/Serialization.cpp ContigGraph/Serialization.h Filter/InteractiveFilter.cpp
+        Filter/InteractiveFilter.h Builder/SamFileWriter/SamFileWriter.cpp Builder/SamFileWriter/SamFileWriter.h
+        Builder/SamFileWriter/SamFileWriteEdge.cpp Builder/SamFileWriter/SamFileWriteEdge.h Builder/SamFileWriter/ContigMerger.cpp
+        Builder/SamFileWriter/ContigMerger.h Filter/Scaffolder/ScafSimplePath.cpp Filter/Scaffolder/ScafSimplePath.h
+        Builder/GraphBuilder/ReferenceGraphBuilder.cpp Builder/GraphBuilder/ReferenceGraphBuilder.h Tools/Utils.cpp Tools/Utils.h)
 add_library(scaffolder_lib ${SOURCE_FILES})

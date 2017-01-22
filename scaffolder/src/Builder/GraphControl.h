@@ -7,11 +7,11 @@
 
 #include "ContigGraph/ContigGraph.h"
 #include "ContigGraph/Serialization.h"
-#include "ContigGraph/ContigGraphPrinter.h"
-#include "GraphBuilder/DNAPairReadGraphBuilder.h"
-#include "ExternalLib/optionparser.h"
-#include "GraphBuilder/PairReadGraphBuilder.h"
-#include "GraphBuilder/RNASplitReadGraphBuilder.h"
+#include "Filter/ContigGraphPrinter.h"
+#include "Builder/GraphBuilder/DNAPairReadGraphBuilder.h"
+#include "Builder/ExternalLib/optionparser.h"
+#include "Builder/GraphBuilder/PairReadGraphBuilder.h"
+#include "Builder/GraphBuilder/RNASplitReadGraphBuilder.h"
 
 
 /*

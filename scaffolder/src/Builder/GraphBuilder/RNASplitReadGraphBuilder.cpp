@@ -3,7 +3,7 @@
 //
 
 #include "RNASplitReadGraphBuilder.h"
-#include "../SamFileWriter/SamFileWriteEdge.h"
+#include "SamFileWriter/SamFileWriteEdge.h"
 
 void RNASplitReadGraphBuilder::evaluate() {
     SystemTools wwot;
