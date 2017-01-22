@@ -4,7 +4,7 @@
 
 #include "SplitReadsTest.h"
 
-void SplitReadsTest::genTest(string fi, string fo, string rf, int readLen,int contigsCnt) {
+void SplitReadsTest::genTest(string fi, string fo, string rf, int readLen, int contigsCnt) {
     SeqFileIn seqFileIn(fi.c_str());
     StringSet<CharString> ids;
     StringSet<Dna5String> seqs;

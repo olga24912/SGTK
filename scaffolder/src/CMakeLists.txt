@@ -10,7 +10,7 @@ set(SOURCE_FILES GraphControl.cpp GraphControl.h
         Tools/WorkWithOtherTools.cpp Tools/WorkWithOtherTools.h
         GenTests/SplitReadsTest.cpp GenTests/SplitReadsTest.h
         ReadsSplitter/ReadsSplitter.cpp ReadsSplitter/ReadsSplitter.h
-        Tools/SeqanUtils.cpp Tools/SeqanUtils.h OutsideLib/optionparser.h
+        Tools/SeqanUtils.cpp Tools/SeqanUtils.h ExternalLib/optionparser.h
         ReadsSplitter/ReadsSplitter50.cpp ReadsSplitter/ReadsSplitter50.h ReadsSplitter/SplitterByUnmappedEnd.cpp
         ReadsSplitter/SplitterByUnmappedEnd.h ContigGraph/ContigGraphPrinter.cpp ContigGraph/ContigGraphPrinter.h
         ContigGraph/Serialization.cpp ContigGraph/Serialization.h ContigGraph/InteractiveFilter.cpp

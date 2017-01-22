@@ -25,8 +25,15 @@ private:
     static const string SET_IGNORE;
     static const string RESET_IGNORE;
     static const string EXIT;
+
+    static const string CONFIG_FILE;
+
+    ContigGraph g;
+
+    void readConfig();
+    bool handlingRequest(istream &in);
 public:
-    static void main();
+    void main();
 };
 
 

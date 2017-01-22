@@ -6,6 +6,7 @@ using namespace std;
 #include "ContigGraph/InteractiveFilter.h"
 
 int main(int argc, char **argv) {
-    InteractiveFilter::main();
+    InteractiveFilter filter;
+    filter.main();
     return 0;
 }
