@@ -1,4 +1,4 @@
-//
+/*//
 // Created by olga on 24.10.16.
 //
 
@@ -51,3 +51,4 @@ public:
 
 
 #endif //SCAFFOLDER_INTERACTIVEFILTER_H
+*/

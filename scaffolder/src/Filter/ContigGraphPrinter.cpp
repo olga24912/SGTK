@@ -2,7 +2,7 @@
 // Created by olga on 23.10.16.
 //
 
-#include "ContigGraphPrinter.h"
+/*#include "ContigGraphPrinter.h"
 
 void ContigGraphPrinter::writeFullGraphDotFormat(ContigGraph *g, string fileName) {
     cerr << "start write graph dot" << endl;
@@ -340,3 +340,4 @@ void ContigGraphPrinter::writeAlongPath(ContigGraph *g, int libId, int dist, int
 bool ContigGraphPrinter::isGoodVertex(ContigGraph *g, int v) {
     return (g->targetLen[g->idByV[v]] >= g->minContigLen) & !(g->ignore[v]);
 }
+*/

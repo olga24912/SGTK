@@ -1,4 +1,4 @@
-#include "ScafSimplePath.h"
+/*#include "ScafSimplePath.h"
 #include "ScafSimplePath.h"
 
 void ScafSimplePath::evaluate(ContigGraph* graph, string contigFile, string out) {
@@ -155,3 +155,4 @@ void ScafSimplePath::dfsPath(int v, vector<int> &next, vector<int> &used) {
 
     used[v] = 2;
 }
+*/

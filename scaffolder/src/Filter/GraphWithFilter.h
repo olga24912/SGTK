@@ -2,6 +2,7 @@
 // Created by olga on 24.01.17.
 //
 
+/*
 #ifndef SCAFFOLDER_GRAPHWITHFILTER_H
 #define SCAFFOLDER_GRAPHWITHFILTER_H
 
@@ -31,3 +32,4 @@ public:
 
 
 #endif //SCAFFOLDER_GRAPHWITHFILTER_H
+*/

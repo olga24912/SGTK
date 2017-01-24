@@ -31,8 +31,9 @@ int ContigGraph::addVertex(int id, std::string name, int len) {
 }
 
 int ContigGraph::incEdgeWeight(int v, int u) {
-    int e = vrtsToEdge[v][u];
-    if (!vrtsToEdge[v].count(u)) {
+    assert(libName.size() > 0);
+    int e;
+    if (vrtsToEdge[v].count(u) == 0) {
         e = (int)edgeWeight.size();
         edgeWeight.push_back(0);
         to.push_back(u);
@@ -43,6 +44,8 @@ int ContigGraph::incEdgeWeight(int v, int u) {
 
         graph[v].push_back(e);
         graphR[u].push_back(e);
+    } else {
+        e = vrtsToEdge[v][u];
     }
 
     edgeWeight[e] += 1;
@@ -54,7 +57,7 @@ void ContigGraph::newLib(std::string name, std::string color) {
     libName.push_back(name);
 
     for (int i = 0; i < (int)vrtsToEdge.size(); ++i) {
-        vrtsToEdge.clear();
+        vrtsToEdge[i].clear();
     }
 }
 
@@ -122,7 +125,7 @@ ContigGraph ContigGraph::read(std::string fileName) {
         in >> c;
         unsigned int v;
         in >> v;
-        mxT = max((unsigned)mxT, v + 1);
+        mxT = std::max((unsigned)mxT, v + 1);
         g.targetName.resize(mxT);
         in >> g.targetName[v];
         g.targetLen.resize(mxT);

@@ -1,7 +1,7 @@
 //
 // Created by olga on 24.01.17.
 //
-
+/*
 #include "GraphWithFilter.h"
 
 void ContigGraph::filterByContigLen(int minContigLen) {
@@ -24,3 +24,4 @@ bool ContigGraph::isGoodEdge(int e) {
 bool ContigGraph::isGoodVertex(int v) {
     return targetLen[idByV[v]] >= minContigLen;
 }
+*/

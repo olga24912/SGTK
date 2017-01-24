@@ -2,7 +2,7 @@
 // Created by olga on 23.10.16.
 //
 
-#ifndef SCAFFOLDER_CONTIGGRAPHPRINTER_H
+/*#ifndef SCAFFOLDER_CONTIGGRAPHPRINTER_H
 #define SCAFFOLDER_CONTIGGRAPHPRINTER_H
 
 #include "ContigGraph/ContigGraph.h"
@@ -58,3 +58,4 @@ public:
 
 
 #endif //SCAFFOLDER_CONTIGGRAPHPRINTER_H
+*/

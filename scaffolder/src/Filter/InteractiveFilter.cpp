@@ -1,4 +1,4 @@
-#include "InteractiveFilter.h"
+/*#include "InteractiveFilter.h"
 
 const string InteractiveFilter::UPLOAD_GRAPH = "uploadGraph";
 const string InteractiveFilter::MIN_EDGE_WEIGHT = "minEdgeW";
@@ -34,7 +34,7 @@ const string InteractiveFilter::CONFIG_FILE = "filter_config";
  * writeSB <prefixFileName> <size>
  * writeAlongPath <prefixFileName> <libNum> <dist> <minRefPathSize>
  */
-
+/*
 void InteractiveFilter::main() {
     readConfig();
 
@@ -143,3 +143,4 @@ void InteractiveFilter::handlingWriteRequest(string s, istream& in) {
 
     SystemTools::showDotFile(fileName);
 }
+*/
