@@ -14,8 +14,6 @@ set(SOURCE_FILES Builder/GraphControl.cpp Builder/GraphControl.h
         Builder/ReadsSplitter/ReadsSplitter50.cpp Builder/ReadsSplitter/ReadsSplitter50.h
         Builder/ReadsSplitter/SplitterByUnmappedEnd.cpp Builder/ReadsSplitter/SplitterByUnmappedEnd.h
         Filter/ContigGraphPrinter.cpp Filter/ContigGraphPrinter.h
-        ContigGraph/Serialization.cpp ContigGraph/Serialization.h
-        ContigGraph/GraphUtils.cpp ContigGraph/GraphUtils.h
         Filter/InteractiveFilter.cpp Filter/InteractiveFilter.h
         Builder/SamFileWriter/SamFileWriter.cpp Builder/SamFileWriter/SamFileWriter.h
         Builder/SamFileWriter/SamFileWriteEdge.cpp Builder/SamFileWriter/SamFileWriteEdge.h

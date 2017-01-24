@@ -1,7 +1,3 @@
-//
-// Created by olga on 09.10.16.
-//
-
 #include "ContigGraph.h"
 
 int ContigGraph::getLibNum() {
@@ -16,11 +12,12 @@ int ContigGraph::getTargetLength(int v) const {
     return targetLen[v];
 }
 
-int ContigGraph::addVertex(int id, string name, int len) {
+int ContigGraph::addVertex(int id, std::string name, int len) {
     assert(id == (int)graph.size());
 
-    graph.push_back(vector<int>());
-    graphR.push_back(vector<int>());
+    graph.push_back(std::vector<int>());
+    graphR.push_back(std::vector<int>());
+
     targetId[name] = id;
 
     targetName.resize((size_t)id + 1);
@@ -29,7 +26,7 @@ int ContigGraph::addVertex(int id, string name, int len) {
     targetLen.resize((size_t)id + 1);
     targetLen[id] = len;
 
-    vrtsToEdge.push_back(unordered_map());
+    vrtsToEdge.push_back(std::unordered_map<int, int>());
     return id;
 }
 
@@ -52,7 +49,7 @@ int ContigGraph::incEdgeWeight(int v, int u) {
     return e;
 }
 
-void ContigGraph::newLib(string name, string color) {
+void ContigGraph::newLib(std::string name, std::string color) {
     libColor.push_back(color);
     libName.push_back(name);
 
@@ -61,11 +58,11 @@ void ContigGraph::newLib(string name, string color) {
     }
 }
 
-vector<int> ContigGraph::getEdges(int v) {
+std::vector<int> ContigGraph::getEdges(int v) {
     return graph[v];
 }
 
-vector<int> ContigGraph::getEdgesR(int v) {
+std::vector<int> ContigGraph::getEdgesR(int v) {
     return graphR[v];
 }
 
@@ -75,4 +72,79 @@ int ContigGraph::getToVertex(int e) {
 
 int ContigGraph::getFromVertex(int e) {
     return from[e];
+}
+
+void ContigGraph::write(std::string fileName) {
+    std::ofstream out(fileName);
+    std::cerr << "Write -> gr" << std::endl;
+
+    out << libName.size() << "\n";
+    for (int i = 0; i < (int)libName.size(); ++i) {
+        out << "l " << i << " " << libColor[i] << " " << libName[i] << "\n";
+    }
+    out << graph.size() << "\n";
+    for (int i = 0; i < (int)graph.size(); ++i) {
+        out << "v " << i << " " << targetName[i] << " " << targetLen[i] << "\n";
+    }
+    out << edgeWeight.size() << "\n";
+    for (int i = 0; i < (int)edgeWeight.size(); ++i) {
+        out << "e " << i << " " << from[i] << " " << to[i] << " " << edgeLib[i] << " " << edgeWeight[i] << "\n";
+    }
+
+    out.close();
+}
+
+ContigGraph ContigGraph::read(std::string fileName) {
+    ContigGraph g;
+    std::ifstream in(fileName);
+    size_t ln;
+    size_t vn;
+    size_t en;
+    in >> ln;
+    std::cerr << ln << std::endl;
+    g.libName.resize(ln);
+    g.libColor.resize(ln);
+    for (int i = 0; i < ln; ++i) {
+        char c;
+        int id;
+        in >> c >> id >> g.libColor[i] >> g.libName[i];
+    }
+
+    in >> vn;
+    std::cerr << vn << std::endl;
+    g.graph.resize(vn);
+    g.graphR.resize(vn);
+
+    int mxT = 0;
+
+    for (int i = 0; i < vn; ++i) {
+        char c;
+        in >> c;
+        unsigned int v;
+        in >> v;
+        mxT = max((unsigned)mxT, v + 1);
+        g.targetName.resize(mxT);
+        in >> g.targetName[v];
+        g.targetLen.resize(mxT);
+        in >> g.targetLen[v];
+        g.targetId[g.targetName[v]] = v;
+    }
+
+    in >> en;
+    std::cerr << en << std::endl;
+    g.to.resize(en);
+    g.from.resize(en);
+    g.edgeLib.resize(en);
+    g.edgeWeight.resize(en);
+
+    for (int i = 0; i < en; ++i) {
+        char c;
+        int id;
+        in >> c >> id >> g.from[i] >> g.to[i] >> g.edgeLib[i] >> g.edgeWeight[i];
+        g.graph[g.from[i]].push_back(i);
+        g.graphR[g.to[i]].push_back(i);
+    }
+
+    in.close();
+    return g;
 }

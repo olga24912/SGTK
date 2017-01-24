@@ -38,5 +38,5 @@ void DNAPairReadGraphBuilder::incEdgeWeight(BamAlignmentRecord read1, BamAlignme
 
 string DNAPairReadGraphBuilder::getLibColor() {
     int color[3] = {rand() % 100, 255, rand()%100};
-    return GraphUtils::colorToString(color);
+    return colorToString(color);
 }

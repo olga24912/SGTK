@@ -39,9 +39,9 @@ void PairReadGraphBuilder::readHeaderInit() {
     for (int i = 0; i < static_cast<int>(contig_num); ++i) {
         int length = contigLengths(bamContext)[i];
         name = string(toCString(contigNames(bamContext)[i]));
-        graph->addVertex(2*i, name, 0,  length);
+        graph->addVertex(2*i, name, length);
         name += "-rev";
-        graph->addVertex(2*i + 1, name, 0, length);
+        graph->addVertex(2*i + 1, name, length);
     }
 }
 

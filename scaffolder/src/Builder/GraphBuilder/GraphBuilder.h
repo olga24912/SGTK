@@ -21,6 +21,7 @@ protected:
     int minContigLen = 0;
 
     virtual string getLibColor() = 0;
+    static string colorToString(int color[3]);
 public:
     //fun that need to call for add conection between contigs;
     virtual void evaluate() = 0;

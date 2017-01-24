@@ -69,7 +69,7 @@ void GraphControl::evaluate(int argc, char **argv) {
                 break;
             case DIST_BETWEEN_PAIR_READS:
                 if ( dynamic_cast <DNAPairReadGraphBuilder *> ( gb )) {
-                    (dynamic_cast<DNAPairReadGraphBuilder*> (gb)) -> setDistBetweenPairReads(opt.arg);
+                    (dynamic_cast<DNAPairReadGraphBuilder*> (gb)) -> setDistBetweenPairReads(atoi(opt.arg));
                 } else {
                     printf("Put the dist between pair read not for DNA pairs.\n");
                     return;
@@ -124,5 +124,5 @@ void GraphControl::evaluate(int argc, char **argv) {
 
     delete gb;
 
-    Serialization::write(&graph, "graph.gr");
+    graph.write("graph.gr");
 }

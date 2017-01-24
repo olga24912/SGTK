@@ -61,5 +61,5 @@ void RNASplitReadGraphBuilder::handlingPairReads(string file1, string file2, str
 string RNASplitReadGraphBuilder::getLibColor() {
     int cntRB = 100 + rand()%150;
     int color[3] = {cntRB, rand()%(cntRB/2), cntRB};
-    return GraphUtils::colorToString(color);
+    return colorToString(color);
 }

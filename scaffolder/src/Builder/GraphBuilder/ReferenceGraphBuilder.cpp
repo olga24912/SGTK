@@ -42,7 +42,7 @@ void ReferenceGraphBuilder::generateVertex() {
         contigsName.push_back(name);
 
         if (firstLib) {
-            graph->addVertex(2*i, name, 0, seq.length());
+            graph->addVertex(2*i, name, seq.length());
         }
 
         name += "-rev";
@@ -51,14 +51,14 @@ void ReferenceGraphBuilder::generateVertex() {
         contigsName.push_back(name);
 
         if (firstLib) {
-            graph->addVertex(2 * i + 1, name, 0, seq.length());
+            graph->addVertex(2 * i + 1, name, seq.length());
         }
     }
 }
 
 string ReferenceGraphBuilder::getLibColor() {
     int color[3] = {255, 0, 0};
-    return GraphUtils::colorToString(color);
+    return colorToString(color);
 }
 
 void ReferenceGraphBuilder::createGraph(map<string, vector<ReferenceGraphBuilder::alignmentInfo>> contigsAlignment) {
