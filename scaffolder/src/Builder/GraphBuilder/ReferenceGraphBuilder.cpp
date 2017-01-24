@@ -6,7 +6,7 @@
 
 void ReferenceGraphBuilder::evaluate() {
     if (tsvFileName == "") {
-        SystemTools::alignmentREF(refContigFileName, queryContigsFileName);
+        SystemAlignmentTools::alignmentREF(refContigFileName, queryContigsFileName);
     }
 
     generateVertex();
@@ -58,7 +58,7 @@ void ReferenceGraphBuilder::generateVertex() {
 
 string ReferenceGraphBuilder::getLibColor() {
     int color[3] = {255, 0, 0};
-    return Utils::colorToString(color);
+    return GraphUtils::colorToString(color);
 }
 
 void ReferenceGraphBuilder::createGraph(map<string, vector<ReferenceGraphBuilder::alignmentInfo>> contigsAlignment) {

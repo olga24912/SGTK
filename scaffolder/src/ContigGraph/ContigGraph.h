@@ -8,7 +8,7 @@
 #include <bits/stdc++.h>
 #include <seqan/bam_io.h>
 #include <seqan/graph_types.h>
-#include "Tools/Utils.h"
+#include "GraphUtils.h"
 
 using namespace std;
 using namespace seqan;

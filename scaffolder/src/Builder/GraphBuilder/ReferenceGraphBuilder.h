@@ -8,8 +8,8 @@
 
 #include "GraphBuilder.h"
 #include <seqan/seq_io.h>
-#include "Tools/SystemTools.h"
-#include "Tools/SeqanUtils.h"
+#include "Builder/Tools/SystemAlignmentTools.h"
+#include "Builder/Tools/SeqanUtils.h"
 
 
 class ReferenceGraphBuilder: public GraphBuilder {

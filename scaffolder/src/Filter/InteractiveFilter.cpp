@@ -1,5 +1,4 @@
 #include "InteractiveFilter.h"
-#include "ContigGraphPrinter.h"
 
 const string InteractiveFilter::UPLOAD_GRAPH = "uploadGraph";
 const string InteractiveFilter::MIN_EDGE_WEIGHT = "minEdgeW";

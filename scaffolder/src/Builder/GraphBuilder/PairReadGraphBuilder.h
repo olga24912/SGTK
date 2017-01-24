@@ -6,8 +6,8 @@
 #define SCAFFOLDER_PAIRREADGRAPHBUILDER_H
 
 #include "GraphBuilder.h"
-#include "SamFileWriter/SamFileWriter.h"
-#include "SamFileWriter/SamFileWriteEdge.h"
+#include "Builder/SamFileWriter/SamFileWriter.h"
+#include "Builder/SamFileWriter/SamFileWriteEdge.h"
 #include <bits/stdc++.h>
 #include <seqan/bam_io.h>
 #include <seqan/graph_types.h>

@@ -6,11 +6,11 @@
 #define SCAFFOLDER_RNASPLITREADGRAPHBUILDER_H
 
 #include "GraphBuilder.h"
-#include "Tools/SystemTools.h"
+#include "Builder/Tools/SystemAlignmentTools.h"
 #include "RNAPairReadGraphBuilder.h"
-#include "ReadsSplitter/ReadsSplitter.h"
-#include "ReadsSplitter/ReadsSplitter50.h"
-#include "ReadsSplitter/SplitterByUnmappedEnd.h"
+#include "Builder/ReadsSplitter/ReadsSplitter.h"
+#include "Builder/ReadsSplitter/ReadsSplitter50.h"
+#include "Builder/ReadsSplitter/SplitterByUnmappedEnd.h"
 
 /*
  * find connection between contig by read who split on exons on

@@ -7,7 +7,7 @@
 
 
 #include "ContigGraph/ContigGraph.h"
-#include "SamFileWriter/SamFileWriteEdge.h"
+#include "Builder/SamFileWriter/SamFileWriteEdge.h"
 
 /*
  * main class for generate conection between contigs.

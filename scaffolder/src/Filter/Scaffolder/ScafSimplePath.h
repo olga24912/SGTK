@@ -4,7 +4,7 @@
 
 #include "ContigGraph/ContigGraph.h"
 #include <seqan/seq_io.h>
-#include "Tools/SeqanUtils.h"
+#include "Builder/Tools/SeqanUtils.h"
 
 using namespace std;
 using namespace seqan;

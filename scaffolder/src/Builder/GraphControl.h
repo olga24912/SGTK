@@ -7,7 +7,6 @@
 
 #include "ContigGraph/ContigGraph.h"
 #include "ContigGraph/Serialization.h"
-#include "Filter/ContigGraphPrinter.h"
 #include "Builder/GraphBuilder/DNAPairReadGraphBuilder.h"
 #include "Builder/ExternalLib/optionparser.h"
 #include "Builder/GraphBuilder/PairReadGraphBuilder.h"

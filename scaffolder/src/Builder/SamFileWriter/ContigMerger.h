@@ -7,7 +7,7 @@
 
 #include <seqan/bam_io.h>
 #include <seqan/seq_io.h>
-#include "Tools/SeqanUtils.h"
+#include "Builder/Tools/SeqanUtils.h"
 #include"bits/stdc++.h"
 
 using namespace std;

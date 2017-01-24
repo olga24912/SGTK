@@ -3,7 +3,7 @@
 //
 
 #include "PairReadGraphBuilder.h"
-#include "Tools/SeqanUtils.h"
+#include "Builder/Tools/SeqanUtils.h"
 
 int PairReadGraphBuilder::pairTarget(int id) {
     return id ^ 1;

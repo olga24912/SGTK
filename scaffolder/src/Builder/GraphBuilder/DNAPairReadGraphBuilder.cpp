@@ -3,7 +3,7 @@
 //
 
 #include "DNAPairReadGraphBuilder.h"
-#include "Tools/SeqanUtils.h"
+#include "Builder/Tools/SeqanUtils.h"
 
 void DNAPairReadGraphBuilder::setDistBetweenPairReads(int distBetweenPairReads) {
     DNAPairReadGraphBuilder::distBetweenPairReads = distBetweenPairReads;
@@ -74,5 +74,5 @@ void DNAPairReadGraphBuilder::incEdgeWeight(BamAlignmentRecord read1, BamAlignme
 
 string DNAPairReadGraphBuilder::getLibColor() {
     int color[3] = {rand() % 100, 255, rand()%100};
-    return Utils::colorToString(color);
+    return GraphUtils::colorToString(color);
 }

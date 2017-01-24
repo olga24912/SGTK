@@ -12,7 +12,7 @@ string ContigGraph::genRandomColor() {
         return colors[libColor.size()];
     }
 
-    return Utils::colorToString(color);
+    return GraphUtils::colorToString(color);
 }
 
 int ContigGraph::getLibNum() {

@@ -8,7 +8,9 @@
 #include "ContigGraph/ContigGraph.h"
 #include "ContigGraph/Serialization.h"
 #include "Filter/Scaffolder/ScafSimplePath.h"
-#include "Tools/SystemTools.h"
+#include "Filter/Tools/SystemTools.h"
+#include "Filter/Tools/Utils.h"
+#include "ContigGraphPrinter.h"
 
 class InteractiveFilter {
 private:

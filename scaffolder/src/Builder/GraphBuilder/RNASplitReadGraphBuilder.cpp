@@ -3,10 +3,10 @@
 //
 
 #include "RNASplitReadGraphBuilder.h"
-#include "SamFileWriter/SamFileWriteEdge.h"
+#include "Builder/SamFileWriter/SamFileWriteEdge.h"
 
 void RNASplitReadGraphBuilder::evaluate() {
-    SystemTools wwot;
+    SystemAlignmentTools wwot;
     ReadsSplitter50 rs;
     SplitterByUnmappedEnd su;
 
@@ -38,7 +38,7 @@ void RNASplitReadGraphBuilder::setRnaReadFileName(string rnaReadsFileName) {
 }
 
 void RNASplitReadGraphBuilder::handlingPairReads(string file1, string file2, string libN) {
-    SystemTools wwot;
+    SystemAlignmentTools wwot;
 
     wwot.alignmentRNA(refFileName, file1, "rna1.sam");
     wwot.alignmentRNA(refFileName, file2, "rna2.sam");
@@ -64,5 +64,5 @@ void RNASplitReadGraphBuilder::handlingPairReads(string file1, string file2, str
 string RNASplitReadGraphBuilder::getLibColor() {
     int cntRB = 100 + rand()%150;
     int color[3] = {cntRB, rand()%(cntRB/2), cntRB};
-    return Utils::colorToString(color);
+    return GraphUtils::colorToString(color);
 }

@@ -7,7 +7,7 @@
 
 
 #include "ReadsSplitter.h"
-#include "Tools/SeqanUtils.h"
+#include "Builder/Tools/SeqanUtils.h"
 #include <seqan/seq_io.h>
 
 using namespace std;

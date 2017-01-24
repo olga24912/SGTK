@@ -2,8 +2,8 @@
 // Created by olga on 10.10.16.
 //
 
-#ifndef SCAFFOLDER_SYSTEMTOOLS_H
-#define SCAFFOLDER_SYSTEMTOOLS_H
+#ifndef SCAFFOLDER_SYSTEMALIGNMENTTOOLS_H
+#define SCAFFOLDER_SYSTEMALIGNMENTTOOLS_H
 
 #include <bits/stdc++.h>
 
@@ -12,7 +12,7 @@ using namespace std;
 /*
  * system call of other programs
  */
-class SystemTools {
+class SystemAlignmentTools {
 public:
     /*
      * alignment RNA reads from rnaFile to refFile
@@ -20,8 +20,7 @@ public:
      */
     void alignmentRNA(string refFileName, string rnaFileName, string resFileName);
     static void alignmentREF(string refFileName, string queryFileName);
-    static void showDotFile(string fileName);
 };
 
 
-#endif //SCAFFOLDER_SYSTEMTOOLS_H
+#endif //SCAFFOLDER_SYSTEMALIGNMENTTOOLS_H
