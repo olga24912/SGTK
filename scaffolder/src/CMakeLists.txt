@@ -21,5 +21,5 @@ set(SOURCE_FILES Builder/GraphControl.cpp Builder/GraphControl.h
         Filter/Scaffolder/ScafSimplePath.cpp Filter/Scaffolder/ScafSimplePath.h
         Builder/GraphBuilder/ReferenceGraphBuilder.cpp Builder/GraphBuilder/ReferenceGraphBuilder.h
         Filter/Tools/Utils.cpp Filter/Tools/Utils.h
-        Filter/Tools/SystemTools.cpp Filter/Tools/SystemTools.h Filter/Filters/GraphWithFilter.cpp Filter/Filters/GraphWithFilter.h Filter/Filters/Filter.h Filter/Filters/FilterAdapter.cpp Filter/Filters/FilterAdapter.h)
+        Filter/Tools/SystemTools.cpp Filter/Tools/SystemTools.h Filter/Filters/GraphWithFilter.cpp Filter/Filters/GraphWithFilter.h Filter/Filters/Filter.h Filter/Filters/FilterAdapter.cpp Filter/Filters/FilterAdapter.h Filter/Filters/FilterMinWeight.cpp Filter/Filters/FilterMinWeight.h Filter/Filters/Filter.cpp)
 add_library(scaffolder_lib ${SOURCE_FILES})
