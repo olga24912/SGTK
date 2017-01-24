@@ -19,7 +19,6 @@ protected:
 
     string libName;
     int minContigLen = 0;
-    int minEdgeWight = 0;
 
     virtual string getLibColor() = 0;
 public:
@@ -29,8 +28,6 @@ public:
     // set barrier contig len. Contigs with smaller len will be ignore.
     void setMinContigLen(int minContigLen);
 
-    // set barrier edge wight. Edge with smaller wieght will be remove.
-    void setMinEdgeWight(int minEdgeWight);
     void setGraph(ContigGraph* graph);
 
     void setLibName(string libName);

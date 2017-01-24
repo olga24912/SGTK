@@ -4,7 +4,6 @@
 using namespace std;
 
 #include "GenTests/SplitReadsTest.h"
-#include "Filter/InteractiveFilter.h"
 #include "SamFileWriter/ContigMerger.h"
 
 int main(int argc, char **argv) {

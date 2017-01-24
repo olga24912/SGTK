@@ -25,8 +25,6 @@ void PairReadGraphBuilder::evaluate() {
     read1ByName.clear();
     cerr << "START" << endl;
     handleReads();
-    filterEdge();
-    graph->setLibName(libName);
 }
 
 void PairReadGraphBuilder::readHeaderInit() {
@@ -93,19 +91,10 @@ int PairReadGraphBuilder::get2Target(const BamAlignmentRecord &read) const {
 
 void PairReadGraphBuilder::addInfoAboutRead(string readName, int target, BamAlignmentRecord read) {
     read1ByName[readName] = read;
-    addInfoAboutCover(target, read);
 }
 
 void PairReadGraphBuilder::addInfoAbout2Read(string readName, int target, BamAlignmentRecord read) {
     read2ByName[readName] = read;
-    addInfoAboutCover(target, read);
-}
-
-void PairReadGraphBuilder::addInfoAboutCover(int target, const BamAlignmentRecord &read) {
-    int readLength = getAlignmentLengthInRef(read);
-    int contigLength = graph->getTargetLength(target);
-    graph->incTargetCover(target, static_cast<double>(readLength) / contigLength);
-    graph->incTargetCover(target, static_cast<double>(readLength) / contigLength);
 }
 
 pair<string, int> PairReadGraphBuilder::processOneSecondRead(BamAlignmentRecord read) {
@@ -182,9 +171,4 @@ void PairReadGraphBuilder::handleReads() {
 
     close(bamFile1);
     close(bamFile2);
-}
-
-void PairReadGraphBuilder::filterEdge() {
-    graph->filterByContigLen(minContigLen);
-    graph->filterByEdgeWeight(minEdgeWight);
 }

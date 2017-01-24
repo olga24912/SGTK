@@ -68,9 +68,9 @@ private:
         }
     };
 
-    enum  optionIndex { UNKNOWN, HELP, NEW, SAM1, SAM2, MINCONTIGLEN, MINEDGELEN,
+    enum  optionIndex { UNKNOWN, HELP, NEW, SAM1, SAM2, MINCONTIGLEN,
         DIST_BETWEEN_PAIR_READS, REFFILE, QUERYFILE, READSFILE, LIBNAME, TSVFILE};
-    const option::Descriptor usage[14] = {
+    const option::Descriptor usage[13] = {
             { UNKNOWN, 0,"", "",        Arg::Unknown, "USAGE: scaffolder [options]\n\n"
                                                               "Options:" },
             { HELP,         0,"", "help",         Arg::None,    "  \t--help  \tPrint usage and exit." },
@@ -82,8 +82,6 @@ private:
                                                               "file name of second sam file. def = read2.sam" },
             { MINCONTIGLEN, 0,"c","mincontiglen", Arg::Numeric, "  -c <num>, \t--mincontiglen=<num>"
                                                               "  \tTake one numver - the barrier of contig len, def = 0" },
-            { MINEDGELEN,   0,"e","minedgelen",   Arg::Numeric, "  -e <num>, \t--minedgelen=<num>"
-                                                                        "\t Take one numver - the barrier of edge weight, def = 0"},
             { DIST_BETWEEN_PAIR_READS, 0, "d", "pair_read_dist", Arg::Numeric, " -d <num>, \t --pair_read_dist=<num>"
                                                                                        "\t Take one number - minimal posible len between pair reads"},
             { REFFILE, 0, "r", "ref_file_name", Arg::Required, " -r <arg>, \t --ref_file_name=<arg>"

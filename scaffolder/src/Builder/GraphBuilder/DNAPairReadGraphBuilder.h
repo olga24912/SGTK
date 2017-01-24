@@ -11,9 +11,6 @@
  */
 class DNAPairReadGraphBuilder: public PairReadGraphBuilder {
 private:
-    static constexpr double DEFAULT_DEF = 0.179;
-    static const int DEFAULT_MAX_COUNT_EDGE = 3;
-
     int distBetweenPairReads;
     map<string, int> read1DistToEnd;
     map<string, int> read2DistToEnd;
@@ -23,11 +20,8 @@ private:
 
     void incEdgeWeight(BamAlignmentRecord read1, BamAlignmentRecord read2);
 
-    void filterEdge();
-
     int readDist(BamAlignmentRecord read);
 
-    int countEdgesBeforeBreak(int v, vector<int> edges);
     virtual string getLibColor();
 public:
     /*

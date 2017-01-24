@@ -13,93 +13,41 @@
 using namespace std;
 using namespace seqan;
 
-/*
- * class with contis graph
- */
-
+// Store graph on contigs with several libs
 class ContigGraph {
-    friend class ContigGraphPrinter;
     friend class Serialization;
 private:
-    int minContigLen;
+    vector<vector<int> > graph; // graph[v][i] = e store edge id from vertex (e: v -> u)
+    vector<vector<int> > graphR; // graph[u][i] = e store edge id to vertex (e: v -> u)
+    vector<int> to; // if e: v -> u then to[e] = u
+    vector<int> from; // if e: v -> u then to[e] = v
 
-    vector<vector<int> > graph;
-    vector<vector<int> > graphR;
-    vector<int> start;
-    int startEdgeNum = 0;
-    vector<int> to;
-    vector<int> from;
+    vector<int> edgeLib; // edgeLib[e] = lib of this edge
+    vector<int> edgeWeight; // edgeWeight[e] = weight
 
-    vector<int> edgeLib;
-    vector<int> edgeWeight;
+    map<string, int> targetId; // return vertex in graph(aka target id) by target name
+    vector<string> targetName; // return target name by target id
+    vector<int> targetLen; // return target len by target id
 
-    map<string, int> targetId;
-    vector<int> vById;
-    vector<int> idByV;
-    vector<string> targetName;
-    vector<double> targetCoverage;
-    vector<int> targetLen;
+    vector<string> libColor; //return lib color by lib id
+    vector<string> libName; //return lib name by lib id
 
-    vector<string> libColor;
-    vector<string> libName;
-    vector<int> libMinEdgeWight;
-
-    vector< vector <int> > edgeIdByVertexes;
-
-    vector<bool> ignore;
-
-    string genRandomColor();
+    vector<unordered_map<int, int> > vrtsToEdge; // if in last lib e: v -> u then vrtsToEdge[v][u] = e
 public:
-    void newLib(); //next edge library
+    void newLib(string name, string color); //next edge library
 
-    void filterByEdgeWeight(int minEdgeWeight); //delete edge with small wight
+    vector<int> getEdges(int v); //get all edges from vertex v
+    vector<int> getEdgesR(int v); //get all edges to vertex v
 
-    void filterByContigLen(int minContigLen);//fileter vertex with small len
+    int getToVertex(int e); //if e: v -> u then to[e] = v
+    int getFromVertex(int e); //if e: v -> u then from[e] = u
 
-    void sortEdgeByWeight(int v); // sort edge by weight for this vertex
+    int incEdgeWeight(int v, int u); //increment edge wight between contigs with id v and u
 
-    void delEdges(int v, int k); // delete last k edges for vertex v
+    int addVertex(int id, string name, int len); //add new vertex with this id, name and len
 
-    vector<int> getEdgesWeight(int v); //get out edges weight for vertex v.
-
-    vector<int> getEdges(int v);
-
-    vector<int> getEdgesR(int v);
-
-    int getToVertex(int e);
-
-    int getFromVertex(int e);
-
-    int incEdgeWeight(int vId, int uId); //increment edge wight between contigs with id vId and uId
-
-    int addVertex(int id, string name, double cov, int len); //add new vertex with this id, name, coverage and len
-
-    void incTargetCover(int id, double x); //increment coverage for contig with this id on x.
-
-    int getTargetLength(int id)const; // get len of contig with id.
-
+    int getTargetLength(int id) const; // get len of contig with id.
     int getVertexCount(); //get count of vertexs
-
     int getLibNum(); //get the count of lib
-
-    void setLibName(string s);
-
-    void setMinEdgeWeightForLib(int libNum, int minWeight);
-
-    bool isGoodEdge(int e);
-
-    bool isGoodVertex(int v);
-
-    void setColor(string color);
-
-    void setIgnore(int v) {
-        ignore[v] = ignore[v] ^ 1;
-    }
-
-    bool isIgnore(int v) {
-        return ignore[v];
-    }
 };
-
-
 #endif //SCAFFOLDER_GRAPH_H

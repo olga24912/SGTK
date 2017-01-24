@@ -23,5 +23,5 @@ set(SOURCE_FILES Builder/GraphControl.cpp Builder/GraphControl.h
         Filter/Scaffolder/ScafSimplePath.cpp Filter/Scaffolder/ScafSimplePath.h
         Builder/GraphBuilder/ReferenceGraphBuilder.cpp Builder/GraphBuilder/ReferenceGraphBuilder.h
         Filter/Tools/Utils.cpp Filter/Tools/Utils.h
-        Filter/Tools/SystemTools.cpp Filter/Tools/SystemTools.h)
+        Filter/Tools/SystemTools.cpp Filter/Tools/SystemTools.h Filter/GraphWithFilter.cpp Filter/GraphWithFilter.h)
 add_library(scaffolder_lib ${SOURCE_FILES})

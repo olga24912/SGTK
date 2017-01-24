@@ -28,7 +28,6 @@ void GraphControl::evaluate(int argc, char **argv) {
         switch (opt.index()) {
             case NEW:
                 if (needEval) {
-                    graph.newLib();
                     gb -> setGraph(&graph);
                     gb -> evaluate();
                 }
@@ -70,7 +69,7 @@ void GraphControl::evaluate(int argc, char **argv) {
                 break;
             case DIST_BETWEEN_PAIR_READS:
                 if ( dynamic_cast <DNAPairReadGraphBuilder *> ( gb )) {
-                    (dynamic_cast<DNAPairReadGraphBuilder*> (gb)) -> setFileName2(opt.arg);
+                    (dynamic_cast<DNAPairReadGraphBuilder*> (gb)) -> setDistBetweenPairReads(opt.arg);
                 } else {
                     printf("Put the dist between pair read not for DNA pairs.\n");
                     return;
@@ -78,9 +77,6 @@ void GraphControl::evaluate(int argc, char **argv) {
                 break;
             case MINCONTIGLEN:
                 gb->setMinContigLen(atoi(opt.arg));
-                break;
-            case MINEDGELEN:
-                gb->setMinEdgeWight(atoi(opt.arg));
                 break;
             case REFFILE:
                 if ( dynamic_cast <RNASplitReadGraphBuilder *> ( gb )) {
@@ -122,7 +118,6 @@ void GraphControl::evaluate(int argc, char **argv) {
     }
 
     if (needEval) {
-        graph.newLib();
         gb -> setGraph(&graph);
         gb -> evaluate();
     }

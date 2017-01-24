@@ -8,13 +8,9 @@ void GraphBuilder::setMinContigLen(int minContigLen) {
     GraphBuilder::minContigLen = minContigLen;
 }
 
-void GraphBuilder::setMinEdgeWight(int minEdge) {
-    GraphBuilder::minEdgeWight = minEdge;
-}
-
 void GraphBuilder::setGraph(ContigGraph *graph) {
     GraphBuilder::graph = graph;
-    graph->setColor(getLibColor());
+    graph->newLib(libName, getLibColor());
 }
 
 void GraphBuilder::setLibName(string libName) {

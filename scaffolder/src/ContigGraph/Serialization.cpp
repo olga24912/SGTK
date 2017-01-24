@@ -14,8 +14,7 @@ void Serialization::write(ContigGraph *g, string fileName) {
     }
     out << (g->graph).size() << "\n";
     for (int i = 0; i < (int)(g->graph).size(); ++i) {
-        out << "v " << i << " " << (g->idByV)[i] << " " << (g->targetName)[(g->idByV)[i]] << " "
-        << (g->targetCoverage)[(g->idByV)[i]] << " " << (g->targetLen)[(g->idByV)[i]] << "\n";
+        out << "v " << i << " " << (g->targetName)[i] << " " << (g->targetLen)[i] << "\n";
     }
     out << (g->edgeWeight).size() << "\n";
     for (int i = 0; i < (int)(g->edgeWeight).size(); ++i) {
@@ -35,7 +34,6 @@ ContigGraph Serialization::read(string fileName) {
     in >> ln;
     cerr << ln << endl;
     g.libName.resize(ln);
-    g.libMinEdgeWight.resize(ln, 0);
     for (int i = 0; i < ln; ++i) {
         char c;
         int id;
@@ -49,28 +47,20 @@ ContigGraph Serialization::read(string fileName) {
     cerr << vn << endl;
     g.graph.resize(vn);
     g.graphR.resize(vn);
-    g.start.resize(vn);
-    g.idByV.resize(vn);
-    g.ignore.resize(vn, false);
 
     int mxT = 0;
 
     for (int i = 0; i < vn; ++i) {
         char c;
         in >> c;
-        int v, vId;
-        in >> v >> vId;
-        g.idByV[v] = vId;
-        mxT = max(mxT, vId + 1);
-        g.vById.resize(mxT);
-        g.vById[vId] = v;
+        int v;
+        in >> v;
+        mxT = max(mxT, v + 1);
         g.targetName.resize(mxT);
-        in >> g.targetName[vId];
-        g.targetCoverage.resize(mxT);
-        in >> g.targetCoverage[vId];
+        in >> g.targetName[v];
         g.targetLen.resize(mxT);
-        in >> g.targetLen[vId];
-        g.targetId[g.targetName[vId]] = vId;
+        in >> g.targetLen[v];
+        g.targetId[g.targetName[v]] = v;
     }
 
     int en;

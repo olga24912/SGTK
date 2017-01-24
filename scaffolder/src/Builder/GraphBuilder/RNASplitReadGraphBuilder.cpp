@@ -23,10 +23,10 @@ void RNASplitReadGraphBuilder::evaluate() {
     su.splitReads("rna.sam", "short1.fasta", "short2.fasta");
 
     handlingPairReads("cutPartReads1.fasta", "cutPartReads2.fasta", "-50-50");
-    graph->newLib();
-    handlingPairReads("short1.fasta", "short2.fasta", "-long-short");
 
-    graph->filterByContigLen(minContigLen);
+    graph->newLib(libName + "-long-short", getLibColor());
+
+    handlingPairReads("short1.fasta", "short2.fasta", "-long-short");
 }
 
 void RNASplitReadGraphBuilder::setRefFileName(string refFileName) {
@@ -49,16 +49,13 @@ void RNASplitReadGraphBuilder::handlingPairReads(string file1, string file2, str
     gb.setFileName2("rna2.sam");
     gb.setOneSideReadFlag(true);
     gb.setGraph(graph);
-    graph->setColor(getLibColor());
+
     gb.setMinContigLen(minContigLen);
-    gb.setMinEdgeWight(minEdgeWight);
 
     SamFileWriteEdge writeEdge("reads_" + libName + libN);
     gb.setSamFileWriter(writeEdge);
 
     gb.evaluate();
-    graph->filterByEdgeWeight(minEdgeWight);
-    graph->setLibName(libName + libN);
 }
 
 string RNASplitReadGraphBuilder::getLibColor() {
