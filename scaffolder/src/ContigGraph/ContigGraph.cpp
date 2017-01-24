@@ -151,3 +151,23 @@ ContigGraph ContigGraph::read(std::string fileName) {
     in.close();
     return g;
 }
+
+std::string ContigGraph::getTargetName(int v) {
+    return targetName[v];
+}
+
+int ContigGraph::getEdgeWeight(int e) {
+    return edgeWeight[e];
+}
+
+int ContigGraph::getEdgeLib(int e) {
+    return edgeLib[e];
+}
+
+std::string ContigGraph::getLibColor(int l) {
+    return libColor[l];
+}
+
+std::string ContigGraph::getLibName(int l) {
+    return libName[l];
+}

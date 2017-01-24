@@ -13,13 +13,13 @@ set(SOURCE_FILES Builder/GraphControl.cpp Builder/GraphControl.h
         Builder/Tools/SeqanUtils.cpp Builder/Tools/SeqanUtils.h Builder/ExternalLib/optionparser.h
         Builder/ReadsSplitter/ReadsSplitter50.cpp Builder/ReadsSplitter/ReadsSplitter50.h
         Builder/ReadsSplitter/SplitterByUnmappedEnd.cpp Builder/ReadsSplitter/SplitterByUnmappedEnd.h
-        Filter/ContigGraphPrinter.cpp Filter/ContigGraphPrinter.h
-        Filter/InteractiveFilter.cpp Filter/InteractiveFilter.h
+        Filter/Writers/ContigGraphPrinter.cpp Filter/Writers/ContigGraphPrinter.h
+        Filter/CommanParsers/InteractiveFilter.cpp Filter/CommanParsers/InteractiveFilter.h
         Builder/SamFileWriter/SamFileWriter.cpp Builder/SamFileWriter/SamFileWriter.h
         Builder/SamFileWriter/SamFileWriteEdge.cpp Builder/SamFileWriter/SamFileWriteEdge.h
         Builder/SamFileWriter/ContigMerger.cpp Builder/SamFileWriter/ContigMerger.h
         Filter/Scaffolder/ScafSimplePath.cpp Filter/Scaffolder/ScafSimplePath.h
         Builder/GraphBuilder/ReferenceGraphBuilder.cpp Builder/GraphBuilder/ReferenceGraphBuilder.h
         Filter/Tools/Utils.cpp Filter/Tools/Utils.h
-        Filter/Tools/SystemTools.cpp Filter/Tools/SystemTools.h Filter/GraphWithFilter.cpp Filter/GraphWithFilter.h)
+        Filter/Tools/SystemTools.cpp Filter/Tools/SystemTools.h Filter/Filters/GraphWithFilter.cpp Filter/Filters/GraphWithFilter.h Filter/Filters/Filter.h Filter/Filters/FilterAdapter.cpp Filter/Filters/FilterAdapter.h)
 add_library(scaffolder_lib ${SOURCE_FILES})

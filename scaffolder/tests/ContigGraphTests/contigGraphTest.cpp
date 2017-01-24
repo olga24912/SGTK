@@ -17,6 +17,9 @@ TEST_F(ContigGraphTest, addNewLib) {
     ASSERT_EQ(graph.getLibNum(), 0);
     graph.newLib("lib1", "#ff0000");
     ASSERT_EQ(graph.getLibNum(), 1);
+
+    ASSERT_EQ(graph.getLibName(0), "lib1");
+    ASSERT_EQ(graph.getLibColor(0), "#ff0000");
 }
 
 TEST_F(ContigGraphTest, addVertexAndEdges) {
@@ -31,13 +34,22 @@ TEST_F(ContigGraphTest, addVertexAndEdges) {
 
     graph.incEdgeWeight(0, 2);
 
+    ASSERT_EQ(graph.getEdgeWeight(0), 1);
+    ASSERT_EQ(graph.getEdgeLib(0), 0);
+
     ASSERT_EQ(graph.getTargetLength(0), 10);
     ASSERT_EQ(graph.getTargetLength(3), 120);
+    ASSERT_EQ(graph.getTargetName(1), "vert1-rev");
+    ASSERT_EQ(graph.getTargetName(2), "vert2");
+
 
     graph.newLib("lib2", "#00ff00");
 
     graph.incEdgeWeight(0, 2);
     graph.incEdgeWeight(0, 2);
+
+    ASSERT_EQ(graph.getEdgeWeight(1), 2);
+    ASSERT_EQ(graph.getEdgeLib(1), 1);
 }
 
 TEST_F(ContigGraphTest, serialization) {
