@@ -66,54 +66,6 @@ void ContigGraphPrinter::writeLocalSegGraph(ContigGraph *g, int dist, int vb, in
     writeThisVertex(g, drawV, fileName);
 }
 
-void ContigGraphPrinter::writeOneEdge(ContigGraph *g, ofstream &out, int v, int e) {
-    int vId = (g->idByV)[v];
-    int u = (g->to)[e];
-    int uId = (g->idByV)[u];
-    if (!isGoodVertex(g, u)) return;
-    if ((g->edgeWeight)[e] < (g->libMinEdgeWight)[(g->edgeLib[e])]) return;
-    out << "    \"" << (g->targetName)[vId] << "\" -> \"" << (g->targetName)[uId] << "\" [ ";
-    out << "color = \"" << (g->libColor)[(g->edgeLib)[e]] << "\", ";
-    out << "penwidth = "<< 1 + (int)log10((g->edgeWeight)[e]) << ", ";
-    out << "label = " << "\"" << (g->libName)[(g->edgeLib)[e]] << "\n weight = " << (g->edgeWeight)[e];
-    out << "\n id = "<< e << "\" ]\n";
-}
-
-void ContigGraphPrinter::writeOneVertex(ContigGraph *g, ofstream &out, int v, bool notLast) {
-    int vId = (g->idByV)[v];
-    cerr << v << " " << isGoodVertex(g, v) << endl;
-    if (!isGoodVertex(g, v)) return;
-    int cntEdge = 0;
-    for (int i = 0; i < (g->graph)[v].size(); ++i) {
-        int e = (g->graph)[v][i];
-        int uid = g->idByV[(g->to)[e]];
-        if ((g->edgeWeight)[e] >= (g->libMinEdgeWight)[g->edgeLib[e]] &&
-                (g->targetLen)[uid] >= g->minContigLen) {
-            ++cntEdge;
-        }
-    }
-
-    for (int i = 0; i < (g->graphR)[v].size(); ++i) {
-        int e = (g->graphR)[v][i];
-        int uid = g->idByV[(g->from)[e]];
-        if ((g->edgeWeight)[e] >= (g->libMinEdgeWight)[g->edgeLib[e]] &&
-                (g->targetLen)[uid] >= g->minContigLen) {
-            ++cntEdge;
-        }
-    }
-
-    if (cntEdge == 0) return;
-
-    out << "    \"" << (g->targetName)[vId] << "\"[label=\" " << (g->targetName)[vId] <<
-    " id = " << v << "\nlen = "
-    << (g->targetLen)[vId]
-    << ", cover = "<< (g->targetCoverage)[vId] << "\"";
-    if (notLast) {
-        out << " , style = \"filled\", color = \"#F0E68C\"";
-    }
-    out << "];\n";
-}
-
 vector<int> ContigGraphPrinter::findAllVert(ContigGraph *g, int dist, int v,
                                             IsGoodEdge isGoodEdge) {
     vector<int> res;
@@ -151,71 +103,6 @@ void ContigGraphPrinter::writeBigComponent(ContigGraph *g, int minSize, string f
     if (drawV.size() < 2) return;
 
     writeThisVertex(g, drawV, fileName);
-}
-
-void ContigGraphPrinter::writeThisVertex(ContigGraph *g, vector<int> &drawV, string fileName) {
-    vector<pair<int,int> > wieghtEdge;
-    vector<int> hasOtherEdge(drawV.size(), 0);
-
-    //int cnt6 = 0;
-    //int cntnot6 = 0;
-
-    for (int i = 0; i < (int)drawV.size(); ++i) {
-        int v = drawV[i];
-        for (int j = 0; j < (g->graph)[v].size(); ++j) {
-            int e = (g->graph)[v][j];
-            int u = (g->to)[e];
-
-            if ((g->edgeWeight)[e] < (g->libMinEdgeWight)[(g->edgeLib[e])]) continue;
-            if (!isGoodVertex(g, u)) continue;
-
-            int was = 0;
-            for (int h = 0; h < (int)drawV.size(); ++h) {
-                if (drawV[h] == u) was = 1;
-            }
-            if (was) {
-                wieghtEdge.push_back(make_pair(g->edgeWeight[e], e));
-                //if ((g->edgeLib[e]) != 5) cntnot6++;
-                //if ((g->edgeLib[e]) == 5) cnt6++;
-            } else {
-                hasOtherEdge[i] = 1;
-            }
-        }
-
-        for (int j = 0; j < (g->graphR)[v].size(); ++j) {
-            int e = (g->graphR)[v][j];
-            int u = (g->from)[e];
-
-            if ((g->edgeWeight)[e] < (g->libMinEdgeWight)[(g->edgeLib[e])]) continue;
-            if (!isGoodVertex(g, u)) continue;
-
-            int was = 0;
-            for (int h = 0; h < (int)drawV.size(); ++h) {
-                if (drawV[h] == u) was = 1;
-            }
-            if (!was) {
-                hasOtherEdge[i] = 1;
-            }
-        }
-    }
-
-    //if (cntnot6 == 0 || cntnot6 + cnt6 >= 20) return;
-
-    if (drawV.size() == 1) return;
-
-    ofstream out(fileName);
-    out << "digraph {\n";
-    for (int i = 0; i < (int)drawV.size(); ++i) {
-        writeOneVertex(g, out, drawV[i], hasOtherEdge[i]);
-    }
-
-    sort(wieghtEdge.rbegin(), wieghtEdge.rend());
-    for(int i = 0; i < (int)wieghtEdge.size(); ++i) {
-        writeOneEdge(g, out, (g->from)[wieghtEdge[i].second], wieghtEdge[i].second);
-    }
-
-    out << "}\n";
-    out.close();
 }
 
 vector<int> ContigGraphPrinter::vertexInBigComponents(ContigGraph *g, int size) {

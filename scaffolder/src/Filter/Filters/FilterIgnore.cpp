@@ -37,3 +37,9 @@ std::vector<int> FilterIgnore::getEdgesR(int v) {
 
     return res;
 }
+
+FilterIgnore::FilterIgnore(Filter *filter) {
+    subfilter = filter;
+    int cnt = subfilter->getVertexCount();
+
+}

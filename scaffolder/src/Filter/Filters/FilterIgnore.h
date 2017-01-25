@@ -7,6 +7,8 @@ class FilterIgnore : public Filter {
 private:
     std::vector<bool> ignore;
 public:
+    FilterIgnore(Filter* filter);
+
     std::vector<int> getEdges(int v) override;
 
     std::vector<int> getEdgesR(int v) override;
