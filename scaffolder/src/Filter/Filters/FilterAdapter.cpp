@@ -32,10 +32,27 @@ int FilterAdapter::getEdgeWieght(int e) {
     return graph.getEdgeWeight(e);
 }
 
-std::string FilterAdapter::getEdgeColor(int e) {
-    return graph.getLibColor(graph.getEdgeLib(e));
+int FilterAdapter::getLibCount() {
+    return graph.getLibNum();
 }
 
-std::string FilterAdapter::getEdgeLibName(int e) {
-    return graph.getLibName(graph.getEdgeLib(e));
+int FilterAdapter::getEdgeLib(int e) {
+    return graph.getEdgeLib(e);
+}
+
+std::string FilterAdapter::getLibName(int l) {
+    return graph.getLibName(l);
+}
+
+std::string FilterAdapter::getLibColor(int l) {
+    return graph.getLibColor(l);
+}
+
+std::vector<int> FilterAdapter::getVertexList() {
+    int vertNum = getVertexCount();
+    std::vector<int> res((unsigned)vertNum);
+    for (int i = 0; i < vertNum; ++i) {
+        res[i] = i;
+    }
+    return res;
 }

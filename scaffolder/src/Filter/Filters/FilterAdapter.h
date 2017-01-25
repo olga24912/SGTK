@@ -5,9 +5,12 @@
 #include "ContigGraph/ContigGraph.h"
 
 class FilterAdapter: public Filter {
+private:
     ContigGraph graph;
-
+public:
     FilterAdapter(ContigGraph graph): graph(graph) {}
+
+    int getLibCount() override;
 
     int getVertexCount() override;
 
@@ -25,9 +28,13 @@ class FilterAdapter: public Filter {
 
     int getEdgeWieght(int e) override;
 
-    std::string getEdgeColor(int e) override;
+    int getEdgeLib(int e) override;
 
-    std::string getEdgeLibName(int e) override;
+    std::string getLibName(int l) override;
+
+    std::string getLibColor(int l) override;
+
+    std::vector<int> getVertexList() override;
 };
 
 
