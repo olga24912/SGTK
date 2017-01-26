@@ -56,3 +56,10 @@ std::vector<int> FilterAdapter::getVertexList() {
     }
     return res;
 }
+
+void FilterAdapter::processQuery(Query query) {
+    if (query.type == query.UPLOAD_GRAPH) {
+        std::string fileName = query.argv;
+        graph = ContigGraph::read(fileName);
+    }
+}

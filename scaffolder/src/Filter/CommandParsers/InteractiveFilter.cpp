@@ -1,46 +1,8 @@
-/*#include "InteractiveFilter.h"
 
-const string InteractiveFilter::UPLOAD_GRAPH = "uploadGraph";
-const string InteractiveFilter::MIN_EDGE_WEIGHT = "minEdgeW";
-const string InteractiveFilter::MIN_CONTIG_LEN = "minContig";
-const string InteractiveFilter::WRITE_FULL = "writeFull";
-const string InteractiveFilter::WRITE_LOCAL = "writeLocal";
-const string InteractiveFilter::WRITE_ALL_LOCAL = "writeAllLocal";
-const string InteractiveFilter::WRITE_LOCAL_VERT_IN_SEG = "writeLocalSeg";
-const string InteractiveFilter::WRITE_BIG_COMP = "writeBig";
-const string InteractiveFilter::WRITE_SPLIT_BIG_COMP = "writeSB";
-const string InteractiveFilter::MERGE_SIMPLE_PATH = "mergeSimplePath";
-const string InteractiveFilter::WRITE_LOCAL_ALONG_PATH = "writeAlongPath";
-const string InteractiveFilter::SET_IGNORE = "setIgnore";
-const string InteractiveFilter::RESET_IGNORE = "resetIgnore";
-const string InteractiveFilter::EXIT = "exit";
-
-const string InteractiveFilter::CONFIG_FILE = "filter_config";
-
-/*
- * commands:
- * uploadGraph <filename>
- * minEdgeW <libNum> <weight>
- * minContig <len>
- * mergeSimplePath <contigsFileName> <outFileName>
- * setIgnore <vertexIdStart> <vertexIdFinish>
- * resetIgnore
- * exit
- * writeFull <fileName>
- * writeLocal <fileName> <vertexID> <dist>
- * writeAllLocal <fileName> <dist>
- * writeLocalSeg <fileName> <vertexIDStart> <vertexIDFinish> <dist>
- * writeBig <fileName> <size>
- * writeSB <prefixFileName> <size>
- * writeAlongPath <prefixFileName> <libNum> <dist> <minRefPathSize>
- */
 /*
 void InteractiveFilter::main() {
     readConfig();
 
-    while(handlingRequest(cin)) {
-        cout << "ok" << endl;
-    }
 }
 
 void InteractiveFilter::readConfig() {

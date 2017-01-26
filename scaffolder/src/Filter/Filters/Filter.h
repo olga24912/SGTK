@@ -4,10 +4,12 @@
 #include <vector>
 #include <string>
 #include "assert.h"
+#include "Query.h"
 
 class Filter {
 protected:
     Filter(){};
+    Filter(Filter *filer): subfilter(filer) {}
     Filter* subfilter = nullptr;
 public:
     virtual int getLibCount();
@@ -23,6 +25,14 @@ public:
     virtual int getEdgeLib(int e);
     virtual std::string getLibName(int l);
     virtual std::string getLibColor(int l);
+
+    virtual void processQuery(Query query);
+
+    ~Filter() {
+        if (subfilter != nullptr) {
+            delete subfilter;
+        }
+    }
 };
 
 

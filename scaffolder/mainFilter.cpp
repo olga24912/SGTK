@@ -1,12 +1,7 @@
-#include <iostream>
-#include "Builder/GraphControl.h"
-
-using namespace std;
-
-#include "Filter/CommanParsers/InteractiveFilter.h"
+#include "Filter/CommandParsers/Manager.h"
 
 int main(int argc, char **argv) {
-    InteractiveFilter filter;
+    Manager filter;
     filter.main();
     return 0;
 }

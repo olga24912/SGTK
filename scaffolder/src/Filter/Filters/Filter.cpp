@@ -64,3 +64,8 @@ std::vector<int> Filter::getVertexList() {
     assert(subfilter != nullptr);
     return subfilter->getVertexList();
 }
+
+void Filter::processQuery(Query query) {
+    assert(subfilter != nullptr);
+    return subfilter->processQuery(query);
+}

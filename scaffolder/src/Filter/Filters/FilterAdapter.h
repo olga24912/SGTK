@@ -35,6 +35,8 @@ public:
     std::string getLibColor(int l) override;
 
     std::vector<int> getVertexList() override;
+
+    void processQuery(Query query) override;
 };
 
 

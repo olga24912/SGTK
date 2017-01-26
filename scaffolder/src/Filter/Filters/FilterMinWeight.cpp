@@ -1,6 +1,6 @@
 #include "FilterMinWeight.h"
 
-FilterMinWeight::FilterMinWeight(Filter *filter) {
+FilterMinWeight::FilterMinWeight(Filter *filter) : Filter(filter) {
     libMinEdgeWight.resize((unsigned long) filter->getLibCount(), 1);
 }
 
@@ -27,7 +27,7 @@ std::vector<int> FilterMinWeight::getEdgesR(int v) {
         int e = edges[i];
         if (libMinEdgeWight[subfilter->getEdgeLib(e)] <= subfilter->getEdgeWieght(e)) {
             int v = subfilter->getEdgeFrom(e);
-            if (minContigLen <= subfilter->getTargetLen(u)) {
+            if (minContigLen <= subfilter->getTargetLen(v)) {
                 res.push_back(e);
             }
         }
@@ -47,4 +47,10 @@ std::vector<int> FilterMinWeight::getVertexList() {
     }
 
     return res;
+}
+
+void FilterMinWeight::processQuery(Query query) {
+    Filter::processQuery(query);
+
+    libMinEdgeWight.resize((unsigned)subfilter->getLibCount(), 0);
 }
