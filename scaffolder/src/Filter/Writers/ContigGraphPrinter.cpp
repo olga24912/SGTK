@@ -18,15 +18,6 @@ void ContigGraphPrinter::writeAllLocalGraphDotFormat(ContigGraph *g, int dist) {
     }
 }
 
-void ContigGraphPrinter::writeLocalGraph(ContigGraph *g, int dist, int v, string fileName) {
-    vector<int> drawV = findAllVert(g, dist, v);
-    if (drawV.size() < 2) return;
-
-    //cerr << drawV.size() << endl;
-
-    writeThisVertex(g, drawV, fileName);
-}
-
 void ContigGraphPrinter::writeLocalSegGraph(ContigGraph *g, int dist, int vb, int ve, string fileName) {
     vector<int> drawV;
     for (int i = vb; i <= ve; ++i) {
