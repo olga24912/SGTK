@@ -1,5 +1,10 @@
-//
-// Created by olga on 26.01.17.
-//
-
 #include "CommandWriteBigComp.h"
+
+void CommandWriteBigComp::writeGraph(std::string argv, State &state, Filter *filter) {
+    std::stringstream ss(argv);
+    std::string fileName;
+    int size;
+    ss >> fileName >> size;
+    WriteBigComponent writer(fileName, size, filter);
+    writer.write();
+}

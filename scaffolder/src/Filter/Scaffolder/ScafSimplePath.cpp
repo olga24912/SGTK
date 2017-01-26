@@ -1,7 +1,6 @@
-/*#include "ScafSimplePath.h"
 #include "ScafSimplePath.h"
 
-void ScafSimplePath::evaluate(ContigGraph* graph, string contigFile, string out) {
+void ScafSimplePath::evaluate(Filter* graph, string contigFile, string out) {
     this->graph = graph;
     this->contigFile = contigFile;
 
@@ -29,11 +28,13 @@ void ScafSimplePath::saveContigs() {
 
 void ScafSimplePath::findPaths() {
     int n = graph->getVertexCount();
+    vector<int> verts = graph->getVertexList();
+
     vector<int> used(n, 0);
     next.resize(n, -1);
 
-    for (int i = 0; i < n; ++i) {
-        if (used[i] == 0 && graph->isGoodVertex(i)) {
+    for (int i : verts) {
+        if (used[i] == 0) {
             dfsPath(i, next, used);
         }
         cerr << used[i] << " " << next[i] << endl;
@@ -78,9 +79,7 @@ void ScafSimplePath::writeNewContigs(string fileName) {
             stringstream ss;
             ss << i;
             string readName = "path" + ss.str();
-           // cerr << readName << endl;
             appendValue(ids, CharString(readName.c_str()));
-            //cerr << seq << " " << seq.size() <<  endl;
             appendValue(seqs, Dna5String(seq));
         }
     }
@@ -108,21 +107,15 @@ string ScafSimplePath::createRevCompl(string s) {
 void ScafSimplePath::dfsPath(int v, vector<int> &next, vector<int> &used) {
     used[v] = 1;
 
-    if (!graph->isGoodVertex(v)) {
-        used[v] = 3;
-        return;
-    }
-
     int tu = -1;
     vector<int> edges = graph->getEdges(v);
-    for (int i = 0; i < (int)edges.size(); ++i) {
-        int e = edges[i];
-        int u = graph->getToVertex(e);
+    for (int e : edges.size()) {
+        int u = graph->getEdgeTo(e);
 
-        if (!graph->isGoodEdge(e) || !graph->isGoodVertex(u)) continue;
         if (tu == -1) {
             tu = u;
         }
+
         if (tu != u || used[u] == 1) {
             used[v] = 3;
             return;
@@ -132,11 +125,9 @@ void ScafSimplePath::dfsPath(int v, vector<int> &next, vector<int> &used) {
     vector<int> edgeR = graph->getEdgesR(v);
     int fu = -1;
 
-    for (int i = 0; i < (int)edgeR.size(); ++i) {
-        int e = edgeR[i];
-        int u = graph->getFromVertex(e);
+    for (int e : edgeR.size()) {
+        int u = graph->getEdgeFrom(e);
 
-        if (!graph->isGoodEdge(e) || !graph->isGoodVertex(u)) continue;
         if (fu == -1) {
             fu = u;
         }
@@ -155,4 +146,3 @@ void ScafSimplePath::dfsPath(int v, vector<int> &next, vector<int> &used) {
 
     used[v] = 2;
 }
-*/

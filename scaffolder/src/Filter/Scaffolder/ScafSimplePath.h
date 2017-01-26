@@ -1,9 +1,9 @@
-/*#ifndef SCAFFOLDER_SCAFSIMPLEPATH_H
+#ifndef SCAFFOLDER_SCAFSIMPLEPATH_H
 #define SCAFFOLDER_SCAFSIMPLEPATH_H
 
 
-#include "ContigGraph/ContigGraph.h"
 #include <seqan/seq_io.h>
+#include <Filter/Filters/Filter.h>
 #include "Builder/Tools/SeqanUtils.h"
 
 using namespace std;
@@ -13,7 +13,7 @@ class ScafSimplePath {
 private:
     const int GAP_SIZE = 100;
 
-    ContigGraph* graph;
+    Filter* graph;
     string contigFile;
 
     vector<string> contigs;
@@ -26,9 +26,8 @@ private:
     string createRevCompl(string s);
     void dfsPath(int v, vector<int> &next, vector<int> &used);
 public:
-    void evaluate(ContigGraph* graph, string contigFile, string out);
+    void evaluate(Filter* graph, string contigFile, string out);
 };
 
 
 #endif //SCAFFOLDER_SCAFSIMPLEPATH_H
-*/

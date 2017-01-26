@@ -30,6 +30,7 @@ Manager::Manager() {
     commandByKeyWord[WRITE_LOCAL_VERT_IN_SEG] = new CommandWriteLocalVertInSeg();
     commandByKeyWord[WRITE_BIG_COMP] = new CommandWriteBigComp();
     commandByKeyWord[WRITE_LOCAL_ALONG_PATH] = new CommandWriteAlongPath();
+    commandByKeyWord[MERGE_SIMPLE_PATH] = new CommandMergeSimplePath();
 }
 
 void Manager::main() {
