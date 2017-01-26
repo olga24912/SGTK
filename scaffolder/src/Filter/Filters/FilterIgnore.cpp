@@ -42,4 +42,24 @@ FilterIgnore::FilterIgnore(Filter *filter) : Filter(filter) {
     subfilter = filter;
     int cnt = subfilter->getVertexCount();
 
+    ignore.resize(cnt, 0);
+}
+
+void FilterIgnore::processQuery(Query query) {
+    if (query.type == query.SET_IGNORE) {
+        std::stringstream ss(query.argv);
+        int vstart, vend;
+        ss >> vstart >> vend;
+        for (int i = vstart; i < vend; ++i) {
+            ignore[i] = 1;
+        }
+    } else if (query.type == query.RESET_IGNORE) {
+        for (int i = 0; i < (int)ignore.size(); ++i) {
+            ignore[i] = 0;
+        }
+    } else {
+        Filter::processQuery(query);
+
+        ignore.resize(subfilter->getVertexCount(), 0);
+    }
 }

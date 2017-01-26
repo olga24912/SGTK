@@ -14,6 +14,8 @@ public:
     std::vector<int> getEdgesR(int v) override;
 
     std::vector<int> getVertexList() override;
+
+    void processQuery(Query query) override;
 };
 
 

@@ -5,6 +5,7 @@
 #include <string>
 #include "assert.h"
 #include "Query.h"
+#include <sstream>
 
 class Filter {
 protected:

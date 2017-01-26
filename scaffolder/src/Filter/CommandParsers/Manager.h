@@ -8,6 +8,10 @@
 #include <Filter/Filters/FilterMinWeight.h>
 #include <Filter/Filters/Filter.h>
 #include "Filter/CommandParsers/Commands/Command.h"
+#include <Filter/CommandParsers/Commands/CommandMinContig.h>
+#include <Filter/CommandParsers/Commands/CommandMinEdgeWeight.h>
+#include <Filter/CommandParsers/Commands/CommandSetIgnore.h>
+#include <Filter/CommandParsers/Commands/CommandResetIgnore.h>
 #include "State.h"
 #include "Commands/CommandUploadGraph.h"
 #include <fstream>

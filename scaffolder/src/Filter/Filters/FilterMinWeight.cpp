@@ -50,7 +50,19 @@ std::vector<int> FilterMinWeight::getVertexList() {
 }
 
 void FilterMinWeight::processQuery(Query query) {
-    Filter::processQuery(query);
-
-    libMinEdgeWight.resize((unsigned)subfilter->getLibCount(), 0);
+    if (query.type == query.MIN_EDGE_WEIGHT) {
+        std::stringstream ss(query.argv);
+        int libNum;
+        int weight;
+        ss >> libNum >> weight;
+        libMinEdgeWight[libNum] = weight;
+    } else if (query.type == query.MIN_CONTIG_LEN){
+        std::stringstream ss(query.argv);
+        int weight;
+        ss >> weight;
+        minContigLen = weight;
+    } else {
+        Filter::processQuery(query);
+        libMinEdgeWight.resize((unsigned) subfilter->getLibCount(), 0);
+    }
 }
