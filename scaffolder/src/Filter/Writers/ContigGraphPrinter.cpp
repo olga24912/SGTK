@@ -4,29 +4,6 @@
 
 /*#include "ContigGraphPrinter.h"
 
-void ContigGraphPrinter::writeFullGraphDotFormat(ContigGraph *g, string fileName) {
-    cerr << "start write graph dot" << endl;
-    ofstream out(fileName);
-
-    out << "digraph {\n";
-
-    for (int i = 0; i < (g->targetName).size(); ++i) {
-        writeOneVertex(g, out, i);
-    }
-
-    for (int v = 0; v < (int)(g->graph).size(); ++v) {
-        int vId = (g->idByV)[v];
-        if (!isGoodVertex(g, v)) continue;
-        for (int j = 0; j < (int)(g->graph)[v].size(); ++j) {
-            int e = (g->graph)[v][j];
-            writeOneEdge(g, out, v, e);
-        }
-    }
-    out << "}\n";
-
-    out.close();
-}
-
 void ContigGraphPrinter::writeAllLocalGraphDotFormat(ContigGraph *g, int dist) {
     for (int i = 0; i < (g->targetName).size(); ++i) {
         string name = "";

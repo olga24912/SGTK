@@ -6,11 +6,11 @@
 
 class Searcher {
 private:
-    Filter filter;
+    Filter* filter;
 
     void dfsFindComponent(int v, int currentCol, int* color);
 public:
-    Searcher(Filter filter1): filter(filter1) {}
+    Searcher(Filter* filter1): filter(filter1) {}
     std::vector<int> findVertInLocalArea(int v, int dist);
     int findComponent(int *col);
 };

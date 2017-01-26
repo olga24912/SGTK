@@ -8,12 +8,12 @@
 
 class DotWriter {
 private:
-    Filter filter;
+    Filter* filter;
 
     void writeOneVertex(int v, bool isColored, std::ofstream& out);
     void writeOneEdge(int e, std::ofstream& out);
 public:
-    DotWriter(Filter filter): filter(filter){}
+    DotWriter(Filter* filter): filter(filter){}
 
     void writeVertexSet(std::vector<int> vert, std::string fileName);
 

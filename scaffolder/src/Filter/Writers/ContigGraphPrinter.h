@@ -36,7 +36,6 @@ private:
     static vector<int> vertexInBigComponents(ContigGraph *g, int size);
 
 public:
-    static void writeFullGraphDotFormat(ContigGraph * graph, string fileName);
     static void writeAllLocalGraphDotFormat(ContigGraph *graph, int dist);
     static void writeLocalGraph(ContigGraph *g, int dist, int v, string fileName);
     static void writeLocalSegGraph(ContigGraph *g, int dist, int vb, int ve, string fileName);
