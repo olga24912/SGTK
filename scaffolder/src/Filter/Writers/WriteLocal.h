@@ -3,13 +3,13 @@
 
 #include "Writer.h"
 
-class writeLocal : public  Writer {
+class WriteLocal : public  Writer {
 private:
     int v;
     int dist;
     std::string fileName;
 public:
-    writeLocal(int v, int dist, std::string fileName, Filter *filter1);
+    WriteLocal(int v, int dist, std::string fileName, Filter *filter1);
 
     void write() override;
 };

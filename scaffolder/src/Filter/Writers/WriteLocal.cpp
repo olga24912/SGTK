@@ -1,12 +1,8 @@
-//
-// Created by olga on 26.01.17.
-//
+#include "WriteLocal.h"
 
-#include "writeLocal.h"
-
-writeLocal::writeLocal(int v, int dist, std::string fileName, Filter *filter1) : Writer(filter1), v(v),
+WriteLocal::WriteLocal(int v, int dist, std::string fileName, Filter *filter1) : Writer(filter1), v(v),
                                                                                  dist(dist), fileName(fileName) {}
 
-void writeLocal::write() {
+void WriteLocal::write() {
     dotWriter.writeVertexSet(searcher.findVertInLocalArea(v, dist), fileName);
 }

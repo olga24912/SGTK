@@ -12,6 +12,12 @@
 #include <Filter/CommandParsers/Commands/CommandMinEdgeWeight.h>
 #include <Filter/CommandParsers/Commands/CommandSetIgnore.h>
 #include <Filter/CommandParsers/Commands/CommandResetIgnore.h>
+#include <Filter/CommandParsers/Commands/CommandWriteFull.h>
+#include <Filter/CommandParsers/Commands/CommandWriteLocal.h>
+#include <Filter/CommandParsers/Commands/CommandWriteAllLocal.h>
+#include <Filter/CommandParsers/Commands/CommandWriteBigComp.h>
+#include <Filter/CommandParsers/Commands/CommandWriteLocalVertInSeg.h>
+#include <Filter/CommandParsers/Commands/CommandWriteAlongPath.h>
 #include "State.h"
 #include "Commands/CommandUploadGraph.h"
 #include <fstream>
@@ -27,11 +33,10 @@
  * resetIgnore
  * exit
  * writeFull <fileName>
- * writeLocal <fileName> <vertexID> <dist>
+ * WriteLocal <fileName> <vertexID> <dist>
  * writeAllLocal <fileName> <dist>
  * writeLocalSeg <fileName> <vertexIDStart> <vertexIDFinish> <dist>
- * writeBig <fileName> <size>
- * writeSB <prefixFileName> <size>
+ * writeBig <prefixFileName> <size>
  * writeAlongPath <prefixFileName> <libNum> <dist> <minRefPathSize>
  */
 class Manager {
@@ -44,7 +49,6 @@ private:
     static const std::string WRITE_LOCAL_VERT_IN_SEG;
     static const std::string WRITE_ALL_LOCAL;
     static const std::string WRITE_BIG_COMP;
-    static const std::string WRITE_SPLIT_BIG_COMP;
     static const std::string MERGE_SIMPLE_PATH;
     static const std::string WRITE_LOCAL_ALONG_PATH;
     static const std::string SET_IGNORE;

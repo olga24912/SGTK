@@ -7,7 +7,7 @@
 
 class Command {
 public:
-    virtual void execute(std::string argv, State state, Filter* filter) = 0;
+    virtual void execute(std::string argv, State& state, Filter* filter) = 0;
 };
 
 
