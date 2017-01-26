@@ -33,17 +33,7 @@ private:
         int libNum;
     };
 
-    static bool isGoodVertex(ContigGraph * g, int v);
-
-    static void writeOneEdge(ContigGraph * graph, ofstream& out, int v, int e);
-    static void writeOneVertex(ContigGraph * g, ofstream& out, int v, bool notLast = false);
-    static vector<int> findAllVert(ContigGraph *g, int dist, int v,
-                                   IsGoodEdge isGoodEdge = IsGoodEdge());
-    static void dfsFindComponent(ContigGraph *g, int* color, int currentCol, int v,
-                                 IsGoodEdge isGoodEdge = IsGoodEdge());
     static vector<int> vertexInBigComponents(ContigGraph *g, int size);
-    static void writeThisVertex(ContigGraph *g, vector<int> &drawV, string fileName);
-    static int findComponent(ContigGraph *g, int *col, IsGoodEdge isGoodEdge = IsGoodEdge());
 
 public:
     static void writeFullGraphDotFormat(ContigGraph * graph, string fileName);
@@ -53,7 +43,6 @@ public:
     static void writeBigComponent(ContigGraph *g, int minSize, string fileName);
     static void writeSplitBigComponent(ContigGraph *g, int minSize, string fileName);
     static void writeAlongPath(ContigGraph *g, int libId, int dist, int minSize, string fileName);
-
 };
 
 

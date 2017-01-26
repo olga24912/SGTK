@@ -66,38 +66,6 @@ void ContigGraphPrinter::writeLocalSegGraph(ContigGraph *g, int dist, int vb, in
     writeThisVertex(g, drawV, fileName);
 }
 
-vector<int> ContigGraphPrinter::findAllVert(ContigGraph *g, int dist, int v,
-                                            IsGoodEdge isGoodEdge) {
-    vector<int> res;
-    if (!isGoodVertex(g, v)) return res;
-    if (dist == 0) return res;
-    res.push_back(v);
-    for (int i = 0; i < (g->graph)[v].size(); ++i) {
-        int e = (g->graph)[v][i];
-        if (!isGoodEdge(g, e)) continue;
-        int u = (g->to)[e];
-        vector<int> add = findAllVert(g, dist - 1, u);
-        for (int j = 0; j < (int)add.size(); ++j) {
-            res.push_back(add[j]);
-        }
-    }
-
-    for (int i = 0; i < (g->graphR)[v].size(); ++i) {
-        int e = (g->graphR)[v][i];
-        if (!isGoodEdge(g, e)) continue;
-        int u = (g->from)[e];
-        vector<int> add = findAllVert(g, dist - 1, u);
-        for (int j = 0; j < (int)add.size(); ++j) {
-            res.push_back(add[j]);
-        }
-    }
-
-    sort(res.begin(), res.end());
-    res.resize(unique(res.begin(), res.end()) - res.begin());
-
-    return res;
-}
-
 void ContigGraphPrinter::writeBigComponent(ContigGraph *g, int minSize, string fileName) {
     vector<int> drawV = vertexInBigComponents(g, minSize);
     if (drawV.size() < 2) return;
@@ -124,45 +92,6 @@ vector<int> ContigGraphPrinter::vertexInBigComponents(ContigGraph *g, int size) 
 
     delete col;
     return res;
-}
-
-int ContigGraphPrinter::findComponent(ContigGraph *g, int *col, IsGoodEdge isGoodEdge) {
-    int n = (g->getVertexCount());
-    int cur = 1;
-    for (int i = 0; i < n; ++i) {
-        col[i] = 0;
-    }
-    for (int i = 0; i < n; ++i) {
-        if (col[i] == 0) {
-            dfsFindComponent(g, col, cur, i, isGoodEdge);
-            ++cur;
-        }
-    }
-    return cur;
-}
-
-void ContigGraphPrinter::dfsFindComponent(ContigGraph *g, int *color, int currentCol, int v,
-                                          IsGoodEdge isGoodEdge) {
-    if (!isGoodVertex(g, v)) return;
-    color[v] = currentCol;
-
-    for (int i = 0; i < (int)g->graph[v].size(); ++i) {
-        int e = g->graph[v][i];
-        int u = g->to[e];
-        if (!isGoodEdge(g, e)) continue;
-        if (color[u] == 0) {
-            dfsFindComponent(g, color, currentCol, u, isGoodEdge);
-        }
-    }
-
-    for (int i = 0; i < (int)g->graphR[v].size(); ++i) {
-        int e = g->graphR[v][i];
-        int u = g->from[e];
-        if (!isGoodEdge(g, e)) continue;
-        if (color[u] == 0) {
-            dfsFindComponent(g, color, currentCol, u, isGoodEdge);
-        }
-    }
 }
 
 void ContigGraphPrinter::writeSplitBigComponent(ContigGraph *g, int minSize, string fileName) {
@@ -222,9 +151,5 @@ void ContigGraphPrinter::writeAlongPath(ContigGraph *g, int libId, int dist, int
         writeThisVertex(g, res, fn);
     }
     delete col;
-}
-
-bool ContigGraphPrinter::isGoodVertex(ContigGraph *g, int v) {
-    return (g->targetLen[g->idByV[v]] >= g->minContigLen) & !(g->ignore[v]);
 }
 */

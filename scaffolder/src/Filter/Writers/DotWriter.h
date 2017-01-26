@@ -1,7 +1,3 @@
-//
-// Created by olga on 25.01.17.
-//
-
 #ifndef SCAFFOLDER_SIMPLEWRITER_H
 #define SCAFFOLDER_SIMPLEWRITER_H
 

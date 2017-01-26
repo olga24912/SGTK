@@ -1,7 +1,3 @@
-//
-// Created by olga on 25.01.17.
-//
-
 #include "DotWriter.h"
 
 void DotWriter::writeVertexSet(std::vector<int> vert, std::string fileName) {
