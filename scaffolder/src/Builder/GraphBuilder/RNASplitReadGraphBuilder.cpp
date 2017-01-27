@@ -63,3 +63,7 @@ string RNASplitReadGraphBuilder::getLibColor() {
     int color[3] = {cntRB, rand()%(cntRB/2), cntRB};
     return colorToString(color);
 }
+
+void RNASplitReadGraphBuilder::setGraph(ContigGraph *graph) {
+    GraphBuilder::graph = graph;
+}

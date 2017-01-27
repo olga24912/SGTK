@@ -2,8 +2,8 @@
 #include "Builder/ReadsSplitter/ReadsSplitter.h"
 #include "Builder/ReadsSplitter/ReadsSplitter50.h"
 #include "Builder/ReadsSplitter/SplitterByUnmappedEnd.h"
-#include "../lib/gtest-1.7.0/include/gtest/gtest.h"
 #include "GenTests/SplitReadsTest.h"
+#include "gtest/gtest.h"
 
 class ReadsSplitterTest : public  ::testing::Test {
 protected:

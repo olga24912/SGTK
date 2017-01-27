@@ -1,7 +1,3 @@
-//
-// Created by olga on 08.10.16.
-//
-
 #include "PairReadGraphBuilder.h"
 #include "Builder/Tools/SeqanUtils.h"
 
@@ -112,6 +108,7 @@ pair<string, int> PairReadGraphBuilder::processOneSecondRead(BamAlignmentRecord 
 void PairReadGraphBuilder::incEdgeWeight(BamAlignmentRecord read1, BamAlignmentRecord read2) {
     assert(isUniqueMapRead(read1));
     assert(isUniqueMapRead(read2));
+
     int target1 = get1Target(read1);
     int target2 = get2Target(read2);
     if (target1 == target2 || target1 == pairTarget(target2)) {
@@ -119,6 +116,7 @@ void PairReadGraphBuilder::incEdgeWeight(BamAlignmentRecord read1, BamAlignmentR
     }
 
     int verFID = target1, verSID = target2, verRFID = pairTarget(verFID), verRSID = pairTarget(verSID);
+
     int e1 = graph->incEdgeWeight(verFID, verSID);
     int e2 = graph->incEdgeWeight(verRSID, verRFID);
 
@@ -156,6 +154,7 @@ void PairReadGraphBuilder::handleReads() {
             readRecord(read2, bamFile2);
             readInfo2 = processOneSecondRead(read2);
         }
+
         if (readInfo2.first != "" && read1ByName.count(readInfo2.first)) {
             incEdgeWeight(read1ByName[readInfo2.first], read2);
             read2ByName.erase(readInfo2.first);

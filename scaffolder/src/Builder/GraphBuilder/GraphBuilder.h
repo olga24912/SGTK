@@ -29,7 +29,7 @@ public:
     // set barrier contig len. Contigs with smaller len will be ignore.
     void setMinContigLen(int minContigLen);
 
-    void setGraph(ContigGraph* graph);
+    virtual void setGraph(ContigGraph* graph);
 
     void setLibName(string libName);
     void setSamFileWriter(SamFileWriteEdge fileWriter);

@@ -32,6 +32,7 @@ int ContigGraph::addVertex(int id, std::string name, int len) {
 
 int ContigGraph::incEdgeWeight(int v, int u) {
     assert(libName.size() > 0);
+    assert(v < vrtsToEdge.size());
     int e;
     if (vrtsToEdge[v].count(u) == 0) {
         e = (int)edgeWeight.size();

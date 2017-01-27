@@ -35,6 +35,8 @@ public:
     void setRnaReadFileName(string rnaReadsFileName);
 
     void handlingPairReads(string file1, string file2, string linN);
+
+    void setGraph(ContigGraph *graph) override;
 };
 
 
