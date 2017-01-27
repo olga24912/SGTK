@@ -18,7 +18,7 @@ public:
      * alignment RNA reads from rnaFile to refFile
      * result will be in resFile.
      */
-    void alignmentRNA(string refFileName, string rnaFileName, string resFileName);
+    void alignmentRNA(string refFileName, string rnaFileName, string resFileName, std::string path=".");
     static void alignmentREF(string refFileName, string queryFileName);
 };
 

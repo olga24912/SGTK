@@ -139,3 +139,5 @@ map<string, vector<ReferenceGraphBuilder::alignmentInfo>> ReferenceGraphBuilder:
 
     return contigsAlignment;
 }
+
+void ReferenceGraphBuilder::setSamFileWriter() {}

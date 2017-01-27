@@ -41,6 +41,10 @@ private:
     map<string, vector<alignmentInfo>> parseCoordFile(string fileName);
     map<string, vector<alignmentInfo>> parseTSVFile(string fileName);
     virtual string getLibColor();
+
+protected:
+    void setSamFileWriter() override;
+
 public:
     void evaluate();
 

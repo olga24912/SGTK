@@ -1,16 +1,9 @@
-//
-// Created by olga on 31.10.16.
-//
-
 #include "SamFileWriteEdge.h"
 
 SamFileWriteEdge::SamFileWriteEdge(string dir) {
-    this->dir = dir;
-    string commandRM = "rm -R ";
-    string command = "mkdir ";
-    commandRM.append(dir);
-    command.append(dir);
-    system(commandRM.c_str());
+    this->dir = dir + "/edges";
+
+    string command = "mkdir " + this->dir;
     system(command.c_str());
 }
 

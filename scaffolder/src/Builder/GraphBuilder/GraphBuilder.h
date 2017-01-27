@@ -14,6 +14,8 @@
  */
 class GraphBuilder {
 protected:
+    std::string path;
+
     ContigGraph* graph;
     SamFileWriteEdge samFileWriter;
 
@@ -22,6 +24,7 @@ protected:
 
     virtual string getLibColor() = 0;
     static string colorToString(int color[3]);
+    virtual void setSamFileWriter();
 public:
     //fun that need to call for add conection between contigs;
     virtual void evaluate() = 0;
@@ -31,8 +34,7 @@ public:
 
     virtual void setGraph(ContigGraph* graph);
 
-    void setLibName(string libName);
-    void setSamFileWriter(SamFileWriteEdge fileWriter);
+    void setLibName(std::string libName, std::string path);
 };
 
 

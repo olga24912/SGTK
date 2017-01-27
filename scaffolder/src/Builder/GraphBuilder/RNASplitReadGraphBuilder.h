@@ -22,6 +22,10 @@ private:
     string rnaReadsFileName;
 
     virtual string getLibColor();
+
+protected:
+    void setSamFileWriter() override;
+
 public:
     void evaluate();
     /*

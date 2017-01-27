@@ -2,6 +2,8 @@
 #include "Builder/GraphBuilder/ReferenceGraphBuilder.h"
 
 void GraphControl::evaluate(int argc, char **argv) {
+    createPath();
+
     argc -= (argc > 0);
     argv += (argc > 0);
 
@@ -34,12 +36,8 @@ void GraphControl::evaluate(int argc, char **argv) {
                 arg = opt.arg;
                 if (arg == "RNA_PAIR") {
                     gb = new RNAPairReadGraphBuilder();
-                    SamFileWriteEdge samFileWriter("reads_rna_pair");
-                    gb->setSamFileWriter(samFileWriter);
                 } else if (arg == "DNA_PAIR") {
                     gb = new DNAPairReadGraphBuilder();
-                    SamFileWriteEdge samFileWriter("reads_dna_pair");
-                    gb->setSamFileWriter(samFileWriter);
                 } else if (arg == "RNA_SPLIT") {
                     gb = new RNASplitReadGraphBuilder();
                 } else if (arg == "REF") {
@@ -100,7 +98,7 @@ void GraphControl::evaluate(int argc, char **argv) {
                 }
                 break;
             case LIBNAME:
-                gb -> setLibName(opt.arg);
+                gb -> setLibName(opt.arg, path);
                 break;
             case TSVFILE:
                 if (dynamic_cast<ReferenceGraphBuilder *> ( gb )) {
@@ -120,5 +118,21 @@ void GraphControl::evaluate(int argc, char **argv) {
 
     delete gb;
 
-    graph.write("graph.gr");
+    graph.write(path + "/graph.gr");
+}
+
+void GraphControl::createPath() {
+    time_t t = time(0);
+    struct tm* now = localtime(&t);
+    std::stringstream ss;
+    ss << "contig_graph_" << (now->tm_year) - 100 << '-'
+                         << (now->tm_mon + 1) << '-'
+                         <<  now->tm_mday << '_'
+                         << (now->tm_hour) << '-'
+                         << (now->tm_min);
+
+    path = string(ss.str());
+
+    string command = "mkdir " + path;
+    system(command.c_str());
 }

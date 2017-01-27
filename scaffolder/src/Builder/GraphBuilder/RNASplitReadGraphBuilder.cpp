@@ -1,32 +1,25 @@
-//
-// Created by olga on 08.10.16.
-//
-
 #include "RNASplitReadGraphBuilder.h"
-#include "Builder/SamFileWriter/SamFileWriteEdge.h"
 
 void RNASplitReadGraphBuilder::evaluate() {
     SystemAlignmentTools wwot;
     ReadsSplitter50 rs;
     SplitterByUnmappedEnd su;
 
-    wwot.alignmentRNA(refFileName, rnaReadsFileName, "rna.sam");
+    wwot.alignmentRNA(refFileName, rnaReadsFileName, "rna.sam", path);
     string unmappedName;
     if (rnaReadsFileName[rnaReadsFileName.size() - 1] == 'q') {
-        unmappedName = "Unmapped.fastq";
-        system("mv Unmapped.out.mate1 Unmapped.fastq");
+        unmappedName = path + "/Unmapped.fastq";
     } else {
-        unmappedName = "Unmapped.fasta";
-        system("mv Unmapped.out.mate1 Unmapped.fasta");
+        unmappedName = path + "/Unmapped.fasta";
     }
-    rs.splitReads(unmappedName, "cutPartReads1.fasta", "cutPartReads2.fasta");
-    su.splitReads("rna.sam", "short1.fasta", "short2.fasta");
+    std::string command = "mv " + path + "/Unmapped.out.mate1 " + unmappedName;
+    system(command.c_str());
 
-    handlingPairReads("cutPartReads1.fasta", "cutPartReads2.fasta", "-50-50");
+    rs.splitReads(unmappedName, path + "/cutPartReads1.fasta", path + "/cutPartReads2.fasta");
+    su.splitReads(path + "/rna.sam", path + "/short1.fasta", path + "/short2.fasta");
 
-    graph->newLib(libName + "-long-short", getLibColor());
-
-    handlingPairReads("short1.fasta", "short2.fasta", "-long-short");
+    handlingPairReads(path + "/cutPartReads1.fasta", path + "/cutPartReads2.fasta", libName + "-50-50");
+    handlingPairReads(path + "/short1.fasta", path + "/short2.fasta", libName + "-long-short");
 }
 
 void RNASplitReadGraphBuilder::setRefFileName(string refFileName) {
@@ -40,21 +33,18 @@ void RNASplitReadGraphBuilder::setRnaReadFileName(string rnaReadsFileName) {
 void RNASplitReadGraphBuilder::handlingPairReads(string file1, string file2, string libN) {
     SystemAlignmentTools wwot;
 
-    wwot.alignmentRNA(refFileName, file1, "rna1.sam");
-    wwot.alignmentRNA(refFileName, file2, "rna2.sam");
+    wwot.alignmentRNA(refFileName, file1, "rna1.sam", path);
+    wwot.alignmentRNA(refFileName, file2, "rna2.sam", path);
 
     RNAPairReadGraphBuilder gb;
 
-    gb.setFileName1("rna1.sam");
-    gb.setFileName2("rna2.sam");
+    gb.setLibName(libN, path);
+    gb.setFileName1(path + "/rna1.sam");
+    gb.setFileName2(path + "/rna2.sam");
     gb.setOneSideReadFlag(true);
     gb.setGraph(graph);
 
     gb.setMinContigLen(minContigLen);
-
-    SamFileWriteEdge writeEdge("reads_" + libName + libN);
-    gb.setSamFileWriter(writeEdge);
-
     gb.evaluate();
 }
 
@@ -67,3 +57,5 @@ string RNASplitReadGraphBuilder::getLibColor() {
 void RNASplitReadGraphBuilder::setGraph(ContigGraph *graph) {
     GraphBuilder::graph = graph;
 }
+
+void RNASplitReadGraphBuilder::setSamFileWriter() {}

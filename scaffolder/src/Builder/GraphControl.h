@@ -19,6 +19,7 @@
 class GraphControl {
 private:
     ContigGraph graph;
+    std::string path;
 
     struct Arg: public option::Arg
     {
@@ -102,6 +103,7 @@ private:
 
 public:
     void evaluate(int argc, char **argv); //build conection with this args
+    void createPath();
 };
 
 

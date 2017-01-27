@@ -13,12 +13,14 @@ void GraphBuilder::setGraph(ContigGraph *graph) {
     graph->newLib(libName, getLibColor());
 }
 
-void GraphBuilder::setLibName(string libName) {
+void GraphBuilder::setLibName(string libName, std::string path) {
     this->libName = libName;
-}
+    GraphBuilder::path = path + "/" + libName;
 
-void GraphBuilder::setSamFileWriter(SamFileWriteEdge writer) {
-    this->samFileWriter = writer;
+    std::string command = "mkdir " + GraphBuilder::path;
+    system(command.c_str());
+
+    setSamFileWriter();
 }
 
 string GraphBuilder::colorToString(int *color) {
@@ -37,4 +39,8 @@ string GraphBuilder::colorToString(int *color) {
         }
     }
     return res;
+}
+
+void GraphBuilder::setSamFileWriter() {
+    this->samFileWriter = SamFileWriteEdge(path);
 }
