@@ -1,29 +1,25 @@
-//
-// Created by olga on 22.10.16.
-//
-
 #include "SplitterByUnmappedEnd.h"
 
-void SplitterByUnmappedEnd::splitReads(string rnaFileName, string resFileName1, string resFileName2) {
-    SeqFileOut out1(resFileName1.c_str());
-    SeqFileOut out2(resFileName2.c_str());
+void SplitterByUnmappedEnd::splitReads(std::string rnaFileName, std::string resFileName1, std::string resFileName2) {
+    seqan::SeqFileOut out1(resFileName1.c_str());
+    seqan::SeqFileOut out2(resFileName2.c_str());
 
-    BamFileIn bamFile;
-    open(bamFile, rnaFileName.c_str());
+    seqan::BamFileIn bamFile;
+    seqan::open(bamFile, rnaFileName.c_str());
 
-    BamHeader samHeader;
-    readHeader(samHeader, bamFile);
+    seqan::BamHeader samHeader;
+    seqan::readHeader(samHeader, bamFile);
 
-    while (!atEnd(bamFile)) {
-        BamAlignmentRecord read;
-        readRecord(read, bamFile);
+    while (!seqan::atEnd(bamFile)) {
+        seqan::BamAlignmentRecord read;
+        seqan::readRecord(read, bamFile);
 
-        string name =  string(toCString(read.qName));
-        string seq = string(toCString(CharString(read.seq)));
+        std::string name =  std::string(toCString(read.qName));
+        std::string seq = std::string(toCString(seqan::CharString(read.seq)));
 
-        CigarElement<char, unsigned> * cigar = toCString(read.cigar);
-        CigarElement<char, unsigned> first = cigar[0];
-        CigarElement<char, unsigned> last = cigar[length(read.cigar) - 1];
+        seqan::CigarElement<char, unsigned> * cigar = toCString(read.cigar);
+        seqan::CigarElement<char, unsigned> first = cigar[0];
+        seqan::CigarElement<char, unsigned> last = cigar[length(read.cigar) - 1];
 
         if (first.operation == 'S') {
             if (first.count > MIN_READ_LEN) {

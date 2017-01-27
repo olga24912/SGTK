@@ -1,24 +1,17 @@
-//
-// Created by olga on 22.10.16.
-//
-
 #ifndef SCAFFOLDER_SPLITTERBYUNMAPPEDEND_H
 #define SCAFFOLDER_SPLITTERBYUNMAPPEDEND_H
-
 
 #include "ReadsSplitter.h"
 #include <seqan/bam_io.h>
 #include <seqan/graph_types.h>
 
-using namespace std;
-using namespace seqan;
-
+//if some read mapped on ref not fully, cut unmmaped end
 class SplitterByUnmappedEnd : public ReadsSplitter {
 private:
     const int MIN_READ_LEN = 20;
 public:
-    virtual void splitReads(string rnaFileName,
-                            string resFileName1, string resFileName2);
+    virtual void splitReads(std::string rnaFileName,
+                            std::string resFileName1, std::string resFileName2);
 };
 
 

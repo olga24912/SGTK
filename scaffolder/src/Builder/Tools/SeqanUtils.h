@@ -9,15 +9,12 @@
 #include <seqan/bam_io.h>
 #include <seqan/seq_io.h>
 
-using namespace seqan;
-using namespace std;
-
 //handling info from seqans classes
 class SeqanUtils {
 public:
-    static string cutReadName(BamAlignmentRecord read); //return reads name without "/1", "/2" end.
-    static string dna5ToString(Dna5* seq, int len);
-    static void writeRec(SeqFileOut& out, string name, string seq);
+    static std::string cutReadName(seqan::BamAlignmentRecord read); //return reads name without "/1", "/2" end.
+    static std::string dna5ToString(seqan::Dna5* seq, int len);
+    static void writeRec(seqan::SeqFileOut& out, std::string name, std::string seq);
 };
 
 

@@ -6,9 +6,6 @@
 #include <seqan/seq_io.h>
 #include "Builder/Tools/SeqanUtils.h"
 
-using namespace seqan;
-using namespace std;
-
 /*
  * Class for generate small test for slpit read
  * Take file with one ref genome if fasta format. Split it on two contigs
@@ -16,17 +13,17 @@ using namespace std;
  */
 class SplitReadsTest {
 private:
-    string smallRef(string ref, int exonLen, int intronLen, vector<int> spos);
+    std::string smallRef(std::string ref, int exonLen, int intronLen, std::vector<int> spos);
 public:
     /*
      * function  for generate test
      * fi - input file in fasta format with ref gen.
-     * fo - output file for two ref contigs.
+     * fo - output file for ref contigs.
      * rf - output file for generate reads.
      *
      * readLen - len of generate reads.
      */
-    void genTest(string fi, string fo, string rf, int readLen, int contigCnt=2);
+    void genTest(std::string fi, std::string fo, std::string rf, int readLen, int contigCnt=2);
 };
 
 

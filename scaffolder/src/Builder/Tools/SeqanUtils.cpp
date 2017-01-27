@@ -1,11 +1,7 @@
-//
-// Created by olga on 16.10.16.
-//
-
 #include "SeqanUtils.h"
 
-string SeqanUtils::cutReadName(BamAlignmentRecord read) {
-    string readName = string(toCString(read.qName));
+std::string SeqanUtils::cutReadName(seqan::BamAlignmentRecord read) {
+    std::string readName = std::string(seqan::toCString(read.qName));
     if (readName.size() > 1) {
         if ((readName[readName.size() - 2] == '/' ||
              readName[readName.size() - 2] == '_') &&
@@ -17,10 +13,10 @@ string SeqanUtils::cutReadName(BamAlignmentRecord read) {
     return readName;
 }
 
-string SeqanUtils::dna5ToString(Dna5 *seq, int len) {
-    string res;
+std::string SeqanUtils::dna5ToString(seqan::Dna5 *seq, int len) {
+    std::string res;
 
-    string intToDNAChar = "ACGTN";
+    std::string intToDNAChar = "ACGTN";
 
     for (int i = 0; i < len; ++i) {
         res += intToDNAChar[ordValue(seq[i])];
@@ -28,12 +24,12 @@ string SeqanUtils::dna5ToString(Dna5 *seq, int len) {
     return res;
 }
 
-void SeqanUtils::writeRec(SeqFileOut& out, string name, string seq) {
-    StringSet<seqan::CharString> ids;
-    appendValue(ids, CharString(name.c_str()));
+void SeqanUtils::writeRec(seqan::SeqFileOut& out, std::string name, std::string seq) {
+    seqan::StringSet<seqan::CharString> ids;
+    seqan::appendValue(ids, seqan::CharString(name.c_str()));
 
-    StringSet<seqan::CharString> seqs;
-    appendValue(seqs, Dna5String(seq));
+    seqan::StringSet<seqan::CharString> seqs;
+    seqan::appendValue(seqs, seqan::Dna5String(seq));
 
-    writeRecords(out, ids, seqs);
+    seqan::writeRecords(out, ids, seqs);
 }
