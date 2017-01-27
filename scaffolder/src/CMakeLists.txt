@@ -12,7 +12,6 @@ set(SOURCE_FILES Builder/GraphControl.cpp Builder/GraphControl.h
         Builder/Tools/SeqanUtils.cpp Builder/Tools/SeqanUtils.h Builder/ExternalLib/optionparser.h
         Builder/ReadsSplitter/ReadsSplitter50.cpp Builder/ReadsSplitter/ReadsSplitter50.h
         Builder/ReadsSplitter/SplitterByUnmappedEnd.cpp Builder/ReadsSplitter/SplitterByUnmappedEnd.h
-        Builder/SamFileWriter/SamFileWriter.cpp Builder/SamFileWriter/SamFileWriter.h
         Builder/SamFileWriter/SamFileWriteEdge.cpp Builder/SamFileWriter/SamFileWriteEdge.h
         Builder/SamFileWriter/ContigMerger.cpp Builder/SamFileWriter/ContigMerger.h
         Builder/GraphBuilder/ReferenceGraphBuilder.cpp Builder/GraphBuilder/ReferenceGraphBuilder.h

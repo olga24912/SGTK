@@ -1,7 +1,6 @@
 #ifndef SCAFFOLDER_SCAFSIMPLEPATH_H
 #define SCAFFOLDER_SCAFSIMPLEPATH_H
 
-
 #include <seqan/seq_io.h>
 #include <Filter/Filters/Filter.h>
 #include "Builder/Tools/SeqanUtils.h"

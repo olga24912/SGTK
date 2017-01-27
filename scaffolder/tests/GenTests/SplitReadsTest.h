@@ -1,7 +1,3 @@
-//
-// Created by olga on 16.10.16.
-//
-
 #ifndef SCAFFOLDER_SPLITREADSTEST_H
 #define SCAFFOLDER_SPLITREADSTEST_H
 

@@ -5,12 +5,14 @@
 #ifndef SCAFFOLDER_SAMFILEWRITEEDGE_H
 #define SCAFFOLDER_SAMFILEWRITEEDGE_H
 
-#include "SamFileWriter.h"
 #include "bits/stdc++.h"
+#include <seqan/bam_io.h>
+#include <seqan/seq_io.h>
 
 using namespace std;
+using namespace seqan;
 
-class SamFileWriteEdge : public SamFileWriter {
+class SamFileWriteEdge {
 private:
     string dir;
     string getName(int edgeID);

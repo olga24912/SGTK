@@ -8,8 +8,8 @@ include_directories(src)
 add_subdirectory(src)
 add_subdirectory(tests)
 
-add_executable(scaffolder mainBuildGraph.cpp)
+add_executable(build mainBuildGraph.cpp)
 add_executable(filter mainFilter.cpp)
 
-target_link_libraries(scaffolder scaffolder_lib)
+target_link_libraries(build scaffolder_lib)
 target_link_libraries(filter scaffolder_lib)

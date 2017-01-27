@@ -60,6 +60,15 @@ bool Manager::handlingRequest(std::istream &in) {
         commandByKeyWord[keyWord]->execute(argv, state, filter);
     } else if (keyWord == Manager::EXIT) {
         return false;
+    } else {
+        std::stringstream ss(keyWord);
+        int v;
+        if (ss >> v && state.name == State::LOCAL) {
+            std::stringstream sout;
+            sout << state.fileName << " " << v << " " << state.dist;
+            CommandWriteLocal().execute(string(sout.str()), state, filter);
+        }
+
     }
 
     return true;

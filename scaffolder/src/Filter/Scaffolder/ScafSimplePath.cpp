@@ -109,7 +109,7 @@ void ScafSimplePath::dfsPath(int v, vector<int> &next, vector<int> &used) {
 
     int tu = -1;
     vector<int> edges = graph->getEdges(v);
-    for (int e : edges.size()) {
+    for (int e : edges) {
         int u = graph->getEdgeTo(e);
 
         if (tu == -1) {
@@ -125,7 +125,7 @@ void ScafSimplePath::dfsPath(int v, vector<int> &next, vector<int> &used) {
     vector<int> edgeR = graph->getEdgesR(v);
     int fu = -1;
 
-    for (int e : edgeR.size()) {
+    for (int e : edgeR) {
         int u = graph->getEdgeFrom(e);
 
         if (fu == -1) {

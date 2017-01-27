@@ -1,10 +1,7 @@
-#include <iostream>
 #include "Builder/GraphControl.h"
 
 using namespace std;
 
-#include "GenTests/SplitReadsTest.h"
-#include "SamFileWriter/ContigMerger.h"
 
 int main(int argc, char **argv) {
       /*SplitReadsTest splitReadsTest;
