@@ -8,9 +8,6 @@
 //abstract class for splitting reads
 class ReadsSplitter {
 protected:
-    //map from read name to read seq. Reads from rnaFileName.
-    std::unordered_map<std::string, std::string> reads;
-
     //split one read with name - readName, data of this read - seq,
     //name for first part will be readName/1, for second - readName/2
     //split on part len and seq.size() - len
@@ -22,10 +19,6 @@ public:
     //first part of split read will be in resFileName1
     //second - resFileName2
     virtual void splitReads(std::string rnaFileName, std::string resFileName1, std::string resFileName2) = 0;
-
-    std::unordered_map<std::string, std::string> getFullReads() const {
-        return reads;
-    }
 };
 
 
