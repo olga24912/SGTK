@@ -141,3 +141,8 @@ map<string, vector<ReferenceGraphBuilder::alignmentInfo>> ReferenceGraphBuilder:
 }
 
 void ReferenceGraphBuilder::setSamFileWriter() {}
+
+
+void GraphBuilder::setMinContigLen(int minContigLen) {
+    GraphBuilder::minContigLen = minContigLen;
+}

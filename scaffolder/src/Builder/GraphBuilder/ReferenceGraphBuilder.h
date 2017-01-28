@@ -15,6 +15,8 @@
 class ReferenceGraphBuilder: public GraphBuilder {
 private:
     const int MIN_CONTIG = 500;
+    int minContigLen = 0;
+
     string refContigFileName, queryContigsFileName;
     string tsvFileName;
 
@@ -59,6 +61,9 @@ public:
     void setTsvFileName(const string &tsvFileName) {
         ReferenceGraphBuilder::tsvFileName = tsvFileName;
     }
+
+    // set barrier contig len. Contigs with smaller len will be ignore.
+    void setMinContigLen(int minContigLen);
 };
 
 

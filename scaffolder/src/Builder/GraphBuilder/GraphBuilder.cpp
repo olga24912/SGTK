@@ -4,10 +4,6 @@
 
 #include "GraphBuilder.h"
 
-void GraphBuilder::setMinContigLen(int minContigLen) {
-    GraphBuilder::minContigLen = minContigLen;
-}
-
 void GraphBuilder::setGraph(ContigGraph *graph) {
     GraphBuilder::graph = graph;
     graph->newLib(libName, getLibColor());
