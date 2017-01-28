@@ -55,3 +55,11 @@
 ## RNAPairReadGraphBuilder
     Реализация PairReadGraphBuilder для построения 
     связей между контигами на основании парных ридов РНК
+## DNAPairReadGraphBuilder
+    Реализация PairReadGraphBuilder для построения 
+    связей между контигами на основании парных ридов ДНК
+
+* void setDistBetweenPairReads(int distBetweenPairReads) можно 
+ установить максимальное расстояние вставки между ридами. Если 
+ парные риды будут находиться на заведомо большем расстояние, то 
+  такая пара будет игнорироваться. 

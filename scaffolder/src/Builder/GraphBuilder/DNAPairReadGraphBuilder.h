@@ -6,9 +6,7 @@
 #define SCAFFOLDER_DNAPAIRREADGRAPHBUILDER_H
 
 #include "PairReadGraphBuilder.h"
-/*
- * find conection between contigs by DNA pair reads
- */
+//find conection between contigs by DNA pair reads
 class DNAPairReadGraphBuilder: public PairReadGraphBuilder {
 private:
     int distBetweenPairReads = 0;
@@ -24,10 +22,8 @@ private:
 
     virtual std::string getLibColor();
 public:
-    /*
-     * set max distance between DNA pair read,
-     * if  dist will be more this conatcion will be ignore/
-     */
+    // set max distance between DNA pair read,
+    // if  dist will be more this conatcion will be ignore
     void setDistBetweenPairReads(int distBetweenPairReads);
 };
 
