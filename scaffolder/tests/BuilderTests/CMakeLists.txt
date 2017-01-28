@@ -1,6 +1,6 @@
 include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 
-set(SOURCE_FILES GenTests/SplitReadsTest.h GenTests/SplitReadsTest.cpp)
+set(SOURCE_FILES GenTests/SplitReadsTest.h GenTests/SplitReadsTest.cpp GenTests/RnaPairReadsTest.cpp GenTests/RnaPairReadsTest.h)
 
 add_executable(runBuilderTests builderTest.cpp ${SOURCE_FILES})
 

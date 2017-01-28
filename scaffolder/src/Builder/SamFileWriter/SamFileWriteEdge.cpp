@@ -1,18 +1,18 @@
 #include "SamFileWriteEdge.h"
 
-SamFileWriteEdge::SamFileWriteEdge(string dir) {
+SamFileWriteEdge::SamFileWriteEdge(std::string dir) {
     this->dir = dir + "/edges";
 
-    string command = "mkdir " + this->dir;
+    std::string command = "mkdir " + this->dir;
     system(command.c_str());
 }
 
-void SamFileWriteEdge::writeEdge(int edgeID, BamAlignmentRecord read1, BamAlignmentRecord read2) {
-    string fileName = getName(edgeID) + "#1.sam";
+void SamFileWriteEdge::writeEdge(int edgeID, seqan::BamAlignmentRecord read1, seqan::BamAlignmentRecord read2) {
+    std::string fileName = getName(edgeID) + "#1.sam";
 
-    ofstream out;
+    std::ofstream out;
     out.open (fileName, std::ofstream::out | std::ofstream::app);
-    BamFileOut fileOut(context(*fileIn), out, Sam());
+    seqan::BamFileOut fileOut(seqan::context(*fileIn), out, seqan::Sam());
     writeRecord(fileOut, read1);
     close(fileOut);
     out.close();
@@ -20,21 +20,21 @@ void SamFileWriteEdge::writeEdge(int edgeID, BamAlignmentRecord read1, BamAlignm
 
     fileName = getName(edgeID) + "#2.sam";
     out.open (fileName, std::ofstream::out | std::ofstream::app);
-    BamFileOut fileOut2(context(*fileIn), out, Sam());
+    seqan::BamFileOut fileOut2(seqan::context(*fileIn), out, seqan::Sam());
     writeRecord(fileOut2, read2);
 
     close(fileOut2);
     out.close();
 }
 
-string SamFileWriteEdge::getName(int edgeID) {
-    string res = "";
+std::string SamFileWriteEdge::getName(int edgeID) {
+    std::string res = "";
     int x = edgeID;
     while (x != 0) {
         res += '0' + x%10;
         x /= 10;
     }
-    reverse(res.begin(), res.end());
+    std::reverse(res.begin(), res.end());
     res = dir + "/edge" + res;
     return res;
 }

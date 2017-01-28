@@ -26,6 +26,7 @@ void SystemAlignmentTools::alignmentRNA(string refFileName, string rnaFileName, 
     command += rnaFileName;
     command += " --outFileNamePrefix " + path;
 
+    cerr << command << endl;
     system(command.c_str());
 
     command = "mv " + path + "Aligned.out.sam ";

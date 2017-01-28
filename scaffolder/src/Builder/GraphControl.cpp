@@ -70,7 +70,12 @@ void GraphControl::evaluate(int argc, char **argv) {
                 }
                 break;
             case MINCONTIGLEN:
-                gb->setMinContigLen(atoi(opt.arg));
+                if ( dynamic_cast <ReferenceGraphBuilder *> ( gb )) {
+                    (dynamic_cast<ReferenceGraphBuilder *> (gb)) -> setMinContigLen(atoi(opt.arg));
+                } else {
+                    printf("You can put min contig len only for reference graph builder.\n");
+                    return;
+                }
                 break;
             case REFFILE:
                 if ( dynamic_cast <RNASplitReadGraphBuilder *> ( gb )) {

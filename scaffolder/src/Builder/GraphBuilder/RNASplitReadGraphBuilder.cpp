@@ -44,7 +44,6 @@ void RNASplitReadGraphBuilder::handlingPairReads(string file1, string file2, str
     gb.setOneSideReadFlag(true);
     gb.setGraph(graph);
 
-    gb.setMinContigLen(minContigLen);
     gb.evaluate();
 }
 

@@ -9,22 +9,19 @@
 #include <seqan/bam_io.h>
 #include <seqan/seq_io.h>
 
-using namespace std;
-using namespace seqan;
-
 class SamFileWriteEdge {
 private:
-    string dir;
-    string getName(int edgeID);
-    BamFileIn* fileIn;
+    std::string dir;
+    std::string getName(int edgeID);
+    seqan::BamFileIn* fileIn;
 
 public:
-    SamFileWriteEdge(string dir);
+    SamFileWriteEdge(std::string dir);
     SamFileWriteEdge(){};
-    void setFileIn(BamFileIn* in) {
+    void setFileIn(seqan::BamFileIn* in) {
         fileIn = in;
     }
-    virtual void writeEdge(int edgeID, BamAlignmentRecord read1, BamAlignmentRecord read2);
+    virtual void writeEdge(int edgeID, seqan::BamAlignmentRecord read1, seqan::BamAlignmentRecord read2);
 };
 
 

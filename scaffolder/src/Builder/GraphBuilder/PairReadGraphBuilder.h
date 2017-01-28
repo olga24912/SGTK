@@ -1,60 +1,52 @@
-//
-// Created by olga on 08.10.16.
-//
-
 #ifndef SCAFFOLDER_PAIRREADGRAPHBUILDER_H
 #define SCAFFOLDER_PAIRREADGRAPHBUILDER_H
 
 #include "GraphBuilder.h"
 #include "Builder/SamFileWriter/SamFileWriteEdge.h"
+#include "Builder/Tools/SeqanUtils.h"
 #include <bits/stdc++.h>
 #include <seqan/bam_io.h>
 #include <seqan/graph_types.h>
 
-
-using namespace std;
-using namespace seqan;
-
-//genrate conection betwen contigs by pair reads
+//generate connection between contigs by pair reads
 class PairReadGraphBuilder: public GraphBuilder {
 protected:
     bool oneSideRead = false;
 
-    string fileName1;
-    string fileName2;
+    std::string fileName1;
+    std::string fileName2;
 
-    BamFileIn bamFile1;
-    BamFileIn bamFile2;
+    seqan::BamFileIn bamFile1;
+    seqan::BamFileIn bamFile2;
 
-    unordered_map<string, BamAlignmentRecord> read1ByName;
-    unordered_map<string, BamAlignmentRecord> read2ByName;
+    std::unordered_map<std::string, seqan::BamAlignmentRecord> read1ByName;
+    std::unordered_map<std::string, seqan::BamAlignmentRecord> read2ByName;
 
-    pair<string, int> processOneFirstRead(BamAlignmentRecord read);
-    pair<string, int> processOneSecondRead(BamAlignmentRecord read);
-    virtual void addInfoAboutRead(string readName, int target, BamAlignmentRecord read);
-    virtual void addInfoAbout2Read(string readName, int target, BamAlignmentRecord read);
-    int get2Target(const BamAlignmentRecord &read) const;
-    int get1Target(const BamAlignmentRecord &read) const;
+    std::pair<std::string, int> processOneFirstRead(seqan::BamAlignmentRecord read);
+    std::pair<std::string, int> processOneSecondRead(seqan::BamAlignmentRecord read);
+    virtual void addInfoAboutRead(std::string readName, int target, seqan::BamAlignmentRecord read);
+    virtual void addInfoAbout2Read(std::string readName, int target, seqan::BamAlignmentRecord read);
+    int get2Target(const seqan::BamAlignmentRecord &read) const;
+    int get1Target(const seqan::BamAlignmentRecord &read) const;
     void readHeaderInit();
-    bool isUniqueMapRead(BamAlignmentRecord read);
+    bool isUniqueMapRead(seqan::BamAlignmentRecord read);
 
-    virtual void incEdgeWeight(BamAlignmentRecord read1, BamAlignmentRecord read2);
+    virtual void incEdgeWeight(seqan::BamAlignmentRecord read1, seqan::BamAlignmentRecord read2);
 
     int pairTarget(int id);
 
     void handleReads();
 public:
     //set sam file for first pair read alignment
-    void setFileName2(const string &fileName2);
+    void setFileName1(const std::string &fileName1);
 
     //set sam file for second pair read alignment
-    void setFileName1(const string &fileName1);
+    void setFileName2(const std::string &fileName2);
 
     //set info about orintation  pair read
     void setOneSideReadFlag(bool flag);
 
     virtual void evaluate();
 };
-
 
 #endif //SCAFFOLDER_PAIRREADGRAPHBUILDER_H

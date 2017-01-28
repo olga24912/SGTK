@@ -12,17 +12,17 @@
 class DNAPairReadGraphBuilder: public PairReadGraphBuilder {
 private:
     int distBetweenPairReads;
-    map<string, int> read1DistToEnd;
-    map<string, int> read2DistToEnd;
+    std::map<std::string, int> read1DistToEnd;
+    std::map<std::string, int> read2DistToEnd;
 
-    void addInfoAboutRead(string readName, int target, BamAlignmentRecord read);
-    void addInfoAbout2Read(string readName, int target, BamAlignmentRecord read);
+    void addInfoAboutRead(std::string readName, int target, seqan::BamAlignmentRecord read);
+    void addInfoAbout2Read(std::string readName, int target, seqan::BamAlignmentRecord read);
 
-    void incEdgeWeight(BamAlignmentRecord read1, BamAlignmentRecord read2);
+    void incEdgeWeight(seqan::BamAlignmentRecord read1, seqan::BamAlignmentRecord read2);
 
-    int readDist(BamAlignmentRecord read);
+    int readDist(seqan::BamAlignmentRecord read);
 
-    virtual string getLibColor();
+    virtual std::string getLibColor();
 public:
     /*
      * set max distance between DNA pair read,

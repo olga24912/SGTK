@@ -81,7 +81,7 @@ private:
             { SAM2,         0,"s","sam2",         Arg::Required,"  -s <arg>, \t--sam2=<arg>  \tMust have an argument,"
                                                               "file name of second sam file. def = read2.sam" },
             { MINCONTIGLEN, 0,"c","mincontiglen", Arg::Numeric, "  -c <num>, \t--mincontiglen=<num>"
-                                                              "  \tTake one numver - the barrier of contig len, def = 0" },
+                                                              "  \tTake one numver - the barrier of contig len, def = 500. Only for ref graph builder" },
             { DIST_BETWEEN_PAIR_READS, 0, "d", "pair_read_dist", Arg::Numeric, " -d <num>, \t --pair_read_dist=<num>"
                                                                                        "\t Take one number - minimal posible len between pair reads"},
             { REFFILE, 0, "r", "ref_file_name", Arg::Required, " -r <arg>, \t --ref_file_name=<arg>"

@@ -9,7 +9,7 @@ void GraphBuilder::setGraph(ContigGraph *graph) {
     graph->newLib(libName, getLibColor());
 }
 
-void GraphBuilder::setLibName(string libName, std::string path) {
+void GraphBuilder::setLibName(std::string libName, std::string path) {
     this->libName = libName;
     GraphBuilder::path = path + "/" + libName;
 
@@ -19,8 +19,8 @@ void GraphBuilder::setLibName(string libName, std::string path) {
     setSamFileWriter();
 }
 
-string GraphBuilder::colorToString(int *color) {
-    string res = "#";
+std::string GraphBuilder::colorToString(int *color) {
+    std::string res = "#";
     for (int i = 0; i < 3; ++i) {
         if (color[i] / 16 < 10) {
             res += (color[i] / 16) + '0';

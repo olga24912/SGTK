@@ -21,22 +21,22 @@ void ReferenceGraphBuilder::evaluate() {
 void ReferenceGraphBuilder::generateVertex() {
     bool firstLib = (graph->getLibNum() == 1);
 
-    SeqFileIn seqFileIn(queryContigsFileName.c_str());
+    seqan::SeqFileIn seqFileIn(queryContigsFileName.c_str());
 
-    StringSet<CharString> ids;
-    StringSet<Dna5String> seqs;
+    seqan::StringSet<seqan::CharString> ids;
+    seqan::StringSet<seqan::Dna5String> seqs;
 
-    readRecords(ids, seqs, seqFileIn);
+    seqan::readRecords(ids, seqs, seqFileIn);
 
     for (unsigned i = 0; i < length(ids); ++i) {
-        string name = string(toCString(ids[i]));
+        std::string name = std::string(seqan::toCString(ids[i]));
 
-        stringstream ss;
+        std::stringstream ss;
         ss << name;
         ss >> name;
 
-        cerr << name << endl;
-        string seq = SeqanUtils::dna5ToString(toCString(seqs[i]), length(seqs[i]));
+        std::cerr << name << std::endl;
+        std::string seq = SeqanUtils::dna5ToString(seqan::toCString(seqs[i]), seqan::length(seqs[i]));
 
         contigsId[name] = 2 * i;
         contigsName.push_back(name);
@@ -56,14 +56,14 @@ void ReferenceGraphBuilder::generateVertex() {
     }
 }
 
-string ReferenceGraphBuilder::getLibColor() {
+std::string ReferenceGraphBuilder::getLibColor() {
     int color[3] = {255, 0, 0};
     return colorToString(color);
 }
 
-void ReferenceGraphBuilder::createGraph(map<string, vector<ReferenceGraphBuilder::alignmentInfo>> contigsAlignment) {
+void ReferenceGraphBuilder::createGraph(std::map<std::string, std::vector<ReferenceGraphBuilder::alignmentInfo>> contigsAlignment) {
     for (auto it = contigsAlignment.begin(); it != contigsAlignment.end(); ++it) {
-        vector<alignmentInfo> contLPos = it->second;
+        std::vector<alignmentInfo> contLPos = it->second;
         sort(contLPos.begin(), contLPos.end());
         for (int i = 0; i < (int)contLPos.size() - 1; ++i) {
             graph->incEdgeWeight(contigsId[contLPos[i].contigName], contigsId[contLPos[i + 1].contigName]);
@@ -74,13 +74,13 @@ void ReferenceGraphBuilder::createGraph(map<string, vector<ReferenceGraphBuilder
     }
 }
 
-map<string, vector<ReferenceGraphBuilder::alignmentInfo>> ReferenceGraphBuilder::parseCoordFile(string fileName) {
-    map<string, vector<ReferenceGraphBuilder::alignmentInfo>> contigsAlignment;
-    ifstream in(fileName);
+std::map<std::string, std::vector<ReferenceGraphBuilder::alignmentInfo>> ReferenceGraphBuilder::parseCoordFile(std::string fileName) {
+    std::map<std::string, std::vector<ReferenceGraphBuilder::alignmentInfo>> contigsAlignment;
+    std::ifstream in(fileName);
 
     int l, r, lq, rq, x;
     double xx;
-    string rcont, qcont;
+    std::string rcont, qcont;
 
     while (in >> l >> r >> lq >> rq >> x >> x >> xx >> x >> x >> rcont >> qcont) {
         if (graph->getTargetLength(contigsId[qcont]) < MIN_CONTIG) {
@@ -102,27 +102,27 @@ map<string, vector<ReferenceGraphBuilder::alignmentInfo>> ReferenceGraphBuilder:
     return contigsAlignment;
 }
 
-map<string, vector<ReferenceGraphBuilder::alignmentInfo>> ReferenceGraphBuilder::parseTSVFile(string fileName) {
-    cerr << "start parse TSV" << endl;
-    map<string, vector<ReferenceGraphBuilder::alignmentInfo>> contigsAlignment;
-    ifstream in(fileName);
+std::map<std::string, std::vector<ReferenceGraphBuilder::alignmentInfo>> ReferenceGraphBuilder::parseTSVFile(string fileName) {
+    std::cerr << "start parse TSV" << std::endl;
+    std::map<std::string, std::vector<ReferenceGraphBuilder::alignmentInfo>> contigsAlignment;
+    std::ifstream in(fileName);
 
-    string header;
-    getline(in, header);
+    std::string header;
+    std::getline(in, header);
 
-    cerr << header << endl;
+    std::cerr << header << std::endl;
     int l, r, lq, rq, x;
     double xx;
-    string bestGroup;
+    std::string bestGroup;
 
-    string rcont, qcont;
+    std::string rcont, qcont;
 
     while (in >> l >> r >> lq >> rq >> rcont >> qcont >> x >> xx >> bestGroup) {
-        string status;
-        getline(in, status);
-        getline(in, status);
+        std::string status;
+        std::getline(in, status);
+        std::getline(in, status);
 
-        cerr << l << " " << r << " " << rcont << " " << qcont << endl;
+        std::cerr << l << " " << r << " " << rcont << " " << qcont << std::endl;
         if (r - l < MIN_CONTIG) {
             continue;
         }
@@ -143,6 +143,6 @@ map<string, vector<ReferenceGraphBuilder::alignmentInfo>> ReferenceGraphBuilder:
 void ReferenceGraphBuilder::setSamFileWriter() {}
 
 
-void GraphBuilder::setMinContigLen(int minContigLen) {
-    GraphBuilder::minContigLen = minContigLen;
+void ReferenceGraphBuilder::setMinContigLen(int minContigLen) {
+    this->minContigLen = minContigLen;
 }

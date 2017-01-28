@@ -13,10 +13,10 @@ protected:
     ContigGraph* graph; //generated graph
     SamFileWriteEdge samFileWriter; //for write info about edge's reads
 
-    string libName; //name of the lib
+    std::string libName; //name of the lib
 
-    virtual string getLibColor() = 0; //return color for current lib
-    static string colorToString(int color[3]); // translate color like array {255, 0, 255} to  string "#ff00ff"
+    virtual std::string getLibColor() = 0; //return color for current lib
+    static std::string colorToString(int color[3]); // translate color like array {255, 0, 255} to  string "#ff00ff"
     virtual void setSamFileWriter(); // init samFileWriter
 public:
     //fun that need to call for add conection between contigs;

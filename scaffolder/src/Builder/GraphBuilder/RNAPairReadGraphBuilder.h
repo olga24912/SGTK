@@ -1,15 +1,12 @@
-//
-// Created by olga on 08.10.16.
-//
-
 #ifndef SCAFFOLDER_RNAPAIRREADGRAPHBUILDER_H
 #define SCAFFOLDER_RNAPAIRREADGRAPHBUILDER_H
 
 #include "PairReadGraphBuilder.h"
 
+//generate connection between contigs by RNA pair reads
 class RNAPairReadGraphBuilder : public PairReadGraphBuilder {
 private:
-    virtual string getLibColor();
+    virtual std::string getLibColor();
 public:
     RNAPairReadGraphBuilder(){}
 };
