@@ -4,10 +4,11 @@
 #include "Builder/ReadsSplitter/ReadsSplitter50.h"
 #include "Builder/ReadsSplitter/SplitterByUnmappedEnd.h"
 #include "Builder/GraphBuilder/RNAPairReadGraphBuilder.h"
+#include "Builder/GraphBuilder/RNASplitReadGraphBuilder.h"
 #include "GenTests/RnaPairReadsTest.h"
 #include "GenTests/SplitReadsTest.h"
-#include "gtest/gtest.h"
 #include "GenTests/DnaPairReadsTest.h"
+#include "gtest/gtest.h"
 
 class ReadsSplitterTest : public  ::testing::Test {
 protected:
@@ -26,7 +27,7 @@ protected:
         SystemAlignmentTools st;
 
         st.alignmentRNA(tmpRefFileName, tmpReadsFileName, "rna.sam", "/tmp");
-        std::string command = "mv Unmapped.out.mate1 " + tmpUnmappedFileName;
+        std::string command = "mv /tmp/Unmapped.out.mate1 " + tmpUnmappedFileName;
         system(command.c_str());
     }
 
@@ -137,6 +138,18 @@ protected:
     ContigGraph *graph;
 
     void checkGraph() {
+        SystemAlignmentTools st;
+        st.alignmentRNA(tmpRefFileName, tmpRead1FileName, "rna1.sam", "/tmp");
+        st.alignmentRNA(tmpRefFileName, tmpRead2FileName, "rna2.sam", "/tmp");
+
+        graph = new ContigGraph;
+
+        builder->setLibName("testLib", "/tmp");
+        builder->setFileName1(tmpSam1FileName);
+        builder->setFileName2(tmpSam2FileName);
+        builder->setGraph(graph);
+        builder->evaluate();
+
         graph->write("tmp/graph.gr");
         ASSERT_EQ(graph->getLibNum(), 1);
         ASSERT_EQ(graph->getLibName(0), "testLib");
@@ -184,56 +197,72 @@ protected:
             ASSERT_EQ(1000, graph->getTargetLength(i));
             ASSERT_EQ(std::string(name.str()), graph->getTargetName(i));
         }
+
+        delete builder;
+        delete graph;
     }
 };
 
 TEST_F(PairReadTest, testRNAPairRead) {
     RnaPairReadsTest gen;
     gen.genTest(sourceFileName, tmpRead1FileName, tmpRead2FileName, tmpRefFileName);
-
-    SystemAlignmentTools st;
-    st.alignmentRNA(tmpRefFileName, tmpRead1FileName, "rna1.sam", "/tmp");
-    st.alignmentRNA(tmpRefFileName, tmpRead2FileName, "rna2.sam", "/tmp");
-
     builder = new RNAPairReadGraphBuilder;
-    graph = new ContigGraph;
-
-    builder->setLibName("testLib", "/tmp");
-    builder->setFileName1(tmpSam1FileName);
-    builder->setFileName2(tmpSam2FileName);
-    builder->setGraph(graph);
-    builder->evaluate();
 
     checkGraph();
-
-    delete builder;
-    delete graph;
 }
 
 TEST_F(PairReadTest, testDNAPairRead) {
     DnaPairReadsTest gen;
     gen.genTest(sourceFileName, tmpRead1FileName, tmpRead2FileName, tmpRefFileName);
-
-    SystemAlignmentTools st;
-    st.alignmentRNA(tmpRefFileName, tmpRead1FileName, "rna1.sam", "/tmp");
-    st.alignmentRNA(tmpRefFileName, tmpRead2FileName, "rna2.sam", "/tmp");
-
     builder = new DNAPairReadGraphBuilder();
-    graph = new ContigGraph;
-
-    builder->setLibName("testLib", "/tmp");
-    builder->setFileName1(tmpSam1FileName);
-    builder->setFileName2(tmpSam2FileName);
-    builder->setGraph(graph);
     (dynamic_cast<DNAPairReadGraphBuilder*> (builder))->setDistBetweenPairReads(200);
-    builder->evaluate();
 
     checkGraph();
-
-    delete builder;
-    delete graph;
 }
 
+class SplitReadGraphBuildTest : public ::testing::Test {
+protected:
+    std::string sourceFileName = "../../../resources/MG1655-K12.first10K.fasta";
+
+    std::string tmpRefFileName = "/tmp/ref.fasta";
+    std::string tmpReadsFileName = "/tmp/reads.fasta";
+
+    RNASplitReadGraphBuilder* builder;
+    void SetUp() {
+        SplitReadsTest gen;
+        gen.genTest(sourceFileName, tmpRefFileName, tmpReadsFileName, 100);
+    }
+};
+
+TEST_F(SplitReadGraphBuildTest, testSplitReadBuild) {
+    builder = new RNASplitReadGraphBuilder();
+    builder->setRefFileName(tmpRefFileName);
+    builder->setRnaReadFileName(tmpReadsFileName);
+    builder->setLibName("testSplit", "/tmp");
+    ContigGraph *graph = new ContigGraph;
+    builder->setGraph(graph);
+    builder->evaluate();
+
+    graph->write("tmp/graph.gr");
+    ASSERT_EQ(graph->getLibNum(), 2);
+    ASSERT_EQ(graph->getVertexCount(), 4);
+
+    ASSERT_EQ(graph->getEdges(0).size(), 2);
+    ASSERT_EQ(graph->getToVertex(graph->getEdges(0)[0]), 2);
+    ASSERT_EQ(graph->getToVertex(graph->getEdges(0)[1]), 2);
+    ASSERT_EQ(graph->getEdges(3).size(), 2);
+    ASSERT_EQ(graph->getToVertex(graph->getEdges(3)[0]), 1);
+    ASSERT_EQ(graph->getToVertex(graph->getEdges(3)[1]), 1);
+    ASSERT_EQ(graph->getEdgesR(2).size(), 2);
+    ASSERT_EQ(graph->getFromVertex(graph->getEdgesR(2)[0]), 0);
+    ASSERT_EQ(graph->getFromVertex(graph->getEdgesR(2)[1]), 0);
+    ASSERT_EQ(graph->getEdgesR(1).size(), 2);
+    ASSERT_EQ(graph->getFromVertex(graph->getEdgesR(1)[0]), 3);
+    ASSERT_EQ(graph->getFromVertex(graph->getEdgesR(1)[1]), 3);
+
+    delete graph;
+    delete builder;
+}
 
 int main(int argc, char *argv[]) {
     ::testing::InitGoogleTest(&argc, argv);

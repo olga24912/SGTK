@@ -12,10 +12,9 @@
 #include "Builder/ReadsSplitter/ReadsSplitter50.h"
 #include "Builder/ReadsSplitter/SplitterByUnmappedEnd.h"
 
-/*
- * find connection between contig by read who split on exons on
- * two deferent contigs.
- */
+
+// find connection between contig by read who split on exons on
+// two deferent contigs.
 class RNASplitReadGraphBuilder : public GraphBuilder {
 private:
     string refFileName;
@@ -25,22 +24,17 @@ private:
 
 protected:
     void setSamFileWriter() override;
+    void handlingPairReads(string file1, string file2, string linN);
 
 public:
     void evaluate();
-    /*
-     * set name of fie with ref genom in fasta format.
-     */
+    // set name of fie with ref genom in fasta format.
     void setRefFileName(string refFileName);
 
-    /*
-     * set name of  file with rna reads in fasta format.
-     */
+    // set name of  file with rna reads in fasta format.
     void setRnaReadFileName(string rnaReadsFileName);
 
-    void handlingPairReads(string file1, string file2, string linN);
-
-    void setGraph(ContigGraph *graph) override;
+    void setGraph(ContigGraph *graph);
 };
 
 

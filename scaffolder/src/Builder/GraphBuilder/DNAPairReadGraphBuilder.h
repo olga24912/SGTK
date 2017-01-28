@@ -9,7 +9,7 @@
 //find conection between contigs by DNA pair reads
 class DNAPairReadGraphBuilder: public PairReadGraphBuilder {
 private:
-    int distBetweenPairReads = 0;
+    int distBetweenPairReads = (int)1e9;
     std::map<std::string, int> read1DistToEnd;
     std::map<std::string, int> read2DistToEnd;
 
