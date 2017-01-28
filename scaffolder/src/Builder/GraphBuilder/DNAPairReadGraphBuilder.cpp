@@ -12,9 +12,9 @@ void DNAPairReadGraphBuilder::addInfoAboutRead(std::string readName, int target,
 
 int DNAPairReadGraphBuilder::readDist(seqan::BamAlignmentRecord read) {
     if (!seqan::hasFlagRC(read)) {
-        return (graph->getTargetLength(2 * read.rID) - read.beginPos);
+        return (graph->getTargetLength(2 * read.rID) - read.beginPos - (int)(read.seq.data_end - read.seq.data_begin));
     } else {
-        return (read.beginPos + read.tLen);
+        return (read.beginPos);
     }
 }
 

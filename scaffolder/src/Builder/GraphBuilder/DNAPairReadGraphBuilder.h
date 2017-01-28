@@ -11,7 +11,7 @@
  */
 class DNAPairReadGraphBuilder: public PairReadGraphBuilder {
 private:
-    int distBetweenPairReads;
+    int distBetweenPairReads = 0;
     std::map<std::string, int> read1DistToEnd;
     std::map<std::string, int> read2DistToEnd;
 

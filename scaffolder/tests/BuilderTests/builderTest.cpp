@@ -1,4 +1,5 @@
 #include <Builder/Tools/SystemAlignmentTools.h>
+#include <Builder/GraphBuilder/DNAPairReadGraphBuilder.h>
 #include "Builder/ReadsSplitter/ReadsSplitter.h"
 #include "Builder/ReadsSplitter/ReadsSplitter50.h"
 #include "Builder/ReadsSplitter/SplitterByUnmappedEnd.h"
@@ -6,6 +7,7 @@
 #include "GenTests/RnaPairReadsTest.h"
 #include "GenTests/SplitReadsTest.h"
 #include "gtest/gtest.h"
+#include "GenTests/DnaPairReadsTest.h"
 
 class ReadsSplitterTest : public  ::testing::Test {
 protected:
@@ -121,7 +123,7 @@ TEST_F(ReadsSplitterTest, testShortLong) {
     delete splitter;
 }
 
-class RNAPairReadTest : public ::testing::Test {
+class PairReadTest : public ::testing::Test {
 protected:
     std::string sourceFileName = "../../../resources/MG1655-K12.first10K.fasta";
 
@@ -131,21 +133,68 @@ protected:
     std::string tmpRead2FileName = "/tmp/read2.fasta";
     std::string tmpSam2FileName = "/tmp/rna2.sam";
 
-    RNAPairReadGraphBuilder *builder;
+    PairReadGraphBuilder *builder;
     ContigGraph *graph;
 
-    void SetUp() {
-        RnaPairReadsTest gen;
-        gen.genTest(sourceFileName, tmpRead1FileName, tmpRead2FileName, tmpRefFileName);
+    void checkGraph() {
+        graph->write("tmp/graph.gr");
+        ASSERT_EQ(graph->getLibNum(), 1);
+        ASSERT_EQ(graph->getLibName(0), "testLib");
+        ASSERT_EQ(graph->getVertexCount(), 20);
 
-        SystemAlignmentTools st;
-        st.alignmentRNA(tmpRefFileName, tmpRead1FileName, "rna1.sam", "/tmp");
+        for (int i = 0; i < 20; ++i) {
+            std::cerr << i << " " << graph->getEdges(i).size() << std::endl;
+        }
 
-        st.alignmentRNA(tmpRefFileName, tmpRead2FileName, "rna2.sam", "/tmp");
+        for (int i = 0; i < 17; i = (i + 2) ^ 1) {
+            ASSERT_EQ(graph->getEdges(i).size(), 1);
+            ASSERT_EQ(graph->getToVertex(graph->getEdges(i)[0]), (i + 2)^1);
+            ASSERT_GE(graph->getEdgeWeight(graph->getEdges(i)[0]), 20);
+        }
+
+        for (int i = 3; i < 20; i = (i + 2)^1) {
+            ASSERT_EQ(graph->getEdgesR(i).size(), 1);
+            ASSERT_EQ(graph->getFromVertex(graph->getEdgesR(i)[0]), (i - 2)^1);
+        }
+
+        for (int i = 2; i < 17; i = (i + 2) ^ 1) {
+            ASSERT_EQ(graph->getEdges(i).size(), 1);
+            ASSERT_EQ(graph->getToVertex(graph->getEdges(i)[0]), (i - 2)^1);
+            ASSERT_GE(graph->getEdgeWeight(graph->getEdges(i)[0]), 20);
+        }
+
+        for (int i = 1; i < 18; i = (i + 2) ^ 1) {
+            ASSERT_EQ(graph->getEdgesR(i).size(), 1);
+            ASSERT_EQ(graph->getFromVertex(graph->getEdgesR(i)[0]), (i + 2)^1);
+        }
+
+
+        for (int i = 0; i < 20; i += 2) {
+            std::stringstream name;
+            name << "contig" << i/2;
+
+            ASSERT_EQ(1000, graph->getTargetLength(i));
+            ASSERT_EQ(std::string(name.str()), graph->getTargetName(i));
+        }
+
+        for (int i = 1; i < 20; i += 2) {
+            std::stringstream name;
+            name << "contig" << i/2 << "-rev";
+
+            ASSERT_EQ(1000, graph->getTargetLength(i));
+            ASSERT_EQ(std::string(name.str()), graph->getTargetName(i));
+        }
     }
 };
 
-TEST_F(RNAPairReadTest, testRNAPairRead) {
+TEST_F(PairReadTest, testRNAPairRead) {
+    RnaPairReadsTest gen;
+    gen.genTest(sourceFileName, tmpRead1FileName, tmpRead2FileName, tmpRefFileName);
+
+    SystemAlignmentTools st;
+    st.alignmentRNA(tmpRefFileName, tmpRead1FileName, "rna1.sam", "/tmp");
+    st.alignmentRNA(tmpRefFileName, tmpRead2FileName, "rna2.sam", "/tmp");
+
     builder = new RNAPairReadGraphBuilder;
     graph = new ContigGraph;
 
@@ -155,49 +204,36 @@ TEST_F(RNAPairReadTest, testRNAPairRead) {
     builder->setGraph(graph);
     builder->evaluate();
 
-    ASSERT_EQ(graph->getLibNum(), 1);
-    ASSERT_EQ(graph->getLibName(0), "testLib");
-    ASSERT_EQ(graph->getVertexCount(), 20);
+    checkGraph();
 
-    for (int i = 0; i < 17; i = (i + 2) ^ 1) {
-        ASSERT_EQ(graph->getEdges(i).size(), 1);
-        ASSERT_EQ(graph->getToVertex(graph->getEdges(i)[0]), (i + 2)^1);
-        ASSERT_GE(graph->getEdgeWeight(graph->getEdges(i)[0]), 20);
-    }
-
-    for (int i = 3; i < 20; i = (i + 2)^1) {
-        ASSERT_EQ(graph->getEdgesR(i).size(), 1);
-        ASSERT_EQ(graph->getFromVertex(graph->getEdgesR(i)[0]), (i - 2)^1);
-    }
-
-    for (int i = 2; i < 17; i = (i + 2) ^ 1) {
-        ASSERT_EQ(graph->getEdges(i).size(), 1);
-        ASSERT_EQ(graph->getToVertex(graph->getEdges(i)[0]), (i - 2)^1);
-        ASSERT_GE(graph->getEdgeWeight(graph->getEdges(i)[0]), 20);
-    }
-
-    for (int i = 1; i < 18; i = (i + 2) ^ 1) {
-        ASSERT_EQ(graph->getEdgesR(i).size(), 1);
-        ASSERT_EQ(graph->getFromVertex(graph->getEdgesR(i)[0]), (i + 2)^1);
-    }
-
-
-    for (int i = 0; i < 20; i += 2) {
-        std::stringstream name;
-        name << "contig" << i/2;
-
-        ASSERT_EQ(1000, graph->getTargetLength(i));
-        ASSERT_EQ(std::string(name.str()), graph->getTargetName(i));
-    }
-
-    for (int i = 1; i < 20; i += 2) {
-        std::stringstream name;
-        name << "contig" << i/2 << "-rev";
-
-        ASSERT_EQ(1000, graph->getTargetLength(i));
-        ASSERT_EQ(std::string(name.str()), graph->getTargetName(i));
-    }
+    delete builder;
+    delete graph;
 }
+
+TEST_F(PairReadTest, testDNAPairRead) {
+    DnaPairReadsTest gen;
+    gen.genTest(sourceFileName, tmpRead1FileName, tmpRead2FileName, tmpRefFileName);
+
+    SystemAlignmentTools st;
+    st.alignmentRNA(tmpRefFileName, tmpRead1FileName, "rna1.sam", "/tmp");
+    st.alignmentRNA(tmpRefFileName, tmpRead2FileName, "rna2.sam", "/tmp");
+
+    builder = new DNAPairReadGraphBuilder();
+    graph = new ContigGraph;
+
+    builder->setLibName("testLib", "/tmp");
+    builder->setFileName1(tmpSam1FileName);
+    builder->setFileName2(tmpSam2FileName);
+    builder->setGraph(graph);
+    (dynamic_cast<DNAPairReadGraphBuilder*> (builder))->setDistBetweenPairReads(200);
+    builder->evaluate();
+
+    checkGraph();
+
+    delete builder;
+    delete graph;
+}
+
 
 int main(int argc, char *argv[]) {
     ::testing::InitGoogleTest(&argc, argv);
