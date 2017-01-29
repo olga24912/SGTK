@@ -7,10 +7,9 @@
 #include "Builder/GraphBuilder/PairReadGraphBuilder.h"
 #include "Builder/GraphBuilder/RNASplitReadGraphBuilder.h"
 
-/*
- * that class parse args and call other class for
- * build conection and keep info about conection.
- */
+// that class parse args and call other class for
+// build conection and keep info about conection.
+
 class GraphControl {
 private:
     ContigGraph graph;
@@ -95,10 +94,9 @@ private:
             { 0, 0, 0, 0, 0, 0 }
     };
 
-
+    void createPath();
 public:
     void evaluate(int argc, char **argv); //build conection with this args
-    void createPath();
 };
 
 
