@@ -1,7 +1,7 @@
 #ifndef SCAFFOLDER_READSSPLITER_H
 #define SCAFFOLDER_READSSPLITER_H
 
-#include <bits/stdc++.h>
+#include <string>
 #include <seqan/bam_io.h>
 #include <seqan/seq_io.h>
 

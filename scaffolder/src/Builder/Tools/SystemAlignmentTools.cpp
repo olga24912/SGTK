@@ -1,4 +1,5 @@
 #include "SystemAlignmentTools.h"
+#include <iostream>
 
 void SystemAlignmentTools::alignmentRNA(std::string refFileName, std::string rnaFileName, std::string resFileName, std::string path) {
     std::string genomeDir = path + "/genomeDir";

@@ -1,7 +1,6 @@
 #ifndef SCAFFOLDER_GRAPHBUILDER_H
 #define SCAFFOLDER_GRAPHBUILDER_H
 
-
 #include "ContigGraph/ContigGraph.h"
 #include "Builder/SamFileWriter/SamFileWriteEdge.h"
 

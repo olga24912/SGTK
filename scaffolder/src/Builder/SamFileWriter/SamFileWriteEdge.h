@@ -1,7 +1,7 @@
 #ifndef SCAFFOLDER_SAMFILEWRITEEDGE_H
 #define SCAFFOLDER_SAMFILEWRITEEDGE_H
 
-#include "bits/stdc++.h"
+#include <string>
 #include <seqan/bam_io.h>
 #include <seqan/seq_io.h>
 

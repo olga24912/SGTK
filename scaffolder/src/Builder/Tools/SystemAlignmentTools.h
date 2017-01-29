@@ -1,7 +1,7 @@
 #ifndef SCAFFOLDER_SYSTEMALIGNMENTTOOLS_H
 #define SCAFFOLDER_SYSTEMALIGNMENTTOOLS_H
 
-#include <bits/stdc++.h>
+#include <string>
 
 //system call of other programs for alignment
 class SystemAlignmentTools {

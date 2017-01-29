@@ -1,4 +1,5 @@
 #include "PairReadGraphBuilder.h"
+#include <iostream>
 
 int PairReadGraphBuilder::pairTarget(int id) {
     return id ^ 1;

@@ -9,7 +9,6 @@
 
 // that class parse args and call other class for
 // build conection and keep info about conection.
-
 class GraphControl {
 private:
     ContigGraph graph;

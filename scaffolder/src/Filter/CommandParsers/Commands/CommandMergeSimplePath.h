@@ -1,7 +1,6 @@
 #ifndef SCAFFOLDER_COMMANDMERGESIMPLEPATH_H
 #define SCAFFOLDER_COMMANDMERGESIMPLEPATH_H
 
-
 #include <Filter/Filters/Filter.h>
 #include <Filter/CommandParsers/State.h>
 #include <Filter/Scaffolder/ScafSimplePath.h>

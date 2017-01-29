@@ -1,7 +1,3 @@
-//
-// Created by olga on 05.11.16.
-//
-
 #ifndef SCAFFOLDER_CONTIGMERGER_H
 #define SCAFFOLDER_CONTIGMERGER_H
 

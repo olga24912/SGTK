@@ -1,7 +1,6 @@
 #ifndef SCAFFOLDER_READSSPLITTER50_H
 #define SCAFFOLDER_READSSPLITTER50_H
 
-
 #include "ReadsSplitter.h"
 #include "Builder/Tools/SeqanUtils.h"
 #include <seqan/seq_io.h>

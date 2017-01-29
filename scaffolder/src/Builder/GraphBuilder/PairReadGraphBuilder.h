@@ -4,7 +4,8 @@
 #include "GraphBuilder.h"
 #include "Builder/SamFileWriter/SamFileWriteEdge.h"
 #include "Builder/Tools/SeqanUtils.h"
-#include <bits/stdc++.h>
+#include <string>
+#include <unordered_map>
 #include <seqan/bam_io.h>
 #include <seqan/graph_types.h>
 

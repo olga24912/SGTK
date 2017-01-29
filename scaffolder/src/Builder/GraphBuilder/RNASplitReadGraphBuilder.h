@@ -1,7 +1,3 @@
-//
-// Created by olga on 08.10.16.
-//
-
 #ifndef SCAFFOLDER_RNASPLITREADGRAPHBUILDER_H
 #define SCAFFOLDER_RNASPLITREADGRAPHBUILDER_H
 
@@ -11,7 +7,6 @@
 #include "Builder/ReadsSplitter/ReadsSplitter.h"
 #include "Builder/ReadsSplitter/ReadsSplitter50.h"
 #include "Builder/ReadsSplitter/SplitterByUnmappedEnd.h"
-
 
 // find connection between contig by read who split on exons on
 // two deferent contigs.

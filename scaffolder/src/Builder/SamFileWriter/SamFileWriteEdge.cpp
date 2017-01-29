@@ -1,4 +1,5 @@
 #include "SamFileWriteEdge.h"
+#include <fstream>
 
 SamFileWriteEdge::SamFileWriteEdge(std::string dir) {
     this->dir = dir + "/edges";
