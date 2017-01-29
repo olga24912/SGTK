@@ -1,25 +1,15 @@
-//
-// Created by olga on 10.10.16.
-//
-
 #ifndef SCAFFOLDER_SYSTEMALIGNMENTTOOLS_H
 #define SCAFFOLDER_SYSTEMALIGNMENTTOOLS_H
 
 #include <bits/stdc++.h>
 
-using namespace std;
-
-/*
- * system call of other programs
- */
+//system call of other programs
 class SystemAlignmentTools {
 public:
-    /*
-     * alignment RNA reads from rnaFile to refFile
-     * result will be in resFile.
-     */
-    void alignmentRNA(string refFileName, string rnaFileName, string resFileName, std::string path=".");
-    static void alignmentREF(string refFileName, string queryFileName);
+    // alignment RNA reads from rnaFile to refFile
+    // result will be in resFile.
+    void alignmentRNA(std::string refFileName, std::string rnaFileName, std::string resFileName, std::string path=".");
+    static void alignmentREF(std::string refFileName, std::string queryFileName);
 };
 
 

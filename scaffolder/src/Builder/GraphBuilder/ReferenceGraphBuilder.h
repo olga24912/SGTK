@@ -1,48 +1,44 @@
-//
-// Created by olga on 19.11.16.
-//
-
 #ifndef SCAFFOLDER_REFERENCEGRAPHBUILDER_H
 #define SCAFFOLDER_REFERENCEGRAPHBUILDER_H
 
-
-#include "GraphBuilder.h"
 #include <seqan/seq_io.h>
+#include "GraphBuilder.h"
 #include "Builder/Tools/SystemAlignmentTools.h"
 #include "Builder/Tools/SeqanUtils.h"
 
-
+//It understand contig order by alignment contigs on reference assembly
+//It is nessery put ((ref and query files name) or tsv file name)
 class ReferenceGraphBuilder: public GraphBuilder {
 private:
-    const int MIN_CONTIG = 500;
-    int minContigLen = 0;
+    int minContigLen = 500;
 
-    string refContigFileName, queryContigsFileName;
-    string tsvFileName;
+    std::string refContigFileName;
+    std::string queryContigsFileName;
+    std::string tsvFileName;
 
     struct alignmentInfo {
         int sr;
         int er;
         int sq;
         int eq;
-        string contigName;
+        std::string contigName;
 
         alignmentInfo(){}
-        alignmentInfo(int sr, int er, int sq, int eq, string name): sr(sr), er(er), sq(sq), eq(eq), contigName(name) {}
+        alignmentInfo(int sr, int er, int sq, int eq, std::string name): sr(sr), er(er), sq(sq), eq(eq), contigName(name) {}
 
         bool operator < (alignmentInfo b) {
             return (sr < b.sr);
         }
     };
 
-    map <string, int> contigsId;
-    vector<string> contigsName;
+    std::map <std::string, int> contigsId;
+    std::vector<std::string> contigsName;
 
     void generateVertex();
-    void createGraph(map<string, vector<alignmentInfo>> contigsAlignment);
-    map<string, vector<alignmentInfo>> parseCoordFile(string fileName);
-    map<string, vector<alignmentInfo>> parseTSVFile(string fileName);
-    virtual string getLibColor();
+    void createGraph(std::map<std::string, std::vector<alignmentInfo>> contigsAlignment);
+    std::map<std::string, std::vector<alignmentInfo>> parseCoordFile(std::string fileName);
+    std::map<std::string, std::vector<alignmentInfo>> parseTSVFile(std::string fileName);
+    virtual std::string getLibColor();
 
 protected:
     void setSamFileWriter() override;
@@ -50,15 +46,18 @@ protected:
 public:
     void evaluate();
 
-    void setRefFileName(const string &refContigFileName) {
+    //file with reference assembly
+    void setRefFileName(const std::string &refContigFileName) {
         ReferenceGraphBuilder::refContigFileName = refContigFileName;
     }
 
-    void setQueryFileName(const string &queryContigsFileName) {
+    //file with contigs some assembly.
+    void setQueryFileName(const std::string &queryContigsFileName) {
         ReferenceGraphBuilder::queryContigsFileName = queryContigsFileName;
     }
 
-    void setTsvFileName(const string &tsvFileName) {
+    //file with information about alignment in tsv format
+    void setTsvFileName(const std::string &tsvFileName) {
         ReferenceGraphBuilder::tsvFileName = tsvFileName;
     }
 

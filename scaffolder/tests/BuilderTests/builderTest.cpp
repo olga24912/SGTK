@@ -5,6 +5,7 @@
 #include "Builder/ReadsSplitter/SplitterByUnmappedEnd.h"
 #include "Builder/GraphBuilder/RNAPairReadGraphBuilder.h"
 #include "Builder/GraphBuilder/RNASplitReadGraphBuilder.h"
+#include "Builder/GraphBuilder/ReferenceGraphBuilder.h"
 #include "GenTests/RnaPairReadsTest.h"
 #include "GenTests/SplitReadsTest.h"
 #include "GenTests/DnaPairReadsTest.h"
@@ -34,11 +35,11 @@ protected:
     void checkOneShortLongRead(std::string name1, std::string name2, std::string seq1, std::string seq2, int i, int len) {
         std::stringstream ss1;
         ss1 << ">read" << i << "/1";
-        ASSERT_EQ(string(ss1.str()), name1);
+        ASSERT_EQ(std::string(ss1.str()), name1);
 
         std::stringstream ss2;
         ss2 << ">read" << i << "/2";
-        ASSERT_EQ(string(ss2.str()), name2);
+        ASSERT_EQ(std::string(ss2.str()), name2);
 
         ASSERT_EQ(seq1.size(), len);
         ASSERT_EQ(seq2.size() + seq1.size(), 100);
@@ -52,12 +53,12 @@ TEST_F(ReadsSplitterTest, testSplitter50) {
 
     splitter->splitReads(tmpUnmappedFileName, fileName1, fileName2);
 
-    ifstream uin(tmpUnmappedFileName);
-    ifstream f1in(fileName1);
-    ifstream f2in(fileName2);
+    std::ifstream uin(tmpUnmappedFileName);
+    std::ifstream f1in(fileName1);
+    std::ifstream f2in(fileName2);
 
-    string uname, name1, name2;
-    string useq, seq1, seq2;
+    std::string uname, name1, name2;
+    std::string useq, seq1, seq2;
 
     while(uin >> uname) {
         f1in >> name1;
@@ -85,11 +86,11 @@ TEST_F(ReadsSplitterTest, testShortLong) {
 
     splitter->splitReads(tmpSamFileName, fileName1, fileName2);
 
-    ifstream f1in(fileName1);
-    ifstream f2in(fileName2);
+    std::ifstream f1in(fileName1);
+    std::ifstream f2in(fileName2);
 
-    string name1, name2;
-    string seq1, seq2;
+    std::string name1, name2;
+    std::string seq1, seq2;
 
     for (int i = 1421, len = 79; i < 1434; ++i, --len) {
         f1in >> name1;
@@ -124,7 +125,7 @@ TEST_F(ReadsSplitterTest, testShortLong) {
     delete splitter;
 }
 
-class PairReadTest : public ::testing::Test {
+class GraphBuilderTest : public ::testing::Test {
 protected:
     std::string sourceFileName = "../../../resources/MG1655-K12.first10K.fasta";
 
@@ -134,10 +135,10 @@ protected:
     std::string tmpRead2FileName = "/tmp/read2.fasta";
     std::string tmpSam2FileName = "/tmp/rna2.sam";
 
-    PairReadGraphBuilder *builder;
+    GraphBuilder *builder;
     ContigGraph *graph;
 
-    void checkGraph() {
+    void genCheckGraph() {
         SystemAlignmentTools st;
         st.alignmentRNA(tmpRefFileName, tmpRead1FileName, "rna1.sam", "/tmp");
         st.alignmentRNA(tmpRefFileName, tmpRead2FileName, "rna2.sam", "/tmp");
@@ -145,12 +146,21 @@ protected:
         graph = new ContigGraph;
 
         builder->setLibName("testLib", "/tmp");
-        builder->setFileName1(tmpSam1FileName);
-        builder->setFileName2(tmpSam2FileName);
+        (dynamic_cast<PairReadGraphBuilder*> (builder))->setFileName1(tmpSam1FileName);
+        (dynamic_cast<PairReadGraphBuilder*> (builder))->setFileName2(tmpSam2FileName);
         builder->setGraph(graph);
         builder->evaluate();
 
-        graph->write("tmp/graph.gr");
+        checkGraph(20);
+
+        delete builder;
+        delete graph;
+    }
+
+    void checkGraph(int edgeW) {
+        std::cerr << graph->getLibNum() << std::endl;
+        graph->write("/tmp/graph.gr");
+
         ASSERT_EQ(graph->getLibNum(), 1);
         ASSERT_EQ(graph->getLibName(0), "testLib");
         ASSERT_EQ(graph->getVertexCount(), 20);
@@ -162,7 +172,7 @@ protected:
         for (int i = 0; i < 17; i = (i + 2) ^ 1) {
             ASSERT_EQ(graph->getEdges(i).size(), 1);
             ASSERT_EQ(graph->getToVertex(graph->getEdges(i)[0]), (i + 2)^1);
-            ASSERT_GE(graph->getEdgeWeight(graph->getEdges(i)[0]), 20);
+            ASSERT_GE(graph->getEdgeWeight(graph->getEdges(i)[0]), edgeW);
         }
 
         for (int i = 3; i < 20; i = (i + 2)^1) {
@@ -173,7 +183,7 @@ protected:
         for (int i = 2; i < 17; i = (i + 2) ^ 1) {
             ASSERT_EQ(graph->getEdges(i).size(), 1);
             ASSERT_EQ(graph->getToVertex(graph->getEdges(i)[0]), (i - 2)^1);
-            ASSERT_GE(graph->getEdgeWeight(graph->getEdges(i)[0]), 20);
+            ASSERT_GE(graph->getEdgeWeight(graph->getEdges(i)[0]), edgeW);
         }
 
         for (int i = 1; i < 18; i = (i + 2) ^ 1) {
@@ -197,27 +207,43 @@ protected:
             ASSERT_EQ(1000, graph->getTargetLength(i));
             ASSERT_EQ(std::string(name.str()), graph->getTargetName(i));
         }
-
-        delete builder;
-        delete graph;
     }
 };
 
-TEST_F(PairReadTest, testRNAPairRead) {
+TEST_F(GraphBuilderTest, testRNAPairRead) {
     RnaPairReadsTest gen;
     gen.genTest(sourceFileName, tmpRead1FileName, tmpRead2FileName, tmpRefFileName);
     builder = new RNAPairReadGraphBuilder;
 
-    checkGraph();
+    genCheckGraph();
 }
 
-TEST_F(PairReadTest, testDNAPairRead) {
+TEST_F(GraphBuilderTest, testDNAPairRead) {
     DnaPairReadsTest gen;
     gen.genTest(sourceFileName, tmpRead1FileName, tmpRead2FileName, tmpRefFileName);
     builder = new DNAPairReadGraphBuilder();
     (dynamic_cast<DNAPairReadGraphBuilder*> (builder))->setDistBetweenPairReads(200);
 
-    checkGraph();
+    genCheckGraph();
+}
+
+TEST_F(GraphBuilderTest, testRefBuilder) {
+    GenTest gen;
+    gen.genTest(sourceFileName, tmpRefFileName);
+
+    builder = new ReferenceGraphBuilder();
+    graph = new ContigGraph();
+    (dynamic_cast<ReferenceGraphBuilder*> (builder))->setRefFileName(sourceFileName);
+    (dynamic_cast<ReferenceGraphBuilder*> (builder))->setQueryFileName(tmpRefFileName);
+    builder->setLibName("testLib", "/tmp");
+    builder->setGraph(graph);
+    builder->evaluate();
+
+    std::cerr << graph->getLibNum() << std::endl;
+    checkGraph(1);
+
+    delete builder;
+    delete graph;
 }
 
 class SplitReadGraphBuildTest : public ::testing::Test {

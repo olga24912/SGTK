@@ -1,7 +1,3 @@
-//
-// Created by olga on 19.11.16.
-//
-
 #include "ReferenceGraphBuilder.h"
 
 void ReferenceGraphBuilder::evaluate() {
@@ -16,6 +12,8 @@ void ReferenceGraphBuilder::evaluate() {
     } else {
         createGraph(parseTSVFile(tsvFileName));
     }
+
+    std::cerr << graph->getLibNum() << std::endl;
 }
 
 void ReferenceGraphBuilder::generateVertex() {
@@ -42,7 +40,7 @@ void ReferenceGraphBuilder::generateVertex() {
         contigsName.push_back(name);
 
         if (firstLib) {
-            graph->addVertex(2*i, name, seq.length());
+            graph->addVertex(2*i, name, (int)seq.length());
         }
 
         name += "-rev";
@@ -51,7 +49,7 @@ void ReferenceGraphBuilder::generateVertex() {
         contigsName.push_back(name);
 
         if (firstLib) {
-            graph->addVertex(2 * i + 1, name, seq.length());
+            graph->addVertex(2 * i + 1, name, (int)seq.length());
         }
     }
 }
@@ -71,6 +69,7 @@ void ReferenceGraphBuilder::createGraph(std::map<std::string, std::vector<Refere
         for (int i = (int)contLPos.size() - 1; i > 0; --i) {
             graph->incEdgeWeight(contigsId[contLPos[i].contigName] ^ 1, contigsId[contLPos[i - 1].contigName] ^ 1);
         }
+        std::cerr << graph->getLibNum() << std::endl;
     }
 }
 
@@ -83,13 +82,13 @@ std::map<std::string, std::vector<ReferenceGraphBuilder::alignmentInfo>> Referen
     std::string rcont, qcont;
 
     while (in >> l >> r >> lq >> rq >> x >> x >> xx >> x >> x >> rcont >> qcont) {
-        if (graph->getTargetLength(contigsId[qcont]) < MIN_CONTIG) {
+        if (graph->getTargetLength(contigsId[qcont]) < minContigLen) {
             continue;
         }
 
         if (lq > rq) {
             qcont += "-rev";
-            swap(lq, rq);
+            std::swap(lq, rq);
         }
 
         if ((rq - lq) * 10 >= graph->getTargetLength(contigsId[qcont]) * 9) {
@@ -102,7 +101,7 @@ std::map<std::string, std::vector<ReferenceGraphBuilder::alignmentInfo>> Referen
     return contigsAlignment;
 }
 
-std::map<std::string, std::vector<ReferenceGraphBuilder::alignmentInfo>> ReferenceGraphBuilder::parseTSVFile(string fileName) {
+std::map<std::string, std::vector<ReferenceGraphBuilder::alignmentInfo>> ReferenceGraphBuilder::parseTSVFile(std::string fileName) {
     std::cerr << "start parse TSV" << std::endl;
     std::map<std::string, std::vector<ReferenceGraphBuilder::alignmentInfo>> contigsAlignment;
     std::ifstream in(fileName);
@@ -123,13 +122,13 @@ std::map<std::string, std::vector<ReferenceGraphBuilder::alignmentInfo>> Referen
         std::getline(in, status);
 
         std::cerr << l << " " << r << " " << rcont << " " << qcont << std::endl;
-        if (r - l < MIN_CONTIG) {
+        if (r - l < minContigLen) {
             continue;
         }
 
         if (lq > rq) {
             qcont += "-rev";
-            swap(lq, rq);
+            std::swap(lq, rq);
         }
 
         contigsAlignment[rcont].push_back(alignmentInfo(l, r, lq, rq, qcont));
@@ -141,7 +140,6 @@ std::map<std::string, std::vector<ReferenceGraphBuilder::alignmentInfo>> Referen
 }
 
 void ReferenceGraphBuilder::setSamFileWriter() {}
-
 
 void ReferenceGraphBuilder::setMinContigLen(int minContigLen) {
     this->minContigLen = minContigLen;

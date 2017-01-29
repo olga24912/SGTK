@@ -82,3 +82,22 @@
   * void setRnaReadFileName(string rnaReadsFileName); установить имя файла ридов
   * для корректной работы необходимо, что бы был STAR в папке с исполняймым файлом. 
   и необходимо, что бы была UNIX-like ОС.
+  
+## ReferenceGraphBuilder
+    Построение необходимое для тестовых данных и 
+    для лучшего понимание происходящего. Строит 
+    связи между контигами по эталлоной сборке. 
+    Принимает либо файл с эталонной сборкой и 
+    файл с контигами либо tsv файл с информацией о 
+    выравнивание. 
+    
+* void setRefFileName(const std::string &refContigFileName) 
+установить эталлоный файл fasta/fastq формат. 
+* void setQueryFileName(const std::string &queryContigsFileName) 
+установить файл с контигами, порядок которых хотим узнать. fasta/fastq формат
+* void setTsvFileName(const std::string &tsvFileName) 
+установить tsv файл с выравнивание контигов на референс
+* void setMinContigLen(int minContigLen);
+минимальная длина контигов, который не будут игнорироваться. 
+* В случае использования refFile и queryFile необходима, что бы была UNIX-like ОС и 
+был установлен nucmer. 

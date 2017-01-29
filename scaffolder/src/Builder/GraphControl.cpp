@@ -22,7 +22,7 @@ void GraphControl::evaluate(int argc, char **argv) {
 
     for (int i = 0; i < parse.optionsCount(); ++i) {
         option::Option& opt = buffer[i];
-        string arg;
+        std::string arg;
         switch (opt.index()) {
             case NEW:
                 if (needEval) {
@@ -136,8 +136,8 @@ void GraphControl::createPath() {
                          << (now->tm_hour) << '-'
                          << (now->tm_min);
 
-    path = string(ss.str());
+    path = std::string(ss.str());
 
-    string command = "mkdir " + path;
+    std::string command = "mkdir " + path;
     system(command.c_str());
 }

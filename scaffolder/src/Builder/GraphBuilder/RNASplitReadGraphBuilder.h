@@ -17,22 +17,22 @@
 // two deferent contigs.
 class RNASplitReadGraphBuilder : public GraphBuilder {
 private:
-    string refFileName;
-    string rnaReadsFileName;
+    std::string refFileName;
+    std::string rnaReadsFileName;
 
-    virtual string getLibColor();
+    virtual std::string getLibColor();
 
 protected:
     void setSamFileWriter() override;
-    void handlingPairReads(string file1, string file2, string linN);
+    void handlingPairReads(std::string file1, std::string file2, std::string linN);
 
 public:
     void evaluate();
     // set name of fie with ref genom in fasta format.
-    void setRefFileName(string refFileName);
+    void setRefFileName(std::string refFileName);
 
     // set name of  file with rna reads in fasta format.
-    void setRnaReadFileName(string rnaReadsFileName);
+    void setRnaReadFileName(std::string rnaReadsFileName);
 
     void setGraph(ContigGraph *graph);
 };

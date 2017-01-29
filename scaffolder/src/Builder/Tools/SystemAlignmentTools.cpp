@@ -1,10 +1,6 @@
-//
-// Created by olga on 10.10.16.
-//
-
 #include "SystemAlignmentTools.h"
 
-void SystemAlignmentTools::alignmentRNA(string refFileName, string rnaFileName, string resFileName, std::string path) {
+void SystemAlignmentTools::alignmentRNA(std::string refFileName, std::string rnaFileName, std::string resFileName, std::string path) {
     std::string genomeDir = path + "/genomeDir";
     std::string command = "mkdir " + genomeDir;
     system(command.c_str());
@@ -18,7 +14,7 @@ void SystemAlignmentTools::alignmentRNA(string refFileName, string rnaFileName, 
     command += " --outFileNamePrefix " + path;
     //command += " --limitGenomeGenerateRAM 57888412374";
 
-    cerr << command << endl;
+    std::cerr << command << std::endl;
     system(command.c_str());
 
     command = "./STAR --runThreadN 16 --genomeDir ";
@@ -26,7 +22,7 @@ void SystemAlignmentTools::alignmentRNA(string refFileName, string rnaFileName, 
     command += rnaFileName;
     command += " --outFileNamePrefix " + path;
 
-    cerr << command << endl;
+    std::cerr << command << std::endl;
     system(command.c_str());
 
     command = "mv " + path + "Aligned.out.sam ";
@@ -35,9 +31,11 @@ void SystemAlignmentTools::alignmentRNA(string refFileName, string rnaFileName, 
     system(command.c_str());
 }
 
-void SystemAlignmentTools::alignmentREF(string refFileName, string queryFileName) {
-    string command = "nucmer " + refFileName + " " + queryFileName;
+void SystemAlignmentTools::alignmentREF(std::string refFileName, std::string queryFileName) {
+    std::string command = "nucmer " + refFileName + " " + queryFileName;
+    std::cerr << command << std::endl;
     system(command.c_str());
     command = "show-coords out.delta -THrgl > out.coords";
+    std::cerr << command << std::endl;
     system(command.c_str());
 }

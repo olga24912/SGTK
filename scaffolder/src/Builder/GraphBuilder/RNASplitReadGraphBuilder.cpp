@@ -6,7 +6,7 @@ void RNASplitReadGraphBuilder::evaluate() {
     SplitterByUnmappedEnd su;
 
     wwot.alignmentRNA(refFileName, rnaReadsFileName, "rna.sam", path);
-    string unmappedName;
+    std::string unmappedName;
     if (rnaReadsFileName[rnaReadsFileName.size() - 1] == 'q') {
         unmappedName = path + "/Unmapped.fastq";
     } else {
@@ -22,15 +22,15 @@ void RNASplitReadGraphBuilder::evaluate() {
     handlingPairReads(path + "/short1.fasta", path + "/short2.fasta", libName + "-long-short");
 }
 
-void RNASplitReadGraphBuilder::setRefFileName(string refFileName) {
+void RNASplitReadGraphBuilder::setRefFileName(std::string refFileName) {
     RNASplitReadGraphBuilder::refFileName = refFileName;
 }
 
-void RNASplitReadGraphBuilder::setRnaReadFileName(string rnaReadsFileName) {
+void RNASplitReadGraphBuilder::setRnaReadFileName(std::string rnaReadsFileName) {
     RNASplitReadGraphBuilder::rnaReadsFileName = rnaReadsFileName;
 }
 
-void RNASplitReadGraphBuilder::handlingPairReads(string file1, string file2, string libN) {
+void RNASplitReadGraphBuilder::handlingPairReads(std::string file1, std::string file2, std::string libN) {
     SystemAlignmentTools wwot;
 
     wwot.alignmentRNA(refFileName, file1, "rna1.sam", path);
@@ -47,7 +47,7 @@ void RNASplitReadGraphBuilder::handlingPairReads(string file1, string file2, str
     gb.evaluate();
 }
 
-string RNASplitReadGraphBuilder::getLibColor() {
+std::string RNASplitReadGraphBuilder::getLibColor() {
     int cntRB = 100 + rand()%150;
     int color[3] = {cntRB, rand()%(cntRB/2), cntRB};
     return colorToString(color);

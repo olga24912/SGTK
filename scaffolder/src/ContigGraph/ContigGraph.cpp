@@ -60,6 +60,7 @@ void ContigGraph::newLib(std::string name, std::string color) {
     libColor.push_back(color);
     libName.push_back(name);
 
+    std::cerr << libName.size() << std::endl;
     for (int i = 0; i < (int)vrtsToEdge.size(); ++i) {
         vrtsToEdge[i].clear();
     }
@@ -84,7 +85,9 @@ int ContigGraph::getFromVertex(int e) {
 
 void ContigGraph::write(std::string fileName) {
     std::ofstream out(fileName);
-    std::cerr << "Write -> gr" << std::endl;
+
+    std::cerr << "Write -> gr" << " " << fileName << std::endl;
+    std::cerr << edgeWeight.size() << std::endl;
 
     out << libName.size() << "\n";
     for (int i = 0; i < (int)libName.size(); ++i) {

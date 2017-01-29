@@ -1,7 +1,3 @@
-//
-// Created by olga on 08.10.16.
-//
-
 #ifndef SCAFFOLDER_GRAPHCONTROL_H
 #define SCAFFOLDER_GRAPHCONTROL_H
 
@@ -10,7 +6,6 @@
 #include "Builder/ExternalLib/optionparser.h"
 #include "Builder/GraphBuilder/PairReadGraphBuilder.h"
 #include "Builder/GraphBuilder/RNASplitReadGraphBuilder.h"
-
 
 /*
  * that class parse args and call other class for
@@ -59,7 +54,7 @@ private:
 
         static option::ArgStatus NewLib(const option::Option& option, bool msg)
         {
-            string arg = option.arg;
+            std::string arg = option.arg;
             if (arg == "RNA_PAIR" || arg == "RNA_SPLIT" || arg == "DNA_PAIR" || arg == "REF") {
                 return option::ARG_OK;
             }
