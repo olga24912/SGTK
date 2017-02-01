@@ -1,8 +1,3 @@
 \beamer@endinputifotherversion {3.36pt}
 \select@language {russian}
-\beamer@sectionintoc {1}{Постановка задачи}{2}{0}{1}
-\beamer@sectionintoc {2}{Реализация}{5}{0}{2}
-\beamer@subsectionintoc {2}{1}{ДНК}{5}{0}{2}
-\beamer@subsectionintoc {2}{2}{РНК}{7}{0}{2}
-\beamer@sectionintoc {3}{Итоги}{11}{0}{3}
-\beamer@sectionintoc {4}{Спасибо за внимание}{14}{0}{4}
+\beamer@sectionintoc {1}{Спасибо за внимание}{2}{0}{1}
