@@ -61,6 +61,17 @@
 	\end{itemize}
 \end{frame}
 
+\begin{frame}[t]{Задачи}
+\begin{itemize}
+\item Иследовать возможные варианты построения графа по ридам РНК. 
+\item Объединить разные способы построения и разные 
+библиотеки в один граф. 
+\item Решить проблему с подбором параметров для фильтрации графа. 
+\item Создать программный продукт для построения 
+графа связей между контигами.  
+\end{itemize}
+\end{frame}	
+
 \section{Методы решения}
 \subsection{Архитектура}
 \begin{frame}[t]{Архитектура}
@@ -82,18 +93,53 @@
 	\item по ридам РНК на стыке экзонов
 	\item по эталонной сборке
 \end{itemize}
-\cimg{p5.png}{1.21}	
+\cimg{p5.png}{1.21}
 \end{frame}
 
 \subsection{Фильтрация графа}
+\begin{frame}[t]{Фильтрация графа}
+	\cimg{FilterClassDiagram.jpg}{1}
+\end{frame}
 
 \section{Результаты}
-
-\section{Проблемы}
+\begin{frame}[t]{Результаты}
+	\begin{itemize}
+		\item Программа для нахождения связей
+		между контигами различными способами. 
+		\item Программа с различными возможностями для 
+		визуализации и фильтрации получившегося графа. 
+		\item Удалось улучшить сборку С.elegans.
+		\begin{center}
+		\includegraphics[width=0.35\linewidth]{celegans.jpg}
+		\includegraphics[width=0.35\linewidth]{celegExmp.png}
+		\end{center}
+	\end{itemize}
+\end{frame}
 
 \section{Использованные матерьялы}
+\begin{frame}[t]{Использованные матерьялы}
+\begin{itemize}
+	\item Язык разработки - \textbf{С++}
+	\item \textbf{SeqAn} - библиотека для работы с 
+	файлами в SAM/BAM и fasta/fastq форматах.  
+	\item \textbf{gtest} - библиотека для тестирования.
+	\item Программы для выранивания - \textbf{STAR, nucmer, bowtie2}. 
+	\item \textbf{QUAST} - для анализа качетсва сборки. 
+	\item \textbf{Tablet} - для визуализации выравненых ридов. 
+\end{itemize}
+\end{frame}
 
 \section{Дальнейшие пути развития}
+\begin{frame}[t]{Дальнейшее развитие}
+\begin{itemize}
+\item Разобраться в причинах текущих 
+проблем с нахождением связей между 
+контигами для данных A.thaliana.  
+\cimg{athaliana.jpg}{0.20}
+\item Придумать методы решения данных проблем при построение графа. Новые методы нахождения связий и оценки их качества. 
+\item Нахождение путей в графе и улучшение сборки. 
+\end{itemize}
+\end{frame}
 
 \section{Спасибо за внимание}
 \begin{frame}{Спасибо за внимание}
