@@ -1,0 +1,227 @@
+\documentclass{beamer}
+
+\usepackage{polyglossia}
+\usepackage{fontspec}
+\usepackage{nameref}
+\usepackage{ifthen}
+
+\usefonttheme{professionalfonts}
+\usetheme{Antibes}
+\useoutertheme{infolines_foot}
+\setbeamercovered{transparent=20}
+
+\usepackage[math-style=ISO,vargreek-shape=unicode]{unicode-math}
+\setdefaultlanguage[spelling=modern,babelshorthands=true]{russian}
+\setotherlanguage{english}
+
+\defaultfontfeatures{Ligatures={TeX}}
+\setmainfont{CMU Serif}
+\setsansfont{CMU Sans Serif}
+\setmonofont{CMU Typewriter Text}
+\setmathfont{Latin Modern Math}
+\AtBeginDocument{\renewcommand{\setminus}{\mathbin{\backslash}}}
+
+\makeatletter
+\newcommand*{\currentname}{\@currentlabelname}
+\makeatother
+\def\t{\texttt}
+
+\newcommand{\cimg}[2]{%
+	\begin{center}%
+		\ifthenelse{\equal{#2}{}}{%
+			\includegraphics[width=0.75\linewidth]{#1}
+		}{%
+			\includegraphics[width=#2\linewidth]{#1}
+		}%
+	\end{center}%
+}
+
+\title[Граф по ридам ДНК/РНК]{Построение графа связей геномных последовательностей по ридам ДНК/РНК}
+\author{Черникова Ольга, Щербин Егор}
+\institute[СПб АУ РАН]{Руководитель: Пржибельский Андрей \\ СПб АУ РАН }
+\date{Весна 2016}
+
+\begin{document}
+
+\begin{frame}
+	\titlepage
+\end{frame}
+
+\section{Постановка задачи}
+
+\begin{frame}[t]{Проблема сборки генома}
+    \begin{itemize}
+    \item
+        Одной из задач биоинформатики является задача сборки генома.
+    \item
+        Специальная программа (ассемблер) собирает геном организма по коротким
+        его участкам (ридам).
+    \item
+        К сожалению, собрать геном полностью не получается. Вместо этого
+        ассемблер выдаёт несколько достаточно больших его частей (контигов).
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t]{Цель проекта}
+    \begin{itemize}
+    \item
+        Наша задача "--- установить относительный порядок между контигами.
+    \item
+        Порядок визуализируется в виде ориентированного
+        графа, в котором вершины "--- контиги, а рёбра "--- вероятные связи
+        между ними.
+    \end{itemize}
+
+    \cimg{1.jpg}{1}
+
+\end{frame}
+
+\begin{frame}[t]{Подзадачи}
+	\begin{enumerate}
+    \item
+        Разобраться с необходимой теорией и существующеми средствами обработки
+        данных.
+    \item
+        Выбрать вспомогательную библиотеку биоинформатических алгоритмов.
+    \item
+        Реализовать построение графа несколькими разными способами:
+        
+        \begin{itemize}
+        \item
+            По ридам ДНК
+        \item
+            По ридам РНК
+        \end{itemize}
+    \item
+        Проанализировать получившийся результат.
+	\end{enumerate}
+\end{frame}
+
+\section{Реализация}
+\subsection{ДНК}
+
+\begin{frame}[t]{Парные риды}
+    \begin{itemize}
+    \item
+        Современные технологии позволяют считывать риды парами на небольшом
+        расстоянии друг от друга.
+    \item
+        Если риды из одной пары попали на разные контиги, то, вероятно, эти 
+        контиги идут друг за другом.
+    \item
+        Когда таких признаков становится достаточно много, проводим ребро.
+    \end{itemize}
+    \cimg{2.jpg}{0.75}
+\end{frame}
+
+\begin{frame}[t]{Фильтрация}
+    \begin{itemize}
+    \item
+        Слишком короткие контиги удаляются из графа.
+    \item
+        Пара не учитывается, если расстояние между ридами слишком большое.
+    \item
+        Ребро проводится, если его вес преодолел некоторый порог.
+    \item
+        Для определения порога строится гистограмма весов.
+    \end{itemize}
+\end{frame}
+
+\subsection{РНК}
+
+\begin{frame}[t]{Интроны и экзоны}
+    \begin{itemize}
+    \item
+        РНК получается из ДНК в результате транскрипции. В процессе сплайсинга
+        в РНК остаются лишь некоторые фрагменты исходной молекулы ДНК.
+    \item
+        С помощью этой информации также можно строить граф.
+    \end{itemize}
+    \cimg{3.jpg}{0.75}
+\end{frame}
+
+\begin{frame}[t]{Как проводится ребро}
+    \begin{itemize}
+    \item
+        Если транскрипт выравнивается на два контига, то между ними проводится
+        ребро.
+    \item
+        Но транскрипты, как и геном, неизвестны, поэтому ищем риды РНК,
+        выравнивающиеся на разные контиги.
+    \end{itemize}
+
+    \cimg{4.jpg}{0.6}
+\end{frame}
+
+\begin{frame}[t]{Проблема с частичным выравниванием}
+    \begin{itemize}
+    \item
+        Современные программы не поддерживают частичное выравнивание коротких 
+        ридов.
+    \item
+        Поэтому было решено сначала собрать риды ассемблером, и выравнивать
+        уже длинные части РНК.
+    \end{itemize}
+
+    \cimg{4.jpg}{0.6}
+\end{frame}
+
+\begin{frame}[t]{Фильтрация}
+    \begin{itemize}
+    \item
+        Слишком короткие контиги убираются из графа.
+    \item
+        Фильтрация по длине выравнивания.
+    \item
+        Фильтрация по качеству выравнивания.
+    \end{itemize}
+
+    \cimg{4.jpg}{0.6}
+\end{frame}
+
+\section{Итоги}
+\begin{frame}[t]{Что получилось}
+    Парные риды ДНК:
+    \cimg{5.jpg}{1}
+    РНК:
+    \cimg{6.png}{0.5}
+\end{frame}
+
+\begin{frame}[t]{Чему мы научились}
+    \begin{enumerate}
+    \item
+        Научились применять различные программы для анализа геномных и
+        транскриптомных данных (bowtie2, STAR, nucmer, SPAdes).
+    \item
+        Освоили библиотеку SeqAn.
+    \item
+        Обучились SSH для работы на удалённом сервере.
+    \item
+        Разобрались с SAM-форматом для хранения результатов выравнивания и 
+        dot-форматом для визуализации графов.
+    \item
+        Получили опыт работы в командном научном проекте.
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}[t]{Возможные пути развития}
+    \begin{itemize}
+    \item
+        Дальнейшее исследование построения графа по ридам РНК.
+    \item
+        Объединение результатов обоих методов построения в один граф.
+    \item
+        Автоматизация подборки порогов фильтрации.
+    \item
+        Изучить другие идеи решения поставленной задачи, например, 
+        \texttt{l\_rna\_scaffolder}.
+    \end{itemize}
+\end{frame}
+
+\section{Спасибо за внимание}
+\begin{frame}{Спасибо за внимание}
+    \begin{center}
+        Репозиторий: \\ \url{https://github.com/eshcherbin/spbau-bioinf-2016}
+    \end{center}
+\end{frame}
+\end{document}
