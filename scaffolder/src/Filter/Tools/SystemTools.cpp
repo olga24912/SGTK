@@ -1,7 +1,3 @@
-//
-// Created by olga on 22.01.17.
-//
-
 #include "SystemTools.h"
 
 void SystemTools::showDotFile(string fileName) {

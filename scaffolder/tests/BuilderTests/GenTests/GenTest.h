@@ -4,7 +4,7 @@
 #include <string>
 #include <seqan/bam_io.h>
 #include <seqan/seq_io.h>
-#include "Builder/Tools/SeqanUtils.h"
+#include "ContigGraph/SeqanUtils.h"
 
 class GenTest {
 protected:

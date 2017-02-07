@@ -1,7 +1,3 @@
-//
-// Created by olga on 22.01.17.
-//
-
 #ifndef SCAFFOLDER_SYSTEMTOOLS_H
 #define SCAFFOLDER_SYSTEMTOOLS_H
 

@@ -1,5 +1,5 @@
 #include "DNAPairReadGraphBuilder.h"
-#include "Builder/Tools/SeqanUtils.h"
+#include "ContigGraph/SeqanUtils.h"
 
 void DNAPairReadGraphBuilder::setDistBetweenPairReads(int distBetweenPairReads) {
     DNAPairReadGraphBuilder::distBetweenPairReads = distBetweenPairReads;

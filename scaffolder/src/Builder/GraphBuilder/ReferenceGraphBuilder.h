@@ -4,7 +4,7 @@
 #include <seqan/seq_io.h>
 #include "GraphBuilder.h"
 #include "Builder/Tools/SystemAlignmentTools.h"
-#include "Builder/Tools/SeqanUtils.h"
+#include "ContigGraph/SeqanUtils.h"
 
 //It understand contig order by alignment contigs on reference assembly
 //It is nessery put ((ref and query files name) or tsv file name)

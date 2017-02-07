@@ -3,7 +3,7 @@
 
 #include <seqan/seq_io.h>
 #include <Filter/Filters/Filter.h>
-#include "Builder/Tools/SeqanUtils.h"
+#include "ContigGraph/SeqanUtils.h"
 
 using namespace std;
 using namespace seqan;

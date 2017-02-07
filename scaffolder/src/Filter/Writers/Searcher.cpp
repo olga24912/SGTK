@@ -12,7 +12,7 @@ std::vector<int> Searcher::findVertInLocalArea(int v, int dist) {
         }
     }
 
-    for (int e : filter->getEdges(v)) {
+    for (int e : filter->getEdgesR(v)) {
         int u = filter->getEdgeFrom(e);
         std::vector<int> add = findVertInLocalArea(u, dist - 1);
         for (int j = 0; j < (int)add.size(); ++j) {

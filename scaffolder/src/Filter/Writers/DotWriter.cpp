@@ -1,6 +1,40 @@
+#include <iostream>
 #include "DotWriter.h"
 
 void DotWriter::writeVertexSet(std::vector<int> vert, std::string fileName) {
+    std::cerr << "write set: "  << vert.size() << std::endl;
+    std::vector<std::vector<int> > res = graphSplitter.split(filter, vert);
+    for (int i = 0; i < (int)res.size(); ++i) {
+        std::stringstream ss;
+        ss << fileName << i;
+        std::string name = std::string(ss.str());
+        writeOneVertexSet(res[i], name);
+    }
+}
+
+void DotWriter::writeOneVertex(int v, bool isColored, std::ofstream &out) {
+    out << "    \"" << filter->getTargetName(v) << "\"[label=\" " << filter->getTargetName(v) <<
+        " id = " << v
+        << "\nlen = " << filter->getTargetLen(v) << "\"";
+    if (isColored) {
+        out << " , style = \"filled\", color = \"#F0E68C\"";
+    }
+    out << "];\n";
+}
+
+void DotWriter::writeOneEdge(int e, std::ofstream &out) {
+    int v = filter->getEdgeFrom(e);
+    int u = filter->getEdgeTo(e);
+    out << "    \"" << filter->getTargetName(v) << "\" -> \"";
+    out << filter->getTargetName(u) << "\" [ ";
+    out << "color = \"" << filter->getLibColor(filter->getEdgeLib(e)) << "\", ";
+    out << "penwidth = "<< 1 + (int)log10(filter->getEdgeWieght(e)) << ", ";
+    out << "label = " << "\"" << filter->getLibName(filter->getEdgeLib(e));
+    out << "\n weight = " << (filter->getEdgeWieght(e));
+    out << "\n id = "<< e << "\" ]\n";
+}
+
+void DotWriter::writeOneVertexSet(std::vector<int> vert, std::string fileName) {
     std::vector<bool> hasOtherEdge((unsigned)filter->getVertexCount(), 0);
     std::vector<std::pair<int, int> > weightEdge;
     for (int i = 0; i < (int)vert.size(); ++i) {
@@ -41,26 +75,4 @@ void DotWriter::writeVertexSet(std::vector<int> vert, std::string fileName) {
     }
     out << "}\n";
     out.close();
-}
-
-void DotWriter::writeOneVertex(int v, bool isColored, std::ofstream &out) {
-    out << "    \"" << filter->getTargetName(v) << "\"[label=\" " << filter->getTargetName(v) <<
-        " id = " << v
-        << "\nlen = " << filter->getTargetLen(v) << "\"";
-    if (isColored) {
-        out << " , style = \"filled\", color = \"#F0E68C\"";
-    }
-    out << "];\n";
-}
-
-void DotWriter::writeOneEdge(int e, std::ofstream &out) {
-    int v = filter->getEdgeFrom(e);
-    int u = filter->getEdgeTo(e);
-    out << "    \"" << filter->getTargetName(v) << "\" -> \"";
-    out << filter->getTargetName(u) << "\" [ ";
-    out << "color = \"" << filter->getLibColor(filter->getEdgeLib(e)) << "\", ";
-    out << "penwidth = "<< 1 + (int)log10(filter->getEdgeWieght(e)) << ", ";
-    out << "label = " << "\"" << filter->getLibName(filter->getEdgeLib(e));
-    out << "\n weight = " << (filter->getEdgeWieght(e));
-    out << "\n id = "<< e << "\" ]\n";
 }

@@ -7,6 +7,8 @@ void CommandWriteLocal::writeGraph(std::string argv, State& state, Filter *filte
     int dist;
     ss >> fileName >> v >> dist;
 
+    std::cerr << "command write local" << std::endl;
+
     WriteLocal writer(v, dist, fileName, filter);
     writer.write();
 

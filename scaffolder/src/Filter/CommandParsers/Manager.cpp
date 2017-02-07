@@ -6,7 +6,7 @@ const std::string Manager::MIN_CONTIG_LEN = "minContig";
 const std::string Manager::SET_IGNORE = "setIgnore";
 const std::string Manager::RESET_IGNORE = "resetIgnore";
 const std::string Manager::WRITE_FULL = "writeFull";
-const std::string Manager::WRITE_LOCAL = "WriteLocal";
+const std::string Manager::WRITE_LOCAL = "writeLocal";
 const std::string Manager::WRITE_ALL_LOCAL = "writeAllLocal";
 const std::string Manager::WRITE_LOCAL_VERT_IN_SEG = "writeLocalSeg";
 const std::string Manager::WRITE_BIG_COMP = "writeBig";
@@ -53,10 +53,14 @@ bool Manager::handlingRequest(std::istream &in) {
     std::string keyWord;
     std::string argv;
 
-    in >> keyWord;
+    if (!(in >> keyWord)) {
+        return false;
+    }
+    std::cerr << keyWord << std::endl;
     if (commandByKeyWord.count(keyWord) > 0) {
         getline(in, argv);
 
+        std::cerr << keyWord << std::endl;
         commandByKeyWord[keyWord]->execute(argv, state, filter);
     } else if (keyWord == Manager::EXIT) {
         return false;

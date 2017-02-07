@@ -16,6 +16,7 @@ set(SOURCE_FILES
          Writers/WriteLocal.cpp  Writers/WriteLocal.h
          Writers/WriteBigComponent.cpp  Writers/WriteBigComponent.h
          Writers/WriteAlongPath.cpp  Writers/WriteAlongPath.h
+         Writers/GraphSplitter.cpp Writers/GraphSplitter.h
          CommandParsers/Manager.cpp  CommandParsers/Manager.h
          CommandParsers/Commands/Command.h
          CommandParsers/State.h  CommandParsers/Commands/CommandUploadGraph.cpp
@@ -31,6 +32,7 @@ set(SOURCE_FILES
          CommandParsers/Commands/CommandWriteLocalVertInSeg.cpp  CommandParsers/Commands/CommandWriteLocalVertInSeg.h
          CommandParsers/Commands/CommandWriteBigComp.cpp  CommandParsers/Commands/CommandWriteBigComp.h
          CommandParsers/Commands/CommandWriteAlongPath.cpp  CommandParsers/Commands/CommandWriteAlongPath.h
-         CommandParsers/Commands/CommandMergeSimplePath.cpp  CommandParsers/Commands/CommandMergeSimplePath.h)
+         CommandParsers/Commands/CommandMergeSimplePath.cpp  CommandParsers/Commands/CommandMergeSimplePath.h
+         )
 
 add_library(filter_lib ${SOURCE_FILES})

@@ -67,7 +67,6 @@ void ContigGraph::newLib(std::string name, std::string color) {
 }
 
 std::vector<int> ContigGraph::getEdges(int v) {
-    std::cerr << "graph[v] size " << v << " " <<  graph[v].size() << std::endl;
     return graph[v];
 }
 

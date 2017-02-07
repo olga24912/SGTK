@@ -1,7 +1,3 @@
-//
-// Created by olga on 04.12.16.
-//
-
 #include "Utils.h"
 
 bool Utils::isInt(string s) {

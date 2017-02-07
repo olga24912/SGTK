@@ -2,7 +2,7 @@
 #define SCAFFOLDER_READSSPLITTER50_H
 
 #include "ReadsSplitter.h"
-#include "Builder/Tools/SeqanUtils.h"
+#include "ContigGraph/SeqanUtils.h"
 #include <seqan/seq_io.h>
 
 //split unmapped reads on two equal parts
