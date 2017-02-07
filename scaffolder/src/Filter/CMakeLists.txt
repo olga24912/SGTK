@@ -2,8 +2,7 @@ include_directories(.)
 
 set(SOURCE_FILES
          Scaffolder/ScafSimplePath.cpp  Scaffolder/ScafSimplePath.h
-         Tools/Utils.cpp  Tools/Utils.h
-         Tools/SystemTools.cpp  Tools/SystemTools.h
+        Tools/SystemTools.cpp  Tools/SystemTools.h
          Filters/Filter.h  Filters/FilterAdapter.cpp
          Filters/FilterAdapter.h  Filters/FilterMinWeight.cpp
          Filters/FilterMinWeight.h  Filters/Filter.cpp

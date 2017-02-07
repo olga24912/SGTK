@@ -16,6 +16,8 @@ private:
     void writeOneEdge(int e, std::ofstream& out);
 
     void writeOneVertexSet(std::vector<int> vert, std::string fileName);
+
+    bool isGoodFileForWrite(std::vector<int> vert);
 public:
     DotWriter(Filter* filter): filter(filter){}
 

@@ -2,7 +2,6 @@
 #include "DotWriter.h"
 
 void DotWriter::writeVertexSet(std::vector<int> vert, std::string fileName) {
-    std::cerr << "write set: "  << vert.size() << std::endl;
     std::vector<std::vector<int> > res = graphSplitter.split(filter, vert);
     for (int i = 0; i < (int)res.size(); ++i) {
         std::stringstream ss;
@@ -35,6 +34,7 @@ void DotWriter::writeOneEdge(int e, std::ofstream &out) {
 }
 
 void DotWriter::writeOneVertexSet(std::vector<int> vert, std::string fileName) {
+    if (!isGoodFileForWrite(vert)) return;
     std::vector<bool> hasOtherEdge((unsigned)filter->getVertexCount(), 0);
     std::vector<std::pair<int, int> > weightEdge;
     for (int i = 0; i < (int)vert.size(); ++i) {
@@ -75,4 +75,23 @@ void DotWriter::writeOneVertexSet(std::vector<int> vert, std::string fileName) {
     }
     out << "}\n";
     out.close();
+}
+
+bool DotWriter::isGoodFileForWrite(std::vector<int> vert) {
+    if (vert.size() <= 1)  return  false;
+
+    for (int v : vert) {
+        for (int e : filter->getEdges(v)) {
+            int u = filter->getEdgeTo(e);
+            bool was = false;
+            for (int w : vert) {
+                if (u == w) {
+                    was = true;
+                }
+            }
+            if (was && filter->getEdgeLib(e) != 5) return true;
+        }
+    }
+
+    return false;
 }

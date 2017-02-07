@@ -47,7 +47,6 @@ void GraphSplitter::findNewComp(int v) {
     int colNum = (int)res.size();
     res.push_back(std::vector<int>());
 
-    res[colNum].push_back(v);
     que.push(v);
     while (que.size() > 0) {
         if (cntV == maxVert) break;
@@ -79,6 +78,7 @@ void GraphSplitter::findNewComp(int v) {
                 if (used[w] == 1) {
                     edgeCol[e] = colNum + 1;
                 } else if (edgeCol[e] == 0 && used[w] == 0) {
+                    used[w] = 3;
                     que.push(w);
                 }
             }
@@ -88,6 +88,7 @@ void GraphSplitter::findNewComp(int v) {
                 if (used[w] == 1) {
                     edgeCol[e] = colNum + 1;
                 }  else if (edgeCol[e] == 0 && used[w] == 0) {
+                    used[w] = 3;
                     que.push(w);
                 }
             }
