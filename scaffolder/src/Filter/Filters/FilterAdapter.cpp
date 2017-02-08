@@ -28,7 +28,7 @@ int FilterAdapter::getEdgeFrom(int e) {
     return graph.getFromVertex(e);
 }
 
-int FilterAdapter::getEdgeWieght(int e) {
+int FilterAdapter::getEdgeWeight(int e) {
     return graph.getEdgeWeight(e);
 }
 

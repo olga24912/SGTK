@@ -9,7 +9,7 @@ std::vector<int> FilterMinWeight::getEdges(int v) {
     std::vector<int> res;
     for (int i = 0; i < (int)edges.size(); ++i) {
         int e = edges[i];
-        if (libMinEdgeWight[subfilter->getEdgeLib(e)] <= subfilter->getEdgeWieght(e)) {
+        if (libMinEdgeWight[subfilter->getEdgeLib(e)] <= subfilter->getEdgeWeight(e)) {
             int u = subfilter->getEdgeTo(e);
             if (minContigLen <= subfilter->getTargetLen(u)) {
                 res.push_back(e);
@@ -25,7 +25,7 @@ std::vector<int> FilterMinWeight::getEdgesR(int v) {
     std::vector<int> res;
     for (int i = 0; i < (int)edges.size(); ++i) {
         int e = edges[i];
-        if (libMinEdgeWight[subfilter->getEdgeLib(e)] <= subfilter->getEdgeWieght(e)) {
+        if (libMinEdgeWight[subfilter->getEdgeLib(e)] <= subfilter->getEdgeWeight(e)) {
             int v = subfilter->getEdgeFrom(e);
             if (minContigLen <= subfilter->getTargetLen(v)) {
                 res.push_back(e);

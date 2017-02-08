@@ -35,9 +35,9 @@ int Filter::getEdgeFrom(int e) {
     return subfilter->getEdgeFrom(e);
 }
 
-int Filter::getEdgeWieght(int e) {
+int Filter::getEdgeWeight(int e) {
     assert(subfilter != nullptr);
-    return subfilter->getEdgeWieght(e);
+    return subfilter->getEdgeWeight(e);
 }
 
 int Filter::getLibCount() {

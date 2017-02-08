@@ -27,9 +27,9 @@ void DotWriter::writeOneEdge(int e, std::ofstream &out) {
     out << "    \"" << filter->getTargetName(v) << "\" -> \"";
     out << filter->getTargetName(u) << "\" [ ";
     out << "color = \"" << filter->getLibColor(filter->getEdgeLib(e)) << "\", ";
-    out << "penwidth = "<< 1 + (int)log10(filter->getEdgeWieght(e)) << ", ";
+    out << "penwidth = "<< 1 + (int)log10(filter->getEdgeWeight(e)) << ", ";
     out << "label = " << "\"" << filter->getLibName(filter->getEdgeLib(e));
-    out << "\n weight = " << (filter->getEdgeWieght(e));
+    out << "\n weight = " << (filter->getEdgeWeight(e));
     out << "\n id = "<< e << "\" ]\n";
 }
 
@@ -46,7 +46,7 @@ void DotWriter::writeOneVertexSet(std::vector<int> vert, std::string fileName) {
                 if (vert[h] == u) was = 1;
             }
             if (was) {
-                weightEdge.push_back(std::make_pair(filter->getEdgeWieght(e), e));
+                weightEdge.push_back(std::make_pair(filter->getEdgeWeight(e), e));
             } else {
                 hasOtherEdge[i] = 1;
             }

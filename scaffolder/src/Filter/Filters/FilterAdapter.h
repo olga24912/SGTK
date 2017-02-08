@@ -4,9 +4,10 @@
 #include "Filter.h"
 #include "ContigGraph/ContigGraph.h"
 
+//change graph interface to Filter interface
 class FilterAdapter: public Filter {
 private:
-    ContigGraph graph;
+    ContigGraph graph; //graph for change interface
 public:
     FilterAdapter(ContigGraph graph): graph(graph) {}
 
@@ -26,7 +27,7 @@ public:
 
     int getEdgeFrom(int e) override;
 
-    int getEdgeWieght(int e) override;
+    int getEdgeWeight(int e) override;
 
     int getEdgeLib(int e) override;
 
@@ -36,6 +37,7 @@ public:
 
     std::vector<int> getVertexList() override;
 
+    //handling query type UPLOAD_GRAPH with args <contigGraph file name>
     void processQuery(Query query) override;
 };
 

@@ -3,6 +3,7 @@
 
 #include "Filter.h"
 
+//filter for ignore some vertexes
 class FilterIgnore : public Filter {
 private:
     std::vector<bool> ignore;
@@ -15,6 +16,9 @@ public:
 
     std::vector<int> getVertexList() override;
 
+    //handling querys SET_IGNORE with args <first vertex id for ignore> <last vertex id for ignore>
+    // will ignore vertex in [first, last)
+    //and RESET_IGNORE without args stop ignore all vertexs
     void processQuery(Query query) override;
 };
 
