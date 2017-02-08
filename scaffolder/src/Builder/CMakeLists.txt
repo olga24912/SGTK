@@ -12,7 +12,6 @@ set(SOURCE_FILES GraphControl.cpp GraphControl.h
         ReadsSplitter/ReadsSplitter50.cpp ReadsSplitter/ReadsSplitter50.h
         ReadsSplitter/SplitterByUnmappedEnd.cpp ReadsSplitter/SplitterByUnmappedEnd.h
         SamFileWriter/SamFileWriteEdge.cpp SamFileWriter/SamFileWriteEdge.h
-        SamFileWriter/ContigMerger.cpp SamFileWriter/ContigMerger.h
         GraphBuilder/ReferenceGraphBuilder.cpp GraphBuilder/ReferenceGraphBuilder.h)
 
 add_library(builder_lib ${SOURCE_FILES})

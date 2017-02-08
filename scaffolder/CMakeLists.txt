@@ -10,6 +10,8 @@ add_subdirectory(tests)
 
 add_executable(build mainBuildGraph.cpp)
 add_executable(filter mainFilter.cpp)
+add_executable(merger mainMergeContigs.cpp)
 
 target_link_libraries(build builder_lib contig_graph_lib)
 target_link_libraries(filter filter_lib contig_graph_lib)
+target_link_libraries(merger contig_merger_lib contig_graph_lib)
