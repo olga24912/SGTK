@@ -3,9 +3,10 @@
 
 #include "Writer.h"
 
+//Write full graph
 class WriteFullGraph : public Writer {
 private:
-    std::string fileName;
+    std::string fileName; //fileName for write full graph
 public:
     WriteFullGraph(std::string fileName, Filter *filter1);
 

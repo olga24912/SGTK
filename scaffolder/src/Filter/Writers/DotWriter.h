@@ -7,10 +7,11 @@
 #include <algorithm>
 #include "GraphSplitter.h"
 
+//class for write graph in dot format.
 class DotWriter {
 private:
-    Filter* filter;
-    GraphSplitter graphSplitter;
+    Filter* filter; //graph for writing
+    GraphSplitter graphSplitter; //split graph on small parts
 
     void writeOneVertex(int v, bool isColored, std::ofstream& out);
     void writeOneEdge(int e, std::ofstream& out);
@@ -21,8 +22,8 @@ private:
 public:
     DotWriter(Filter* filter): filter(filter){}
 
+    //write this set of vertex in files with prefix fileName
     void writeVertexSet(std::vector<int> vert, std::string fileName);
-
 };
 
 

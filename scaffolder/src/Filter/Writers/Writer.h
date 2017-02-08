@@ -5,11 +5,12 @@
 #include "Searcher.h"
 #include "DotWriter.h"
 
+//abstract class for classes that write graph
 class Writer {
 protected:
-    Filter* filter;
-    Searcher searcher = Searcher(filter);
-    DotWriter dotWriter = DotWriter(filter);
+    Filter* filter; //graph for writing
+    Searcher searcher = Searcher(filter); //for searching in graph
+    DotWriter dotWriter = DotWriter(filter); //for write graph in dot format
 public:
     Writer(Filter* filter1) {
         filter = filter1;

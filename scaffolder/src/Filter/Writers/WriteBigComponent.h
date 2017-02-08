@@ -3,15 +3,15 @@
 
 #include "Writer.h"
 
+//split graph on component and write only big components in different files
 class WriteBigComponent : public Writer {
 private:
-    std::string fileName;
-    int minSize;
+    std::string fileName; //prefix of file name for write component
+    int minSize; //min size of the component
 public:
     WriteBigComponent(std::string fileName, int minSize, Filter *filter1);
 
     void write() override;
-
 };
 
 
