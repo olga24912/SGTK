@@ -12,8 +12,6 @@ void ReferenceGraphBuilder::evaluate() {
     } else {
         createGraph(parseTSVFile(tsvFileName));
     }
-
-    std::cerr << graph->getLibNum() << std::endl;
 }
 
 void ReferenceGraphBuilder::generateVertex() {
@@ -33,7 +31,6 @@ void ReferenceGraphBuilder::generateVertex() {
         ss << name;
         ss >> name;
 
-        std::cerr << name << std::endl;
         std::string seq = SeqanUtils::dna5ToString(seqan::toCString(seqs[i]), seqan::length(seqs[i]));
 
         contigsId[name] = 2 * i;
@@ -69,7 +66,6 @@ void ReferenceGraphBuilder::createGraph(std::map<std::string, std::vector<Refere
         for (int i = (int)contLPos.size() - 1; i > 0; --i) {
             graph->incEdgeWeight(contigsId[contLPos[i].contigName] ^ 1, contigsId[contLPos[i - 1].contigName] ^ 1);
         }
-        std::cerr << graph->getLibNum() << std::endl;
     }
 }
 
@@ -109,7 +105,6 @@ std::map<std::string, std::vector<ReferenceGraphBuilder::alignmentInfo>> Referen
     std::string header;
     std::getline(in, header);
 
-    std::cerr << header << std::endl;
     int l, r, lq, rq, x;
     double xx;
     std::string bestGroup;
@@ -121,7 +116,6 @@ std::map<std::string, std::vector<ReferenceGraphBuilder::alignmentInfo>> Referen
         std::getline(in, status);
         std::getline(in, status);
 
-        std::cerr << l << " " << r << " " << rcont << " " << qcont << std::endl;
         if (r - l < minContigLen) {
             continue;
         }

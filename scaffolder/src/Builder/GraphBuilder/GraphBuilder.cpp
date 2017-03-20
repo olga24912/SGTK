@@ -1,7 +1,3 @@
-//
-// Created by olga on 08.10.16.
-//
-
 #include "GraphBuilder.h"
 
 void GraphBuilder::setGraph(ContigGraph *graph) {

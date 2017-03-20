@@ -33,7 +33,6 @@ int ContigGraph::addVertex(int id, std::string name, int len) {
 int ContigGraph::incEdgeWeight(int v, int u) {
     assert(libName.size() > 0);
     assert(v < vrtsToEdge.size());
-    std::cerr << "contigEdge:" << v << " " << u << std::endl;
     int e;
     if (vrtsToEdge[v].count(u) == 0) {
         e = (int)edgeWeight.size();
@@ -50,8 +49,6 @@ int ContigGraph::incEdgeWeight(int v, int u) {
         e = vrtsToEdge[v][u];
     }
 
-    std::cerr << e << " " << graph[v].size() << std::endl;
-
     edgeWeight[e] += 1;
     return e;
 }
@@ -60,7 +57,6 @@ void ContigGraph::newLib(std::string name, std::string color) {
     libColor.push_back(color);
     libName.push_back(name);
 
-    std::cerr << libName.size() << std::endl;
     for (int i = 0; i < (int)vrtsToEdge.size(); ++i) {
         vrtsToEdge[i].clear();
     }

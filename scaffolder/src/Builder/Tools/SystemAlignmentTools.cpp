@@ -13,7 +13,7 @@ void SystemAlignmentTools::alignmentRNA(std::string refFileName, std::string rna
     command += refFileName;
     command += " --genomeSAindexNbases 10";
     command += " --outFileNamePrefix " + path;
-    //command += " --limitGenomeGenerateRAM 57888412374";
+    command += " --limitGenomeGenerateRAM 90000000000";
 
     std::cerr << command << std::endl;
     system(command.c_str());

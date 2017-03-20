@@ -115,8 +115,6 @@ void PairReadGraphBuilder::incEdgeWeight(seqan::BamAlignmentRecord read1, seqan:
         return;
     }
 
-    std::cerr << target1 << " " << target2 << std::endl;
-
     int verFID = target1, verSID = target2, verRFID = pairTarget(verFID), verRSID = pairTarget(verSID);
 
     int e1 = graph->incEdgeWeight(verFID, verSID);
@@ -156,9 +154,6 @@ void PairReadGraphBuilder::handleReads() {
             seqan::readRecord(read2, bamFile2);
             readInfo2 = processOneSecondRead(read2);
         }
-
-        std::cerr << readInfo1.first << " " << readInfo2.first << std::endl;
-        std::cerr << readInfo1.second << " " << readInfo2.second << std::endl;
 
         if (readInfo2.first != "" && read1ByName.count(readInfo2.first)) {
             incEdgeWeight(read1ByName[readInfo2.first], read2);

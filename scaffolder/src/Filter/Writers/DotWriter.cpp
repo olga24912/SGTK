@@ -1,5 +1,6 @@
 #include <iostream>
 #include "DotWriter.h"
+#include <cmath>
 
 void DotWriter::writeVertexSet(std::vector<int> vert, std::string fileName) {
     std::vector<std::vector<int> > res = graphSplitter.split(filter, vert);
