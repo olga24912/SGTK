@@ -48,6 +48,7 @@ public:
 
     int getTargetLength(int id) const; // get len of contig with id
     std::string getTargetName(int v); // get name of contig with this id
+    int getTargetId(std::string name); //get id of contig by contig name
     int getVertexCount(); //get count of vertexs
     int getLibNum(); //get the count of lib
 

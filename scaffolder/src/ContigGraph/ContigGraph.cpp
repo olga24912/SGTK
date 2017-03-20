@@ -120,6 +120,7 @@ ContigGraph ContigGraph::read(std::string fileName) {
     std::cerr << vn << std::endl;
     g.graph.resize(vn);
     g.graphR.resize(vn);
+    g.vrtsToEdge.resize(vn);
 
     int mxT = 0;
 
@@ -173,4 +174,8 @@ std::string ContigGraph::getLibColor(int l) {
 
 std::string ContigGraph::getLibName(int l) {
     return libName[l];
+}
+
+int ContigGraph::getTargetId(std::string name) {
+    return targetId[name];
 }
