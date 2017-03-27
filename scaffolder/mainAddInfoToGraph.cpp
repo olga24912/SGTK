@@ -4,17 +4,21 @@
 using namespace std;
 
 //add edges form info to gr
-//argv[1] - name of info file
-//argv[2] - name of gr file
+//argc[1] - name of info file
+//argc[2] - name of gr file
+//argc[3] - lib name
+//argc[4] - color
 int main(int argv, char** argc) {
     string infoFileName = argc[1];
     string grFileName = argc[2];
+    string libName = argc[3];
+    string color = argc[4];
 
     ContigGraph graph = ContigGraph::read(grFileName);
 
     ifstream infoin(infoFileName);
 
-    graph.newLib("infoLib", "#ffae00");
+    graph.newLib(libName, color);
 
     string cur;
     while (getline(infoin, cur)) {

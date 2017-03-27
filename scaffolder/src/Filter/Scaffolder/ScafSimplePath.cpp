@@ -43,6 +43,7 @@ void ScafSimplePath::findPaths() {
 
 void ScafSimplePath::writeNewContigs(string fileName) {
     SeqFileOut out(fileName.c_str());
+    ofstream outInfo("out.info");
 
     StringSet<seqan::CharString> ids;
     StringSet<seqan::CharString> seqs;
@@ -58,9 +59,19 @@ void ScafSimplePath::writeNewContigs(string fileName) {
 
     for (int i = 0; i < n; ++i) {
         if (first[i] && used[i] == 0) {
+            stringstream ss;
+            ss << i;
+            string readName = "path" + ss.str();
+            outInfo << ">" + readName + " ";
+
             string seq = contigs[i];
             used[i] = 1;
             used[i ^ 1] = 1;
+            if ((i&1) == 0) {
+                outInfo << "(" << graph->getTargetName(i) << " "  << i/2 << " +) ";
+            } else {
+                outInfo << "(" << graph->getTargetName(i^1) << " " << i/2 << " -) ";
+            }
 
             int x = next[i];
             if (x != -1) cerr << i << " ";
@@ -69,21 +80,24 @@ void ScafSimplePath::writeNewContigs(string fileName) {
                 for (int j = 0; j < GAP_SIZE; ++j) {
                     seq += 'N';
                 }
+                if ((x&1) == 0) {
+                    outInfo << "(" << graph->getTargetName(x) << " "  << x/2 << " +) ";
+                } else {
+                    outInfo << "(" << graph->getTargetName(x^1) << " " << x/2 << " -) ";
+                }
                 seq += contigs[x];
                 used[x] = 1;
                 used[x^1] = 1;
                 x = next[x];
             }
             if (next[i] != -1) cerr << endl;
-
-            stringstream ss;
-            ss << i;
-            string readName = "path" + ss.str();
+            outInfo << "\n";
             appendValue(ids, CharString(readName.c_str()));
             appendValue(seqs, Dna5String(seq));
         }
     }
 
+    outInfo.close();
     writeRecords(out, ids, seqs);
 }
 
