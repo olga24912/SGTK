@@ -1,3 +1,5 @@
+#include <fstream>
+#include <iostream>
 #include "Filter.h"
 
 int Filter::getVertexCount() {
@@ -68,4 +70,34 @@ std::vector<int> Filter::getVertexList() {
 void Filter::processQuery(Query query) {
     assert(subfilter != nullptr);
     return subfilter->processQuery(query);
+}
+
+void Filter::write(std::string fileName) {
+    std::ofstream out(fileName);
+
+    std::cerr << "Write -> gr" << " " << fileName << std::endl;
+
+    out << getLibCount() << "\n";
+    for (int i = 0; i < (int)getLibCount(); ++i) {
+        out << "l " << i << " " << getLibColor(i) << " " << getLibName(i) << "\n";
+    }
+
+    int edgeCnt = 0;
+
+    out << getVertexCount() << "\n";
+    for (int i = 0; i < getVertexCount(); ++i) {
+        out << "v " << i << " " << getTargetName(i) << " " << getTargetLen(i) << "\n";
+        std::vector<int> edges = getEdges(i);
+        for (int j = 0; j < (int)edges.size(); ++j) {
+            edgeCnt = std::max(edgeCnt, edges[j]);
+        }
+    }
+
+    out << edgeCnt << "\n";
+    for (int i = 0; i < edgeCnt; ++i) {
+        out << "e " << i << " " << getEdgeFrom(i) << " " << getEdgeTo(i) << " "
+            << getEdgeLib(i) << " " << getEdgeWeight(i) << "\n";
+    }
+
+    out.close();
 }

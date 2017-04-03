@@ -1,3 +1,4 @@
+#include <Filter/CommandParsers/Commands/CommandPrint.h>
 #include "Manager.h"
 
 const std::string Manager::UPLOAD_GRAPH = "uploadGraph";
@@ -12,6 +13,7 @@ const std::string Manager::WRITE_LOCAL_VERT_IN_SEG = "writeLocalSeg";
 const std::string Manager::WRITE_BIG_COMP = "writeBig";
 const std::string Manager::WRITE_LOCAL_ALONG_PATH = "writeAlongPath";
 const std::string Manager::MERGE_SIMPLE_PATH = "mergeSimplePath";
+const std::string Manager::PRINT = "print";
 const std::string Manager::EXIT = "exit";
 
 const std::string Manager::CONFIG_FILE = "filter_config";
@@ -31,6 +33,7 @@ Manager::Manager() {
     commandByKeyWord[WRITE_BIG_COMP] = new CommandWriteBigComp();
     commandByKeyWord[WRITE_LOCAL_ALONG_PATH] = new CommandWriteAlongPath();
     commandByKeyWord[MERGE_SIMPLE_PATH] = new CommandMergeSimplePath();
+    commandByKeyWord[PRINT] = new CommandPrint();
 }
 
 void Manager::main() {

@@ -32,6 +32,6 @@ set(SOURCE_FILES
          CommandParsers/Commands/CommandWriteBigComp.cpp  CommandParsers/Commands/CommandWriteBigComp.h
          CommandParsers/Commands/CommandWriteAlongPath.cpp  CommandParsers/Commands/CommandWriteAlongPath.h
          CommandParsers/Commands/CommandMergeSimplePath.cpp  CommandParsers/Commands/CommandMergeSimplePath.h
-         )
+        CommandParsers/Commands/CommandPrint.cpp CommandParsers/Commands/CommandPrint.h)
 
 add_library(filter_lib ${SOURCE_FILES})

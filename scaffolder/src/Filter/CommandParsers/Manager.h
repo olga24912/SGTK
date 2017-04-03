@@ -32,6 +32,7 @@
  * mergeSimplePath <contigsFileName> <outFileName>
  * setIgnore <vertexIdStart> <vertexIdFinish>
  * resetIgnore
+ * print fileName
  * exit
  * writeFull <fileName>
  * WriteLocal <fileName> <vertexID> <dist>
@@ -54,6 +55,7 @@ private:
     static const std::string WRITE_LOCAL_ALONG_PATH;
     static const std::string SET_IGNORE;
     static const std::string RESET_IGNORE;
+    static const std::string PRINT;
     static const std::string EXIT;
 
     static const std::string CONFIG_FILE;

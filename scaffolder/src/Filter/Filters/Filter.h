@@ -30,6 +30,8 @@ public:
 
     virtual void processQuery(Query query); //handling query for changing filter options
 
+    void write(std::string fileName); //serialize this graph in .gr format in "fileName" file
+
     ~Filter() {
         if (subfilter != nullptr) {
             delete subfilter;
