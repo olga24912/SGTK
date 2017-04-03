@@ -11,8 +11,6 @@ void GraphBuilder::setLibName(std::string libName, std::string path) {
 
     std::string command = "mkdir " + GraphBuilder::path;
     system(command.c_str());
-
-    setSamFileWriter();
 }
 
 std::string GraphBuilder::colorToString(int *color) {

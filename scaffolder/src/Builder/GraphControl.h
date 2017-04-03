@@ -62,8 +62,8 @@ private:
     };
 
     enum  optionIndex { UNKNOWN, HELP, NEW, SAM1, SAM2, MINCONTIGLEN,
-        DIST_BETWEEN_PAIR_READS, REFFILE, QUERYFILE, READSFILE, LIBNAME, TSVFILE};
-    const option::Descriptor usage[13] = {
+        DIST_BETWEEN_PAIR_READS, REFFILE, QUERYFILE, READSFILE, LIBNAME, TSVFILE, OUTPUT};
+    const option::Descriptor usage[14] = {
             { UNKNOWN, 0,"", "",        Arg::Unknown, "USAGE: scaffolder [options]\n\n"
                                                               "Options:" },
             { HELP,         0,"", "help",         Arg::None,    "  \t--help  \tPrint usage and exit." },
@@ -90,6 +90,8 @@ private:
             { TSVFILE, 0, "t", "tsv_file_name", Arg::Required, " -t <arg>, \t --tsv_file_name=<arg>"
                                                                        "\t Must have an argument, file name of alignment contigs"
                                                                        "on ref tsv file. ONLY REF setting"},
+            { OUTPUT, 0, "o", "wirte_edge_info", Arg::None, "-o, \t --write_edge_info"
+                                                                    "\t write add info about edges"},
             { 0, 0, 0, 0, 0, 0 }
     };
 

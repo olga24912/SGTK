@@ -14,10 +14,10 @@ private:
 
 public:
     //dir where fails will be create
-    SamFileWriteEdge(std::string dir);
-    SamFileWriteEdge(){};
+    virtual SamFileWriteEdge(std::string dir);
+    virtual SamFileWriteEdge(){};
     //need for context for create BamFileOut
-    void setFileIn(seqan::BamFileIn* in) {
+    virtual void setFileIn(seqan::BamFileIn* in) {
         fileIn = in;
     }
     //write record for edgeId with read1 and read2

@@ -17,6 +17,10 @@ void GraphControl::evaluate(int argc, char **argv) {
 
     GraphBuilder* gb = nullptr;
     bool needEval = false;
+    bool writeEdgeInfo = false;
+    if (options[OUTPUT]) {
+        writeEdgeInfo = true;
+    }
 
     for (int i = 0; i < parse.optionsCount(); ++i) {
         option::Option& opt = buffer[i];
@@ -102,6 +106,9 @@ void GraphControl::evaluate(int argc, char **argv) {
                 break;
             case LIBNAME:
                 gb -> setLibName(opt.arg, path);
+                if (writeEdgeInfo) {
+                    gb->setSamFileWriter();
+                }
                 break;
             case TSVFILE:
                 if (dynamic_cast<ReferenceGraphBuilder *> ( gb )) {
