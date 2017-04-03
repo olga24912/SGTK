@@ -6,6 +6,7 @@
 const int MAX_STR_LEN = 100;
 
 int main(int argc, char ** argv) {
+    std::cerr << "start merge\n" << std::endl;
     std::vector<std::string> lib;
     std::vector<std::string> vec;
     std::vector<std::string> edge;
@@ -35,12 +36,13 @@ int main(int argc, char ** argv) {
     }
     fclose(file);
     for (int j = 2; j < argc - 1; ++j) {
-
+        std::cerr << j << std::endl;
         int oldLibCnt = (int)lib.size();
         fileName = std::string(argv[j]);
         file = fopen(fileName.c_str(), "r");
         fgets(str, MAX_STR_LEN, file);
         sscanf(str, "%d", &x);
+        std::cerr << x << std::endl;
         for (int i = 0; i < x; ++i) {
             fgets(str, MAX_STR_LEN, file);
             char c;
@@ -52,11 +54,13 @@ int main(int argc, char ** argv) {
         }
         fgets(str, MAX_STR_LEN, file);
         sscanf(str, "%d", &x);
+        std::cerr << x << std::endl;
         for (int i = 0; i < x; ++i) {
             fgets(str, MAX_STR_LEN, file);
         }
         fgets(str, MAX_STR_LEN, file);
         sscanf(str, "%d", &x);
+        std::cerr << x << std::endl;
         for (int i = 0; i < x; ++i) {
             fgets(str, MAX_STR_LEN, file);
             char c;
@@ -75,7 +79,6 @@ int main(int argc, char ** argv) {
     }
     fprintf(file, "%d\n", (int)vec.size());
     for (int i = 0; i < (int)vec.size(); ++i) {
-        std::cerr << i << std::endl;
         fputs(vec[i].c_str(), file);
     }
     fprintf(file, "%d\n", (int)edge.size());

@@ -1,7 +1,3 @@
-//
-// Created by olga on 29.01.17.
-//
-
 #include "GenTest.h"
 
 void GenTest::genContig() {

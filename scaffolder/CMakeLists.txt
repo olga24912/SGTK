@@ -11,8 +11,9 @@ add_subdirectory(tests)
 add_executable(build mainBuildGraph.cpp)
 add_executable(filter mainFilter.cpp)
 add_executable(merger mainMergeContigs.cpp)
-add_executable(addInfoToGraph mainAddInfoToGraph.cpp)
+add_executable(addInfoToGraph mainAddInfoToGraph.cpp mainSplitFastqFiles.cpp)
 add_executable(mergeGraph mainMergeGraph.cpp)
+add_executable(splitFast mainSplitFastqFiles.cpp)
 
 
 target_link_libraries(build builder_lib contig_graph_lib)

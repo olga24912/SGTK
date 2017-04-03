@@ -14,8 +14,8 @@ private:
 
 public:
     //dir where fails will be create
-    virtual SamFileWriteEdge(std::string dir);
-    virtual SamFileWriteEdge(){};
+    SamFileWriteEdge(std::string dir);
+    SamFileWriteEdge(){};
     //need for context for create BamFileOut
     virtual void setFileIn(seqan::BamFileIn* in) {
         fileIn = in;
