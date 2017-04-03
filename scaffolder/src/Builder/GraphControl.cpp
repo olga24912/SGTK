@@ -2,8 +2,6 @@
 #include "Builder/GraphBuilder/ReferenceGraphBuilder.h"
 
 void GraphControl::evaluate(int argc, char **argv) {
-    createPath();
-
     argc -= (argc > 0);
     argv += (argc > 0);
 
@@ -124,20 +122,4 @@ void GraphControl::evaluate(int argc, char **argv) {
     delete gb;
 
     graph.write(path + "/graph.gr");
-}
-
-void GraphControl::createPath() {
-    time_t t = time(0);
-    struct tm* now = localtime(&t);
-    std::stringstream ss;
-    ss << "contig_graph_" << (now->tm_year) - 100 << '-'
-                         << (now->tm_mon + 1) << '-'
-                         <<  now->tm_mday << '_'
-                         << (now->tm_hour) << '-'
-                         << (now->tm_min);
-
-    path = std::string(ss.str());
-
-    std::string command = "mkdir " + path;
-    system(command.c_str());
 }

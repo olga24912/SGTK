@@ -12,6 +12,8 @@ add_executable(build mainBuildGraph.cpp)
 add_executable(filter mainFilter.cpp)
 add_executable(merger mainMergeContigs.cpp)
 add_executable(addInfoToGraph mainAddInfoToGraph.cpp)
+add_executable(mergeGraph mainMergeGraph.cpp)
+
 
 target_link_libraries(build builder_lib contig_graph_lib)
 target_link_libraries(filter filter_lib contig_graph_lib)

@@ -32,10 +32,14 @@ void ScafSimplePath::findPaths() {
 
     vector<int> used(n, 0);
     next.resize(n, -1);
+    vector<int> countInVert(n, 0);
+    vector<int> countOutVert(n, 0);
+
+    initCountInOutVert(countInVert, countOutVert);
 
     for (int i : verts) {
         if (used[i] == 0) {
-            dfsPath(i, next, used);
+            dfsPath(i, next, used, countInVert, countOutVert);
         }
         cerr << used[i] << " " << next[i] << endl;
     }
@@ -118,45 +122,47 @@ string ScafSimplePath::createRevCompl(string s) {
     return res;
 }
 
-void ScafSimplePath::dfsPath(int v, vector<int> &next, vector<int> &used) {
+
+void ScafSimplePath::dfsPath(int v, vector<int> &next, vector<int> &used,
+                             const vector<int> &countInVert, vector<int> &countOutVert) {
     used[v] = 1;
+    if (countOutVert[v] != 1) {
+        return;
+    }
 
     int tu = -1;
     vector<int> edges = graph->getEdges(v);
-    for (int e : edges) {
-        int u = graph->getEdgeTo(e);
-
-        if (tu == -1) {
-            tu = u;
-        }
-
-        if (tu != u || used[u] == 1) {
-            used[v] = 3;
-            return;
-        }
-    }
-
-    vector<int> edgeR = graph->getEdgesR(v);
-    int fu = -1;
-
-    for (int e : edgeR) {
-        int u = graph->getEdgeFrom(e);
-
-        if (fu == -1) {
-            fu = u;
-        }
-        if (fu != u) {
-            used[v] = 3;
-            return;
-        }
+    tu = graph->getEdgeTo(graph->getEdges(v)[0]);
+    if (countInVert[tu] != 1) {
+        return;
     }
 
     next[v] = tu;
-    if (tu != -1 && used[tu] == 0) dfsPath(tu, next, used);
 
-    if (tu != -1 && used[tu] == 3) {
-        next[v] = -1;
+    if (tu != -1 && used[tu] == 0) dfsPath(tu, next, used, countInVert, countOutVert);
+}
+
+void ScafSimplePath::initCountInOutVert(vector<int> &countInVert, vector<int> &countOutVert) {
+    for (int i = 0; i < (int)countOutVert.size(); ++i) {
+        vector<int> edges = graph->getEdges(i);
+        vector<int> vertOut;
+        for (int e : edges) {
+            int u = graph->getEdgeTo(e);
+            vertOut.push_back(u);
+        }
+        sort(vertOut.begin(), vertOut.end());
+        vertOut.resize(unique(vertOut.begin(), vertOut.end()) - vertOut.begin());
+        countOutVert[i] = vertOut.size();
     }
-
-    used[v] = 2;
+    for (int i = 0; i < (int)countOutVert.size(); ++i) {
+        vector<int> edges = graph->getEdgesR(i);
+        vector<int> vertIn;
+        for (int e : edges) {
+            int u = graph->getEdgeFrom(e);
+            vertIn.push_back(u);
+        }
+        sort(vertIn.begin(), vertIn.end());
+        vertIn.resize(unique(vertIn.begin(), vertIn.end()) - vertIn.begin());
+        countInVert[i] = vertIn.size();
+    }
 }

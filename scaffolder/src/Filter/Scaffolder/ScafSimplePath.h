@@ -23,7 +23,8 @@ private:
     void writeNewContigs(string out);
 
     string createRevCompl(string s);
-    void dfsPath(int v, vector<int> &next, vector<int> &used);
+    void dfsPath(int v, vector<int> &next, vector<int> &used, const vector<int> &countInVert, vector<int> &countOutVert);
+    void initCountInOutVert(vector<int> &countInVert, vector<int>& countOutVert);
 public:
     void evaluate(Filter* graph, string contigFile, string out);
 };

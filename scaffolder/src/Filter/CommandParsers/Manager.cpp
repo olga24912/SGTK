@@ -36,11 +36,6 @@ Manager::Manager() {
 void Manager::main() {
     readConfig();
     std::cout << "Finish read config file" << std::endl;
-
-    while(handlingRequest(std::cin)) {
-        std::cout << "Finish handling request" << std::endl;
-    }
-
 }
 
 void Manager::readConfig() {
