@@ -69,7 +69,9 @@ void FilterMinWeight::processQuery(Query query) {
         minContigLen = weight;
     } else {
         Filter::processQuery(query);
-        libMinEdgeWight.resize((unsigned) subfilter->getLibList()
-        [subfilter->getLibList().size() - 1] + 1, 0);
+        if (subfilter->getLibList().size() > 0) {
+            libMinEdgeWight.resize((unsigned) subfilter->getLibList()
+            [subfilter->getLibList().size() - 1] + 1, 0);
+        }
     }
 }

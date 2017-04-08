@@ -66,7 +66,20 @@ done
 
 wait
 
-echo -e '0\n0\n0\n' > graph.gr
+echo -e '0\n0\n0\n' > graphAllLib.gr
 for i in $(seq 0 `expr $threadN - 1`); do
-    $softDir/mergeGraph ./gr$i/graph.gr ./graph.gr ./graph.gr
+    $softDir/mergeGraph ./gr$i/graph.gr ./graphAllLib.gr ./graphAllLib.gr
 done
+
+echo 'uploadGraph graph.gr' > filter_config
+for i in $(seq 1 `expr $threadN - 1`); do
+    echo "mergeLib 0  $(($i * 5)) split1-50-50" >> filter_config
+    echo "mergeLib 1  $(($i * 5 + 1)) split1-long-short" >> filter_config
+    echo "mergeLib 2  $(($i * 5 + 2)) split2-50-50" >> filter_config
+    echo "mergeLib 3  $(($i * 5 + 3)) split2-long-short" >> filter_config
+    echo "mergeLib 4  $(($i * 5 + 4)) pair" >> filter_config
+done
+echo 'print graph.gr' >> filter_config
+echo 'exit' >> filter_config
+
+$softDir/filter
