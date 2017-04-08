@@ -32,8 +32,13 @@ int FilterAdapter::getEdgeWeight(int e) {
     return graph.getEdgeWeight(e);
 }
 
-int FilterAdapter::getLibCount() {
-    return graph.getLibNum();
+std::vector<int> FilterAdapter::getLibList() {
+    std::vector<int> libList(graph.getLibNum(), 0);
+    std::cerr << graph.getLibNum() << std::endl;
+    for (int i = 0; i < (int)libList.size(); ++i) {
+        libList[i] = i;
+    }
+    return libList;
 }
 
 int FilterAdapter::getEdgeLib(int e) {

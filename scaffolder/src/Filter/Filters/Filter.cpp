@@ -1,5 +1,6 @@
 #include <fstream>
 #include <iostream>
+#include <algorithm>
 #include "Filter.h"
 
 int Filter::getVertexCount() {
@@ -42,9 +43,9 @@ int Filter::getEdgeWeight(int e) {
     return subfilter->getEdgeWeight(e);
 }
 
-int Filter::getLibCount() {
+std::vector<int> Filter::getLibList() {
     assert(subfilter != nullptr);
-    return subfilter->getLibCount();
+    return subfilter->getLibList();
 }
 
 int Filter::getEdgeLib(int e) {
@@ -77,26 +78,30 @@ void Filter::write(std::string fileName) {
 
     std::cerr << "Write -> gr" << " " << fileName << std::endl;
 
-    out << getLibCount() << "\n";
-    for (int i = 0; i < (int)getLibCount(); ++i) {
-        out << "l " << i << " " << getLibColor(i) << " " << getLibName(i) << "\n";
+    std::vector<int> libList = getLibList();
+    out << libList.size() << "\n";
+    std::vector<int> newColr(libList[libList.size() - 1] + 1, 0);
+    for (int i = 0; i < (int)libList.size(); ++i) {
+        out << "l " << i << " " << getLibColor(libList[i]) << " " << getLibName(libList[i]) << "\n";
+        newColr[libList[i]] = i;
     }
 
-    int edgeCnt = 0;
-
+    std::vector<int> edges;
     out << getVertexCount() << "\n";
     for (int i = 0; i < getVertexCount(); ++i) {
         out << "v " << i << " " << getTargetName(i) << " " << getTargetLen(i) << "\n";
-        std::vector<int> edges = getEdges(i);
-        for (int j = 0; j < (int)edges.size(); ++j) {
-            edgeCnt = std::max(edgeCnt, edges[j]);
+        std::vector<int> curEd = getEdges(i);
+        for (int j = 0; j < (int)curEd.size(); ++j) {
+            edges.push_back(curEd[j]);
         }
     }
 
-    out << edgeCnt << "\n";
-    for (int i = 0; i < edgeCnt; ++i) {
-        out << "e " << i << " " << getEdgeFrom(i) << " " << getEdgeTo(i) << " "
-            << getEdgeLib(i) << " " << getEdgeWeight(i) << "\n";
+    std::sort(edges.begin(), edges.end());
+    edges.resize(unique(edges.begin(), edges.end()) - edges.begin());
+    out << edges.size() << "\n";
+    for (int i = 0; i < edges.size(); ++i) {
+        out << "e " << i << " " << getEdgeFrom(edges[i]) << " " << getEdgeTo(edges[i]) << " "
+            << newColr[getEdgeLib(edges[i])] << " " << getEdgeWeight(edges[i]) << "\n";
     }
 
     out.close();

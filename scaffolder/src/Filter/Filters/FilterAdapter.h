@@ -11,7 +11,7 @@ private:
 public:
     FilterAdapter(ContigGraph graph): graph(graph) {}
 
-    int getLibCount() override;
+    std::vector<int> getLibList() override;
 
     int getVertexCount() override;
 

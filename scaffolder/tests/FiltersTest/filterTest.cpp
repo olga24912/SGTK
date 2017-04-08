@@ -31,7 +31,7 @@ protected:
     void check(Filter& filter, int vertCount, int libCount, std::vector<int> vert,
                std::vector<int> edgesSize, std::vector<int> edgesRSize) {
         ASSERT_EQ(filter.getVertexCount(), vertCount);
-        ASSERT_EQ(filter.getLibCount(), libCount);
+        ASSERT_EQ(filter.getLibList().size(), libCount);
         std::vector<int> vertn = filter.getVertexList();
         ASSERT_EQ(vertn.size(), vert.size());
         for (int i = 0; i < (int)vert.size(); ++i) {

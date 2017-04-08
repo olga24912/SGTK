@@ -1,7 +1,13 @@
+#include <iostream>
 #include "FilterMinWeight.h"
 
 FilterMinWeight::FilterMinWeight(Filter *filter) : Filter(filter) {
-    libMinEdgeWight.resize((unsigned long) filter->getLibCount(), 1);
+    if ((int)filter->getLibList().size() > 0) {
+        libMinEdgeWight.resize((unsigned) filter->getLibList()
+        [(int) filter->getLibList().size() - 1] + 1, 1);
+    } else {
+        libMinEdgeWight.resize(0);
+    }
 }
 
 std::vector<int> FilterMinWeight::getEdges(int v) {
@@ -63,6 +69,7 @@ void FilterMinWeight::processQuery(Query query) {
         minContigLen = weight;
     } else {
         Filter::processQuery(query);
-        libMinEdgeWight.resize((unsigned) subfilter->getLibCount(), 0);
+        libMinEdgeWight.resize((unsigned) subfilter->getLibList()
+        [subfilter->getLibList().size() - 1] + 1, 0);
     }
 }

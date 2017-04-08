@@ -1,4 +1,6 @@
 #include <Filter/CommandParsers/Commands/CommandPrint.h>
+#include <Filter/Filters/FilterMergeLib.h>
+#include <Filter/CommandParsers/Commands/CommandMergeLib.h>
 #include "Manager.h"
 
 const std::string Manager::UPLOAD_GRAPH = "uploadGraph";
@@ -13,13 +15,14 @@ const std::string Manager::WRITE_LOCAL_VERT_IN_SEG = "writeLocalSeg";
 const std::string Manager::WRITE_BIG_COMP = "writeBig";
 const std::string Manager::WRITE_LOCAL_ALONG_PATH = "writeAlongPath";
 const std::string Manager::MERGE_SIMPLE_PATH = "mergeSimplePath";
+const std::string Manager::MERGE_LIB = "mergeLib";
 const std::string Manager::PRINT = "print";
 const std::string Manager::EXIT = "exit";
 
 const std::string Manager::CONFIG_FILE = "filter_config";
 
 Manager::Manager() {
-    filter = new FilterIgnore(new FilterMinWeight(new FilterAdapter(ContigGraph())));
+    filter = new FilterIgnore(new FilterMinWeight(new FilterMergeLib(new FilterAdapter(ContigGraph()))));
 
     commandByKeyWord[UPLOAD_GRAPH] = new CommandUploadGraph();
     commandByKeyWord[MIN_CONTIG_LEN] = new CommandMinContig();
@@ -33,6 +36,7 @@ Manager::Manager() {
     commandByKeyWord[WRITE_BIG_COMP] = new CommandWriteBigComp();
     commandByKeyWord[WRITE_LOCAL_ALONG_PATH] = new CommandWriteAlongPath();
     commandByKeyWord[MERGE_SIMPLE_PATH] = new CommandMergeSimplePath();
+    commandByKeyWord[MERGE_LIB] = new CommandMergeLib();
     commandByKeyWord[PRINT] = new CommandPrint();
 }
 

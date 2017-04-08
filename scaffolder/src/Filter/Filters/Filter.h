@@ -14,7 +14,7 @@ protected:
     Filter(Filter *filer): subfilter(filer) {}
     Filter* subfilter = nullptr; //graph for filtering
 public:
-    virtual int getLibCount(); //return count of libs with filters
+    virtual std::vector<int> getLibList(); //return list of libs num with filters
     virtual std::vector<int> getVertexList(); //return filter list of vertexs id
     virtual int getVertexCount(); //return count of vertexs without filters
     virtual std::vector<int> getEdges(int v); //return filter edges id from v

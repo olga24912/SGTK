@@ -32,6 +32,7 @@
  * mergeSimplePath <contigsFileName> <outFileName>
  * setIgnore <vertexIdStart> <vertexIdFinish>
  * resetIgnore
+ * mergeLib <libNum1> <libNum2> newLibName
  * print fileName
  * exit
  * writeFull <fileName>
@@ -55,6 +56,7 @@ private:
     static const std::string WRITE_LOCAL_ALONG_PATH;
     static const std::string SET_IGNORE;
     static const std::string RESET_IGNORE;
+    static const std::string MERGE_LIB;
     static const std::string PRINT;
     static const std::string EXIT;
 
