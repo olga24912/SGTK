@@ -7,8 +7,8 @@
 //split graph on small parts
 class GraphSplitter {
 private:
-    int maxEdge = 15; //max edges in one component
-    int maxVert = 10; //max vertexs in one component
+    int maxEdge = 40; //max edges in one component
+    int maxVert = 20; //max vertexs in one component
 
     //0 - vertex was not used, 1 - current component, 2 - vertex was used before, 3 - was not used,
     //but it is bed vertex for this component

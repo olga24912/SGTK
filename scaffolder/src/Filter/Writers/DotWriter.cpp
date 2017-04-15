@@ -8,7 +8,10 @@ void DotWriter::writeVertexSet(std::vector<int> vert, std::string fileName) {
         std::stringstream ss;
         ss << fileName << i;
         std::string name = std::string(ss.str());
-        writeOneVertexSet(res[i], name);
+        if (validator->isGoodVertexSet(res[i], filter)) {
+            std::cerr << "isOk" << i << std::endl;
+            writeOneVertexSet(res[i], name);
+        }
     }
 }
 
