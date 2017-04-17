@@ -76,7 +76,7 @@ private:
             { MINCONTIGLEN, 0,"c","mincontiglen", Arg::Numeric, "  -c <num>, \t--mincontiglen=<num>"
                                                               "  \tTake one numver - the barrier of contig len, def = 500. Only for ref graph builder" },
             { DIST_BETWEEN_PAIR_READS, 0, "d", "pair_read_dist", Arg::Numeric, " -d <num>, \t --pair_read_dist=<num>"
-                                                                                       "\t Take one number - minimal posible len between pair reads"},
+                                                                                       "\t Take one number - max posible len between pair reads"},
             { REFFILE, 0, "r", "ref_file_name", Arg::Required, " -r <arg>, \t --ref_file_name=<arg>"
                                                                        "\t Must have an argument, file name of referense file."},
             { QUERYFILE, 0, "q", "query_file_name", Arg::Required, " -q <arg>, \t --query_file_name=<arg>"

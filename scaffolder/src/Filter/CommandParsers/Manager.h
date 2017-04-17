@@ -33,8 +33,8 @@
  * mergeSimplePath <contigsFileName> <outFileName>
  * setIgnore <vertexIdStart> <vertexIdFinish>
  * resetIgnore
- * mergeLib <libNum1> <libNum2> newLibName
- * print fileName
+ * mergeLib <libNum1> <libNum2> <newLibName>
+ * print <fileName>
  * exit
  * writeFull <fileName>
  * WriteLocal <fileName> <vertexID> <dist>
