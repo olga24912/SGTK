@@ -107,3 +107,45 @@ v 2 contig3 3800
 2  
 e 0 1 2 0 10  
 e 1 2 1 1 15
+
+### filter
+Программа для фильтрации и отрисовки графа. 
+
+Обрабатывает файл filter_config с описанием фильтрацией и вывода графа. Файл
+filter_config должен лежать в той же папке, откуда запускается программа. 
+
+#### описание filter_config
+Файл состоит из последовательных команд, каждая команда находится на 
+собственной строке. 
+
+Возможные команды: 
+ * uploadGraph <filename>  --- вероятное начало файла. Загружаем граф, который в дальнейшем будем обрабатывать. Необходимо указать путь до файла с графом (graph.gr). 
+ * minEdgeW <libNum> <weight> --- указать минимальный вес ребра для данной библиотеки, все ребра из данной библиотеки меньшего веса будут игнорироваться. 
+ * minContig <len> --- указать минимальную длину контига. Все контиги с меньшей длинной будут игнорироваться. Аккуратно со связями из REF. Желательно, что бы минимальная длина контига совпадала с тем, что было там указано. 
+ * mergeSimplePath <contigsFileName> <outFileName> --- собрать скаффолды. Передаем путь до контигов и указываем название выходного файла, куда будут записаны скаффолды в fasta формате. Так же появится файл out.info с информацией о том, какие контиги были соединены в скаффолды. 
+ * setIgnore <vertexIdStart> <vertexIdFinish> --- игнорировать все контиги c id в полуинтервале [StartId, FinishId)
+ * resetIgnore --- отменить игнорирование всех контигов. 
+ * mergeLib <libNum1> <libNum2> <newLibName> --- склеить две библиотеки в одну с номерами <libNum1> и <libNum2>, имя новой библиотеки будет <newLibName>, номер новой библиотеки будет min(<libNum1>, <libNum2>), номера остальных библиотек не будут меняться. 
+ * print <fileName> --- вывести новый граф, полученный из старого применением фильтров в файл <fileName> в формате gr.
+ * writeFull <fileName>
+ * WriteLocal <fileName> <vertexID> <dist>
+ * writeAllLocal <fileName> <dist>
+ * writeLocalSeg <fileName> <vertexIDStart> <vertexIDFinish> <dist>
+ * writeBig <prefixFileName> <size>
+ * writeAlongPath <prefixFileName> <libNum> <dist> <minRefPathSize>
+ * setFileVNotPathWithAllLib
+ * setFileVWithDifInLib <libNum>*
+ * setMaxVEinOneFile <maxVertNum> <maxEdgeNum>
+ * exit --- обозначение конца файла. Все что указано после данной команды будет игнорироваться. 
+
+#### пример файла filter_config
+uploadGraph out.gr
+minContig 500
+mergeLib 4 5 con
+mergeLib 3 4 con
+mergeLib 2 3 con
+mergeLib 1 2 con
+minEdgeW 1 2
+setFileVWithDifInLib 6 8
+writeFull out4/g
+exit
