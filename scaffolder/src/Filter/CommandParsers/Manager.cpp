@@ -1,6 +1,7 @@
 #include <Filter/CommandParsers/Commands/CommandPrint.h>
 #include <Filter/Filters/FilterMergeLib.h>
 #include <Filter/CommandParsers/Commands/CommandFilter/CommandMergeLib.h>
+#include <Filter/CommandParsers/Commands/CommandFV/CommandFVWithDifInLib.h>
 #include "Manager.h"
 
 const std::string Manager::UPLOAD_GRAPH = "uploadGraph";
@@ -19,6 +20,7 @@ const std::string Manager::MERGE_LIB = "mergeLib";
 const std::string Manager::PRINT = "print";
 const std::string Manager::EXIT = "exit";
 const std::string Manager::SET_FV_NOT_PATH_WITH_ALL_LIB = "setFileVNotPathWithAllLib";
+const std::string Manager::SET_FV_WITH_DIF_IN_LIB = "setFileVWithDifInLib";
 
 const std::string Manager::CONFIG_FILE = "filter_config";
 
@@ -40,6 +42,7 @@ Manager::Manager() {
     commandByKeyWord[MERGE_LIB] = new CommandMergeLib();
     commandByKeyWord[PRINT] = new CommandPrint();
     commandByKeyWord[SET_FV_NOT_PATH_WITH_ALL_LIB] = new CommandSetFVNotWithAllLib();
+    commandByKeyWord[SET_FV_WITH_DIF_IN_LIB] = new CommandFVWithDifInLib();
 }
 
 void Manager::main() {

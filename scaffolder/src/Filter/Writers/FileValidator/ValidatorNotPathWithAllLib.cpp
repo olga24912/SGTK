@@ -11,7 +11,7 @@ bool ValidatorNotPathWithAllLib::isGoodVertexSet(std::vector<int> vert, Filter *
         if (edges.size() == 0) continue;
         int u = filter->getEdgeTo(edges[0]);
 
-        std::vector<int> was(listLib[listLib.size() - 1], 0);
+        std::vector<int> was(listLib[listLib.size() - 1] + 1, 0);
         for (int e : edges) {
             if (filter->getEdgeTo(e) != u) {
                 return true;
