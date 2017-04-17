@@ -1,28 +1,37 @@
+#include <queue>
+#include <set>
 #include "Searcher.h"
 
 std::vector<int> Searcher::findVertInLocalArea(int v, int dist) {
     std::vector<int> res;
-    if (dist == 0) return res;
-    res.push_back(v);
-    for (int e : filter->getEdges(v)) {
-        int u = filter->getEdgeTo(e);
-        std::vector<int> add = findVertInLocalArea(u, dist - 1);
-        for (int j = 0; j < (int)add.size(); ++j) {
-            res.push_back(add[j]);
-        }
-    }
+    std::queue<std::pair<int, int> > que;
+    std::set<int> used;
 
-    for (int e : filter->getEdgesR(v)) {
-        int u = filter->getEdgeFrom(e);
-        std::vector<int> add = findVertInLocalArea(u, dist - 1);
-        for (int j = 0; j < (int)add.size(); ++j) {
-            res.push_back(add[j]);
+    que.push(std::make_pair(v, 0));
+    while (que.size() > 0) {
+        int y = que.front().first, d = que.front().second;
+        que.pop();
+
+        res.push_back(y);
+        if (d == dist) continue;
+        for (int e : filter->getEdges(y)) {
+            int u = filter->getEdgeTo(e);
+            if (!used.count(u)) {
+                used.insert(u);
+                que.push(std::make_pair(u, d + 1));
+            }
+        }
+
+        for (int e : filter->getEdgesR(y)) {
+            int u = filter->getEdgeFrom(e);
+            if (!used.count(u)) {
+                used.insert(u);
+                que.push(std::make_pair(u, d + 1));
+            }
         }
     }
 
     std::sort(res.begin(), res.end());
-    res.resize((unsigned long) (std::unique(res.begin(), res.end()) - res.begin()));
-
     return res;
 }
 
