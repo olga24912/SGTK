@@ -1,6 +1,6 @@
 #include <Filter/CommandParsers/Commands/CommandPrint.h>
 #include <Filter/Filters/FilterMergeLib.h>
-#include <Filter/CommandParsers/Commands/CommandMergeLib.h>
+#include <Filter/CommandParsers/Commands/CommandFilter/CommandMergeLib.h>
 #include "Manager.h"
 
 const std::string Manager::UPLOAD_GRAPH = "uploadGraph";
@@ -18,6 +18,7 @@ const std::string Manager::MERGE_SIMPLE_PATH = "mergeSimplePath";
 const std::string Manager::MERGE_LIB = "mergeLib";
 const std::string Manager::PRINT = "print";
 const std::string Manager::EXIT = "exit";
+const std::string Manager::SET_FV_NOT_PATH_WITH_ALL_LIB = "setFileVNotPathWithAllLib";
 
 const std::string Manager::CONFIG_FILE = "filter_config";
 
@@ -38,6 +39,7 @@ Manager::Manager() {
     commandByKeyWord[MERGE_SIMPLE_PATH] = new CommandMergeSimplePath();
     commandByKeyWord[MERGE_LIB] = new CommandMergeLib();
     commandByKeyWord[PRINT] = new CommandPrint();
+    commandByKeyWord[SET_FV_NOT_PATH_WITH_ALL_LIB] = new CommandSetFVNotWithAllLib();
 }
 
 void Manager::main() {

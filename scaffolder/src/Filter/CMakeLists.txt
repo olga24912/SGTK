@@ -20,18 +20,18 @@ set(SOURCE_FILES
          CommandParsers/Commands/Command.h
          CommandParsers/State.h  CommandParsers/Commands/CommandUploadGraph.cpp
          CommandParsers/Commands/CommandUploadGraph.h
-         CommandParsers/Commands/CommandMinContig.cpp  CommandParsers/Commands/CommandMinContig.h
-         CommandParsers/Commands/CommandMinEdgeWeight.cpp  CommandParsers/Commands/CommandMinEdgeWeight.h
-         CommandParsers/Commands/CommandSetIgnore.cpp  CommandParsers/Commands/CommandSetIgnore.h
-         CommandParsers/Commands/CommandResetIgnore.cpp  CommandParsers/Commands/CommandResetIgnore.h
-         CommandParsers/Commands/CommandWriteFull.cpp  CommandParsers/Commands/CommandWriteFull.h
-         CommandParsers/Commands/CommandWrite.cpp  CommandParsers/Commands/CommandWrite.h
-         CommandParsers/Commands/CommandWriteLocal.cpp  CommandParsers/Commands/CommandWriteLocal.h
-         CommandParsers/Commands/CommandWriteAllLocal.cpp  CommandParsers/Commands/CommandWriteAllLocal.h
-         CommandParsers/Commands/CommandWriteLocalVertInSeg.cpp  CommandParsers/Commands/CommandWriteLocalVertInSeg.h
-         CommandParsers/Commands/CommandWriteBigComp.cpp  CommandParsers/Commands/CommandWriteBigComp.h
-         CommandParsers/Commands/CommandWriteAlongPath.cpp  CommandParsers/Commands/CommandWriteAlongPath.h
-         CommandParsers/Commands/CommandMergeSimplePath.cpp  CommandParsers/Commands/CommandMergeSimplePath.h
-        CommandParsers/Commands/CommandPrint.cpp CommandParsers/Commands/CommandPrint.h Filters/FilterMergeLib.cpp Filters/FilterMergeLib.h CommandParsers/Commands/CommandMergeLib.cpp CommandParsers/Commands/CommandMergeLib.h Writers/FileValidator/FileValidator.h Writers/FileValidator/ValidatorNotPathWithAllLib.cpp Writers/FileValidator/ValidatorNotPathWithAllLib.h)
+        CommandParsers/Commands/CommandFilter/CommandMinContig.cpp CommandParsers/Commands/CommandFilter/CommandMinContig.h
+        CommandParsers/Commands/CommandFilter/CommandMinEdgeWeight.cpp CommandParsers/Commands/CommandFilter/CommandMinEdgeWeight.h
+        CommandParsers/Commands/CommandFilter/CommandSetIgnore.cpp CommandParsers/Commands/CommandFilter/CommandSetIgnore.h
+        CommandParsers/Commands/CommandFilter/CommandResetIgnore.cpp CommandParsers/Commands/CommandFilter/CommandResetIgnore.h
+        CommandParsers/Commands/CommandWrite/CommandWriteFull.cpp CommandParsers/Commands/CommandWrite/CommandWriteFull.h
+        CommandParsers/Commands/CommandWrite/CommandWrite.cpp CommandParsers/Commands/CommandWrite/CommandWrite.h
+        CommandParsers/Commands/CommandWrite/CommandWriteLocal.cpp CommandParsers/Commands/CommandWrite/CommandWriteLocal.h
+        CommandParsers/Commands/CommandWrite/CommandWriteAllLocal.cpp CommandParsers/Commands/CommandWrite/CommandWriteAllLocal.h
+        CommandParsers/Commands/CommandWrite/CommandWriteLocalVertInSeg.cpp CommandParsers/Commands/CommandWrite/CommandWriteLocalVertInSeg.h
+        CommandParsers/Commands/CommandWrite/CommandWriteBigComp.cpp CommandParsers/Commands/CommandWrite/CommandWriteBigComp.h
+        CommandParsers/Commands/CommandWrite/CommandWriteAlongPath.cpp CommandParsers/Commands/CommandWrite/CommandWriteAlongPath.h
+        CommandParsers/Commands/CommandFilter/CommandMergeSimplePath.cpp CommandParsers/Commands/CommandFilter/CommandMergeSimplePath.h
+        CommandParsers/Commands/CommandPrint.cpp CommandParsers/Commands/CommandPrint.h Filters/FilterMergeLib.cpp Filters/FilterMergeLib.h CommandParsers/Commands/CommandFilter/CommandMergeLib.cpp CommandParsers/Commands/CommandFilter/CommandMergeLib.h Writers/FileValidator/FileValidator.h Writers/FileValidator/ValidatorNotPathWithAllLib.cpp Writers/FileValidator/ValidatorNotPathWithAllLib.h CommandParsers/Commands/CommandFV/CommandSetFV.h CommandParsers/Commands/CommandFV/CommandSetFVNotPathWithAllLib.h)
 
 add_library(filter_lib ${SOURCE_FILES})

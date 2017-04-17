@@ -1,7 +1,7 @@
 #include <iostream>
 #include "WriteLocal.h"
 
-WriteLocal::WriteLocal(int v, int dist, std::string fileName, Filter *filter1) : Writer(filter1), v(v),
+WriteLocal::WriteLocal(int v, int dist, std::string fileName, Filter *filter1, FileValidator *validator) : Writer(filter1, validator), v(v),
                                                                                  dist(dist), fileName(fileName) {}
 
 void WriteLocal::write() {

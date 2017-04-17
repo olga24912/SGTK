@@ -8,17 +8,18 @@
 #include <Filter/Filters/FilterMinWeight.h>
 #include <Filter/Filters/Filter.h>
 #include "Filter/CommandParsers/Commands/Command.h"
-#include <Filter/CommandParsers/Commands/CommandMinContig.h>
-#include <Filter/CommandParsers/Commands/CommandMinEdgeWeight.h>
-#include <Filter/CommandParsers/Commands/CommandSetIgnore.h>
-#include <Filter/CommandParsers/Commands/CommandResetIgnore.h>
-#include <Filter/CommandParsers/Commands/CommandWriteFull.h>
-#include <Filter/CommandParsers/Commands/CommandWriteLocal.h>
-#include <Filter/CommandParsers/Commands/CommandWriteAllLocal.h>
-#include <Filter/CommandParsers/Commands/CommandWriteBigComp.h>
-#include <Filter/CommandParsers/Commands/CommandWriteLocalVertInSeg.h>
-#include <Filter/CommandParsers/Commands/CommandWriteAlongPath.h>
-#include <Filter/CommandParsers/Commands/CommandMergeSimplePath.h>
+#include <Filter/CommandParsers/Commands/CommandFilter/CommandMinContig.h>
+#include <Filter/CommandParsers/Commands/CommandFilter/CommandMinEdgeWeight.h>
+#include <Filter/CommandParsers/Commands/CommandFilter/CommandSetIgnore.h>
+#include <Filter/CommandParsers/Commands/CommandFilter/CommandResetIgnore.h>
+#include <Filter/CommandParsers/Commands/CommandWrite/CommandWriteFull.h>
+#include <Filter/CommandParsers/Commands/CommandWrite/CommandWriteLocal.h>
+#include <Filter/CommandParsers/Commands/CommandWrite/CommandWriteAllLocal.h>
+#include <Filter/CommandParsers/Commands/CommandWrite/CommandWriteBigComp.h>
+#include <Filter/CommandParsers/Commands/CommandWrite/CommandWriteLocalVertInSeg.h>
+#include <Filter/CommandParsers/Commands/CommandWrite/CommandWriteAlongPath.h>
+#include <Filter/CommandParsers/Commands/CommandFilter/CommandMergeSimplePath.h>
+#include <Filter/CommandParsers/Commands/CommandFV/CommandSetFVNotPathWithAllLib.h>
 #include "State.h"
 #include "Commands/CommandUploadGraph.h"
 #include <fstream>
@@ -41,6 +42,7 @@
  * writeLocalSeg <fileName> <vertexIDStart> <vertexIDFinish> <dist>
  * writeBig <prefixFileName> <size>
  * writeAlongPath <prefixFileName> <libNum> <dist> <minRefPathSize>
+ * setFileVNotPathWithAllLib
  */
 class Manager {
 private:
@@ -59,6 +61,7 @@ private:
     static const std::string MERGE_LIB;
     static const std::string PRINT;
     static const std::string EXIT;
+    static const std::string SET_FV_NOT_PATH_WITH_ALL_LIB;
 
     static const std::string CONFIG_FILE;
     State state;

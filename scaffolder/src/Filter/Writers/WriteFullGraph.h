@@ -8,7 +8,7 @@ class WriteFullGraph : public Writer {
 private:
     std::string fileName; //fileName for write full graph
 public:
-    WriteFullGraph(std::string fileName, Filter *filter1);
+    WriteFullGraph(std::string fileName, Filter *filter1, FileValidator *validator);
 
     void write() override;
 };

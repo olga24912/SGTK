@@ -1,13 +1,12 @@
-#include "CommandWriteLocalVertInSeg.h"
+#include "CommandWriteAllLocal.h"
 
-void CommandWriteLocalVertInSeg::writeGraph(std::string argv, State &state, Filter *filter) {
+void CommandWriteAllLocal::writeGraph(std::string argv, State &state, Filter *filter) {
     std::stringstream ss(argv);
     std::string fileName;
-    int vb, ve;
     int dist;
-    ss >> fileName >> vb >> ve >> dist;
+    ss >> fileName >> dist;
 
-    for (int v = vb; v <= ve; ++v) {
+    for (int v = 0; v < filter->getVertexCount(); ++v) {
         string name = "";
         int x = v;
         while (x > 0) {
@@ -17,7 +16,7 @@ void CommandWriteLocalVertInSeg::writeGraph(std::string argv, State &state, Filt
         reverse(name.begin(), name.end());
         name = fileName + name;
 
-        WriteLocal writer(v, dist, name, filter);
+        WriteLocal writer(v, dist, name, filter, state.validator);
         writer.write();
     }
 

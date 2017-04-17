@@ -10,7 +10,7 @@ void CommandWriteAlongPath::writeGraph(std::string argv, State &state, Filter *f
     int minSize;
     ss >> libNum >> dist >> minSize;
 
-    WriteAlongPath writer(fileName, libNum, dist, minSize, filter);
+    WriteAlongPath writer(fileName, libNum, dist, minSize, filter, state.validator);
 
     writer.write();
 }

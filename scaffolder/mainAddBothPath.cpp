@@ -29,12 +29,10 @@ int main(int argv, char** argc) {
             if (i < cur.size() && cur[i] != '-' && cur[i] != '>') {
                 curName += cur[i];
             } else if (cur[i] == '-' || i == (int)cur.size()){
-                cerr << curName << endl;
                 if (curName[curName.size() - 1] != ')') {
                     if (curName[curName.size() - 2] == '/') {
                         curName.resize(curName.size() - 2);
                         int v = graph.getTargetId(curName);
-                        cerr << curName << " " <<  v << endl;
                         vid.push_back(v^1);
                     } else {
                         vid.push_back(graph.getTargetId(curName));

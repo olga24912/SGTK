@@ -4,7 +4,7 @@
 #include <Filter/Filters/Filter.h>
 #include <Filter/CommandParsers/State.h>
 #include <Filter/Scaffolder/ScafSimplePath.h>
-#include "Command.h"
+#include "Filter/CommandParsers/Commands/Command.h"
 
 class CommandMergeSimplePath : public Command {
 public:

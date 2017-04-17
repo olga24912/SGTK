@@ -9,7 +9,7 @@ private:
     std::string fileName; //prefix of file name for write component
     int minSize; //min size of the component
 public:
-    WriteBigComponent(std::string fileName, int minSize, Filter *filter1);
+    WriteBigComponent(std::string fileName, int minSize, Filter *filter1, FileValidator *validator);
 
     void write() override;
 };

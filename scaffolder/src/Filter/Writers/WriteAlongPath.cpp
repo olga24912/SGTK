@@ -4,8 +4,8 @@
 
 #include "WriteAlongPath.h"
 
-WriteAlongPath::WriteAlongPath(std::string fileName, int libId, int dist, int minSize, Filter *filter1) :
-        fileName(fileName), libId(libId), dist(dist), minSize(minSize), Writer(filter1) {}
+WriteAlongPath::WriteAlongPath(std::string fileName, int libId, int dist, int minSize, Filter *filter1, FileValidator *validator) :
+        fileName(fileName), libId(libId), dist(dist), minSize(minSize), Writer(filter1, validator) {}
 
 void WriteAlongPath::write() {
     int n = (filter->getVertexCount());

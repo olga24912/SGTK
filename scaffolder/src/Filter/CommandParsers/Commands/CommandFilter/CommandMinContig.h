@@ -2,7 +2,7 @@
 #define SCAFFOLDER_COMMANDMINCONTIG_H
 
 #include <Filter/Filters/Filter.h>
-#include "Command.h"
+#include "Filter/CommandParsers/Commands/Command.h"
 
 class CommandMinContig : public Command {
 public:
