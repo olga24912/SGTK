@@ -10,7 +10,7 @@ private:
     int dist; //dist of vertex to vertex v
     std::string fileName; //file name for writing graph
 public:
-    WriteLocal(int v, int dist, std::string fileName, Filter *filter1, FileValidator * validator);
+    WriteLocal(int v, int dist, std::string fileName, Filter *filter1, FileValidator * validator,  int maxVert, int maxEdge);
 
     void write() override;
 };

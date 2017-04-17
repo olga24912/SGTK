@@ -44,6 +44,7 @@
  * writeAlongPath <prefixFileName> <libNum> <dist> <minRefPathSize>
  * setFileVNotPathWithAllLib
  * setFileVWithDifInLib <libNum>*
+ * setMaxVEinOneFile <maxVertNum> <maxEdgeNum>
  */
 class Manager {
 private:
@@ -64,6 +65,7 @@ private:
     static const std::string EXIT;
     static const std::string SET_FV_NOT_PATH_WITH_ALL_LIB;
     static const std::string SET_FV_WITH_DIF_IN_LIB;
+    static const std::string SET_MAX_VE_IN_ONE_FILE;
 
     static const std::string CONFIG_FILE;
     State state;

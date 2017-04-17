@@ -23,6 +23,8 @@ private:
 
     void findNewComp(int v);
 public:
+    GraphSplitter(){}
+    GraphSplitter(int maxVert, int maxEdge): maxVert(maxVert), maxEdge(maxEdge){}
     //in graph filter split this set of vertex
     std::vector< std::vector<int> > split(Filter* filter, std::vector<int> vert);
 };

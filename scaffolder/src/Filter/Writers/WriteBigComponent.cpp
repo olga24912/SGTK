@@ -5,7 +5,8 @@
 #include "WriteBigComponent.h"
 
 WriteBigComponent::WriteBigComponent(
-        std::string fileName, int minSize, Filter *filter1, FileValidator *validator) : fileName(fileName), minSize(minSize), Writer(filter1, validator) {
+        std::string fileName, int minSize, Filter *filter1, FileValidator *validator,  int maxVert, int maxEdge) :
+        fileName(fileName), minSize(minSize), Writer(filter1, validator,  maxVert, maxEdge) {
 
 }
 

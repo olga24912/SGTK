@@ -11,7 +11,8 @@ private:
     int dist; //area from path
     int minSize; //minLen of path for writing
 public:
-    WriteAlongPath(std::string fileName, int libId, int dist, int minSize, Filter *filter1, FileValidator *validator);
+    WriteAlongPath(std::string fileName, int libId, int dist, int minSize, Filter *filter1, FileValidator *validator,
+                   int maxVert, int maxEdge);
 
     void write() override;
 };

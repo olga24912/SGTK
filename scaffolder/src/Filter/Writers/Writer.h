@@ -12,10 +12,10 @@ protected:
     Searcher searcher = Searcher(filter); //for searching in graph
     DotWriter dotWriter = DotWriter(filter); //for write graph in dot format
 public:
-    Writer(Filter* filter1, FileValidator* validator) {
+    Writer(Filter* filter1, FileValidator* validator, int maxVert, int maxEdge) {
         filter = filter1;
         searcher = Searcher(filter1);
-        dotWriter = DotWriter(filter1, validator);
+        dotWriter = DotWriter(filter1, validator, maxVert, maxEdge);
     }
 
     virtual void write() = 0;

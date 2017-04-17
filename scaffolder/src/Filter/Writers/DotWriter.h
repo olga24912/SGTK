@@ -24,7 +24,10 @@ private:
     bool isGoodFileForWrite(std::vector<int> vert);
 public:
     DotWriter(Filter* filter): filter(filter){}
-    DotWriter(Filter* filter, FileValidator* validator): filter(filter), validator(validator){}
+    DotWriter(Filter* filter, FileValidator* validator, int maxVert, int maxEdge):
+            filter(filter), validator(validator){
+        graphSplitter = GraphSplitter(maxVert, maxEdge);
+    }
 
     //write this set of vertex in files with prefix fileName
     void writeVertexSet(std::vector<int> vert, std::string fileName);

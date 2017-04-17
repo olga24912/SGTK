@@ -5,6 +5,6 @@ void CommandWriteBigComp::writeGraph(std::string argv, State &state, Filter *fil
     std::string fileName;
     int size;
     ss >> fileName >> size;
-    WriteBigComponent writer(fileName, size, filter, state.validator);
+    WriteBigComponent writer(fileName, size, filter, state.validator, state.maxVert, state.maxEdge);
     writer.write();
 }

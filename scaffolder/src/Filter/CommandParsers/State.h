@@ -10,6 +10,8 @@ struct State {
     std::string fileName = "";
     int dist = 0;
     FileValidator *validator = new FileValidator;
+    int maxEdge = 40;
+    int maxVert = 20;
 
     ~State() {
         delete validator;
