@@ -140,19 +140,13 @@ filter_config должен лежать в той же папке, откуда 
 
 #### пример файла filter_config
 
-uploadGraph out.gr 
-minContig 500  
-mergeLib 4 5 con 
-mergeLib 3 4 con 
-
-mergeLib 2 3 con
-
-mergeLib 1 2 con
-
-minEdgeW 1 2
-
-setFileVWithDifInLib 6 8
-
-writeFull out4/g
-
-exit
+uploadGraph out.gr  
+minContig 500   
+mergeLib 4 5 con   
+mergeLib 3 4 con  
+mergeLib 2 3 con   
+mergeLib 1 2 con   
+minEdgeW 1 2   
+setFileVWithDifInLib 6 8   
+writeFull out4/g   
+exit   
