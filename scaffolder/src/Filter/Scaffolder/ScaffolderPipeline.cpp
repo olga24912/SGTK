@@ -1,8 +1,8 @@
 #include <algorithm>
+#include <iostream>
 #include "ScaffolderPipeline.h"
 
-void ScaffolderPipeline::evaluate(Filter *graph, std::string contigFile, std::string out) {
-    scaffolds = Scaffolds(contigFile);
+void ScaffolderPipeline::evaluate(Filter *graph, std::string out) {
 
     topSort(graph);
     findCycle(graph);
@@ -19,6 +19,9 @@ void ScaffolderPipeline::uniqueConnection(Filter* graph) {
             continue;
         }
         int u = graph->getEdgeTo(edges[0]);
+        if (v == 659) {
+            std::cerr << v << " " << u << " " << isUniquePair(v, u, graph)<< " " << color[v] << " " << color[u] << std::endl;
+        }
         if (isUniquePair(v, u, graph) && color[v] != color[u]) {
             scaffolds.addConnection(v, u);
         }
@@ -98,4 +101,7 @@ void ScaffolderPipeline::colorDfs(int v, int col, Filter * graph) {
             colorDfs(u, col, graph);
         }
     }
+}
+
+ScaffolderPipeline::ScaffolderPipeline(std::string contigFile) : scaffolds(Scaffolds(contigFile)) {
 }

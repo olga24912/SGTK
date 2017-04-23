@@ -3,11 +3,11 @@
 #include <seqan/seq_io.h>
 
 void Scaffolds::print(std::string outFile) {
-    std::SeqFileOut out(outFile.c_str());
+    seqan::SeqFileOut out(outFile.c_str());
     std::ofstream outInfo("out.info");
 
-    std::StringSet<seqan::CharString> ids;
-    std::StringSet<seqan::CharString> seqs;
+    seqan::StringSet<seqan::CharString> ids;
+    seqan::StringSet<seqan::CharString> seqs;
 
     for (int i = 0; i < (int)scaffolds.size(); ++i) {
         if (scaffolds[i] != nullptr) {
@@ -19,7 +19,6 @@ void Scaffolds::print(std::string outFile) {
             Node* cur = scaffolds[i];
 
             std::string seq = "";
-            cur = cur->next;
 
             while (cur != nullptr) {
                 if (cur->priv != nullptr) {
@@ -56,6 +55,7 @@ void Scaffolds::saveContigs(std::string contigFile) {
     readRecords(ids, seqs, seqFileIn);
 
     contigsNode.resize(2 * seqan::length(ids));
+    scaffolds.resize(2 * seqan::length(ids));
     for (unsigned i = 0; i < seqan::length(ids); ++i) {
         std::string seq = SeqanUtils::dna5ToString(seqan::toCString(seqs[i]), seqan::length(seqs[i]));
         contigs.push_back(seq);
@@ -68,6 +68,8 @@ void Scaffolds::saveContigs(std::string contigFile) {
         contigsNode[2 * i].rev = &contigsNode[2 * i + 1];
         contigsNode[2 * i + 1].id = 2 * i + 1;
         contigsNode[2 * i + 1].rev = &contigsNode[2 * i];
+        scaffolds[2 * i] = &contigsNode[2 * i];
+        scaffolds[2 * i + 1] = &contigsNode[2 * i + 1];
     }
 }
 
@@ -96,7 +98,11 @@ void Scaffolds::addConnection(int id1, int id2) {
     Node* node1 = &contigsNode[id1];
     Node* node2 = &contigsNode[id2];
 
+    if (id1 == 659) {
+        std::cerr<< "add con" << id1 << " " << id2 << " " << " " << node2->id << std::endl;
+    }
     node1->next = node2;
+    node2->priv = node1;
     scaffolds[id2] = nullptr;
 }
 
@@ -105,5 +111,6 @@ void Scaffolds::brokeConnection(int id1) {
     Node* node2 = node1->next;
 
     node1->next = nullptr;
+    node2->priv = nullptr;
     scaffolds[node2->id] = node2;
 }

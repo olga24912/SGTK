@@ -1,7 +1,6 @@
 #ifndef SCAFFOLDER_SCAFFOLDERPIPELINE_H
 #define SCAFFOLDER_SCAFFOLDERPIPELINE_H
 
-
 #include <Filter/Filters/Filter.h>
 #include <string>
 #include "Scaffolds.h"
@@ -23,7 +22,9 @@ private:
     void uniqueConnection(Filter *graph);
 
 public:
-    void evaluate(Filter* graph, std::string contigFile, std::string out);
+    void evaluate(Filter* graph, std::string out);
+
+    ScaffolderPipeline(std::string contigFile);
 
 };
 

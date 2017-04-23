@@ -6,13 +6,6 @@
 
 class Scaffolds {
 private:
-    const int GAP_SIZE = 100;
-
-    std::vector<std::string> contigs;
-    std::vector<std::string> contigsName;
-    std::vector<Node> contigsNode;
-    std::vector<Node*> scaffolds;
-
     class Node {
     public:
         Node* next;
@@ -20,6 +13,13 @@ private:
         int id;
         Node* rev;
     };
+
+    const int GAP_SIZE = 100;
+
+    std::vector<std::string> contigs;
+    std::vector<std::string> contigsName;
+    std::vector<Node> contigsNode;
+    std::vector<Node*> scaffolds;
 
     void saveContigs(std::string contigFile);
     std::string createRevCompl(std::string s);
