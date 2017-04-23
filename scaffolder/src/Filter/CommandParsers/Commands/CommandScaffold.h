@@ -3,10 +3,9 @@
 
 #include <Filter/Filters/Filter.h>
 #include <Filter/CommandParsers/State.h>
-#include <Filter/Scaffolder/ScafSimplePath.h>
 #include "Filter/CommandParsers/Commands/Command.h"
 
-class CommandMergeSimplePath : public Command {
+class CommandScaffold : public Command {
 public:
     void execute(std::string argv, State &state, Filter *filter) override;
 };

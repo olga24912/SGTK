@@ -18,7 +18,7 @@
 #include <Filter/CommandParsers/Commands/CommandWrite/CommandWriteBigComp.h>
 #include <Filter/CommandParsers/Commands/CommandWrite/CommandWriteLocalVertInSeg.h>
 #include <Filter/CommandParsers/Commands/CommandWrite/CommandWriteAlongPath.h>
-#include <Filter/CommandParsers/Commands/CommandFilter/CommandMergeSimplePath.h>
+#include <Filter/CommandParsers/Commands/CommandScaffold.h>
 #include <Filter/CommandParsers/Commands/CommandFV/CommandSetFVNotPathWithAllLib.h>
 #include "State.h"
 #include "Commands/CommandUploadGraph.h"

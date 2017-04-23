@@ -1,8 +1,7 @@
 include_directories(.)
 
 set(SOURCE_FILES
-         Scaffolder/ScafSimplePath.cpp  Scaffolder/ScafSimplePath.h
-         Tools/SystemTools.cpp  Tools/SystemTools.h
+        Tools/SystemTools.cpp  Tools/SystemTools.h
          Filters/Filter.h  Filters/FilterAdapter.cpp
          Filters/FilterAdapter.h  Filters/FilterMinWeight.cpp
          Filters/FilterMinWeight.h  Filters/Filter.cpp
@@ -31,7 +30,7 @@ set(SOURCE_FILES
         CommandParsers/Commands/CommandWrite/CommandWriteLocalVertInSeg.cpp CommandParsers/Commands/CommandWrite/CommandWriteLocalVertInSeg.h
         CommandParsers/Commands/CommandWrite/CommandWriteBigComp.cpp CommandParsers/Commands/CommandWrite/CommandWriteBigComp.h
         CommandParsers/Commands/CommandWrite/CommandWriteAlongPath.cpp CommandParsers/Commands/CommandWrite/CommandWriteAlongPath.h
-        CommandParsers/Commands/CommandFilter/CommandMergeSimplePath.cpp CommandParsers/Commands/CommandFilter/CommandMergeSimplePath.h
-        CommandParsers/Commands/CommandPrint.cpp CommandParsers/Commands/CommandPrint.h Filters/FilterMergeLib.cpp Filters/FilterMergeLib.h CommandParsers/Commands/CommandFilter/CommandMergeLib.cpp CommandParsers/Commands/CommandFilter/CommandMergeLib.h Writers/FileValidator/FileValidator.h Writers/FileValidator/ValidatorNotPathWithAllLib.cpp Writers/FileValidator/ValidatorNotPathWithAllLib.h CommandParsers/Commands/CommandFV/CommandSetFV.h CommandParsers/Commands/CommandFV/CommandSetFVNotPathWithAllLib.h Writers/FileValidator/ValidatorWithDifInLib.cpp Writers/FileValidator/ValidatorWithDifInLib.h CommandParsers/Commands/CommandFV/CommandFVWithDifInLib.cpp CommandParsers/Commands/CommandFV/CommandFVWithDifInLib.h CommandParsers/Commands/CommandSetMaxVEinOneFile.h)
+        CommandParsers/Commands/CommandScaffold.cpp CommandParsers/Commands/CommandScaffold.h
+        CommandParsers/Commands/CommandPrint.cpp CommandParsers/Commands/CommandPrint.h Filters/FilterMergeLib.cpp Filters/FilterMergeLib.h CommandParsers/Commands/CommandFilter/CommandMergeLib.cpp CommandParsers/Commands/CommandFilter/CommandMergeLib.h Writers/FileValidator/FileValidator.h Writers/FileValidator/ValidatorNotPathWithAllLib.cpp Writers/FileValidator/ValidatorNotPathWithAllLib.h CommandParsers/Commands/CommandFV/CommandSetFV.h CommandParsers/Commands/CommandFV/CommandSetFVNotPathWithAllLib.h Writers/FileValidator/ValidatorWithDifInLib.cpp Writers/FileValidator/ValidatorWithDifInLib.h CommandParsers/Commands/CommandFV/CommandFVWithDifInLib.cpp CommandParsers/Commands/CommandFV/CommandFVWithDifInLib.h CommandParsers/Commands/CommandSetMaxVEinOneFile.h Scaffolder/Scaffolds.cpp Scaffolder/Scaffolds.h Scaffolder/ScaffolderPipeline.cpp Scaffolder/ScaffolderPipeline.h)
 
 add_library(filter_lib ${SOURCE_FILES})
