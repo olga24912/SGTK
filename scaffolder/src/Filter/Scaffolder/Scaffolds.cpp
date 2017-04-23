@@ -95,22 +95,47 @@ Scaffolds::Scaffolds(std::string contigFile) {
 }
 
 void Scaffolds::addConnection(int id1, int id2) {
+    if (id1 == 11446) {
+        std::cerr << "add connect";
+    }
     Node* node1 = &contigsNode[id1];
     Node* node2 = &contigsNode[id2];
+    if (node2->priv != nullptr || node1->next != nullptr) return;
 
-    if (id1 == 659) {
-        std::cerr<< "add con" << id1 << " " << id2 << " " << " " << node2->id << std::endl;
-    }
     node1->next = node2;
     node2->priv = node1;
     scaffolds[id2] = nullptr;
 }
 
 void Scaffolds::brokeConnection(int id1) {
+    if (id1 == 11446) {
+        std::cerr<<"broke connect";
+    }
+
     Node* node1 = &contigsNode[id1];
     Node* node2 = node1->next;
+    if (node2 == nullptr) return;
 
     node1->next = nullptr;
     node2->priv = nullptr;
     scaffolds[node2->id] = node2;
+}
+
+int Scaffolds::lineId(int i) {
+    Node* node = &contigsNode[i];
+    while (node->priv != nullptr) {
+        node = node->priv;
+    }
+
+    return node->id;
+}
+
+void Scaffolds::brokeConnectionTo(int id2) {
+    if (id2 == 15705) {
+        std::cerr<<"brok connect to" << std::endl;
+    }
+    Node* node = &contigsNode[id2];
+    if  (node->priv == nullptr) return;
+
+    brokeConnection(node->priv->id);
 }

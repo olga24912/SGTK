@@ -21,6 +21,10 @@ private:
     void findCycle(Filter *graph);
     void uniqueConnection(Filter *graph);
 
+    void inOneLineConnection(Filter *graph);
+    void addFirstConnection(Filter *graph);
+    void delEdgeFromDifPath(Filter *graph);
+
 public:
     void evaluate(Filter* graph, std::string out);
 

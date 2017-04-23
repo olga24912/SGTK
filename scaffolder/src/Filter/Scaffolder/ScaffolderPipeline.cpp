@@ -7,6 +7,7 @@ void ScaffolderPipeline::evaluate(Filter *graph, std::string out) {
     topSort(graph);
     findCycle(graph);
     uniqueConnection(graph);
+    inOneLineConnection(graph);
 
     scaffolds.print(out);
 }
@@ -104,4 +105,57 @@ void ScaffolderPipeline::colorDfs(int v, int col, Filter * graph) {
 }
 
 ScaffolderPipeline::ScaffolderPipeline(std::string contigFile) : scaffolds(Scaffolds(contigFile)) {
+}
+
+void ScaffolderPipeline::inOneLineConnection(Filter *graph) {
+    addFirstConnection(graph);
+    delEdgeFromDifPath(graph);
+}
+
+void ScaffolderPipeline::addFirstConnection(Filter *graph) {
+    for (int i = 0; i < (int)topsort.size(); ++i) {
+        int v = topsort[i];
+
+        std::vector<int> edges = graph->getEdges(v);
+        if (edges.size() == 0) continue;
+        int minu = graph->getEdgeTo(edges[0]);
+
+        for (int e : edges) {
+            int u = graph->getEdgeTo(e);
+
+            if (topSortPos[u] < topsort[minu] && color[v] != color[u]) {
+                minu = u;
+            }
+        }
+
+        if (color[v] != color[minu]) {
+            scaffolds.addConnection(v, minu);
+        }
+    }
+}
+
+void ScaffolderPipeline::delEdgeFromDifPath(Filter *graph) {
+    for (int i = (int)topsort.size() - 1; i >= 0; --i) {
+        int v = topsort[i];
+        std::vector<int> edges = graph->getEdges(v);
+        if (edges.size() == 0) continue;
+
+        for (int e : edges) {
+            int u = graph->getEdgeTo(e);
+            assert(graph->getEdgeFrom(e) == v);
+            if (v == 11446) {
+                std::cerr << e << " " << v << " " << u << " " << scaffolds.lineId(v)<< " " << scaffolds.lineId(u) << std::endl;
+            }
+            if (u == 15705) {
+                std::cerr << "u = 15705 " << graph->getEdgeWeight(e)<< " " <<
+                          graph->getTargetLen(v) <<" " << e << " " << v << " " << u << " " << scaffolds.lineId(v)<< " " << scaffolds.lineId(u) << std::endl;
+            }
+
+            if (scaffolds.lineId(v) != scaffolds.lineId(u)) {
+                scaffolds.brokeConnection(v);
+                scaffolds.brokeConnectionTo(u);
+            }
+
+        }
+    }
 }

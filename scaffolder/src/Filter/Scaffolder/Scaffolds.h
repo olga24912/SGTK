@@ -29,6 +29,9 @@ public:
     void print(std::string out);
     void addConnection(int id1, int id2);
     void brokeConnection(int id1);
+    void brokeConnectionTo(int id2);
+
+    int lineId(int id);
 };
 
 
