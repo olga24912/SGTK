@@ -6,7 +6,7 @@
 //Query that process in Filters
 struct Query {
     enum queryType {UPLOAD_GRAPH, MIN_EDGE_WEIGHT, MIN_CONTIG_LEN, SET_IGNORE, RESET_IGNORE,
-        MERGE_LIB};
+        MERGE_LIB, SET_IGNORE_EDGE};
     queryType type;
     std::string argv;
 

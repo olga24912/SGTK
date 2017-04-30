@@ -33,6 +33,7 @@
  * mergeSimplePath <contigsFileName> <outFileName>
  * setIgnore <vertexIdStart> <vertexIdFinish>
  * resetIgnore
+ * setIgnoreEdge <edgeId>
  * mergeLib <libNum1> <libNum2> <newLibName>
  * print <fileName>
  * exit
@@ -44,6 +45,8 @@
  * writeAlongPath <prefixFileName> <libNum> <dist> <minRefPathSize>
  * setFileVNotPathWithAllLib
  * setFileVWithDifInLib <libNum>*
+ * setFileVFork <libNum>
+ * setFileVOnlyFirst <libNumPresent> <libNumNotPresent>
  * setMaxVEinOneFile <maxVertNum> <maxEdgeNum>
  */
 class Manager {
@@ -60,11 +63,14 @@ private:
     static const std::string WRITE_LOCAL_ALONG_PATH;
     static const std::string SET_IGNORE;
     static const std::string RESET_IGNORE;
+    static const std::string SET_IGNORE_EDGE;
     static const std::string MERGE_LIB;
     static const std::string PRINT;
     static const std::string EXIT;
     static const std::string SET_FV_NOT_PATH_WITH_ALL_LIB;
     static const std::string SET_FV_WITH_DIF_IN_LIB;
+    static const std::string SET_FV_FORK;
+    static const std::string SET_FV_ONLY_FIRST;
     static const std::string SET_MAX_VE_IN_ONE_FILE;
 
     static const std::string CONFIG_FILE;

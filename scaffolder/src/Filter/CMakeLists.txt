@@ -44,6 +44,6 @@ set(SOURCE_FILES
         CommandParsers/Commands/CommandFV/CommandFVWithDifInLib.h
         CommandParsers/Commands/CommandSetMaxVEinOneFile.h
         Scaffolder/Scaffolds.cpp Scaffolder/Scaffolds.h
-        Scaffolder/ScaffolderPipeline.cpp Scaffolder/ScaffolderPipeline.h)
+        Scaffolder/ScaffolderPipeline.cpp Scaffolder/ScaffolderPipeline.h Writers/FileValidator/ValidatorFork.cpp Writers/FileValidator/ValidatorFork.h CommandParsers/Commands/CommandFV/CommandSetFVFork.h CommandParsers/Commands/CommandFV/CommandSetFVOnlyFirst.h Writers/FileValidator/ValidatorOnlyFirst.cpp Writers/FileValidator/ValidatorOnlyFirst.h Filters/FilterIgnoreEdge.cpp Filters/FilterIgnoreEdge.h CommandParsers/Commands/CommandFilter/CommandSetIgnoreEdge.cpp CommandParsers/Commands/CommandFilter/CommandSetIgnoreEdge.h)
 
 add_library(filter_lib ${SOURCE_FILES})

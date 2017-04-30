@@ -3,6 +3,10 @@
 #include <Filter/CommandParsers/Commands/CommandFilter/CommandMergeLib.h>
 #include <Filter/CommandParsers/Commands/CommandFV/CommandFVWithDifInLib.h>
 #include <Filter/CommandParsers/Commands/CommandSetMaxVEinOneFile.h>
+#include <Filter/CommandParsers/Commands/CommandFV/CommandSetFVFork.h>
+#include <Filter/CommandParsers/Commands/CommandFV/CommandSetFVOnlyFirst.h>
+#include <Filter/Filters/FilterIgnoreEdge.h>
+#include <Filter/CommandParsers/Commands/CommandFilter/CommandSetIgnoreEdge.h>
 #include "Manager.h"
 
 const std::string Manager::UPLOAD_GRAPH = "uploadGraph";
@@ -10,6 +14,7 @@ const std::string Manager::MIN_EDGE_WEIGHT = "minEdgeW";
 const std::string Manager::MIN_CONTIG_LEN = "minContig";
 const std::string Manager::SET_IGNORE = "setIgnore";
 const std::string Manager::RESET_IGNORE = "resetIgnore";
+const std::string Manager::SET_IGNORE_EDGE = "setIgnoreEdge";
 const std::string Manager::WRITE_FULL = "writeFull";
 const std::string Manager::WRITE_LOCAL = "writeLocal";
 const std::string Manager::WRITE_ALL_LOCAL = "writeAllLocal";
@@ -22,18 +27,22 @@ const std::string Manager::PRINT = "print";
 const std::string Manager::EXIT = "exit";
 const std::string Manager::SET_FV_NOT_PATH_WITH_ALL_LIB = "setFileVNotPathWithAllLib";
 const std::string Manager::SET_FV_WITH_DIF_IN_LIB = "setFileVWithDifInLib";
+const std::string Manager::SET_FV_FORK = "setFileVFork";
+const std::string Manager::SET_FV_ONLY_FIRST = "setFileVOnlyFirst";
 const std::string Manager::SET_MAX_VE_IN_ONE_FILE = "setMaxVEinOneFile";
 
 const std::string Manager::CONFIG_FILE = "filter_config";
 
 Manager::Manager() {
-    filter = new FilterIgnore(new FilterMinWeight(new FilterMergeLib(new FilterAdapter(ContigGraph()))));
+    filter = new FilterIgnoreEdge(new FilterIgnore(new FilterMinWeight
+                                                           (new FilterMergeLib(new FilterAdapter(ContigGraph())))));
 
     commandByKeyWord[UPLOAD_GRAPH] = new CommandUploadGraph();
     commandByKeyWord[MIN_CONTIG_LEN] = new CommandMinContig();
     commandByKeyWord[MIN_EDGE_WEIGHT] = new CommandMinEdgeWeight();
     commandByKeyWord[SET_IGNORE] = new CommandSetIgnore();
     commandByKeyWord[RESET_IGNORE] = new CommandResetIgnore();
+    commandByKeyWord[SET_IGNORE_EDGE] = new CommandSetIgnoreEdge();
     commandByKeyWord[WRITE_FULL] = new CommandWriteFull();
     commandByKeyWord[WRITE_LOCAL] = new CommandWriteLocal();
     commandByKeyWord[WRITE_ALL_LOCAL] = new CommandWriteAllLocal();
@@ -45,6 +54,8 @@ Manager::Manager() {
     commandByKeyWord[PRINT] = new CommandPrint();
     commandByKeyWord[SET_FV_NOT_PATH_WITH_ALL_LIB] = new CommandSetFVNotWithAllLib();
     commandByKeyWord[SET_FV_WITH_DIF_IN_LIB] = new CommandFVWithDifInLib();
+    commandByKeyWord[SET_FV_FORK] = new CommandSetFVFork();
+    commandByKeyWord[SET_FV_ONLY_FIRST] = new CommandSetFVOnlyFirst();
     commandByKeyWord[SET_MAX_VE_IN_ONE_FILE] = new CommandSetMaxVEinOneFile();
 }
 

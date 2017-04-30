@@ -154,7 +154,7 @@ void PairReadGraphBuilder::handleReads() {
             seqan::readRecord(read2, bamFile2);
             readInfo2 = processOneSecondRead(read2);
         }
-
+        
         if (readInfo2.first != "" && read1ByName.count(readInfo2.first)) {
             incEdgeWeight(read1ByName[readInfo2.first], read2);
             read2ByName.erase(readInfo2.first);

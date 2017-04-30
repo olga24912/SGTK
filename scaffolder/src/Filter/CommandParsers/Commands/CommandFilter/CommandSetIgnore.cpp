@@ -1,7 +1,3 @@
-//
-// Created by olga on 26.01.17.
-//
-
 #include <Filter/CommandParsers/State.h>
 #include "CommandSetIgnore.h"
 

@@ -25,11 +25,16 @@ private:
     void addFirstConnection(Filter *graph);
     void delEdgeFromDifPath(Filter *graph);
 
+    void oneWightConnection(Filter *graph);
+
+    void addConnectionForLeaves(Filter *graph, int dir);
+    int deg(int i, Filter *pFilter, int dirIn);
+
+    void ignoreLightEdge(Filter *graph);
 public:
     void evaluate(Filter* graph, std::string out);
 
     ScaffolderPipeline(std::string contigFile);
-
 };
 
 
