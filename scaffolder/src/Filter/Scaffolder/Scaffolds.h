@@ -32,6 +32,8 @@ public:
     void brokeConnectionTo(int id2);
 
     int lineId(int id);
+    bool isLast(int id);
+    bool isFirst(int id);
 };
 
 

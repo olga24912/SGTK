@@ -8,7 +8,6 @@ void CommandScaffold::execute(std::string argv, State &state, Filter *filter) {
 
     ss >> contigFile >> outFile;
 
-    ScaffolderPipeline sp(contigFile);
-    sp.evaluate(filter, outFile);
-
+    ScaffolderPipeline sp;
+    sp.evaluate(filter, contigFile, outFile);
 }

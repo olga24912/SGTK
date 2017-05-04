@@ -8,10 +8,10 @@ void FilterIgnoreEdge::processQuery(Query query) {
         std::stringstream ss(query.argv);
         int e;
         ss >> e;
-        ignore.resize(std::max(e + 1, ignore.size()), 0);
+        ignore.resize(std::max(e + 1, (int)ignore.size()), 0);
         ignore[e] = 1;
         e ^= 1;
-        ignore.resize(std::max(e + 1, ignore.size()), 0);
+        ignore.resize(std::max(e + 1, (int)ignore.size()), 0);
         ignore[e] = 1;
     } else {
         Filter::processQuery(query);

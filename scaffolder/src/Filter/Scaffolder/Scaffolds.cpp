@@ -136,3 +136,11 @@ void Scaffolds::brokeConnectionTo(int id2) {
 
     brokeConnection(node->priv->id);
 }
+
+bool Scaffolds::isLast(int id) {
+    return (contigsNode[id].next == nullptr);
+}
+
+bool Scaffolds::isFirst(int id) {
+    return (contigsNode[id].priv == nullptr);
+}
