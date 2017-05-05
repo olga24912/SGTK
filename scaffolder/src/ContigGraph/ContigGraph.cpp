@@ -1,3 +1,4 @@
+#include <sstream>
 #include "ContigGraph.h"
 
 int ContigGraph::getLibNum() {
@@ -37,6 +38,7 @@ int ContigGraph::incEdgeWeight(int v, int u) {
     if (vrtsToEdge[v].count(u) == 0) {
         e = (int)edgeWeight.size();
         edgeWeight.push_back(0);
+        edgeExtraInfo.push_back("");
         to.push_back(u);
         from.push_back(v);
         edgeLib.push_back((int)libName.size() - 1);
@@ -94,7 +96,8 @@ void ContigGraph::write(std::string fileName) {
     }
     out << edgeWeight.size() << "\n";
     for (int i = 0; i < (int)edgeWeight.size(); ++i) {
-        out << "e " << i << " " << from[i] << " " << to[i] << " " << edgeLib[i] << " " << edgeWeight[i] << "\n";
+        out << "e " << i << " " << from[i] << " " << to[i] << " " <<
+            edgeLib[i] << " " << edgeWeight[i] << " " << edgeExtraInfo[i] << "\n";
     }
 
     out.close();
@@ -143,13 +146,18 @@ ContigGraph ContigGraph::read(std::string fileName) {
     g.from.resize(en);
     g.edgeLib.resize(en);
     g.edgeWeight.resize(en);
+    g.edgeExtraInfo.resize(en);
 
     for (int i = 0; i < en; ++i) {
         char c;
         int id;
-        in >> c >> id >> g.from[i] >> g.to[i] >> g.edgeLib[i] >> g.edgeWeight[i];
+        std::string curLine;
+        getline(in, curLine);
+        std::stringstream ss(curLine);
+        ss >> c >> id >> g.from[i] >> g.to[i] >> g.edgeLib[i] >> g.edgeWeight[i];
         g.graph[g.from[i]].push_back(i);
         g.graphR[g.to[i]].push_back(i);
+        getline(ss, g.edgeExtraInfo[id]);
     }
 
     in.close();
@@ -178,4 +186,12 @@ std::string ContigGraph::getLibName(int l) {
 
 int ContigGraph::getTargetId(std::string name) {
     return targetId[name];
+}
+
+void ContigGraph::setEdgeInfo(int e, std::string info) {
+    edgeExtraInfo[e] = info;
+}
+
+std::string ContigGraph::getEdgeInfo(int e) {
+    return edgeExtraInfo[e];
 }

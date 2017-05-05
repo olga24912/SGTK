@@ -106,3 +106,7 @@ void Filter::write(std::string fileName) {
 
     out.close();
 }
+
+std::string Filter::getInfo(int e) {
+    return subfilter->getInfo(e);
+}

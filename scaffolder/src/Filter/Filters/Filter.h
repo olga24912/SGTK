@@ -27,6 +27,7 @@ public:
     virtual int getEdgeLib(int e); //return edge lib num
     virtual std::string getLibName(int l); //return name for lib
     virtual std::string getLibColor(int l); //return color for this lib
+    virtual std::string getInfo(int e);
 
     virtual void processQuery(Query query); //handling query for changing filter options
 

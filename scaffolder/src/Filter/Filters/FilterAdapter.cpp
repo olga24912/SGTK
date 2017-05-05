@@ -68,3 +68,7 @@ void FilterAdapter::processQuery(Query query) {
         graph = ContigGraph::read(fileName);
     }
 }
+
+std::string FilterAdapter::getInfo(int e) {
+    return graph.getEdgeInfo(e);
+}

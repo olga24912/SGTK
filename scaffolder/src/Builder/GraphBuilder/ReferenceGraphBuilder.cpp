@@ -61,10 +61,18 @@ void ReferenceGraphBuilder::createGraph(std::map<std::string, std::vector<Refere
         std::vector<alignmentInfo> contLPos = it->second;
         sort(contLPos.begin(), contLPos.end());
         for (int i = 0; i < (int)contLPos.size() - 1; ++i) {
-            graph->incEdgeWeight(contigsId[contLPos[i].contigName], contigsId[contLPos[i + 1].contigName]);
+            int e = graph->incEdgeWeight(contigsId[contLPos[i].contigName], contigsId[contLPos[i + 1].contigName]);
+            std::stringstream info;
+            info << it->first << " (" << contLPos[i].sr << " - " << contLPos[i].er <<
+                 ") (" << contLPos[i + 1].sr << " - " << contLPos[i + 1].er << ")";
+            graph->setEdgeInfo(e, info.str());
         }
         for (int i = (int)contLPos.size() - 1; i > 0; --i) {
-            graph->incEdgeWeight(contigsId[contLPos[i].contigName] ^ 1, contigsId[contLPos[i - 1].contigName] ^ 1);
+            int e = graph->incEdgeWeight(contigsId[contLPos[i].contigName] ^ 1, contigsId[contLPos[i - 1].contigName] ^ 1);
+            std::stringstream info;
+            info << it->first << " (" << contLPos[i].er << " - " << contLPos[i].sr <<
+                 ") (" << contLPos[i - 1].er << " - " << contLPos[i - 1].sr << ")";
+            graph->setEdgeInfo(e, info.str());
         }
     }
 }

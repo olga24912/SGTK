@@ -34,7 +34,8 @@ void DotWriter::writeOneEdge(int e, std::ofstream &out) {
     out << "penwidth = "<< 1 + (int)log10(filter->getEdgeWeight(e)) << ", ";
     out << "label = " << "\"" << filter->getLibName(filter->getEdgeLib(e));
     out << "\n weight = " << (filter->getEdgeWeight(e));
-    out << "\n id = "<< e << "\" ]\n";
+    out << "\n id = "<< e;
+    out << "\n " << filter->getInfo(e) << "\" ]\n";
 }
 
 void DotWriter::writeOneVertexSet(std::vector<int> vert, std::string fileName) {

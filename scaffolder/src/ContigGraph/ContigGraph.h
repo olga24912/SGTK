@@ -20,6 +20,7 @@ private:
 
     std::vector<int> edgeLib; // edgeLib[e] = lib of this edge
     std::vector<int> edgeWeight; // edgeWeight[e] = weight
+    std::vector<std::string> edgeExtraInfo;
 
     std::map<std::string, int> targetId; // return vertex in graph(aka target id) by target name
     std::vector<std::string> targetName; // return target name by target id
@@ -45,6 +46,9 @@ public:
     int incEdgeWeight(int v, int u); //increment edge wight between contigs with id v and u
 
     int addVertex(int id, std::string name, int len); //add new vertex with this id, name and len
+
+    void setEdgeInfo(int e, std::string info);
+    std::string getEdgeInfo(int e);
 
     int getTargetLength(int id) const; // get len of contig with id
     std::string getTargetName(int v); // get name of contig with this id

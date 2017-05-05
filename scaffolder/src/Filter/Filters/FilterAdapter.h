@@ -36,6 +36,8 @@ public:
     std::string getLibColor(int l) override;
 
     std::vector<int> getVertexList() override;
+    
+    std::string getInfo(int e) override;
 
     //handling query type UPLOAD_GRAPH with args <contigGraph file name>
     void processQuery(Query query) override;
