@@ -5,8 +5,6 @@
 #include <Filter/Filters/Filter.h>
 
 class InfoAboutContigsAlig {
-private:
-    std::vector<std::vector<Alignment> > alignment;
 public:
     struct Alignment {
         std::string chrName;
@@ -18,6 +16,8 @@ public:
 
     void parseCoordFile(Filter* graph, std::string coordFileName);
     std::vector<Alignment> getAlignment(int vertId);
+private:
+    std::vector<std::vector<Alignment> > alignment;
 };
 
 

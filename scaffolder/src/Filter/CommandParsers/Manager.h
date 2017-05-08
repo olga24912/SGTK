@@ -48,6 +48,7 @@
  * setFileVFork <libNum>
  * setFileVOnlyFirst <libNumPresent> <libNumNotPresent>
  * setMaxVEinOneFile <maxVertNum> <maxEdgeNum>
+ * statisticCorrectConnection <coordFile> <libNum>
  */
 class Manager {
 private:
@@ -72,6 +73,7 @@ private:
     static const std::string SET_FV_FORK;
     static const std::string SET_FV_ONLY_FIRST;
     static const std::string SET_MAX_VE_IN_ONE_FILE;
+    static const std::string STAT_CORRECT_CON;
 
     static const std::string CONFIG_FILE;
     State state;
