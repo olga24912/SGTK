@@ -1,4 +1,4 @@
-#include <Filter/Statistics/cntRightConnectionStatistic.h>
+#include <Filter/Statistics/CntRightConnectionStatistic.h>
 #include "CommandCorrectConnectionStatistic.h"
 
 void CommandCorrectConnectionStatistic::execute(std::string argv, State &state, Filter *filter) {
@@ -7,6 +7,6 @@ void CommandCorrectConnectionStatistic::execute(std::string argv, State &state, 
     int libNum;
     ss >> fileName >> libNum;
 
-    cntRightConnectionStatistic cs;
+    CntRightConnectionStatistic cs;
     cs.calculateStatistic(filter, fileName, libNum);
 }

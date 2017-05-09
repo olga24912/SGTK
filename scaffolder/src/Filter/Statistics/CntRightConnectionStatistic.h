@@ -3,10 +3,9 @@
 
 
 #include <Filter/Filters/Filter.h>
+#include "Statistic.h"
 
-class cntRightConnectionStatistic {
-private:
-    const int MAX_DIST = 1000000000;
+class CntRightConnectionStatistic : public Statistic {
 public:
     void calculateStatistic(Filter *filter, std::string coordFile, int libNum);
 

@@ -49,6 +49,9 @@
  * setFileVOnlyFirst <libNumPresent> <libNumNotPresent>
  * setMaxVEinOneFile <maxVertNum> <maxEdgeNum>
  * statisticCorrectConnection <coordFile> <libNum>
+ * statisticWeight <coordFile> <libNum> <step> <mxVal>
+ * statisticDif <coordFile> <libNum> <step> <mxVal>
+ * statisticWeightDif <coordFile> <libNum> <stepW> <mxW> <stepD> <mxD>
  */
 class Manager {
 private:
@@ -74,6 +77,9 @@ private:
     static const std::string SET_FV_ONLY_FIRST;
     static const std::string SET_MAX_VE_IN_ONE_FILE;
     static const std::string STAT_CORRECT_CON;
+    static const std::string STAT_WEIGHT;
+    static const std::string STAT_DIF;
+    static const std::string STAT_WEIGHT_DIF;
 
     static const std::string CONFIG_FILE;
     State state;
