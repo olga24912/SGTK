@@ -11,6 +11,7 @@
 #include <Filter/CommandParsers/Commands/CommandStatistic/CommandWeightStatistic.h>
 #include <Filter/CommandParsers/Commands/CommandStatistic/CommandDifStatistic.h>
 #include <Filter/CommandParsers/Commands/CommandStatistic/CommandWeightDifStatistic.h>
+#include <Filter/CommandParsers/Commands/CommandStatistic/CommandTwoLibStatistic.h>
 #include "Manager.h"
 
 const std::string Manager::UPLOAD_GRAPH = "uploadGraph";
@@ -38,6 +39,7 @@ const std::string Manager::STAT_CORRECT_CON = "statisticCorrectConnection";
 const std::string Manager::STAT_WEIGHT = "statisticWeight";
 const std::string Manager::STAT_DIF = "statisticDif";
 const std::string Manager::STAT_WEIGHT_DIF = "statisticWeightDif";
+const std::string Manager::STAT_TWO_LIB = "statisticTwoLib";
 
 const std::string Manager::CONFIG_FILE = "filter_config";
 
@@ -69,6 +71,7 @@ Manager::Manager() {
     commandByKeyWord[STAT_WEIGHT] = new CommandWeightStatistic();
     commandByKeyWord[STAT_DIF] = new CommandDifStatistic();
     commandByKeyWord[STAT_WEIGHT_DIF] = new CommandWeightDifStatistic();
+    commandByKeyWord[STAT_TWO_LIB] = new CommandTwoLibStatistic();
 }
 
 void Manager::main() {
