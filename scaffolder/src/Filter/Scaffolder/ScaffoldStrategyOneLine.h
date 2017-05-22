@@ -6,10 +6,10 @@
 
 class ScaffoldStrategyOneLine : public ScaffoldStrategy {
 protected:
-    void addFirstConnection(Scaffolds *scaffolds, Filter *graph);
+    void addFirstConnection(Scaffolds *scaffolds, Filter *graph, int minW);
     void delEdgeFromDifPath(Scaffolds *scaffolds, Filter *graph);
 public:
-    void addConnection(Scaffolds *scaffolds, Filter *graph) override;
+    void addConnection(Scaffolds *scaffolds, Filter *graph, int minW) override;
 
 };
 

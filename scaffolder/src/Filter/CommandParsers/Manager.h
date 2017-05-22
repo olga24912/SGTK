@@ -53,6 +53,7 @@
  * statisticDif <coordFile> <libNum> <step> <mxVal>
  * statisticWeightDif <coordFile> <libNum> <stepW> <mxW> <stepD> <mxD>
  * statisticTwoLib <coordFile> <libNum1> <step1> <mxW1> <libNum2> <step2> <mxW2>
+ * histogram <lib> <step>
  */
 class Manager {
 private:
@@ -82,6 +83,7 @@ private:
     static const std::string STAT_DIF;
     static const std::string STAT_WEIGHT_DIF;
     static const std::string STAT_TWO_LIB;
+    static const std::string HISTOGRAM;
 
 
     static const std::string CONFIG_FILE;

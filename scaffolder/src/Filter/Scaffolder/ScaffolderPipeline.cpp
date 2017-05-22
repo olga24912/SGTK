@@ -20,10 +20,10 @@ void ScaffolderPipeline::evaluate(Filter *graph, std::string contigFile, std::st
         }
     }
 
-   for (int w = 1; w < 8; w *= 2) {
+    int minW = 3;
+    for (int w = 1; w < 8; ++w) {
         ScaffoldStrategyOneLine scafol;
         ScaffoldStrategyLeaveConnection scafl;
-
 
         for (int l : libs) {
             std::stringstream arg;
@@ -32,10 +32,9 @@ void ScaffolderPipeline::evaluate(Filter *graph, std::string contigFile, std::st
             graph->processQuery(Query(Query::MIN_EDGE_WEIGHT, arg.str()));
         }
 
-        scafol.addConnection(&scaffolds, graph);
-        scafl.addConnection(&scaffolds, graph);
-
-        std::cerr << w << " " << scaffolds.lineId(2501) << " " << scaffolds.isFirst(2501) << " " << scaffolds.isLast(2501) << std::endl;
+        scafol.addConnection(&scaffolds, graph, minW);
+        scafl.addConnection(&scaffolds, graph, minW);
+        minW += 2;
    }
 
     scaffolds.print(out);

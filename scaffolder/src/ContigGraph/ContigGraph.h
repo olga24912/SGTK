@@ -11,23 +11,39 @@
 
 // Store graph on contigs with several libs
 class ContigGraph {
-    friend class Serialization;
+public:
+    struct Edge {
+        int id;
+        int from;
+        int to;
+        int lib;
+        int weight;
+        int coordBegin1;
+        int coordEnd1;
+        int coordBegin2;
+        int coordEnd2;
+    };
+
+    struct Vertex {
+        int id;
+        std::string Name;
+        int len;
+    };
+
+    struct Lib {
+        std::string color;
+        std::string name;
+    };
+
 private:
     std::vector<std::vector<int> > graph; // graph[v][i] = e store edge id from vertex (e: v -> u)
     std::vector<std::vector<int> > graphR; // graph[u][i] = e store edge id to vertex (e: v -> u)
-    std::vector<int> to; // if e: v -> u then to[e] = u
-    std::vector<int> from; // if e: v -> u then to[e] = v
+    std::vector<Edge> edges;
 
-    std::vector<int> edgeLib; // edgeLib[e] = lib of this edge
-    std::vector<int> edgeWeight; // edgeWeight[e] = weight
-    std::vector<std::string> edgeExtraInfo;
+    std::map<std::string, Vertex> targetId; // return vertex in graph(aka target id) by target name
+    std::vector<Vertex> targets;
 
-    std::map<std::string, int> targetId; // return vertex in graph(aka target id) by target name
-    std::vector<std::string> targetName; // return target name by target id
-    std::vector<int> targetLen; // return target len by target id
-
-    std::vector<std::string> libColor; //return lib color by lib id
-    std::vector<std::string> libName; //return lib name by lib id
+    std::vector<Lib> libs;
 
     std::vector<std::unordered_map<int, int> > vrtsToEdge; // if in last lib e: v -> u then vrtsToEdge[v][u] = e
 public:

@@ -57,6 +57,8 @@ void TwoLibStatistic::calculateStatistic(Filter *filter, std::string coordFile, 
             if (filter->getEdgeTo(e1) == filter->getEdgeTo(e2)) {
                 flag = 1;
             }
+        } else {
+            continue;
         }
 
         if (wg1 >= cnt_box1) {
@@ -65,57 +67,31 @@ void TwoLibStatistic::calculateStatistic(Filter *filter, std::string coordFile, 
         cnt[wg1][wg2][flag][status]++;
     }
 
-
-
+    char str[100];
 
     for (int i = 0; i < cnt_box1 - 1; ++i) {
         for (int j = 0; j < cnt_box2 - 1; ++j) {
-            printf("Dif dir, Weight 1: %d-%d: "
-                           "weight 2: %d-%d;"
-                           "OK - %d; OVERLAP - %d; PART_ALIG - %d; BIG_DIST - %d;"
-                           " WRONG_ORDER - %d; DIF_CHR - %d; NA - %d;\n",
+            sprintf(str, "Dif dir, Weight 1: %d-%d \t weight 2: %d-%d;",
                    i * step1, (i + 1) * step1 - 1,
-                   j * step2, (j + 1) * step2 - 1,
-                   cnt[i][j][0][0], cnt[i][j][0][1],
-                   cnt[i][j][0][2], cnt[i][j][0][3],
-                   cnt[i][j][0][4], cnt[i][j][0][5],
-                   cnt[i][j][0][6]);
-
-            printf("Same dir, Weight 1: %d-%d: "
-                           "weight 2: %d-%d;"
-                           "OK - %d; OVERLAP - %d; PART_ALIG - %d; BIG_DIST - %d;"
-                           " WRONG_ORDER - %d; DIF_CHR - %d; NA - %d;\n",
-                   i * step1, (i + 1) * step1 - 1,
-                   j * step2, (j + 1) * step2 - 1,
-                   cnt[i][j][1][0], cnt[i][j][1][1],
-                   cnt[i][j][1][2], cnt[i][j][1][3],
-                   cnt[i][j][1][4], cnt[i][j][1][5],
-                   cnt[i][j][1][6]);
-
+                   std::max(1, j * step2), (j + 1) * step2 - 1);
+            printStatistic(str, cnt[i][j][0]);
         }
+    }
+    sprintf(str, "Dif dir, Weight 1: >%d \t weight 2: >%d;", (cnt_box1 - 1) * step1,
+           (cnt_box2 - 1) * step2);
+    printStatistic(str, cnt[cnt_box1 - 1][cnt_box2 - 1][0]);
 
+    for (int i = 0; i < cnt_box1 - 1; ++i) {
+        for (int j = 0; j < cnt_box2 - 1; ++j) {
+            sprintf(str, "Same dir, Weight 1: %d-%d \t weight 2: %d-%d;",
+                   i * step1, (i + 1) * step1 - 1,
+                   std::max(1, j * step2), (j + 1) * step2 - 1);
+            printStatistic(str, cnt[i][j][1]);
+        }
     }
 
-    printf("Dif dir, Weight 1: >%d: "
-                   "weight 2: >%d;"
-                   "OK - %d; OVERLAP - %d; PART_ALIG - %d; BIG_DIST - %d;"
-                   " WRONG_ORDER - %d; DIF_CHR - %d; NA - %d;\n",
+    sprintf(str, "Same dir, Weight 1: >%d \t weight 2: >%d;",
            (cnt_box1 - 1) * step1,
-           (cnt_box2 - 1) * step2,
-           cnt[cnt_box1 - 1][cnt_box2 - 1][0][0], cnt[cnt_box1 - 1][cnt_box2 - 1][0][1],
-           cnt[cnt_box1 - 1][cnt_box2 - 1][0][2], cnt[cnt_box1 - 1][cnt_box2 - 1][0][3],
-           cnt[cnt_box1 - 1][cnt_box2 - 1][0][4], cnt[cnt_box1 - 1][cnt_box2 - 1][0][5],
-           cnt[cnt_box1 - 1][cnt_box2 - 1][0][6]);
-
-    printf("Same dir, Weight 1: >%d: "
-                   "weight 2: >%d;"
-                   "OK - %d; OVERLAP - %d; PART_ALIG - %d; BIG_DIST - %d;"
-                   " WRONG_ORDER - %d; DIF_CHR - %d; NA - %d;\n",
-           (cnt_box1 - 1) * step1,
-           (cnt_box2 - 1) * step2,
-           cnt[cnt_box1 - 1][cnt_box2 - 1][1][0], cnt[cnt_box1 - 1][cnt_box2 - 1][1][1],
-           cnt[cnt_box1 - 1][cnt_box2 - 1][1][2], cnt[cnt_box1 - 1][cnt_box2 - 1][1][3],
-           cnt[cnt_box1 - 1][cnt_box2 - 1][1][4], cnt[cnt_box1 - 1][cnt_box2 - 1][1][5],
-           cnt[cnt_box1 - 1][cnt_box2 - 1][1][6]);
-
+           (cnt_box2 - 1) * step2);
+    printStatistic(str, cnt[cnt_box1 - 1][cnt_box2 - 1][1]);
 }

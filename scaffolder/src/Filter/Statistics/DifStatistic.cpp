@@ -46,12 +46,12 @@ void DifStatistic::calculateStatistic(Filter *filter, std::string coordFile, int
 
 
     for (int i = 0; i < cnt_box - 1; ++i) {
-        printf("weight dif in: %d-%d: OK - %d; OVERLAP - %d; PART_ALIG - %d; BIG_DIST - %d;"
-                       " WRONG_ORDER - %d; DIF_CHR - %d; NA - %d;\n",
-               (int)pow(step, i), (int)pow(step, i + 1) - 1, cnt[i][0], cnt[i][1], cnt[i][2], cnt[i][3], cnt[i][4], cnt[i][5], cnt[i][6]);
+        char str[100];
+        sprintf(str, "weight dif in: %d-%d:", (int)pow(step, i), (int)pow(step, i + 1) - 1);
+        printStatistic(str, cnt[i]);
     }
-    printf("weight dif in: >%d: OK - %d; OVERLAP - %d; PART_ALIG - %d; BIG_DIST - %d;"
-                   " WRONG_ORDER - %d; DIF_CHR - %d; NA - %d;\n",
-           (int)pow(step, (cnt_box - 1)), cnt[cnt_box - 1][0], cnt[cnt_box - 1][1], cnt[cnt_box - 1][2], cnt[cnt_box - 1][3],
-           cnt[cnt_box - 1][4], cnt[cnt_box - 1][5], cnt[cnt_box - 1][6]);
+
+    char str[100];
+    sprintf(str, "weight dif in: >%d:", (int)pow(step, (cnt_box - 1)));
+    printStatistic(str, cnt[cnt_box - 1]);
 }

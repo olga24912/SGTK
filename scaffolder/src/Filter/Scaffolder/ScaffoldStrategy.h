@@ -21,7 +21,7 @@ protected:
     int deg(int i, Filter *pFilter, int dirIn);
 
 public:
-    virtual void addConnection(Scaffolds* scaffolds, Filter *graph) = 0;
+    virtual void addConnection(Scaffolds* scaffolds, Filter *graph, int minW) = 0;
 };
 
 

@@ -143,17 +143,23 @@ void PairReadGraphBuilder::handleReads() {
     seqan::BamAlignmentRecord read1, read2;
 
     while (!atEnd(bamFile1) || !atEnd(bamFile2)) {
+//        std::cerr << "next it" << std::endl;
         std::pair<std::string, int> readInfo1;
         std::pair<std::string, int> readInfo2;
 
         if (!atEnd(bamFile1)) {
             seqan::readRecord(read1, bamFile1);
+//            std::cerr << "read first rec" << std::endl;
             readInfo1 = processOneFirstRead(read1);
         }
+//        std::cerr << "finidh process first" << std::endl;
         if (!atEnd(bamFile2)) {
             seqan::readRecord(read2, bamFile2);
+//            std::cerr << "read sec rec" << std::endl;
             readInfo2 = processOneSecondRead(read2);
         }
+
+//        std::cerr << readInfo1.first << " " << readInfo2.first << std::endl;
         
         if (readInfo2.first != "" && read1ByName.count(readInfo2.first)) {
             incEdgeWeight(read1ByName[readInfo2.first], read2);

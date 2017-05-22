@@ -10,6 +10,7 @@ protected:
     const int MAX_DIST = 1000000;
     const int MIN_OVERLAP = 100;
     ErrorType isCorrectEdge(InfoAboutContigsAlig& aligInfo, Filter * filter, int e);
+    void printStatistic(char* str, int* cnt);
 };
 
 

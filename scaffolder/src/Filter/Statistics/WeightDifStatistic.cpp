@@ -2,19 +2,21 @@
 #include <iostream>
 #include "WeightDifStatistic.h"
 
-void WeightDifStatistic::calculateStatistic(Filter *filter, std::string coordFile, int libNum, int stepW, int mxW,
-                                            int stepDif, int mxDif) {
+void WeightDifStatistic::calculateStatistic(Filter *filter, std::string coordFile, int libNum, int step1, int mxW1,
+                                            int step2, int mxW2) {
     InfoAboutContigsAlig aligInfo;
     aligInfo.parseCoordFile(filter, coordFile);
 
-    int cnt_box_w = mxW/stepW + 1;
-    int cnt_box_d = (int) (log(mxDif * 1.0) * 1.0/log(stepDif) + 1);
+    int cnt_box1 = mxW1/step1 + 1;
+    int cnt_box2 = mxW2/step2 + 1;
 
-    int cnt[cnt_box_w][cnt_box_d][7];
-    for (int i = 0; i < cnt_box_w; ++i) {
-        for (int g = 0; g < cnt_box_d; ++g) {
-            for (int j = 0; j < 7; ++j) {
-                cnt[i][g][j] = 0;
+    int cnt[cnt_box1][cnt_box2][2][7];
+    for (int i = 0; i < cnt_box1; ++i) {
+        for (int j = 0; j < cnt_box2; ++j) {
+            for (int h = 0; h < 2; ++h) {
+                for (int g = 0; g < 7; ++g) {
+                    cnt[i][j][h][g] = 0;
+                }
             }
         }
     }
@@ -22,71 +24,55 @@ void WeightDifStatistic::calculateStatistic(Filter *filter, std::string coordFil
     int n = filter->getVertexCount();
     for (int v = 0; v < n; ++v) {
         std::vector<int> edges = filter->getEdges(v);
-        int mxW = 0, smxW = 0;
-        int eval = -1;
+        int e1 = -1;
+        int e2 = -1;
         for (int e : edges) {
-            if (filter->getEdgeLib(e) != libNum) continue;
-            if (filter->getEdgeWeight(e) > mxW) {
-                smxW = mxW;
-                mxW = filter->getEdgeWeight(e);
-                eval = e;
-            } else if (filter->getEdgeWeight(e) > smxW) {
-                smxW = filter->getEdgeWeight(e);
+            if (filter->getEdgeLib(e) != libNum) {
+                continue;
+            }
+
+            if (e1 == -1 || filter->getEdgeWeight(e) > filter->getEdgeWeight(e1)) {
+                e2 = e1;
+                e1 = e;
+            } else if (e2 == -1 || filter->getEdgeWeight(e) > filter->getEdgeWeight(e2)) {
+                e2 = e;
             }
         }
 
-        int bxDnum = cnt_box_d - 1;
-        if (smxW != 0) {
-            double bigger = mxW * 1.0/smxW;
-            bxDnum = (int)(std::log(bigger)/std::log(stepDif));
-            if (bxDnum >= cnt_box_d) {
-                bxDnum = cnt_box_d - 1;
+        if (e1 == -1) continue;
+        ErrorType status = isCorrectEdge(aligInfo, filter, e1);
+        int wg1 = filter->getEdgeWeight(e1)/step1;
+        int wg2 = 0;
+        int flag = 0;
+        if (e2 != -1) {
+            wg2 = filter->getEdgeWeight(e2)/step2;
+            if (wg2 >= cnt_box2) {
+                wg2 = cnt_box2 - 1;
+            }
+            if (filter->getEdgeTo(e1) == filter->getEdgeTo(e2)) {
+                flag = 1;
             }
         }
 
-        if (eval == -1) continue;
-        ErrorType status = isCorrectEdge(aligInfo, filter, eval);
-        int bxWnum = filter->getEdgeWeight(eval)/stepW;
-        if (bxWnum >= cnt_box_w) {
-            bxWnum = cnt_box_w - 1;
+        if (wg1 >= cnt_box1) {
+            wg1 = cnt_box1 - 1;
         }
-        cnt[bxWnum][bxDnum][status]++;
+        cnt[wg1][wg2][flag][status]++;
     }
 
 
-    for (int g = 0; g < cnt_box_w - 1; ++g) {
-        for (int i = 0; i < cnt_box_d - 1; ++i) {
-            printf("weight: %d-%d; weight dif in: %d-%d: OK - %d; OVERLAP - %d; PART_ALIG - %d; BIG_DIST - %d;"
-                           " WRONG_ORDER - %d; DIF_CHR - %d; NA - %d;\n",
-                   g * stepW, (g + 1) * stepW - 1,
-                   (int) pow(stepDif, i), (int) pow(stepDif, i + 1) - 1,
-                   cnt[g][i][0], cnt[g][i][1], cnt[g][i][2], cnt[g][i][3],
-                   cnt[g][i][4], cnt[g][i][5], cnt[g][i][6]);
+    char str[100];
+    for (int i = 0; i < cnt_box1 - 1; ++i) {
+        for (int j = 0; j < cnt_box2 - 1; ++j) {
+            sprintf(str, "Weight 1: %d-%d \t weight 2: %d-%d;",
+                   i * step1, (i + 1) * step1 - 1,
+                    j * step2, (j + 1) * step2 - 1);
+            printStatistic(str, cnt[i][j][0]);
         }
-        printf("weight: %d-%d; weight dif in: >%d: OK - %d; OVERLAP - %d; PART_ALIG - %d; BIG_DIST - %d;"
-                       " WRONG_ORDER - %d; DIF_CHR - %d; NA - %d;\n",
-               g * stepW, (g + 1) * stepW - 1,
-               (int) pow(stepDif, (cnt_box_d - 1)), cnt[g][cnt_box_d - 1][0],
-               cnt[g][cnt_box_d - 1][1], cnt[g][cnt_box_d - 1][2],
-               cnt[g][cnt_box_d - 1][3], cnt[g][cnt_box_d - 1][4],
-               cnt[g][cnt_box_d - 1][5], cnt[g][cnt_box_d - 1][6]);
+        sprintf(str, "Weight 1: %d-%d \t weight 2: >%d;", i * step1, (i + 1) * step1 - 1, (cnt_box2 - 1) * step2);
+        printStatistic(str, cnt[i][cnt_box2 - 1][0]);
     }
-
-    for (int i = 0; i < cnt_box_d - 1; ++i) {
-        printf("weight: >%d; weight dif in: %d-%d: OK - %d; OVERLAP - %d; PART_ALIG - %d; BIG_DIST - %d;"
-                       " WRONG_ORDER - %d; DIF_CHR - %d; NA - %d;\n",
-               (cnt_box_w - 1) * stepW,
-               (int) pow(stepDif, i), (int) pow(stepDif, i + 1) - 1,
-               cnt[cnt_box_w - 1][i][0], cnt[cnt_box_w - 1][i][1], cnt[cnt_box_w - 1][i][2],
-               cnt[cnt_box_w - 1][i][3], cnt[cnt_box_w - 1][i][4],
-               cnt[cnt_box_w - 1][i][5], cnt[cnt_box_w - 1][i][6]);
-    }
-    printf("weight: >%d; weight dif in: >%d: OK - %d; OVERLAP - %d; PART_ALIG - %d; BIG_DIST - %d;"
-                   " WRONG_ORDER - %d; DIF_CHR - %d; NA - %d;\n",
-           (cnt_box_w - 1) * stepW,
-           (int) pow(stepDif, (cnt_box_d - 1)),
-           cnt[cnt_box_w - 1][cnt_box_d - 1][0],
-           cnt[cnt_box_w - 1][cnt_box_d - 1][1], cnt[cnt_box_w - 1][cnt_box_d - 1][2],
-           cnt[cnt_box_w - 1][cnt_box_d - 1][3], cnt[cnt_box_w - 1][cnt_box_d - 1][4],
-           cnt[cnt_box_w - 1][cnt_box_d - 1][5], cnt[cnt_box_w - 1][cnt_box_d - 1][6]);
+    sprintf(str, "Weight 1: >%d \t weight 2: >%d;", (cnt_box1 - 1) * step1,
+           (cnt_box2 - 1) * step2);
+    printStatistic(str, cnt[cnt_box1 - 1][cnt_box2 - 1][0]);
 }

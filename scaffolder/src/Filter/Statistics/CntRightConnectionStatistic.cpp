@@ -18,7 +18,5 @@ void CntRightConnectionStatistic::calculateStatistic(Filter *filter, std::string
     }
 
 
-    printf("OK - %d; OVERLAP - %d; PART_ALIG - %d; BIG_DIST - %d;"
-                   " WRONG_ORDER - %d; DIF_CHR - %d; NA - %d;\n",
-    cnt[0], cnt[1], cnt[2], cnt[3], cnt[4], cnt[5], cnt[6]);
+    printStatistic("", cnt);
 }

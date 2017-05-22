@@ -28,13 +28,13 @@ void WeightStatistic::calculateStatistic(Filter *filter, std::string coordFile, 
     }
 
 
+    char str[100];
     for (int i = 0; i < cnt_box - 1; ++i) {
-        printf("Weight: %d-%d: OK - %d; OVERLAP - %d; PART_ALIG - %d; BIG_DIST - %d;"
-                       " WRONG_ORDER - %d; DIF_CHR - %d; NA - %d;\n",
-               i * step, (i + 1) * step - 1, cnt[i][0], cnt[i][1], cnt[i][2], cnt[i][3], cnt[i][4], cnt[i][5], cnt[i][6]);
+        sprintf(str, "Weight: %d-%d:",
+               i * step, (i + 1) * step - 1);
+        printStatistic(str, cnt[i]);
     }
-    printf("Weight: >%d: OK - %d; OVERLAP - %d; PART_ALIG - %d; BIG_DIST - %d;"
-                   " WRONG_ORDER - %d; DIF_CHR - %d; NA - %d;\n",
-           (cnt_box - 1)* step, cnt[cnt_box - 1][0], cnt[cnt_box - 1][1], cnt[cnt_box - 1][2], cnt[cnt_box - 1][3],
-           cnt[cnt_box - 1][4], cnt[cnt_box - 1][5], cnt[cnt_box - 1][6]);
+
+    sprintf(str, "Weight: >%d;", (cnt_box - 1)* step);
+    printStatistic(str, cnt[cnt_box - 1]);
 }

@@ -12,6 +12,7 @@
 #include <Filter/CommandParsers/Commands/CommandStatistic/CommandDifStatistic.h>
 #include <Filter/CommandParsers/Commands/CommandStatistic/CommandWeightDifStatistic.h>
 #include <Filter/CommandParsers/Commands/CommandStatistic/CommandTwoLibStatistic.h>
+#include <Filter/CommandParsers/Commands/CommandStatistic/CommandHistogram.h>
 #include "Manager.h"
 
 const std::string Manager::UPLOAD_GRAPH = "uploadGraph";
@@ -40,6 +41,7 @@ const std::string Manager::STAT_WEIGHT = "statisticWeight";
 const std::string Manager::STAT_DIF = "statisticDif";
 const std::string Manager::STAT_WEIGHT_DIF = "statisticWeightDif";
 const std::string Manager::STAT_TWO_LIB = "statisticTwoLib";
+const std::string Manager::HISTOGRAM = "histogram";
 
 const std::string Manager::CONFIG_FILE = "filter_config";
 
@@ -72,6 +74,7 @@ Manager::Manager() {
     commandByKeyWord[STAT_DIF] = new CommandDifStatistic();
     commandByKeyWord[STAT_WEIGHT_DIF] = new CommandWeightDifStatistic();
     commandByKeyWord[STAT_TWO_LIB] = new CommandTwoLibStatistic();
+    commandByKeyWord[HISTOGRAM] = new CommandHistogram();
 }
 
 void Manager::main() {
