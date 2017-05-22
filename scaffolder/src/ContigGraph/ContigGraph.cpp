@@ -1,5 +1,6 @@
 #include <sstream>
 #include "ContigGraph.h"
+#include "cmath"
 
 int ContigGraph::getLibNum() {
     return (int)libs.size();
@@ -27,27 +28,34 @@ int ContigGraph::addVertex(int id, std::string name, int len) {
     return id;
 }
 
-int ContigGraph::incEdgeWeight(int v, int u) {
+int ContigGraph::incEdgeWeight(int v, int u, int cb1, int ce1, int cb2, int ce2) {
     assert(libs.size() > 0);
     assert(v < vrtsToEdge.size());
-    int e;
-    if (vrtsToEdge[v].count(u) == 0) {
-        e = (int)edgeWeight.size();
-        edgeWeight.push_back(0);
-        edgeExtraInfo.push_back("");
-        to.push_back(u);
-        from.push_back(v);
-        edgeLib.push_back((int)libName.size() - 1);
+    int e = -1;
+    std::vector<int> candidates = vrtsToEdge[v][u];
 
-        vrtsToEdge[v][u] = e;
+    for (int ec : candidates) {
+        if (std::fabs(cb1 - edges[ec].coordBegin1) < maxClusterSize &&
+                std::fabs(cb2 - edges[ec].coordBegin2) < maxClusterSize) {
+            e = ec;
+        }
+    }
+
+    if (e == -1) {
+        e = (int)edges.size();
+        edges.push_back(Edge(e, v, u, (int)libs.size() - 1, 0, cb1, ce1, cb2, ce2));
+
+        vrtsToEdge[v][u].push_back(e);
 
         graph[v].push_back(e);
         graphR[u].push_back(e);
-    } else {
-        e = vrtsToEdge[v][u];
     }
 
-    edgeWeight[e] += 1;
+    edges[e].weight += 1;
+    edges[e].coordBegin1 = std::min(edges[e].coordBegin1, cb1);
+    edges[e].coordEnd1 = std::max(edges[e].coordEnd1, ce1);
+    edges[e].coordBegin2 = std::min(edges[e].coordBegin2, cb2);
+    edges[e].coordEnd2 = std::max(edges[e].coordEnd2, ce2);
     return e;
 }
 

@@ -46,6 +46,7 @@ public:
     };
 
 private:
+    const int maxClusterSize = 1000;
     std::vector<std::vector<int> > graph; // graph[v][i] = e store edge id from vertex (e: v -> u)
     std::vector<std::vector<int> > graphR; // graph[u][i] = e store edge id to vertex (e: v -> u)
     std::vector<Edge> edges;
@@ -69,7 +70,7 @@ public:
     std::string getLibColor(int l); //return color for this lib
     std::string getLibName(int l); //return name of this lib
 
-    int incEdgeWeight(int v, int u); //increment edge wight between contigs with id v and u
+    int incEdgeWeight(int v, int u, int cb1, int ce1, int cb2, int ce2); //increment edge wight between contigs with id v and u
 
     int addVertex(int id, std::string name, int len); //add new vertex with this id, name and len
 

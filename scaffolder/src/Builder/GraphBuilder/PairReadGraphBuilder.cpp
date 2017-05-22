@@ -117,8 +117,12 @@ void PairReadGraphBuilder::incEdgeWeight(seqan::BamAlignmentRecord read1, seqan:
 
     int verFID = target1, verSID = target2, verRFID = pairTarget(verFID), verRSID = pairTarget(verSID);
 
-    int e1 = graph->incEdgeWeight(verFID, verSID);
-    int e2 = graph->incEdgeWeight(verRSID, verRFID);
+    int e1 = graph->incEdgeWeight(verFID, verSID,
+                                  read1.beginPos, read1.beginPos + seqan::getAlignmentLengthInRef(read1),
+                                  read2.beginPos, read2.beginPos + seqan::getAlignmentLengthInRef(read2));
+    int e2 = graph->incEdgeWeight(verRSID, verRFID,
+                                  read2.beginPos, read2.beginPos + seqan::getAlignmentLengthInRef(read2),
+                                  read1.beginPos, read1.beginPos + seqan::getAlignmentLengthInRef(read1));
 
     samFileWriter.writeEdge(e1, read1, read2);
     samFileWriter.writeEdge(e2, read2, read1);
