@@ -22,17 +22,27 @@ public:
         int coordEnd1;
         int coordBegin2;
         int coordEnd2;
+        Edge(){}
+        Edge(int id, int from, int to, int lib, int weight, int coordBegin1, int coordEnd1, int coordBegin2, int coordEnd2):
+                id(id), from(from), to(to), lib(lib), weight(weight), coordBegin1(coordBegin1),
+                coordEnd1(coordEnd1), coordBegin2(coordBegin2), coordEnd2(coordEnd2) {}
     };
 
     struct Vertex {
         int id;
-        std::string Name;
+        std::string name;
         int len;
+
+        Vertex(){}
+        Vertex(int id, std::string name, int len): id(id), name(name), len(len) {}
     };
 
     struct Lib {
         std::string color;
         std::string name;
+
+        Lib(){}
+        Lib(std::string color, std::string name): color(color), name(name) {}
     };
 
 private:
@@ -40,12 +50,12 @@ private:
     std::vector<std::vector<int> > graphR; // graph[u][i] = e store edge id to vertex (e: v -> u)
     std::vector<Edge> edges;
 
-    std::map<std::string, Vertex> targetId; // return vertex in graph(aka target id) by target name
+    std::map<std::string, int> targetId; // return vertex in graph(aka target id) by target name
     std::vector<Vertex> targets;
 
     std::vector<Lib> libs;
 
-    std::vector<std::unordered_map<int, int> > vrtsToEdge; // if in last lib e: v -> u then vrtsToEdge[v][u] = e
+    std::vector<std::unordered_map<int, std::vector<int> > > vrtsToEdge; // if in last lib e: v -> u then vrtsToEdge[v][u] = e
 public:
     void newLib(std::string name, std::string color); //next edge library
 
@@ -63,7 +73,6 @@ public:
 
     int addVertex(int id, std::string name, int len); //add new vertex with this id, name and len
 
-    void setEdgeInfo(int e, std::string info);
     std::string getEdgeInfo(int e);
 
     int getTargetLength(int id) const; // get len of contig with id
