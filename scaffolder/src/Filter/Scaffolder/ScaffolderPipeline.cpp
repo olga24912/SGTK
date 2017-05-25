@@ -20,21 +20,28 @@ void ScaffolderPipeline::evaluate(Filter *graph, std::string contigFile, std::st
         }
     }
 
-    int minW = 3;
-    for (int w = 1; w < 8; ++w) {
-        ScaffoldStrategyOneLine scafol;
-        ScaffoldStrategyLeaveConnection scafl;
+    for (int wp = 1; wp < 8; ++wp) {
+        for (int ws50 = 1; ws50 < 8; ++ws50) {
+            ScaffoldStrategyOneLine scafol;
+            ScaffoldStrategyLeaveConnection scafl;
 
-        for (int l : libs) {
-            std::stringstream arg;
-            arg << l << " " << std::max(w, minEdge[l]);
-            std::cerr << arg.str() << std::endl;
-            graph->processQuery(Query(Query::MIN_EDGE_WEIGHT, arg.str()));
+            for (int l : libs) {
+                std::stringstream arg;
+                if (graph->getLibType(l) == ContigGraph::Lib::Type::RNA_PAIR) {
+                    arg << l << " " << std::max(wp, minEdge[l]);
+                }
+
+                if (graph->getLibType(l) == ContigGraph::Lib::Type::RNA_SPLIT_50) {
+                    arg << l << " " << std::max(ws50, minEdge[l]);
+                }
+
+                std::cerr << arg.str() << std::endl;
+                graph->processQuery(Query(Query::MIN_EDGE_WEIGHT, arg.str()));
+            }
+
+            scafol.addConnection(&scaffolds, graph, std::vector<int> ({0, 0, (int)((wp + ws50) * 2.5), (int)(wp * 0.75 + ws50*1.25), 0}));
+            scafl.addConnection(&scaffolds, graph, std::vector<int> ({0, 0, (int)((wp + ws50) * 2.5), (int)(wp * 0.75 + ws50*1.25), 0}));
         }
-
-        scafol.addConnection(&scaffolds, graph, minW);
-        scafl.addConnection(&scaffolds, graph, minW);
-        minW += 2;
    }
 
     scaffolds.print(out);

@@ -1,13 +1,13 @@
 #include "ScaffoldStrategyOneLine.h"
 
-void ScaffoldStrategyOneLine::addConnection(Scaffolds *scaffolds, Filter *graph, int minW) {
+void ScaffoldStrategyOneLine::addConnection(Scaffolds *scaffolds, Filter *graph, std::vector<int> minW) {
     topSort(graph);
     findCycle(graph);
     addFirstConnection(scaffolds, graph, minW);
     delEdgeFromDifPath(scaffolds, graph);
 }
 
-void ScaffoldStrategyOneLine::addFirstConnection(Scaffolds *scaffolds, Filter *graph, int minW) {
+void ScaffoldStrategyOneLine::addFirstConnection(Scaffolds *scaffolds, Filter *graph, std::vector<int> minW) {
     for (int i = 0; i < (int)topsort.size(); ++i) {
         int v = topsort[i];
 
@@ -18,7 +18,8 @@ void ScaffoldStrategyOneLine::addFirstConnection(Scaffolds *scaffolds, Filter *g
         for (int e : edges) {
             int u = graph->getEdgeTo(e);
 
-            if ((minu == -1 || topSortPos[u] < topSortPos[minu]) && color[v] != color[u] && graph->getEdgeWeight(e) >= minW) {
+            if ((minu == -1 || topSortPos[u] < topSortPos[minu]) && color[v] != color[u] &&
+                    graph->getEdgeWeight(e) >= minW[graph->getLibType(graph->getEdgeLib(e))]) {
                 minu = u;
             }
         }

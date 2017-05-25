@@ -6,10 +6,10 @@
 
 class ScaffoldStrategyLeaveConnection : public ScaffoldStrategy {
 protected:
-    void addConnectionForLeaves(Scaffolds *scaffolds, Filter *graph, int dir, int minW);
+    void addConnectionForLeaves(Scaffolds *scaffolds, Filter *graph, int dir, std::vector<int> minW);
 
 public:
-    void addConnection(Scaffolds *scaffolds, Filter *graph, int minW) override;
+    void addConnection(Scaffolds *scaffolds, Filter *graph, std::vector<int> minW) override;
 };
 
 
