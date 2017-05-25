@@ -6,6 +6,7 @@
 #include "assert.h"
 #include "Query.h"
 #include <sstream>
+#include <ContigGraph/ContigGraph.h>
 
 //abstract class for all filters
 class Filter {
@@ -33,6 +34,8 @@ public:
 
     virtual std::pair<int, int> getFirstCoord(int e);
     virtual std::pair<int, int> getSecondCoord(int e);
+
+    virtual ContigGraph::Lib::Type getLibType(int l);
 
     void write(std::string fileName); //serialize this graph in .gr format in "fileName" file
 

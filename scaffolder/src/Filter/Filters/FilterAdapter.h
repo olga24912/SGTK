@@ -35,6 +35,8 @@ public:
 
     std::string getLibColor(int l) override;
 
+    ContigGraph::Lib::Type getLibType(int l) override;
+
     std::vector<int> getVertexList() override;
     
     std::string getInfo(int e) override;

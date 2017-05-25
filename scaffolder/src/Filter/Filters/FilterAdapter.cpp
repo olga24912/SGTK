@@ -80,3 +80,7 @@ std::pair<int, int> FilterAdapter::getFirstCoord(int e) {
 std::pair<int, int> FilterAdapter::getSecondCoord(int e) {
     return graph.getSecondCoord(e);
 }
+
+ContigGraph::Lib::Type FilterAdapter::getLibType(int l) {
+    return graph.getLibType(l);
+}

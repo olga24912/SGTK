@@ -202,3 +202,7 @@ std::pair<int, int> ContigGraph::getFirstCoord(int e) {
 std::pair<int, int> ContigGraph::getSecondCoord(int e) {
     return std::make_pair(edges[e].coordBegin2, edges[e].coordEnd2);
 }
+
+ContigGraph::Lib::Type ContigGraph::getLibType(int l) {
+    return libs[l].type;
+}

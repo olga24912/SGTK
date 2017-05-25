@@ -118,3 +118,7 @@ std::pair<int, int> Filter::getFirstCoord(int e) {
 std::pair<int, int> Filter::getSecondCoord(int e) {
     return subfilter->getFirstCoord(e);
 }
+
+ContigGraph::Lib::Type Filter::getLibType(int l) {
+    return subfilter->getLibType(l);
+}

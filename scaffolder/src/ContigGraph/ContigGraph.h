@@ -80,6 +80,7 @@ public:
     int getEdgeLib(int e); //return lib for this edge
     std::string getLibColor(int l); //return color for this lib
     std::string getLibName(int l); //return name of this lib
+    Lib::Type getLibType(int l);
 
     int incEdgeWeight(int v, int u, int cb1, int ce1, int cb2, int ce2); //increment edge wight between contigs with id v and u
 
