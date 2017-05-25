@@ -38,15 +38,26 @@ public:
     };
 
     struct Lib {
+        static const int typeCnt = 5;
+        enum Type{REF, DNA_PAIR, RNA_PAIR, RNA_SPLIT_50, RNA_SPLIT_30};
+        static const std::string typeToStr[] = {"REF", "DNA_PAIR", "RNA_PAIR", "RNA_SPLIT_50", "RNA_SPLIT_30"};
         std::string color;
         std::string name;
+        Type type;
 
         Lib(){}
-        Lib(std::string color, std::string name): color(color), name(name) {}
+        Lib(std::string color, std::string name, Type type): color(color), name(name), type(type) {}
+        Lib(std::string color, std::string name, std::string type): color(color), name(name) {
+            for (int i = 0; i < typeCnt; ++i) {
+                if (typeToStr[i] == type) {
+                    this->type = (Type) i;
+                }
+            }
+        }
     };
 
 private:
-    const int maxClusterSize = 1000;
+    static const int maxClusterSize = 1000;
     std::vector<std::vector<int> > graph; // graph[v][i] = e store edge id from vertex (e: v -> u)
     std::vector<std::vector<int> > graphR; // graph[u][i] = e store edge id to vertex (e: v -> u)
     std::vector<Edge> edges;
@@ -58,7 +69,7 @@ private:
 
     std::vector<std::unordered_map<int, std::vector<int> > > vrtsToEdge; // if in last lib e: v -> u then vrtsToEdge[v][u] = e
 public:
-    void newLib(std::string name, std::string color); //next edge library
+    void newLib(std::string name, std::string color, Lib::Type type); //next edge library
 
     std::vector<int> getEdges(int v); //get all edges from vertex v
     std::vector<int> getEdgesR(int v); //get all edges to vertex v
@@ -81,6 +92,9 @@ public:
     int getTargetId(std::string name); //get id of contig by contig name
     int getVertexCount(); //get count of vertexs
     int getLibNum(); //get the count of lib
+
+    std::pair<int, int> getFirstCoord(int e);
+    std::pair<int, int> getSecondCoord(int e);
 
     void write(std::string fileName); //serialize this graph in .gr format in "fileName" file
     static ContigGraph read(std::string fileName); //generate ContigGraph from .gr format file

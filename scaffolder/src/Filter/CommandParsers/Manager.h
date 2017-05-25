@@ -47,12 +47,14 @@
  * setFileVWithDifInLib <libNum>*
  * setFileVFork <libNum>
  * setFileVOnlyFirst <libNumPresent> <libNumNotPresent>
+ * setFileVFewParts
  * setMaxVEinOneFile <maxVertNum> <maxEdgeNum>
  * statisticCorrectConnection <coordFile> <libNum>
  * statisticWeight <coordFile> <libNum> <step> <mxVal>
  * statisticDif <coordFile> <libNum> <step> <mxVal>
  * statisticWeightDif <coordFile> <libNum> <stepW> <mxW> <stepD> <mxD>
- * statisticTwoLib <coordFile> <libNum1> <step1> <mxW1> <libNum2> <step2> <mxW2>
+ * statisticTwoLib <coordFile> <libNum1> <step1> <mxW1> <step1_2> <mxW1_2> <libNum2> <step2> <mxW2>
+ * statisticTwoCompetitor <coordFile> <libNum1> <w1> <libNum2> <w2>
  * histogram <lib> <step>
  */
 class Manager {
@@ -77,12 +79,14 @@ private:
     static const std::string SET_FV_WITH_DIF_IN_LIB;
     static const std::string SET_FV_FORK;
     static const std::string SET_FV_ONLY_FIRST;
+    static const std::string SET_FV_FEW_PARTS;
     static const std::string SET_MAX_VE_IN_ONE_FILE;
     static const std::string STAT_CORRECT_CON;
     static const std::string STAT_WEIGHT;
     static const std::string STAT_DIF;
     static const std::string STAT_WEIGHT_DIF;
     static const std::string STAT_TWO_LIB;
+    static const std::string STAT_TWO_COMP;
     static const std::string HISTOGRAM;
 
 

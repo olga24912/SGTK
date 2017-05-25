@@ -39,6 +39,10 @@ public:
     
     std::string getInfo(int e) override;
 
+    std::pair<int, int> getFirstCoord(int e) override;
+
+    std::pair<int, int> getSecondCoord(int e) override;
+
     //handling query type UPLOAD_GRAPH with args <contigGraph file name>
     void processQuery(Query query) override;
 };

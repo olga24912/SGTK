@@ -110,3 +110,11 @@ void Filter::write(std::string fileName) {
 std::string Filter::getInfo(int e) {
     return subfilter->getInfo(e);
 }
+
+std::pair<int, int> Filter::getFirstCoord(int e) {
+    return subfilter->getFirstCoord(e);
+}
+
+std::pair<int, int> Filter::getSecondCoord(int e) {
+    return subfilter->getFirstCoord(e);
+}

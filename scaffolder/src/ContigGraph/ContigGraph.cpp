@@ -59,8 +59,8 @@ int ContigGraph::incEdgeWeight(int v, int u, int cb1, int ce1, int cb2, int ce2)
     return e;
 }
 
-void ContigGraph::newLib(std::string name, std::string color) {
-    libs.push_back(Lib(color, name));
+void ContigGraph::newLib(std::string name, std::string color, Lib::Type type) {
+    libs.push_back(Lib(color, name, type));
 
     for (int i = 0; i < (int)vrtsToEdge.size(); ++i) {
         vrtsToEdge[i].clear();
@@ -91,7 +91,7 @@ void ContigGraph::write(std::string fileName) {
 
     out << libs.size() << "\n";
     for (int i = 0; i < (int)libs.size(); ++i) {
-        out << "l " << i << " " << libs[i].color << " " << libs[i].name << "\n";
+        out << "l " << i << " " << libs[i].color << " " << libs[i].name << " " << Lib::typeToStr[libs[i].type] << "\n";
     }
     out << graph.size() << "\n";
     for (int i = 0; i < (int)graph.size(); ++i) {
@@ -119,7 +119,9 @@ ContigGraph ContigGraph::read(std::string fileName) {
     for (int i = 0; i < ln; ++i) {
         char c;
         int id;
-        in >> c >> id >> g.libs[i].color >> g.libs[i].name;
+        std::string type;
+        in >> c >> id >> g.libs[i].color >> g.libs[i].name >> type;
+        g.libs[i] = Lib(g.libs[i].color, g.libs[i].name, type);
     }
 
     in >> vn;
@@ -191,4 +193,12 @@ std::string ContigGraph::getEdgeInfo(int e) {
     std::stringstream ss;
     ss << "coord: " << edges[e].coordBegin1 << "-" << edges[e].coordEnd1 << "\n" << edges[e].coordBegin2 << "-" << edges[e].coordEnd2;
     return ss.str();
+}
+
+std::pair<int, int> ContigGraph::getFirstCoord(int e) {
+    return std::make_pair(edges[e].coordBegin1, edges[e].coordEnd1);
+}
+
+std::pair<int, int> ContigGraph::getSecondCoord(int e) {
+    return std::make_pair(edges[e].coordBegin2, edges[e].coordEnd2);
 }

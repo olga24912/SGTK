@@ -65,8 +65,10 @@ int main(int argc, char ** argv) {
             fgets(str, MAX_STR_LEN, file);
             char c;
             int id, gf, gt, gel, gw;
-            sscanf(str, "%c %d %d %d %d %d", &c, &id, &gf, &gt, &gel, &gw);
-            sprintf(str, "%c %d %d %d %d %d\n", c, id, gf, gt, oldLibCnt + gel, gw);
+            char coord[1000];
+            int cb1, ce1, cb2, ce2;
+            sscanf(str, "%c %d %d %d %d %d %s %d %d %d %d", &c, &id, &gf, &gt, &gel, &gw, coord, &cb1, &ce1, &cb2, &ce2);
+            sprintf(str, "%c %d %d %d %d %d %s %d %d %d %d\n", c, id, gf, gt, oldLibCnt + gel, gw, coord, cb1, ce1, cb2, ce2);
             edge.push_back(std::string(str));
         }
         fclose(file);

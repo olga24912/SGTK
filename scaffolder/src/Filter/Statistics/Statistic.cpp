@@ -65,7 +65,7 @@ void Statistic::printStatistic(char* str, int *cnt) {
     for (int i = 0; i < 7; ++i) {
         sum += cnt[i];
     }
-    if (sum < 15) return;
+    if (sum < 1) return;
     if (sum == 0) sum = 1;
     double TP = cnt[0] * 1.0/sum, FP = (cnt[3] + cnt[4] + cnt[5]) * 1.0/sum;
 

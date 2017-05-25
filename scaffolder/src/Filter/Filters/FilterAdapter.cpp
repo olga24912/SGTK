@@ -72,3 +72,11 @@ void FilterAdapter::processQuery(Query query) {
 std::string FilterAdapter::getInfo(int e) {
     return graph.getEdgeInfo(e);
 }
+
+std::pair<int, int> FilterAdapter::getFirstCoord(int e) {
+    return graph.getFirstCoord(e);
+}
+
+std::pair<int, int> FilterAdapter::getSecondCoord(int e) {
+    return graph.getSecondCoord(e);
+}
