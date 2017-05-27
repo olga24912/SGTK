@@ -25,6 +25,10 @@ protected:
     void writeOneVertexSet(std::vector<int> vert, std::string fileName) override;
 
     std::vector<vertBlock> splitOnBlocks(int i);
+
+    void findOutsideEdge(const std::vector<std::vector<vertBlock>>& blocks);
+
+    bool isOutsideEdge(int e, const std::vector<std::vector<vertBlock>> &vector);
 };
 
 
