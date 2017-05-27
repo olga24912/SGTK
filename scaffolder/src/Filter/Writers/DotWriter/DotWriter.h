@@ -17,11 +17,10 @@ protected:
     FileValidator* validator = new ValidatorNotPathWithAllLib();
 
     virtual void writeOneVertex(int v, bool isColored, std::ofstream& out);
+
     virtual void writeOneEdge(int e, std::ofstream& out);
 
-    void writeOneVertexSet(std::vector<int> vert, std::string fileName);
-
-    bool isGoodFileForWrite(std::vector<int> vert);
+    virtual void writeOneVertexSet(std::vector<int> vert, std::string fileName);
 
 public:
     DotWriter(){}

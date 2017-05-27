@@ -208,3 +208,19 @@ std::pair<int, int> ContigGraph::getSecondCoord(int e) {
 ContigGraph::Lib::Type ContigGraph::getLibType(int l) {
     return libs[l].type;
 }
+
+int ContigGraph::getEdgeCoordB1(int e) {
+    return edges[e].coordBegin1;
+}
+
+int ContigGraph::getEdgeCoordE1(int e) {
+    return edges[e].coordEnd1;
+}
+
+int ContigGraph::getEdgeCoordB2(int e) {
+    return edges[e].coordBegin2;
+}
+
+int ContigGraph::getEdgeCoordE2(int e) {
+    return edges[e].coordEnd2;
+}

@@ -26,6 +26,10 @@ public:
     virtual int getEdgeFrom(int e); //if e is edge v->u, return v
     virtual int getEdgeWeight(int e); //return edge weight for edge with id e
     virtual int getEdgeLib(int e); //return edge lib num
+    virtual int getEdgeCoordB1(int e);
+    virtual int getEdgeCoordE1(int e);
+    virtual int getEdgeCoordB2(int e);
+    virtual int getEdgeCoordE2(int e);
     virtual std::string getLibName(int l); //return name for lib
     virtual std::string getLibColor(int l); //return color for this lib
     virtual std::string getInfo(int e);

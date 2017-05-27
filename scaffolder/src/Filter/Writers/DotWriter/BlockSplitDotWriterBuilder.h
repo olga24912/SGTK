@@ -3,11 +3,12 @@
 
 
 #include "DotWriterBuilder.h"
+#include "BlockSplitDotWriter.h"
 
 class BlockSplitDotWriterBuilder : public DotWriterBuilder {
 public:
     DotWriter build() override {
-        return DotWriterBuilder::build();
+        return BlockSplitDotWriter(filter, validator, maxVert, maxEdge);
     }
 };
 

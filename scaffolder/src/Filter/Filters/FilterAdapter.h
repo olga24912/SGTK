@@ -38,12 +38,20 @@ public:
     ContigGraph::Lib::Type getLibType(int l) override;
 
     std::vector<int> getVertexList() override;
-    
+
     std::string getInfo(int e) override;
 
     std::pair<int, int> getFirstCoord(int e) override;
 
     std::pair<int, int> getSecondCoord(int e) override;
+
+    int getEdgeCoordB1(int e) override;
+
+    int getEdgeCoordE1(int e) override;
+
+    int getEdgeCoordB2(int e) override;
+
+    int getEdgeCoordE2(int e) override;
 
     //handling query type UPLOAD_GRAPH with args <contigGraph file name>
     void processQuery(Query query) override;

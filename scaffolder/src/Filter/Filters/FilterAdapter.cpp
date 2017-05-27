@@ -84,3 +84,19 @@ std::pair<int, int> FilterAdapter::getSecondCoord(int e) {
 ContigGraph::Lib::Type FilterAdapter::getLibType(int l) {
     return graph.getLibType(l);
 }
+
+int FilterAdapter::getEdgeCoordB1(int e) {
+    return graph.getEdgeCoordB1(e);
+}
+
+int FilterAdapter::getEdgeCoordE1(int e) {
+    return graph.getEdgeCoordE1(e);
+}
+
+int FilterAdapter::getEdgeCoordB2(int e) {
+    return graph.getEdgeCoordB2(e);
+}
+
+int FilterAdapter::getEdgeCoordE2(int e) {
+    return graph.getEdgeCoordE2(e);
+}

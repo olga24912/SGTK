@@ -78,6 +78,10 @@ public:
     int getFromVertex(int e); //if e: v -> u then from[e] = u
     int getEdgeWeight(int e); //return wieght of edge e
     int getEdgeLib(int e); //return lib for this edge
+    int getEdgeCoordB1(int e);
+    int getEdgeCoordE1(int e);
+    int getEdgeCoordB2(int e);
+    int getEdgeCoordE2(int e);
     std::string getLibColor(int l); //return color for this lib
     std::string getLibName(int l); //return name of this lib
     Lib::Type getLibType(int l);

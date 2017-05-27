@@ -122,3 +122,19 @@ std::pair<int, int> Filter::getSecondCoord(int e) {
 ContigGraph::Lib::Type Filter::getLibType(int l) {
     return subfilter->getLibType(l);
 }
+
+int Filter::getEdgeCoordB1(int e) {
+    return subfilter->getEdgeCoordB1(e);
+}
+
+int Filter::getEdgeCoordE1(int e) {
+    return subfilter->getEdgeCoordE1(e);
+}
+
+int Filter::getEdgeCoordB2(int e) {
+    return subfilter->getEdgeCoordB2(e);
+}
+
+int Filter::getEdgeCoordE2(int e) {
+    return subfilter->getEdgeCoordE2(e);
+}
