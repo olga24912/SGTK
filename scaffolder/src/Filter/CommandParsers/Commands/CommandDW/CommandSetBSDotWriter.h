@@ -12,7 +12,9 @@ protected:
 
 public:
     void execute(std::string argv, State &state, Filter *filter) override {
-        state.dotWriterBuilder = BlockSplitDotWriterBuilder();
+        std::cerr << "setBlock dot writer" << std::endl;
+        delete state.dotWriterBuilder;
+        state.dotWriterBuilder = new BlockSplitDotWriterBuilder();
     }
 };
 

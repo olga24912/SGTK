@@ -11,8 +11,9 @@ protected:
     int maxVert = 20;
     int maxEdge = 40;
 public:
-    virtual DotWriter build() {
-        return DotWriter(filter, validator, maxVert, maxEdge);
+    virtual DotWriter* build() {
+        std::cerr << "build simple" << std::endl;
+        return new DotWriter(filter, validator, maxVert, maxEdge);
     }
 
     void setFilter(Filter* filter) {

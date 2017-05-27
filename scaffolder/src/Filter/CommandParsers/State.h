@@ -12,9 +12,9 @@ struct State {
     std::string fileName = "";
     int dist = 0;
     FileValidator *validator = new FileValidator;
-    DotWriterBuilder dotWriterBuilder = DotWriterBuilder();
+    DotWriterBuilder *dotWriterBuilder = new DotWriterBuilder();
     int maxEdge = 40;
-    int maxVert = 20;
+    int maxVert = 5;
 
     ~State() {
         delete validator;

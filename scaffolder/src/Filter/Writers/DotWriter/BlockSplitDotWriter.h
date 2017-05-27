@@ -18,7 +18,7 @@ protected:
         vertBlock(int vertId, int coordB, int coordE) : vertId(vertId), coordB(coordB), coordE(coordE) {}
 
         bool operator < (vertBlock b2) {
-            return coordB < b2.coordB;
+            return coordB > b2.coordB;
         }
     };
 
@@ -26,7 +26,7 @@ protected:
 
     std::vector<vertBlock> splitOnBlocks(int i);
 
-    void findOutsideEdge(const std::vector<std::vector<vertBlock>>& blocks);
+    void findOutsideEdge(std::vector<std::vector<vertBlock>>& blocks);
 
     bool isOutsideEdge(int e, const std::vector<std::vector<vertBlock>> &vector);
 

@@ -5,7 +5,7 @@
 #include "WriteBigComponent.h"
 
 WriteBigComponent::WriteBigComponent(
-        std::string fileName, int minSize, Filter *filter1, FileValidator *validator,  DotWriterBuilder builder) :
+        std::string fileName, int minSize, Filter *filter1, FileValidator *validator,  DotWriterBuilder* builder) :
         fileName(fileName), minSize(minSize), Writer(filter1, validator,  builder) {
 
 }
@@ -27,7 +27,7 @@ void WriteBigComponent::write() {
             std::stringstream ss;
             ss << i;
             fn += ss.str();
-            dotWriter.writeVertexSet(parts[i], fn);
+            dotWriter->writeVertexSet(parts[i], fn);
         }
     }
     delete col;

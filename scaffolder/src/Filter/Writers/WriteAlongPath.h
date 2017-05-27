@@ -12,7 +12,7 @@ private:
     int minSize; //minLen of path for writing
 public:
     WriteAlongPath(std::string fileName, int libId, int dist, int minSize, Filter *filter1, FileValidator *validator,
-                   DotWriterBuilder builder);
+                   DotWriterBuilder* builder);
 
     void write() override;
 };

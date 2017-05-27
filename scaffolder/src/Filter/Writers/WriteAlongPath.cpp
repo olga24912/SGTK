@@ -4,7 +4,8 @@
 
 #include "WriteAlongPath.h"
 
-WriteAlongPath::WriteAlongPath(std::string fileName, int libId, int dist, int minSize, Filter *filter1, FileValidator *validator,   DotWriterBuilder builder) :
+WriteAlongPath::WriteAlongPath(std::string fileName, int libId, int dist, int minSize, Filter *filter1,
+                               FileValidator *validator,   DotWriterBuilder* builder) :
         fileName(fileName), libId(libId), dist(dist), minSize(minSize), Writer(filter1, validator, builder) {}
 
 void WriteAlongPath::write() {
@@ -36,7 +37,7 @@ void WriteAlongPath::write() {
         sort(res.begin(), res.end());
         res.resize(unique(res.begin(), res.end()) - res.begin());
 
-        dotWriter.writeVertexSet(res, fn);
+        dotWriter->writeVertexSet(res, fn);
     }
     delete col;
 }

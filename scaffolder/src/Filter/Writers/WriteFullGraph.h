@@ -9,7 +9,7 @@ private:
     std::string fileName; //fileName for write full graph
 public:
     WriteFullGraph(std::string fileName, Filter *filter1, FileValidator *validator,
-                   DotWriterBuilder builder);
+                   DotWriterBuilder* builder);
 
     void write() override;
 };
