@@ -7,22 +7,24 @@
 #include <algorithm>
 #include <Filter/Writers/FileValidator/FileValidator.h>
 #include <Filter/Writers/FileValidator/ValidatorNotPathWithAllLib.h>
-#include "GraphSplitter.h"
+#include "Filter/Writers/GraphSplitter.h"
 
 //class for write graph in dot format.
 class DotWriter {
-private:
+protected:
     Filter* filter; //graph for writing
     GraphSplitter graphSplitter; //split graph on small parts
     FileValidator* validator = new ValidatorNotPathWithAllLib();
 
-    void writeOneVertex(int v, bool isColored, std::ofstream& out);
-    void writeOneEdge(int e, std::ofstream& out);
+    virtual void writeOneVertex(int v, bool isColored, std::ofstream& out);
+    virtual void writeOneEdge(int e, std::ofstream& out);
 
     void writeOneVertexSet(std::vector<int> vert, std::string fileName);
 
     bool isGoodFileForWrite(std::vector<int> vert);
+
 public:
+    DotWriter(){}
     DotWriter(Filter* filter): filter(filter){}
     DotWriter(Filter* filter, FileValidator* validator, int maxVert, int maxEdge):
             filter(filter), validator(validator){
@@ -30,7 +32,7 @@ public:
     }
 
     //write this set of vertex in files with prefix fileName
-    void writeVertexSet(std::vector<int> vert, std::string fileName);
+    virtual void writeVertexSet(std::vector<int> vert, std::string fileName);
 };
 
 

@@ -40,7 +40,7 @@ public:
     struct Lib {
         static const int typeCnt = 5;
         enum Type{REF, DNA_PAIR, RNA_PAIR, RNA_SPLIT_50, RNA_SPLIT_30};
-        static const std::string typeToStr[] = {"REF", "DNA_PAIR", "RNA_PAIR", "RNA_SPLIT_50", "RNA_SPLIT_30"};
+        static const std::string typeToStr[];
         std::string color;
         std::string name;
         Type type;

@@ -16,7 +16,7 @@ void CommandWriteAllLocal::writeGraph(std::string argv, State &state, Filter *fi
         reverse(name.begin(), name.end());
         name = fileName + name;
 
-        WriteLocal writer(v, dist, name, filter, state.validator, state.maxVert, state.maxEdge);
+        WriteLocal writer(v, dist, name, filter, state.validator, state.dotWriterBuilder);
         writer.write();
     }
 

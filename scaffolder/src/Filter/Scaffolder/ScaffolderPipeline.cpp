@@ -29,10 +29,10 @@ void ScaffolderPipeline::evaluate(Filter *graph, std::string contigFile, std::st
                 std::stringstream arg;
                 if (graph->getLibType(l) == ContigGraph::Lib::Type::RNA_PAIR) {
                     arg << l << " " << std::max(wp, minEdge[l]);
-                }
-
-                if (graph->getLibType(l) == ContigGraph::Lib::Type::RNA_SPLIT_50) {
+                } else if (graph->getLibType(l) == ContigGraph::Lib::Type::RNA_SPLIT_50) {
                     arg << l << " " << std::max(ws50, minEdge[l]);
+                } else {
+                    continue;
                 }
 
                 std::cerr << arg.str() << std::endl;

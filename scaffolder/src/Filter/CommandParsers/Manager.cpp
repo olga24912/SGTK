@@ -15,6 +15,7 @@
 #include <Filter/CommandParsers/Commands/CommandStatistic/CommandHistogram.h>
 #include <Filter/CommandParsers/Commands/CommandStatistic/CommandTwoCompStatistic.h>
 #include <Filter/CommandParsers/Commands/CommandFV/CommandSetFVFewParts.h>
+#include <Filter/CommandParsers/Commands/CommandDW/CommandSetBSDotWriter.h>
 #include "Manager.h"
 
 const std::string Manager::UPLOAD_GRAPH = "uploadGraph";
@@ -38,6 +39,7 @@ const std::string Manager::SET_FV_WITH_DIF_IN_LIB = "setFileVWithDifInLib";
 const std::string Manager::SET_FV_FORK = "setFileVFork";
 const std::string Manager::SET_FV_ONLY_FIRST = "setFileVOnlyFirst";
 const std::string Manager::SET_FV_FEW_PARTS = "setFileVFewParts";
+const std::string Manager::SET_BLOCK_SPLIT_DOT_WRITER = "setBlockSplitDotWriter";
 const std::string Manager::SET_MAX_VE_IN_ONE_FILE = "setMaxVEinOneFile";
 const std::string Manager::STAT_CORRECT_CON = "statisticCorrectConnection";
 const std::string Manager::STAT_WEIGHT = "statisticWeight";
@@ -73,6 +75,7 @@ Manager::Manager() {
     commandByKeyWord[SET_FV_FORK] = new CommandSetFVFork();
     commandByKeyWord[SET_FV_ONLY_FIRST] = new CommandSetFVOnlyFirst();
     commandByKeyWord[SET_FV_FEW_PARTS] = new CommandSetFVFewParts();
+    commandByKeyWord[SET_BLOCK_SPLIT_DOT_WRITER] = new CommandSetBSDotWriter();
     commandByKeyWord[SET_MAX_VE_IN_ONE_FILE] = new CommandSetMaxVEinOneFile();
     commandByKeyWord[STAT_CORRECT_CON] = new CommandCorrectConnectionStatistic();
     commandByKeyWord[STAT_WEIGHT] = new CommandWeightStatistic();
