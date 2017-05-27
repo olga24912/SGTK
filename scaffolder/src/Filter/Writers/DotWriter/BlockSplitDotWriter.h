@@ -33,6 +33,10 @@ protected:
     void writeOneVertBlock(std::vector<vertBlock> &bl, std::ofstream &out);
 
     void writeBlockEdges(const std::vector<vertBlock> &bl, std::ofstream &out);
+
+    void writeEdges(const std::vector<std::vector<vertBlock>> &bl, std::ofstream &out);
+
+    int findBlockId(int v, int e, const std::vector<std::vector<vertBlock>> &bl);
 };
 
 

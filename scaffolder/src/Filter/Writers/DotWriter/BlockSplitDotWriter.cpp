@@ -16,9 +16,9 @@ void BlockSplitDotWriter::writeOneVertexSet(std::vector<int> vert, std::string f
         writeOneVertBlock(blocks[i], out);
     }
     for (int i = 0; i < (int)blocks.size(); ++i) {
-        writeBlockEdges(blocks[i]);
+        writeBlockEdges(blocks[i], out);
     }
-    writeEdges(blocks);
+    writeEdges(blocks, out);
 
     out << "}\n";
     out.close();
@@ -125,7 +125,7 @@ bool BlockSplitDotWriter::isOutsideEdge(int e, const std::vector<std::vector<Blo
 void BlockSplitDotWriter::writeOneVertBlock(std::vector<BlockSplitDotWriter::vertBlock> &bl, std::ofstream &out) {
     for (int i = 0; i < (int)bl.size(); ++i) {
         std::stringstream ss;
-        ss << filter->getTargetName(bl[i].vertId) << "_" << i;
+        ss << "node" << bl[i].vertId<< "_" << i;
         int v = bl[i].vertId;
 
         out << "    \"" << ss.str() << "\"[label=\" " << filter->getTargetName(v) <<
@@ -137,6 +137,13 @@ void BlockSplitDotWriter::writeOneVertBlock(std::vector<BlockSplitDotWriter::ver
         }
         out << "];\n";
     }
+
+    out << "{rank=same;";
+    for (int i =0; i < (int)bl.size(); ++i) {
+        out << "node" << bl[i].vertId << "_" << i << " ";
+
+    }
+    out << "}\n";
 }
 
 void BlockSplitDotWriter::writeBlockEdges(const std::vector<BlockSplitDotWriter::vertBlock> &bl, std::ofstream &out) {
@@ -144,11 +151,58 @@ void BlockSplitDotWriter::writeBlockEdges(const std::vector<BlockSplitDotWriter:
         std::stringstream ssname1;
         std::stringstream ssname2;
         int v = bl[i].vertId;
-        ssname1 << filter->getTargetName(v) << "_" << i;
-        ssname2 << filter->getTargetName(v) << "_" << i + 1;
+        ssname1 << "node"<< v << "_" << i;
+        ssname2 << "node" << v << "_" << i + 1;
 
-        out << "    \"" << ssname1.str() << "\" -> \"";
-        out << ssname2.str() << "\" [ ";
+        out << "    " << ssname1.str() << " -> ";
+        out << ssname2.str() << " [ ";
         out << "penwidth = " << 100 << "]\n";
     }
+}
+
+void BlockSplitDotWriter::writeEdges(const std::vector<std::vector<BlockSplitDotWriter::vertBlock>> &bl, std::ofstream &out) {
+    for (int i = 0; i < (int)bl.size(); ++i) {
+        int v = bl[0][0].vertId;
+
+        std::vector<int> edges = filter->getEdges(v);
+        for (int e : edges) {
+            int u = filter->getEdgeTo(e);
+
+            int i1 = findBlockId(v, e, bl);
+            int i2 = findBlockId(u, e, bl);
+
+            if (i1 == -1 || i2 == -1) continue;
+
+            out << "    " << "node" << v << "_" << i1 << " -> ";
+            out << "node" << u << "_" << i2 << " [ ";
+            out << "color = \"" << filter->getLibColor(filter->getEdgeLib(e)) << "\", ";
+            out << "penwidth = "<< 1 + (int)log10(filter->getEdgeWeight(e)) << ", ";
+            out << "label = " << "\"" << filter->getLibName(filter->getEdgeLib(e));
+            out << "\n weight = " << (filter->getEdgeWeight(e));
+            out << "\n id = "<< e << "\" ]\n";
+        }
+    }
+}
+
+int BlockSplitDotWriter::findBlockId(int v, int e, const std::vector<std::vector<BlockSplitDotWriter::vertBlock>> &bl) {
+    for (int i = 0; i < (int)bl.size(); ++i) {
+        if (bl[i][0].vertId == v) {
+            for (int j = 0; j < (int)bl[i].size(); ++j) {
+                if (filter->getEdgeFrom(e) == v) {
+                    if (filter->getEdgeCoordB1(e) >= bl[i][j].coordB &&
+                            filter->getEdgeCoordE1(e) <= bl[i][j].coordE) {
+                        return j;
+                    }
+                } else {
+                    if (filter->getEdgeCoordB2(e) >= bl[i][j].coordB &&
+                        filter->getEdgeCoordE2(e) <= bl[i][j].coordE) {
+                        return j;
+                    }
+                }
+            }
+
+
+        }
+    }
+    return -1;
 }
