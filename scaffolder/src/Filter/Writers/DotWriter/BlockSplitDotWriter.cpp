@@ -7,17 +7,21 @@ void BlockSplitDotWriter::writeOneVertexSet(std::vector<int> vert, std::string f
         blocks[i] = splitOnBlocks(vert[i]);
     }
 
+
     findOutsideEdge(blocks);
 
+    std::ofstream out(fileName);
+    out << "digraph {\n";
     for (int i = 0; i < (int)blocks.size(); ++i) {
-        writeOneVertBlock(blocks[i]);
+        writeOneVertBlock(blocks[i], out);
     }
-
     for (int i = 0; i < (int)blocks.size(); ++i) {
         writeBlockEdges(blocks[i]);
     }
-
     writeEdges(blocks);
+
+    out << "}\n";
+    out.close();
 }
 
 BlockSplitDotWriter::BlockSplitDotWriter(Filter *filter, FileValidator *validator, int maxVert, int maxEdge)
@@ -116,4 +120,35 @@ bool BlockSplitDotWriter::isOutsideEdge(int e, const std::vector<std::vector<Blo
     }
 
     return was1 == 0 || was2 == 0;
+}
+
+void BlockSplitDotWriter::writeOneVertBlock(std::vector<BlockSplitDotWriter::vertBlock> &bl, std::ofstream &out) {
+    for (int i = 0; i < (int)bl.size(); ++i) {
+        std::stringstream ss;
+        ss << filter->getTargetName(bl[i].vertId) << "_" << i;
+        int v = bl[i].vertId;
+
+        out << "    \"" << ss.str() << "\"[label=\" " << filter->getTargetName(v) <<
+            " id = " << v
+            << "\nlen = " << filter->getTargetLen(v) <<
+            << "\ncoord:" << bl[i].coordB << "-"<< bl[i].coordE << "\"";
+        if (bl[i].hasOutsideEdge) {
+            out << " , style = \"filled\", color = \"#F0E68C\"";
+        }
+        out << "];\n";
+    }
+}
+
+void BlockSplitDotWriter::writeBlockEdges(const std::vector<BlockSplitDotWriter::vertBlock> &bl, std::ofstream &out) {
+    for (int i = 0; i < (int)bl.size() - 1; ++i) {
+        std::stringstream ssname1;
+        std::stringstream ssname2;
+        int v = bl[i].vertId;
+        ssname1 << filter->getTargetName(v) << "_" << i;
+        ssname2 << filter->getTargetName(v) << "_" << i + 1;
+
+        out << "    \"" << ssname1.str() << "\" -> \"";
+        out << ssname2.str() << "\" [ ";
+        out << "penwidth = " << 100 << "]\n";
+    }
 }

@@ -29,6 +29,10 @@ protected:
     void findOutsideEdge(const std::vector<std::vector<vertBlock>>& blocks);
 
     bool isOutsideEdge(int e, const std::vector<std::vector<vertBlock>> &vector);
+
+    void writeOneVertBlock(std::vector<vertBlock> &bl, std::ofstream &out);
+
+    void writeBlockEdges(const std::vector<vertBlock> &bl, std::ofstream &out);
 };
 
 
