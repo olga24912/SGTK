@@ -65,9 +65,11 @@ int main(int argc, char ** argv) {
             fgets(str, MAX_STR_LEN, file);
             char c;
             int id, gf, gt, gel, gw;
-            int pos = sscanf(str, "%c %d %d %d %d %d", &c, &id, &gf, &gt, &gel, &gw);
-            sprintf(str, "%c %d %d %d %d %d %s\n", c, id, gf, gt, oldLibCnt + gel, gw, str + pos);
-            edge.push_back(std::string(str));
+            int pos;
+            sscanf(str, "%c %d %d %d %d %d%n", &c, &id, &gf, &gt, &gel, &gw, &pos);
+            char nstr[MAX_STR_LEN];
+            sprintf(nstr, "%c %d %d %d %d %d %s\n", c, (int)edge.size(), gf, gt, oldLibCnt + gel, gw, str + pos);
+            edge.push_back(std::string(nstr));
         }
         fclose(file);
     }
