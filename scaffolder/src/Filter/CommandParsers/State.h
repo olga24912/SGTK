@@ -14,7 +14,7 @@ struct State {
     FileValidator *validator = new FileValidator;
     DotWriterBuilder *dotWriterBuilder = new DotWriterBuilder();
     int maxEdge = 40;
-    int maxVert = 5;
+    int maxVert = 20;
 
     ~State() {
         delete validator;

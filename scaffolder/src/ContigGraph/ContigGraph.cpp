@@ -103,7 +103,12 @@ void ContigGraph::write(std::string fileName) {
     for (int i = 0; i < (int)edges.size(); ++i) {
         out << "e " << i << " " << edges[i].from << " " << edges[i].to << " " <<
             edges[i].lib << " " << edges[i].weight << " coord: " << edges[i].coordBegin1 << " " <<
-            edges[i].coordEnd1 << " " << edges[i].coordBegin2 << " " << edges[i].coordEnd2 << "\n";
+            edges[i].coordEnd1 << " " << edges[i].coordBegin2 << " " << edges[i].coordEnd2;
+        if (edges[i].chr_name != "") {
+            out << "chr_name: " << edges[i].chr_name << "\n";
+        } else {
+            out << "\n";
+        }
     }
 
     out.close();
@@ -160,7 +165,12 @@ ContigGraph ContigGraph::read(std::string fileName) {
         g.graph[g.edges[i].from].push_back(i);
         g.graphR[g.edges[i].to].push_back(i);
         std::string tmp;
-        ss >> tmp >> g.edges[i].coordBegin1 >> g.edges[i].coordEnd1 >> g.edges[i].coordBegin2 >> g.edges[i].coordEnd2;
+        if (ss >> tmp) {
+            ss >> g.edges[i].coordBegin1 >> g.edges[i].coordEnd1 >> g.edges[i].coordBegin2 >> g.edges[i].coordEnd2;
+        }
+        if (ss >> tmp) {
+            ss >> g.edges[i].chr_name;
+        }
     }
 
     in.close();
@@ -193,6 +203,7 @@ int ContigGraph::getTargetId(std::string name) {
 
 std::string ContigGraph::getEdgeInfo(int e) {
     std::stringstream ss;
+    ss << edges[e].chr_name << "\n";
     ss << "coord: " << edges[e].coordBegin1 << "-" << edges[e].coordEnd1 << "\n" << edges[e].coordBegin2 << "-" << edges[e].coordEnd2;
     return ss.str();
 }
@@ -223,4 +234,8 @@ int ContigGraph::getEdgeCoordB2(int e) {
 
 int ContigGraph::getEdgeCoordE2(int e) {
     return edges[e].coordEnd2;
+}
+
+void ContigGraph::setEdgeChr(int e, std::string name) {
+    edges[e].chr_name = name;
 }

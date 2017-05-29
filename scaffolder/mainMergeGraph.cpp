@@ -47,9 +47,9 @@ int main(int argc, char ** argv) {
             fgets(str, MAX_STR_LEN, file);
             char c;
             int id;
-            char lst[MAX_STR_LEN], rst[MAX_STR_LEN];
-            sscanf(str, "%c %d %s %s", &c, &id, lst, rst);
-            sprintf(str, "%c %d %s %s\n", c, oldLibCnt + id, lst, rst);
+            char lst[MAX_STR_LEN], rst[MAX_STR_LEN], type[MAX_STR_LEN];
+            sscanf(str, "%c %d %s %s %s", &c, &id, lst, rst, type);
+            sprintf(str, "%c %d %s %s %s\n", c, oldLibCnt + id, lst, rst, type);
             lib.push_back(std::string(str));
         }
         fgets(str, MAX_STR_LEN, file);
@@ -65,10 +65,8 @@ int main(int argc, char ** argv) {
             fgets(str, MAX_STR_LEN, file);
             char c;
             int id, gf, gt, gel, gw;
-            char coord[1000];
-            int cb1, ce1, cb2, ce2;
-            sscanf(str, "%c %d %d %d %d %d %s %d %d %d %d", &c, &id, &gf, &gt, &gel, &gw, coord, &cb1, &ce1, &cb2, &ce2);
-            sprintf(str, "%c %d %d %d %d %d %s %d %d %d %d\n", c, id, gf, gt, oldLibCnt + gel, gw, coord, cb1, ce1, cb2, ce2);
+            int pos = sscanf(str, "%c %d %d %d %d %d", &c, &id, &gf, &gt, &gel, &gw);
+            sprintf(str, "%c %d %d %d %d %d %s\n", c, id, gf, gt, oldLibCnt + gel, gw, str + pos);
             edge.push_back(std::string(str));
         }
         fclose(file);

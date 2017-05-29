@@ -22,6 +22,7 @@ public:
         int coordEnd1;
         int coordBegin2;
         int coordEnd2;
+        std::string chr_name = "";
         Edge(){}
         Edge(int id, int from, int to, int lib, int weight, int coordBegin1, int coordEnd1, int coordBegin2, int coordEnd2):
                 id(id), from(from), to(to), lib(lib), weight(weight), coordBegin1(coordBegin1),
@@ -38,8 +39,8 @@ public:
     };
 
     struct Lib {
-        static const int typeCnt = 5;
-        enum Type{REF, DNA_PAIR, RNA_PAIR, RNA_SPLIT_50, RNA_SPLIT_30};
+        static const int typeCnt = 6;
+        enum Type{REF, DNA_PAIR, RNA_PAIR, RNA_SPLIT_50, RNA_SPLIT_30, SCAFF};
         static const std::string typeToStr[];
         std::string color;
         std::string name;
@@ -82,6 +83,10 @@ public:
     int getEdgeCoordE1(int e);
     int getEdgeCoordB2(int e);
     int getEdgeCoordE2(int e);
+    std::string getEdgeInfo(int e);
+    void setEdgeChr(int e, std::string name);
+
+
     std::string getLibColor(int l); //return color for this lib
     std::string getLibName(int l); //return name of this lib
     Lib::Type getLibType(int l);
@@ -90,7 +95,6 @@ public:
 
     int addVertex(int id, std::string name, int len); //add new vertex with this id, name and len
 
-    std::string getEdgeInfo(int e);
 
     int getTargetLength(int id) const; // get len of contig with id
     std::string getTargetName(int v); // get name of contig with this id

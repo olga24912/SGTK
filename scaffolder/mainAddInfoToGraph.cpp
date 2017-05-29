@@ -18,7 +18,7 @@ int main(int argv, char** argc) {
 
     ifstream infoin(infoFileName);
 
-    graph.newLib(libName, color);
+    graph.newLib(libName, color, ContigGraph::Lib::Type::SCAFF);
 
     string cur;
     while (getline(infoin, cur)) {
@@ -40,8 +40,8 @@ int main(int argv, char** argc) {
             }
 
             if (v != -1) {
-                graph.incEdgeWeight(v, u);
-                graph.incEdgeWeight(u ^ 1, v ^ 1);
+                graph.incEdgeWeight(v, u, 0, 0, 0, 0);
+                graph.incEdgeWeight(u ^ 1, v ^ 1, 0, 0, 0, 0);
             }
 
             v = u;
