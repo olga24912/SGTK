@@ -16,6 +16,7 @@ protected:
     std::string libName; //name of the lib
 
     virtual std::string getLibColor() = 0; //return color for current lib
+    virtual ContigGraph::Lib::Type getLibType() = 0;
     static std::string colorToString(int color[3]); // translate color like array {255, 0, 255} to  string "#ff00ff"
 public:
     //fun that need to call for add conection between contigs;

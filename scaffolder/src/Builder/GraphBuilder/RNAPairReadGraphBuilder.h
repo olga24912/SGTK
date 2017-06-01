@@ -7,6 +7,10 @@
 class RNAPairReadGraphBuilder : public PairReadGraphBuilder {
 private:
     virtual std::string getLibColor();
+
+protected:
+    ContigGraph::Lib::Type getLibType() override;
+
 public:
     RNAPairReadGraphBuilder(){}
 };

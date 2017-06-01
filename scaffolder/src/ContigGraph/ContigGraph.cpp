@@ -2,7 +2,7 @@
 #include "ContigGraph.h"
 #include "cmath"
 
-const std::string ContigGraph::Lib::typeToStr[] = {"REF", "DNA_PAIR", "RNA_PAIR", "RNA_SPLIT_50", "RNA_SPLIT_30"};
+const std::string ContigGraph::Lib::typeToStr[] = {"REF", "DNA_PAIR", "RNA_PAIR", "RNA_SPLIT_50", "RNA_SPLIT_30", "SCAFF"};
 
 int ContigGraph::getLibNum() {
     return (int)libs.size();

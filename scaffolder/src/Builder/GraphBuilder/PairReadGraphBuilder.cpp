@@ -30,6 +30,7 @@ void PairReadGraphBuilder::readHeaderInit() {
     readHeader(sam_header, bamFile1);
     TBamContext const &bamContext = seqan::context(bamFile1);
     size_t contig_num = seqan::length(contigNames(bamContext));
+    std::cerr << contig_num << std::endl;
 
     std::string name;
     for (int i = 0; i < static_cast<int>(contig_num); ++i) {
@@ -129,16 +130,25 @@ void PairReadGraphBuilder::incEdgeWeight(seqan::BamAlignmentRecord read1, seqan:
 }
 
 void PairReadGraphBuilder::handleReads() {
-    open(bamFile1, fileName1.c_str());
+    std::cerr << "star handle reads" << std::endl;
+    std::cerr << fileName1 << std::endl;
+    if (!open(bamFile1, fileName1.c_str())) {
+        std::cerr << "could not open file";
+        return;
+    }
     open(bamFile2, fileName2.c_str());
+
+    std::cerr << "open files" << std::endl;
 
     samFileWriter.setFileIn(&bamFile1);
 
     seqan::BamHeader samHeader2;
     readHeader(samHeader2, bamFile2);
+    std::cerr << "read header" << std::endl;
 
     if (graph->getLibNum() == 1) {
         readHeaderInit();
+        std::cerr << "read header init" << std::endl;
     } else {
         seqan::BamHeader samHeader1;
         readHeader(samHeader1, bamFile1);
@@ -147,7 +157,7 @@ void PairReadGraphBuilder::handleReads() {
     seqan::BamAlignmentRecord read1, read2;
 
     while (!atEnd(bamFile1) || !atEnd(bamFile2)) {
-//        std::cerr << "next it" << std::endl;
+        //std::cerr << "next it" << std::endl;
         std::pair<std::string, int> readInfo1;
         std::pair<std::string, int> readInfo2;
 

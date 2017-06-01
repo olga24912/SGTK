@@ -1,3 +1,6 @@
+find_package (ZLIB)
+find_package (BZip2)
+
 include_directories(.)
 
 set(SOURCE_FILES GraphControl.cpp GraphControl.h

@@ -2,7 +2,7 @@
 
 void GraphBuilder::setGraph(ContigGraph *graph) {
     GraphBuilder::graph = graph;
-    graph->newLib(libName, getLibColor());
+    graph->newLib(libName, getLibColor(), getLibType());
 }
 
 void GraphBuilder::setLibName(std::string libName, std::string path) {

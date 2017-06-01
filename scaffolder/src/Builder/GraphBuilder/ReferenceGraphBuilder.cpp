@@ -142,3 +142,8 @@ void ReferenceGraphBuilder::setSamFileWriter() {}
 void ReferenceGraphBuilder::setMinContigLen(int minContigLen) {
     this->minContigLen = minContigLen;
 }
+
+ContigGraph::Lib::Type ReferenceGraphBuilder::getLibType() {
+    return ContigGraph::Lib::REF;
+}
+

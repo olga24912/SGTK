@@ -99,9 +99,6 @@ Scaffolds::Scaffolds(std::string contigFile) {
 }
 
 void Scaffolds::addConnection(int id1, int id2) {
-    if (id1 == 11446) {
-        std::cerr << "add connect";
-    }
     Node* node1 = &contigsNode[id1];
     Node* node2 = &contigsNode[id2];
     if (node2->priv != nullptr || node1->next != nullptr) return;
@@ -112,6 +109,9 @@ void Scaffolds::addConnection(int id1, int id2) {
 }
 
 void Scaffolds::brokeConnection(int id1) {
+    if (id1 == 5452) {
+        std::cerr << "BROKE" << id1 << std::endl;
+    }
     Node* node1 = &contigsNode[id1];
     Node* node2 = node1->next;
     if (node2 == nullptr) return;

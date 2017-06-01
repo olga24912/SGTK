@@ -6,6 +6,7 @@
 
 class ScaffoldStrategyOneLine : public ScaffoldStrategy {
 protected:
+    std::vector<int> newCon;
     void addFirstConnection(Scaffolds *scaffolds, Filter *graph, std::vector<int> minW);
     void delEdgeFromDifPath(Scaffolds *scaffolds, Filter *graph);
 public:

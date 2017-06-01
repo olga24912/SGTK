@@ -39,8 +39,10 @@ void ScaffolderPipeline::evaluate(Filter *graph, std::string contigFile, std::st
                 graph->processQuery(Query(Query::MIN_EDGE_WEIGHT, arg.str()));
             }
 
-            scafol.addConnection(&scaffolds, graph, std::vector<int> ({0, 0, (int)((wp + ws50) * 2.5), (int)(wp * 0.75 + ws50*1.25), 0}));
-            scafl.addConnection(&scaffolds, graph, std::vector<int> ({0, 0, (int)((wp + ws50) * 2.5), (int)(wp * 0.75 + ws50*1.25), 0}));
+            std::cerr << wp << " " << ws50 << " " << (int)(wp * 0.75 + ws50*2.25) << " " << (int)(wp * 0.75 + ws50*1.25) << std::endl;
+
+            scafol.addConnection(&scaffolds, graph, std::vector<int> ({0, 0, (int)(wp * 0.75 + ws50*2.25), (int)(wp * 0.75 + ws50*1.25), 0, 0}));
+            scafl.addConnection(&scaffolds, graph, std::vector<int> ({0, 0, (int)(wp * 0.75 + ws50*2.25), (int)(wp * 0.75 + ws50*1.25), 0, 0}));
         }
    }
 

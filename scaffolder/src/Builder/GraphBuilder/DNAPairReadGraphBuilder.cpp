@@ -36,3 +36,7 @@ std::string DNAPairReadGraphBuilder::getLibColor() {
     int color[3] = {rand() % 100, 255, rand()%100};
     return colorToString(color);
 }
+
+ContigGraph::Lib::Type DNAPairReadGraphBuilder::getLibType() {
+    return ContigGraph::Lib::DNA_PAIR;
+}

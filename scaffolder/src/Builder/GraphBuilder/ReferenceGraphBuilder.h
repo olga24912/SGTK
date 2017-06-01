@@ -41,6 +41,9 @@ private:
     virtual std::string getLibColor();
 
 protected:
+    ContigGraph::Lib::Type getLibType() override;
+
+protected:
     void setSamFileWriter() override;
 
 public:

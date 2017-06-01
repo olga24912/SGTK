@@ -18,6 +18,9 @@ private:
     virtual std::string getLibColor();
 
 protected:
+    ContigGraph::Lib::Type getLibType() override;
+
+protected:
     void setSamFileWriter() override;
     void handlingPairReads(std::string file1, std::string file2, std::string linN);
 

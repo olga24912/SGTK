@@ -58,3 +58,9 @@ void RNASplitReadGraphBuilder::setGraph(ContigGraph *graph) {
 }
 
 void RNASplitReadGraphBuilder::setSamFileWriter() {}
+
+ContigGraph::Lib::Type RNASplitReadGraphBuilder::getLibType() {
+    return ContigGraph::Lib::RNA_SPLIT_50;
+}
+
+
