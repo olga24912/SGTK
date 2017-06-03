@@ -23,7 +23,7 @@ add_executable(splitFast mainSplitFastqFiles.cpp)
 
 
 target_link_libraries(build builder_lib contig_graph_lib ${SEQAN_LIBRARIES} ${ZLIB_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
-target_link_libraries(filter filter_lib contig_graph_lib)
+target_link_libraries(filter filter_lib contig_graph_lib ${SEQAN_LIBRARIES} ${ZLIB_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
 target_link_libraries(merger contig_merger_lib contig_graph_lib)
 target_link_libraries(addInfoToGraph contig_graph_lib)
 target_link_libraries(addBothPath contig_graph_lib)

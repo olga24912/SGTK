@@ -10,8 +10,10 @@ void Scaffolds::print(std::string outFile) {
     seqan::StringSet<seqan::CharString> seqs;
 
     std::vector<int> was(scaffolds.size() / 2, 0);
+    std::cerr << contigsNode[1558].id << std::endl;
 
     for (int i = 0; i < (int)scaffolds.size(); ++i) {
+        if (i == 11522 || i == 11523) std::cerr << was[i/2] << std::endl;
         if (scaffolds[i] != nullptr && was[i/2] == 0) {
             was[i/2] = 1;
             std::stringstream ss;
@@ -24,6 +26,13 @@ void Scaffolds::print(std::string outFile) {
             std::string seq = "";
 
             while (cur != nullptr) {
+                if (cur->id == 1558 || cur -> id == 1559) {
+                    std::cerr << "find 1558" << " path " << i << std::endl;
+                }
+
+                if (cur->id == 11522 || cur -> id == 11523) {
+                    std::cerr << "find 11522" << " path " << i << std::endl;
+                }
                 was[(cur->id)/2] = 1;
                 if (cur->priv != nullptr) {
                     for (int j = 0; j < GAP_SIZE; ++j) {
@@ -106,10 +115,14 @@ void Scaffolds::addConnection(int id1, int id2) {
     node1->next = node2;
     node2->priv = node1;
     scaffolds[id2] = nullptr;
+
+   // if (id1 == 1558) {
+   //     std::cerr << lineId(1558) << std::endl;
+    //}
 }
 
 void Scaffolds::brokeConnection(int id1) {
-    if (id1 == 5452) {
+    if (id1 == 1558) {
         std::cerr << "BROKE" << id1 << std::endl;
     }
     Node* node1 = &contigsNode[id1];
