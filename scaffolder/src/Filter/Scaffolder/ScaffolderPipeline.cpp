@@ -20,8 +20,14 @@ void ScaffolderPipeline::evaluate(Filter *graph, std::string contigFile, std::st
         }
     }
 
-    for (int wp = 1; wp < 8; ++wp) {
-        for (int ws50 = 1; ws50 < 8; ++ws50) {
+    ScaffoldStrategyOneLine scafol;
+    ScaffoldStrategyLeaveConnection scafl;
+    scafol.addConnection(&scaffolds, graph, std::vector<int> ({0, 0, 0, 0, 0, 0}));
+    scafl.addConnection(&scaffolds, graph, std::vector<int> ({0, 0, 0, 0, 0, 0}));
+
+    /*
+    for (int wp = 1; wp < 25; ++wp) {
+        for (int ws50 = 1; ws50 < 25; ++ws50) {
             ScaffoldStrategyOneLine scafol;
             ScaffoldStrategyLeaveConnection scafl;
 
@@ -42,9 +48,9 @@ void ScaffolderPipeline::evaluate(Filter *graph, std::string contigFile, std::st
             std::cerr << wp << " " << ws50 << " " << (int)(wp * 0.75 + ws50*2.25) << " " << (int)(wp * 0.75 + ws50*1.25) << std::endl;
 
             scafol.addConnection(&scaffolds, graph, std::vector<int> ({0, 0, (int)(wp * 0.75 + ws50*2.25), (int)(wp * 0.75 + ws50*1.25), 0, 0}));
-            scafl.addConnection(&scaffolds, graph, std::vector<int> ({0, 0, (int)(wp * 0.75 + ws50*2.25), (int)(wp * 0.75 + ws50*1.25), 0, 0}));
+            //scafl.addConnection(&scaffolds, graph, std::vector<int> ({0, 0, (int)(wp * 0.75 + ws50*2.25), (int)(wp * 0.75 + ws50*1.25), 0, 0}));
         }
-   }
+   }*/
 
     scaffolds.print(out);
 }

@@ -44,7 +44,7 @@ void ScaffoldStrategyLeaveConnection::addConnectionForLeaves(Scaffolds *scaffold
         }
         if (deg(i, graph, !dir) <= 1 &&
             deg(v, graph, !dir) == 1 && deg(u, graph, !dir) == 1 &&
-            deg(v, graph, dir) == 0 && deg(u, graph, dir) <= 1) {
+            deg(v, graph, dir) == 0 && deg(u, graph, dir) == 1) {
             int flagBigW = 0;
             for (int j = 0; j < ContigGraph::Lib::typeCnt; ++j) {
                 if (wu[j] >= minW[j]) {
