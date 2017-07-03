@@ -10,7 +10,6 @@ protected:
     void SetUp() {
         tmpFileName = "/tmp/somefile";
     }
-
 };
 
 TEST_F(ContigGraphTest, addNewLib) {

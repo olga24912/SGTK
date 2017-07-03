@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99996 (TeX Live 2016/Debian) (preloaded format=xelatex 2017.2.27)  10 JUN 2017 11:46
+This is XeTeX, Version 3.14159265-2.6-0.99996 (TeX Live 2016/Debian) (preloaded format=xelatex 2017.2.27)  20 JUN 2017 13:40
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1621,18 +1621,29 @@ Overfull \hbox (82.15276pt too wide) in paragraph at lines 87--87
 
 ]
 File: gline.png Graphic file (type QTm)
+ <use  "gline.png" > [8
+
+]
+File: gline.png Graphic file (type QTm)
+ <use  "gline.png" >
+File: outinline.png Graphic file (type QTm)
+ <use  "outinline.png" >
+[9
+
+]
+File: gline.png Graphic file (type QTm)
  <use  "gline.png" >
 File: outinline.png Graphic file (type QTm)
  <use  "outinline.png" >
 File: gsplit.png Graphic file (type QTm)
- <use  "gsplit.png" >
-[8
+ <use  "gsplit.png" > [10
 
 ]
 File: wrong.png Graphic file (type QTm)
- <use  "wrong.png" >
+
+<use  "wrong.png" >
 File: right.png Graphic file (type QTm)
- <use  "right.png" > [9
+ <use  "right.png" > [11
 
 ]
 File: diflib.png Graphic file (type QTm)
@@ -1641,7 +1652,7 @@ Overfull \hbox (10.26843pt too wide) in paragraph at lines 129--129
  [] 
  []
 
-[10
+[12
 
 ]
 LaTeX Font Info:    Font shape `EU1/LatinModernMath(1)/m/n' will be
@@ -1664,15 +1675,15 @@ LaTeX Font Info:    Try loading font information for U+msb on input line 151.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-) [11
+) [13
 
 ]
-Overfull \vbox (9.2125pt too high) detected at line 171
+Overfull \vbox (22.80156pt too high) detected at line 171
  []
 
-[12
+[14
 
-] [13
+] [15
 
 ]
 \tf@nav=\write6
@@ -1694,10 +1705,10 @@ Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 180.
 Here is how much of TeX's memory you used:
  36751 strings out of 493589
  691970 string characters out of 6145556
- 800545 words of memory out of 5000000
+ 800384 words of memory out of 5000000
  39559 multiletter control sequences out of 15000+600000
  7901 words of font info for 70 fonts, out of 8000000 for 9000
  1347 hyphenation exceptions out of 8191
- 56i,16n,72p,10411b,719s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 56i,16n,72p,10411b,724s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on slides.pdf (13 pages).
+Output written on slides.pdf (15 pages).

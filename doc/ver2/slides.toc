@@ -4,5 +4,5 @@
 \beamer@sectionintoc {2}{Методы нахождения связей}{4}{0}{2}
 \beamer@sectionintoc {3}{Цель и задачи}{7}{0}{3}
 \beamer@sectionintoc {4}{Решение поставленных задач}{8}{0}{4}
-\beamer@sectionintoc {5}{Результаты}{12}{0}{5}
-\beamer@sectionintoc {6}{Спасибо за внимание}{13}{0}{6}
+\beamer@sectionintoc {5}{Результаты}{14}{0}{5}
+\beamer@sectionintoc {6}{Спасибо за внимание}{15}{0}{6}
