@@ -154,6 +154,8 @@ ContigGraph ContigGraph::read(std::string fileName) {
     in >> en;
     std::cerr << en << std::endl;
     g.edges.resize(en);
+    std::string tmp;
+    getline(in, tmp);
 
     for (int i = 0; i < en; ++i) {
         char c;
