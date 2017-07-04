@@ -3,6 +3,7 @@
 #include "FilterMergeLib.h"
 
 std::vector<int> FilterMergeLib::getLibList() {
+    TRACE("getLibList");
     std::vector<int> libList;
     for (int i = 0; i < (int)newLibNum.size(); ++i) {
         libList.push_back(newLibNum[i]);
@@ -16,6 +17,7 @@ std::vector<int> FilterMergeLib::getLibList() {
 }
 
 std::vector<int> FilterMergeLib::getEdges(int v) {
+    TRACE("getEdges v=" << v);
     std::vector<int> edges = Filter::getEdges(v);
     std::vector<std::pair<std::pair<int, int>, int>> edgesInfo;
     for (int i : edges) {
@@ -36,6 +38,7 @@ std::vector<int> FilterMergeLib::getEdges(int v) {
 }
 
 std::vector<int> FilterMergeLib::getEdgesR(int v) {
+    TRACE("getEdgesR v=" << v);
     std::vector<int> edges = Filter::getEdgesR(v);
     std::vector<std::pair<std::pair<int, int>, int>> edgesInfo;
     for (int i : edges) {
@@ -56,6 +59,7 @@ std::vector<int> FilterMergeLib::getEdgesR(int v) {
 }
 
 int FilterMergeLib::getEdgeWeight(int e) {
+    TRACE("getEdgeWeight e=" << e);
     int v = Filter::getEdgeFrom(e), u = Filter::getEdgeTo(e);
 
     int w = 0;
@@ -70,18 +74,22 @@ int FilterMergeLib::getEdgeWeight(int e) {
 }
 
 int FilterMergeLib::getEdgeLib(int e) {
+    TRACE("getEdgeLib e=" << e);
     return newLibNum[Filter::getEdgeLib(e)];
 }
 
 std::string FilterMergeLib::getLibName(int l) {
+    TRACE("getLibName l=" << l);
     return newLibName[newLibNum[l]];
 }
 
 std::string FilterMergeLib::getLibColor(int l) {
+    TRACE("getLibColor l=" << l);
     return Filter::getLibColor(newLibNum[l]);
 }
 
 void FilterMergeLib::processQuery(Query query) {
+    TRACE("process query");
     if (query.type != query.MERGE_LIB) {
         Filter::processQuery(query);
         update(subfilter);
@@ -90,6 +98,8 @@ void FilterMergeLib::processQuery(Query query) {
         int n1, n2;
         std::string name;
         ss >> n1 >> n2 >> name;
+
+        TRACE("query merge_lib n1=" << n1 << " n2=" << n2 << " name=" << name);
 
         int k = n1;
         n1 = std::min(n1, n2);
@@ -110,6 +120,7 @@ FilterMergeLib::FilterMergeLib(Filter *filter) : Filter(filter) {
 }
 
 void FilterMergeLib::update(Filter *filter) {
+    TRACE("update");
     int libCnt = (int)filter->getLibList().size();
     newLibNum.resize(libCnt);
     newLibName.resize(libCnt);

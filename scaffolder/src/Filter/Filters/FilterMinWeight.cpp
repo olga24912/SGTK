@@ -11,6 +11,7 @@ FilterMinWeight::FilterMinWeight(Filter *filter) : Filter(filter) {
 }
 
 std::vector<int> FilterMinWeight::getEdges(int v) {
+    TRACE("getEdges v=" << v);
 
     std::vector<int> edges = subfilter->getEdges(v);
     std::vector<int> res;
@@ -32,6 +33,7 @@ std::vector<int> FilterMinWeight::getEdges(int v) {
 }
 
 std::vector<int> FilterMinWeight::getEdgesR(int v) {
+    TRACE("getEdgesR v=" << v);
     std::vector<int> edges = subfilter->getEdgesR(v);
     std::vector<int> res;
 
@@ -53,6 +55,7 @@ std::vector<int> FilterMinWeight::getEdgesR(int v) {
 }
 
 std::vector<int> FilterMinWeight::getVertexList() {
+    TRACE("getVertexList");
     std::vector<int> vertList = subfilter->getVertexList();
     std::vector<int> res;
     for (int i = 0; i < (int)vertList.size(); ++i) {
@@ -66,16 +69,19 @@ std::vector<int> FilterMinWeight::getVertexList() {
 }
 
 void FilterMinWeight::processQuery(Query query) {
+    TRACE("process query");
     if (query.type == query.MIN_EDGE_WEIGHT) {
         std::stringstream ss(query.argv);
         int libNum;
         int weight;
         ss >> libNum >> weight;
+        TRACE("query min edge wieght libNum=" << libNum);
         libMinEdgeWight[libNum] = weight;
     } else if (query.type == query.MIN_CONTIG_LEN){
         std::stringstream ss(query.argv);
         int weight;
         ss >> weight;
+        TRACE("query min contig len=" weight);
         minContigLen = weight;
     } else {
         Filter::processQuery(query);

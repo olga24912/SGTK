@@ -1,6 +1,7 @@
 #include "FilterIgnore.h"
 
 std::vector<int> FilterIgnore::getVertexList() {
+    TRACE("getVertexList");
     std::vector<int> vertList = subfilter->getVertexList();
     std::vector<int> res;
     for (int i = 0; i < (int)vertList.size(); ++i) {
@@ -13,6 +14,7 @@ std::vector<int> FilterIgnore::getVertexList() {
 }
 
 std::vector<int> FilterIgnore::getEdges(int v) {
+    TRACE("getEdges v=" << v);
     std::vector<int> edges = subfilter->getEdges(v);
     std::vector<int> res;
     for (int e : edges) {
@@ -26,6 +28,7 @@ std::vector<int> FilterIgnore::getEdges(int v) {
 }
 
 std::vector<int> FilterIgnore::getEdgesR(int v) {
+    TRACE("getEdgesR v=" << v);
     std::vector<int> edges = subfilter->getEdgesR(v);
     std::vector<int> res;
     for (int e : edges) {
@@ -46,14 +49,17 @@ FilterIgnore::FilterIgnore(Filter *filter) : Filter(filter) {
 }
 
 void FilterIgnore::processQuery(Query query) {
+    TRACE("processQuery");
     if (query.type == query.SET_IGNORE) {
         std::stringstream ss(query.argv);
         int vstart, vend;
         ss >> vstart >> vend;
+        TRACE("query set_ignory vstrt=" << vstart << " vend=" << vend);
         for (int i = vstart; i < vend; ++i) {
             ignore[i] = 1;
         }
     } else if (query.type == query.RESET_IGNORE) {
+        TRACE("query reset_ignore");
         for (int i = 0; i < (int)ignore.size(); ++i) {
             ignore[i] = 0;
         }

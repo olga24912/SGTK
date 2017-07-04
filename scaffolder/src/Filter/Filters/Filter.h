@@ -48,6 +48,9 @@ public:
             delete subfilter;
         }
     }
+
+protected:
+    DECL_LOGGER("Filter");
 };
 
 
