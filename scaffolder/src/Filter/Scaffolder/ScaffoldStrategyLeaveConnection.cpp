@@ -9,6 +9,7 @@ void ScaffoldStrategyLeaveConnection::addConnection(Scaffolds *scaffolds, Filter
 }
 
 void ScaffoldStrategyLeaveConnection::addConnectionForLeaves(Scaffolds *scaffolds, Filter *graph, int dir, std::vector<int> minW) {
+    using namespace contig_graph;
     DEBUG("start addConnection for leave dir=" << dir);
     int n = graph->getVertexCount();
 

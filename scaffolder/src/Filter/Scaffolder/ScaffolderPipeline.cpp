@@ -16,6 +16,7 @@ void ScaffolderPipeline::evaluate(Filter *graph, std::string contigFile, std::st
 }
 
 void ScaffolderPipeline::bothDirFilter(Filter *graph, Scaffolds &scaffolds) {
+    using namespace contig_graph;
     std::vector<int> libs = graph->getLibList();
 
     std::vector<int> minEdge((unsigned long) libs[(int)libs.size() - 1], 1e9);
@@ -54,6 +55,7 @@ void ScaffolderPipeline::bothDirFilter(Filter *graph, Scaffolds &scaffolds) {
 }
 
 void ScaffolderPipeline::onlySplit50Filter(Filter *graph, Scaffolds &scaffolds) {
+    using namespace contig_graph;
     std::vector<int> libs = graph->getLibList();
 
     std::vector<int> minEdge((unsigned long) libs[(int)libs.size() - 1], 1e9);

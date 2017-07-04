@@ -8,6 +8,7 @@
 namespace builder {
     namespace graph_builder {
         using namespace sam_file_writer;
+        using namespace contig_graph;
 // main class for generate conection between contigs.
         class GraphBuilder {
         protected:

@@ -80,7 +80,7 @@ void FilterAdapter::processQuery(Query query) {
     if (query.type == query.UPLOAD_GRAPH) {
         std::string fileName = query.argv;
         TRACE("query upload graph fileName=" << fileName);
-        graph = ContigGraph::read(fileName);
+        graph = contig_graph::ContigGraph::read(fileName);
     }
 }
 
@@ -99,7 +99,7 @@ std::pair<int, int> FilterAdapter::getSecondCoord(int e) {
     return graph.getSecondCoord(e);
 }
 
-ContigGraph::Lib::Type FilterAdapter::getLibType(int l) {
+contig_graph::ContigGraph::Lib::Type FilterAdapter::getLibType(int l) {
     TRACE("getLibType l=" << l);
     return graph.getLibType(l);
 }

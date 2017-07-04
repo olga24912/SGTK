@@ -7,9 +7,9 @@
 //change graph interface to Filter interface
 class FilterAdapter: public Filter {
 private:
-    ContigGraph graph; //graph for change interface
+    contig_graph::ContigGraph graph; //graph for change interface
 public:
-    FilterAdapter(ContigGraph graph): graph(graph) {}
+    FilterAdapter(contig_graph::ContigGraph graph): graph(graph) {}
 
     std::vector<int> getLibList() override;
 
@@ -35,7 +35,7 @@ public:
 
     std::string getLibColor(int l) override;
 
-    ContigGraph::Lib::Type getLibType(int l) override;
+    contig_graph::ContigGraph::Lib::Type getLibType(int l) override;
 
     std::vector<int> getVertexList() override;
 

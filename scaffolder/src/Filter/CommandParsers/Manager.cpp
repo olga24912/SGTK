@@ -53,7 +53,7 @@ const std::string Manager::CONFIG_FILE = "filter_config";
 
 Manager::Manager() {
     filter = new FilterIgnoreEdge(new FilterIgnore(new FilterMinWeight
-                                                           (new FilterMergeLib(new FilterAdapter(ContigGraph())))));
+                                                           (new FilterMergeLib(new FilterAdapter(contig_graph::ContigGraph())))));
 
     commandByKeyWord[UPLOAD_GRAPH] = new CommandUploadGraph();
     commandByKeyWord[MIN_CONTIG_LEN] = new CommandMinContig();

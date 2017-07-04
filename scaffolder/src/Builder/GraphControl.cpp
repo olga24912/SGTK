@@ -4,6 +4,7 @@
 namespace builder {
     void GraphControl::evaluate(int argc, char **argv) {
         using namespace graph_builder;
+        using namespace contig_graph;
         INFO("start build graph");
         argc -= (argc > 0);
         argv += (argc > 0);

@@ -13,7 +13,7 @@ namespace builder {
 // build conection and keep info about conection.
     class GraphControl {
     private:
-        ContigGraph graph;
+        contig_graph::ContigGraph graph;
         std::string path = ".";
 
         struct Arg : public option::Arg {

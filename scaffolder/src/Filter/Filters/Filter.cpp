@@ -135,7 +135,7 @@ std::pair<int, int> Filter::getSecondCoord(int e) {
     return subfilter->getFirstCoord(e);
 }
 
-ContigGraph::Lib::Type Filter::getLibType(int l) {
+contig_graph::ContigGraph::Lib::Type Filter::getLibType(int l) {
     TRACE("get lib type l=" << l);
     return subfilter->getLibType(l);
 }
