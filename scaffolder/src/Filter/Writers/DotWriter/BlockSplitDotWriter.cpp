@@ -84,7 +84,8 @@ std::vector<BlockSplitDotWriter::vertBlock> BlockSplitDotWriter::splitOnBlocks(i
 void BlockSplitDotWriter::findOutsideEdge(std::vector<std::vector<BlockSplitDotWriter::vertBlock>>& blocks) {
     TRACE("find outside edge for blocks");
     for (int i = 0; i < (int)blocks.size(); ++i) {
-        std::cerr << blocks[i].size() << std::endl;
+
+        TRACE("block size =" << blocks[i].size());
         if (blocks[i].size() == 0) continue;
         std::vector<int> edges = filter->getEdges(blocks[i][0].vertId);
 
@@ -202,7 +203,8 @@ void BlockSplitDotWriter::writeEdges(const std::vector<std::vector<BlockSplitDot
             if (i1 == -1 || i2 == -1) continue;
             if (v == u) continue;
 
-            std::cerr << v << "  " << u << " " << e << " " << filter->getEdgeWeight(e);
+
+            TRACE("v=" << v << " u=" << u << " e=" << e << " weight=" << filter->getEdgeWeight(e));
             assert(filter->getEdgeWeight(e) > 0);
 
             out << "    " << "node" << v << "_" << i1 << " -> ";

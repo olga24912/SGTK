@@ -12,7 +12,7 @@ protected:
     int maxEdge = 40;
 public:
     virtual DotWriter* build() {
-        std::cerr << "build simple" << std::endl;
+        DEBUG("build simple dot writer");
         return new DotWriter(filter, validator, maxVert, maxEdge);
     }
 

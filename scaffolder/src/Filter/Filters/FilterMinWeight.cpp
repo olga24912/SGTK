@@ -81,7 +81,7 @@ void FilterMinWeight::processQuery(Query query) {
         std::stringstream ss(query.argv);
         int weight;
         ss >> weight;
-        TRACE("query min contig len=" weight);
+        TRACE("query min contig len=" << weight);
         minContigLen = weight;
     } else {
         Filter::processQuery(query);

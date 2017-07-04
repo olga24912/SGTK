@@ -8,8 +8,7 @@
 class BlockSplitDotWriterBuilder : public DotWriterBuilder {
 public:
     virtual DotWriter* build() override {
-
-        std::cerr << "build block DW" << std::endl;
+        DEBUG("build block DW");
         return new BlockSplitDotWriter(filter, validator, maxVert, maxEdge);
     }
 };
