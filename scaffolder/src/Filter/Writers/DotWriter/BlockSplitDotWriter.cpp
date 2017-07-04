@@ -2,7 +2,8 @@
 #include "BlockSplitDotWriter.h"
 
 void BlockSplitDotWriter::writeOneVertexSet(std::vector<int> vert, std::string fileName) {
-    std::cerr << "block wrire" << std::endl;
+    DEBUG("writeOneVertrexSet");
+
     if (vert.size() <= 1) return;
     std::vector<std::vector<vertBlock> > blocks(vert.size());
     for (int i = 0; i < (int)vert.size(); ++i) {
@@ -31,6 +32,7 @@ BlockSplitDotWriter::BlockSplitDotWriter(Filter *filter, FileValidator *validato
         : DotWriter(filter, validator, maxVert, maxEdge) {}
 
 std::vector<BlockSplitDotWriter::vertBlock> BlockSplitDotWriter::splitOnBlocks(int v) {
+    TRACE("split on blocks v=" << v);
     std::vector<vertBlock> blocks;
     std::vector<int> edges = filter->getEdges(v);
 
@@ -80,6 +82,7 @@ std::vector<BlockSplitDotWriter::vertBlock> BlockSplitDotWriter::splitOnBlocks(i
 }
 
 void BlockSplitDotWriter::findOutsideEdge(std::vector<std::vector<BlockSplitDotWriter::vertBlock>>& blocks) {
+    TRACE("find outside edge for blocks");
     for (int i = 0; i < (int)blocks.size(); ++i) {
         std::cerr << blocks[i].size() << std::endl;
         if (blocks[i].size() == 0) continue;
@@ -114,6 +117,7 @@ void BlockSplitDotWriter::findOutsideEdge(std::vector<std::vector<BlockSplitDotW
 }
 
 bool BlockSplitDotWriter::isOutsideEdge(int e, const std::vector<std::vector<BlockSplitDotWriter::vertBlock>> &bl) {
+    TRACE("isOutSizeEdge e=" << e);
     int v = filter->getEdgeFrom(e);
     int u = filter->getEdgeTo(e);
 
@@ -132,6 +136,7 @@ bool BlockSplitDotWriter::isOutsideEdge(int e, const std::vector<std::vector<Blo
 }
 
 void BlockSplitDotWriter::writeOneVertBlock(std::vector<BlockSplitDotWriter::vertBlock> &bl, std::ofstream &out) {
+    TRACE("writeOneVertBlock");
     std::stringstream ss;
     ss << "node" << bl[0].vertId<< "_" << 0;
     int v = bl[0].vertId;
@@ -166,6 +171,7 @@ void BlockSplitDotWriter::writeOneVertBlock(std::vector<BlockSplitDotWriter::ver
 }
 
 void BlockSplitDotWriter::writeBlockEdges(const std::vector<BlockSplitDotWriter::vertBlock> &bl, std::ofstream &out) {
+    TRACE("write block edges");
     for (int i = 0; i < (int)bl.size() - 1; ++i) {
         std::stringstream ssname1;
         std::stringstream ssname2;
@@ -180,6 +186,8 @@ void BlockSplitDotWriter::writeBlockEdges(const std::vector<BlockSplitDotWriter:
 }
 
 void BlockSplitDotWriter::writeEdges(const std::vector<std::vector<BlockSplitDotWriter::vertBlock>> &bl, std::ofstream &out) {
+    DEBUG("write edges");
+
     for (int i = 0; i < (int)bl.size(); ++i) {
         if (bl[i].size() == 0) continue;
         int v = bl[i][0].vertId;
@@ -190,10 +198,6 @@ void BlockSplitDotWriter::writeEdges(const std::vector<std::vector<BlockSplitDot
 
             int i1 = findBlockId(v, e, bl);
             int i2 = findBlockId(u, e, bl);
-
-            if (v == 142 && u == 0) {
-                std::cerr <<"block id" << v << " "<< u <<std::endl;
-            }
 
             if (i1 == -1 || i2 == -1) continue;
             if (v == u) continue;
@@ -213,9 +217,7 @@ void BlockSplitDotWriter::writeEdges(const std::vector<std::vector<BlockSplitDot
 }
 
 int BlockSplitDotWriter::findBlockId(int v, int e, const std::vector<std::vector<BlockSplitDotWriter::vertBlock>> &bl) {
-    if (v == 0 && e == 24731) {
-        std::cerr << "coord: " << filter->getEdgeCoordB2(e) << " " << filter->getEdgeCoordE2(e) << std::endl;
-    }
+    TRACE("find block id for v=" << v << " e=" << e);
     for (int i = 0; i < (int)bl.size(); ++i) {
         if (bl[i][0].vertId == v) {
             for (int j = 0; j < (int)bl[i].size(); ++j) {

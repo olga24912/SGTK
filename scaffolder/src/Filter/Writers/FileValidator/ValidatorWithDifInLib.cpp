@@ -3,7 +3,7 @@
 #include <algorithm>
 
 bool ValidatorWithDifInLib::isGoodVertexSet(std::vector<int> vert, Filter *filter) {
-    std::cerr <<"start val" << std::endl;
+    DEBUG("start validation");
     std::vector<int> listLib = filter->getLibList();
 
 

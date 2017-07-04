@@ -6,5 +6,6 @@ WriteLocal::WriteLocal(int v, int dist, std::string fileName, Filter *filter1,
         Writer(filter1, validator, builder), v(v), dist(dist), fileName(fileName) {}
 
 void WriteLocal::write() {
+    INFO("Write Local");
     dotWriter->writeVertexSet(searcher.findVertInLocalArea(v, dist), fileName);
 }

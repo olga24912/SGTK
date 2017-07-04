@@ -32,6 +32,9 @@ public:
 
     //write this set of vertex in files with prefix fileName
     virtual void writeVertexSet(std::vector<int> vert, std::string fileName);
+
+protected:
+    DECL_LOGGER("DotWriter");
 };
 
 

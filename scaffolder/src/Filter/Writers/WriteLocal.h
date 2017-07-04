@@ -13,6 +13,8 @@ public:
     WriteLocal(int v, int dist, std::string fileName, Filter *filter1, FileValidator * validator,   DotWriterBuilder* builder);
 
     void write() override;
+private:
+    DECL_LOGGER("WriteLocal");
 };
 
 

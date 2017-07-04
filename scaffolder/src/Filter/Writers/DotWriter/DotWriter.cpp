@@ -3,19 +3,22 @@
 #include <cmath>
 
 void DotWriter::writeVertexSet(std::vector<int> vert, std::string fileName) {
+    DEBUG("writeVertexSet");
     std::vector<std::vector<int> > res = graphSplitter.split(filter, vert);
     for (int i = 0; i < (int)res.size(); ++i) {
         std::stringstream ss;
         ss << fileName << i;
         std::string name = std::string(ss.str());
         if (validator->isGoodVertexSet(res[i], filter)) {
-            std::cerr << "isOk" << i << std::endl;
+            TRACE("isOk vertex set" << i)
             writeOneVertexSet(res[i], name);
         }
     }
 }
 
 void DotWriter::writeOneVertex(int v, bool isColored, std::ofstream &out) {
+    TRACE("write one vertex v=" << v << " isColored=" << isColored);
+
     out << "    \"" << filter->getTargetName(v) << "\"[label=\" " << filter->getTargetName(v) <<
         " id = " << v
         << "\nlen = " << filter->getTargetLen(v) << "\"";
@@ -26,6 +29,8 @@ void DotWriter::writeOneVertex(int v, bool isColored, std::ofstream &out) {
 }
 
 void DotWriter::writeOneEdge(int e, std::ofstream &out) {
+    TRACE("write one edge e=" << e);
+
     int v = filter->getEdgeFrom(e);
     int u = filter->getEdgeTo(e);
     out << "    \"" << filter->getTargetName(v) << "\" -> \"";
@@ -39,6 +44,7 @@ void DotWriter::writeOneEdge(int e, std::ofstream &out) {
 }
 
 void DotWriter::writeOneVertexSet(std::vector<int> vert, std::string fileName) {
+    TRACE("write vertex set");
     std::vector<bool> hasOtherEdge((unsigned)filter->getVertexCount(), 0);
     std::vector<std::pair<int, int> > weightEdge;
     for (int i = 0; i < (int)vert.size(); ++i) {

@@ -2,7 +2,7 @@
 #include "ValidatorNotPathWithAllLib.h"
 
 bool ValidatorNotPathWithAllLib::isGoodVertexSet(std::vector<int> vert, Filter *filter) {
-    std::cerr <<"start val" << std::endl;
+    DEBUG("start validation");
     std::vector<int> listLib = filter->getLibList();
 
     for (int i = 0; i < (int)vert.size(); ++i) {

@@ -3,6 +3,7 @@
 #include "GraphSplitter.h"
 
 std::vector<std::vector<int> > GraphSplitter::split(Filter *filter, std::vector<int> vert) {
+    INFO("start split file on parts");
     this->filter = filter;
     this->vert = vert;
 
@@ -10,7 +11,6 @@ std::vector<std::vector<int> > GraphSplitter::split(Filter *filter, std::vector<
 
     for (int v : vert) {
         while (used[v] == 0) {
-            std::cerr << v << std::endl;
             findNewComp(v);
         }
     }
@@ -19,6 +19,7 @@ std::vector<std::vector<int> > GraphSplitter::split(Filter *filter, std::vector<
 }
 
 void GraphSplitter::clear() {
+    DEBUG("clear");
     used.resize(0);
     res.resize(0);
     edgeCol.resize(0);
@@ -40,6 +41,7 @@ void GraphSplitter::clear() {
 }
 
 void GraphSplitter::findNewComp(int v) {
+    TRACE("find new components for v=" << v);
     std::queue<int> que;
     int cntV = 0;
     int cntE = 0;

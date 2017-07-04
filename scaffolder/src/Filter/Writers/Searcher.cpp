@@ -3,6 +3,7 @@
 #include "Searcher.h"
 
 std::vector<int> Searcher::findVertInLocalArea(int v, int dist) {
+    DEBUG("find vertex in local area v=" << v << "dist=" << dist);
     std::vector<int> res;
     std::queue<std::pair<int, int> > que;
     std::set<int> used;
@@ -36,6 +37,7 @@ std::vector<int> Searcher::findVertInLocalArea(int v, int dist) {
 }
 
 int Searcher::findComponent(int *col) {
+    DEBUG("find components");
     int n = filter->getVertexCount();
     std::vector<int> vert = filter->getVertexList();
 
@@ -54,6 +56,7 @@ int Searcher::findComponent(int *col) {
 }
 
 void Searcher::dfsFindComponent(int v, int currentCol, int *color) {
+    TRACE("dfs for find components v=" << v << " currentCol=" << currentCol);
     color[v] = currentCol;
 
     for (int e : filter->getEdges(v)) {

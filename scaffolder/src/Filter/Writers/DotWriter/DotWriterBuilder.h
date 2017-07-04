@@ -31,6 +31,9 @@ public:
     void setMaxEdge(int maxEdge) {
         DotWriterBuilder::maxEdge = maxEdge;
     }
+
+protected:
+    DECL_LOGGER("DotWriterBuilder");
 };
 
 

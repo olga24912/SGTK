@@ -1,7 +1,3 @@
-//
-// Created by olga on 26.01.17.
-//
-
 #include "WriteAlongPath.h"
 
 WriteAlongPath::WriteAlongPath(std::string fileName, int libId, int dist, int minSize, Filter *filter1,
@@ -9,6 +5,7 @@ WriteAlongPath::WriteAlongPath(std::string fileName, int libId, int dist, int mi
         fileName(fileName), libId(libId), dist(dist), minSize(minSize), Writer(filter1, validator, builder) {}
 
 void WriteAlongPath::write() {
+    INFO("write along path");
     int n = (filter->getVertexCount());
     int *col = new int[n];
     int cur = searcher.findComponent(col);

@@ -10,6 +10,9 @@ public:
     virtual bool isGoodVertexSet(std::vector<int> vert, Filter* filter) {
         return true;
     }
+
+protected:
+    DECL_LOGGER("FileValidator");
 };
 
 

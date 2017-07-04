@@ -1,7 +1,3 @@
-//
-// Created by olga on 26.01.17.
-//
-
 #include "WriteBigComponent.h"
 
 WriteBigComponent::WriteBigComponent(
@@ -11,6 +7,7 @@ WriteBigComponent::WriteBigComponent(
 }
 
 void WriteBigComponent::write() {
+    INFO("write big component");
     int n = filter->getVertexCount();
     int *col = new int[n];
     int cur = searcher.findComponent(col);

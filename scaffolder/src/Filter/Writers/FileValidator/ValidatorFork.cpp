@@ -2,6 +2,7 @@
 #include "ValidatorFork.h"
 
 bool ValidatorFork::isGoodVertexSet(std::vector<int> vert, Filter *filter) {
+    DEBUG("start validation");
     for (int v : vert) {
         std::vector<int> edges = filter->getEdges(v);
         std::set<int> nb;

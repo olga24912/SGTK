@@ -18,6 +18,8 @@ public:
 
     //return number of commponent, col[v] - #commponent for vertex v
     int findComponent(int *col);
+private:
+    DECL_LOGGER("Searcher");
 };
 
 

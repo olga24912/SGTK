@@ -15,6 +15,8 @@ public:
                    DotWriterBuilder* builder);
 
     void write() override;
+private:
+    DECL_LOGGER("WriteAlongPath");
 };
 
 

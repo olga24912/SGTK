@@ -27,6 +27,8 @@ public:
     GraphSplitter(int maxVert, int maxEdge): maxVert(maxVert), maxEdge(maxEdge){}
     //in graph filter split this set of vertex
     std::vector< std::vector<int> > split(Filter* filter, std::vector<int> vert);
+private:
+    DECL_LOGGER("GraphSplitter");
 };
 
 

@@ -12,6 +12,8 @@ public:
     WriteBigComponent(std::string fileName, int minSize, Filter *filter1, FileValidator *validator,   DotWriterBuilder* builder);
 
     void write() override;
+private:
+    DECL_LOGGER("WriteBigComponent");
 };
 
 

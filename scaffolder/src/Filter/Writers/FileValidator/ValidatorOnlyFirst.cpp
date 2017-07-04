@@ -2,6 +2,8 @@
 #include "ValidatorOnlyFirst.h"
 
 bool ValidatorOnlyFirst::isGoodVertexSet(std::vector<int> vert, Filter *filter) {
+    DEBUG("start validation");
+
     for (int i = 0; i < (int)vert.size(); ++i) {
         int v = vert[i];
 
