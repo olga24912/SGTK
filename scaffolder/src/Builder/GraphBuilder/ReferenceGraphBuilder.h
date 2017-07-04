@@ -6,69 +6,79 @@
 #include "Builder/Tools/SystemAlignmentTools.h"
 #include "ContigGraph/SeqanUtils.h"
 
+namespace builder {
+    namespace graph_builder {
 //It understand contig order by alignment contigs on reference assembly
 //It is nessery put ((ref and query files name) or tsv file name)
-class ReferenceGraphBuilder: public GraphBuilder {
-private:
-    int minContigLen = 500;
+        class ReferenceGraphBuilder : public GraphBuilder {
+        private:
+            int minContigLen = 500;
 
-    std::string refContigFileName;
-    std::string queryContigsFileName;
-    std::string tsvFileName;
+            std::string refContigFileName;
+            std::string queryContigsFileName;
+            std::string tsvFileName;
 
-    struct alignmentInfo {
-        int sr;
-        int er;
-        int sq;
-        int eq;
-        std::string contigName;
+            struct alignmentInfo {
+                int sr;
+                int er;
+                int sq;
+                int eq;
+                std::string contigName;
 
-        alignmentInfo(){}
-        alignmentInfo(int sr, int er, int sq, int eq, std::string name): sr(sr), er(er), sq(sq), eq(eq), contigName(name) {}
+                alignmentInfo() {}
 
-        bool operator < (alignmentInfo b) {
-            return (sr < b.sr);
-        }
-    };
+                alignmentInfo(int sr, int er, int sq, int eq, std::string name) : sr(sr), er(er), sq(sq), eq(eq),
+                                                                                  contigName(name) {}
 
-    std::map <std::string, int> contigsId;
-    std::vector<std::string> contigsName;
+                bool operator<(alignmentInfo b) {
+                    return (sr < b.sr);
+                }
+            };
 
-    void generateVertex();
-    void createGraph(std::map<std::string, std::vector<alignmentInfo>> contigsAlignment);
-    std::map<std::string, std::vector<alignmentInfo>> parseCoordFile(std::string fileName);
-    std::map<std::string, std::vector<alignmentInfo>> parseTSVFile(std::string fileName);
-    virtual std::string getLibColor();
+            std::map<std::string, int> contigsId;
+            std::vector<std::string> contigsName;
 
-protected:
-    ContigGraph::Lib::Type getLibType() override;
+            void generateVertex();
 
-protected:
-    void setSamFileWriter() override;
+            void createGraph(std::map<std::string, std::vector<alignmentInfo>> contigsAlignment);
 
-public:
-    void evaluate();
+            std::map<std::string, std::vector<alignmentInfo>> parseCoordFile(std::string fileName);
 
-    //file with reference assembly
-    void setRefFileName(const std::string &refContigFileName) {
-        ReferenceGraphBuilder::refContigFileName = refContigFileName;
+            std::map<std::string, std::vector<alignmentInfo>> parseTSVFile(std::string fileName);
+
+            virtual std::string getLibColor();
+
+        protected:
+            ContigGraph::Lib::Type getLibType() override;
+
+        protected:
+            void setSamFileWriter() override;
+
+        public:
+            void evaluate();
+
+            //file with reference assembly
+            void setRefFileName(const std::string &refContigFileName) {
+                ReferenceGraphBuilder::refContigFileName = refContigFileName;
+            }
+
+            //file with contigs some assembly.
+            void setQueryFileName(const std::string &queryContigsFileName) {
+                ReferenceGraphBuilder::queryContigsFileName = queryContigsFileName;
+            }
+
+            //file with information about alignment in tsv format
+            void setTsvFileName(const std::string &tsvFileName) {
+                ReferenceGraphBuilder::tsvFileName = tsvFileName;
+            }
+
+            // set barrier contig len. Contigs with smaller len will be ignore.
+            void setMinContigLen(int minContigLen);
+
+        private:
+            DECL_LOGGER("ReferenceGraphBuilder");
+        };
     }
-
-    //file with contigs some assembly.
-    void setQueryFileName(const std::string &queryContigsFileName) {
-        ReferenceGraphBuilder::queryContigsFileName = queryContigsFileName;
-    }
-
-    //file with information about alignment in tsv format
-    void setTsvFileName(const std::string &tsvFileName) {
-        ReferenceGraphBuilder::tsvFileName = tsvFileName;
-    }
-
-    // set barrier contig len. Contigs with smaller len will be ignore.
-    void setMinContigLen(int minContigLen);
-private:
-    DECL_LOGGER("ReferenceGraphBuilder");
-};
-
+}
 
 #endif //SCAFFOLDER_REFERENCEGRAPHBUILDER_H

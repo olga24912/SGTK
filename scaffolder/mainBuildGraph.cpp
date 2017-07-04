@@ -17,6 +17,7 @@ void create_console_logger(const string& log_props_file) {
 }
 
 int main(int argc, char **argv) {
+    using namespace builder;
     create_console_logger("../log.properties");
 
     GraphControl graphControl;

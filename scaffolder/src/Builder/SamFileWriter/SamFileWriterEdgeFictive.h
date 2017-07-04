@@ -3,16 +3,20 @@
 
 #include "SamFileWriteEdge.h"
 
-class SamFileWriterEdgeFictive : public SamFileWriteEdge {
-public:
-    SamFileWriterEdgeFictive(std::string dir);
+namespace builder {
+    namespace sam_file_writer {
+        class SamFileWriterEdgeFictive : public SamFileWriteEdge {
+        public:
+            SamFileWriterEdgeFictive(std::string dir);
 
-    SamFileWriterEdgeFictive();
+            SamFileWriterEdgeFictive();
 
-    void setFileIn(seqan::BamFileIn *in) override;
+            void setFileIn(seqan::BamFileIn *in) override;
 
-    void writeEdge(int edgeID, seqan::BamAlignmentRecord read1, seqan::BamAlignmentRecord read2) override;
-};
+            void writeEdge(int edgeID, seqan::BamAlignmentRecord read1, seqan::BamAlignmentRecord read2) override;
+        };
+    }
+}
 
 
 #endif //SCAFFOLDER_SAMFILEWRITEREDGEFICTIVE_H

@@ -5,14 +5,18 @@
 #include "ContigGraph/SeqanUtils.h"
 #include <seqan/seq_io.h>
 
+namespace builder {
+    namespace reads_splitter {
 //split unmapped reads on two equal parts
-class ReadsSplitter50 : public ReadsSplitter {
-public:
-    virtual void splitReads(std::string rnaFileName,
-                            std::string resFileName1, std::string resFileName2);
-private:
-    DECL_LOGGER("ReadsSplitter50");
-};
+        class ReadsSplitter50 : public ReadsSplitter {
+        public:
+            virtual void splitReads(std::string rnaFileName,
+                                    std::string resFileName1, std::string resFileName2);
 
+        private:
+            DECL_LOGGER("ReadsSplitter50");
+        };
+    }
+}
 
 #endif //SCAFFOLDER_READSSPLITTER50_H

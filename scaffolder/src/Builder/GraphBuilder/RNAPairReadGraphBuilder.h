@@ -3,19 +3,24 @@
 
 #include "PairReadGraphBuilder.h"
 
+namespace builder {
+    namespace graph_builder {
 //generate connection between contigs by RNA pair reads
-class RNAPairReadGraphBuilder : public PairReadGraphBuilder {
-private:
-    virtual std::string getLibColor();
+        class RNAPairReadGraphBuilder : public PairReadGraphBuilder {
+        private:
+            virtual std::string getLibColor();
 
-protected:
-    ContigGraph::Lib::Type getLibType() override;
+        protected:
+            ContigGraph::Lib::Type getLibType() override;
 
-public:
-    RNAPairReadGraphBuilder(){}
-private:
-    DECL_LOGGER("RNAPairReadGraphBuilder");
-};
+        public:
+            RNAPairReadGraphBuilder() {}
+
+        private:
+            DECL_LOGGER("RNAPairReadGraphBuilder");
+        };
+    }
+}
 
 
 #endif //SCAFFOLDER_RNAPAIRREADGRAPHBUILDER_H

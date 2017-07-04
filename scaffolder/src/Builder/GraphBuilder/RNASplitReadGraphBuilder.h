@@ -8,35 +8,40 @@
 #include "Builder/ReadsSplitter/ReadsSplitter50.h"
 #include "Builder/ReadsSplitter/SplitterByUnmappedEnd.h"
 
+namespace builder {
+    namespace graph_builder {
 // find connection between contig by read who split on exons on
 // two deferent contigs.
-class RNASplitReadGraphBuilder : public GraphBuilder {
-private:
-    std::string refFileName;
-    std::string rnaReadsFileName;
+        class RNASplitReadGraphBuilder : public GraphBuilder {
+        private:
+            std::string refFileName;
+            std::string rnaReadsFileName;
 
-    virtual std::string getLibColor();
+            virtual std::string getLibColor();
 
-protected:
-    ContigGraph::Lib::Type getLibType() override;
+        protected:
+            ContigGraph::Lib::Type getLibType() override;
 
-protected:
-    void setSamFileWriter() override;
-    void handlingPairReads(std::string file1, std::string file2, std::string linN);
+        protected:
+            void setSamFileWriter() override;
 
-public:
-    void evaluate();
-    // set name of fie with ref genom in fasta format.
-    void setRefFileName(std::string refFileName);
+            void handlingPairReads(std::string file1, std::string file2, std::string linN);
 
-    // set name of  file with rna reads in fasta format.
-    void setRnaReadFileName(std::string rnaReadsFileName);
+        public:
+            void evaluate();
 
-    void setGraph(ContigGraph *graph);
+            // set name of fie with ref genom in fasta format.
+            void setRefFileName(std::string refFileName);
 
-private:
-    DECL_LOGGER("RNASplitReadGraphBuilder");
-};
+            // set name of  file with rna reads in fasta format.
+            void setRnaReadFileName(std::string rnaReadsFileName);
 
+            void setGraph(ContigGraph *graph);
+
+        private:
+            DECL_LOGGER("RNASplitReadGraphBuilder");
+        };
+    }
+}
 
 #endif //SCAFFOLDER_RNASPLITREADGRAPHBUILDER_H
