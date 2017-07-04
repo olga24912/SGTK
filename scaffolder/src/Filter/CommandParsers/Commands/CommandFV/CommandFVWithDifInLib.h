@@ -3,10 +3,14 @@
 
 #include "CommandSetFV.h"
 
-class CommandFVWithDifInLib : public CommandSetFV {
-protected:
-    void setFV(State &state, std::string argv) override;
-};
+namespace filter {
+    namespace commands {
 
+        class CommandFVWithDifInLib : public CommandSetFV {
+        protected:
+            void setFV(State &state, std::string argv) override;
+        };
+    }
+}
 
 #endif //SCAFFOLDER_COMMANDFVWITHDIFINLIB_H

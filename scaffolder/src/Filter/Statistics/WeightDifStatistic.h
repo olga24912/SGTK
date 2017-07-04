@@ -3,11 +3,14 @@
 
 #include "Statistic.h"
 
-class WeightDifStatistic : public Statistic {
-public:
-    void calculateStatistic(Filter *filter, std::string coordFile, int libNum, int stepW,
-                            int mxW, int stepDif, int mxDif);
-};
-
+namespace filter {
+    namespace statistics {
+        class WeightDifStatistic : public Statistic {
+        public:
+            void calculateStatistic(Filter *filter, std::string coordFile, int libNum, int stepW,
+                                    int mxW, int stepDif, int mxDif);
+        };
+    }
+}
 
 #endif //SCAFFOLDER_WEIGHTDIFSTATISTIC_H

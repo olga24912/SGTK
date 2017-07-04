@@ -1,15 +1,20 @@
 #include <Filter/Writers/FileValidator/ValidatorWithDifInLib.h>
 #include "CommandFVWithDifInLib.h"
 
-void CommandFVWithDifInLib::setFV(State &state, std::string argv) {
-    INFO("set file validator with dif in libs " << argv);
+namespace filter {
+    namespace commands {
 
-    int libNum;
-    std::vector<int> libs;
-    std::stringstream ss(argv);
-    while (ss >> libNum) {
-        libs.push_back(libNum);
+        void CommandFVWithDifInLib::setFV(State &state, std::string argv) {
+            INFO("set file validator with dif in libs " << argv);
+
+            int libNum;
+            std::vector<int> libs;
+            std::stringstream ss(argv);
+            while (ss >> libNum) {
+                libs.push_back(libNum);
+            }
+
+            state.validator = new writers::ValidatorWithDifInLib(libs);
+        }
     }
-
-    state.validator = new ValidatorWithDifInLib(libs);
 }

@@ -7,15 +7,20 @@
 #include <Filter/CommandParsers/Commands/Command.h>
 #include <Filter/Writers/DotWriter/BlockSplitDotWriterBuilder.h>
 
-class CommandSetBSDotWriter : public Command {
-protected:
 
-public:
-    void execute(std::string argv, State &state, Filter *filter) override {
-        INFO("setBlock dot writer");
-        delete state.dotWriterBuilder;
-        state.dotWriterBuilder = new BlockSplitDotWriterBuilder();
+namespace filter {
+    namespace commands {
+        class CommandSetBSDotWriter : public Command {
+        protected:
+
+        public:
+            void execute(std::string argv, State &state, Filter *filter) override {
+                INFO("setBlock dot writer");
+                delete state.dotWriterBuilder;
+                state.dotWriterBuilder = new writers::BlockSplitDotWriterBuilder();
+            }
+        };
     }
-};
+}
 
 #endif //SCAFFOLDER_COMMANDSETBSDORWRITER_H

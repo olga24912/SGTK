@@ -4,16 +4,18 @@
 
 #include "ScaffoldStrategy.h"
 
-class ScaffoldStrategyLeaveConnection : public ScaffoldStrategy {
-protected:
-    void addConnectionForLeaves(Scaffolds *scaffolds, Filter *graph, int dir, std::vector<int> minW);
+namespace filter {
+    namespace scaffolder {
+        class ScaffoldStrategyLeaveConnection : public ScaffoldStrategy {
+        protected:
+            void addConnectionForLeaves(Scaffolds *scaffolds, Filter *graph, int dir, std::vector<int> minW);
 
-public:
-    void addConnection(Scaffolds *scaffolds, Filter *graph, std::vector<int> minW) override;
+        public:
+            void addConnection(Scaffolds *scaffolds, Filter *graph, std::vector<int> minW) override;
 
-private:
-    DECL_LOGGER("ScaffoldStrategyLeaveConnection");
-};
-
-
+        private:
+            DECL_LOGGER("ScaffoldStrategyLeaveConnection");
+        };
+    }
+}
 #endif //SCAFFOLDER_SCAFFOLDSTRATEGYLEAVECONNECTION_H

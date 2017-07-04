@@ -3,10 +3,13 @@
 
 #include "Statistic.h"
 
-class DifStatistic : public Statistic {
-public:
-    void calculateStatistic(Filter *filter, std::string coordFile, int libNum, int step, int mxVal);
-};
-
+namespace filter {
+    namespace statistics {
+        class DifStatistic : public Statistic {
+        public:
+            void calculateStatistic(Filter *filter, std::string coordFile, int libNum, int step, int mxVal);
+        };
+    }
+}
 
 #endif //SCAFFOLDER_DIFSTATISTIC_H

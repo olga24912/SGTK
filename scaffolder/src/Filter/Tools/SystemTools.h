@@ -3,12 +3,13 @@
 
 #include "bits/stdc++.h"
 
-using namespace std;
-
-class SystemTools {
-public:
-    static void showDotFile(string fileName);
-};
-
+namespace filter {
+    namespace tools {
+        class SystemTools {
+        public:
+            static void showDotFile(std::string fileName);
+        };
+    }
+}
 
 #endif //SCAFFOLDER_SYSTEMTOOLS_H

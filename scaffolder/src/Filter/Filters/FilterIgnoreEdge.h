@@ -5,18 +5,19 @@
 #include <vector>
 #include "Filter.h"
 
-class FilterIgnoreEdge : public Filter {
-private:
-    std::vector<bool> ignore;
-public:
-    FilterIgnoreEdge(Filter* filter);
+namespace filter {
+    class FilterIgnoreEdge : public Filter {
+    private:
+        std::vector<bool> ignore;
+    public:
+        FilterIgnoreEdge(Filter *filter);
 
-    std::vector<int> getEdges(int v) override;
+        std::vector<int> getEdges(int v) override;
 
-    std::vector<int> getEdgesR(int v) override;
+        std::vector<int> getEdgesR(int v) override;
 
-    //handling querys SET_IGNORE_EDGE with args <edge id for ignore>
-    void processQuery(Query query) override;
-};
-
+        //handling querys SET_IGNORE_EDGE with args <edge id for ignore>
+        void processQuery(Query query) override;
+    };
+}
 #endif //SCAFFOLDER_FILTERIGNOREEDGE_H

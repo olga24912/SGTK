@@ -1,8 +1,12 @@
 #include "SystemTools.h"
 
-void SystemTools::showDotFile(string fileName) {
-    string command = "dot -Tps " + fileName + "* -o tmp.ps";
-    system(command.c_str());
-    command = "gnome-open tmp.ps";
-    system(command.c_str());
+namespace filter {
+    namespace tools {
+        void SystemTools::showDotFile(std::string fileName) {
+            std::string command = "dot -Tps " + fileName + "* -o tmp.ps";
+            system(command.c_str());
+            command = "gnome-open tmp.ps";
+            system(command.c_str());
+        }
+    }
 }

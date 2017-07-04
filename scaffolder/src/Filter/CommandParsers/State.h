@@ -6,19 +6,24 @@
 #include <Filter/Writers/DotWriter/DotWriter.h>
 #include <Filter/Writers/DotWriter/DotWriterBuilder.h>
 
-struct State {
-    enum StateName {DEF, LOCAL};
-    StateName name = StateName::DEF;
-    std::string fileName = "";
-    int dist = 0;
-    FileValidator *validator = new FileValidator;
-    DotWriterBuilder *dotWriterBuilder = new DotWriterBuilder();
-    int maxEdge = 40;
-    int maxVert = 20;
+namespace filter {
+    namespace commands {
+        struct State {
+            enum StateName {
+                DEF, LOCAL
+            };
+            StateName name = StateName::DEF;
+            std::string fileName = "";
+            int dist = 0;
+            writers::FileValidator *validator = new writers::FileValidator;
+            writers::DotWriterBuilder *dotWriterBuilder = new writers::DotWriterBuilder();
+            int maxEdge = 40;
+            int maxVert = 20;
 
-    ~State() {
-        delete validator;
+            ~State() {
+                delete validator;
+            }
+        };
     }
-};
-
+}
 #endif //SCAFFOLDER_STATE_H

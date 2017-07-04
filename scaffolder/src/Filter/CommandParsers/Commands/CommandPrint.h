@@ -4,11 +4,14 @@
 #include <Filter/Filters/Filter.h>
 #include "Command.h"
 
-class CommandPrint: public Command{
+namespace filter {
+    namespace commands {
+        class CommandPrint : public Command {
 
-public:
-    void execute(std::string argv, State &state, Filter *filter) override;
-};
-
+        public:
+            void execute(std::string argv, State &state, Filter *filter) override;
+        };
+    }
+}
 
 #endif //SCAFFOLDER_COMMANDPRINT_H

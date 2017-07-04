@@ -6,26 +6,31 @@
 #include <Filter/Filters/Filter.h>
 #include "Scaffolds.h"
 
-class ScaffoldStrategy {
-protected:
-    std::vector<int> topsort;
-    std::vector<int> color;
-    std::vector<int> topSortPos;
+namespace filter {
+    namespace scaffolder {
+        class ScaffoldStrategy {
+        protected:
+            std::vector<int> topsort;
+            std::vector<int> color;
+            std::vector<int> topSortPos;
 
-    void topSortDfs(int v, Filter *graph, std::vector<int>* used);
-    void colorDfs(int v, int col, Filter * graph);
+            void topSortDfs(int v, Filter *graph, std::vector<int> *used);
 
-    void topSort(Filter *graph);
-    void findCycle(Filter *graph);
+            void colorDfs(int v, int col, Filter *graph);
 
-    int deg(int i, Filter *pFilter, int dirIn);
+            void topSort(Filter *graph);
 
-public:
-    virtual void addConnection(Scaffolds* scaffolds, Filter *graph, std::vector<int> minW) = 0;
+            void findCycle(Filter *graph);
 
-private:
-    DECL_LOGGER("ScaffoldStrategy");
-};
+            int deg(int i, Filter *pFilter, int dirIn);
 
+        public:
+            virtual void addConnection(Scaffolds *scaffolds, Filter *graph, std::vector<int> minW) = 0;
+
+        private:
+            DECL_LOGGER("ScaffoldStrategy");
+        };
+    }
+}
 
 #endif //SCAFFOLDER_SCAFFOLDSTRATEGY_H

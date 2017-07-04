@@ -6,12 +6,15 @@
 #include <Filter/Tools/SystemTools.h>
 #include <Filter/CommandParsers/Commands/Command.h>
 
-class CommandWrite : public Command {
-public:
-    void execute(std::string argv, State& state, Filter *filter) override;
+namespace filter {
+    namespace commands {
+        class CommandWrite : public Command {
+        public:
+            void execute(std::string argv, State &state, Filter *filter) override;
 
-    virtual void writeGraph(std::string argv, State& state, Filter *filter) = 0;
-};
-
+            virtual void writeGraph(std::string argv, State &state, Filter *filter) = 0;
+        };
+    }
+}
 
 #endif //SCAFFOLDER_COMMANDWRITE_H

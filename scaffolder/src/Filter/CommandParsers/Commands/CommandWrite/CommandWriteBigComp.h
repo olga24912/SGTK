@@ -4,10 +4,13 @@
 #include "CommandWrite.h"
 #include <Filter/Writers/WriteBigComponent.h>
 
-class CommandWriteBigComp : public CommandWrite {
-public:
-    void writeGraph(std::string argv, State &state, Filter *filter) override;
-};
-
+namespace filter {
+    namespace commands {
+        class CommandWriteBigComp : public CommandWrite {
+        public:
+            void writeGraph(std::string argv, State &state, Filter *filter) override;
+        };
+    }
+}
 
 #endif //SCAFFOLDER_COMMANDWRITEBIGCOMP_H

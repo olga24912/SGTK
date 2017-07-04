@@ -5,11 +5,14 @@
 #include <Filter/Filters/Filter.h>
 #include "Statistic.h"
 
-class CntRightConnectionStatistic : public Statistic {
-public:
-    void calculateStatistic(Filter *filter, std::string coordFile, int libNum);
+namespace filter {
+    namespace statistics {
+        class CntRightConnectionStatistic : public Statistic {
+        public:
+            void calculateStatistic(Filter *filter, std::string coordFile, int libNum);
 
-};
-
+        };
+    }
+}
 
 #endif //SCAFFOLDER_CNTRIGHTCONNECTIONSTATISTIC_H

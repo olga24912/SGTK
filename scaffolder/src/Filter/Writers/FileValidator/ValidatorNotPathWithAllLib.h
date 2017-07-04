@@ -3,10 +3,13 @@
 
 #include "FileValidator.h"
 
-class ValidatorNotPathWithAllLib : public FileValidator {
-public:
-    virtual bool isGoodVertexSet(std::vector<int> vert, Filter* filter);
-};
-
+namespace filter {
+    namespace writers {
+        class ValidatorNotPathWithAllLib : public FileValidator {
+        public:
+            virtual bool isGoodVertexSet(std::vector<int> vert, Filter *filter);
+        };
+    }
+}
 
 #endif //SCAFFOLDER_VALIDATORNOTPATHWITHALLLIB_H

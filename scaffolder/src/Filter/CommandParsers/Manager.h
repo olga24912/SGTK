@@ -25,8 +25,9 @@
 #include <fstream>
 #include <sstream>
 
-/*
- * commands:
+namespace filter {
+    namespace commands {
+        /* commands:
  * uploadGraph <filename>
  * minEdgeW <libNum> <weight>
  * minContig <len>
@@ -58,63 +59,67 @@
  * statisticTwoCompetitor <coordFile> <libNum1> <w1> <libNum2> <w2>
  * histogram <lib> <step>
  */
-class Manager {
-private:
-    static const std::string UPLOAD_GRAPH;
-    static const std::string MIN_EDGE_WEIGHT;
-    static const std::string MIN_CONTIG_LEN;
-    static const std::string WRITE_FULL;
-    static const std::string WRITE_LOCAL;
-    static const std::string WRITE_LOCAL_VERT_IN_SEG;
-    static const std::string WRITE_ALL_LOCAL;
-    static const std::string WRITE_BIG_COMP;
-    static const std::string MERGE_SIMPLE_PATH;
-    static const std::string WRITE_LOCAL_ALONG_PATH;
-    static const std::string SET_IGNORE;
-    static const std::string RESET_IGNORE;
-    static const std::string SET_IGNORE_EDGE;
-    static const std::string MERGE_LIB;
-    static const std::string PRINT;
-    static const std::string EXIT;
-    static const std::string SET_FV_NOT_PATH_WITH_ALL_LIB;
-    static const std::string SET_FV_WITH_DIF_IN_LIB;
-    static const std::string SET_FV_FORK;
-    static const std::string SET_FV_ONLY_FIRST;
-    static const std::string SET_FV_FEW_PARTS;
-    static const std::string SET_BLOCK_SPLIT_DOT_WRITER;
-    static const std::string SET_MAX_VE_IN_ONE_FILE;
-    static const std::string STAT_CORRECT_CON;
-    static const std::string STAT_WEIGHT;
-    static const std::string STAT_DIF;
-    static const std::string STAT_WEIGHT_DIF;
-    static const std::string STAT_TWO_LIB;
-    static const std::string STAT_TWO_COMP;
-    static const std::string HISTOGRAM;
+        class Manager {
+        private:
+            static const std::string UPLOAD_GRAPH;
+            static const std::string MIN_EDGE_WEIGHT;
+            static const std::string MIN_CONTIG_LEN;
+            static const std::string WRITE_FULL;
+            static const std::string WRITE_LOCAL;
+            static const std::string WRITE_LOCAL_VERT_IN_SEG;
+            static const std::string WRITE_ALL_LOCAL;
+            static const std::string WRITE_BIG_COMP;
+            static const std::string MERGE_SIMPLE_PATH;
+            static const std::string WRITE_LOCAL_ALONG_PATH;
+            static const std::string SET_IGNORE;
+            static const std::string RESET_IGNORE;
+            static const std::string SET_IGNORE_EDGE;
+            static const std::string MERGE_LIB;
+            static const std::string PRINT;
+            static const std::string EXIT;
+            static const std::string SET_FV_NOT_PATH_WITH_ALL_LIB;
+            static const std::string SET_FV_WITH_DIF_IN_LIB;
+            static const std::string SET_FV_FORK;
+            static const std::string SET_FV_ONLY_FIRST;
+            static const std::string SET_FV_FEW_PARTS;
+            static const std::string SET_BLOCK_SPLIT_DOT_WRITER;
+            static const std::string SET_MAX_VE_IN_ONE_FILE;
+            static const std::string STAT_CORRECT_CON;
+            static const std::string STAT_WEIGHT;
+            static const std::string STAT_DIF;
+            static const std::string STAT_WEIGHT_DIF;
+            static const std::string STAT_TWO_LIB;
+            static const std::string STAT_TWO_COMP;
+            static const std::string HISTOGRAM;
 
 
-    static const std::string CONFIG_FILE;
-    State state;
+            static const std::string CONFIG_FILE;
+            State state;
 
-    Filter* filter;
+            Filter *filter;
 
-    std::unordered_map<std::string, Command*> commandByKeyWord;
-    void readConfig();
-    bool handlingRequest(std::istream &in);
-public:
-    Manager();
+            std::unordered_map<std::string, Command *> commandByKeyWord;
 
-    void main();
+            void readConfig();
 
-    ~Manager() {
-        delete filter;
-        for (auto it = commandByKeyWord.begin(); it != commandByKeyWord.end(); ++it) {
-            delete (it->second);
-        }
+            bool handlingRequest(std::istream &in);
+
+        public:
+            Manager();
+
+            void main();
+
+            ~Manager() {
+                delete filter;
+                for (auto it = commandByKeyWord.begin(); it != commandByKeyWord.end(); ++it) {
+                    delete (it->second);
+                }
+            }
+
+        private:
+            DECL_LOGGER("Manager");
+        };
     }
-
-private:
-    DECL_LOGGER("Manager");
-};
-
+}
 
 #endif //SCAFFOLDER_MANAGER_H

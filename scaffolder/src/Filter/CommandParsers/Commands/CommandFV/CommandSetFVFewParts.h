@@ -6,13 +6,17 @@
 #include <Filter/Writers/FileValidator/ValidatorFewParts.h>
 #include "CommandSetFV.h"
 
-class CommandSetFVFewParts : public CommandSetFV {
-protected:
-    void setFV(State &state, std::string argv) override {
-        INFO("set file validator few parts");
-        state.validator = new ValidatorFewParts();
-    }
-};
+namespace filter {
+    namespace commands {
 
+        class CommandSetFVFewParts : public CommandSetFV {
+        protected:
+            void setFV(State &state, std::string argv) override {
+                INFO("set file validator few parts");
+                state.validator = new writers::ValidatorFewParts();
+            }
+        };
+    }
+}
 
 #endif //SCAFFOLDER_COMMANDSETFVFEWPARTS_H

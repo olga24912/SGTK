@@ -4,10 +4,14 @@
 #include <Filter/Filters/Filter.h>
 #include "Filter/CommandParsers/Commands/Command.h"
 
-class CommandResetIgnore : public Command {
-public:
-    void execute(std::string argv, State& state, Filter *filter) override;
-};
+namespace filter {
+    namespace commands {
+        class CommandResetIgnore : public Command {
+        public:
+            void execute(std::string argv, State &state, Filter *filter) override;
+        };
+    }
+}
 
 
 #endif //SCAFFOLDER_COMMANDRESETIGNORE_H

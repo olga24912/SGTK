@@ -3,41 +3,47 @@
 
 #include "DotWriter.h"
 
-class BlockSplitDotWriter : public DotWriter {
-public:
-    BlockSplitDotWriter(Filter *filter, FileValidator *validator, int maxVert, int maxEdge);
-protected:
-    const int minBlockDist = 100;
+namespace filter {
+    namespace writers {
+        class BlockSplitDotWriter : public DotWriter {
+        public:
+            BlockSplitDotWriter(Filter *filter, FileValidator *validator, int maxVert, int maxEdge);
 
-    struct vertBlock {
-        int vertId;
-        int coordB;
-        int coordE;
-        int hasOutsideEdge = 0;
-        vertBlock(){}
-        vertBlock(int vertId, int coordB, int coordE) : vertId(vertId), coordB(coordB), coordE(coordE) {}
+        protected:
+            const int minBlockDist = 100;
 
-        bool operator < (vertBlock b2) {
-            return coordB > b2.coordB;
-        }
-    };
+            struct vertBlock {
+                int vertId;
+                int coordB;
+                int coordE;
+                int hasOutsideEdge = 0;
 
-    void writeOneVertexSet(std::vector<int> vert, std::string fileName) override;
+                vertBlock() {}
 
-    std::vector<vertBlock> splitOnBlocks(int i);
+                vertBlock(int vertId, int coordB, int coordE) : vertId(vertId), coordB(coordB), coordE(coordE) {}
 
-    void findOutsideEdge(std::vector<std::vector<vertBlock>>& blocks);
+                bool operator<(vertBlock b2) {
+                    return coordB > b2.coordB;
+                }
+            };
 
-    bool isOutsideEdge(int e, const std::vector<std::vector<vertBlock>> &vector);
+            void writeOneVertexSet(std::vector<int> vert, std::string fileName) override;
 
-    void writeOneVertBlock(std::vector<vertBlock> &bl, std::ofstream &out);
+            std::vector<vertBlock> splitOnBlocks(int i);
 
-    void writeBlockEdges(const std::vector<vertBlock> &bl, std::ofstream &out);
+            void findOutsideEdge(std::vector<std::vector<vertBlock>> &blocks);
 
-    void writeEdges(const std::vector<std::vector<vertBlock>> &bl, std::ofstream &out);
+            bool isOutsideEdge(int e, const std::vector<std::vector<vertBlock>> &vector);
 
-    int findBlockId(int v, int e, const std::vector<std::vector<vertBlock>> &bl);
-};
+            void writeOneVertBlock(std::vector<vertBlock> &bl, std::ofstream &out);
 
+            void writeBlockEdges(const std::vector<vertBlock> &bl, std::ofstream &out);
+
+            void writeEdges(const std::vector<std::vector<vertBlock>> &bl, std::ofstream &out);
+
+            int findBlockId(int v, int e, const std::vector<std::vector<vertBlock>> &bl);
+        };
+    }
+}
 
 #endif //SCAFFOLDER_BLOCKSPLITDOTWRITER_H

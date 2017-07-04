@@ -4,10 +4,13 @@
 #include <Filter/Filters/Filter.h>
 #include "Filter/CommandParsers/Commands/Command.h"
 
-class CommandMinContig : public Command {
-public:
-    void execute(std::string argv, State& state, Filter *filter) override;
-};
-
+namespace filter {
+    namespace commands {
+        class CommandMinContig : public Command {
+        public:
+            void execute(std::string argv, State &state, Filter *filter) override;
+        };
+    }
+}
 
 #endif //SCAFFOLDER_COMMANDMINCONTIG_H

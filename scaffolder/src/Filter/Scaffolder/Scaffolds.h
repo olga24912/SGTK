@@ -5,41 +5,51 @@
 #include <vector>
 #include <Logger/logger.hpp>
 
-class Scaffolds {
-private:
-    class Node {
-    public:
-        Node* next;
-        Node* priv;
-        int id;
-        Node* rev;
-    };
+namespace filter {
+    namespace scaffolder {
+        class Scaffolds {
+        private:
+            class Node {
+            public:
+                Node *next;
+                Node *priv;
+                int id;
+                Node *rev;
+            };
 
-    const int GAP_SIZE = 100;
+            const int GAP_SIZE = 100;
 
-    std::vector<std::string> contigs;
-    std::vector<std::string> contigsName;
-    std::vector<Node> contigsNode;
-    std::vector<Node*> scaffolds;
+            std::vector<std::string> contigs;
+            std::vector<std::string> contigsName;
+            std::vector<Node> contigsNode;
+            std::vector<Node *> scaffolds;
 
-    void saveContigs(std::string contigFile);
-    std::string createRevCompl(std::string s);
+            void saveContigs(std::string contigFile);
 
-public:
-    Scaffolds(std::string contigFile);
-    void print(std::string out);
-    void addConnection(int id1, int id2);
-    void brokeConnection(int id1);
-    void brokeConnectionTo(int id2);
+            std::string createRevCompl(std::string s);
 
-    int lineId(int id);
-    bool isLast(int id);
-    bool isFirst(int id);
+        public:
+            Scaffolds(std::string contigFile);
 
-private:
-    DECL_LOGGER("Scaffolds");
+            void print(std::string out);
 
-};
+            void addConnection(int id1, int id2);
 
+            void brokeConnection(int id1);
+
+            void brokeConnectionTo(int id2);
+
+            int lineId(int id);
+
+            bool isLast(int id);
+
+            bool isFirst(int id);
+
+        private:
+            DECL_LOGGER("Scaffolds");
+
+        };
+    }
+}
 
 #endif //SCAFFOLDER_SCAFFOLDS_H

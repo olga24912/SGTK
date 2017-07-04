@@ -6,23 +6,26 @@
 #include "Searcher.h"
 #include "Filter/Writers/DotWriter/DotWriter.h"
 
+namespace filter {
+    namespace writers {
 //abstract class for classes that write graph
-class Writer {
-protected:
-    Filter* filter; //graph for writing
-    Searcher searcher = Searcher(filter); //for searching in graph
-    DotWriter* dotWriter; //for write graph in dot format
-public:
-    Writer(Filter* filter1, FileValidator* validator, DotWriterBuilder* builder):
-            filter(filter1), searcher(Searcher(filter1)), dotWriter(builder->build()) {
+        class Writer {
+        protected:
+            Filter *filter; //graph for writing
+            Searcher searcher = Searcher(filter); //for searching in graph
+            DotWriter *dotWriter; //for write graph in dot format
+        public:
+            Writer(Filter *filter1, FileValidator *validator, DotWriterBuilder *builder) :
+                    filter(filter1), searcher(Searcher(filter1)), dotWriter(builder->build()) {
+            }
+
+            virtual void write() = 0;
+
+            ~Writer() {
+                delete dotWriter;
+            }
+        };
     }
-
-    virtual void write() = 0;
-
-    ~Writer() {
-        delete dotWriter;
-    }
-};
-
+}
 
 #endif //SCAFFOLDER_WRITER_H

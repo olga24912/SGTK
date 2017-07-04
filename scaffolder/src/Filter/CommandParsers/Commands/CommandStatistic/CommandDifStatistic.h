@@ -3,10 +3,14 @@
 
 #include <Filter/CommandParsers/Commands/Command.h>
 
-class CommandDifStatistic : public Command {
-public:
-    void execute(std::string argv, State &state, Filter *filter) override;
-};
+namespace filter {
+    namespace commands {
 
+        class CommandDifStatistic : public Command {
+        public:
+            void execute(std::string argv, State &state, Filter *filter) override;
+        };
+    }
+}
 
 #endif //SCAFFOLDER_COMMANDDIFSTATISTIC_H

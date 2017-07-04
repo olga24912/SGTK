@@ -5,16 +5,20 @@
 #include <string>
 #include "Scaffolds.h"
 
-class ScaffolderPipeline {
-private:
-    void bothDirFilter(Filter* graph, Scaffolds& scaffolds);
-    void onlySplit50Filter(Filter* graph, Scaffolds& scaffolds);
-public:
-    void evaluate(Filter* graph, std::string contigFile, std::string out);
+namespace filter {
+    namespace scaffolder {
+        class ScaffolderPipeline {
+        private:
+            void bothDirFilter(Filter *graph, Scaffolds &scaffolds);
 
-private:
-    DECL_LOGGER("ScaffolderPipeline");
-};
+            void onlySplit50Filter(Filter *graph, Scaffolds &scaffolds);
 
+        public:
+            void evaluate(Filter *graph, std::string contigFile, std::string out);
 
+        private:
+            DECL_LOGGER("ScaffolderPipeline");
+        };
+    }
+}
 #endif //SCAFFOLDER_SCAFFOLDERPIPELINE_H

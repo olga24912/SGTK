@@ -1,7 +1,7 @@
 #include <Logger/log_writers.hpp>
 #include "Filter/CommandParsers/Manager.h"
 
-void create_console_logger(const string& log_props_file) {
+void create_console_logger(const std::string& log_props_file) {
     using namespace logging;
 
     //string log_props_file = cfg::get().log_filename;
@@ -15,9 +15,10 @@ void create_console_logger(const string& log_props_file) {
 }
 
 int main(int argc, char **argv) {
+    using namespace filter;
     create_console_logger("../log.properties");
 
-    Manager filter;
+    commands::Manager filter;
     filter.main();
     return 0;
 }

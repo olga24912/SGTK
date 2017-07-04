@@ -1,13 +1,18 @@
 #include <Filter/Statistics/WeightHistogram.h>
 #include "CommandHistogram.h"
 
-void CommandHistogram::execute(std::string argv, State &state, Filter *filter) {
-    std::stringstream ss(argv);
+namespace filter {
+    namespace commands {
 
-    int lib, step;
-    ss >> lib >> step;
+        void CommandHistogram::execute(std::string argv, State &state, Filter *filter) {
+                std::stringstream ss(argv);
 
-    INFO("Historgram lib=" << lib << " step=" << step);
+                int lib, step;
+                ss >> lib >> step;
 
-    WeightHistogram::histogram(filter, lib, step);
+                INFO("Historgram lib=" << lib << " step=" << step);
+
+                statistics::WeightHistogram::histogram(filter, lib, step);
+        }
+    }
 }
