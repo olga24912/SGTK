@@ -2,6 +2,7 @@
 #include "Builder/GraphBuilder/ReferenceGraphBuilder.h"
 
 void GraphControl::evaluate(int argc, char **argv) {
+    INFO("start build graph");
     argc -= (argc > 0);
     argv += (argc > 0);
 
@@ -129,4 +130,5 @@ void GraphControl::evaluate(int argc, char **argv) {
     delete gb;
 
     graph.write(path + "/graph.gr");
+    INFO("end build graph");
 }

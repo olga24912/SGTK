@@ -10,7 +10,8 @@ class ReadsSplitter50 : public ReadsSplitter {
 public:
     virtual void splitReads(std::string rnaFileName,
                             std::string resFileName1, std::string resFileName2);
-
+private:
+    DECL_LOGGER("ReadsSplitter50");
 };
 
 

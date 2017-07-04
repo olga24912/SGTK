@@ -28,7 +28,7 @@ int main(int argv, char** argc) {
     string libName = argc[3];
     string color = argc[4];
 
-    create_console_logger("log.properties");
+    create_console_logger("../log.properties");
 
     INFO("start add info file \""<< infoFileName << "\" to graph \"" << grFileName
                                 << "\" with new lib name \"" << libName << "\" and with new lib color " << color);

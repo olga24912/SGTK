@@ -66,6 +66,8 @@ public:
 
     // set barrier contig len. Contigs with smaller len will be ignore.
     void setMinContigLen(int minContigLen);
+private:
+    DECL_LOGGER("ReferenceGraphBuilder");
 };
 
 

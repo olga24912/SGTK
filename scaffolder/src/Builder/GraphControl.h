@@ -97,6 +97,9 @@ private:
 
 public:
     void evaluate(int argc, char **argv); //build conection with this args
+
+private:
+    DECL_LOGGER("GraphControl");
 };
 
 

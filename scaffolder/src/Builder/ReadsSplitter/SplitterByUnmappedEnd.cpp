@@ -1,6 +1,8 @@
 #include "SplitterByUnmappedEnd.h"
 
 void SplitterByUnmappedEnd::splitReads(std::string rnaFileName, std::string resFileName1, std::string resFileName2) {
+    INFO("start splitReads rnaFileName=" << rnaFileName << " resFileName1=" << resFileName1 << " resFileName2=" << resFileName2);
+
     seqan::SeqFileOut out1(resFileName1.c_str());
     seqan::SeqFileOut out2(resFileName2.c_str());
 
@@ -31,4 +33,6 @@ void SplitterByUnmappedEnd::splitReads(std::string rnaFileName, std::string resF
             }
         }
     }
+
+    INFO("finish splitReads");
 }

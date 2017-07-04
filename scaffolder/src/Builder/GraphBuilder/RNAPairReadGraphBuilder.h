@@ -13,6 +13,8 @@ protected:
 
 public:
     RNAPairReadGraphBuilder(){}
+private:
+    DECL_LOGGER("RNAPairReadGraphBuilder");
 };
 
 

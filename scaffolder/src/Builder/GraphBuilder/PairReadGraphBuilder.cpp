@@ -2,35 +2,42 @@
 #include <iostream>
 
 int PairReadGraphBuilder::pairTarget(int id) {
+    TRACE("getPairTarget id=" << id);
     return id ^ 1;
 }
 
 void PairReadGraphBuilder::setFileName2(const std::string &fileName2) {
+    DEBUG("setFileName2 fileName2" << fileName2);
     PairReadGraphBuilder::fileName2 = fileName2;
 }
 
 void PairReadGraphBuilder::setFileName1(const std::string &fileName1) {
+    DEBUG("setFileName1 fileName1" << fileName1);
     PairReadGraphBuilder::fileName1 = fileName1;
 }
 
 void PairReadGraphBuilder::setOneSideReadFlag(bool flag) {
+    DEBUG("setOneSideReadFlag flag=" << flag);
     oneSideRead = flag;
 }
 
 void PairReadGraphBuilder::evaluate() {
     read1ByName.clear();
-    std::cerr << "START" << std::endl;
+    INFO("START build graph");
     handleReads();
+    INFO("finish build graph");
 }
 
 void PairReadGraphBuilder::readHeaderInit() {
+    INFO("start initHeader");
     typedef seqan::FormattedFileContext<seqan::BamFileIn, void>::Type TBamContext;
 
     seqan::BamHeader sam_header;
     readHeader(sam_header, bamFile1);
     TBamContext const &bamContext = seqan::context(bamFile1);
     size_t contig_num = seqan::length(contigNames(bamContext));
-    std::cerr << contig_num << std::endl;
+
+    DEBUG("Contig num=" << contig_num);
 
     std::string name;
     for (int i = 0; i < static_cast<int>(contig_num); ++i) {
@@ -40,9 +47,12 @@ void PairReadGraphBuilder::readHeaderInit() {
         name += "-rev";
         graph->addVertex(2*i + 1, name, length);
     }
+
+    INFO("finish initHeader");
 }
 
 bool PairReadGraphBuilder::isUniqueMapRead(seqan::BamAlignmentRecord read) {
+    TRACE("isUniqueMapRead");
     seqan::BamTagsDict tagsDict(read.tags);
     int tagId = 0;
     if (seqan::findTagKey(tagId, tagsDict, "NH")) {
@@ -57,10 +67,10 @@ bool PairReadGraphBuilder::isUniqueMapRead(seqan::BamAlignmentRecord read) {
 
 std::pair<std::string,int> PairReadGraphBuilder::processOneFirstRead(seqan::BamAlignmentRecord read) {
     std::string readName = SeqanUtils::cutReadName(read);
+    TRACE("processOneFirstRead readName=" << readName);
+
     assert(read1ByName.count(readName) == 0);
-
     int target = get1Target(read);
-
     if (target < 0 || seqan::hasFlagSecondary(read) || !isUniqueMapRead(read)) {
         return std::make_pair("", -1);
     }
@@ -69,6 +79,8 @@ std::pair<std::string,int> PairReadGraphBuilder::processOneFirstRead(seqan::BamA
 }
 
 int PairReadGraphBuilder::get1Target(const seqan::BamAlignmentRecord &read) const {
+    TRACE("get1Target");
+
     bool isRev = hasFlagRC(read);
     int target = 2 * (read.rID);
     if (isRev) {
@@ -78,6 +90,8 @@ int PairReadGraphBuilder::get1Target(const seqan::BamAlignmentRecord &read) cons
 }
 
 int PairReadGraphBuilder::get2Target(const seqan::BamAlignmentRecord &read) const {
+    TRACE("get2Target");
+
     bool isRev = hasFlagRC(read);
     int target = 2 * (read.rID);
     if ((!isRev && !oneSideRead) || (isRev && oneSideRead)) {
@@ -87,15 +101,18 @@ int PairReadGraphBuilder::get2Target(const seqan::BamAlignmentRecord &read) cons
 }
 
 void PairReadGraphBuilder::addInfoAboutRead(std::string readName, int target, seqan::BamAlignmentRecord read) {
+    TRACE("addInfoAboutRead readName=" << readName << " target=" << target);
     read1ByName[readName] = read;
 }
 
 void PairReadGraphBuilder::addInfoAbout2Read(std::string readName, int target, seqan::BamAlignmentRecord read) {
+    TRACE("addInfoAbout2Read readName=" << readName << " target=" << target);
     read2ByName[readName] = read;
 }
 
 std::pair<std::string, int> PairReadGraphBuilder::processOneSecondRead(seqan::BamAlignmentRecord read) {
     std::string readName = SeqanUtils::cutReadName(read);
+    TRACE("processOneSecondRead readName=" << readName);
 
     int target = get2Target(read);
 
@@ -107,6 +124,7 @@ std::pair<std::string, int> PairReadGraphBuilder::processOneSecondRead(seqan::Ba
 }
 
 void PairReadGraphBuilder::incEdgeWeight(seqan::BamAlignmentRecord read1, seqan::BamAlignmentRecord read2) {
+    TRACE("incEdgeWeight");
     assert(seqan::isUniqueMapRead(read1));
     assert(seqan::isUniqueMapRead(read2));
 
@@ -130,50 +148,50 @@ void PairReadGraphBuilder::incEdgeWeight(seqan::BamAlignmentRecord read1, seqan:
 }
 
 void PairReadGraphBuilder::handleReads() {
-    std::cerr << "star handle reads" << std::endl;
-    std::cerr << fileName1 << std::endl;
+    INFO("start habdle reads");
+    DEBUG("fileName1=" << fileName1 << " fileName2=" << fileName2);
+
     if (!open(bamFile1, fileName1.c_str())) {
         std::cerr << "could not open file";
         return;
     }
     open(bamFile2, fileName2.c_str());
-
-    std::cerr << "open files" << std::endl;
+    DEBUG("finish open files");
 
     samFileWriter.setFileIn(&bamFile1);
 
     seqan::BamHeader samHeader2;
     readHeader(samHeader2, bamFile2);
-    std::cerr << "read header" << std::endl;
 
     if (graph->getLibNum() == 1) {
         readHeaderInit();
-        std::cerr << "read header init" << std::endl;
     } else {
         seqan::BamHeader samHeader1;
         readHeader(samHeader1, bamFile1);
     }
+    DEBUG("finish read header");
 
     seqan::BamAlignmentRecord read1, read2;
 
     while (!atEnd(bamFile1) || !atEnd(bamFile2)) {
-        //std::cerr << "next it" << std::endl;
+        TRACE("next read");
         std::pair<std::string, int> readInfo1;
         std::pair<std::string, int> readInfo2;
 
         if (!atEnd(bamFile1)) {
             seqan::readRecord(read1, bamFile1);
-//            std::cerr << "read first rec" << std::endl;
+            TRACE("read first rec");
             readInfo1 = processOneFirstRead(read1);
         }
-//        std::cerr << "finidh process first" << std::endl;
+
+        TRACE("finidh process first");
         if (!atEnd(bamFile2)) {
             seqan::readRecord(read2, bamFile2);
-//            std::cerr << "read sec rec" << std::endl;
+            TRACE("read sec rec");
             readInfo2 = processOneSecondRead(read2);
         }
 
-//        std::cerr << readInfo1.first << " " << readInfo2.first << std::endl;
+        TRACE("read1Name=" << readInfo1.first << " read2Name=" << readInfo2.first);
         
         if (readInfo2.first != "" && read1ByName.count(readInfo2.first)) {
             incEdgeWeight(read1ByName[readInfo2.first], read2);

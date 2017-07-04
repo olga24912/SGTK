@@ -1,6 +1,7 @@
 #include "ReferenceGraphBuilder.h"
 
 void ReferenceGraphBuilder::evaluate() {
+    INFO("start build graph by ref");
     if (tsvFileName == "") {
         SystemAlignmentTools::alignmentREF(refContigFileName, queryContigsFileName);
     }
@@ -12,9 +13,12 @@ void ReferenceGraphBuilder::evaluate() {
     } else {
         createGraph(parseTSVFile(tsvFileName));
     }
+
+    INFO("finish build graph by ref");
 }
 
 void ReferenceGraphBuilder::generateVertex() {
+    INFO("start generateVertex");
     bool firstLib = (graph->getLibNum() == 1);
 
     seqan::SeqFileIn seqFileIn(queryContigsFileName.c_str());
@@ -49,14 +53,17 @@ void ReferenceGraphBuilder::generateVertex() {
             graph->addVertex(2 * i + 1, name, (int)seq.length());
         }
     }
+    INFO("finish generateVertex");
 }
 
 std::string ReferenceGraphBuilder::getLibColor() {
+    TRACE("getLibColor");
     int color[3] = {255, 0, 0};
     return colorToString(color);
 }
 
 void ReferenceGraphBuilder::createGraph(std::map<std::string, std::vector<ReferenceGraphBuilder::alignmentInfo>> contigsAlignment) {
+    INFO("start createGraph");
     for (auto it = contigsAlignment.begin(); it != contigsAlignment.end(); ++it) {
         std::vector<alignmentInfo> contLPos = it->second;
         sort(contLPos.begin(), contLPos.end());
@@ -71,9 +78,11 @@ void ReferenceGraphBuilder::createGraph(std::map<std::string, std::vector<Refere
             graph->setEdgeChr(e, it->first);
         }
     }
+    INFO("finish createGraph");
 }
 
 std::map<std::string, std::vector<ReferenceGraphBuilder::alignmentInfo>> ReferenceGraphBuilder::parseCoordFile(std::string fileName) {
+    INFO("start parse coord file=" << fileName);
     std::map<std::string, std::vector<ReferenceGraphBuilder::alignmentInfo>> contigsAlignment;
     std::ifstream in(fileName);
 
@@ -98,11 +107,12 @@ std::map<std::string, std::vector<ReferenceGraphBuilder::alignmentInfo>> Referen
 
     in.close();
 
+    INFO("finish parse coord file");
     return contigsAlignment;
 }
 
 std::map<std::string, std::vector<ReferenceGraphBuilder::alignmentInfo>> ReferenceGraphBuilder::parseTSVFile(std::string fileName) {
-    std::cerr << "start parse TSV" << std::endl;
+    INFO("start parse TSV file=" << fileName);
     std::map<std::string, std::vector<ReferenceGraphBuilder::alignmentInfo>> contigsAlignment;
     std::ifstream in(fileName);
 
@@ -134,16 +144,18 @@ std::map<std::string, std::vector<ReferenceGraphBuilder::alignmentInfo>> Referen
 
     in.close();
 
+    INFO("finish parse TSV file");
     return contigsAlignment;
 }
 
 void ReferenceGraphBuilder::setSamFileWriter() {}
 
 void ReferenceGraphBuilder::setMinContigLen(int minContigLen) {
+    TRACE("setMinContigLen=" << minContigLen);
     this->minContigLen = minContigLen;
 }
 
 ContigGraph::Lib::Type ReferenceGraphBuilder::getLibType() {
+    TRACE("getLibType");
     return ContigGraph::Lib::REF;
 }
-

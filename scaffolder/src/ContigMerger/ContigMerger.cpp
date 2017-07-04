@@ -3,15 +3,22 @@
 void ContigMerger::evaluate(std::string contigsINFileName, std::string samReads1FileName, std::string samReads2FileName,
                             std::string contigOUTFileName, std::string samOutFileName,
                             std::string contig1Name, std::string contig2Name) {
+    INFO("start merge contig");
+    INFO("contigsINFileName=" << contigsINFileName << " samReads1FileName=" << samReads1FileName
+                              << " samReads2FileName=" << samReads2FileName
+                              << " contigOUTFileName=" << contigOUTFileName
+                              << " samOutFileName=" << samOutFileName
+                              << " contig1Name=" << contig1Name << " contig2Name=" << contig2Name);
+
     contig1Val = findContig(contigsINFileName, contig1Name);
     contig2Val = findContig(contigsINFileName, contig2Name);
-    std::cerr << "find contigs: " << contig1Val << " \n" << contig2Val << std::endl;
+    DEBUG("find contigs: " << contig1Val << " \n" << contig2Val);
 
     mergeContigs();
-    std::cerr << "\n newContig: " << contigVal << "\n";
+
+    DEBUG("newContig: " << contigVal);
 
     writeContig(contigOUTFileName);
-    std::cerr << "out contig\n";
 
     seqan::BamFileIn fileIn1(samReads1FileName.c_str());
     seqan::BamFileIn fileIn2(samReads2FileName.c_str());
@@ -37,6 +44,7 @@ void ContigMerger::evaluate(std::string contigsINFileName, std::string samReads1
 }
 
 std::string ContigMerger::findContig(std::string fileIn, std::string name) {
+    DEBUG("start findContig fileIN=" << fileIn << " name =" << name);
     seqan::SeqFileIn seqFileIn(fileIn.c_str());
     seqan::StringSet<seqan::CharString> ids;
     seqan::StringSet<seqan::Dna5String> seqs;
@@ -47,7 +55,7 @@ std::string ContigMerger::findContig(std::string fileIn, std::string name) {
         std::string contigName = getContigName(std::string(seqan::toCString(ids[i])));
         std::string seq = SeqanUtils::dna5ToString(seqan::toCString(seqs[i]), seqan::length(seqs[i]));
 
-        std::cerr << contigName << " " << name << std::endl;
+        TRACE(contigName << " " << name);
 
         if (contigName == name) {
             return seq;
@@ -64,9 +72,12 @@ void ContigMerger::mergeContigs() {
     }
 
     contigVal = contig1Val + ns + contig2Val;
+
+    DEBUG("mergeContig: " << contigVal);
 }
 
 void ContigMerger::writeContig(std::string fileName) {
+    INFO("write Contig to" << fileName);
     seqan::SeqFileOut out(fileName.c_str());
 
     seqan::StringSet<seqan::CharString> ids;
@@ -79,6 +90,7 @@ void ContigMerger::writeContig(std::string fileName) {
 }
 
 void ContigMerger::writeHeader(seqan::BamFileOut& out) {
+    INFO("writeHeafer");
     std::stringstream ss;
 
     resize(header, 2);
@@ -101,6 +113,7 @@ void ContigMerger::writeHeader(seqan::BamFileOut& out) {
 }
 
 void ContigMerger::writeReads(seqan::BamFileOut &out, seqan::BamFileIn &in1, seqan::BamFileIn &in2) {
+    INFO("writeReads");
     seqan::BamAlignmentRecord record1;
     seqan::BamAlignmentRecord record2;
     while (!seqan::atEnd(in1)) {
@@ -124,6 +137,7 @@ void ContigMerger::writeReads(seqan::BamFileOut &out, seqan::BamFileIn &in1, seq
 }
 
 std::string ContigMerger::getContigName(std::string s) {
+    TRACE("getContigName s=" << s);
     std::string res = "";
     for (int i = 0; i < (int)s.size() && s[i] != ' '; ++i) {
         res += s[i];

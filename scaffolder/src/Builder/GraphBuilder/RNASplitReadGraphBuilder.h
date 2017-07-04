@@ -33,6 +33,9 @@ public:
     void setRnaReadFileName(std::string rnaReadsFileName);
 
     void setGraph(ContigGraph *graph);
+
+private:
+    DECL_LOGGER("RNASplitReadGraphBuilder");
 };
 
 

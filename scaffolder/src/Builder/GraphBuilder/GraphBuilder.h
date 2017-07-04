@@ -31,6 +31,8 @@ public:
     void setLibName(std::string libName, std::string path);
 
     virtual void setSamFileWriter(); // init samFileWriter
+private:
+    DECL_LOGGER("GraphBuilder");
 };
 
 

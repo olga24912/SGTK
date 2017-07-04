@@ -25,6 +25,9 @@ public:
     // set max distance between DNA pair read,
     // if  dist will be more this conatcion will be ignore
     void setDistBetweenPairReads(int distBetweenPairReads);
+
+private:
+    DECL_LOGGER("DNAPairReadGraphBuilder");
 };
 
 

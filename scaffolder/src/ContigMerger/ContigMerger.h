@@ -5,6 +5,7 @@
 #include <seqan/seq_io.h>
 #include "ContigGraph/SeqanUtils.h"
 #include <string>
+#include <Logger/logger.hpp>
 
 //Merge two contig with some space between.
 //Change alignment reads for this new contig
@@ -39,6 +40,8 @@ public:
                   std::string samReads2FileName, std::string contigOUTFileName,
                   std::string samOutFileName,
                   std::string contig1Name, std::string contig2Name);
+private:
+    DECL_LOGGER("ContigMerger");
 };
 
 

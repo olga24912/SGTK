@@ -1,6 +1,7 @@
 #include "RNASplitReadGraphBuilder.h"
 
 void RNASplitReadGraphBuilder::evaluate() {
+    INFO("start RNASplitReadGraph build");
     SystemAlignmentTools wwot;
     ReadsSplitter50 rs;
     SplitterByUnmappedEnd su;
@@ -20,17 +21,22 @@ void RNASplitReadGraphBuilder::evaluate() {
 
     handlingPairReads(path + "/cutPartReads1.fasta", path + "/cutPartReads2.fasta", libName + "-50-50");
     handlingPairReads(path + "/short1.fasta", path + "/short2.fasta", libName + "-long-short");
+
+    INFO("finish RNASplitReadGraph build");
 }
 
 void RNASplitReadGraphBuilder::setRefFileName(std::string refFileName) {
+    TRACE("setRefFileName");
     RNASplitReadGraphBuilder::refFileName = refFileName;
 }
 
 void RNASplitReadGraphBuilder::setRnaReadFileName(std::string rnaReadsFileName) {
+    TRACE("setRnaReadFileName");
     RNASplitReadGraphBuilder::rnaReadsFileName = rnaReadsFileName;
 }
 
 void RNASplitReadGraphBuilder::handlingPairReads(std::string file1, std::string file2, std::string libN) {
+    INFO("start handle pair reads file1=" << file1 << " file2=" << file2 << " libName=" << libN);
     SystemAlignmentTools wwot;
 
     wwot.alignmentRNA(refFileName, file1, "rna1.sam", path);
@@ -45,22 +51,25 @@ void RNASplitReadGraphBuilder::handlingPairReads(std::string file1, std::string 
     gb.setGraph(graph);
 
     gb.evaluate();
+
+    INFO("finish handle pair reads");
 }
 
 std::string RNASplitReadGraphBuilder::getLibColor() {
+    TRACE("getLibColor");
     int cntRB = 100 + rand()%150;
     int color[3] = {cntRB, rand()%(cntRB/2), cntRB};
     return colorToString(color);
 }
 
 void RNASplitReadGraphBuilder::setGraph(ContigGraph *graph) {
+    TRACE("setGraph");
     GraphBuilder::graph = graph;
 }
 
 void RNASplitReadGraphBuilder::setSamFileWriter() {}
 
 ContigGraph::Lib::Type RNASplitReadGraphBuilder::getLibType() {
+    TRACE("getLibType");
     return ContigGraph::Lib::RNA_SPLIT_50;
 }
-
-

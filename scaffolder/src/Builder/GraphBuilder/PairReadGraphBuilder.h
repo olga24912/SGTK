@@ -48,6 +48,8 @@ public:
     void setOneSideReadFlag(bool flag);
 
     virtual void evaluate();
+private:
+    DECL_LOGGER("PairReadGraphBuilder");
 };
 
 #endif //SCAFFOLDER_PAIRREADGRAPHBUILDER_H

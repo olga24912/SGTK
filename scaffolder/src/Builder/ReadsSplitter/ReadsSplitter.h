@@ -4,6 +4,7 @@
 #include <string>
 #include <seqan/bam_io.h>
 #include <seqan/seq_io.h>
+#include <Logger/logger.hpp>
 
 //abstract class for splitting reads
 class ReadsSplitter {
@@ -19,6 +20,8 @@ public:
     //first part of split read will be in resFileName1
     //second - resFileName2
     virtual void splitReads(std::string rnaFileName, std::string resFileName1, std::string resFileName2) = 0;
+private:
+    DECL_LOGGER("ReadsSplitter");
 };
 
 
