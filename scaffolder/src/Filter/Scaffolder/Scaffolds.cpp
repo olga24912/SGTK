@@ -3,6 +3,8 @@
 #include <seqan/seq_io.h>
 
 void Scaffolds::print(std::string outFile) {
+    INFO("start print scaffolds, outFile=" << outFile << " info file= out.info");
+
     seqan::SeqFileOut out(outFile.c_str());
     std::ofstream outInfo("out.info");
 
@@ -10,10 +12,8 @@ void Scaffolds::print(std::string outFile) {
     seqan::StringSet<seqan::CharString> seqs;
 
     std::vector<int> was(scaffolds.size() / 2, 0);
-    std::cerr << contigsNode[1558].id << std::endl;
 
     for (int i = 0; i < (int)scaffolds.size(); ++i) {
-        if (i == 11522 || i == 11523) std::cerr << was[i/2] << std::endl;
         if (scaffolds[i] != nullptr && was[i/2] == 0) {
             was[i/2] = 1;
             std::stringstream ss;
@@ -26,13 +26,6 @@ void Scaffolds::print(std::string outFile) {
             std::string seq = "";
 
             while (cur != nullptr) {
-                if (cur->id == 1558 || cur -> id == 1559) {
-                    std::cerr << "find 1558" << " path " << i << std::endl;
-                }
-
-                if (cur->id == 11522 || cur -> id == 11523) {
-                    std::cerr << "find 11522" << " path " << i << std::endl;
-                }
                 was[(cur->id)/2] = 1;
                 if (cur->priv != nullptr) {
                     for (int j = 0; j < GAP_SIZE; ++j) {
@@ -61,6 +54,7 @@ void Scaffolds::print(std::string outFile) {
 }
 
 void Scaffolds::saveContigs(std::string contigFile) {
+    INFO("start save contigs, contigsFile=" << contigFile);
     seqan::SeqFileIn seqFileIn(contigFile.c_str());
     seqan::StringSet<seqan::CharString> ids;
     seqan::StringSet<seqan::Dna5String> seqs;
@@ -108,6 +102,7 @@ Scaffolds::Scaffolds(std::string contigFile) {
 }
 
 void Scaffolds::addConnection(int id1, int id2) {
+    TRACE("add connection between " << id1 << " " << id2);
     Node* node1 = &contigsNode[id1];
     Node* node2 = &contigsNode[id2];
     if (node2->priv != nullptr || node1->next != nullptr) return;
@@ -115,16 +110,10 @@ void Scaffolds::addConnection(int id1, int id2) {
     node1->next = node2;
     node2->priv = node1;
     scaffolds[id2] = nullptr;
-
-   // if (id1 == 1558) {
-   //     std::cerr << lineId(1558) << std::endl;
-    //}
 }
 
 void Scaffolds::brokeConnection(int id1) {
-    if (id1 == 1558) {
-        std::cerr << "BROKE" << id1 << std::endl;
-    }
+    TRACE("broke connection "  << id1);
     Node* node1 = &contigsNode[id1];
     Node* node2 = node1->next;
     if (node2 == nullptr) return;
@@ -140,10 +129,13 @@ int Scaffolds::lineId(int i) {
         node = node->priv;
     }
 
+    TRACE("lineId i=" << i << " :" << node->id);
+
     return node->id;
 }
 
 void Scaffolds::brokeConnectionTo(int id2) {
+    TRACE("broke connection To" << id2);
     Node* node = &contigsNode[id2];
     if  (node->priv == nullptr) return;
 
@@ -151,9 +143,11 @@ void Scaffolds::brokeConnectionTo(int id2) {
 }
 
 bool Scaffolds::isLast(int id) {
+    TRACE("isLast id=" << id << ": " << (contigsNode[id].next == nullptr));
     return (contigsNode[id].next == nullptr);
 }
 
 bool Scaffolds::isFirst(int id) {
+    TRACE("isFirst id=" << id << ": " << (contigsNode[id].priv == nullptr));
     return (contigsNode[id].priv == nullptr);
 }

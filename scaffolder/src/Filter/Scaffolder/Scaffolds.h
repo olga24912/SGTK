@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <Logger/logger.hpp>
 
 class Scaffolds {
 private:
@@ -34,6 +35,10 @@ public:
     int lineId(int id);
     bool isLast(int id);
     bool isFirst(int id);
+
+private:
+    DECL_LOGGER("Scaffolds");
+
 };
 
 

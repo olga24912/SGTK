@@ -3,6 +3,7 @@
 #include "ScaffoldStrategy.h"
 
 void ScaffoldStrategy::topSort(Filter *graph) {
+    INFO("top sort");
     int n = graph->getVertexCount();
     topSortPos.resize(n);
 
@@ -21,6 +22,7 @@ void ScaffoldStrategy::topSort(Filter *graph) {
 }
 
 void ScaffoldStrategy::findCycle(Filter *graph) {
+    INFO("condensation");
     int n = graph->getVertexCount();
     color.resize(n);
     int col = 1;
@@ -34,6 +36,7 @@ void ScaffoldStrategy::findCycle(Filter *graph) {
 
 
 void ScaffoldStrategy::topSortDfs(int v, Filter *graph, std::vector<int>* used) {
+    TRACE("topSortDfs v=" << v);
     (*used)[v] = 1;
     std::vector<int> edges = graph->getEdges(v);
     for (int e : edges) {
@@ -47,6 +50,7 @@ void ScaffoldStrategy::topSortDfs(int v, Filter *graph, std::vector<int>* used) 
 }
 
 void ScaffoldStrategy::colorDfs(int v, int col, Filter * graph) {
+    TRACE("colorDfs v=" << v);
     color[v] = col;
 
     std::vector<int> edges = graph->getEdges(v);
@@ -76,5 +80,6 @@ int ScaffoldStrategy::deg(int i, Filter *pFilter, int dirIn) {
         }
     }
 
+    TRACE("deg i=" << i << ": " << nb.size());
     return (int) nb.size();
 }

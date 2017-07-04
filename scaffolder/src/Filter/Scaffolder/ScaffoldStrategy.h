@@ -22,6 +22,9 @@ protected:
 
 public:
     virtual void addConnection(Scaffolds* scaffolds, Filter *graph, std::vector<int> minW) = 0;
+
+private:
+    DECL_LOGGER("ScaffoldStrategy");
 };
 
 

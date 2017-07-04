@@ -12,6 +12,8 @@ protected:
     void delEdgeFromDifPath(Scaffolds *scaffolds, Filter *graph);
 public:
     void addConnection(Scaffolds *scaffolds, Filter *graph, std::vector<int> minW) override;
+private:
+    DECL_LOGGER("ScaffoldStrategyOneLine");
 };
 
 

@@ -7,6 +7,7 @@
 #include "ScaffoldStrategyLeaveConnection.h"
 
 void ScaffolderPipeline::evaluate(Filter *graph, std::string contigFile, std::string out) {
+    INFO("start build scaffolds");
     Scaffolds scaffolds(contigFile);
 
     bothDirFilter(graph, scaffolds);
@@ -39,11 +40,13 @@ void ScaffolderPipeline::bothDirFilter(Filter *graph, Scaffolds &scaffolds) {
                     continue;
                 }
 
-                std::cerr << arg.str() << std::endl;
+                DEBUG("query: " << arg.str());
                 graph->processQuery(Query(Query::MIN_EDGE_WEIGHT, arg.str()));
             }
 
-            std::cerr << wp << " " << ws50 << " " << (int)(wp * 0.75 + ws50*2.25) << " " << (int)(wp * 0.75 + ws50*1.25) << std::endl;
+            INFO("add scaffolds with minPairWeight=" << wp << " minSplit50Weight=" << ws50
+                                                     << " minPairAcceptWeight=" << (int)(wp * 0.75 + ws50*2.25)
+                                                     << " minSplit50AcceptWeight" <<  (int)(wp * 0.75 + ws50*1.25));
 
             scafol.addConnection(&scaffolds, graph, std::vector<int> ({0, 0, (int)(wp * 0.75 + ws50*2.25), (int)(wp * 0.75 + ws50*1.25), 0, 0}));
         }

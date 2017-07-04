@@ -1,6 +1,7 @@
 #include "ScaffoldStrategyUniqueConnection.h"
 
 void ScaffoldStrategyUniqueConnection::addConnection(Scaffolds *scaffolds, Filter *graph, std::vector<int> minW) {
+    DEBUG("addConnection");
     topSort(graph);
     findCycle(graph);
     for (int i = 0; i < (int)topsort.size(); ++i) {
@@ -18,6 +19,7 @@ void ScaffoldStrategyUniqueConnection::addConnection(Scaffolds *scaffolds, Filte
 }
 
 bool ScaffoldStrategyUniqueConnection::isUniquePair(int v1, int v2, Filter *graph) {
+    TRACE("isUniquePair v1=" << v1 << " v2=" << v2);
     std::vector<int> edges = graph->getEdges(v1);
     for (int e : edges) {
         int u = graph->getEdgeTo(e);

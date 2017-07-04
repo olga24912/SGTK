@@ -11,6 +11,9 @@ private:
     void onlySplit50Filter(Filter* graph, Scaffolds& scaffolds);
 public:
     void evaluate(Filter* graph, std::string contigFile, std::string out);
+
+private:
+    DECL_LOGGER("ScaffolderPipeline");
 };
 
 

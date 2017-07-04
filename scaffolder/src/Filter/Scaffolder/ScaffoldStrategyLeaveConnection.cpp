@@ -1,6 +1,7 @@
 #include "ScaffoldStrategyLeaveConnection.h"
 
 void ScaffoldStrategyLeaveConnection::addConnection(Scaffolds *scaffolds, Filter *graph, std::vector<int> minW) {
+    DEBUG("addConnection");
     topSort(graph);
     findCycle(graph);
     addConnectionForLeaves(scaffolds, graph, 0, minW);
@@ -8,6 +9,7 @@ void ScaffoldStrategyLeaveConnection::addConnection(Scaffolds *scaffolds, Filter
 }
 
 void ScaffoldStrategyLeaveConnection::addConnectionForLeaves(Scaffolds *scaffolds, Filter *graph, int dir, std::vector<int> minW) {
+    DEBUG("start addConnection for leave dir=" << dir);
     int n = graph->getVertexCount();
 
     for (int i = 0; i < n; ++i) {
