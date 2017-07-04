@@ -7,6 +7,7 @@
 #include <unordered_map>
 #include <fstream>
 #include <iostream>
+#include <Logger/logger.hpp>
 #include "assert.h"
 
 // Store graph on contigs with several libs
@@ -107,5 +108,8 @@ public:
 
     void write(std::string fileName); //serialize this graph in .gr format in "fileName" file
     static ContigGraph read(std::string fileName); //generate ContigGraph from .gr format file
+
+private:
+    DECL_LOGGER("ContigGraph");
 };
 #endif //SCAFFOLDER_GRAPH_H

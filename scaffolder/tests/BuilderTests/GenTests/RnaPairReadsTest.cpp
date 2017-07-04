@@ -8,10 +8,10 @@ void RnaPairReadsTest::genTest(std::string refFileName, std::string read1FileNam
     this->outRefFileNema = outRefFileName;
 
     seqan::SeqFileIn seqFileIn(refFileName.c_str());
-    seqan::StringSet<seqan::CharString> ids;
-    seqan::StringSet<seqan::Dna5String> seqs;
-    seqan::readRecords(ids, seqs, seqFileIn);
-    dnaSeq = SeqanUtils::dna5ToString(seqan::toCString(seqs[0]), seqan::length(seqs[0]));
+    //seqan::StringSet<seqan::CharString> ids;
+    //seqan::StringSet<seqan::Dna5String> seqs;
+    //seqan::readRecords(ids, seqs, seqFileIn);
+    //dnaSeq = SeqanUtils::dna5ToString(seqan::toCString(seqs[0]), seqan::length(seqs[0]));
 
     genRnaSeq();
     genPairRead(rnaSeq);

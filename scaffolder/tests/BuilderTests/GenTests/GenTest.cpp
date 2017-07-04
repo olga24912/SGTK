@@ -1,7 +1,7 @@
 #include "GenTest.h"
 
 void GenTest::genContig() {
-    seqan::SeqFileOut outCont(outRefFileNema.c_str());
+    /*seqan::SeqFileOut outCont(outRefFileNema.c_str());
 
     for (int i = 0; i < 10; ++i) {
         std::stringstream ss;
@@ -11,12 +11,12 @@ void GenTest::genContig() {
         } else {
             SeqanUtils::writeRec(outCont, std::string(ss.str()), rev_compl(dnaSeq.substr((unsigned) i * contigLen, contigLen)));
         }
-    }
+    }*/
 }
 
 std::string GenTest::rev_compl(std::string s) {
     std::string res = s;
-    std::reverse(res.begin(), res.end());
+    /*std::reverse(res.begin(), res.end());
 
     for (int i = 0; i < (int)res.size(); ++i) {
         if (res[i] == 'A') {
@@ -28,13 +28,13 @@ std::string GenTest::rev_compl(std::string s) {
         } else if (res[i] == 'G') {
             res[i] = 'C';
         }
-    }
+    }*/
 
     return res;
 }
 
 void GenTest::genTest(std::string refFileName, std::string outRefFileName) {
-    this->refFileName = refFileName;
+/*    this->refFileName = refFileName;
     this->outRefFileNema = outRefFileName;
 
     seqan::SeqFileIn seqFileIn(refFileName.c_str());
@@ -43,5 +43,5 @@ void GenTest::genTest(std::string refFileName, std::string outRefFileName) {
     seqan::readRecords(ids, seqs, seqFileIn);
     dnaSeq = SeqanUtils::dna5ToString(seqan::toCString(seqs[0]), seqan::length(seqs[0]));
 
-    genContig();
+    genContig();*/
 }

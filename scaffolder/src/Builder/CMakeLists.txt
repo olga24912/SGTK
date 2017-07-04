@@ -15,6 +15,7 @@ set(SOURCE_FILES GraphControl.cpp GraphControl.h
         ReadsSplitter/ReadsSplitter50.cpp ReadsSplitter/ReadsSplitter50.h
         ReadsSplitter/SplitterByUnmappedEnd.cpp ReadsSplitter/SplitterByUnmappedEnd.h
         SamFileWriter/SamFileWriteEdge.cpp SamFileWriter/SamFileWriteEdge.h
-        GraphBuilder/ReferenceGraphBuilder.cpp GraphBuilder/ReferenceGraphBuilder.h SamFileWriter/SamFileWriterEdgeFictive.cpp SamFileWriter/SamFileWriterEdgeFictive.h)
+        GraphBuilder/ReferenceGraphBuilder.cpp GraphBuilder/ReferenceGraphBuilder.h
+        SamFileWriter/SamFileWriterEdgeFictive.cpp SamFileWriter/SamFileWriterEdgeFictive.h)
 
 add_library(builder_lib ${SOURCE_FILES})

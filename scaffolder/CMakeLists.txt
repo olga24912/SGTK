@@ -1,10 +1,13 @@
 cmake_minimum_required(VERSION 3.3)
 project(scaffolder)
 
-find_package (ZLIB)
-find_package(Threads)
+find_package (ZLIB REQUIRED)
+find_package(Threads REQUIRED)
+find_package(Boost REQUIRED)
 
 include_directories (${SEQAN_INCLUDE_DIRS})
+INCLUDE_DIRECTORIES( ${Boost_INCLUDE_DIR} )
+
 add_definitions (${SEQAN_DEFINITIONS})
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${SEQAN_CXX_FLAGS} -std=c++14 -O3 -DSEQAN_HAS_ZLIB=1")
 
@@ -21,9 +24,8 @@ add_executable(addBothPath mainAddBothPath.cpp)
 add_executable(mergeGraph mainMergeGraph.cpp)
 add_executable(splitFast mainSplitFastqFiles.cpp)
 
-
-target_link_libraries(build builder_lib contig_graph_lib ${SEQAN_LIBRARIES} ${ZLIB_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
-target_link_libraries(filter filter_lib contig_graph_lib ${SEQAN_LIBRARIES} ${ZLIB_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
-target_link_libraries(merger contig_merger_lib contig_graph_lib)
-target_link_libraries(addInfoToGraph contig_graph_lib)
-target_link_libraries(addBothPath contig_graph_lib)
+target_link_libraries(build builder_lib contig_graph_lib logger_lib ${SEQAN_LIBRARIES} ${ZLIB_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
+target_link_libraries(filter filter_lib contig_graph_lib  logger_lib ${SEQAN_LIBRARIES} ${ZLIB_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
+target_link_libraries(merger contig_merger_lib contig_graph_lib logger_lib)
+target_link_libraries(addInfoToGraph contig_graph_lib logger_lib ${CMAKE_THREAD_LIBS_INIT} ${Boost_LIBRARIES})
+target_link_libraries(addBothPath contig_graph_lib logger_lib)

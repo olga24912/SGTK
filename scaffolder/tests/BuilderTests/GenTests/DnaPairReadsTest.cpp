@@ -2,7 +2,7 @@
 
 void DnaPairReadsTest::genTest(std::string refFileName, std::string read1FileName, std::string read2FileName,
                                std::string outRefFileName) {
-    this->refFileName = refFileName;
+    /*this->refFileName = refFileName;
     this->read1FileName = read1FileName;
     this->read2FileName = read2FileName;
     this->outRefFileNema = outRefFileName;
@@ -14,5 +14,5 @@ void DnaPairReadsTest::genTest(std::string refFileName, std::string read1FileNam
     dnaSeq = SeqanUtils::dna5ToString(seqan::toCString(seqs[0]), seqan::length(seqs[0]));
 
     genPairRead(dnaSeq);
-    genContig();
+    genContig();*/
 }

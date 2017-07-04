@@ -1,7 +1,7 @@
 #include "PairReadsTest.h"
 
 void PairReadsTest::genPairRead(std::string ref) {
-    seqan::SeqFileOut outRead1(read1FileName.c_str());
+    /*seqan::SeqFileOut outRead1(read1FileName.c_str());
     seqan::SeqFileOut outRead2(read2FileName.c_str());
 
     for (int i = 0; i < (int)ref.size() - pairDist - 2*readLen; i += 10) {
@@ -29,5 +29,5 @@ void PairReadsTest::genPairRead(std::string ref) {
 
         SeqanUtils::writeRec(outRead1, name1, read1);
         SeqanUtils::writeRec(outRead2, name2, read2);
-    }
+    }*/
 }

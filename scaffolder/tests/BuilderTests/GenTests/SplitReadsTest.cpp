@@ -1,7 +1,7 @@
 #include "SplitReadsTest.h"
 
 void SplitReadsTest::genTest(std::string fi, std::string fo, std::string rf, int readLen, int contigsCnt) {
-    seqan::SeqFileIn seqFileIn(fi.c_str());
+    /*seqan::SeqFileIn seqFileIn(fi.c_str());
     seqan::StringSet<seqan::CharString> ids;
     seqan::StringSet<seqan::Dna5String> seqs;
     seqan::readRecords(ids, seqs, seqFileIn);
@@ -35,14 +35,14 @@ void SplitReadsTest::genTest(std::string fi, std::string fo, std::string rf, int
         }
         std::reverse(id.begin(), id.end());
         SeqanUtils::writeRec(outCon, "conitg" + id, fullref.substr(spos[i], spos[i + 1] - spos[i]));
-    }
+    }*/
 }
 
 std::string SplitReadsTest::smallRef(std::string ref, int exonLen, int intronLen, std::vector<int> spos) {
-    std::string res;
+    /*std::string res;
     int pos = intronLen;
     for (; pos + exonLen < ref.size(); pos += exonLen + intronLen) {
         res.append(ref.substr(pos, exonLen));
     }
-    return res;
+    return res;*/
 }

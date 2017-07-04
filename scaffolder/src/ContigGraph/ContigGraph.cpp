@@ -5,19 +5,24 @@
 const std::string ContigGraph::Lib::typeToStr[] = {"REF", "DNA_PAIR", "RNA_PAIR", "RNA_SPLIT_50", "RNA_SPLIT_30", "SCAFF"};
 
 int ContigGraph::getLibNum() {
+    TRACE("get lib num: " << (int)libs.size());
     return (int)libs.size();
 }
 
 int ContigGraph::getVertexCount() {
+    TRACE("get vertex count: " << (int)graph.size());
     return (int)graph.size();
 }
 
 int ContigGraph::getTargetLength(int v) const {
+    TRACE("get target " << v << " length: " << targets[v].len);
     return targets[v].len;
 }
 
 int ContigGraph::addVertex(int id, std::string name, int len) {
     assert(id == (int)graph.size());
+    DEBUG("add vertex id = " << id << "  vertex name = " << name << "  vertex len = " << len);
+
     graph.push_back(std::vector<int>());
     graphR.push_back(std::vector<int>());
     targetId[name] = id;
@@ -33,6 +38,9 @@ int ContigGraph::addVertex(int id, std::string name, int len) {
 int ContigGraph::incEdgeWeight(int v, int u, int cb1, int ce1, int cb2, int ce2) {
     assert(libs.size() > 0);
     assert(v < vrtsToEdge.size());
+
+    DEBUG("increment edge Weight between v=" << v <<"(" << cb1 << "-" << ce1 << ") u=" << u << "(" << cb2 << "-" << ce2 << ")");
+
     int e = -1;
     std::vector<int> candidates = vrtsToEdge[v][u];
 
@@ -58,10 +66,14 @@ int ContigGraph::incEdgeWeight(int v, int u, int cb1, int ce1, int cb2, int ce2)
     edges[e].coordEnd1 = std::max(edges[e].coordEnd1, ce1);
     edges[e].coordBegin2 = std::min(edges[e].coordBegin2, cb2);
     edges[e].coordEnd2 = std::max(edges[e].coordEnd2, ce2);
+
+    DEBUG("inc edge id=" << e << "coords =(" << edges[e].coordBegin1 << "-" << edges[e].coordEnd1
+                         << "; " << edges[e].coordBegin2 << "-" << edges[e].coordEnd2 << ")");
     return e;
 }
 
 void ContigGraph::newLib(std::string name, std::string color, Lib::Type type) {
+    DEBUG("new lib with name=" << name << " color=" << color << " type=" << Lib::typeToStr[type]);
     libs.push_back(Lib(color, name, type));
 
     for (int i = 0; i < (int)vrtsToEdge.size(); ++i) {
@@ -70,26 +82,29 @@ void ContigGraph::newLib(std::string name, std::string color, Lib::Type type) {
 }
 
 std::vector<int> ContigGraph::getEdges(int v) {
+    TRACE("getEdges v=" << v);
     return graph[v];
 }
 
 std::vector<int> ContigGraph::getEdgesR(int v) {
+    TRACE("getEdgesR v=" << v);
     return graphR[v];
 }
 
 int ContigGraph::getToVertex(int e) {
+    TRACE("get v (e(" << e << "):u(" << edges[e].from << ")->V(" << edges[e].to << "))");
     return edges[e].to;
 }
 
 int ContigGraph::getFromVertex(int e) {
+    TRACE("get U (e(" << e << "):U(" << edges[e].from << ")->v(" << edges[e].to << "))");
     return edges[e].from;
 }
 
 void ContigGraph::write(std::string fileName) {
+    INFO("start write graph to " << fileName);
     std::ofstream out(fileName);
-
-    std::cerr << "Write -> gr" << " " << fileName << std::endl;
-    std::cerr << edges.size() << std::endl;
+    DEBUG("libs num=" << libs.size() << " vertex num=" << graph.size() << " edegs num=" << edges.size());
 
     out << libs.size() << "\n";
     for (int i = 0; i < (int)libs.size(); ++i) {
@@ -115,13 +130,17 @@ void ContigGraph::write(std::string fileName) {
 }
 
 ContigGraph ContigGraph::read(std::string fileName) {
+    INFO("start read graph \"" << fileName << "\"");
+
     ContigGraph g;
     std::ifstream in(fileName);
     size_t ln;
     size_t vn;
     size_t en;
+
     in >> ln;
-    std::cerr << ln << std::endl;
+    DEBUG("lib num=" << ln);
+
     g.libs.resize(ln);
     for (int i = 0; i < ln; ++i) {
         char c;
@@ -132,7 +151,7 @@ ContigGraph ContigGraph::read(std::string fileName) {
     }
 
     in >> vn;
-    std::cerr << vn << std::endl;
+    DEBUG("vertex num=" << vn);
     g.graph.resize(vn);
     g.graphR.resize(vn);
     g.vrtsToEdge.resize(vn);
@@ -152,7 +171,7 @@ ContigGraph ContigGraph::read(std::string fileName) {
     }
 
     in >> en;
-    std::cerr << en << std::endl;
+    DEBUG("edge num=" << en);
     g.edges.resize(en);
     std::string tmp;
     getline(in, tmp);
@@ -180,26 +199,32 @@ ContigGraph ContigGraph::read(std::string fileName) {
 }
 
 std::string ContigGraph::getTargetName(int v) {
+    TRACE("getTargetName v="<<v  << " : " << targets[v].name);
     return targets[v].name;
 }
 
 int ContigGraph::getEdgeWeight(int e) {
+    TRACE("getEdgeWeight e=" << e << " : " << edges[e].weight);
     return edges[e].weight;
 }
 
 int ContigGraph::getEdgeLib(int e) {
+    TRACE("getEdgeLib e=" << e << " : " << edges[e].lib);
     return edges[e].lib;
 }
 
 std::string ContigGraph::getLibColor(int l) {
+    TRACE("getLibColor l=" << l << " : " << libs[l].color);
     return libs[l].color;
 }
 
 std::string ContigGraph::getLibName(int l) {
+    TRACE("getLibName l=" << l << " : " << libs[l].name);
     return libs[l].name;
 }
 
 int ContigGraph::getTargetId(std::string name) {
+    TRACE("getTargetId name=" << name << " : " << targetId[name]);
     return targetId[name];
 }
 
@@ -207,37 +232,46 @@ std::string ContigGraph::getEdgeInfo(int e) {
     std::stringstream ss;
     ss << edges[e].chr_name << "\n";
     ss << "coord: " << edges[e].coordBegin1 << "-" << edges[e].coordEnd1 << "\n" << edges[e].coordBegin2 << "-" << edges[e].coordEnd2;
+    TRACE("getEdgeInfo e=" << e << " : " << ss.str());
     return ss.str();
 }
 
 std::pair<int, int> ContigGraph::getFirstCoord(int e) {
+    TRACE("getFirstCoord e=" << e);
     return std::make_pair(edges[e].coordBegin1, edges[e].coordEnd1);
 }
 
 std::pair<int, int> ContigGraph::getSecondCoord(int e) {
+    TRACE("getSecondCoord e=" << e);
     return std::make_pair(edges[e].coordBegin2, edges[e].coordEnd2);
 }
 
 ContigGraph::Lib::Type ContigGraph::getLibType(int l) {
+    TRACE("getLibType l=" << l << " : " << Lib::typeToStr[libs[l].type]);
     return libs[l].type;
 }
 
 int ContigGraph::getEdgeCoordB1(int e) {
+    TRACE("getEdgeCoordB1 e=" << e << " : " << edges[e].coordBegin1);
     return edges[e].coordBegin1;
 }
 
 int ContigGraph::getEdgeCoordE1(int e) {
+    TRACE("getEdgeCoordE1 e=" << e << " : " << edges[e].coordEnd1);
     return edges[e].coordEnd1;
 }
 
 int ContigGraph::getEdgeCoordB2(int e) {
+    TRACE("getEdgeCoordB2 e=" << e << " : " << edges[e].coordBegin2);
     return edges[e].coordBegin2;
 }
 
 int ContigGraph::getEdgeCoordE2(int e) {
+    TRACE("getEdgeCoordE2 e=" << e << " : " << edges[e].coordEnd2);
     return edges[e].coordEnd2;
 }
 
 void ContigGraph::setEdgeChr(int e, std::string name) {
+    TRACE("setEdgeChr e=" << e << " name=" << name);
     edges[e].chr_name = name;
 }
