@@ -9,6 +9,7 @@ public:
         int mv, me;
         std::stringstream ss(argv);
         ss >> mv >> me;
+        INFO("set max vertex and edge in one file maxVert=" << mv << " maxEdge=" << me);
         state.maxVert = mv;
         state.maxEdge = me;
     }

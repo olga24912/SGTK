@@ -7,6 +7,8 @@ void CommandWriteLocalVertInSeg::writeGraph(std::string argv, State &state, Filt
     int dist;
     ss >> fileName >> vb >> ve >> dist;
 
+    INFO("write local vert in seg fileName=" << fileName << " vb=" << vb << " ve=" << ve << " dist=" << dist);
+
     for (int v = vb; v <= ve; ++v) {
         string name = "";
         int x = v;

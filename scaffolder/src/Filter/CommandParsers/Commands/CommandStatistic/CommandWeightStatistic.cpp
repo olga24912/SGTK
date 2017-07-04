@@ -9,6 +9,8 @@ void CommandWeightStatistic::execute(std::string argv, State &state, Filter *fil
     int mxVal;
     ss >> fileName >> libNum >> step >> mxVal;
 
+    INFO("Weight statistic fileName=" << fileName << " libNum=" << libNum << " step=" << step << " mxVal=" << mxVal);
+
     WeightStatistic cs;
     cs.calculateStatistic(filter, fileName, libNum, step, mxVal);
 }

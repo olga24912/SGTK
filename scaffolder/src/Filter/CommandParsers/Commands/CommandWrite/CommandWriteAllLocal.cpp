@@ -6,6 +6,8 @@ void CommandWriteAllLocal::writeGraph(std::string argv, State &state, Filter *fi
     int dist;
     ss >> fileName >> dist;
 
+    INFO("write all local fileName=" << fileName << " dist=" << dist);
+
     for (int v = 0; v < filter->getVertexCount(); ++v) {
         string name = "";
         int x = v;

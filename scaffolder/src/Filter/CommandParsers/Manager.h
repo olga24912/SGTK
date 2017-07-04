@@ -111,6 +111,9 @@ public:
             delete (it->second);
         }
     }
+
+private:
+    DECL_LOGGER("Manager");
 };
 
 

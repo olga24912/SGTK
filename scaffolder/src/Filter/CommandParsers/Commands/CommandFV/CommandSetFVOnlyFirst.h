@@ -12,6 +12,9 @@ protected:
         std::stringstream ss(argv);
         int ln1, ln2;
         ss >> ln1 >> ln2;
+
+        INFO("set file validator with first" << ln1 << " but without second " << ln2 << " lib");
+
         state.validator = new ValidatorOnlyFirst(ln1, ln2);
     }
 };

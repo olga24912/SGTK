@@ -9,6 +9,8 @@ void CommandDifStatistic::execute(std::string argv, State &state, Filter *filter
     int mxVal;
     ss >> fileName >> libNum >> step >> mxVal;
 
+    INFO("Dif statistic fileName=" << fileName << " libNum=" << libNum << " step=" << step << " mxVal=" << mxVal);
+
     DifStatistic cs;
     cs.calculateStatistic(filter, fileName, libNum, step, mxVal);
 }

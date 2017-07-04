@@ -88,7 +88,7 @@ Manager::Manager() {
 
 void Manager::main() {
     readConfig();
-    std::cout << "Finish read config file" << std::endl;
+    INFO("Finish read config file");
 }
 
 void Manager::readConfig() {
@@ -104,11 +104,14 @@ bool Manager::handlingRequest(std::istream &in) {
     if (!(in >> keyWord)) {
         return false;
     }
-    std::cerr << keyWord << std::endl;
+
+
+    DEBUG("key word=" << keyWord);
+
     if (commandByKeyWord.count(keyWord) > 0) {
         getline(in, argv);
 
-        std::cerr << keyWord << std::endl;
+        DEBUG("correct keyWord=" << keyWord);
         commandByKeyWord[keyWord]->execute(argv, state, filter);
     } else if (keyWord == Manager::EXIT) {
         return false;

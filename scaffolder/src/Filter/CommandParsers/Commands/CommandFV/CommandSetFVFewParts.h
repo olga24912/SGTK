@@ -9,6 +9,7 @@
 class CommandSetFVFewParts : public CommandSetFV {
 protected:
     void setFV(State &state, std::string argv) override {
+        INFO("set file validator few parts");
         state.validator = new ValidatorFewParts();
     }
 };

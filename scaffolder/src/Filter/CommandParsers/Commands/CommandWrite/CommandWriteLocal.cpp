@@ -7,7 +7,7 @@ void CommandWriteLocal::writeGraph(std::string argv, State& state, Filter *filte
     int dist;
     ss >> fileName >> v >> dist;
 
-    std::cerr << "command write local" << std::endl;
+    INFO("write local graph fileName=" << fileName << " v=" << v << " dist=" << dist);
 
     WriteLocal writer(v, dist, fileName, filter, state.validator, state.dotWriterBuilder);
     writer.write();

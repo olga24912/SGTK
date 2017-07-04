@@ -10,6 +10,8 @@ void CommandTwoCompStatistic::execute(std::string argv, State &state, Filter *fi
     int val2;
     ss >> fileName >> libNum1 >> val1 >> libNum2 >> val2;
 
+    INFO("TwoComp statistic libNum1=" << libNum1 << " val1=" << val1 << " libNum2=" << libNum2 << " val2=" << val2);
+
     TwoCompStatistic cs;
     cs.calculateStatistic(filter, fileName, libNum1, val1, libNum2, val2);
 }

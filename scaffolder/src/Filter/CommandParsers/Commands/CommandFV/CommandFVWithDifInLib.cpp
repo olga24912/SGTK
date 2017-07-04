@@ -2,6 +2,8 @@
 #include "CommandFVWithDifInLib.h"
 
 void CommandFVWithDifInLib::setFV(State &state, std::string argv) {
+    INFO("set file validator with dif in libs " << argv);
+
     int libNum;
     std::vector<int> libs;
     std::stringstream ss(argv);

@@ -8,6 +8,7 @@
 class CommandSetFVFork : public CommandSetFV {
 protected:
     void setFV(State &state, std::string argv) override {
+        INFO("set file validator in lib=" << argv);
         std::stringstream ss(argv);
         int ln;
         ss >> ln;
