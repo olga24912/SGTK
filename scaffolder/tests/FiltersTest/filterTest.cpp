@@ -37,7 +37,6 @@ TEST_F(FiltersTest, testAdapterUploadGraph) {
 
 TEST_F(FiltersTest, testAdapterCoord) {
     graphFileName = "../../../resources/filterTest/simple_adapter_graph.gr";
-    const int EDGE_CNT = 10;
     const int VERT_CNT = 8;
     const int COORD[10][4] = {{900, 1000, 0,   100},
                               {850, 950,  10,  110},
@@ -67,6 +66,31 @@ TEST_F(FiltersTest, testAdapterCoord) {
             ASSERT_EQ(COORD[e][2], adapter.getEdgeCoordB2(e));
             ASSERT_EQ(COORD[e][3], adapter.getEdgeCoordE2(e));
         }
+    }
+}
+
+TEST_F(FiltersTest, testAdapterVertex) {
+    graphFileName = "../../../resources/filterTest/simple_adapter_graph.gr";
+    const int LIB_CNT = 2;
+    const int VERT_CNT = 8;
+
+    contig_graph::ContigGraph graph;
+    filter::FilterAdapter adapter(graph);
+
+    adapter.processQuery(filter::Query(filter::Query::UPLOAD_GRAPH, graphFileName));
+
+    std::vector<int> vert = adapter.getVertexList();
+    ASSERT_EQ(VERT_CNT, vert.size());
+    for (int i = 0; i < VERT_CNT; ++i) {
+        ASSERT_EQ(i, vert[i]);
+    }
+
+    ASSERT_EQ(VERT_CNT, adapter.getVertexCount());
+
+    for (int i = 0; i < VERT_CNT; ++i) {
+        std::stringstream curName;
+        curName << "node" << i;
+        ASSERT_EQ(curName.str(), adapter.getTargetName(i));
     }
 }
 

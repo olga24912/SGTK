@@ -4,7 +4,7 @@
 
 class ContigGraphTest : public  ::testing::Test {
 protected:
-    ContigGraph graph;
+    contig_graph::ContigGraph graph;
     std::string tmpFileName;
 
     void SetUp() {
@@ -14,16 +14,16 @@ protected:
 
 TEST_F(ContigGraphTest, addNewLib) {
     ASSERT_EQ(graph.getLibNum(), 0);
-    graph.newLib("lib1", "#ff0000", ContigGraph::Lib::REF);
+    graph.newLib("lib1", "#ff0000", contig_graph::ContigGraph::Lib::REF);
     ASSERT_EQ(graph.getLibNum(), 1);
 
     ASSERT_EQ(graph.getLibName(0), "lib1");
     ASSERT_EQ(graph.getLibColor(0), "#ff0000");
-    ASSERT_EQ(graph.getLibType(0), ContigGraph::Lib::REF);
+    ASSERT_EQ(graph.getLibType(0), contig_graph::ContigGraph::Lib::REF);
 }
 
 TEST_F(ContigGraphTest, addVertexAndEdges) {
-    graph.newLib("lib1", "#ff0000", ContigGraph::Lib::RNA_PAIR);
+    graph.newLib("lib1", "#ff0000", contig_graph::ContigGraph::Lib::RNA_PAIR);
 
     graph.addVertex(0, "vert1", 10);
     graph.addVertex(1, "vert1-rev", 11);
@@ -43,7 +43,7 @@ TEST_F(ContigGraphTest, addVertexAndEdges) {
     ASSERT_EQ(graph.getTargetName(2), "vert2");
 
 
-    graph.newLib("lib2", "#00ff00", ContigGraph::Lib::RNA_PAIR);
+    graph.newLib("lib2", "#00ff00", contig_graph::ContigGraph::Lib::RNA_PAIR);
 
     graph.incEdgeWeight(0, 2, 2, 7, 2, 20);
     graph.incEdgeWeight(0, 2, 1, 6, 15, 25);
@@ -53,19 +53,19 @@ TEST_F(ContigGraphTest, addVertexAndEdges) {
 }
 
 TEST_F(ContigGraphTest, serialization) {
-    graph.newLib("lib1", "#ff0000", ContigGraph::Lib::RNA_SPLIT_50);
+    graph.newLib("lib1", "#ff0000", contig_graph::ContigGraph::Lib::RNA_SPLIT_50);
     graph.addVertex(0, "vert1", 10);
     graph.addVertex(1, "vert1-rev", 11);
     graph.addVertex(2, "vert2", 100);
     graph.addVertex(3, "vert2-rev", 120);
     graph.incEdgeWeight(0, 2, 2, 7, 2, 20);
-    graph.newLib("lib2", "#00ff00", ContigGraph::Lib::RNA_SPLIT_50);
+    graph.newLib("lib2", "#00ff00", contig_graph::ContigGraph::Lib::RNA_SPLIT_50);
     graph.incEdgeWeight(0, 2, 2, 7, 2, 20);
     graph.incEdgeWeight(0, 2, 1, 6, 15, 25);
 
     graph.write(tmpFileName);
 
-    ContigGraph graphCopy = ContigGraph::read(tmpFileName);
+    contig_graph::ContigGraph graphCopy = contig_graph::ContigGraph::read(tmpFileName);
     ASSERT_EQ(graphCopy.getEdges(0), graph.getEdges(0));
     ASSERT_EQ(graphCopy.getEdgesR(2), graph.getEdgesR(2));
     ASSERT_EQ(graphCopy.getTargetLength(1), graph.getTargetLength(1));
@@ -76,13 +76,13 @@ TEST_F(ContigGraphTest, serialization) {
 }
 
 TEST_F(ContigGraphTest, write) {
-    graph.newLib("lib1", "#ff0000", ContigGraph::Lib::DNA_PAIR);
+    graph.newLib("lib1", "#ff0000", contig_graph::ContigGraph::Lib::DNA_PAIR);
     graph.addVertex(0, "vert1", 10);
     graph.addVertex(1, "vert1-rev", 11);
     graph.addVertex(2, "vert2", 100);
     graph.addVertex(3, "vert2-rev", 120);
     graph.incEdgeWeight(0, 2, 2, 7, 2, 20);
-    graph.newLib("lib2", "#00ff00", ContigGraph::Lib::RNA_SPLIT_30);
+    graph.newLib("lib2", "#00ff00", contig_graph::ContigGraph::Lib::RNA_SPLIT_30);
     graph.incEdgeWeight(0, 2, 2, 7, 2, 20);
     graph.incEdgeWeight(0, 2, 1, 6, 15, 25);
 
