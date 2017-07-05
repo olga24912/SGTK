@@ -138,6 +138,12 @@ namespace contig_graph {
 
         ContigGraph g;
         std::ifstream in(fileName);
+
+        if (!in) {
+            WARN("file " << fileName << " unable to open");
+            return g;
+        }
+
         size_t ln;
         size_t vn;
         size_t en;
