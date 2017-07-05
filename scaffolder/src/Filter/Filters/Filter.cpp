@@ -96,7 +96,8 @@ namespace filter {
         out << libList.size() << "\n";
         std::vector<int> newColr(libList[libList.size() - 1] + 1, 0);
         for (int i = 0; i < (int) libList.size(); ++i) {
-            out << "l " << i << " " << getLibColor(libList[i]) << " " << getLibName(libList[i]) << "\n";
+            out << "l " << i << " " << getLibColor(libList[i]) << " " << getLibName(libList[i]) << " "
+                << contig_graph::ContigGraph::Lib::typeToStr[getLibType(libList[i])] << "\n";
             newColr[libList[i]] = i;
         }
 
@@ -115,7 +116,9 @@ namespace filter {
         out << edges.size() << "\n";
         for (int i = 0; i < edges.size(); ++i) {
             out << "e " << i << " " << getEdgeFrom(edges[i]) << " " << getEdgeTo(edges[i]) << " "
-                << newColr[getEdgeLib(edges[i])] << " " << getEdgeWeight(edges[i]) << "\n";
+                << newColr[getEdgeLib(edges[i])] << " " << getEdgeWeight(edges[i])
+                << " coord: " << getEdgeCoordB1(edges[i]) << " " << getEdgeCoordE1(edges[i])
+                << " " << getEdgeCoordB2(edges[i]) << " " << getEdgeCoordE2(edges[i]) << "\n";
         }
 
         out.close();
