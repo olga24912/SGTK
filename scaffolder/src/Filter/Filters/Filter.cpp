@@ -126,15 +126,6 @@ namespace filter {
         return subfilter->getInfo(e);
     }
 
-    std::pair<int, int> Filter::getFirstCoord(int e) {
-        TRACE("getFirst coords e=" << e);
-        return subfilter->getFirstCoord(e);
-    }
-
-    std::pair<int, int> Filter::getSecondCoord(int e) {
-        TRACE("getSecond coords e=" << e);
-        return subfilter->getFirstCoord(e);
-    }
 
     contig_graph::ContigGraph::Lib::Type Filter::getLibType(int l) {
         TRACE("get lib type l=" << l);

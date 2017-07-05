@@ -4,19 +4,6 @@
 
 using namespace std;
 
-void create_console_logger(const string& log_props_file) {
-    using namespace logging;
-
-    //string log_props_file = cfg::get().log_filename;
-
-    //if (!path::FileExists(log_props_file))
-    //    log_props_file = path::append_path(dir, cfg::get().log_filename);
-
-    logger *lg = create_logger(path::FileExists(log_props_file) ? log_props_file : "");
-    lg->add_writer(std::make_shared<console_writer>());
-    attach_logger(lg);
-}
-
 //add edges form info to gr
 //argc[1] - name of info file
 //argc[2] - name of gr file
@@ -28,14 +15,14 @@ int main(int argv, char** argc) {
     string libName = argc[3];
     string color = argc[4];
 
-    create_console_logger("../log.properties");
+    logging::create_console_logger("../log.properties");
 
     INFO("start add info file \""<< infoFileName << "\" to graph \"" << grFileName
                                 << "\" with new lib name \"" << libName << "\" and with new lib color " << color);
 
-    ContigGraph graph = ContigGraph::read(grFileName);
+    contig_graph::ContigGraph graph = contig_graph::ContigGraph::read(grFileName);
     ifstream infoin(infoFileName);
-    graph.newLib(libName, color, ContigGraph::Lib::Type::SCAFF);
+    graph.newLib(libName, color, contig_graph::ContigGraph::Lib::Type::SCAFF);
 
     string cur;
     while (getline(infoin, cur)) {

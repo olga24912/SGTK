@@ -3,6 +3,7 @@
 #include <Filter/Filters/FilterMinWeight.h>
 #include <Filter/Filters/FilterIgnore.h>
 #include <Filter/Writers/WriteFullGraph.h>
+#include <Logger/log_writers.hpp>
 
 class FiltersTest : public  ::testing::Test {
 protected:
@@ -10,6 +11,13 @@ protected:
 
     void SetUp() {
         graphFileName = "/tmp/somefile.gr";
+        logging::create_console_logger("../log.properties");
+    }
+
+    std::string createInfoByCoord(const int* coord) {
+        std::stringstream res;
+        res << "\ncoord: " << coord[0] << "-" << coord[1] << "\n" << coord[2] << "-" << coord[3];
+        return res.str();
     }
 };
 
@@ -27,6 +35,40 @@ TEST_F(FiltersTest, testAdapterUploadGraph) {
     ASSERT_EQ(adapter.getVertexCount(), VERT_CNT);
 }
 
+TEST_F(FiltersTest, testAdapterCoord) {
+    graphFileName = "../../../resources/filterTest/simple_adapter_graph.gr";
+    const int EDGE_CNT = 10;
+    const int VERT_CNT = 8;
+    const int COORD[10][4] = {{900, 1000, 0,   100},
+                              {850, 950,  10,  110},
+                              {399, 500,  11,  111},
+                              {200, 300,  100, 200},
+                              {301, 401,  30,  120},
+                              {400, 500,  0,   100},
+                              {390, 490,  50,  150},
+                              {388, 488,  0,   101},
+                              {301, 401,  200, 300},
+                              {380, 470,  100, 200}};
+
+    contig_graph::ContigGraph graph;
+    filter::FilterAdapter adapter(graph);
+
+    adapter.processQuery(filter::Query(filter::Query::UPLOAD_GRAPH, graphFileName));
+
+    std::vector<int> vert = adapter.getVertexList();
+    ASSERT_EQ(vert.size(), VERT_CNT);
+
+    for (int v : vert) {
+        std::vector<int> edgeList = adapter.getEdges(v);
+        for (int e : edgeList) {
+            ASSERT_EQ(createInfoByCoord(COORD[e]), adapter.getInfo(e));
+            ASSERT_EQ(COORD[e][0], adapter.getEdgeCoordB1(e));
+            ASSERT_EQ(COORD[e][1], adapter.getEdgeCoordE1(e));
+            ASSERT_EQ(COORD[e][2], adapter.getEdgeCoordB2(e));
+            ASSERT_EQ(COORD[e][3], adapter.getEdgeCoordE2(e));
+        }
+    }
+}
 
 /*TEST_F(FiltersTest, testMinWeight) {
     ContigGraph graph;

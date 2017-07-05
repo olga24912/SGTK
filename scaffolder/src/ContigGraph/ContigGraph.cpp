@@ -247,16 +247,6 @@ namespace contig_graph {
         return ss.str();
     }
 
-    std::pair<int, int> ContigGraph::getFirstCoord(int e) {
-        TRACE("getFirstCoord e=" << e);
-        return std::make_pair(edges[e].coordBegin1, edges[e].coordEnd1);
-    }
-
-    std::pair<int, int> ContigGraph::getSecondCoord(int e) {
-        TRACE("getSecondCoord e=" << e);
-        return std::make_pair(edges[e].coordBegin2, edges[e].coordEnd2);
-    }
-
     ContigGraph::Lib::Type ContigGraph::getLibType(int l) {
         TRACE("getLibType l=" << l << " : " << Lib::typeToStr[libs[l].type]);
         return libs[l].type;

@@ -43,10 +43,6 @@ namespace filter {
 
         virtual void processQuery(Query query); //handling query for changing filter options
 
-        virtual std::pair<int, int> getFirstCoord(int e);
-
-        virtual std::pair<int, int> getSecondCoord(int e);
-
         virtual contig_graph::ContigGraph::Lib::Type getLibType(int l);
 
         void write(std::string fileName); //serialize this graph in .gr format in "fileName" file

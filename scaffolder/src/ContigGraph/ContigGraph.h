@@ -118,10 +118,6 @@ namespace contig_graph {
         int getVertexCount(); //get count of vertexs
         int getLibNum(); //get the count of lib
 
-        std::pair<int, int> getFirstCoord(int e);
-
-        std::pair<int, int> getSecondCoord(int e);
-
         void write(std::string fileName); //serialize this graph in .gr format in "fileName" file
         static ContigGraph read(std::string fileName); //generate ContigGraph from .gr format file
 

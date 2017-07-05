@@ -11,7 +11,7 @@ namespace filter {
 
                 for (int e : edges) {
                     if (filter->getLibName(filter->getEdgeLib(e)) == "ref") continue;
-                    sig.push_back(filter->getFirstCoord(e));
+                    sig.push_back(std::make_pair(filter->getEdgeCoordB1(e), filter->getEdgeCoordE1(e)));
                 }
 
                 for (int i = 0; i < (int) sig.size(); ++i) {

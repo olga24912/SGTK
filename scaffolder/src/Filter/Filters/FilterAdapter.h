@@ -42,10 +42,6 @@ namespace filter {
 
         std::string getInfo(int e) override;
 
-        std::pair<int, int> getFirstCoord(int e) override;
-
-        std::pair<int, int> getSecondCoord(int e) override;
-
         int getEdgeCoordB1(int e) override;
 
         int getEdgeCoordE1(int e) override;

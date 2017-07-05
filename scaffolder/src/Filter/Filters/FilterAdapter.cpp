@@ -90,16 +90,6 @@ namespace filter {
         return graph.getEdgeInfo(e);
     }
 
-    std::pair<int, int> FilterAdapter::getFirstCoord(int e) {
-        TRACE("getFirstCoord e=" << e);
-        return graph.getFirstCoord(e);
-    }
-
-    std::pair<int, int> FilterAdapter::getSecondCoord(int e) {
-        TRACE("getSecondCoord e=" << e);
-        return graph.getSecondCoord(e);
-    }
-
     contig_graph::ContigGraph::Lib::Type FilterAdapter::getLibType(int l) {
         TRACE("getLibType l=" << l);
         return graph.getLibType(l);
