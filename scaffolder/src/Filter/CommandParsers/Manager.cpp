@@ -50,8 +50,6 @@ namespace filter {
         const std::string Manager::STAT_TWO_COMP = "statisticTwoCompetitor";
         const std::string Manager::HISTOGRAM = "histogram";
 
-        const std::string Manager::CONFIG_FILE = "filter_config";
-
         Manager::Manager() {
             filter = new FilterIgnoreEdge(new FilterIgnore(new FilterMinWeight
                                                                    (new FilterMergeLib(new FilterAdapter(
@@ -88,13 +86,16 @@ namespace filter {
             commandByKeyWord[HISTOGRAM] = new CommandHistogram();
         }
 
-        void Manager::main() {
+        void Manager::main(std::string configFileName) {
+            if (configFileName != "") {
+                configFile = configFileName;
+            }
             readConfig();
             INFO("Finish read config file");
         }
 
         void Manager::readConfig() {
-            std::ifstream in(CONFIG_FILE);
+            std::ifstream in(configFile);
 
             while (handlingRequest(in));
         }

@@ -80,6 +80,7 @@ namespace filter {
                 scaffolds[2 * i] = &contigsNode[2 * i];
                 scaffolds[2 * i + 1] = &contigsNode[2 * i + 1];
             }
+            INFO("finish save contigs");
         }
 
         std::string Scaffolds::createRevCompl(std::string s) {

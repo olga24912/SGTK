@@ -93,7 +93,7 @@ namespace filter {
             static const std::string HISTOGRAM;
 
 
-            static const std::string CONFIG_FILE;
+            std::string configFile = "filter_config";
             State state;
 
             Filter *filter;
@@ -107,7 +107,7 @@ namespace filter {
         public:
             Manager();
 
-            void main();
+            void main(std::string configFileName);
 
             ~Manager() {
                 delete filter;

@@ -17135,7 +17135,7 @@ ac_abs_srcdir=$ac_abs_top_srcdir$ac_dir_suffix
   case $ac_mode in
   :F)
   #
-  # CONFIG_FILE
+  # configFile
   #
 
   case $INSTALL in

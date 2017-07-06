@@ -5,7 +5,10 @@ namespace filter {
     namespace commands {
         void CommandPrint::execute(std::string argv, State &state, Filter *filter) {
             INFO("print graph");
-            filter->write(argv);
+            std::string fileName;
+            std::stringstream ss(argv);
+            ss >> fileName;
+            filter->write(fileName);
         }
     }
 }

@@ -6,6 +6,10 @@ int main(int argc, char **argv) {
     logging::create_console_logger("../log.properties");
 
     commands::Manager filter;
-    filter.main();
+    if (argc > 1) {
+        filter.main(std::string(argv[1]));
+    } else {
+        filter.main("");
+    }
     return 0;
 }

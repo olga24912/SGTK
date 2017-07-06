@@ -29,3 +29,4 @@ target_link_libraries(filter filter_lib contig_graph_lib  logger_lib ${SEQAN_LIB
 target_link_libraries(merger contig_merger_lib contig_graph_lib logger_lib)
 target_link_libraries(addInfoToGraph contig_graph_lib logger_lib ${CMAKE_THREAD_LIBS_INIT} ${Boost_LIBRARIES})
 target_link_libraries(addBothPath contig_graph_lib logger_lib)
+target_link_libraries(mergeGraph logger_lib ${CMAKE_THREAD_LIBS_INIT} ${Boost_LIBRARIES})

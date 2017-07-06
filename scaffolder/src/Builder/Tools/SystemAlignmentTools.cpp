@@ -16,7 +16,7 @@ namespace builder {
 
             path += '/';
 
-            command = "./STAR --runThreadN 16 --runMode genomeGenerate --genomeDir ";
+            command = "STAR --runThreadN 16 --runMode genomeGenerate --genomeDir ";
             command += genomeDir + " --genomeFastaFiles ";
             command += refFileName;
             command += " --genomeSAindexNbases 10";
@@ -25,7 +25,7 @@ namespace builder {
             system(command.c_str());
             DEBUG("command: " << command);
 
-            command = "./STAR --runThreadN 16 --genomeDir ";
+            command = "STAR --runThreadN 16 --genomeDir ";
             command += genomeDir + " --outReadsUnmapped Fastx --readFilesIn ";
             command += rnaFileName;
             command += " --outFileNamePrefix " + path;

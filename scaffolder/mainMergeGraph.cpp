@@ -70,7 +70,7 @@ int main(int argc, char ** argv) {
             int pos;
             sscanf(str, "%c %d %d %d %d %d%n", &c, &id, &gf, &gt, &gel, &gw, &pos);
             char nstr[MAX_STR_LEN];
-            sprintf(nstr, "%c %d %d %d %d %d %s\n", c, (int)edge.size(), gf, gt, oldLibCnt + gel, gw, str + pos);
+            sprintf(nstr, "%c %d %d %d %d %d %s", c, (int)edge.size(), gf, gt, oldLibCnt + gel, gw, str + pos);
             edge.push_back(std::string(nstr));
         }
         fclose(file);
