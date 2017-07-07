@@ -2,6 +2,7 @@
 import sys
 import os
 import argparse
+from shutil import copyfile
 
 #Log class, use it, not print
 class Log:
@@ -41,6 +42,61 @@ class Lib:
         self.label = name + "_" + str(id)
         self.name = name + "_" + str(id)
 
+    def fix_graph_file(self):
+        copyfile(self.name + "/graph.gr", "tmp")
+
+        g = open(self.name + "/graph.gr", "w")
+        f = open("tmp", "r")
+
+        if not self.name.startswith("rna"):
+            f.readline()
+            g.write("1\n")
+            libinfo = f.readline().split(' ')
+            libinfo[2] = self.color
+            libinfo[3] = self.label
+            g.write(' '.join(libinfo))
+            str = f.read()
+            g.write(str)
+        elif self.name.startswith("rnap"):
+            f.readline()
+            g.write("3\n")
+            libinfo = f.readline().split(' ')
+            libinfo[2] = self.color
+            libinfo[3] = self.label + "_sp50"
+            g.write(' '.join(libinfo))
+
+            libinfo = f.readline().split(' ')
+            libinfo[2] = self.color
+            libinfo[3] = self.label + "_sp30"
+            g.write(' '.join(libinfo))
+
+            libinfo = f.readline().split(' ')
+            libinfo[2] = self.color
+            libinfo[3] = self.label + "_pair"
+            g.write(' '.join(libinfo))
+
+            str = f.read()
+            g.write(str)
+        else:
+            f.readline()
+            g.write("2\n")
+            libinfo = f.readline().split(' ')
+            libinfo[2] = self.color
+            libinfo[3] = self.label + "_sp50"
+            g.write(' '.join(libinfo))
+
+            libinfo = f.readline().split(' ')
+            libinfo[2] = self.color
+            libinfo[3] = self.label + "_sp30"
+            g.write(' '.join(libinfo))
+
+            str = f.read()
+            g.write(str)
+
+        f.close()
+        g.close()
+
+
 libsType = {"rnap", "rnas", "dnap", "ref", "selfinfo", "selfpath"}
 
 class StoreArgAction(argparse.Action):
@@ -74,8 +130,8 @@ def parse_args():
     parser.add_argument("--dna-p", dest="dnap", nargs=2, help="path to dna pair reads file", type=str, action=StoreArgAction)
     parser.add_argument("--scafinfo", nargs=1, help="path to .info file with info about scaffolds", type=str, action=StoreArgAction)
     parser.add_argument("--scafpath", nargs=1, help="path to both.path file with info about scaffolds", type=str, action=StoreArgAction)
-    parser.add_argument("--label", "-l", nargs='*', help="list with labels for all libs in definition order", type=str)
-    parser.add_argument("--color", nargs='*', help="list with color for all libs in definition order", type=str)
+    parser.add_argument("--label", "-l", nargs='*', help="list with labels for all libs in definition order", type=str, action='store')
+    parser.add_argument("--color", nargs='*', help="list with color for all libs in definition order", type=str, action='store')
     args = parser.parse_args()
     return args
 
@@ -160,56 +216,56 @@ def build_graph(contig_file_name, args):
 
     return
 
-def merge_graph(rnap_list, rnas_list):
-    args = ""
-    for i in range(len(rnap_list)):
-        args += "rnap" + str(i) + "/graph.gr "
+def merge_lib_rna(libs):
+    f = open("filter_config", 'w')
+    f.write("uploadGraph graph.gr\n")
+    f.write("mergeLib 2 0 sp_50\n")
+    f.write("mergeLib 3 1 sp_30\n")
+    f.write("print graph.gr\n")
+    f.write("exit\n")
+    f.close()
 
-    for i in range(len(rnas_list)):
-        args += "rnas" + str(i) + "/graph.gr "
+    for lib in libs:
+        prevdir = os.getcwd();
+        lib_dir = os.path.dirname(os.path.abspath(lib.name) + "/")
+        os.chdir(lib_dir)
+        os.system("../../filter " + os.path.abspath("../filter_config"))
+        os.chdir(prevdir)
+    return
 
-    args += "graph.gr"
-    os.system("../mergeGraph " + args)
 
-    list_s50 = []
-    list_s30 = []
-    list_p = []
+def merge_graph(args):
+    merge_lib_rna(args.libs["rnap"])
+    merge_lib_rna(args.libs["rnas"])
 
-    cur_lib = 0
-    for i in range(len(rnap_list)):
-        list_s50.append(cur_lib)
-        cur_lib += 1
-        list_s30.append(cur_lib)
-        cur_lib += 1
-        list_s50.append(cur_lib)
-        cur_lib += 1
-        list_s30.append(cur_lib)
-        cur_lib += 1
-        list_p.append(cur_lib)
-        cur_lib += 1
+    merge_list = ""
 
-    for i in range(len(rnas_list)):
-        list_s50.append(cur_lib)
-        cur_lib += 1
-        list_s30.append(cur_lib)
-        cur_lib += 1
+    for lib_type in libsType:
+        for lib in args.libs[lib_type]:
+            lib.fix_graph_file()
+            merge_list += lib.name + "/graph.gr "
 
+    merge_list += "graph.gr"
+    os.system("../mergeGraph " + merge_list)
+    return
+
+
+def vis():
+    directory = os.path.dirname("outdot/")
+    if not os.path.exists(directory):
+        os.makedirs(directory)
 
     f = open("filter_config", 'w')
     f.write("uploadGraph graph.gr\n")
-    for i in range(len(list_s50)-1, 0, -1):
-        f.write("mergeLib " + str(list_s50[i]) + " " + str(list_s50[i - 1]) + " sp_50\n")
-    for i in range(len(list_s30)-1, 0, -1):
-        f.write("mergeLib " + str(list_s30[i]) + " " + str(list_s30[i - 1]) + " sp_30\n")
-    for i in range(len(list_p)-1, 0, -1):
-        f.write("mergeLib " + str(list_p[i]) + " " + str(list_p[i - 1]) + " pair\n")
-
-    f.write("print out.gr\n")
+    f.write("mergeСontig 500\n")
+    f.write("writeFull outdot/f\n")
     f.write("exit\n")
     f.close()
 
     os.system("../filter " + os.path.abspath("filter_config"))
     return
+
+
 
 def run(args):
     if args.contigs == None:
@@ -227,7 +283,9 @@ def run(args):
             os.makedirs(directory)
         os.chdir(directory)
 
-    print(args.libs)
+
+    print(args.color)
+    print(args.label)
 
     if args.color != None and len(args.color) != args.lib_cnt:
         log.err("wrong number of color provide")
@@ -249,8 +307,8 @@ def run(args):
 
     alig_reads(contig_file_name, args)
     build_graph(contig_file_name, args)
-    #merge_graph(args)
-
+    merge_graph(args)
+    vis()
 
     return
 
