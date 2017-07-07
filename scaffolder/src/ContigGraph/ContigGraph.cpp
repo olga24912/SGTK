@@ -124,7 +124,7 @@ namespace contig_graph {
                 edges[i].lib << " " << edges[i].weight << " coord: " << edges[i].coordBegin1 << " " <<
                 edges[i].coordEnd1 << " " << edges[i].coordBegin2 << " " << edges[i].coordEnd2;
             if (edges[i].chr_name != "") {
-                out << "chr_name: " << edges[i].chr_name << "\n";
+                out << " chr_name: " << edges[i].chr_name << "\n";
             } else {
                 out << "\n";
             }
