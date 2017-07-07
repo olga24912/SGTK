@@ -97,7 +97,7 @@ class Lib:
         g.close()
 
 
-libsType = {"rnap", "rnas", "dnap", "ref", "selfinfo", "selfpath"}
+libsType = {"rnap", "rnas", "dnap", "ref", "scafinfo", "scafpath"}
 
 class StoreArgAction(argparse.Action):
     def __call__(self, parser, namespace, values, option_string=None):
@@ -242,11 +242,19 @@ def merge_graph(args):
 
     for lib_type in libsType:
         for lib in args.libs[lib_type]:
-            lib.fix_graph_file()
-            merge_list += lib.name + "/graph.gr "
+            if lib_type != "scafinfp" and lib_type != "scafpath":
+                lib.fix_graph_file()
+                merge_list += lib.name + "/graph.gr "
 
     merge_list += "graph.gr"
     os.system("../mergeGraph " + merge_list)
+
+    for lib in args.libs["scafinfo"]:
+        os.system("../addInfoToGraph " + lib.path[0] + " graph.gr " + lib.label + lib.color)
+
+    for lib in args.libs["scafpath"]:
+        os.system("../addBothPath " + lib.path[0] + " graph.gr " + lib.label + lib.color)
+
     return
 
 
