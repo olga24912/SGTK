@@ -43,6 +43,9 @@ class Lib:
         self.name = name + "_" + str(id)
 
     def fix_graph_file(self):
+        if self.name.startswith("scaf"):
+            return
+
         copyfile(self.name + "/graph.gr", "tmp")
 
         g = open(self.name + "/graph.gr", "w")
@@ -242,7 +245,7 @@ def merge_graph(args):
 
     for lib_type in libsType:
         for lib in args.libs[lib_type]:
-            if lib_type != "scafinfp" and lib_type != "scafpath":
+            if lib_type != "scafinfo" and lib_type != "scafpath":
                 lib.fix_graph_file()
                 merge_list += lib.name + "/graph.gr "
 
@@ -250,10 +253,12 @@ def merge_graph(args):
     os.system("../mergeGraph " + merge_list)
 
     for lib in args.libs["scafinfo"]:
-        os.system("../addInfoToGraph " + lib.path[0] + " graph.gr " + lib.label + lib.color)
+        os.system("../addInfoToGraph " + lib.path[0] + " graph.gr " + lib.label + " \"" + lib.color + "\" ")
+        copyfile("out.gr", "graph.gr")
 
     for lib in args.libs["scafpath"]:
-        os.system("../addBothPath " + lib.path[0] + " graph.gr " + lib.label + lib.color)
+        os.system("../addBothPath " + lib.path[0] + " graph.gr " + lib.label + + " \"" + lib.color + "\" ")
+        copyfile("out.gr", "graph.gr")
 
     return
 

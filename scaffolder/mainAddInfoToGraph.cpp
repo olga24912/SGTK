@@ -10,12 +10,16 @@ using namespace std;
 //argc[3] - lib name
 //argc[4] - color
 int main(int argv, char** argc) {
+    logging::create_console_logger("../log.properties");
+    if (argv < 5) {
+        ERROR("argv < 5")
+        return 0;
+    }
+
     string infoFileName = argc[1];
     string grFileName = argc[2];
     string libName = argc[3];
     string color = argc[4];
-
-    logging::create_console_logger("../log.properties");
 
     INFO("start add info file \""<< infoFileName << "\" to graph \"" << grFileName
                                 << "\" with new lib name \"" << libName << "\" and with new lib color " << color);
