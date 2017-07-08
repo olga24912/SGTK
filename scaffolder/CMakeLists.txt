@@ -16,17 +16,12 @@ include_directories(src)
 add_subdirectory(src)
 add_subdirectory(tests)
 
-add_executable(build mainBuildGraph.cpp)
-add_executable(filter mainFilter.cpp)
-add_executable(merger mainMergeContigs.cpp)
-add_executable(addInfoToGraph mainAddInfoToGraph.cpp)
-add_executable(addBothPath mainAddBothPath.cpp)
-add_executable(mergeGraph mainMergeGraph.cpp)
-add_executable(splitFast mainSplitFastqFiles.cpp)
+# Main pipeline script
+install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/rna_scaffolder.py"
+        DESTINATION bin
+        COMPONENT runtime)
+install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/visualize_scaffold_graph.py"
+        DESTINATION bin
+        COMPONENT runtime)
 
-target_link_libraries(build builder_lib contig_graph_lib logger_lib ${SEQAN_LIBRARIES} ${ZLIB_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} ${Boost_LIBRARIES})
-target_link_libraries(filter filter_lib contig_graph_lib  logger_lib ${SEQAN_LIBRARIES} ${ZLIB_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} ${Boost_LIBRARIES})
-target_link_libraries(merger contig_merger_lib contig_graph_lib logger_lib)
-target_link_libraries(addInfoToGraph contig_graph_lib logger_lib ${CMAKE_THREAD_LIBS_INIT} ${Boost_LIBRARIES})
-target_link_libraries(addBothPath contig_graph_lib logger_lib)
-target_link_libraries(mergeGraph logger_lib ${CMAKE_THREAD_LIBS_INIT} ${Boost_LIBRARIES})
+

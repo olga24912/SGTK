@@ -31,6 +31,7 @@ class Log:
         return self.text
 
 log = Log()
+path_to_exec_dir = os.path.dirname(os.path.abspath(__file__)) + "/"
 
 class Lib:
     def __init__(self, path, id, name):
@@ -198,7 +199,7 @@ def build_graph(contig_file_name, args):
         log.log("START BUILD GRAPH: " + lib.label)
         lib_dir = os.path.dirname(os.path.abspath(lib.name) + "/")
         os.chdir(lib_dir)
-        os.system("../../build -n RNA_SPLIT -r " + contig_file_name + " -p " + lib.path[0] + " -l " + lib.label)
+        os.system(path_to_exec_dir + "build -n RNA_SPLIT -r " + contig_file_name + " -p " + lib.path[0] + " -l " + lib.label)
         os.chdir(prevdir)
 
     for lib in args.libs["dnap"]:
@@ -206,7 +207,7 @@ def build_graph(contig_file_name, args):
         log.log("START BUILD GRAPH: " + lib.label)
         lib_dir = os.path.dirname(os.path.abspath(lib.name) + "/")
         os.chdir(lib_dir)
-        os.system("../../build -n DNA_PAIR -f dna1.sam -s dna2.sam -l " + lib.label)
+        os.system(path_to_exec_dir + "build -n DNA_PAIR -f dna1.sam -s dna2.sam -l " + lib.label)
         os.chdir(prevdir)
 
     for lib in args.libs["ref"]:
@@ -214,7 +215,7 @@ def build_graph(contig_file_name, args):
         log.log("START BUILD GRAPH: " + lib.label)
         lib_dir = os.path.dirname(os.path.abspath(lib.name) + "/")
         os.chdir(lib_dir)
-        os.system("../../build -n REF -r " + lib.path[0] + " -q " + contig_file_name + " -l " + lib.label)
+        os.system(path_to_exec_dir + "build -n REF -r " + lib.path[0] + " -q " + contig_file_name + " -l " + lib.label)
         os.chdir(prevdir)
 
     return
@@ -232,7 +233,7 @@ def merge_lib_rna(libs):
         prevdir = os.getcwd();
         lib_dir = os.path.dirname(os.path.abspath(lib.name) + "/")
         os.chdir(lib_dir)
-        os.system("../../filter " + os.path.abspath("../filter_config"))
+        os.system(path_to_exec_dir + "filter " + os.path.abspath("../filter_config"))
         os.chdir(prevdir)
     return
 
@@ -250,14 +251,14 @@ def merge_graph(args):
                 merge_list += lib.name + "/graph.gr "
 
     merge_list += "graph.gr"
-    os.system("../mergeGraph " + merge_list)
+    os.system(path_to_exec_dir + "mergeGraph " + merge_list)
 
     for lib in args.libs["scafinfo"]:
-        os.system("../addInfoToGraph " + lib.path[0] + " graph.gr " + lib.label + " \"" + lib.color + "\" ")
+        os.system(path_to_exec_dir + "addInfoToGraph " + lib.path[0] + " graph.gr " + lib.label + " \"" + lib.color + "\" ")
         copyfile("out.gr", "graph.gr")
 
     for lib in args.libs["scafpath"]:
-        os.system("../addBothPath " + lib.path[0] + " graph.gr " + lib.label + + " \"" + lib.color + "\" ")
+        os.system(path_to_exec_dir + "addBothPath " + lib.path[0] + " graph.gr " + lib.label + + " \"" + lib.color + "\" ")
         copyfile("out.gr", "graph.gr")
 
     return
@@ -275,7 +276,7 @@ def vis():
     f.write("exit\n")
     f.close()
 
-    os.system("../filter " + os.path.abspath("filter_config"))
+    os.system(path_to_exec_dir + "filter " + os.path.abspath("filter_config"))
     return
 
 

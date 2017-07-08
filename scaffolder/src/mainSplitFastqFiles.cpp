@@ -3,10 +3,8 @@
 #include <cstdio>
 #include <string>
 #include <sstream>
-#include <Logger/log_writers.hpp>
 
 int main(int argc, char ** argv) {
-    logging::create_console_logger("../log.properties");
     FILE * in = fopen(argv[1], "r");
     std::string pr = std::string(argv[2]);
     int threadN = atoi(argv[3]);

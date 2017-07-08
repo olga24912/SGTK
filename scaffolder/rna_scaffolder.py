@@ -32,6 +32,8 @@ class Log:
 
 log = Log()
 
+path_to_exec_dir = os.path.dirname(os.path.abspath(__file__)) + "/"
+
 def parse_args():
     parser = argparse.ArgumentParser(formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--contigs", "-c", nargs=1, dest="contigs", help="path to contigs", type=str)
@@ -85,7 +87,7 @@ def build_graph(contig_file_name, rnap_list, rnas_list):
         lib_dir = os.path.dirname(os.path.abspath(lib_name) + "/")
         os.chdir(lib_dir)
 
-        os.system("../../build -n RNA_SPLIT -r " +
+        os.system(path_to_exec_dir + "build -n RNA_SPLIT -r " +
                   contig_file_name + " -p " + rnap_list[i][0] + " -l " + lib_name + "_sp1 " +
                   " -n RNA_SPLIT -r " + contig_file_name + " -p " + rnap_list[i][1] + " -l " + lib_name + "_sp2 " +
                   " -n RNA_PAIR -f rna1.sam -s rna2.sam -l " + lib_name)
@@ -98,7 +100,7 @@ def build_graph(contig_file_name, rnap_list, rnas_list):
         lib_dir = os.path.dirname(os.path.abspath(lib_name) + "/")
         os.chdir(lib_dir)
 
-        os.system("../../build -n RNA_SPLIT -r " + contig_file_name + " -p " + rnap_list[i][0] + " -l " + lib_name)
+        os.system(path_to_exec_dir + "build -n RNA_SPLIT -r " + contig_file_name + " -p " + rnap_list[i][0] + " -l " + lib_name)
         os.chdir(prevdir)
 
     return
@@ -112,7 +114,7 @@ def merge_graph(rnap_list, rnas_list):
         args += "rnas" + str(i) + "/graph.gr "
 
     args += "graph.gr"
-    os.system("../mergeGraph " + args)
+    os.system(path_to_exec_dir + "mergeGraph " + args)
 
     list_s50 = []
     list_s30 = []
@@ -151,7 +153,7 @@ def merge_graph(rnap_list, rnas_list):
     f.write("exit\n")
     f.close()
 
-    os.system("../filter " + os.path.abspath("filter_config"))
+    os.system(path_to_exec_dir + "filter " + os.path.abspath("filter_config"))
     return
 
 def create_scaffolds(contig_file_name):
@@ -162,7 +164,7 @@ def create_scaffolds(contig_file_name):
     f.write("exit\n")
     f.close()
 
-    os.system("../filter " + os.path.abspath("filter_config"))
+    os.system(path_to_exec_dir + "filter " + os.path.abspath("filter_config"))
     return
 
 def run(args):
