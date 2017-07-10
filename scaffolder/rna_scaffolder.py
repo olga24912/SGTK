@@ -2,6 +2,7 @@
 import sys
 import os
 import argparse
+from shutil import copyfile
 
 #Log class, use it, not print
 class Log:
@@ -184,8 +185,10 @@ def run(args):
             rnas_list.append(os.path.abspath(args.rnas[i][0]))
 
 
+    main_out_dir = os.path.abspath(args.local_output_dir[0]) + "/"
+
     if args.local_output_dir != None:
-        out_dir = os.path.abspath(args.local_output_dir[0]) + "/"
+        out_dir = main_out_dir + "tmp/"
         log.log("OUTPUT DIR: " + out_dir)
         directory = os.path.dirname(out_dir)
         if not os.path.exists(directory):
@@ -197,6 +200,13 @@ def run(args):
     build_graph(contig_file_name, rnap_list, rnas_list)
     merge_graph(rnap_list, rnas_list)
     create_scaffolds(contig_file_name)
+
+    directory = os.path.dirname(main_out_dir)
+    os.chdir(directory)
+
+    copyfile("tmp/scaffolds.fa", "scaffolds.fa")
+    copyfile("tmp/out.gr", "graph.gr")
+    copyfile("tmp/out.info", "out.info")
     return
 
 args = parse_args()
