@@ -174,6 +174,60 @@ Note that we assume that ??? installation directory is added to the <code>PATH</
 <a name="sec3.1.4"></a>
 <h4>3.1.4. Example</h4>
 
+<p>
+    To test the toy data set, you can also run the following command from the ??? <code>bin</code> directory:
+
+<pre class="code">
+<code>
+    rna_scaffolder.py -c ../share/test_dataset/contigs.fasta --rna-p ../share/test_dataset/read_1.fasta \
+    ../share/test_dataset/read_2.fasta -o test
+</code>
+</pre>
+
+<p>
+    If you have several paired-end reads and unpaired reads, for example:
+
+<p>
+    <li> contigs
+    <pre class="code">
+    <code>
+    contigs.fasta
+    </code>
+    </pre>
+
+    <li> paired-end library 1
+        <pre class="code">
+<code>
+    lib_pe1_left.fastq
+    lib_pe1_right.fastq
+</code>
+</pre>
+<p>
+    <li> paired-end library 2
+
+        <pre class="code">
+<code>
+    lib_pe2_left.fastq
+    lib_pe2_right.fastq
+</code>
+</pre>
+
+<p>
+    <li> unpaired library 1
+        <pre class="code">
+<code>
+    lib1.fastq
+</code>
+</pre>
+<p>
+
+<pre class="code">
+<code>
+    rna_scaffolder.py -c contigs.fasta --rna-p lib_pe1_left.fastq lib_pe1_right.fastq \
+    --rna-p lib_pe2_left.fastq --mp1-2 lib_pe2_right.fastq \
+    --rna-s lib1.fastq -o output
+</code>
+</pre>
 
 <a name="sec3.2"></a>
 <h3>3.2. Graph visualization</h3>
@@ -241,8 +295,8 @@ Note that we assume that ??? installation directory is added to the <code>PATH</
 ??? stores all output files in <code>&lt;output_dir> </code>, which is set by the user.
 
 <ul>
-    <li><code>&lt;output_dir>/outdot/</code>  dot files with graph</li>
-    <li><code>&lt;output_dir>/graph.gr</code>  graph description </li>
+    <li><code>&lt;output_dir>/outdot/</code> dot files with graph</li>
+    <li><code>&lt;output_dir>/graph.gr</code> graph description </li>
     <li><code>&lt;output_dir>/graph.ps</code> picture with graph </li>
 </ul>
 
