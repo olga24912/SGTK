@@ -185,16 +185,17 @@ def run(args):
             rnas_list.append(os.path.abspath(args.rnas[i][0]))
 
 
-    main_out_dir = os.path.abspath(args.local_output_dir[0]) + "/"
-
+    main_out_dir = os.path.abspath(".") + "/"
     if args.local_output_dir != None:
-        out_dir = main_out_dir + "tmp/"
-        log.log("OUTPUT DIR: " + out_dir)
-        directory = os.path.dirname(out_dir)
-        if not os.path.exists(directory):
-            log.log("MKDIR")
-            os.makedirs(directory)
-        os.chdir(directory)
+        main_out_dir = os.path.abspath(args.local_output_dir[0]) + "/"
+
+    out_dir = main_out_dir + "tmp/"
+    log.log("OUTPUT DIR: " + out_dir)
+    directory = os.path.dirname(out_dir)
+    if not os.path.exists(directory):
+        log.log("MKDIR")
+        os.makedirs(directory)
+    os.chdir(directory)
 
     alig_reads(contig_file_name, rnap_list, rnas_list)
     build_graph(contig_file_name, rnap_list, rnas_list)

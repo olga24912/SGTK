@@ -3,6 +3,7 @@ import sys
 import os
 import argparse
 from shutil import copyfile
+from shutil import move
 
 #Log class, use it, not print
 class Log:
@@ -188,7 +189,7 @@ def build_graph(contig_file_name, args):
         lib_dir = os.path.dirname(os.path.abspath(lib.name) + "/")
         os.chdir(lib_dir)
 
-        os.system("../../build -n RNA_SPLIT -r " +
+        os.system(path_to_exec_dir + "/build -n RNA_SPLIT -r " +
                   contig_file_name + " -p " + lib.path[0] + " -l " + lib.label + "_sp1 " +
                   " -n RNA_SPLIT -r " + contig_file_name + " -p " + lib.path[1] + " -l " + lib.label + "_sp2 " +
                   " -n RNA_PAIR -f rna1.sam -s rna2.sam -l " + lib.label)
@@ -288,14 +289,18 @@ def run(args):
 
     contig_file_name = os.path.abspath(args.contigs[0])
 
+    main_out_dir = os.path.abspath(".") + "/"
+
     if args.local_output_dir != None:
-        out_dir = os.path.abspath(args.local_output_dir[0]) + "/"
-        log.log("OUTPUT DIR: " + out_dir)
-        directory = os.path.dirname(out_dir)
-        if not os.path.exists(directory):
-            log.log("MKDIR")
-            os.makedirs(directory)
-        os.chdir(directory)
+        main_out_dir = os.path.abspath(args.local_output_dir[0]) + "/"
+
+    out_dir = main_out_dir + "tmp/"
+    log.log("OUTPUT DIR: " + out_dir)
+    directory = os.path.dirname(out_dir)
+    if not os.path.exists(directory):
+        log.log("MKDIR")
+        os.makedirs(directory)
+    os.chdir(directory)
 
 
     print(args.color)
@@ -324,6 +329,12 @@ def run(args):
     merge_graph(args)
     vis()
 
+    directory = os.path.dirname(main_out_dir)
+    os.chdir(directory)
+
+    move("tmp/graph.gr", "graph.gr")
+    move("tmp/outdot", "outdot")
+    copyfile("tmp/tmp.ps", "graph.ps")
     return
 
 args = parse_args()
