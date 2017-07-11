@@ -303,6 +303,63 @@ Note that we assume that ??? installation directory is added to the <code>PATH</
 
 <a name="sec3.2.4"></a>
 <h4>3.2.4. Example</h4>
+<p>
+    To test the toy data set, you can also run the following command from the ??? <code>bin</code> directory:
+
+<pre class="code">
+<code>
+    visualize_scaffold_graph.py -c ../share/test_dataset/contigs.fasta --rna-p ../share/test_dataset/read_1.fasta \
+    ../share/test_dataset/read_2.fasta -o test
+</code>
+</pre>
+
+<p>
+    If you have several RNA paired-end reads, scaffolds and reference:
+<p>
+    <li> contigs
+        <pre class="code">
+    <code>
+    ../share/test_dataset/contigs.fasta
+    </code>
+    </pre>
+
+    <li> paired-end library
+        <pre class="code">
+<code>
+    ../share/test_dataset/read_1.fasta
+    ../share/test_dataset/read_2.fasta
+</code>
+</pre>
+<p>
+    <li> scaffolds
+
+        <pre class="code">
+<code>
+    scaf.info
+</code>
+</pre>
+
+<p>
+    <li> reference
+        <pre class="code">
+<code>
+    ref.fasta
+</code>
+</pre>
+<p>
+
+And you would like set labels and colors. You need set labels and colors for all libraries in order of definition
+<pre class="code">
+<code>
+    visualize_scaffold_graph.py -c ../share/test_dataset/contigs.fasta \
+    --rna-p ../share/test_dataset/read_1.fasta ../share/test_dataset/read_2.fasta \
+    --scafinfo ../share/test_dataset/scaf.info \
+    --ref ../share/test_dataset/ref.fasta \
+    --labels rnap scaf ref \
+    --color "#0000ff" "#00ff00" "#ff0000" \
+    -o output
+</code>
+</pre>
 
 
 <a name="sec4"></a>
