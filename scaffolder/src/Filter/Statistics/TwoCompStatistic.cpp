@@ -59,7 +59,7 @@ namespace filter {
                     }
                 }
 
-                ErrorType status = isCorrectEdge(aligInfo, filter, e1);
+                InfoAboutContigsAlig::ErrorType status = aligInfo.isCorrectEdge(filter, e1);
                 int wg1 = filter->getEdgeWeight(e1);
                 if (wg1 >= cnt_box) wg1 = cnt_box - 1;
                 int wg1_2 = 0;

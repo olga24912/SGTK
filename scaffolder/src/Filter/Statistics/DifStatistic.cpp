@@ -42,7 +42,7 @@ namespace filter {
                 }
 
                 if (eval == -1) continue;
-                ErrorType status = isCorrectEdge(aligInfo, filter, eval);
+                InfoAboutContigsAlig::ErrorType status = aligInfo.isCorrectEdge(filter, eval);
                 cnt[bxnum][status]++;
             }
 

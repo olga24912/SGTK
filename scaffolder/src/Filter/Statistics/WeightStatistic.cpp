@@ -21,7 +21,7 @@ namespace filter {
                 std::vector<int> edges = filter->getEdges(v);
                 for (int e : edges) {
                     if (filter->getEdgeLib(e) != libNum) continue;
-                    ErrorType status = isCorrectEdge(aligInfo, filter, e);
+                    InfoAboutContigsAlig::ErrorType status = aligInfo.isCorrectEdge(filter, e);
                     int wg = filter->getEdgeWeight(e) / step;
                     if (wg >= cnt_box) {
                         wg = cnt_box - 1;

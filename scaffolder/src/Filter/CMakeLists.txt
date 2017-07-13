@@ -70,6 +70,6 @@ set(SOURCE_FILES
         Writers/FileValidator/ValidatorFewParts.h CommandParsers/Commands/CommandFV/CommandSetFVFewParts.h
         CommandParsers/Commands/CommandDW/CommandSetBSDotWriter.h Writers/DotWriter/DotWriterBuilder.h
         Writers/DotWriter/BlockSplitDotWriterBuilder.h Writers/DotWriter/BlockSplitDotWriter.cpp
-        Writers/DotWriter/BlockSplitDotWriter.h Scaffolder/Rule.cpp Scaffolder/Rule.h Scaffolder/RuleBigDifInWeight.cpp Scaffolder/RuleBigDifInWeight.h Scaffolder/RuleDelCycle.cpp Scaffolder/RuleDelCycle.h Scaffolder/RuleInOneLine.cpp Scaffolder/RuleInOneLine.h)
+        Writers/DotWriter/BlockSplitDotWriter.h Scaffolder/Rule.cpp Scaffolder/Rule.h Scaffolder/RuleBigDifInWeight.cpp Scaffolder/RuleBigDifInWeight.h Scaffolder/RuleDelCycle.cpp Scaffolder/RuleDelCycle.h Scaffolder/RuleInOneLine.cpp Scaffolder/RuleInOneLine.h Writers/FileValidator/ValidatorError.cpp Writers/FileValidator/ValidatorError.h CommandParsers/Commands/CommandFV/CommandSetFVError.h)
 
 add_library(filter_lib ${SOURCE_FILES})

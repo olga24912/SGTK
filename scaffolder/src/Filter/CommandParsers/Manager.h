@@ -49,6 +49,7 @@ namespace filter {
  * setFileVFork <libNum>
  * setFileVOnlyFirst <libNumPresent> <libNumNotPresent>
  * setFileVFewParts
+ * setFileVError <coordFileName> <libNum>
  * setBlockSplitDotWriter
  * setMaxVEinOneFile <maxVertNum> <maxEdgeNum>
  * statisticCorrectConnection <coordFile> <libNum>
@@ -82,6 +83,7 @@ namespace filter {
             static const std::string SET_FV_FORK;
             static const std::string SET_FV_ONLY_FIRST;
             static const std::string SET_FV_FEW_PARTS;
+            static const std::string SET_FV_ERROR;
             static const std::string SET_BLOCK_SPLIT_DOT_WRITER;
             static const std::string SET_MAX_VE_IN_ONE_FILE;
             static const std::string STAT_CORRECT_CON;

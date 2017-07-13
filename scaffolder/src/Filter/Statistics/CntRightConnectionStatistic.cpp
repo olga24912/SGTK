@@ -14,11 +14,10 @@ namespace filter {
                 std::vector<int> edges = filter->getEdges(v);
                 for (int e : edges) {
                     if (filter->getEdgeLib(e) != libNum) continue;
-                    ErrorType status = isCorrectEdge(aligInfo, filter, e);
+                    InfoAboutContigsAlig::ErrorType status = aligInfo.isCorrectEdge(filter, e);
                     cnt[status]++;
                 }
             }
-
 
             printStatistic("", cnt);
         }

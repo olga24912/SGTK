@@ -40,6 +40,7 @@ namespace filter {
         const std::string Manager::SET_FV_FORK = "setFileVFork";
         const std::string Manager::SET_FV_ONLY_FIRST = "setFileVOnlyFirst";
         const std::string Manager::SET_FV_FEW_PARTS = "setFileVFewParts";
+        const std::string Manager::SET_FV_ERROR = "setFileVError";
         const std::string Manager::SET_BLOCK_SPLIT_DOT_WRITER = "setBlockSplitDotWriter";
         const std::string Manager::SET_MAX_VE_IN_ONE_FILE = "setMaxVEinOneFile";
         const std::string Manager::STAT_CORRECT_CON = "statisticCorrectConnection";
@@ -75,6 +76,7 @@ namespace filter {
             commandByKeyWord[SET_FV_FORK] = new CommandSetFVFork();
             commandByKeyWord[SET_FV_ONLY_FIRST] = new CommandSetFVOnlyFirst();
             commandByKeyWord[SET_FV_FEW_PARTS] = new CommandSetFVFewParts();
+            commandByKeyWord[SET_FV_ERROR] = new CommandSetFVError();
             commandByKeyWord[SET_BLOCK_SPLIT_DOT_WRITER] = new CommandSetBSDotWriter();
             commandByKeyWord[SET_MAX_VE_IN_ONE_FILE] = new CommandSetMaxVEinOneFile();
             commandByKeyWord[STAT_CORRECT_CON] = new CommandCorrectConnectionStatistic();
