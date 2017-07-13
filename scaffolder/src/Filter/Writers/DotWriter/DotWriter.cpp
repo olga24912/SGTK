@@ -23,7 +23,18 @@ namespace filter {
 
             out << "    \"" << filter->getTargetName(v) << "\"[label=\" " << filter->getTargetName(v) <<
                 " id = " << v
-                << "\nlen = " << filter->getTargetLen(v) << "\"";
+                << "\nlen = " << filter->getTargetLen(v);
+
+            if (coordFile != "") {
+                out << "\n coord: \n";
+
+                std::vector<statistics::InfoAboutContigsAlig::Alignment> aligs = aligInfo.getAlignment(v);
+                for (auto alig : aligs) {
+                    out << alig.chrName << " " << alig.coordBegin << " " << alig.coordEnd << "\n";
+                }
+            }
+
+            out << "\"";
             if (isColored) {
                 out << " , style = \"filled\", color = \"#F0E68C\"";
             }

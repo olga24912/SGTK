@@ -10,12 +10,13 @@ namespace filter {
         protected:
             Filter *filter;
             FileValidator *validator;
+            std::string coordFile = "";
             int maxVert = 20;
             int maxEdge = 40;
         public:
             virtual DotWriter *build() {
                 DEBUG("build simple dot writer");
-                return new DotWriter(filter, validator, maxVert, maxEdge);
+                return new DotWriter(filter, validator, maxVert, maxEdge, coordFile);
             }
 
             void setFilter(Filter *filter) {
@@ -34,6 +35,9 @@ namespace filter {
                 DotWriterBuilder::maxEdge = maxEdge;
             }
 
+            void setCoordFile(std::string coordFile) {
+                DotWriterBuilder::coordFile = coordFile;
+            }
         protected:
             DECL_LOGGER("DotWriterBuilder");
         };

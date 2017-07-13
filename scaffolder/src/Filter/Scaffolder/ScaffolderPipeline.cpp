@@ -7,6 +7,7 @@
 #include "RuleBigDifInWeight.h"
 #include "RuleDelCycle.h"
 #include "RuleInOneLine.h"
+#include "RuleBigDeg.h"
 
 namespace filter {
     namespace scaffolder {
@@ -30,13 +31,17 @@ namespace filter {
 
             RuleBigDifInWeight rbd;
             rbd.simplifyGraph(graph);
+            RuleBigDeg rbdeg;
+            rbdeg.simplifyGraph(graph);
+            graph->write("smp.gr");
+
             RuleDelCycle rdc;
             rdc.simplifyGraph(graph);
             RuleInOneLine riol;
             riol.simplifyGraph(graph);
 
             ScaffoldStrategyUniqueConnection ssuc;
-            ssuc.addConnection(&scaffolds, graph, std::vector<int>({1, 1, 1, 1, 1, 1}));
+            ssuc.addConnection(&scaffolds, graph, std::vector<int>({3, 3, 3, 3, 3, 3}));
             scaffolds.print(out);
         }
     }

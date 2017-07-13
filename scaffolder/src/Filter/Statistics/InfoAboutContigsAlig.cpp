@@ -5,6 +5,7 @@
 namespace filter {
     namespace statistics {
         void InfoAboutContigsAlig::parseCoordFile(Filter *graph, std::string coordFileName) {
+            if (alignment.size() > 0) return;
             int n = graph->getVertexCount();
             alignment.resize(n);
             std::map<std::string, int> idByName;

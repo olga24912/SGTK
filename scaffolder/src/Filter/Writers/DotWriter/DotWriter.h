@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <Filter/Writers/FileValidator/FileValidator.h>
 #include <Filter/Writers/FileValidator/ValidatorNotPathWithAllLib.h>
+#include <Filter/Statistics/InfoAboutContigsAlig.h>
 #include "Filter/Writers/GraphSplitter.h"
 
 namespace filter {
@@ -16,6 +17,8 @@ namespace filter {
             Filter *filter; //graph for writing
             GraphSplitter graphSplitter; //split graph on small parts
             FileValidator *validator = new ValidatorNotPathWithAllLib();
+            std::string coordFile = "";
+            statistics::InfoAboutContigsAlig aligInfo;
 
             virtual void writeOneVertex(int v, bool isColored, std::ofstream &out);
 
@@ -31,6 +34,15 @@ namespace filter {
             DotWriter(Filter *filter, FileValidator *validator, int maxVert, int maxEdge) :
                     filter(filter), validator(validator) {
                 graphSplitter = GraphSplitter(maxVert, maxEdge);
+            }
+
+
+            DotWriter(Filter *filter, FileValidator *validator, int maxVert, int maxEdge, std::string coordFile) :
+                    filter(filter), validator(validator), coordFile(coordFile) {
+                graphSplitter = GraphSplitter(maxVert, maxEdge);
+                if (coordFile != "") {
+                    aligInfo.parseCoordFile(filter, coordFile);
+                }
             }
 
             //write this set of vertex in files with prefix fileName

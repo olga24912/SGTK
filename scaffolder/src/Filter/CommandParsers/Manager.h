@@ -52,6 +52,7 @@ namespace filter {
  * setFileVError <coordFileName> <libNum>
  * setBlockSplitDotWriter
  * setMaxVEinOneFile <maxVertNum> <maxEdgeNum>
+ * setCoordFile <coordFile>
  * statisticCorrectConnection <coordFile> <libNum>
  * statisticWeight <coordFile> <libNum> <step> <mxVal>
  * statisticDif <coordFile> <libNum> <step> <mxVal>
@@ -86,6 +87,7 @@ namespace filter {
             static const std::string SET_FV_ERROR;
             static const std::string SET_BLOCK_SPLIT_DOT_WRITER;
             static const std::string SET_MAX_VE_IN_ONE_FILE;
+            static const std::string SET_COORD_FILE;
             static const std::string STAT_CORRECT_CON;
             static const std::string STAT_WEIGHT;
             static const std::string STAT_DIF;

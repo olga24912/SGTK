@@ -19,6 +19,7 @@ namespace filter {
             writers::DotWriterBuilder *dotWriterBuilder = new writers::DotWriterBuilder();
             int maxEdge = 40;
             int maxVert = 20;
+            std::string coordFile = "";
 
             ~State() {
                 delete validator;

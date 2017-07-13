@@ -7,7 +7,7 @@ namespace filter {
     namespace scaffolder {
         class RuleBigDifInWeight : public Rule {
         private:
-            const int maxDif = 3;
+            const int maxDif = 5;
         public:
             void simplifyGraph(Filter *filter) override;
 
