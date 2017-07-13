@@ -67,7 +67,7 @@ namespace filter {
         std::vector<int> edges = Filter::getEdges(v);
         for (int i : edges) {
             if (getEdgeLib(i) == getEdgeLib(e) && getEdgeTo(i) == u) {
-                w += Filter::getEdgeWeight(i);
+                w += Filter::getEdgeWeight(i) * wc[Filter::getEdgeLib(i)];
             }
         }
 
@@ -100,7 +100,20 @@ namespace filter {
             std::string name;
             ss >> n1 >> n2 >> name;
 
-            TRACE("query merge_lib n1=" << n1 << " n2=" << n2 << " name=" << name);
+            double w1 = 1, w2 = 1;
+            ss >> w1 >> w2;
+
+            TRACE("query merge_lib n1=" << n1 << " n2=" << n2 << " name=" << name << " with weight = " << w1 << " " << w2);
+
+
+            for (int i = 0; i < newLibNum.size(); ++i) {
+                if (newLibNum[i] == n1) {
+                    wc[i] *= w1;
+                }
+                if (newLibNum[i] == n2) {
+                    wc[i] *= w2;
+                }
+            }
 
             int k = n1;
             n1 = std::min(n1, n2);
@@ -123,6 +136,8 @@ namespace filter {
     void FilterMergeLib::update(Filter *filter) {
         TRACE("update");
         int libCnt = (int) filter->getLibList().size();
+        wc.resize(0);
+        wc.resize(libCnt, 1);
         newLibNum.resize(libCnt);
         newLibName.resize(libCnt);
         for (int i = 0; i < libCnt; ++i) {

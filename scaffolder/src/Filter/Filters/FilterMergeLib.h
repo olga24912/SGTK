@@ -8,6 +8,7 @@ namespace filter {
     private:
         std::vector<int> newLibNum;
         std::vector<std::string> newLibName;
+        std::vector<double> wc;
     public:
         FilterMergeLib(Filter *filter);
 

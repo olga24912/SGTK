@@ -9,9 +9,6 @@ namespace filter {
     namespace scaffolder {
         class ScaffolderPipeline {
         private:
-            void bothDirFilter(Filter *graph, Scaffolds &scaffolds);
-
-            void onlySplit50Filter(Filter *graph, Scaffolds &scaffolds);
 
         public:
             void evaluate(Filter *graph, std::string contigFile, std::string out);

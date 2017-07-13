@@ -50,8 +50,7 @@ set(SOURCE_FILES
         Writers/FileValidator/ValidatorOnlyFirst.cpp Writers/FileValidator/ValidatorOnlyFirst.h Filters/FilterIgnoreEdge.cpp
         Filters/FilterIgnoreEdge.h CommandParsers/Commands/CommandFilter/CommandSetIgnoreEdge.cpp
         CommandParsers/Commands/CommandFilter/CommandSetIgnoreEdge.h Scaffolder/ScaffoldStrategy.cpp
-        Scaffolder/ScaffoldStrategy.h Scaffolder/ScaffoldStrategyOneLine.cpp Scaffolder/ScaffoldStrategyOneLine.h
-        Scaffolder/ScaffoldStrategyLeaveConnection.cpp Scaffolder/ScaffoldStrategyLeaveConnection.h
+        Scaffolder/ScaffoldStrategy.h
         Scaffolder/ScaffoldStrategyUniqueConnection.cpp Scaffolder/ScaffoldStrategyUniqueConnection.h
         Statistics/InfoAboutContigsAlig.cpp Statistics/InfoAboutContigsAlig.h Statistics/CntRightConnectionStatistic.cpp
         Statistics/CntRightConnectionStatistic.h CommandParsers/Commands/CommandStatistic/CommandCorrectConnectionStatistic.cpp
@@ -71,6 +70,6 @@ set(SOURCE_FILES
         Writers/FileValidator/ValidatorFewParts.h CommandParsers/Commands/CommandFV/CommandSetFVFewParts.h
         CommandParsers/Commands/CommandDW/CommandSetBSDotWriter.h Writers/DotWriter/DotWriterBuilder.h
         Writers/DotWriter/BlockSplitDotWriterBuilder.h Writers/DotWriter/BlockSplitDotWriter.cpp
-        Writers/DotWriter/BlockSplitDotWriter.h)
+        Writers/DotWriter/BlockSplitDotWriter.h Scaffolder/Rule.cpp Scaffolder/Rule.h Scaffolder/RuleBigDifInWeight.cpp Scaffolder/RuleBigDifInWeight.h Scaffolder/RuleDelCycle.cpp Scaffolder/RuleDelCycle.h Scaffolder/RuleInOneLine.cpp Scaffolder/RuleInOneLine.h)
 
 add_library(filter_lib ${SOURCE_FILES})
