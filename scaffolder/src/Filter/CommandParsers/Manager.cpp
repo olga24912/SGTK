@@ -17,6 +17,8 @@
 #include <Filter/CommandParsers/Commands/CommandFV/CommandSetFVFewParts.h>
 #include <Filter/CommandParsers/Commands/CommandDW/CommandSetBSDotWriter.h>
 #include <Filter/CommandParsers/Commands/CommandFV/CommandSetFVError.h>
+#include <Filter/CommandParsers/Commands/CommandSetCoordFile.h>
+#include <Filter/CommandParsers/Commands/CommandStatistic/CommandClusterStatistic.h>
 #include "Manager.h"
 namespace filter {
     namespace commands {
@@ -51,6 +53,7 @@ namespace filter {
         const std::string Manager::STAT_WEIGHT_DIF = "statisticWeightDif";
         const std::string Manager::STAT_TWO_LIB = "statisticTwoLib";
         const std::string Manager::STAT_TWO_COMP = "statisticTwoCompetitor";
+        const std::string Manager::STAT_CLUST = "statisticCluster";
         const std::string Manager::HISTOGRAM = "histogram";
 
         Manager::Manager() {
@@ -88,6 +91,7 @@ namespace filter {
             commandByKeyWord[STAT_WEIGHT_DIF] = new CommandWeightDifStatistic();
             commandByKeyWord[STAT_TWO_LIB] = new CommandTwoLibStatistic();
             commandByKeyWord[STAT_TWO_COMP] = new CommandTwoCompStatistic();
+            commandByKeyWord[STAT_CLUST] = new CommandClusterStatistic();
             commandByKeyWord[HISTOGRAM] = new CommandHistogram();
         }
 

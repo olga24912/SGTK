@@ -59,6 +59,7 @@ namespace filter {
  * statisticWeightDif <coordFile> <libNum> <stepW> <mxW> <stepD> <mxD>
  * statisticTwoLib <coordFile> <libNum1> <step1> <mxW1> <step1_2> <mxW1_2> <libNum2> <step2> <mxW2>
  * statisticTwoCompetitor <coordFile> <libNum1> <w1> <libNum2> <w2>
+ * statisticCluster <coordFile>
  * histogram <lib> <step>
  */
         class Manager {
@@ -94,6 +95,7 @@ namespace filter {
             static const std::string STAT_WEIGHT_DIF;
             static const std::string STAT_TWO_LIB;
             static const std::string STAT_TWO_COMP;
+            static const std::string STAT_CLUST;
             static const std::string HISTOGRAM;
 
 

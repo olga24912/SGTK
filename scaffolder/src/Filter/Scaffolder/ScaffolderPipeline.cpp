@@ -17,13 +17,13 @@ namespace filter {
             for (int i = (int)libs.size() - 1; i > 0; --i) {
                 std::stringstream ss;
                 ss << libs[i] << " " << libs[i - 1] << " lib ";
-                double w = 1;
+                /*double w = 1;
                 if (i == libs.size() - 1 && graph->getLibType(libs[i]) == contig_graph::ContigGraph::Lib::RNA_SPLIT_50) {
                     w = 1.75;
                 }
                 if (graph->getLibType(libs[i - 1]) == contig_graph::ContigGraph::Lib::RNA_SPLIT_50) {
                     ss << w << " 1.75";
-                }
+                }*/
                 graph->processQuery(Query(Query::MERGE_LIB, ss.str()));
             }
 
@@ -33,12 +33,13 @@ namespace filter {
             rbd.simplifyGraph(graph);
             RuleBigDeg rbdeg;
             rbdeg.simplifyGraph(graph);
+            /*RuleInOneLine riol;
+            riol.simplifyGraph(graph);*/
+
             graph->write("smp.gr");
 
-            RuleDelCycle rdc;
-            rdc.simplifyGraph(graph);
-            RuleInOneLine riol;
-            riol.simplifyGraph(graph);
+            //RuleDelCycle rdc;
+            //rdc.simplifyGraph(graph);
 
             ScaffoldStrategyUniqueConnection ssuc;
             ssuc.addConnection(&scaffolds, graph, std::vector<int>({3, 3, 3, 3, 3, 3}));

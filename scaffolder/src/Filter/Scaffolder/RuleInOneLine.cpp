@@ -4,6 +4,7 @@
 namespace filter {
     namespace scaffolder {
         void RuleInOneLine::simplifyGraph(filter::Filter *filter) {
+            INFO("start simplify graph");
             std::vector<int> vect = filter->getVertexList();
             for (int v : vect) {
                 std::vector<int> edges = filter->getEdges(v);
@@ -24,6 +25,7 @@ namespace filter {
                     }
                 }
             }
+            INFO("finish simplify graph");
         }
 
         bool RuleInOneLine::havePath(Filter *filter, int u, int w) {

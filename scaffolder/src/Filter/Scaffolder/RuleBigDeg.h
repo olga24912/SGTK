@@ -7,8 +7,8 @@ namespace filter {
     namespace scaffolder {
         class RuleBigDeg : public Rule {
         private:
-            const int BIG_DEG = 6;
-            const int MAX_DIF = 2;
+            const int BIG_DEG = 20;
+            const int MAX_WEIGHT = 4;
         public:
             void simplifyGraph(Filter *filter) override;
 

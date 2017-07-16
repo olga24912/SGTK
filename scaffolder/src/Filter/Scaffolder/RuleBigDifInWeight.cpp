@@ -3,11 +3,13 @@
 namespace filter {
     namespace scaffolder {
         void RuleBigDifInWeight::simplifyGraph(filter::Filter *filter) {
+            INFO("start simplify graph");
             std::vector<int> vert = filter->getVertexList();
             for (int v : vert) {
                 delSmallEdges(filter, filter->getEdges(v));
                 delSmallEdges(filter, filter->getEdgesR(v));
             }
+            INFO("finish simplify graph");
         }
 
         void RuleBigDifInWeight::delSmallEdges(Filter *filter, const std::vector<int> &edges) const {
@@ -19,7 +21,7 @@ namespace filter {
             }
 
             for (int e : edges) {
-                if (filter->getEdgeWeight(e) * maxDif < maxW) {
+                if (filter->getEdgeWeight(e) * maxDif <= maxW) {
                     std::stringstream ss;
                     ss << e;
                     filter->processQuery(Query(Query::SET_IGNORE_EDGE, ss.str()));
