@@ -3,7 +3,7 @@
 namespace filter {
     namespace statistics {
         void
-        TwoCompStatistic::calculateStatistic(Filter *filter, std::string coordFile, int libNum1, int val1, int libNum2,
+        TwoCompStatistic::calculateStatistic(ContigGraph *filter, std::string coordFile, int libNum1, int val1, int libNum2,
                                              int val2) {
             InfoAboutContigsAlig aligInfo;
             aligInfo.parseCoordFile(filter, coordFile);

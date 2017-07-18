@@ -2,7 +2,7 @@
 #include "CommandClusterStatistic.h"
 
 void filter::commands::CommandClusterStatistic::execute(std::string argv, filter::commands::State &state,
-                                                        filter::Filter *filter) {
+                                                        filter::ContigGraph *filter) {
     std::stringstream ss(argv);
     std::string fileName;
     ss >> fileName;

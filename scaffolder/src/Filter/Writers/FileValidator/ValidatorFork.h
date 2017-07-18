@@ -11,7 +11,7 @@ namespace filter {
         public:
             ValidatorFork(int lib) : lib(lib) {}
 
-            bool isGoodVertexSet(std::vector<int> vert, Filter *filter);
+            bool isGoodVertexSet(std::vector<int> vert, ContigGraph *graph);
         };
     }
 }

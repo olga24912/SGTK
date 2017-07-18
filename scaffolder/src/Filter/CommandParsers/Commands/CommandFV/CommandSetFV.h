@@ -8,7 +8,7 @@ namespace filter {
 
         class CommandSetFV : public Command {
         public:
-            void execute(std::string argv, State &state, Filter *filter) override final {
+            void execute(std::string argv, State &state, ContigGraph *filter) override final {
                 delete state.validator;
                 setFV(state, argv);
             }

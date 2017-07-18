@@ -1,7 +1,7 @@
 #ifndef SCAFFOLDER_COMMANDPRINT_H
 #define SCAFFOLDER_COMMANDPRINT_H
 
-#include <Filter/Filters/Filter.h>
+#include <Filter/Filters/ContigGraph.h>
 #include "Command.h"
 
 namespace filter {
@@ -9,7 +9,7 @@ namespace filter {
         class CommandPrint : public Command {
 
         public:
-            void execute(std::string argv, State &state, Filter *filter) override;
+            void execute(std::string argv, State &state, ContigGraph *filter) override;
         };
     }
 }

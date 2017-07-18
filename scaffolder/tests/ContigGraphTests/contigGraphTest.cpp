@@ -37,8 +37,8 @@ TEST_F(ContigGraphTest, addVertexAndEdges) {
     ASSERT_EQ(graph.getEdgeWeight(0), 1);
     ASSERT_EQ(graph.getEdgeLib(0), 0);
 
-    ASSERT_EQ(graph.getTargetLength(0), 10);
-    ASSERT_EQ(graph.getTargetLength(3), 120);
+    ASSERT_EQ(graph.getTargetLen(0), 10);
+    ASSERT_EQ(graph.getTargetLen(3), 120);
     ASSERT_EQ(graph.getTargetName(1), "vert1-rev");
     ASSERT_EQ(graph.getTargetName(2), "vert2");
 
@@ -68,7 +68,7 @@ TEST_F(ContigGraphTest, serialization) {
     contig_graph::ContigGraph graphCopy = contig_graph::ContigGraph::read(tmpFileName);
     ASSERT_EQ(graphCopy.getEdges(0), graph.getEdges(0));
     ASSERT_EQ(graphCopy.getEdgesR(2), graph.getEdgesR(2));
-    ASSERT_EQ(graphCopy.getTargetLength(1), graph.getTargetLength(1));
+    ASSERT_EQ(graphCopy.getTargetLen(1), graph.getTargetLen(1));
     ASSERT_EQ(graphCopy.getLibNum(), graph.getLibNum());
     ASSERT_EQ(graphCopy.getToVertex(0), graph.getToVertex(0));
     ASSERT_EQ(graphCopy.getFromVertex(1), graph.getFromVertex(1));

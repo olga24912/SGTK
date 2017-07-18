@@ -7,10 +7,10 @@ namespace filter {
     namespace scaffolder {
         class ScaffoldStrategyUniqueConnection : public ScaffoldStrategy {
         private:
-            bool isUniquePair(int v1, int v2, Filter *graph);
+            bool isUniquePair(int v1, int v2, ContigGraph *graph);
 
         public:
-            void addConnection(Scaffolds *scaffolds, Filter *graph, std::vector<int> minW) override;
+            void addConnection(Scaffolds *scaffolds, ContigGraph *graph, std::vector<int> minW) override;
 
         private:
             DECL_LOGGER("ScaffoldStrategyUniqueConnection");

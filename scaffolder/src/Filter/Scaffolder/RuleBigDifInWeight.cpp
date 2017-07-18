@@ -2,7 +2,7 @@
 
 namespace filter {
     namespace scaffolder {
-        void RuleBigDifInWeight::simplifyGraph(filter::Filter *filter) {
+        void RuleBigDifInWeight::simplifyGraph(filter::ContigGraph *filter) {
             INFO("start simplify graph");
             std::vector<int> vert = filter->getVertexList();
             for (int v : vert) {
@@ -12,7 +12,7 @@ namespace filter {
             INFO("finish simplify graph");
         }
 
-        void RuleBigDifInWeight::delSmallEdges(Filter *filter, const std::vector<int> &edges) const {
+        void RuleBigDifInWeight::delSmallEdges(ContigGraph *filter, const std::vector<int> &edges) const {
             int maxW = 0;
             for (int e : edges) {
                 if (filter->getEdgeWeight(e) >= maxW) {

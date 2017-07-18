@@ -2,9 +2,9 @@ include_directories(.)
 
 set(SOURCE_FILES
         Tools/SystemTools.cpp  Tools/SystemTools.h
-         Filters/Filter.h  Filters/FilterAdapter.cpp
+        Filters/ContigGraph.h Filters/FilterAdapter.cpp
          Filters/FilterAdapter.h  Filters/FilterMinWeight.cpp
-         Filters/FilterMinWeight.h  Filters/Filter.cpp
+         Filters/FilterMinWeight.h Filters/ContigGraph.cpp
          Filters/FilterIgnore.cpp  Filters/FilterIgnore.h
          Filters/Query.h
         Writers/DotWriter/DotWriter.cpp Writers/DotWriter/DotWriter.h
@@ -70,6 +70,6 @@ set(SOURCE_FILES
         Writers/FileValidator/ValidatorFewParts.h CommandParsers/Commands/CommandFV/CommandSetFVFewParts.h
         CommandParsers/Commands/CommandDW/CommandSetBSDotWriter.h Writers/DotWriter/DotWriterBuilder.h
         Writers/DotWriter/BlockSplitDotWriterBuilder.h Writers/DotWriter/BlockSplitDotWriter.cpp
-        Writers/DotWriter/BlockSplitDotWriter.h Scaffolder/Rule.cpp Scaffolder/Rule.h Scaffolder/RuleBigDifInWeight.cpp Scaffolder/RuleBigDifInWeight.h Scaffolder/RuleDelCycle.cpp Scaffolder/RuleDelCycle.h Scaffolder/RuleInOneLine.cpp Scaffolder/RuleInOneLine.h Writers/FileValidator/ValidatorError.cpp Writers/FileValidator/ValidatorError.h CommandParsers/Commands/CommandFV/CommandSetFVError.h Scaffolder/RuleBigDeg.cpp Scaffolder/RuleBigDeg.h CommandParsers/Commands/CommandSetCoordFile.h Statistics/ClusterStatistic.cpp Statistics/ClusterStatistic.h CommandParsers/Commands/CommandStatistic/CommandClusterStatistic.cpp CommandParsers/Commands/CommandStatistic/CommandClusterStatistic.h)
+        Writers/DotWriter/BlockSplitDotWriter.h Scaffolder/Rule.cpp Scaffolder/Rule.h Scaffolder/RuleBigDifInWeight.cpp Scaffolder/RuleBigDifInWeight.h Scaffolder/RuleDelCycle.cpp Scaffolder/RuleDelCycle.h Scaffolder/RuleInOneLine.cpp Scaffolder/RuleInOneLine.h Writers/FileValidator/ValidatorError.cpp Writers/FileValidator/ValidatorError.h CommandParsers/Commands/CommandFV/CommandSetFVError.h Scaffolder/RuleBigDeg.cpp Scaffolder/RuleBigDeg.h CommandParsers/Commands/CommandSetCoordFile.h Statistics/ClusterStatistic.cpp Statistics/ClusterStatistic.h CommandParsers/Commands/CommandStatistic/CommandClusterStatistic.cpp CommandParsers/Commands/CommandStatistic/CommandClusterStatistic.h Scaffolder/RuleDelSmallCycle.cpp Scaffolder/RuleDelSmallCycle.h)
 
 add_library(filter_lib ${SOURCE_FILES})

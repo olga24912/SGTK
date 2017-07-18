@@ -3,10 +3,10 @@
 namespace filter {
     namespace statistics {
         void
-        TwoLibStatistic::calculateStatistic(Filter *filter, std::string coordFile, int libNum1, int step1, int mxW1,
+        TwoLibStatistic::calculateStatistic(ContigGraph *graph, std::string coordFile, int libNum1, int step1, int mxW1,
                                             int step1_2, int mxW1_2, int libNum2, int step2, int mxW2) {
             InfoAboutContigsAlig aligInfo;
-            aligInfo.parseCoordFile(filter, coordFile);
+            aligInfo.parseCoordFile(graph, coordFile);
 
             int cnt_box1 = mxW1 / step1 + 1;
             int cnt_box1_2 = mxW1_2 / step1_2 + 1;
@@ -23,18 +23,18 @@ namespace filter {
                 }
             }
 
-            int n = filter->getVertexCount();
+            int n = graph->getVertexCount();
             for (int v = 0; v < n; ++v) {
-                std::vector<int> edges = filter->getEdges(v);
+                std::vector<int> edges = graph->getEdges(v);
                 int e1 = -1;
                 int e1_2 = -1;
                 int e2 = -1;
                 for (int e : edges) {
-                    if (filter->getEdgeLib(e) != libNum1) {
+                    if (graph->getEdgeLib(e) != libNum1) {
                         continue;
                     }
 
-                    if (e1 == -1 || filter->getEdgeWeight(e) > filter->getEdgeWeight(e1)) {
+                    if (e1 == -1 || graph->getEdgeWeight(e) > graph->getEdgeWeight(e1)) {
                         e1 = e;
                     }
                 }
@@ -42,39 +42,39 @@ namespace filter {
                 if (e1 == -1) continue;
 
                 for (int e : edges) {
-                    if (filter->getEdgeLib(e) != libNum1 || filter->getEdgeTo(e) == filter->getEdgeTo(e1)) {
+                    if (graph->getEdgeLib(e) != libNum1 || graph->getEdgeTo(e) == graph->getEdgeTo(e1)) {
                         continue;
                     }
 
-                    if (e1_2 == -1 || filter->getEdgeWeight(e) > filter->getEdgeWeight(e1_2)) {
+                    if (e1_2 == -1 || graph->getEdgeWeight(e) > graph->getEdgeWeight(e1_2)) {
                         e1_2 = e;
                     }
                 }
 
 
                 for (int e : edges) {
-                    if (filter->getEdgeLib(e) != libNum2 || filter->getEdgeTo(e) == filter->getEdgeTo(e1)) {
+                    if (graph->getEdgeLib(e) != libNum2 || graph->getEdgeTo(e) == graph->getEdgeTo(e1)) {
                         continue;
                     }
 
-                    if (e2 == -1 || filter->getEdgeWeight(e) > filter->getEdgeWeight(e2)) {
+                    if (e2 == -1 || graph->getEdgeWeight(e) > graph->getEdgeWeight(e2)) {
                         e2 = e;
                     }
                 }
 
-                InfoAboutContigsAlig::ErrorType status = aligInfo.isCorrectEdge(filter, e1);
-                int wg1 = filter->getEdgeWeight(e1) / step1;
+                InfoAboutContigsAlig::ErrorType status = aligInfo.isCorrectEdge(graph, e1);
+                int wg1 = graph->getEdgeWeight(e1) / step1;
                 int wg1_2 = 0;
                 int wg2 = 0;
                 if (e2 != -1) {
-                    wg2 = filter->getEdgeWeight(e2) / step2;
+                    wg2 = graph->getEdgeWeight(e2) / step2;
                     if (wg2 >= cnt_box2) {
                         wg2 = cnt_box2 - 1;
                     }
                 }
 
                 if (e1_2 != -1) {
-                    wg1_2 = filter->getEdgeWeight(e1_2) / step1_2;
+                    wg1_2 = graph->getEdgeWeight(e1_2) / step1_2;
                     if (wg1_2 >= cnt_box1_2) {
                         wg1_2 = cnt_box1_2 - 1;
                     }

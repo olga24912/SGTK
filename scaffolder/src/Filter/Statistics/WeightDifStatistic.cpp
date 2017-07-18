@@ -5,10 +5,10 @@
 namespace filter {
     namespace statistics {
         void
-        WeightDifStatistic::calculateStatistic(Filter *filter, std::string coordFile, int libNum, int step1, int mxW1,
+        WeightDifStatistic::calculateStatistic(ContigGraph *graph, std::string coordFile, int libNum, int step1, int mxW1,
                                                int step2, int mxW2) {
             InfoAboutContigsAlig aligInfo;
-            aligInfo.parseCoordFile(filter, coordFile);
+            aligInfo.parseCoordFile(graph, coordFile);
 
             int cnt_box1 = mxW1 / step1 + 1;
             int cnt_box2 = mxW2 / step2 + 1;
@@ -24,35 +24,35 @@ namespace filter {
                 }
             }
 
-            int n = filter->getVertexCount();
+            int n = graph->getVertexCount();
             for (int v = 0; v < n; ++v) {
-                std::vector<int> edges = filter->getEdges(v);
+                std::vector<int> edges = graph->getEdges(v);
                 int e1 = -1;
                 int e2 = -1;
                 for (int e : edges) {
-                    if (filter->getEdgeLib(e) != libNum) {
+                    if (graph->getEdgeLib(e) != libNum) {
                         continue;
                     }
 
-                    if (e1 == -1 || filter->getEdgeWeight(e) > filter->getEdgeWeight(e1)) {
+                    if (e1 == -1 || graph->getEdgeWeight(e) > graph->getEdgeWeight(e1)) {
                         e2 = e1;
                         e1 = e;
-                    } else if (e2 == -1 || filter->getEdgeWeight(e) > filter->getEdgeWeight(e2)) {
+                    } else if (e2 == -1 || graph->getEdgeWeight(e) > graph->getEdgeWeight(e2)) {
                         e2 = e;
                     }
                 }
 
                 if (e1 == -1) continue;
-                InfoAboutContigsAlig::ErrorType status = aligInfo.isCorrectEdge(filter, e1);
-                int wg1 = filter->getEdgeWeight(e1) / step1;
+                InfoAboutContigsAlig::ErrorType status = aligInfo.isCorrectEdge(graph, e1);
+                int wg1 = graph->getEdgeWeight(e1) / step1;
                 int wg2 = 0;
                 int flag = 0;
                 if (e2 != -1) {
-                    wg2 = filter->getEdgeWeight(e2) / step2;
+                    wg2 = graph->getEdgeWeight(e2) / step2;
                     if (wg2 >= cnt_box2) {
                         wg2 = cnt_box2 - 1;
                     }
-                    if (filter->getEdgeTo(e1) == filter->getEdgeTo(e2)) {
+                    if (graph->getEdgeTo(e1) == graph->getEdgeTo(e2)) {
                         flag = 1;
                     }
                 }

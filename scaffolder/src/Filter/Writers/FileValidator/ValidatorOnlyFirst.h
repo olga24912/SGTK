@@ -12,7 +12,7 @@ namespace filter {
         public:
             ValidatorOnlyFirst(int libPr, int libNotPr) : libPr(libPr), libNotPr(libNotPr) {}
 
-            bool isGoodVertexSet(std::vector<int> vert, Filter *filter) override;
+            bool isGoodVertexSet(std::vector<int> vert, ContigGraph *graph) override;
         };
     }
 }

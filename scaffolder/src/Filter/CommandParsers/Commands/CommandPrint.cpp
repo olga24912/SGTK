@@ -3,7 +3,7 @@
 
 namespace filter {
     namespace commands {
-        void CommandPrint::execute(std::string argv, State &state, Filter *filter) {
+        void CommandPrint::execute(std::string argv, State &state, ContigGraph *filter) {
             INFO("print graph");
             std::string fileName;
             std::stringstream ss(argv);

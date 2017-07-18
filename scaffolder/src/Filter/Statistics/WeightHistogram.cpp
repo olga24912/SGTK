@@ -2,15 +2,15 @@
 
 namespace filter {
     namespace statistics {
-        void WeightHistogram::histogram(Filter *filter, int lib, int step) {
+        void WeightHistogram::histogram(ContigGraph *graph, int lib, int step) {
             int mx = 0;
-            int n = filter->getVertexCount();
+            int n = graph->getVertexCount();
             for (int v = 0; v < n; ++v) {
-                std::vector<int> edges = filter->getEdges(v);
+                std::vector<int> edges = graph->getEdges(v);
                 for (int e : edges) {
-                    if (filter->getEdgeLib(e) != lib) continue;
-                    if (filter->getEdgeWeight(e) > mx) {
-                        mx = filter->getEdgeWeight(e);
+                    if (graph->getEdgeLib(e) != lib) continue;
+                    if (graph->getEdgeWeight(e) > mx) {
+                        mx = graph->getEdgeWeight(e);
                     }
                 }
             }
@@ -22,12 +22,12 @@ namespace filter {
             int cnt_edge = 0;
             int sum_wg = 0;
             for (int v = 0; v < n; ++v) {
-                std::vector<int> edges = filter->getEdges(v);
+                std::vector<int> edges = graph->getEdges(v);
                 for (int e : edges) {
-                    if (filter->getEdgeLib(e) != lib) continue;
-                    if (filter->getEdgeWeight(e) < mx) cnt[filter->getEdgeWeight(e) / step]++;
+                    if (graph->getEdgeLib(e) != lib) continue;
+                    if (graph->getEdgeWeight(e) < mx) cnt[graph->getEdgeWeight(e) / step]++;
                     ++cnt_edge;
-                    sum_wg += filter->getEdgeWeight(e);
+                    sum_wg += graph->getEdgeWeight(e);
                 }
             }
 

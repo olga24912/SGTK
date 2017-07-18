@@ -1,7 +1,7 @@
 #ifndef SCAFFOLDER_GRAPHSPLITTER_H
 #define SCAFFOLDER_GRAPHSPLITTER_H
 
-#include <Filter/Filters/Filter.h>
+#include <Filter/Filters/ContigGraph.h>
 #include <vector>
 
 namespace filter {
@@ -18,7 +18,7 @@ namespace filter {
             std::vector<std::vector<int> > res; //res[i] - vertexs in i's component.
             std::vector<int> edgeCol; //component for i-s edge.
 
-            Filter *filter;
+            ContigGraph *graph;
             std::vector<int> vert;
 
             void clear();
@@ -30,8 +30,8 @@ namespace filter {
 
             GraphSplitter(int maxVert, int maxEdge) : maxVert(maxVert), maxEdge(maxEdge) {}
 
-            //in graph filter split this set of vertex
-            std::vector<std::vector<int> > split(Filter *filter, std::vector<int> vert);
+            //in graph graph split this set of vertex
+            std::vector<std::vector<int> > split(ContigGraph *graph1, std::vector<int> vert);
 
         private:
             DECL_LOGGER("GraphSplitter");

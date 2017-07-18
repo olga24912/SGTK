@@ -2,13 +2,13 @@
 #define SCAFFOLDER_FILEVALIDATOR_H
 
 #include <vector>
-#include <Filter/Filters/Filter.h>
+#include <Filter/Filters/ContigGraph.h>
 
 namespace filter {
     namespace writers {
         class FileValidator {
         public:
-            virtual bool isGoodVertexSet(std::vector<int> vert, Filter *filter) {
+            virtual bool isGoodVertexSet(std::vector<int> vert, ContigGraph *graph) {
                 return true;
             }
 

@@ -7,7 +7,7 @@ namespace filter {
     namespace writers {
         class BlockSplitDotWriter : public DotWriter {
         public:
-            BlockSplitDotWriter(Filter *filter, FileValidator *validator, int maxVert, int maxEdge);
+            BlockSplitDotWriter(ContigGraph *graph1, FileValidator *validator, int maxVert, int maxEdge);
 
         protected:
             const int minBlockDist = 100;

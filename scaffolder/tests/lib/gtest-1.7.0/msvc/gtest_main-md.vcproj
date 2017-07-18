@@ -98,9 +98,9 @@
 			Name="gtest-md"/>
 	</References>
 	<Files>
-		<Filter
+		<ContigGraph
 			Name="Source Files"
-			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
+			ContigGraph="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
 			<File
 				RelativePath="..\src\gtest_main.cc">
@@ -117,12 +117,12 @@
 						AdditionalIncludeDirectories="&quot;..&quot;;&quot;..\include&quot;"/>
 				</FileConfiguration>
 			</File>
-		</Filter>
-		<Filter
+		</ContigGraph>
+		<ContigGraph
 			Name="Header Files"
-			Filter="h;hpp;hxx;hm;inl;inc;xsd"
+			ContigGraph="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
-		</Filter>
+		</ContigGraph>
 	</Files>
 	<Globals>
 	</Globals>

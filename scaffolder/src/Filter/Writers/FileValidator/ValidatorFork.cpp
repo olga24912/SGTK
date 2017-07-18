@@ -3,15 +3,15 @@
 
 namespace filter {
     namespace writers {
-        bool ValidatorFork::isGoodVertexSet(std::vector<int> vert, Filter *filter) {
+        bool ValidatorFork::isGoodVertexSet(std::vector<int> vert, ContigGraph *graph) {
             DEBUG("start validation");
             for (int v : vert) {
-                std::vector<int> edges = filter->getEdges(v);
+                std::vector<int> edges = graph->getEdges(v);
                 std::set<int> nb;
 
                 for (int e : edges) {
-                    int u = filter->getEdgeTo(e);
-                    if (filter->getEdgeLib(e) != lib) {
+                    int u = graph->getEdgeTo(e);
+                    if (graph->getEdgeLib(e) != lib) {
                         continue;
                     }
                     nb.insert(e);

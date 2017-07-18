@@ -8,10 +8,11 @@
 #include "RuleDelCycle.h"
 #include "RuleInOneLine.h"
 #include "RuleBigDeg.h"
+#include "RuleDelSmallCycle.h"
 
 namespace filter {
     namespace scaffolder {
-        void ScaffolderPipeline::evaluate(Filter *graph, std::string contigFile, std::string out) {
+        void ScaffolderPipeline::evaluate(ContigGraph *graph, std::string contigFile, std::string out) {
             INFO("start build scaffolds");
             std::vector<int> libs = graph->getLibList();
             for (int i = (int)libs.size() - 1; i > 0; --i) {
@@ -29,17 +30,17 @@ namespace filter {
 
             Scaffolds scaffolds(contigFile);
 
+            RuleDelSmallCycle rdsc;
+            rdsc.simplifyGraph(graph);
             RuleBigDifInWeight rbd;
             rbd.simplifyGraph(graph);
             RuleBigDeg rbdeg;
             rbdeg.simplifyGraph(graph);
-            /*RuleInOneLine riol;
-            riol.simplifyGraph(graph);*/
-
+            RuleInOneLine riol;
+            riol.simplifyGraph(graph);
+            RuleDelCycle rdc;
+            rdc.simplifyGraph(graph);
             graph->write("smp.gr");
-
-            //RuleDelCycle rdc;
-            //rdc.simplifyGraph(graph);
 
             ScaffoldStrategyUniqueConnection ssuc;
             ssuc.addConnection(&scaffolds, graph, std::vector<int>({3, 3, 3, 3, 3, 3}));

@@ -6,7 +6,7 @@
 #include <Filter/Filters/FilterIgnore.h>
 #include <Filter/Filters/FilterAdapter.h>
 #include <Filter/Filters/FilterMinWeight.h>
-#include <Filter/Filters/Filter.h>
+#include <Filter/Filters/ContigGraph.h>
 #include "Filter/CommandParsers/Commands/Command.h"
 #include <Filter/CommandParsers/Commands/CommandFilter/CommandMinContig.h>
 #include <Filter/CommandParsers/Commands/CommandFilter/CommandMinEdgeWeight.h>
@@ -102,7 +102,7 @@ namespace filter {
             std::string configFile = "filter_config";
             State state;
 
-            Filter *filter;
+            ContigGraph *filter;
 
             std::unordered_map<std::string, Command *> commandByKeyWord;
 

@@ -4,9 +4,9 @@
 
 namespace filter {
     namespace writers {
-        std::vector<std::vector<int> > GraphSplitter::split(Filter *filter, std::vector<int> vert) {
+        std::vector<std::vector<int> > GraphSplitter::split(ContigGraph *graph1, std::vector<int> vert) {
             INFO("start split file on parts");
-            this->filter = filter;
+            this->graph = graph1;
             this->vert = vert;
 
             clear();
@@ -26,7 +26,7 @@ namespace filter {
             res.resize(0);
             edgeCol.resize(0);
 
-            used.resize((unsigned int) filter->getVertexCount(), 2);
+            used.resize((unsigned int) graph->getVertexCount(), 2);
             for (int v : vert) {
                 used[v] = 0;
             }
@@ -34,7 +34,7 @@ namespace filter {
 
             int edgeCnt = 0;
             for (int i = 0; i < (unsigned) used.size(); ++i) {
-                for (int e : filter->getEdges(i)) {
+                for (int e : graph->getEdges(i)) {
                     edgeCnt = std::max(edgeCnt, e + 1);
                 }
             }
@@ -58,15 +58,15 @@ namespace filter {
                 que.pop();
 
                 int extraEdge = 0;
-                for (int e : filter->getEdges(u)) {
-                    int w = filter->getEdgeTo(e);
+                for (int e : graph->getEdges(u)) {
+                    int w = graph->getEdgeTo(e);
                     if (used[w] == 1) {
                         ++extraEdge;
                     }
                 }
 
-                for (int e : filter->getEdgesR(u)) {
-                    int w = filter->getEdgeFrom(e);
+                for (int e : graph->getEdgesR(u)) {
+                    int w = graph->getEdgeFrom(e);
                     if (used[w] == 1) {
                         ++extraEdge;
                     }
@@ -77,8 +77,8 @@ namespace filter {
                     cntE += extraEdge;
                     cntV += 1;
                     used[u] = 1;
-                    for (int e : filter->getEdges(u)) {
-                        int w = filter->getEdgeTo(e);
+                    for (int e : graph->getEdges(u)) {
+                        int w = graph->getEdgeTo(e);
                         if (used[w] == 1) {
                             edgeCol[e] = colNum + 1;
                         } else if (edgeCol[e] == 0 && used[w] == 0) {
@@ -87,8 +87,8 @@ namespace filter {
                         }
                     }
 
-                    for (int e : filter->getEdgesR(u)) {
-                        int w = filter->getEdgeFrom(e);
+                    for (int e : graph->getEdgesR(u)) {
+                        int w = graph->getEdgeFrom(e);
                         if (used[w] == 1) {
                             edgeCol[e] = colNum + 1;
                         } else if (edgeCol[e] == 0 && used[w] == 0) {
@@ -106,15 +106,15 @@ namespace filter {
                 if (used[i] == 3) used[i] = 0;
                 if (used[i] == 1) {
                     used[i] = 2;
-                    for (int e : filter->getEdges(i)) {
-                        if (edgeCol[e] == 0 && used[filter->getEdgeTo(e)] != 2) {
+                    for (int e : graph->getEdges(i)) {
+                        if (edgeCol[e] == 0 && used[graph->getEdgeTo(e)] != 2) {
                             used[i] = 0;
                         }
                     }
 
 
-                    for (int e : filter->getEdgesR(i)) {
-                        if (edgeCol[e] == 0 && used[filter->getEdgeFrom(e)] != 2) {
+                    for (int e : graph->getEdgesR(i)) {
+                        if (edgeCol[e] == 0 && used[graph->getEdgeFrom(e)] != 2) {
                             used[i] = 0;
                         }
                     }

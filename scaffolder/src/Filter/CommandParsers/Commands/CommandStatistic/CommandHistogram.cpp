@@ -4,7 +4,7 @@
 namespace filter {
     namespace commands {
 
-        void CommandHistogram::execute(std::string argv, State &state, Filter *filter) {
+        void CommandHistogram::execute(std::string argv, State &state, ContigGraph *filter) {
                 std::stringstream ss(argv);
 
                 int lib, step;

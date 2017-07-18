@@ -7,7 +7,7 @@ namespace filter {
     namespace statistics {
         class ClusterStatistic : Statistic {
         public:
-            void calculateStatistic(Filter *filter, std::string coordFile);
+            void calculateStatistic(ContigGraph *filter, std::string coordFile);
         private:
             InfoAboutContigsAlig aligInfo;
             struct clusterInfo {
@@ -27,7 +27,7 @@ namespace filter {
             std::vector<clusterInfo> clusters;
 
             void print();
-            void setInfoAboutCluster(filter::Filter *filter, const std::vector<int> &edges,
+            void setInfoAboutCluster(filter::ContigGraph *filter, const std::vector<int> &edges,
                     filter::statistics::ClusterStatistic::clusterInfo &clinfo);
         };
     }

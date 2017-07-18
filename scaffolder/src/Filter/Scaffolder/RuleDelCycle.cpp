@@ -2,7 +2,7 @@
 
 namespace filter {
     namespace scaffolder {
-        void RuleDelCycle::simplifyGraph(filter::Filter *filter) {
+        void RuleDelCycle::simplifyGraph(filter::ContigGraph *filter) {
             INFO("start del cycles");
             int wasOpt = true;
 
@@ -12,22 +12,22 @@ namespace filter {
                 int cntCol = findCycle(filter);
 
                 TRACE("Start find min edge in cycle =" << cntCol);
-                std::vector<int> minColor(cntCol, 0);
+                std::vector<int> minColor(cntCol, 1);
 
                 std::vector<int> vect = filter->getVertexList();
-                for (int v : vect) {
-                    std::vector<int> edges = filter->getEdges(v);
+                /*for (int v : vect) {
+                    std::vector<int> edges = graph->getEdges(v);
 
                     for (int e : edges) {
-                        int u = filter->getEdgeTo(e);
+                        int u = graph->getEdgeTo(e);
                         if (color[v] == color[u]) {
                             if (minColor[color[v]] == 0 ||
-                                    minColor[color[v]] > filter->getEdgeWeight(e)) {
-                                minColor[color[v]] = filter->getEdgeWeight(e);
+                                    minColor[color[v]] > graph->getEdgeWeight(e)) {
+                                minColor[color[v]] = graph->getEdgeWeight(e);
                             }
                         }
                     }
-                }
+                }*/
 
                 for (int v : vect) {
                     std::vector<int> edges = filter->getEdges(v);
@@ -39,7 +39,7 @@ namespace filter {
                                 std::stringstream ss;
                                 ss << e;
                                 filter->processQuery(Query(Query::SET_IGNORE_EDGE, ss.str()));
-                                wasOpt = true;
+                                //wasOpt = true;
                             }
                         }
                     }
@@ -48,7 +48,7 @@ namespace filter {
             INFO("Finish del cycles");
         }
 
-        void  RuleDelCycle::topSort(Filter *graph) {
+        void  RuleDelCycle::topSort(ContigGraph *graph) {
             DEBUG("top sort");
             int n = graph->getVertexCount();
             topSortPos.resize(0);
@@ -70,7 +70,7 @@ namespace filter {
             DEBUG("finish topsort");
         }
 
-        int  RuleDelCycle::findCycle(Filter *graph) {
+        int  RuleDelCycle::findCycle(ContigGraph *graph) {
             DEBUG("condensation");
             int n = graph->getVertexCount();
             color.resize(0);
@@ -87,7 +87,7 @@ namespace filter {
         }
 
 
-        void  RuleDelCycle::topSortDfs(int v, Filter *graph, std::vector<int> *used) {
+        void  RuleDelCycle::topSortDfs(int v, ContigGraph *graph, std::vector<int> *used) {
             TRACE("topSortDfs v=" << v);
             (*used)[v] = 1;
             std::vector<int> edges = graph->getEdges(v);
@@ -102,7 +102,7 @@ namespace filter {
             TRACE("finish topsort dfs v=" << v);
         }
 
-        void  RuleDelCycle::colorDfs(int v, int col, Filter *graph) {
+        void  RuleDelCycle::colorDfs(int v, int col, ContigGraph *graph) {
             TRACE("colorDfs v=" << v);
             color[v] = col;
 

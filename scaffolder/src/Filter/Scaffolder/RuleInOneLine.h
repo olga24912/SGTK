@@ -7,10 +7,10 @@ namespace filter {
     namespace scaffolder {
         class RuleInOneLine : Rule {
         public:
-            void simplifyGraph(Filter *filter) override;
+            void simplifyGraph(ContigGraph *filter) override;
 
         private:
-            bool havePath(Filter *filter, int u, int w);
+            bool havePath(ContigGraph *filter, int u, int w);
         };
     }
 }

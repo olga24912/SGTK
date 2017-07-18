@@ -2,7 +2,7 @@
 
 namespace filter {
     namespace commands {
-        void CommandWrite::execute(std::string argv, State &state, Filter *filter) {
+        void CommandWrite::execute(std::string argv, State &state, ContigGraph *filter) {
             std::string fileName;
             std::stringstream ss(argv);
             ss >> fileName;

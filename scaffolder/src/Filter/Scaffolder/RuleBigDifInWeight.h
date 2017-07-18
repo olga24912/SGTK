@@ -9,9 +9,9 @@ namespace filter {
         private:
             const int maxDif = 5;
         public:
-            void simplifyGraph(Filter *filter) override;
+            void simplifyGraph(ContigGraph *filter) override;
 
-            void delSmallEdges(Filter *filter, const std::vector<int> &edges) const;
+            void delSmallEdges(ContigGraph *filter, const std::vector<int> &edges) const;
         };
     }
 }

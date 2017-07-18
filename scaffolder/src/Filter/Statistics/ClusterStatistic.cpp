@@ -2,7 +2,7 @@
 
 namespace filter {
     namespace statistics {
-        void filter::statistics::ClusterStatistic::calculateStatistic(filter::Filter *filter, std::string coordFile) {
+        void filter::statistics::ClusterStatistic::calculateStatistic(filter::ContigGraph *filter, std::string coordFile) {
             aligInfo.parseCoordFile(filter, coordFile);
 
             std::vector<int> vert = filter->getVertexList();
@@ -20,7 +20,7 @@ namespace filter {
             print();
         }
 
-        void ClusterStatistic::setInfoAboutCluster(filter::Filter *filter, const std::vector<int> &edges,
+        void ClusterStatistic::setInfoAboutCluster(filter::ContigGraph *filter, const std::vector<int> &edges,
                                                    filter::statistics::ClusterStatistic::clusterInfo &clinfo) {
             clinfo.size = edges.size();
             clinfo.winWeight = 0;

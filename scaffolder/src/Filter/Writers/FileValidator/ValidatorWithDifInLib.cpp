@@ -4,25 +4,25 @@
 
 namespace filter {
     namespace writers {
-        bool ValidatorWithDifInLib::isGoodVertexSet(std::vector<int> vert, Filter *filter) {
+        bool ValidatorWithDifInLib::isGoodVertexSet(std::vector<int> vert, ContigGraph *graph) {
             DEBUG("start validation");
-            std::vector<int> listLib = filter->getLibList();
+            std::vector<int> listLib = graph->getLibList();
 
 
             for (int i = 0; i < (int) vert.size(); ++i) {
                 int v = vert[i];
 
-                std::vector<int> edges = filter->getEdges(v);
+                std::vector<int> edges = graph->getEdges(v);
                 std::vector<std::pair<int, int> > ed;
 
                 for (int e : edges) {
-                    int u = filter->getEdgeTo(e);
+                    int u = graph->getEdgeTo(e);
                     int inSet = 0;
                     for (int y : vert) {
                         if (u == y) inSet = 1;
                     }
                     if (inSet) {
-                        ed.push_back(std::make_pair(filter->getEdgeTo(e), filter->getEdgeLib(e)));
+                        ed.push_back(std::make_pair(graph->getEdgeTo(e), graph->getEdgeLib(e)));
                     }
                 }
                 std::sort(ed.begin(), ed.end());

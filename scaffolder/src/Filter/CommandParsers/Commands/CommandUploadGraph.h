@@ -1,7 +1,7 @@
 #ifndef SCAFFOLDER_COMMANDUPLOADGRAPH_H
 #define SCAFFOLDER_COMMANDUPLOADGRAPH_H
 
-#include <Filter/Filters/Filter.h>
+#include <Filter/Filters/ContigGraph.h>
 #include "Command.h"
 
 namespace filter {
@@ -9,7 +9,7 @@ namespace filter {
         //uploadGraph <filename>
         class CommandUploadGraph : public Command {
         public:
-            void execute(std::string argv, State &state, Filter *filter) override;
+            void execute(std::string argv, State &state, ContigGraph *filter) override;
         };
     }
 }

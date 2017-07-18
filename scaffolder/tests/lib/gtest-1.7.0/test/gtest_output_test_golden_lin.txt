@@ -648,7 +648,7 @@ Expected fatal failure.
 42 FAILED TESTS
 [0;33m  YOU HAVE 1 DISABLED TEST
 
-[mNote: Google Test filter = FatalFailureTest.*:LoggingTest.*
+[mNote: Google Test graph = FatalFailureTest.*:LoggingTest.*
 [==========] Running 4 tests from 2 test cases.
 [----------] Global test environment set-up.
 [----------] 3 tests from FatalFailureTest
@@ -699,7 +699,7 @@ Expected: (3) >= (a[i]), actual: 3 vs 6
 [  FAILED  ] LoggingTest.InterleavingLoggingAndAssertions
 
  4 FAILED TESTS
-Note: Google Test filter = *DISABLED_*
+Note: Google Test graph = *DISABLED_*
 [==========] Running 1 test from 1 test case.
 [----------] Global test environment set-up.
 [----------] 1 test from DisabledTestsWarningTest
@@ -708,7 +708,7 @@ Note: Google Test filter = *DISABLED_*
 [----------] Global test environment tear-down
 [==========] 1 test from 1 test case ran.
 [  PASSED  ] 1 test.
-Note: Google Test filter = PassingTest.*
+Note: Google Test graph = PassingTest.*
 Note: This is test shard 2 of 2.
 [==========] Running 1 test from 1 test case.
 [----------] Global test environment set-up.

@@ -7,7 +7,7 @@ namespace filter {
     namespace commands {
         class CommandSetCoordFile : public Command {
         public:
-            void execute(std::string argv, State &state, Filter *filter) override {
+            void execute(std::string argv, State &state, ContigGraph *filter) override {
                 std::string coordFile;
                 std::stringstream ss(argv);
                 ss >> coordFile;

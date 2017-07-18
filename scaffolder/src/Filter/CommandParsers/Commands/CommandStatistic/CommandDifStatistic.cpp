@@ -4,7 +4,7 @@
 namespace filter {
     namespace commands {
 
-        void CommandDifStatistic::execute(std::string argv, State &state, Filter *filter) {
+        void CommandDifStatistic::execute(std::string argv, State &state, ContigGraph *filter) {
                 std::stringstream ss(argv);
                 std::string fileName;
                 int libNum;

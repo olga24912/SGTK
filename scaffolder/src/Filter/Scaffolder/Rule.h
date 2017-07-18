@@ -1,13 +1,13 @@
 #ifndef SCAFFOLDER_RULE_H
 #define SCAFFOLDER_RULE_H
 
-#include <Filter/Filters/Filter.h>
+#include <Filter/Filters/ContigGraph.h>
 
 namespace filter {
     namespace scaffolder {
         class Rule {
         public:
-            virtual void simplifyGraph(Filter* filter) = 0;
+            virtual void simplifyGraph(ContigGraph* filter) = 0;
         };
     }
 }

@@ -2,13 +2,13 @@
 
 namespace filter {
     namespace writers {
-        WriteAlongPath::WriteAlongPath(std::string fileName, int libId, int dist, int minSize, Filter *filter1,
+        WriteAlongPath::WriteAlongPath(std::string fileName, int libId, int dist, int minSize, ContigGraph *graph1,
                                        FileValidator *validator, DotWriterBuilder *builder) :
-                fileName(fileName), libId(libId), dist(dist), minSize(minSize), Writer(filter1, validator, builder) {}
+                fileName(fileName), libId(libId), dist(dist), minSize(minSize), Writer(graph1, validator, builder) {}
 
         void WriteAlongPath::write() {
             INFO("write along path");
-            int n = (filter->getVertexCount());
+            int n = (graph->getVertexCount());
             int *col = new int[n];
             int cur = searcher.findComponent(col);
 

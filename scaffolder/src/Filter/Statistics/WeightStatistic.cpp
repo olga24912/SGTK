@@ -3,9 +3,9 @@
 namespace filter {
     namespace statistics {
         void
-        WeightStatistic::calculateStatistic(Filter *filter, std::string coordFile, int libNum, int step, int mxWeight) {
+        WeightStatistic::calculateStatistic(ContigGraph *graph, std::string coordFile, int libNum, int step, int mxWeight) {
             InfoAboutContigsAlig aligInfo;
-            aligInfo.parseCoordFile(filter, coordFile);
+            aligInfo.parseCoordFile(graph, coordFile);
 
             int cnt_box = mxWeight / step + 1;
 
@@ -16,13 +16,13 @@ namespace filter {
                 }
             }
 
-            int n = filter->getVertexCount();
+            int n = graph->getVertexCount();
             for (int v = 0; v < n; ++v) {
-                std::vector<int> edges = filter->getEdges(v);
+                std::vector<int> edges = graph->getEdges(v);
                 for (int e : edges) {
-                    if (filter->getEdgeLib(e) != libNum) continue;
-                    InfoAboutContigsAlig::ErrorType status = aligInfo.isCorrectEdge(filter, e);
-                    int wg = filter->getEdgeWeight(e) / step;
+                    if (graph->getEdgeLib(e) != libNum) continue;
+                    InfoAboutContigsAlig::ErrorType status = aligInfo.isCorrectEdge(graph, e);
+                    int wg = graph->getEdgeWeight(e) / step;
                     if (wg >= cnt_box) {
                         wg = cnt_box - 1;
                     }

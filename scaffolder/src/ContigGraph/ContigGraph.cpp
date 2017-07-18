@@ -16,7 +16,7 @@ namespace contig_graph {
         return (int) graph.size();
     }
 
-    int ContigGraph::getTargetLength(int v) const {
+    int ContigGraph::getTargetLen(int v) const {
         TRACE("get target " << v << " length: " << targets[v].len);
         return targets[v].len;
     }

@@ -9,7 +9,7 @@ namespace filter {
 
         class CommandCorrectConnectionStatistic : public Command {
         public:
-            void execute(std::string argv, State &state, Filter *filter) override;
+            void execute(std::string argv, State &state, ContigGraph *filter) override;
         };
     }
 }

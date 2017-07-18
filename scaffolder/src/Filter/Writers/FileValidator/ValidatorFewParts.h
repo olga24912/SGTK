@@ -7,7 +7,7 @@ namespace filter {
     namespace writers {
         class ValidatorFewParts : public FileValidator {
         public:
-            bool isGoodVertexSet(std::vector<int> vert, Filter *filter) override;
+            bool isGoodVertexSet(std::vector<int> vert, ContigGraph *graph) override;
         };
     }
 }

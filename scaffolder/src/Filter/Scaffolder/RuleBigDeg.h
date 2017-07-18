@@ -10,11 +10,11 @@ namespace filter {
             const int BIG_DEG = 20;
             const int MAX_WEIGHT = 4;
         public:
-            void simplifyGraph(Filter *filter) override;
+            void simplifyGraph(ContigGraph *filter) override;
 
-            void ignoreEdges(Filter *wig, std::vector<int> vector);
+            void ignoreEdges(ContigGraph *wig, std::vector<int> vector);
 
-            void ignoreEdgesR(Filter *wig, std::vector<int> vector);
+            void ignoreEdgesR(ContigGraph *wig, std::vector<int> vector);
         };
     }
 }

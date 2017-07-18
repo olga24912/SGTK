@@ -4,7 +4,7 @@
 
 namespace filter {
     namespace statistics {
-        void InfoAboutContigsAlig::parseCoordFile(Filter *graph, std::string coordFileName) {
+        void InfoAboutContigsAlig::parseCoordFile(ContigGraph *graph, std::string coordFileName) {
             if (alignment.size() > 0) return;
             int n = graph->getVertexCount();
             alignment.resize(n);
@@ -38,7 +38,7 @@ namespace filter {
         }
 
         InfoAboutContigsAlig::ErrorType
-        InfoAboutContigsAlig::isCorrectEdge(Filter *filter, int e) {
+        InfoAboutContigsAlig::isCorrectEdge(ContigGraph *filter, int e) {
             int v = filter->getEdgeFrom(e);
             int u = filter->getEdgeTo(e);
             std::vector<InfoAboutContigsAlig::Alignment> valig = getAlignment(v);

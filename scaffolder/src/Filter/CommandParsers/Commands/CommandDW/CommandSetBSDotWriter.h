@@ -14,7 +14,7 @@ namespace filter {
         protected:
 
         public:
-            void execute(std::string argv, State &state, Filter *filter) override {
+            void execute(std::string argv, State &state, ContigGraph *filter) override {
                 INFO("setBlock dot writer");
                 delete state.dotWriterBuilder;
                 state.dotWriterBuilder = new writers::BlockSplitDotWriterBuilder();

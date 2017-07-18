@@ -13,15 +13,15 @@ namespace filter {
             std::vector<int> color;
             std::vector<int> topSortPos;
 
-            void topSortDfs(int v, Filter *graph, std::vector<int> *used);
+            void topSortDfs(int v, ContigGraph *graph, std::vector<int> *used);
 
-            void colorDfs(int v, int col, Filter *graph);
+            void colorDfs(int v, int col, ContigGraph *graph);
 
-            void topSort(Filter *graph);
+            void topSort(ContigGraph *graph);
 
-            int findCycle(Filter *graph);
+            int findCycle(ContigGraph *graph);
         public:
-            void simplifyGraph(Filter *filter) override;
+            void simplifyGraph(ContigGraph *filter) override;
         };
     }
 }

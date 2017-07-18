@@ -14,7 +14,7 @@ namespace filter {
             int libError;
         public:
             ValidatorError(std::string coordFile, int libError) : coordFileName(coordFile), libError(libError) {};
-            bool isGoodVertexSet(std::vector<int> vert, Filter *filter) override;
+            bool isGoodVertexSet(std::vector<int> vert, ContigGraph *graph) override;
         };
     }
 }

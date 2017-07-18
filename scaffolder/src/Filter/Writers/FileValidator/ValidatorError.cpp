@@ -2,16 +2,16 @@
 
 namespace filter {
     namespace writers {
-        bool ValidatorError::isGoodVertexSet(std::vector<int> vert, filter::Filter *filter) {
-            aligInfo.parseCoordFile(filter, coordFileName);
+        bool ValidatorError::isGoodVertexSet(std::vector<int> vert, filter::ContigGraph *graph) {
+            aligInfo.parseCoordFile(graph, coordFileName);
 
             int haveError = 0;
             for (int v : vert) {
-                std::vector<int> edges = filter->getEdges(v);
+                std::vector<int> edges = graph->getEdges(v);
 
                 for (int e : edges) {
-                    if (filter->getEdgeLib(e) != libError) continue;
-                    int u = filter->getEdgeTo(e);
+                    if (graph->getEdgeLib(e) != libError) continue;
+                    int u = graph->getEdgeTo(e);
                     int was = 0;
                     for (int w : vert) {
                         if (w == u) {
@@ -20,7 +20,7 @@ namespace filter {
                     }
                     if (was == 0) continue;
 
-                    if (aligInfo.isCorrectEdge(filter, e) != InfoAboutContigsAlig::OK) {
+                    if (aligInfo.isCorrectEdge(graph, e) != InfoAboutContigsAlig::OK) {
                         haveError = 1;
                     }
                 }

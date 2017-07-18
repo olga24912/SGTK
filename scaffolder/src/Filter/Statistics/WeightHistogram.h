@@ -2,13 +2,13 @@
 #define SCAFFOLDER_WEIGHTHISTOGRAM_H
 
 
-#include <Filter/Filters/Filter.h>
+#include <Filter/Filters/ContigGraph.h>
 
 namespace filter {
     namespace statistics {
         class WeightHistogram {
         public:
-            static void histogram(Filter *filter, int lib, int step);
+            static void histogram(ContigGraph *graph, int lib, int step);
         };
     }
 }

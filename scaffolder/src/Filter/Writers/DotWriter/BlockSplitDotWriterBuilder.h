@@ -10,7 +10,7 @@ namespace filter {
         public:
             virtual DotWriter *build() override {
                 DEBUG("build block DW");
-                return new BlockSplitDotWriter(filter, validator, maxVert, maxEdge);
+                return new BlockSplitDotWriter(graph, validator, maxVert, maxEdge);
             }
         };
     }

@@ -66,17 +66,15 @@ namespace contig_graph {
                 }
             }
         };
-
     private:
         static const int maxClusterSize = 1000;
         std::vector<std::vector<int> > graph; // graph[v][i] = e store edge id from vertex (e: v -> u)
         std::vector<std::vector<int> > graphR; // graph[u][i] = e store edge id to vertex (e: v -> u)
-        std::vector<Edge> edges;
-
         std::map<std::string, int> targetId; // return vertex in graph(aka target id) by target name
-        std::vector<Vertex> targets;
 
+        std::vector<Vertex> targets;
         std::vector<Lib> libs;
+        std::vector<Edge> edges;
 
         std::vector<std::unordered_map<int, std::vector<int> > > vrtsToEdge; // if in last lib e: v -> u then vrtsToEdge[v][u] = e
     public:
@@ -84,43 +82,41 @@ namespace contig_graph {
 
         std::vector<int> getEdges(int v); //get all edges from vertex v
         std::vector<int> getEdgesR(int v); //get all edges to vertex v
-
         int getToVertex(int e); //if e: v -> u then to[e] = v
         int getFromVertex(int e); //if e: v -> u then from[e] = u
         int getEdgeWeight(int e); //return wieght of edge e
         int getEdgeLib(int e); //return lib for this edge
         int getEdgeCoordB1(int e);
-
         int getEdgeCoordE1(int e);
-
         int getEdgeCoordB2(int e);
-
         int getEdgeCoordE2(int e);
-
         std::string getEdgeInfo(int e);
 
         void setEdgeChr(int e, std::string name);
 
-
         std::string getLibColor(int l); //return color for this lib
         std::string getLibName(int l); //return name of this lib
         Lib::Type getLibType(int l);
+        std::vector<int> getLibList();
 
-        int incEdgeWeight(int v, int u, int cb1, int ce1, int cb2,
-                          int ce2); //increment edge wight between contigs with id v and u
-
+        int incEdgeWeight(int v, int u, int cb1, int ce1, int cb2, int ce2); //increment edge wight between contigs with id v and u
         int addVertex(int id, std::string name, int len); //add new vertex with this id, name and len
-
-
-        int getTargetLength(int id) const; // get len of contig with id
+        int getTargetLen(int id) const; // get len of contig with id
         std::string getTargetName(int v); // get name of contig with this id
         int getTargetId(std::string name); //get id of contig by contig name
         int getVertexCount(); //get count of vertexs
         int getLibNum(); //get the count of lib
+        std::string getInfo(int e);
+        std::vector<int> getVertexList();
 
         void write(std::string fileName); //serialize this graph in .gr format in "fileName" file
         static ContigGraph read(std::string fileName); //generate ContigGraph from .gr format file
 
+        int addEdge(int v, int u, int lib, int w);
+        void setWeight(int e, int w);
+        void delEdge(int e);
+        void delVertex(int v);
+        Lib mergeLib(int l1, int l2);
     private:
         DECL_LOGGER("ContigGraph");
     };

@@ -4,7 +4,7 @@
 
 namespace filter {
     namespace scaffolder {
-        void ScaffoldStrategy::topSort(Filter *graph) {
+        void ScaffoldStrategy::topSort(ContigGraph *graph) {
             INFO("top sort");
             int n = graph->getVertexCount();
             topSortPos.resize(n);
@@ -23,7 +23,7 @@ namespace filter {
             }
         }
 
-        void ScaffoldStrategy::findCycle(Filter *graph) {
+        void ScaffoldStrategy::findCycle(ContigGraph *graph) {
             INFO("condensation");
             int n = graph->getVertexCount();
             color.resize(n);
@@ -37,7 +37,7 @@ namespace filter {
         }
 
 
-        void ScaffoldStrategy::topSortDfs(int v, Filter *graph, std::vector<int> *used) {
+        void ScaffoldStrategy::topSortDfs(int v, ContigGraph *graph, std::vector<int> *used) {
             TRACE("topSortDfs v=" << v);
             (*used)[v] = 1;
             std::vector<int> edges = graph->getEdges(v);
@@ -51,7 +51,7 @@ namespace filter {
             topsort.push_back(v);
         }
 
-        void ScaffoldStrategy::colorDfs(int v, int col, Filter *graph) {
+        void ScaffoldStrategy::colorDfs(int v, int col, ContigGraph *graph) {
             TRACE("colorDfs v=" << v);
             color[v] = col;
 
@@ -65,7 +65,7 @@ namespace filter {
         }
 
 
-        int ScaffoldStrategy::deg(int i, Filter *pFilter, int dirIn) {
+        int ScaffoldStrategy::deg(int i, ContigGraph *pFilter, int dirIn) {
             std::vector<int> edges;
             if (dirIn) {
                 edges = pFilter->getEdgesR(i);

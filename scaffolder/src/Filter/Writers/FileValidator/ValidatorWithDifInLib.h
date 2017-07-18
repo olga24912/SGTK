@@ -11,7 +11,7 @@ namespace filter {
         public:
             ValidatorWithDifInLib(std::vector<int> libs) : libs(libs) {}
 
-            bool isGoodVertexSet(std::vector<int> vert, Filter *filter) override;
+            bool isGoodVertexSet(std::vector<int> vert, ContigGraph *graph) override;
         };
     }
 }

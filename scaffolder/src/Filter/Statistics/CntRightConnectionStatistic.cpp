@@ -3,7 +3,7 @@
 
 namespace filter {
     namespace statistics {
-        void CntRightConnectionStatistic::calculateStatistic(Filter *filter, std::string coordFile, int libNum) {
+        void CntRightConnectionStatistic::calculateStatistic(ContigGraph *filter, std::string coordFile, int libNum) {
             InfoAboutContigsAlig aligInfo;
             aligInfo.parseCoordFile(filter, coordFile);
 

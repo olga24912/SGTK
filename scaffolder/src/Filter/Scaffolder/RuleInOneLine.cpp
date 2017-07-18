@@ -3,11 +3,13 @@
 
 namespace filter {
     namespace scaffolder {
-        void RuleInOneLine::simplifyGraph(filter::Filter *filter) {
+        void RuleInOneLine::simplifyGraph(filter::ContigGraph *filter) {
             INFO("start simplify graph");
             std::vector<int> vect = filter->getVertexList();
             for (int v : vect) {
                 std::vector<int> edges = filter->getEdges(v);
+                TRACE("vertex num = " << v << " edegs cnt=" << edges.size());
+                if (edges.size() != 2) continue;
                 for (int i = 0; i < (int)edges.size(); ++i) {
                     for (int j = i + 1; j < (int)edges.size(); ++j) {
                         int u = filter->getEdgeTo(edges[i]);
@@ -28,8 +30,8 @@ namespace filter {
             INFO("finish simplify graph");
         }
 
-        bool RuleInOneLine::havePath(Filter *filter, int u, int w) {
-            std::vector<int> dist(filter->getVertexCount(), -1);
+        bool RuleInOneLine::havePath(ContigGraph *filter, int u, int w) {
+            std::unordered_map<int, int> dist;
             std::queue<int> que;
             que.push(u);
             dist[u] = 0;
@@ -37,11 +39,11 @@ namespace filter {
                 int v = que.front();
                 que.pop();
 
-                if (dist[v] == 20) return false;
+                if (dist[v] == 10) return false;
                 std::vector<int> edges = filter->getEdges(v);
                 for (int edge : edges) {
                     int y = filter->getEdgeTo(edge);
-                    if (dist[y] == -1) {
+                    if (dist.count(y) == 0) {
                         dist[y] = dist[v] + 1;
                         que.push(y);
                         if (y == w) return true;

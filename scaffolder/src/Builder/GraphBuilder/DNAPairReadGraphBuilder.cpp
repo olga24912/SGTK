@@ -18,7 +18,7 @@ namespace builder {
         int DNAPairReadGraphBuilder::readDist(seqan::BamAlignmentRecord read) {
             TRACE("get readDist to the end");
             if (!seqan::hasFlagRC(read)) {
-                return (graph->getTargetLength(2 * read.rID) - read.beginPos -
+                return (graph->getTargetLen(2 * read.rID) - read.beginPos -
                         (int) (read.seq.data_end - read.seq.data_begin));
             } else {
                 return (read.beginPos);

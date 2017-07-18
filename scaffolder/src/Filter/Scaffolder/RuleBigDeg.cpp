@@ -2,7 +2,7 @@
 
 namespace filter {
     namespace scaffolder {
-        void RuleBigDeg::simplifyGraph(filter::Filter *filter) {
+        void RuleBigDeg::simplifyGraph(filter::ContigGraph *filter) {
             INFO("start simplify graph");
             std::vector<int> vert = filter->getVertexList();
             std::vector<int> wignore(filter->getVertexCount(), 0);
@@ -32,7 +32,7 @@ namespace filter {
 
         }
 
-        void RuleBigDeg::ignoreEdges(Filter *filter, std::vector<int> wig) {
+        void RuleBigDeg::ignoreEdges(ContigGraph *filter, std::vector<int> wig) {
             std::vector<int> vect = filter->getVertexList();
             for (int v : vect) {
                 if (wig[v] != 0 && wig[v] <= MAX_WEIGHT) {
@@ -46,7 +46,7 @@ namespace filter {
             }
         }
 
-        void RuleBigDeg::ignoreEdgesR(Filter *filter, std::vector<int> wig) {
+        void RuleBigDeg::ignoreEdgesR(ContigGraph *filter, std::vector<int> wig) {
             std::vector<int> vect = filter->getVertexList();
             for (int v : vect) {
                 if (wig[v] != 0 && wig[v] <= MAX_WEIGHT) {

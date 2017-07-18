@@ -1,7 +1,7 @@
 #ifndef SCAFFOLDER_SIMPLEWRITER_H
 #define SCAFFOLDER_SIMPLEWRITER_H
 
-#include <Filter/Filters/Filter.h>
+#include <Filter/Filters/ContigGraph.h>
 #include <fstream>
 #include <algorithm>
 #include <Filter/Writers/FileValidator/FileValidator.h>
@@ -14,7 +14,7 @@ namespace filter {
 //class for write graph in dot format.
         class DotWriter {
         protected:
-            Filter *filter; //graph for writing
+            ContigGraph *graph; //graph for writing
             GraphSplitter graphSplitter; //split graph on small parts
             FileValidator *validator = new ValidatorNotPathWithAllLib();
             std::string coordFile = "";
@@ -29,16 +29,16 @@ namespace filter {
         public:
             DotWriter() {}
 
-            DotWriter(Filter *filter) : filter(filter) {}
+            DotWriter(ContigGraph *filter) : graph(filter) {}
 
-            DotWriter(Filter *filter, FileValidator *validator, int maxVert, int maxEdge) :
-                    filter(filter), validator(validator) {
+            DotWriter(ContigGraph *filter, FileValidator *validator, int maxVert, int maxEdge) :
+                    graph(filter), validator(validator) {
                 graphSplitter = GraphSplitter(maxVert, maxEdge);
             }
 
 
-            DotWriter(Filter *filter, FileValidator *validator, int maxVert, int maxEdge, std::string coordFile) :
-                    filter(filter), validator(validator), coordFile(coordFile) {
+            DotWriter(ContigGraph *filter, FileValidator *validator, int maxVert, int maxEdge, std::string coordFile) :
+                    graph(filter), validator(validator), coordFile(coordFile) {
                 graphSplitter = GraphSplitter(maxVert, maxEdge);
                 if (coordFile != "") {
                     aligInfo.parseCoordFile(filter, coordFile);

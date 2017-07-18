@@ -7,7 +7,7 @@ namespace filter {
     namespace writers {
         class ValidatorNotPathWithAllLib : public FileValidator {
         public:
-            virtual bool isGoodVertexSet(std::vector<int> vert, Filter *filter);
+            virtual bool isGoodVertexSet(std::vector<int> vert, ContigGraph *graph);
         };
     }
 }

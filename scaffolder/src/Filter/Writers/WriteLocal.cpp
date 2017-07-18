@@ -3,9 +3,9 @@
 
 namespace filter {
     namespace writers {
-        WriteLocal::WriteLocal(int v, int dist, std::string fileName, Filter *filter1,
+        WriteLocal::WriteLocal(int v, int dist, std::string fileName, ContigGraph *graph1,
                                FileValidator *validator, DotWriterBuilder *builder) :
-                Writer(filter1, validator, builder), v(v), dist(dist), fileName(fileName) {}
+                Writer(graph1, validator, builder), v(v), dist(dist), fileName(fileName) {}
 
         void WriteLocal::write() {
             INFO("Write Local");

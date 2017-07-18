@@ -99,7 +99,7 @@ namespace builder {
             std::string rcont, qcont;
 
             while (in >> l >> r >> lq >> rq >> x >> x >> xx >> x >> x >> rcont >> qcont) {
-                if (graph->getTargetLength(contigsId[qcont]) < minContigLen) {
+                if (graph->getTargetLen(contigsId[qcont]) < minContigLen) {
                     continue;
                 }
 
@@ -108,7 +108,7 @@ namespace builder {
                     std::swap(lq, rq);
                 }
 
-                if ((rq - lq) * 10 >= graph->getTargetLength(contigsId[qcont]) * 9) {
+                if ((rq - lq) * 10 >= graph->getTargetLen(contigsId[qcont]) * 9) {
                     contigsAlignment[rcont].push_back(alignmentInfo(l, r, lq, rq, qcont));
                 }
             }

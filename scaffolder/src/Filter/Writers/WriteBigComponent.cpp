@@ -3,15 +3,15 @@
 namespace filter {
     namespace writers {
         WriteBigComponent::WriteBigComponent(
-                std::string fileName, int minSize, Filter *filter1, FileValidator *validator, DotWriterBuilder *builder)
+                std::string fileName, int minSize, ContigGraph *graph1, FileValidator *validator, DotWriterBuilder *builder)
                 :
-                fileName(fileName), minSize(minSize), Writer(filter1, validator, builder) {
+                fileName(fileName), minSize(minSize), Writer(graph1, validator, builder) {
 
         }
 
         void WriteBigComponent::write() {
             INFO("write big component");
-            int n = filter->getVertexCount();
+            int n = graph->getVertexCount();
             int *col = new int[n];
             int cur = searcher.findComponent(col);
 

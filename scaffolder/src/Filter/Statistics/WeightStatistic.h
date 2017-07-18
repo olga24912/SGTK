@@ -7,7 +7,7 @@ namespace filter {
     namespace statistics {
         class WeightStatistic : public Statistic {
         public:
-            void calculateStatistic(Filter *filter, std::string coordFile, int libNum, int step, int mxWeight);
+            void calculateStatistic(ContigGraph *graph, std::string coordFile, int libNum, int step, int mxWeight);
         };
     }
 }

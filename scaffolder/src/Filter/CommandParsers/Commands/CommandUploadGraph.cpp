@@ -3,7 +3,7 @@
 
 namespace filter {
     namespace commands {
-        void CommandUploadGraph::execute(std::string argv, State &state, Filter *filter) {
+        void CommandUploadGraph::execute(std::string argv, State &state, ContigGraph *filter) {
             std::stringstream ss(argv);
             std::string fileName;
             ss >> fileName;

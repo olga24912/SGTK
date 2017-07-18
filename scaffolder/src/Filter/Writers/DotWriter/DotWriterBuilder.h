@@ -8,7 +8,7 @@ namespace filter {
     namespace writers {
         class DotWriterBuilder {
         protected:
-            Filter *filter;
+            ContigGraph *graph;
             FileValidator *validator;
             std::string coordFile = "";
             int maxVert = 20;
@@ -16,11 +16,11 @@ namespace filter {
         public:
             virtual DotWriter *build() {
                 DEBUG("build simple dot writer");
-                return new DotWriter(filter, validator, maxVert, maxEdge, coordFile);
+                return new DotWriter(graph, validator, maxVert, maxEdge, coordFile);
             }
 
-            void setFilter(Filter *filter) {
-                this->filter = filter;
+            void setFilter(ContigGraph *filter) {
+                this->graph = filter;
             }
 
             void setValidator(FileValidator *validator) {

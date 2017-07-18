@@ -3,7 +3,7 @@
 
 namespace filter {
     namespace commands {
-        void CommandWeightDifStatistic::execute(std::string argv, State &state, Filter *filter) {
+        void CommandWeightDifStatistic::execute(std::string argv, State &state, ContigGraph *filter) {
                 std::stringstream ss(argv);
                 std::string fileName;
                 int libNum;

@@ -2,7 +2,7 @@
 #define SCAFFOLDER_INFOABOUTCONTIGSALIG_H
 
 
-#include <Filter/Filters/Filter.h>
+#include <Filter/Filters/ContigGraph.h>
 
 namespace filter {
     namespace statistics {
@@ -18,7 +18,7 @@ namespace filter {
                 Alignment(std::string chrName, int cb, int ce) : chrName(chrName), coordBegin(cb), coordEnd(ce) {}
             };
 
-            void parseCoordFile(Filter *graph, std::string coordFileName);
+            void parseCoordFile(ContigGraph *graph, std::string coordFileName);
 
             std::vector<Alignment> getAlignment(int vertId);
 
@@ -28,7 +28,7 @@ namespace filter {
             const int MAX_DIST = 1000000;
             const int MIN_OVERLAP = 100;
 
-            ErrorType isCorrectEdge(Filter *filter, int e);
+            ErrorType isCorrectEdge(ContigGraph *filter, int e);
 
         private:
             std::vector<std::vector<Alignment> > alignment;

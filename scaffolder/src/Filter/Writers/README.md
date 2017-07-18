@@ -1,11 +1,11 @@
 # Writers
-    Пакет, отвечающий за вывод графа(Filter) в dot формате 
+    Пакет, отвечающий за вывод графа(ContigGraph) в dot формате 
      определенным способом. 
      
 ## Writer
      Интерфейс для классов, которые выводят граф. 
 Внутри себя имеет:
-* Filter* filter - граф, который предстоит вывести. 
+* ContigGraph* graph - граф, который предстоит вывести. 
 * Searcher searcher - класс для обхода графа.
 * DotWriter dotWriter - для примитивного вывода графы в dot фрмате. 
 
@@ -41,7 +41,7 @@
 ## Searcher
     Отвечает за обход графа.
     
-* Filter* filter граф, который будут обходить.
+* ContigGraph* graph граф, который будут обходить.
 * std::vector<int> findVertInLocalArea(int v, int dist) - находит
 все вершины на расстоние меньше dist от вершины v.
 * int findComponent(int *col) - возвращает количество компонент, 
@@ -52,7 +52,7 @@
      Выводит граф в dot формате, предварительно разбив его 
      на небольшие куски, которые можно вывести. 
      
- * Filter* filter - граф, который предстоит вывести.
+ * ContigGraph* graph - граф, который предстоит вывести.
  * GraphSplitter graphSplitter - необходим, для разделения графа 
  на маленькие кусочки, которые будет удобно отрисовывать. 
  * void writeVertexSet(std::vector<int> vert, std::string fileName) -
@@ -67,6 +67,6 @@
      
 * int maxEdge = 15 - максимальное количество ребер в одной части
 * int maxVert = 10 - максимальное количество вершин в одно части
-* std::vector< std::vector<int> > split(Filter* filter, std::vector<int> vert)
-- разбить граф filter на части, при этом все вершины, кроме vert стоит игонрировать.
+* std::vector< std::vector<int> > split(ContigGraph* graph, std::vector<int> vert)
+- разбить граф graph на части, при этом все вершины, кроме vert стоит игонрировать.
  возвращает массив частей, для каждой части записаны вершины, которые в нее входят. 

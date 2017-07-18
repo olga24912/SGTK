@@ -106,9 +106,13 @@ namespace filter {
 
         void Scaffolds::addConnection(int id1, int id2) {
             TRACE("add connection between " << id1 << " " << id2);
+            if (id1 == 9385 || id1 == 10182) DEBUG("add connectin between " << id1 << " " << id2);
             Node *node1 = &contigsNode[id1];
             Node *node2 = &contigsNode[id2];
             if (node2->priv != nullptr || node1->next != nullptr) return;
+
+            if (id1 == 9385 || id1 == 10183) DEBUG("successfully add connectin between " << id1 << " " << id2);
+
 
             node1->next = node2;
             node2->priv = node1;

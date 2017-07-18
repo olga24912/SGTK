@@ -3,7 +3,7 @@
 namespace filter {
     namespace commands {
         // writeAlongPath <prefixFileName> <libNum> <dist> <minRefPathSize>
-        void CommandWriteAlongPath::writeGraph(std::string argv, State &state, Filter *filter) {
+        void CommandWriteAlongPath::writeGraph(std::string argv, State &state, ContigGraph *filter) {
             std::stringstream ss(argv);
             std::string fileName;
             ss >> fileName;

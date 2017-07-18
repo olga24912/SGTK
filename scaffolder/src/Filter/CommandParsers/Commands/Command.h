@@ -9,7 +9,7 @@ namespace filter {
     namespace commands {
         class Command {
         public:
-            virtual void execute(std::string argv, State &state, Filter *filter) = 0;
+            virtual void execute(std::string argv, State &state, ContigGraph *filter) = 0;
 
         protected:
             DECL_LOGGER("Command");

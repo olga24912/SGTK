@@ -17,16 +17,16 @@ namespace filter {
 
                 res.push_back(y);
                 if (d == dist) continue;
-                for (int e : filter->getEdges(y)) {
-                    int u = filter->getEdgeTo(e);
+                for (int e : graph->getEdges(y)) {
+                    int u = graph->getEdgeTo(e);
                     if (!used.count(u)) {
                         used.insert(u);
                         que.push(std::make_pair(u, d + 1));
                     }
                 }
 
-                for (int e : filter->getEdgesR(y)) {
-                    int u = filter->getEdgeFrom(e);
+                for (int e : graph->getEdgesR(y)) {
+                    int u = graph->getEdgeFrom(e);
                     if (!used.count(u)) {
                         used.insert(u);
                         que.push(std::make_pair(u, d + 1));
@@ -40,8 +40,8 @@ namespace filter {
 
         int Searcher::findComponent(int *col) {
             DEBUG("find components");
-            int n = filter->getVertexCount();
-            std::vector<int> vert = filter->getVertexList();
+            int n = graph->getVertexCount();
+            std::vector<int> vert = graph->getVertexList();
 
             int cur = 1;
             for (int i = 0; i < n; ++i) {
@@ -61,15 +61,15 @@ namespace filter {
             TRACE("dfs for find components v=" << v << " currentCol=" << currentCol);
             color[v] = currentCol;
 
-            for (int e : filter->getEdges(v)) {
-                int u = filter->getEdgeTo(e);
+            for (int e : graph->getEdges(v)) {
+                int u = graph->getEdgeTo(e);
                 if (color[u] == 0) {
                     dfsFindComponent(u, currentCol, color);
                 }
             }
 
-            for (int e : filter->getEdgesR(v)) {
-                int u = filter->getEdgeFrom(e);
+            for (int e : graph->getEdgesR(v)) {
+                int u = graph->getEdgeFrom(e);
                 if (color[u] == 0) {
                     dfsFindComponent(u, currentCol, color);
                 }
