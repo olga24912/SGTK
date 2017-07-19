@@ -26,7 +26,7 @@ namespace filter {
             int deg(int i, ContigGraph *pFilter, int dirIn);
 
         public:
-            virtual void addConnection(Scaffolds *scaffolds, ContigGraph *graph, std::vector<int> minW) = 0;
+            virtual void addConnection(Scaffolds *scaffolds, ContigGraph *graph) = 0;
 
         private:
             DECL_LOGGER("ScaffoldStrategy");

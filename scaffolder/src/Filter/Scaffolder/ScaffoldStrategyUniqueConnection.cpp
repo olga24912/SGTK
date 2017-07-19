@@ -3,7 +3,7 @@
 namespace filter {
     namespace scaffolder {
         void
-        ScaffoldStrategyUniqueConnection::addConnection(Scaffolds *scaffolds, ContigGraph *graph, std::vector<int> minW) {
+        ScaffoldStrategyUniqueConnection::addConnection(Scaffolds *scaffolds, ContigGraph *graph) {
             DEBUG("addConnection");
             topSort(graph);
             findCycle(graph);
@@ -24,10 +24,10 @@ namespace filter {
                     DEBUG("is unique pair 9385 10182 " << isUniquePair(v, u, graph));
                     DEBUG(isUniquePair(v, u, graph));
                     DEBUG((color[v] != color[u]));
-                    DEBUG((graph->getEdgeWeight(edges[0]) >= 3));
+                    DEBUG((graph->getEdgeWeight(edges[0]) >= 2));
 
                 }
-                if (isUniquePair(v, u, graph) && color[v] != color[u] && graph->getEdgeWeight(edges[0]) >= 3) {
+                if (isUniquePair(v, u, graph) && color[v] != color[u] && graph->getEdgeWeight(edges[0]) >= 2) {
                     if ((v == 9385 && u == 10182) || (v == 10183 && u == 9384)) DEBUG("add connection 9385->10182");
                     scaffolds->addConnection(v, u);
                     scaffolds->addConnection(u^1, v^1);

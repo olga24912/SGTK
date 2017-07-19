@@ -7,7 +7,9 @@ namespace filter {
             int l1, l2;
             std::stringstream ss(argv);
             ss >> l1 >> l2;
-            graph.mergeLib(l1, l2);
+            std::string name;
+            ss >> name;
+            graph.mergeLib(l1, l2, name, 1, 1);
         }
     }
 }

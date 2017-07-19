@@ -12,7 +12,7 @@ namespace filter {
             bool isUniquePair(int v1, int v2, ContigGraph *graph);
 
         public:
-            void addConnection(Scaffolds *scaffolds, ContigGraph *graph, std::vector<int> minW) override;
+            void addConnection(Scaffolds *scaffolds, ContigGraph *graph) override;
 
         private:
             DECL_LOGGER("ScaffoldStrategyUniqueConnection");
