@@ -3,13 +3,13 @@
 
 namespace filter {
     namespace commands {
-        void CommandUploadGraph::execute(std::string argv, State &state, ContigGraph *filter) {
+        void CommandUploadGraph::execute(std::string argv, State &state, ContigGraph &graph) {
             std::stringstream ss(argv);
             std::string fileName;
             ss >> fileName;
 
             INFO("uploadGraph fileName=" << fileName);
-            filter->processQuery(Query(Query::UPLOAD_GRAPH, fileName));
+            graph = ContigGraph::read(fileName);
         }
     }
 }

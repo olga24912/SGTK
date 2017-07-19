@@ -3,7 +3,7 @@
 
 namespace filter {
     namespace commands {
-        void CommandWeightDifStatistic::execute(std::string argv, State &state, ContigGraph *filter) {
+        void CommandWeightDifStatistic::execute(std::string argv, State &state, ContigGraph &graph) {
                 std::stringstream ss(argv);
                 std::string fileName;
                 int libNum;
@@ -16,7 +16,7 @@ namespace filter {
                                                      << " stepD=" << stepD << " mxD=" << mxD);
 
                 statistics::WeightDifStatistic cs;
-                cs.calculateStatistic(filter, fileName, libNum, stepW, mxW, stepD, mxD);
+                cs.calculateStatistic(&graph, fileName, libNum, stepW, mxW, stepD, mxD);
         }
     }
 }

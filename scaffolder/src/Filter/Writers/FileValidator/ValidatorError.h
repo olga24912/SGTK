@@ -2,11 +2,13 @@
 #define SCAFFOLDER_VALIDATORERROR_H
 
 #include <Filter/Statistics/InfoAboutContigsAlig.h>
+#include <ContigGraph/ContigGraph.h>
 #include "FileValidator.h"
 
 namespace filter {
     namespace writers {
         using namespace statistics;
+        using namespace contig_graph;
         class ValidatorError : public FileValidator {
         private:
             InfoAboutContigsAlig aligInfo;

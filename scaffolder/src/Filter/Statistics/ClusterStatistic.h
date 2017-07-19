@@ -1,13 +1,15 @@
 #ifndef SCAFFOLDER_CLUSTERSTATISTIC_H
 #define SCAFFOLDER_CLUSTERSTATISTIC_H
 
+#include <ContigGraph/ContigGraph.h>
 #include "Statistic.h"
 
 namespace filter {
     namespace statistics {
+        using namespace contig_graph;
         class ClusterStatistic : Statistic {
         public:
-            void calculateStatistic(ContigGraph *filter, std::string coordFile);
+            void calculateStatistic(ContigGraph *graph, std::string coordFile);
         private:
             InfoAboutContigsAlig aligInfo;
             struct clusterInfo {
@@ -27,7 +29,7 @@ namespace filter {
             std::vector<clusterInfo> clusters;
 
             void print();
-            void setInfoAboutCluster(filter::ContigGraph *filter, const std::vector<int> &edges,
+            void setInfoAboutCluster(ContigGraph *filter, const std::vector<int> &edges,
                     filter::statistics::ClusterStatistic::clusterInfo &clinfo);
         };
     }

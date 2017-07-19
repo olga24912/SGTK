@@ -2,6 +2,8 @@
 #include "Scaffolds.h"
 #include <seqan/seq_io.h>
 
+
+using namespace filter::contig_graph;
 namespace filter {
     namespace scaffolder {
         void Scaffolds::print(std::string outFile) {

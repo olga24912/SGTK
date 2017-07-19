@@ -1,9 +1,11 @@
 #include <map>
 #include <fstream>
+#include <ContigGraph/ContigGraph.h>
 #include "InfoAboutContigsAlig.h"
 
 namespace filter {
     namespace statistics {
+        using namespace contig_graph;
         void InfoAboutContigsAlig::parseCoordFile(ContigGraph *graph, std::string coordFileName) {
             if (alignment.size() > 0) return;
             int n = graph->getVertexCount();

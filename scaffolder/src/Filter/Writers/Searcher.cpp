@@ -1,5 +1,6 @@
 #include <queue>
 #include <set>
+#include <Logger/logger.hpp>
 #include "Searcher.h"
 
 namespace filter {

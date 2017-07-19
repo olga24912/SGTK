@@ -3,10 +3,6 @@
 
 #include <string>
 #include <unordered_map>
-#include <Filter/Filters/FilterIgnore.h>
-#include <Filter/Filters/FilterAdapter.h>
-#include <Filter/Filters/FilterMinWeight.h>
-#include <Filter/Filters/ContigGraph.h>
 #include "Filter/CommandParsers/Commands/Command.h"
 #include <Filter/CommandParsers/Commands/CommandFilter/CommandMinContig.h>
 #include <Filter/CommandParsers/Commands/CommandFilter/CommandMinEdgeWeight.h>
@@ -27,6 +23,7 @@
 
 namespace filter {
     namespace commands {
+        using namespace contig_graph;
         /* commands:
  * uploadGraph <filename>
  * minEdgeW <libNum> <weight>
@@ -102,7 +99,7 @@ namespace filter {
             std::string configFile = "filter_config";
             State state;
 
-            ContigGraph *filter;
+            ContigGraph graph;
 
             std::unordered_map<std::string, Command *> commandByKeyWord;
 
@@ -116,7 +113,6 @@ namespace filter {
             void main(std::string configFileName);
 
             ~Manager() {
-                delete filter;
                 for (auto it = commandByKeyWord.begin(); it != commandByKeyWord.end(); ++it) {
                     delete (it->second);
                 }

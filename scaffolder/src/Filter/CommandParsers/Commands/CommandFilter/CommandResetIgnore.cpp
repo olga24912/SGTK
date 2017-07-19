@@ -3,9 +3,8 @@
 
 namespace filter {
     namespace commands {
-        void CommandResetIgnore::execute(std::string argv, State &state, ContigGraph *filter) {
-            INFO("set ContigGraph reset ignore");
-            filter->processQuery(Query(Query::RESET_IGNORE, argv));
+        void CommandResetIgnore::execute(std::string argv, State &state, ContigGraph &graph) {
+            //TODO: del command
         }
     }
 }

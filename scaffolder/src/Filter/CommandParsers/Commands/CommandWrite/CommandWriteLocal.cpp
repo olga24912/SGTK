@@ -2,7 +2,7 @@
 
 namespace filter {
     namespace commands {
-        void CommandWriteLocal::writeGraph(std::string argv, State &state, ContigGraph *filter) {
+        void CommandWriteLocal::writeGraph(std::string argv, State &state, ContigGraph &graph) {
                 std::stringstream ss(argv);
                 std::string fileName;
                 int v;
@@ -11,7 +11,7 @@ namespace filter {
 
                 INFO("write local graph fileName=" << fileName << " v=" << v << " dist=" << dist);
 
-                writers::WriteLocal writer(v, dist, fileName, filter, state.validator, state.dotWriterBuilder);
+                writers::WriteLocal writer(v, dist, fileName, &graph, state.validator, state.dotWriterBuilder);
                 writer.write();
 
                 state.name = State::LOCAL;

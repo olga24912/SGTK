@@ -2,7 +2,7 @@
 
 namespace filter {
     namespace commands {
-        void CommandWriteBigComp::writeGraph(std::string argv, State &state, ContigGraph *filter) {
+        void CommandWriteBigComp::writeGraph(std::string argv, State &state, ContigGraph &graph) {
                 std::stringstream ss(argv);
                 std::string fileName;
                 int size;
@@ -10,7 +10,7 @@ namespace filter {
 
                 INFO("Write Big Comp fileName=" << fileName << " size=" << size);
 
-                writers::WriteBigComponent writer(fileName, size, filter, state.validator, state.dotWriterBuilder);
+                writers::WriteBigComponent writer(fileName, size, &graph, state.validator, state.dotWriterBuilder);
                 writer.write();
         }
     }

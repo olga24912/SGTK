@@ -2,19 +2,19 @@
 
 namespace filter {
     namespace scaffolder {
-        void RuleDelCycle::simplifyGraph(filter::ContigGraph *filter) {
+        void RuleDelCycle::simplifyGraph(ContigGraph *graph) {
             INFO("start del cycles");
             int wasOpt = true;
 
             while(wasOpt) {
                 wasOpt = false;
-                topSort(filter);
-                int cntCol = findCycle(filter);
+                topSort(graph);
+                int cntCol = findCycle(graph);
 
                 TRACE("Start find min edge in cycle =" << cntCol);
                 std::vector<int> minColor(cntCol, 1);
 
-                std::vector<int> vect = filter->getVertexList();
+                std::vector<int> vect = graph->getVertexList();
                 /*for (int v : vect) {
                     std::vector<int> edges = graph->getEdges(v);
 
@@ -30,16 +30,13 @@ namespace filter {
                 }*/
 
                 for (int v : vect) {
-                    std::vector<int> edges = filter->getEdges(v);
+                    std::vector<int> edges = graph->getEdges(v);
 
                     for (int e : edges) {
-                        int u = filter->getEdgeTo(e);
+                        int u = graph->getEdgeTo(e);
                         if (color[v] == color[u]) {
-                            if (minColor[color[v]] * DEL_DIF >= filter->getEdgeWeight(e)) {
-                                std::stringstream ss;
-                                ss << e;
-                                filter->processQuery(Query(Query::SET_IGNORE_EDGE, ss.str()));
-                                //wasOpt = true;
+                            if (minColor[color[v]] * DEL_DIF >= graph->getEdgeWeight(e)) {
+                                graph->delEdge(e);
                             }
                         }
                     }

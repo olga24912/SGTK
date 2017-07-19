@@ -1,10 +1,12 @@
 #ifndef SCAFFOLDER_RULEDELCYCLE_H
 #define SCAFFOLDER_RULEDELCYCLE_H
 
+#include <ContigGraph/ContigGraph.h>
 #include "Rule.h"
 
 namespace filter {
     namespace scaffolder {
+        using namespace contig_graph;
         class RuleDelCycle : public Rule {
         private:
             const int DEL_DIF = 2;
@@ -21,7 +23,7 @@ namespace filter {
 
             int findCycle(ContigGraph *graph);
         public:
-            void simplifyGraph(ContigGraph *filter) override;
+            void simplifyGraph(ContigGraph *graph) override;
         };
     }
 }

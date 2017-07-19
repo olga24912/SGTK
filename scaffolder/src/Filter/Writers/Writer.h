@@ -1,8 +1,8 @@
 #ifndef SCAFFOLDER_WRITER_H
 #define SCAFFOLDER_WRITER_H
 
-#include <Filter/Filters/ContigGraph.h>
 #include <Filter/Writers/DotWriter/DotWriterBuilder.h>
+#include "Filter/ContigGraph/ContigGraph.h"
 #include "Searcher.h"
 #include "Filter/Writers/DotWriter/DotWriter.h"
 

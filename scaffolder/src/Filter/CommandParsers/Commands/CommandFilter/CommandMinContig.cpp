@@ -3,9 +3,18 @@
 
 namespace filter {
     namespace commands {
-        void CommandMinContig::execute(std::string argv, State &state, ContigGraph *filter) {
+        void CommandMinContig::execute(std::string argv, State &state, ContigGraph &graph) {
             INFO("set ContigGraph min contig");
-            filter->processQuery(Query(Query::MIN_CONTIG_LEN, argv));
+            int minLen;
+            std::stringstream ss(argv);
+            ss >> minLen;
+
+            std::vector<int> vert = graph.getVertexList();
+            for (int v : vert) {
+                if (graph.getTargetLen(v) < minLen) {
+                    graph.delVertex(v);
+                }
+            }
         }
     }
 }

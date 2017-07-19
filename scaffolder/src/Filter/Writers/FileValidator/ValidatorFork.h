@@ -1,10 +1,12 @@
 #ifndef SCAFFOLDER_VALIDATORFORK_H
 #define SCAFFOLDER_VALIDATORFORK_H
 
+#include <ContigGraph/ContigGraph.h>
 #include "FileValidator.h"
 
 namespace filter {
     namespace writers {
+        using namespace contig_graph;
         class ValidatorFork : public FileValidator {
         private:
             int lib;

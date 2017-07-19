@@ -1,10 +1,12 @@
 #ifndef SCAFFOLDER_TWOCOMPSTATISTIC_H
 #define SCAFFOLDER_TWOCOMPSTATISTIC_H
 
-
+#include <ContigGraph/ContigGraph.h>
 #include "Statistic.h"
+
 namespace filter {
     namespace statistics {
+        using namespace contig_graph;
         class TwoCompStatistic : public Statistic {
         public:
             void calculateStatistic(ContigGraph *filter, std::string coordFile,

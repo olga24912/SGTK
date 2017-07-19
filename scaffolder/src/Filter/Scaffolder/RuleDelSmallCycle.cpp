@@ -2,32 +2,24 @@
 
 namespace filter {
     namespace scaffolder {
-        void filter::scaffolder::RuleDelSmallCycle::simplifyGraph(filter::ContigGraph *filter) {
-            std::vector<int> vert = filter->getVertexList();
+        void filter::scaffolder::RuleDelSmallCycle::simplifyGraph(ContigGraph *graph) {
+            std::vector<int> vert = graph->getVertexList();
             for (int v : vert) {
-                std::vector<int> edges = filter->getEdges(v);
-                std::vector<int> egdesR = filter->getEdgesR(v);
+                std::vector<int> edges = graph->getEdges(v);
+                std::vector<int> egdesR = graph->getEdgesR(v);
 
                 for (int e : edges) {
                     for (int er : egdesR) {
-                        int u = filter->getEdgeTo(e);
-                        int w = filter->getEdgeFrom(er);
+                        int u = graph->getEdgeTo(e);
+                        int w = graph->getEdgeFrom(er);
                         if (u == w) {
-                            if (MAX_DIF * filter->getEdgeWeight(e) <= filter->getEdgeWeight(er)) {
-                                std::stringstream ss;
-                                ss << e;
-                                filter->processQuery(Query(Query::SET_IGNORE_EDGE, ss.str()));
-                            } else if (MAX_DIF * filter->getEdgeWeight(er) <= filter->getEdgeWeight(e)) {
-                                std::stringstream ss;
-                                ss << er;
-                                filter->processQuery(Query(Query::SET_IGNORE_EDGE, ss.str()));
+                            if (MAX_DIF * graph->getEdgeWeight(e) <= graph->getEdgeWeight(er)) {
+                                graph->delEdge(e);
+                            } else if (MAX_DIF * graph->getEdgeWeight(er) <= graph->getEdgeWeight(e)) {
+                                graph->delEdge(er);
                             } else {
-                                std::stringstream ss;
-                                ss << e;
-                                filter->processQuery(Query(Query::SET_IGNORE_EDGE, ss.str()));
-                                ss.clear();
-                                ss << er;
-                                filter->processQuery(Query(Query::SET_IGNORE_EDGE, ss.str()));
+                                graph->delEdge(e);
+                                graph->delEdge(er);
                             }
                         }
                     }

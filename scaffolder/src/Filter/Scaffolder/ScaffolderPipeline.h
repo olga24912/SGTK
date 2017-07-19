@@ -1,12 +1,13 @@
 #ifndef SCAFFOLDER_SCAFFOLDERPIPELINE_H
 #define SCAFFOLDER_SCAFFOLDERPIPELINE_H
 
-#include <Filter/Filters/ContigGraph.h>
 #include <string>
+#include <ContigGraph/ContigGraph.h>
 #include "Scaffolds.h"
 
 namespace filter {
     namespace scaffolder {
+        using namespace contig_graph;
         class ScaffolderPipeline {
         private:
 

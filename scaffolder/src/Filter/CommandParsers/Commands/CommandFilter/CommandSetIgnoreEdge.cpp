@@ -2,10 +2,12 @@
 
 namespace filter {
     namespace commands {
-
-        void CommandSetIgnoreEdge::execute(std::string argv, State &state, ContigGraph *filter) {
+        void CommandSetIgnoreEdge::execute(std::string argv, State &state, ContigGraph &graph) {
             INFO("set graph set ignore edge");
-            filter->processQuery(Query(Query::SET_IGNORE_EDGE, argv));
+            std::stringstream ss;
+            int e;
+            ss >> e;
+            graph.delEdge(e);
         }
     }
 }

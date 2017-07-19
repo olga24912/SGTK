@@ -2,9 +2,12 @@
 
 namespace filter {
     namespace commands {
-        void CommandMergeLib::execute(std::string argv, State &state, ContigGraph *filter) {
+        void CommandMergeLib::execute(std::string argv, State &state, ContigGraph &graph) {
             INFO("set ContigGraph merge lib");
-            filter->processQuery(Query(Query::MERGE_LIB, argv));
+            int l1, l2;
+            std::stringstream ss(argv);
+            ss >> l1 >> l2;
+            graph.mergeLib(l1, l2);
         }
     }
 }

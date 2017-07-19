@@ -3,11 +3,12 @@
 
 
 #include <vector>
-#include <Filter/Filters/ContigGraph.h>
+#include <ContigGraph/ContigGraph.h>
 #include "Scaffolds.h"
 
 namespace filter {
     namespace scaffolder {
+        using namespace contig_graph;
         class ScaffoldStrategy {
         protected:
             std::vector<int> topsort;

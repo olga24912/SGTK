@@ -7,9 +7,10 @@
 
 namespace filter {
     namespace commands {
+        using namespace contig_graph;
         class Command {
         public:
-            virtual void execute(std::string argv, State &state, ContigGraph *filter) = 0;
+            virtual void execute(std::string argv, State &state, ContigGraph &graph) = 0;
 
         protected:
             DECL_LOGGER("Command");

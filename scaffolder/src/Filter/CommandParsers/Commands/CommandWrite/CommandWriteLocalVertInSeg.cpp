@@ -2,7 +2,7 @@
 
 namespace filter {
     namespace commands {
-        void CommandWriteLocalVertInSeg::writeGraph(std::string argv, State &state, ContigGraph *filter) {
+        void CommandWriteLocalVertInSeg::writeGraph(std::string argv, State &state, ContigGraph &graph) {
             std::stringstream ss(argv);
             std::string fileName;
             int vb, ve;
@@ -21,7 +21,7 @@ namespace filter {
                 std::reverse(name.begin(), name.end());
                 name = fileName + name;
 
-                writers::WriteLocal writer(v, dist, name, filter, state.validator, state.dotWriterBuilder);
+                writers::WriteLocal writer(v, dist, name, &graph, state.validator, state.dotWriterBuilder);
                 writer.write();
             }
 

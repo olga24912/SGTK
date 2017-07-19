@@ -1,11 +1,9 @@
 #include <Filter/CommandParsers/Commands/CommandPrint.h>
-#include <Filter/Filters/FilterMergeLib.h>
 #include <Filter/CommandParsers/Commands/CommandFilter/CommandMergeLib.h>
 #include <Filter/CommandParsers/Commands/CommandFV/CommandFVWithDifInLib.h>
 #include <Filter/CommandParsers/Commands/CommandSetMaxVEinOneFile.h>
 #include <Filter/CommandParsers/Commands/CommandFV/CommandSetFVFork.h>
 #include <Filter/CommandParsers/Commands/CommandFV/CommandSetFVOnlyFirst.h>
-#include <Filter/Filters/FilterIgnoreEdge.h>
 #include <Filter/CommandParsers/Commands/CommandFilter/CommandSetIgnoreEdge.h>
 #include <Filter/CommandParsers/Commands/CommandStatistic/CommandCorrectConnectionStatistic.h>
 #include <Filter/CommandParsers/Commands/CommandStatistic/CommandWeightStatistic.h>
@@ -57,9 +55,7 @@ namespace filter {
         const std::string Manager::HISTOGRAM = "histogram";
 
         Manager::Manager() {
-            filter = new FilterIgnoreEdge(new FilterIgnore(new FilterMinWeight
-                                                                   (new FilterMergeLib(new FilterAdapter(
-                                                                           contig_graph::ContigGraph())))));
+            graph = ContigGraph();
 
             commandByKeyWord[UPLOAD_GRAPH] = new CommandUploadGraph();
             commandByKeyWord[MIN_CONTIG_LEN] = new CommandMinContig();
@@ -124,7 +120,7 @@ namespace filter {
                 getline(in, argv);
 
                 DEBUG("correct keyWord=" << keyWord);
-                commandByKeyWord[keyWord]->execute(argv, state, filter);
+                commandByKeyWord[keyWord]->execute(argv, state, graph);
             } else if (keyWord == Manager::EXIT) {
                 return false;
             } else {
@@ -133,7 +129,7 @@ namespace filter {
                 if (ss >> v && state.name == State::LOCAL) {
                     std::stringstream sout;
                     sout << state.fileName << " " << v << " " << state.dist;
-                    CommandWriteLocal().execute(std::string(sout.str()), state, filter);
+                    CommandWriteLocal().execute(std::string(sout.str()), state, graph);
                 }
 
             }

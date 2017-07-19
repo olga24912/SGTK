@@ -3,26 +3,22 @@
 
 namespace filter {
     namespace scaffolder {
-        void RuleInOneLine::simplifyGraph(filter::ContigGraph *filter) {
+        void RuleInOneLine::simplifyGraph(ContigGraph *graph) {
             INFO("start simplify graph");
-            std::vector<int> vect = filter->getVertexList();
+            std::vector<int> vect = graph->getVertexList();
             for (int v : vect) {
-                std::vector<int> edges = filter->getEdges(v);
+                std::vector<int> edges = graph->getEdges(v);
                 TRACE("vertex num = " << v << " edegs cnt=" << edges.size());
                 if (edges.size() != 2) continue;
                 for (int i = 0; i < (int)edges.size(); ++i) {
                     for (int j = i + 1; j < (int)edges.size(); ++j) {
-                        int u = filter->getEdgeTo(edges[i]);
-                        int w = filter->getEdgeTo(edges[j]);
+                        int u = graph->getEdgeTo(edges[i]);
+                        int w = graph->getEdgeTo(edges[j]);
 
-                        if (havePath(filter, u, w)) {
-                            std::stringstream ss;
-                            ss << edges[j];
-                            filter->processQuery(Query(Query::SET_IGNORE_EDGE, ss.str()));
-                        } else if (havePath(filter, w, u)) {
-                            std::stringstream ss;
-                            ss << edges[i];
-                            filter->processQuery(Query(Query::SET_IGNORE_EDGE, ss.str()));
+                        if (havePath(graph, u, w)) {
+                            graph->delEdge(edges[j]);
+                        } else if (havePath(graph, w, u)) {
+                            graph->delEdge(edges[i]);
                         }
                     }
                 }

@@ -6,10 +6,9 @@
 
 namespace filter {
     namespace commands {
-
         class CommandWriteFull : public CommandWrite {
         public:
-            void writeGraph(std::string argv, State &state, ContigGraph *filter) override;
+            void writeGraph(std::string argv, State &state, ContigGraph &graph) override;
         };
     }
 }

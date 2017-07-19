@@ -2,7 +2,7 @@
 
 namespace filter {
     namespace commands {
-        void CommandWriteAllLocal::writeGraph(std::string argv, State &state, ContigGraph *filter) {
+        void CommandWriteAllLocal::writeGraph(std::string argv, State &state, ContigGraph &graph) {
             std::stringstream ss(argv);
             std::string fileName;
             int dist;
@@ -10,7 +10,7 @@ namespace filter {
 
             INFO("write all local fileName=" << fileName << " dist=" << dist);
 
-            for (int v = 0; v < filter->getVertexCount(); ++v) {
+            for (int v = 0; v < graph.getVertexCount(); ++v) {
                 std::string name = "";
                 int x = v;
                 while (x > 0) {
@@ -20,7 +20,7 @@ namespace filter {
                 std::reverse(name.begin(), name.end());
                 name = fileName + name;
 
-                writers::WriteLocal writer(v, dist, name, filter, state.validator, state.dotWriterBuilder);
+                writers::WriteLocal writer(v, dist, name, &graph, state.validator, state.dotWriterBuilder);
                 writer.write();
             }
 

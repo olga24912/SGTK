@@ -16,8 +16,6 @@ namespace filter {
             INFO("start build scaffolds");
             std::vector<int> libs = graph->getLibList();
             for (int i = (int)libs.size() - 1; i > 0; --i) {
-                std::stringstream ss;
-                ss << libs[i] << " " << libs[i - 1] << " lib ";
                 /*double w = 1;
                 if (i == libs.size() - 1 && graph->getLibType(libs[i]) == contig_graph::ContigGraph::Lib::RNA_SPLIT_50) {
                     w = 1.75;
@@ -25,7 +23,7 @@ namespace filter {
                 if (graph->getLibType(libs[i - 1]) == contig_graph::ContigGraph::Lib::RNA_SPLIT_50) {
                     ss << w << " 1.75";
                 }*/
-                graph->processQuery(Query(Query::MERGE_LIB, ss.str()));
+                graph->mergeLib(libs[i], libs[i - 1]);
             }
 
             Scaffolds scaffolds(contigFile);

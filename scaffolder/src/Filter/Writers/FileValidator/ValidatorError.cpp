@@ -2,7 +2,7 @@
 
 namespace filter {
     namespace writers {
-        bool ValidatorError::isGoodVertexSet(std::vector<int> vert, filter::ContigGraph *graph) {
+        bool ValidatorError::isGoodVertexSet(std::vector<int> vert, ContigGraph *graph) {
             aligInfo.parseCoordFile(graph, coordFileName);
 
             int haveError = 0;

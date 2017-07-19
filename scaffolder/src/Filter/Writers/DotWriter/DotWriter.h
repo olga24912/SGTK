@@ -1,16 +1,17 @@
 #ifndef SCAFFOLDER_SIMPLEWRITER_H
 #define SCAFFOLDER_SIMPLEWRITER_H
 
-#include <Filter/Filters/ContigGraph.h>
 #include <fstream>
 #include <algorithm>
 #include <Filter/Writers/FileValidator/FileValidator.h>
 #include <Filter/Writers/FileValidator/ValidatorNotPathWithAllLib.h>
 #include <Filter/Statistics/InfoAboutContigsAlig.h>
+#include <Filter/ContigGraph/ContigGraph.h>
 #include "Filter/Writers/GraphSplitter.h"
 
 namespace filter {
     namespace writers {
+        using namespace contig_graph;
 //class for write graph in dot format.
         class DotWriter {
         protected:

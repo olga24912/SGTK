@@ -1,8 +1,10 @@
 #ifndef SCAFFOLDER_SEARCHER_H
 #define SCAFFOLDER_SEARCHER_H
 
-#include "Filter/Filters/ContigGraph.h"
 #include <algorithm>
+#include "Filter/ContigGraph/ContigGraph.h"
+
+using namespace filter::contig_graph;
 
 namespace filter {
     namespace writers {

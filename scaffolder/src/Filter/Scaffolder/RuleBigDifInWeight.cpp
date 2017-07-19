@@ -2,29 +2,27 @@
 
 namespace filter {
     namespace scaffolder {
-        void RuleBigDifInWeight::simplifyGraph(filter::ContigGraph *filter) {
+        void RuleBigDifInWeight::simplifyGraph(ContigGraph *graph) {
             INFO("start simplify graph");
-            std::vector<int> vert = filter->getVertexList();
+            std::vector<int> vert = graph->getVertexList();
             for (int v : vert) {
-                delSmallEdges(filter, filter->getEdges(v));
-                delSmallEdges(filter, filter->getEdgesR(v));
+                delSmallEdges(graph, graph->getEdges(v));
+                delSmallEdges(graph, graph->getEdgesR(v));
             }
             INFO("finish simplify graph");
         }
 
-        void RuleBigDifInWeight::delSmallEdges(ContigGraph *filter, const std::vector<int> &edges) const {
+        void RuleBigDifInWeight::delSmallEdges(ContigGraph *graph, const std::vector<int> &edges) const {
             int maxW = 0;
             for (int e : edges) {
-                if (filter->getEdgeWeight(e) >= maxW) {
-                    maxW = filter->getEdgeWeight(e);
+                if (graph->getEdgeWeight(e) >= maxW) {
+                    maxW = graph->getEdgeWeight(e);
                 }
             }
 
             for (int e : edges) {
-                if (filter->getEdgeWeight(e) * maxDif <= maxW) {
-                    std::stringstream ss;
-                    ss << e;
-                    filter->processQuery(Query(Query::SET_IGNORE_EDGE, ss.str()));
+                if (graph->getEdgeWeight(e) * maxDif <= maxW) {
+                    graph->delEdge(e);
                 }
             }
         }

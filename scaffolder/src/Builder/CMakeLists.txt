@@ -16,6 +16,8 @@ set(SOURCE_FILES GraphControl.cpp GraphControl.h
         ReadsSplitter/SplitterByUnmappedEnd.cpp ReadsSplitter/SplitterByUnmappedEnd.h
         SamFileWriter/SamFileWriteEdge.cpp SamFileWriter/SamFileWriteEdge.h
         GraphBuilder/ReferenceGraphBuilder.cpp GraphBuilder/ReferenceGraphBuilder.h
-        SamFileWriter/SamFileWriterEdgeFictive.cpp SamFileWriter/SamFileWriterEdgeFictive.h)
+        SamFileWriter/SamFileWriterEdgeFictive.cpp SamFileWriter/SamFileWriterEdgeFictive.h
+        ContigGraph/ContigGraph.cpp ContigGraph/ContigGraph.h
+        ContigGraph/SeqanUtils.cpp ContigGraph/SeqanUtils.h)
 
 add_library(builder_lib ${SOURCE_FILES})

@@ -1,17 +1,19 @@
 #ifndef SCAFFOLDER_RULEBIGDIFINWEIGHT_H
 #define SCAFFOLDER_RULEBIGDIFINWEIGHT_H
 
+#include <ContigGraph/ContigGraph.h>
 #include "Rule.h"
 
 namespace filter {
     namespace scaffolder {
+        using namespace contig_graph;
         class RuleBigDifInWeight : public Rule {
         private:
             const int maxDif = 5;
         public:
-            void simplifyGraph(ContigGraph *filter) override;
+            void simplifyGraph(ContigGraph *graph) override;
 
-            void delSmallEdges(ContigGraph *filter, const std::vector<int> &edges) const;
+            void delSmallEdges(ContigGraph *graph, const std::vector<int> &edges) const;
         };
     }
 }

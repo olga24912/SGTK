@@ -3,9 +3,14 @@
 
 namespace filter {
     namespace commands {
-        void CommandSetIgnore::execute(std::string argv, State &state, ContigGraph *filter) {
+        void CommandSetIgnore::execute(std::string argv, State &state, ContigGraph &graph) {
             INFO("set graph set ignore");
-            filter->processQuery(Query(Query::SET_IGNORE, argv));
+            int vb, ve;
+            std::stringstream ss(argv);
+            ss >> vb >> ve;
+            for (int v = vb; v < ve; ++v) {
+                graph.delVertex(v);
+            }
         }
     }
 }

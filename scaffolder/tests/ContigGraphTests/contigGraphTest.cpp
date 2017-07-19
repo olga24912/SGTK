@@ -70,8 +70,8 @@ TEST_F(ContigGraphTest, serialization) {
     ASSERT_EQ(graphCopy.getEdgesR(2), graph.getEdgesR(2));
     ASSERT_EQ(graphCopy.getTargetLen(1), graph.getTargetLen(1));
     ASSERT_EQ(graphCopy.getLibNum(), graph.getLibNum());
-    ASSERT_EQ(graphCopy.getToVertex(0), graph.getToVertex(0));
-    ASSERT_EQ(graphCopy.getFromVertex(1), graph.getFromVertex(1));
+    ASSERT_EQ(graphCopy.getEdgeTo(0), graph.getEdgeTo(0));
+    ASSERT_EQ(graphCopy.getEdgeFrom(1), graph.getEdgeFrom(1));
     ASSERT_EQ(graphCopy.getVertexCount(), graph.getVertexCount());
 }
 

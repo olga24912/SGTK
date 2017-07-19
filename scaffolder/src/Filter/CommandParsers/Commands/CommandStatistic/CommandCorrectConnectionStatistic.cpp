@@ -3,7 +3,7 @@
 
 namespace filter {
     namespace commands {
-        void CommandCorrectConnectionStatistic::execute(std::string argv, State &state, ContigGraph *filter) {
+        void CommandCorrectConnectionStatistic::execute(std::string argv, State &state, ContigGraph &graph) {
             std::stringstream ss(argv);
             std::string fileName;
             int libNum;
@@ -12,7 +12,7 @@ namespace filter {
             INFO("Correct connection statistic fileName=" << fileName << " libNum=" << libNum);
 
             statistics::CntRightConnectionStatistic cs;
-            cs.calculateStatistic(filter, fileName, libNum);
+            cs.calculateStatistic(&graph, fileName, libNum);
         }
     }
 }

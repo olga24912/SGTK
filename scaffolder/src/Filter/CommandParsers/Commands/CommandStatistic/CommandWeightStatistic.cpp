@@ -3,7 +3,7 @@
 
 namespace filter {
     namespace commands {
-        void CommandWeightStatistic::execute(std::string argv, State &state, ContigGraph *filter) {
+        void CommandWeightStatistic::execute(std::string argv, State &state, ContigGraph &graph) {
             std::stringstream ss(argv);
             std::string fileName;
             int libNum;
@@ -15,7 +15,7 @@ namespace filter {
                                               << mxVal);
 
             statistics::WeightStatistic cs;
-            cs.calculateStatistic(filter, fileName, libNum, step, mxVal);
+            cs.calculateStatistic(&graph, fileName, libNum, step, mxVal);
         }
     }
 }

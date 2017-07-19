@@ -2,59 +2,55 @@
 
 namespace filter {
     namespace scaffolder {
-        void RuleBigDeg::simplifyGraph(filter::ContigGraph *filter) {
+        void RuleBigDeg::simplifyGraph(ContigGraph *graph) {
             INFO("start simplify graph");
-            std::vector<int> vert = filter->getVertexList();
-            std::vector<int> wignore(filter->getVertexCount(), 0);
-            std::vector<int> wignoreR(filter->getVertexCount(), 0);
+            std::vector<int> vert = graph->getVertexList();
+            std::vector<int> wignore(graph->getVertexCount(), 0);
+            std::vector<int> wignoreR(graph->getVertexCount(), 0);
 
             for (int v : vert) {
-                std::vector<int> edges = filter->getEdges(v);
+                std::vector<int> edges = graph->getEdges(v);
                 if (edges.size() >= BIG_DEG) {
-                    wignore[v] = filter->getEdgeWeight(edges[0]);
+                    wignore[v] = graph->getEdgeWeight(edges[0]);
                     for (int e : edges) {
-                        wignore[v] = std::max(wignore[v], filter->getEdgeWeight(e));
+                        wignore[v] = std::max(wignore[v], graph->getEdgeWeight(e));
                     }
                 }
 
-                std::vector<int> edgesR = filter->getEdgesR(v);
+                std::vector<int> edgesR = graph->getEdgesR(v);
                 if (edgesR.size() >= BIG_DEG) {
-                    wignoreR[v] = filter->getEdgeWeight(edgesR[0]);
+                    wignoreR[v] = graph->getEdgeWeight(edgesR[0]);
                     for (int e : edgesR) {
-                        wignoreR[v] = std::max(wignoreR[v], filter->getEdgeWeight(e));
+                        wignoreR[v] = std::max(wignoreR[v], graph->getEdgeWeight(e));
                     }
                 }
             }
 
-            ignoreEdges(filter, wignore);
-            ignoreEdgesR(filter, wignoreR);
+            ignoreEdges(graph, wignore);
+            ignoreEdgesR(graph, wignoreR);
             INFO("finish simplify graph");
 
         }
 
-        void RuleBigDeg::ignoreEdges(ContigGraph *filter, std::vector<int> wig) {
-            std::vector<int> vect = filter->getVertexList();
+        void RuleBigDeg::ignoreEdges(ContigGraph *graph, std::vector<int> wig) {
+            std::vector<int> vect = graph->getVertexList();
             for (int v : vect) {
                 if (wig[v] != 0 && wig[v] <= MAX_WEIGHT) {
-                    std::vector<int> edges = filter->getEdges(v);
+                    std::vector<int> edges = graph->getEdges(v);
                     for (int e : edges) {
-                        std::stringstream ss;
-                        ss << e;
-                        filter->processQuery(Query(Query::SET_IGNORE_EDGE, ss.str()));
+                        graph->delEdge(e);
                     }
                 }
             }
         }
 
-        void RuleBigDeg::ignoreEdgesR(ContigGraph *filter, std::vector<int> wig) {
-            std::vector<int> vect = filter->getVertexList();
+        void RuleBigDeg::ignoreEdgesR(ContigGraph *graph, std::vector<int> wig) {
+            std::vector<int> vect = graph->getVertexList();
             for (int v : vect) {
                 if (wig[v] != 0 && wig[v] <= MAX_WEIGHT) {
-                    std::vector<int> edges = filter->getEdgesR(v);
+                    std::vector<int> edges = graph->getEdgesR(v);
                     for (int e : edges) {
-                        std::stringstream ss;
-                        ss << e;
-                        filter->processQuery(Query(Query::SET_IGNORE_EDGE, ss.str()));
+                        graph->delEdge(e);
                     }
                 }
             }

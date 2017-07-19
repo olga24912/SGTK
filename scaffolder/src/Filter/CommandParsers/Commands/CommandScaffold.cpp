@@ -3,7 +3,7 @@
 
 namespace filter {
     namespace commands {
-        void CommandScaffold::execute(std::string argv, State &state, ContigGraph *filter) {
+        void CommandScaffold::execute(std::string argv, State &state, ContigGraph &graph) {
             std::stringstream ss(argv);
             std::string contigFile;
             std::string outFile;
@@ -13,7 +13,7 @@ namespace filter {
             INFO("create scaffolds contigFile=" << contigFile << " outFile=" << outFile);
 
             scaffolder::ScaffolderPipeline sp;
-            sp.evaluate(filter, contigFile, outFile);
+            sp.evaluate(&graph, contigFile, outFile);
         }
     }
 }

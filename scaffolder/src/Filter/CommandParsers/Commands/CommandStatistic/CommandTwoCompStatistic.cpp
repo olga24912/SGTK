@@ -4,7 +4,7 @@
 
 namespace filter {
     namespace commands {
-        void CommandTwoCompStatistic::execute(std::string argv, State &state, ContigGraph *filter) {
+        void CommandTwoCompStatistic::execute(std::string argv, State &state, ContigGraph &graph) {
             std::stringstream ss(argv);
             std::string fileName;
             int libNum1;
@@ -17,7 +17,7 @@ namespace filter {
                                               << val2);
 
             statistics::TwoCompStatistic cs;
-            cs.calculateStatistic(filter, fileName, libNum1, val1, libNum2, val2);
+            cs.calculateStatistic(&graph, fileName, libNum1, val1, libNum2, val2);
         }
     }
 }

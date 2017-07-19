@@ -1,11 +1,11 @@
 #ifndef SCAFFOLDER_INFOABOUTCONTIGSALIG_H
 #define SCAFFOLDER_INFOABOUTCONTIGSALIG_H
 
-
-#include <Filter/Filters/ContigGraph.h>
+#include <Filter/ContigGraph/ContigGraph.h>
 
 namespace filter {
     namespace statistics {
+        using namespace contig_graph;
         class InfoAboutContigsAlig {
         public:
             struct Alignment {

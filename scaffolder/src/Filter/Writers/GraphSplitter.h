@@ -1,11 +1,12 @@
 #ifndef SCAFFOLDER_GRAPHSPLITTER_H
 #define SCAFFOLDER_GRAPHSPLITTER_H
 
-#include <Filter/Filters/ContigGraph.h>
 #include <vector>
+#include "Filter/ContigGraph/ContigGraph.h"
 
 namespace filter {
     namespace writers {
+        using namespace contig_graph;
 //split graph on small parts
         class GraphSplitter {
         private:

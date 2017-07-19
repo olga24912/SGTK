@@ -1,10 +1,12 @@
 #ifndef SCAFFOLDER_VALIDATORWITHDIFINLIB_H
 #define SCAFFOLDER_VALIDATORWITHDIFINLIB_H
 
+#include <ContigGraph/ContigGraph.h>
 #include "FileValidator.h"
 
 namespace filter {
     namespace writers {
+        using namespace contig_graph;
         class ValidatorWithDifInLib : public FileValidator {
         private:
             std::vector<int> libs;
