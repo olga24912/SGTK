@@ -1,5 +1,5 @@
 #include <bits/stdc++.h>
-#include "Filter/ContigGraph/ContigGraph.h"
+#include "Builder/ContigGraph/ContigGraph.h"
 #include "Logger/log_writers.hpp"
 
 using namespace std;
@@ -10,7 +10,7 @@ using namespace std;
 //argc[3] - lib name
 //argc[4] - color
 int main(int argv, char** argc) {
-    using namespace filter::contig_graph;
+    using namespace builder::contig_graph;
     logging::create_console_logger("../log.properties");
     if (argv < 5) {
         ERROR("argv < 5")
@@ -27,7 +27,7 @@ int main(int argv, char** argc) {
 
     ContigGraph graph = ContigGraph::read(grFileName);
     ifstream infoin(infoFileName);
-    graph.newLib(libName, color, contig_graph::ContigGraph::Lib::Type::SCAFF);
+    graph.newLib(libName, color, ContigGraph::Lib::Type::SCAFF);
 
     string cur;
     while (getline(infoin, cur)) {

@@ -38,6 +38,7 @@ namespace filter {
             riol.simplifyGraph(graph);
             RuleDelCycle rdc;
             rdc.simplifyGraph(graph);
+
             graph->write("smp.gr");
 
             ScaffoldStrategyUniqueConnection ssuc;

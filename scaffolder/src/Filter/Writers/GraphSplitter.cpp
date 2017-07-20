@@ -6,6 +6,13 @@ namespace filter {
     namespace writers {
         std::vector<std::vector<int> > GraphSplitter::split(ContigGraph *graph1, std::vector<int> vert) {
             INFO("start split file on parts");
+            for (int v : vert) {
+                std::cerr << v << " ";
+            }
+            std::cerr << "\n";
+
+            DEBUG("vert size = " << vert.size());
+
             this->graph = graph1;
             this->vert = vert;
 
@@ -17,6 +24,7 @@ namespace filter {
                 }
             }
 
+            INFO("finish split file on parts");
             return res;
         }
 
@@ -40,6 +48,7 @@ namespace filter {
             }
 
             edgeCol.resize(edgeCnt);
+            DEBUG("finish clear");
         }
 
         void GraphSplitter::findNewComp(int v) {

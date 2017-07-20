@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
 #include <Logger/log_writers.hpp>
-#include "ContigGraph/ContigGraph.h"
+#include "Builder/ContigGraph/ContigGraph.h"
 
 using namespace std;
 
@@ -10,17 +10,18 @@ using namespace std;
 //argc[3] - lib name
 //argc[4] - color
 int main(int argv, char** argc) {
+    using namespace builder::contig_graph;
     logging::create_console_logger("../log.properties");
     string fileName = argc[1];
     string grFileName = argc[2];
     string libName = argc[3];
     string color = argc[4];
 
-    contig_graph::ContigGraph graph = contig_graph::ContigGraph::read(grFileName);
+    ContigGraph graph = ContigGraph::read(grFileName);
 
     ifstream infoin(fileName);
 
-    graph.newLib(libName, color, contig_graph::ContigGraph::Lib::Type::SCAFF);
+    graph.newLib(libName, color, ContigGraph::Lib::Type::SCAFF);
 
     string cur;
     while (getline(infoin, cur)) {

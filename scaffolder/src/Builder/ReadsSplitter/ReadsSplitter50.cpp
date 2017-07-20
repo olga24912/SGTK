@@ -4,6 +4,7 @@ namespace builder {
     namespace reads_splitter {
         void ReadsSplitter50::splitReads(std::string rnaUnmappedReadsFileName, std::string resFileName1,
                                          std::string resFileName2) {
+            using namespace contig_graph;
             INFO("start splitReads rnaFileName=" << rnaUnmappedReadsFileName << " resFileName1=" << resFileName1
                                                  << " resFileName2=" << resFileName2);
 

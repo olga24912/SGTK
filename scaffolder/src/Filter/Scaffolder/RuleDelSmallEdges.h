@@ -1,0 +1,12 @@
+#ifndef SCAFFOLDER_RULEDELSMALLEDGES_H
+#define SCAFFOLDER_RULEDELSMALLEDGES_H
+
+
+namespace 
+
+class RuleDelSmallEdges {
+
+};
+
+
+#endif //SCAFFOLDER_RULEDELSMALLEDGES_H

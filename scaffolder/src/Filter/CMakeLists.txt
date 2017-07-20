@@ -75,6 +75,6 @@ set(SOURCE_FILES
         CommandParsers/Commands/CommandStatistic/CommandClusterStatistic.h
         Scaffolder/RuleDelSmallCycle.cpp Scaffolder/RuleDelSmallCycle.h
         ContigGraph/ContigGraph.h ContigGraph/ContigGraph.cpp
-        ContigGraph/SeqanUtils.h ContigGraph/SeqanUtils.cpp)
+        ContigGraph/SeqanUtils.h ContigGraph/SeqanUtils.cpp Scaffolder/RuleDelSmallEdges.cpp Scaffolder/RuleDelSmallEdges.h)
 
 add_library(filter_lib ${SOURCE_FILES})
