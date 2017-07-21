@@ -1,12 +1,24 @@
 #ifndef SCAFFOLDER_RULEDELSMALLEDGES_H
 #define SCAFFOLDER_RULEDELSMALLEDGES_H
 
+#include <set>
+#include "Rule.h"
 
-namespace 
+namespace filter {
+    namespace scaffolder {
+        class RuleDelSmallEdges : public Rule {
+        private:
+            const int startDel = 1;
+            const int difDel = 2;
 
-class RuleDelSmallEdges {
+            std::set<int> delEdge;
+        public:
+            void simplifyGraph(ContigGraph *filter) override;
 
-};
+            void delEdges(ContigGraph *graph, std::vector<int> edges);
+        };
+    }
+}
 
 
 #endif //SCAFFOLDER_RULEDELSMALLEDGES_H

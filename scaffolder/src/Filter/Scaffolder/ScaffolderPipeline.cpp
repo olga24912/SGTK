@@ -9,6 +9,7 @@
 #include "RuleInOneLine.h"
 #include "RuleBigDeg.h"
 #include "RuleDelSmallCycle.h"
+#include "RuleDelSmallEdges.h"
 
 namespace filter {
     namespace scaffolder {
@@ -28,12 +29,10 @@ namespace filter {
 
             Scaffolds scaffolds(contigFile);
 
+            RuleDelSmallEdges rdse;
+            rdse.simplifyGraph(graph);
             RuleDelSmallCycle rdsc;
             rdsc.simplifyGraph(graph);
-            RuleBigDifInWeight rbd;
-            rbd.simplifyGraph(graph);
-            RuleBigDeg rbdeg;
-            rbdeg.simplifyGraph(graph);
             RuleInOneLine riol;
             riol.simplifyGraph(graph);
             RuleDelCycle rdc;
