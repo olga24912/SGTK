@@ -24,8 +24,9 @@ namespace builder {
             su.splitReads(path + "/rna.sam", path + "/short1.fasta", path + "/short2.fasta");
 
             handlingPairReads(path + "/cutPartReads1.fasta", path + "/cutPartReads2.fasta", libName + "-50-50");
+            graph->setLib(ContigGraph::Lib::RNA_SPLIT_50);
             handlingPairReads(path + "/short1.fasta", path + "/short2.fasta", libName + "-long-short");
-
+            graph->setLib(ContigGraph::Lib::RNA_SPLIT_30);
             INFO("finish RNASplitReadGraph build");
         }
 

@@ -2,7 +2,7 @@ include_directories(.)
 
 add_subdirectory(Filter)
 add_subdirectory(Builder)
-add_subdirectory(ContigMerger)
+#add_subdirectory(ContigMerger)
 add_subdirectory(Logger)
 
 add_executable(build mainBuildGraph.cpp)
@@ -11,7 +11,7 @@ add_executable(filter mainFilter.cpp)
 add_executable(addInfoToGraph mainAddInfoToGraph.cpp)
 add_executable(addBothPath mainAddBothPath.cpp)
 add_executable(mergeGraph mainMergeGraph.cpp)
-add_executable(splitFast mainSplitFastqFiles.cpp)
+#add_executable(splitFast mainSplitFastqFiles.cpp)
 
 target_link_libraries(build builder_lib logger_lib ${SEQAN_LIBRARIES} ${ZLIB_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} ${Boost_LIBRARIES})
 target_link_libraries(filter filter_lib logger_lib ${SEQAN_LIBRARIES} ${ZLIB_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} ${Boost_LIBRARIES})

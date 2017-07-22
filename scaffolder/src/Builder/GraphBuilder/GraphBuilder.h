@@ -2,7 +2,7 @@
 #define SCAFFOLDER_GRAPHBUILDER_H
 
 #include <Builder/SamFileWriter/SamFileWriterEdgeFictive.h>
-#include "ContigGraph/ContigGraph.h"
+#include "Builder/ContigGraph/ContigGraph.h"
 #include "Builder/SamFileWriter/SamFileWriteEdge.h"
 
 namespace builder {

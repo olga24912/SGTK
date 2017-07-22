@@ -9,7 +9,7 @@ namespace filter {
         using namespace contig_graph;
         class RuleBigDifInWeight : public Rule {
         private:
-            const int maxDif = 5;
+            const int maxDif = 10;
         public:
             void simplifyGraph(ContigGraph *graph) override;
 

@@ -1,4 +1,4 @@
-#include <Builder/Tools/SystemAlignmentTools.h>
+/*#include <Builder/Tools/SystemAlignmentTools.h>
 #include <Builder/GraphBuilder/DNAPairReadGraphBuilder.h>
 #include "Builder/ReadsSplitter/ReadsSplitter.h"
 #include "Builder/ReadsSplitter/ReadsSplitter50.h"
@@ -43,7 +43,7 @@ protected:
 
         ASSERT_EQ(seq1.size(), len);
         ASSERT_EQ(seq2.size() + seq1.size(), 100);
-    }*/
+    }
 };
 
 TEST_F(ReadsSplitterTest, testSplitter50) {
@@ -76,7 +76,7 @@ TEST_F(ReadsSplitterTest, testSplitter50) {
         ASSERT_EQ(seq1 + seq2, useq);
     }
 
-    delete splitter;*/
+    delete splitter;
 }
 
 TEST_F(ReadsSplitterTest, testShortLong) {
@@ -122,7 +122,7 @@ TEST_F(ReadsSplitterTest, testShortLong) {
         checkOneShortLongRead(name1, name2, seq1, seq2, i, 100 - len);
     }
 
-    delete splitter;*/
+    delete splitter;
 }
 
 class GraphBuilderTest : public ::testing::Test {
@@ -224,7 +224,7 @@ TEST_F(GraphBuilderTest, testDNAPairRead) {
     builder = new DNAPairReadGraphBuilder();
     (dynamic_cast<DNAPairReadGraphBuilder*> (builder))->setDistBetweenPairReads(200);
 
-    genCheckGraph();*/
+    genCheckGraph();
 }
 
 TEST_F(GraphBuilderTest, testRefBuilder) {
@@ -243,7 +243,7 @@ TEST_F(GraphBuilderTest, testRefBuilder) {
     checkGraph(1);
 
     delete builder;
-    delete graph;*/
+    delete graph;
 }
 
 class SplitReadGraphBuildTest : public ::testing::Test {
@@ -257,7 +257,7 @@ protected:
     void SetUp() {
         SplitReadsTest gen;
         gen.genTest(sourceFileName, tmpRefFileName, tmpReadsFileName, 100);
-    }*/
+    }
 };
 
 TEST_F(SplitReadGraphBuildTest, testSplitReadBuild) {
@@ -287,10 +287,11 @@ TEST_F(SplitReadGraphBuildTest, testSplitReadBuild) {
     ASSERT_EQ(graph->getFromVertex(graph->getEdgesR(1)[1]), 3);
 
     delete graph;
-    delete builder;*/
+    delete builder;
 }
 
 int main(int argc, char *argv[]) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
 }
+*/

@@ -67,9 +67,9 @@ namespace filter {
             std::map<int, int> p;
             p[u] = -1;
 
-            DEBUG("topsort: ")
+            //DEBUG("topsort: ")
             for (int i = 0; i < (int) topSort.size(); ++i) {
-                DEBUG(topSort[i]);
+                //DEBUG(topSort[i]);
                 int v = topSort[i];
                 std::vector<int> edges = graph->getEdges(v);
 

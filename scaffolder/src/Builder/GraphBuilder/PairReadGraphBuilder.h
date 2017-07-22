@@ -3,7 +3,7 @@
 
 #include "GraphBuilder.h"
 #include "Builder/SamFileWriter/SamFileWriteEdge.h"
-#include "ContigGraph/SeqanUtils.h"
+#include "Builder/ContigGraph/SeqanUtils.h"
 #include <string>
 #include <unordered_map>
 #include <seqan/bam_io.h>

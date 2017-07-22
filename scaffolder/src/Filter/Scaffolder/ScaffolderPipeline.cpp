@@ -35,8 +35,8 @@ namespace filter {
             rdsc.simplifyGraph(graph);
             RuleInOneLine riol;
             riol.simplifyGraph(graph);
-            RuleDelCycle rdc;
-            rdc.simplifyGraph(graph);
+            RuleBigDifInWeight rbddiw;
+            rbddiw.simplifyGraph(graph);
 
             graph->write("smp.gr");
 
