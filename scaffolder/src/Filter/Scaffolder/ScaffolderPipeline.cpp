@@ -31,14 +31,13 @@ namespace filter {
 
             RuleDelSmallEdges rdse;
             rdse.simplifyGraph(graph);
+            graph->write("smp.gr");
             RuleDelSmallCycle rdsc;
             rdsc.simplifyGraph(graph);
             RuleInOneLine riol;
             riol.simplifyGraph(graph);
             RuleBigDifInWeight rbddiw;
             rbddiw.simplifyGraph(graph);
-
-            graph->write("smp.gr");
 
             ScaffoldStrategyUniqueConnection ssuc;
             ssuc.addConnection(&scaffolds, graph);

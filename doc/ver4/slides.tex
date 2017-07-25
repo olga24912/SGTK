@@ -1,0 +1,210 @@
+\documentclass{beamer}
+
+\usepackage{xcolor,colortbl}
+\usepackage{polyglossia}
+\usepackage{fontspec}
+\usepackage{nameref}
+\usepackage{ifthen}
+
+\usefonttheme{professionalfonts}
+\usetheme{Antibes}
+\useoutertheme{infolines_foot}
+\setbeamercovered{transparent=20}
+
+\setbeamertemplate{blocks}[default]
+\setbeamercolor{block title}{use={frametitle},fg=frametitle.fg,bg=frametitle.bg}
+
+\usepackage[math-style=ISO,vargreek-shape=unicode]{unicode-math}
+\setdefaultlanguage[spelling=modern,babelshorthands=true]{russian}
+\setotherlanguage{english}
+
+\defaultfontfeatures{Ligatures={TeX}}
+\setmainfont{CMU Serif}
+\setsansfont{CMU Sans Serif}
+\setmonofont{CMU Typewriter Text}
+\setmathfont{Latin Modern Math}
+\AtBeginDocument{\renewcommand{\setminus}{\mathbin{\backslash}}}
+
+\makeatletter
+\newcommand*{\currentname}{\@currentlabelname}
+\makeatother
+\def\t{\texttt}
+
+\newcommand{\cimg}[2]{%
+	\begin{center}%
+		\ifthenelse{\equal{#2}{}}{%
+			\includegraphics[width=0.75\linewidth]{#1}
+		}{%
+			\includegraphics[width=#2\linewidth]{#1}
+		}%
+	\end{center}%
+}
+
+\title[RNA-seq scaffolding]{Scaffold graph visualization and RNA-Seq scaffolding}
+\author[Chernikova Olga]{Chernikova Olga\\
+	Supervisor: Andrey Prjibelski}
+\institute[CAB]{Center for Algorithmic Biotechnology}
+\date{07/27/2017}
+
+\begin{document}
+
+\begin{frame}
+	\titlepage
+\end{frame}
+
+\section{Introduction}
+
+\begin{frame}[t]{Genome assembly}
+\cimg{p1.png}{0.68}
+\end{frame}
+
+\begin{frame}[t]{Genome assembly}
+\cimg{p2.png}{0.68}
+\end{frame}
+
+\begin{frame}[t]{Connection by pair DNA reads}
+	\begin{itemize}
+		\item Pair reads:  
+		\cimg{pairRead.png}{1}
+		\item Finding connections by pair reads: 
+		\cimg{pairReadAlig}{1}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[t]{By RNA-seq reads}
+\begin{center}
+\cimg{rna.png}{1.24}
+\end{center}
+\end{frame}
+
+\begin{frame}[t]{By RNA-seq reads}
+\begin{center}
+\cimg{rnaReads.png}{1.24}
+\end{center}
+\end{frame}
+
+\section{Goal and tasks}
+\begin{frame}[t]{Goal and tasks}
+	\begin{block}{Goal}
+	Building scaffolds by RNA-seq reads 
+	\end{block}
+	\begin{block}{Tasks}
+	\begin{itemize}
+		\item Building the contig graph
+		\item Building scaffolds by obtained connections
+		\item Creating tool for visualizing a contig graph
+		\item Comparing results with other tools for building scaffolds by RNA-seq  
+	\end{itemize}
+\end{block}
+\end{frame}	
+
+\section{Tasks solving}
+\subsection{Visualization}
+
+\begin{frame}[t]{Visualization}
+%связь между контигами, dot формат, разбиваем граф на несколько файликов. 
+\cimg{examp.jpg}{0.8}
+\end{frame}
+
+\begin{frame}[t]{Visualization}
+	%Какие виды связи можно визуализировать. Референс, РНК, ДНК, скаффолды. 
+	\cimg{diflib.png}{1.03}
+\end{frame}
+
+
+\begin{frame}[t]{Visualization}
+Options for filtering the graph:
+\begin{itemize}
+	\item by edge weight and contig size
+	\item showing only parts with difference in two libs 
+	\item showing only parts with one lib but without the second one
+	\item showing only parts with errors
+	\item etc.
+\end{itemize}
+	%Варианты фильтрация +  несколько слов, для чего можно использовать 
+\end{frame}
+
+\subsection{Scaffolding}
+
+\begin{frame}[t]{Building a contig graph}
+	\begin{itemize}
+		\item Alignment of pair RNA-seq reads
+		\item Building a contig graph on the basis of this alignment
+		\item Splitting reads into two parts
+		\item Alignment of these parts
+		\item Building graph by these parts of the reads
+		\item Saving graph
+	\end{itemize}	
+	\cimg{rnaReadsCon.png}{1}
+\end{frame}
+
+\begin{frame}[t]{Simplification of the graph}
+	\begin{itemize}
+		\item Deleting small weight edges 
+		\cimg{wrong.png}{0.8}
+		\only<2->{\item Edge projection}
+		\only<2->{\cimg{outinline.png}{1}}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[t]{Simplification of the graph}
+	\begin{itemize}
+		\item Deleting cycles
+		\cimg{delCycl.png}{0.4}
+		\only<2->{\item Fork with big difference in weight}
+		\only<2->{\cimg{bigDif.png}{0.4}}
+		\only<3->{\item Connecting simple paths into scaffolds}
+		\only<3->{\cimg{gline.png}{1}}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[t]{Сomparison} 
+	C.elegans, SRR1560107
+	\begin{center}
+		\begin{tabular}{|l|>{\columncolor[gray]{0.8}}c|c|c|}
+			\hline
+			&bio\_scaffolder&P\_RNA\_scaffolder&rascaf\\
+			\hline
+			NG50&36855&36075&32879\\
+			\hline
+			NG75&17299&17188&18395\\
+			\hline
+			NGA50&30383&28828&27116\\
+			\hline
+			NGA75&12735&12489&11667\\
+			\hline
+			LGA50&918&955&995\\
+			\hline
+			misassemblies&529&621&521\\
+			\hline
+		\end{tabular}
+	\end{center}
+\end{frame}
+
+\section{Results}
+\begin{frame}[t]{Results and plans}
+	\begin{block}{Results}
+		\begin{itemize}
+			\item Creating the program for RNA-seq scaffolding 
+			\item Creating the tool for visualization a contig graph
+		\end{itemize}
+	\end{block}
+	\begin{block}{Plans}
+		\begin{itemize}
+			\item Testing and comparing with other tools given bigger diversity of data
+			\item Making program faster 
+			\item Implementing new idea for making scaffolds 
+			\item Writing manual and interface
+			\item Writing an article
+			\end{itemize}-
+	\end{block}
+\end{frame}
+
+
+\section{Thank you!}
+\begin{frame}{Thank you!}
+    \begin{center}
+        https://github.com/olga24912/bio\_scaffolder
+    \end{center}
+\end{frame}
+\end{document}

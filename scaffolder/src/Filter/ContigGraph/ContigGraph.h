@@ -100,7 +100,7 @@ namespace filter {
             std::vector<int> getLibList();
 
             int addVertex(int id, std::string name, int len); //add new vertex with this id, name and len
-            
+
             int getTargetLen(int id); // get len of contig with id
             std::string getTargetName(int v); // get name of contig with this id
             int getTargetId(std::string name); //get id of contig by contig name
