@@ -21,7 +21,7 @@ target_link_libraries(filter filter_lib logger_lib ${SEQAN_LIBRARIES} ${ZLIB_LIB
 target_link_libraries(addInfoToGraph logger_lib builder_lib ${CMAKE_THREAD_LIBS_INIT} ${Boost_LIBRARIES})
 target_link_libraries(addBothPath logger_lib builder_lib)
 target_link_libraries(mergeGraph logger_lib ${CMAKE_THREAD_LIBS_INIT} ${Boost_LIBRARIES})
-target_link_libraries(readSplitter logger_lib read_splitter_lib)
+target_link_libraries(readSplitter logger_lib read_splitter_lib ${SEQAN_LIBRARIES} ${ZLIB_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} ${Boost_LIBRARIES})
 
 
 install(TARGETS addBothPath
@@ -37,5 +37,8 @@ install(TARGETS build
         DESTINATION bin
         COMPONENT runtime)
 install(TARGETS mergeGraph
+        DESTINATION bin
+        COMPONENT runtime)
+install(TARGETS readSplitter
         DESTINATION bin
         COMPONENT runtime)

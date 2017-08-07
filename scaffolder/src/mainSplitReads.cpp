@@ -2,7 +2,6 @@
 #include <ReadsSplitter/ReadsSplitter.h>
 #include <ReadsSplitter/ReadsSplitter50.h>
 #include <ReadsSplitter/SplitterByUnmappedEnd.h>
-#include "ReadsSplitter"
 
 using namespace std;
 
@@ -15,10 +14,10 @@ int main(int argc, char **argv) {
         return 0;
     }
 
-    if (argv[1] == "0") {
+    if (std::string(argv[1]) == "0") {
         ReadsSplitter50 rs;
         rs.splitReads(argv[2], argv[3], argv[4]);
-    } else if (argv[1] == "1") {
+    } else if (std::string(argv[1]) == "1") {
         SplitterByUnmappedEnd rs;
         rs.splitReads(argv[2], argv[3], argv[4]);
     } else {

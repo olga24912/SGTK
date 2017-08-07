@@ -14,7 +14,7 @@ namespace builder {
             ContigGraph::Lib::Type getLibType() override;
 
         public:
-            RNAPairReadGraphBuilder() {}
+            RNAPairReadGraphBuilder() = default;
 
         private:
             DECL_LOGGER("RNAPairReadGraphBuilder");

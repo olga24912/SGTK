@@ -6,45 +6,49 @@ namespace builder {
     void GraphControl::evaluate(int argc, char **argv) {
         using namespace graph_builder;
         using namespace contig_graph;
-        INFO("start build graph");
+        INFO("start build graph with type: " << argv[1]);
 
-        if (argv[1] == "RNA_PAIR") {
-            RNAPairReadGraphBuilder gb = RNAPairReadGraphBuilder();
+        if (std::string(argv[1]) == "RNA_PAIR") {
+            RNAPairReadGraphBuilder* gb = new RNAPairReadGraphBuilder;
 
-            gb.setFileName1(argv[2]);
-            gb.setFileName2(argv[3]);
+            gb->setFileName1(argv[2]);
+            gb->setFileName2(argv[3]);
+            gb->setLibName(argv[4]);
 
-            gb.setGraph(&graph);
-            gb.evaluate();
-        } else if (argv[1] == "DNA_PAIR") {
-            DNAPairReadGraphBuilder gb = DNAPairReadGraphBuilder();
+            gb->setGraph(&graph);
+            gb->evaluate();
+        } else if (std::string(argv[1]) == "DNA_PAIR") {
+            DNAPairReadGraphBuilder* gb = new DNAPairReadGraphBuilder;
 
-            gb.setFileName1(argv[2]);
-            gb.setFileName2(argv[3]);
+            gb->setFileName1(argv[2]);
+            gb->setFileName2(argv[3]);
 
-            gb.setDistBetweenPairReads(atoi(argv[4]));
+            gb->setDistBetweenPairReads(atoi(argv[4]));
+            gb->setLibName(argv[5]);
 
-            gb.setGraph(&graph);
-            gb.evaluate();
-        } else if (argv[1] == "RNA_SPLIT_50" || argv[1] == "RNA_SPLIT_30") {
-            RNAPairReadGraphBuilder gb = RNAPairReadGraphBuilder();
+            gb->setGraph(&graph);
+            gb->evaluate();
+        } else if (std::string(argv[1]) == "RNA_SPLIT_50" || std::string(argv[1]) == "RNA_SPLIT_30") {
+            RNAPairReadGraphBuilder* gb = new RNAPairReadGraphBuilder;
 
-            gb.setFileName1(argv[2]);
-            gb.setFileName2(argv[3]);
+            gb->setFileName1(argv[2]);
+            gb->setFileName2(argv[3]);
 
-            gb.setOneSideReadFlag(true);
+            gb->setOneSideReadFlag(true);
+            gb->setLibName(argv[4]);
 
-            gb.setGraph(&graph);
-            gb.evaluate();
-        } else if (argv[1] == "REF") {
-            ReferenceGraphBuilder gb = ReferenceGraphBuilder();
+            gb->setGraph(&graph);
+            gb->evaluate();
+        } else if (std::string(argv[1]) == "REF") {
+            ReferenceGraphBuilder* gb = new ReferenceGraphBuilder;
 
-            gb.setRefFileName(argv[2]);
-            gb.setQueryFileName(argv[3]);
-            gb.setMinContigLen(atoi(argv[4]));
+            gb->setRefFileName(argv[2]);
+            gb->setQueryFileName(argv[3]);
+            gb->setMinContigLen(atoi(argv[4]));
+            gb->setLibName(argv[5]);
 
-            gb.setGraph(&graph);
-            gb.evaluate();
+            gb->setGraph(&graph);
+            gb->evaluate();
         } else {
             ERROR("unkonwn connection type: " << argv[1]);
         }

@@ -3,7 +3,7 @@
 
 #include "GraphBuilder.h"
 #include "Builder/SamFileWriter/SamFileWriteEdge.h"
-#include "Builder/ContigGraph/SeqanUtils.h"
+#include "ReadsSplitter/Utils/SeqanUtils.h"
 #include <string>
 #include <unordered_map>
 #include <seqan/bam_io.h>
@@ -48,6 +48,7 @@ namespace builder {
             void handleReads();
 
         public:
+            PairReadGraphBuilder() = default;
             //set sam file for first pair read alignment
             void setFileName1(const std::string &fileName1);
 

@@ -5,14 +5,11 @@
 #include <seqan/bam_io.h>
 #include <seqan/seq_io.h>
 
-namespace builder {
-    namespace contig_graph {
+namespace reads_splitter {
+    namespace utils {
 //handling info from seqans classes
         class SeqanUtils {
         public:
-            //return reads name without "/1", "/2" end.
-            static std::string cutReadName(seqan::BamAlignmentRecord read);
-
             //translate dna5 to string
             static std::string dna5ToString(seqan::Dna5 *seq, int len);
 

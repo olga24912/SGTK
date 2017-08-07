@@ -4,7 +4,7 @@
 #include <seqan/seq_io.h>
 #include "GraphBuilder.h"
 #include "Builder/Tools/SystemAlignmentTools.h"
-#include "ContigGraph/SeqanUtils.h"
+#include "ReadsSplitter/Utils/SeqanUtils.h"
 
 namespace builder {
     namespace graph_builder {

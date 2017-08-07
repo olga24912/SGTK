@@ -2,7 +2,7 @@
 #define SCAFFOLDER_READSSPLITTER50_H
 
 #include "ReadsSplitter.h"
-#include "Builder/ContigGraph/SeqanUtils.h"
+#include "ReadsSplitter/Utils/SeqanUtils.h"
 #include <seqan/seq_io.h>
 
 namespace reads_splitter {

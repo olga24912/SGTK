@@ -24,7 +24,15 @@ namespace builder {
 
             static std::string
             colorToString(int color[3]); // translate color like array {255, 0, 255} to  string "#ff00ff"
+
+            //return reads name without "/1", "/2" end.
+            static std::string cutReadName(seqan::BamAlignmentRecord read);
+
+            //translate dna5 to string
+            static std::string dna5ToString(seqan::Dna5 *seq, int len);
         public:
+            GraphBuilder() = default;
+
             //fun that need to call for add conection between contigs;
             virtual void evaluate() = 0;
 
@@ -33,8 +41,7 @@ namespace builder {
             virtual void setGraph(ContigGraph *graph);
 
             //set libName
-            //create new dir: path/libName
-            void setLibName(std::string libName, std::string path);
+            void setLibName(std::string libName);
 
             virtual void setSamFileWriter(); // init samFileWriter
         private:

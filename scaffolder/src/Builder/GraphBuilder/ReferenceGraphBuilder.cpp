@@ -37,7 +37,7 @@ namespace builder {
                 ss << name;
                 ss >> name;
 
-                std::string seq = SeqanUtils::dna5ToString(seqan::toCString(seqs[i]), seqan::length(seqs[i]));
+                std::string seq = dna5ToString(seqan::toCString(seqs[i]), seqan::length(seqs[i]));
 
                 contigsId[name] = 2 * i;
                 contigsName.push_back(name);

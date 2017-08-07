@@ -3,7 +3,6 @@
 namespace reads_splitter {
     void ReadsSplitter50::splitReads(std::string rnaUnmappedReadsFileName, std::string resFileName1,
                                      std::string resFileName2) {
-        using namespace contig_graph;
         INFO("start splitReads rnaFileName=" << rnaUnmappedReadsFileName << " resFileName1=" << resFileName1
                                              << " resFileName2=" << resFileName2);
 
@@ -18,7 +17,7 @@ namespace reads_splitter {
 
         for (unsigned i = 0; i < length(ids); ++i) {
             std::string readName = std::string(seqan::toCString(ids[i]));
-            std::string seq = SeqanUtils::dna5ToString(seqan::toCString(seqs[i]), seqan::length(seqs[i]));
+            std::string seq = utils::SeqanUtils::dna5ToString(seqan::toCString(seqs[i]), seqan::length(seqs[i]));
 
             int len = (int) seq.size() / 2;
             splitRead(readName, seq, len, out1, out2);

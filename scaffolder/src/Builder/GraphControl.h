@@ -4,8 +4,6 @@
 #include "ContigGraph/ContigGraph.h"
 #include "Builder/GraphBuilder/DNAPairReadGraphBuilder.h"
 #include "Builder/GraphBuilder/PairReadGraphBuilder.h"
-#include "Builder/GraphBuilder/RNASplitReadGraphBuilder.h"
-
 
 namespace builder {
 // that class parse args and call other class for

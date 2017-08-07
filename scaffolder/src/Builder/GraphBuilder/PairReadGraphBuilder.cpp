@@ -68,7 +68,7 @@ namespace builder {
         }
 
         std::pair<std::string, int> PairReadGraphBuilder::processOneFirstRead(seqan::BamAlignmentRecord read) {
-            std::string readName = SeqanUtils::cutReadName(read);
+            std::string readName = cutReadName(read);
             TRACE("processOneFirstRead readName=" << readName);
 
             assert(read1ByName.count(readName) == 0);
@@ -113,7 +113,7 @@ namespace builder {
         }
 
         std::pair<std::string, int> PairReadGraphBuilder::processOneSecondRead(seqan::BamAlignmentRecord read) {
-            std::string readName = SeqanUtils::cutReadName(read);
+            std::string readName = cutReadName(read);
             TRACE("processOneSecondRead readName=" << readName);
 
             int target = get2Target(read);

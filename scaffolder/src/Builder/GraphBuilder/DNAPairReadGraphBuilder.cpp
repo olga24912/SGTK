@@ -1,5 +1,5 @@
 #include "DNAPairReadGraphBuilder.h"
-#include "ContigGraph/SeqanUtils.h"
+#include "ReadsSplitter/Utils/SeqanUtils.h"
 
 namespace builder {
     namespace graph_builder {
@@ -34,7 +34,7 @@ namespace builder {
 
         void DNAPairReadGraphBuilder::incEdgeWeight(seqan::BamAlignmentRecord read1, seqan::BamAlignmentRecord read2) {
             TRACE("incEdgeWeight");
-            std::string readName = SeqanUtils::cutReadName(read1);
+            std::string readName = cutReadName(read1);
             if (read1DistToEnd[readName] + read2DistToEnd[readName] >
                 distBetweenPairReads) {
                 return;
