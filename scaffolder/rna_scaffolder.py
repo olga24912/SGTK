@@ -99,6 +99,28 @@ def alig_pair_reads(i, rnap1, rnap2):
     alig_split("rnap" + str(i) + "_30_2", "../" + lib_name + "rna2.sam", 1)
 
 
+def alig_single_reads(i, rnas):
+    prevdir = os.getcwd()
+    lib_name = "rnas" + str(i) + "_50"
+    lib_dir = os.path.dirname(os.path.abspath(lib_name) + "/")
+    if not os.path.exists(lib_dir):
+        os.makedirs(lib_dir)
+    os.chdir(lib_name)
+    unm = ""
+    os.system("STAR --runThreadN 20 --genomeDir ../genomeDir --outReadsUnmapped Fastx --readFilesIn " + rnas)
+    os.system("mv Aligned.out.sam rna.sam")
+    if rnas[-1] == "q":
+        os.system("mv Unmapped.out.mate1 Unmapped.fastq")
+        unm = "Unmapped.fastq"
+    else:
+        os.system("mv Unmapped.out.mate1 Unmapped.fasta")
+        unm = "Unmapped.fasta"
+
+
+    os.chdir(prevdir)
+    alig_split(lib_name, unm, 0)
+    alig_split("rnas" + str(i) + "_30", "../rnas" + str(i) + "_30/rna.sam", 1)
+
 def alig_reads(contig_file_name, rnap_list, rnas_list):
     genome_dir = "genomeDir"
     gen_dir = os.path.dirname(os.path.abspath(genome_dir) + "/")
@@ -117,46 +139,46 @@ def alig_reads(contig_file_name, rnap_list, rnas_list):
 
 
     for i in range(len(rnas_list)):
-        lib_name = "rnas" + str(i)
-        lib_dir = os.path.dirname(os.path.abspath(lib_name) + "/")
-        if not os.path.exists(lib_dir):
-            os.makedirs(lib_dir)
-
+        alig_single_reads(i, rnas_list[i][0])
     return
+
+def runGraphBuilder(lib_name, prevdir, type):
+    log.log("START BUILD GRAPH: " + lib_name)
+    lib_dir = os.path.dirname(os.path.abspath(lib_name) + "/")
+    os.chdir(lib_dir)
+    os.system(path_to_exec_dir + "build " + type + " rna1.sam rna2.sam " + lib_name)
+    os.chdir(prevdir)
+    return
+
 
 def build_graph(contig_file_name, rnap_list, rnas_list):
     for i in range(len(rnap_list)):
         prevdir = os.getcwd();
-        lib_name = "rnap" + str(i)
-        log.log("START BUILD GRAPH: " + lib_name)
-        lib_dir = os.path.dirname(os.path.abspath(lib_name) + "/")
-        os.chdir(lib_dir)
-
-        os.system(path_to_exec_dir + "build -n RNA_SPLIT -r " +
-                  contig_file_name + " -p " + rnap_list[i][0] + " -l " + lib_name + "_sp1 " +
-                  " -n RNA_SPLIT -r " + contig_file_name + " -p " + rnap_list[i][1] + " -l " + lib_name + "_sp2 " +
-                  " -n RNA_PAIR -f rna1.sam -s rna2.sam -l " + lib_name)
-        os.chdir(prevdir)
+        runGraphBuilder("rnap" + str(i), prevdir, "RNA_PAIR")
+        runGraphBuilder("rnap" + str(i) + "_50_1", prevdir, "RNA_SPLIT_50")
+        runGraphBuilder("rnap" + str(i) + "_50_2", prevdir, "RNA_SPLIT_50")
+        runGraphBuilder("rnap" + str(i) + "_30_1", prevdir, "RNA_SPLIT_30")
+        runGraphBuilder("rnap" + str(i) + "_30_2", prevdir, "RNA_SPLIT_30")
 
     for i in range(len(rnas_list)):
         prevdir = os.getcwd();
-        lib_name = "rnas" + str(i)
-        log.log("START BUILD GRAPH: " + lib_name)
-        lib_dir = os.path.dirname(os.path.abspath(lib_name) + "/")
-        os.chdir(lib_dir)
-
-        os.system(path_to_exec_dir + "build -n RNA_SPLIT -r " + contig_file_name + " -p " + rnap_list[i][0] + " -l " + lib_name)
-        os.chdir(prevdir)
-
+        runGraphBuilder("rnas" + str(i) + "_50", prevdir, "RNA_SPLIT_50")
+        runGraphBuilder("rnas" + str(i) + "_30", prevdir, "RNA_SPLIT_30")
     return
 
 def merge_graph(rnap_list, rnas_list):
     args = ""
     for i in range(len(rnap_list)):
+        args += "rnap" + str(i) + "_50_1/graph.gr "
+        args += "rnap" + str(i) + "_30_1/graph.gr "
+        args += "rnap" + str(i) + "_50_2/graph.gr "
+        args += "rnap" + str(i) + "_30_2/graph.gr "
         args += "rnap" + str(i) + "/graph.gr "
 
+
     for i in range(len(rnas_list)):
-        args += "rnas" + str(i) + "/graph.gr "
+        args += "rnas" + str(i) + "_50/graph.gr "
+        args += "rnas" + str(i) + "_30/graph.gr "
 
     args += "graph.gr"
     os.system(path_to_exec_dir + "mergeGraph " + args)

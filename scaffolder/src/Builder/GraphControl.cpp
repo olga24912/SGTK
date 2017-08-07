@@ -1,3 +1,4 @@
+#include <Builder/GraphBuilder/RNAPairReadGraphBuilder.h>
 #include "GraphControl.h"
 #include "Builder/GraphBuilder/ReferenceGraphBuilder.h"
 
@@ -25,7 +26,7 @@ namespace builder {
 
             gb.setGraph(&graph);
             gb.evaluate();
-        } else if (argv[1] == "RNA_SPLIT") {
+        } else if (argv[1] == "RNA_SPLIT_50" || argv[1] == "RNA_SPLIT_30") {
             RNAPairReadGraphBuilder gb = RNAPairReadGraphBuilder();
 
             gb.setFileName1(argv[2]);
