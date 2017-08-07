@@ -1,55 +1,121 @@
+\defcounter {refsection}{0}\relax 
 \beamer@endinputifotherversion {3.36pt}
+\defcounter {refsection}{0}\relax 
 \headcommand {\slideentry {0}{0}{1}{1/1}{}{0}}
+\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {1}{1}}
+\defcounter {refsection}{0}\relax 
 \headcommand {\sectionentry {1}{Introduction}{2}{Introduction}{0}}
+\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@sectionpages {1}{1}}
+\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@subsectionpages {1}{1}}
+\defcounter {refsection}{0}\relax 
 \headcommand {\slideentry {1}{0}{1}{2/2}{}{0}}
+\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {2}{2}}
+\defcounter {refsection}{0}\relax 
 \headcommand {\slideentry {1}{0}{2}{3/3}{}{0}}
+\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {3}{3}}
+\defcounter {refsection}{0}\relax 
 \headcommand {\slideentry {1}{0}{3}{4/4}{}{0}}
+\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {4}{4}}
+\defcounter {refsection}{0}\relax 
 \headcommand {\slideentry {1}{0}{4}{5/5}{}{0}}
+\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {5}{5}}
+\defcounter {refsection}{0}\relax 
 \headcommand {\slideentry {1}{0}{5}{6/6}{}{0}}
+\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {6}{6}}
+\defcounter {refsection}{0}\relax 
 \headcommand {\sectionentry {2}{Goal and tasks}{7}{Goal and tasks}{0}}
+\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@sectionpages {2}{6}}
+\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@subsectionpages {2}{6}}
+\defcounter {refsection}{0}\relax 
 \headcommand {\slideentry {2}{0}{1}{7/7}{}{0}}
+\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {7}{7}}
-\headcommand {\sectionentry {3}{Tasks solving}{8}{Tasks solving}{0}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\sectionentry {3}{Existing RNA-seq scaffolders}{8}{Existing RNA-seq scaffolders}{0}}
+\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@sectionpages {7}{7}}
+\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@subsectionpages {7}{7}}
-\headcommand {\beamer@subsectionentry {0}{3}{1}{8}{Visualization}}\headcommand {\beamer@subsectionpages {8}{7}}
-\headcommand {\slideentry {3}{1}{1}{8/8}{Visualization}{0}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\slideentry {3}{0}{1}{8/8}{}{0}}
+\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {8}{8}}
-\headcommand {\slideentry {3}{1}{2}{9/9}{Visualization}{0}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\sectionentry {4}{Tasks solving}{9}{Tasks solving}{0}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\beamer@sectionpages {8}{8}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\beamer@subsectionpages {8}{8}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\beamer@subsectionentry {0}{4}{1}{9}{Visualization}}\headcommand {\beamer@subsectionpages {9}{8}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\slideentry {4}{1}{1}{9/9}{Visualization}{0}}
+\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {9}{9}}
-\headcommand {\slideentry {3}{1}{3}{10/10}{Visualization}{0}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\slideentry {4}{1}{2}{10/10}{Visualization}{0}}
+\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {10}{10}}
-\headcommand {\beamer@subsectionentry {0}{3}{2}{11}{Scaffolding}}\headcommand {\beamer@subsectionpages {8}{10}}
-\headcommand {\slideentry {3}{2}{1}{11/11}{Scaffolding}{0}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\slideentry {4}{1}{3}{11/11}{Visualization}{0}}
+\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {11}{11}}
-\headcommand {\slideentry {3}{2}{2}{12/13}{Scaffolding}{0}}
-\headcommand {\beamer@framepages {12}{13}}
-\headcommand {\slideentry {3}{2}{3}{14/16}{Scaffolding}{0}}
-\headcommand {\beamer@framepages {14}{16}}
-\headcommand {\slideentry {3}{2}{4}{17/17}{Scaffolding}{0}}
-\headcommand {\beamer@framepages {17}{17}}
-\headcommand {\sectionentry {4}{Results}{18}{Results}{0}}
-\headcommand {\beamer@sectionpages {8}{17}}
-\headcommand {\beamer@subsectionpages {11}{17}}
-\headcommand {\slideentry {4}{0}{1}{18/18}{}{0}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\beamer@subsectionentry {0}{4}{2}{12}{Scaffolding}}\headcommand {\beamer@subsectionpages {9}{11}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\slideentry {4}{2}{1}{12/12}{Scaffolding}{0}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\beamer@framepages {12}{12}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\slideentry {4}{2}{2}{13/14}{Scaffolding}{0}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\beamer@framepages {13}{14}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\slideentry {4}{2}{3}{15/17}{Scaffolding}{0}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\beamer@framepages {15}{17}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\sectionentry {5}{References}{18}{References}{0}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\beamer@sectionpages {9}{17}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\beamer@subsectionpages {12}{17}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\slideentry {5}{0}{0}{18/18}{Scaffolding}{0}}
+\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {18}{18}}
-\headcommand {\sectionentry {5}{Thank you!}{19}{Thank you!}{0}}
-\headcommand {\beamer@sectionpages {18}{18}}
-\headcommand {\beamer@subsectionpages {18}{18}}
-\headcommand {\slideentry {5}{0}{1}{19/19}{}{0}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\sectionentry {6}{Results}{19}{Results}{0}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\beamer@sectionpages {9}{18}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\beamer@subsectionpages {12}{18}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\slideentry {6}{0}{1}{19/19}{}{0}}
+\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {19}{19}}
-\headcommand {\beamer@partpages {1}{19}}
-\headcommand {\beamer@subsectionpages {19}{19}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\sectionentry {7}{Thank you!}{20}{Thank you!}{0}}
+\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@sectionpages {19}{19}}
-\headcommand {\beamer@documentpages {19}}
-\headcommand {\def \inserttotalframenumber {16}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\beamer@subsectionpages {19}{19}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\slideentry {7}{0}{1}{20/20}{}{0}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\beamer@framepages {20}{20}}
+\headcommand {\beamer@partpages {1}{20}}
+\headcommand {\beamer@subsectionpages {20}{20}}
+\headcommand {\beamer@sectionpages {20}{20}}
+\headcommand {\beamer@documentpages {20}}
+\headcommand {\def \inserttotalframenumber {17}}

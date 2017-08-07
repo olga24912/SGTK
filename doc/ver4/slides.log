@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99996 (TeX Live 2016/Debian) (preloaded format=xelatex 2017.2.27)  24 JUL 2017 23:11
+This is XeTeX, Version 3.14159265-2.6-0.99996 (TeX Live 2016/Debian) (preloaded format=xelatex 2017.2.27)  26 JUL 2017 14:32
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1064,6 +1064,212 @@ Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 (/usr/share/texlive/texmf-dist/tex/latex/base/ifthen.sty
 Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
 )
+(/usr/share/texlive/texmf-dist/tex/latex/biblatex/biblatex.sty
+Package: biblatex 2016/05/14 v3.4 programmable bibliographies (PK/JW/AB)
+
+(/usr/share/texlive/texmf-dist/tex/generic/iftex/iftex.sty
+Package: iftex 2013/04/04 v0.2 Provides if(tex) conditional for PDFTeX, XeTeX, 
+and LuaTeX
+)
+(/usr/share/texlive/texmf-dist/tex/latex/logreq/logreq.sty
+Package: logreq 2010/08/04 v1.0 xml request logger
+\lrq@indent=\count192
+
+(/usr/share/texlive/texmf-dist/tex/latex/logreq/logreq.def
+File: logreq.def 2010/08/04 v1.0 logreq spec v1.0
+))
+(/usr/share/texlive/texmf-dist/tex/generic/xstring/xstring.sty
+(/usr/share/texlive/texmf-dist/tex/generic/xstring/xstring.tex
+\@xs@message=\write5
+\integerpart=\count193
+\decimalpart=\count194
+)
+Package: xstring 2013/10/13  v1.7c  String manipulations (C Tellechea)
+)
+\c@tabx@nest=\count195
+\c@listtotal=\count196
+\c@listcount=\count197
+\c@liststart=\count198
+\c@liststop=\count199
+\c@citecount=\count266
+\c@citetotal=\count267
+\c@multicitecount=\count268
+\c@multicitetotal=\count269
+\c@instcount=\count270
+\c@maxnames=\count271
+\c@minnames=\count272
+\c@maxitems=\count273
+\c@minitems=\count274
+\c@citecounter=\count275
+\c@savedcitecounter=\count276
+\c@uniquelist=\count277
+\c@uniquename=\count278
+\c@refsection=\count279
+\c@refsegment=\count280
+\c@maxextratitle=\count281
+\c@maxextratitleyear=\count282
+\c@maxextrayear=\count283
+\c@maxextraalpha=\count284
+\c@abbrvpenalty=\count285
+\c@highnamepenalty=\count286
+\c@lownamepenalty=\count287
+\c@maxparens=\count288
+\c@parenlevel=\count289
+\blx@tempcnta=\count290
+\blx@tempcntb=\count291
+\blx@tempcntc=\count292
+\blx@maxsection=\count293
+\blx@maxsegment@0=\count294
+\blx@notetype=\count295
+\blx@parenlevel@text=\count296
+\blx@parenlevel@foot=\count297
+\blx@sectionciteorder@0=\count298
+\labelnumberwidth=\skip66
+\labelalphawidth=\skip67
+\biblabelsep=\skip68
+\bibitemsep=\skip69
+\bibnamesep=\skip70
+\bibinitsep=\skip71
+\bibparsep=\skip72
+\bibhang=\skip73
+\blx@bcfin=\read3
+\blx@bcfout=\write6
+\c@mincomprange=\count299
+\c@maxcomprange=\count300
+\c@mincompwidth=\count301
+Package biblatex Info: Trying to load biblatex default data model...
+Package biblatex Info: ... file 'blx-dm.def' found.
+
+(/usr/share/texlive/texmf-dist/tex/latex/biblatex/blx-dm.def)
+Package biblatex Info: Trying to load biblatex custom data model...
+Package biblatex Info: ... file 'biblatex-dm.cfg' not found.
+\c@afterword=\count302
+\c@savedafterword=\count303
+\c@annotator=\count304
+\c@savedannotator=\count305
+\c@author=\count306
+\c@savedauthor=\count307
+\c@bookauthor=\count308
+\c@savedbookauthor=\count309
+\c@commentator=\count310
+\c@savedcommentator=\count311
+\c@editor=\count312
+\c@savededitor=\count313
+\c@editora=\count314
+\c@savededitora=\count315
+\c@editorb=\count316
+\c@savededitorb=\count317
+\c@editorc=\count318
+\c@savededitorc=\count319
+\c@foreword=\count320
+\c@savedforeword=\count321
+\c@holder=\count322
+\c@savedholder=\count323
+\c@introduction=\count324
+\c@savedintroduction=\count325
+\c@namea=\count326
+\c@savednamea=\count327
+\c@nameb=\count328
+\c@savednameb=\count329
+\c@namec=\count330
+\c@savednamec=\count331
+\c@translator=\count332
+\c@savedtranslator=\count333
+\c@shortauthor=\count334
+\c@savedshortauthor=\count335
+\c@shorteditor=\count336
+\c@savedshorteditor=\count337
+\c@labelname=\count338
+\c@savedlabelname=\count339
+\c@institution=\count340
+\c@savedinstitution=\count341
+\c@lista=\count342
+\c@savedlista=\count343
+\c@listb=\count344
+\c@savedlistb=\count345
+\c@listc=\count346
+\c@savedlistc=\count347
+\c@listd=\count348
+\c@savedlistd=\count349
+\c@liste=\count350
+\c@savedliste=\count351
+\c@listf=\count352
+\c@savedlistf=\count353
+\c@location=\count354
+\c@savedlocation=\count355
+\c@organization=\count356
+\c@savedorganization=\count357
+\c@origlocation=\count358
+\c@savedoriglocation=\count359
+\c@origpublisher=\count360
+\c@savedorigpublisher=\count361
+\c@publisher=\count362
+\c@savedpublisher=\count363
+\c@language=\count364
+\c@savedlanguage=\count365
+\c@pageref=\count366
+\c@savedpageref=\count367
+\shorthandwidth=\skip74
+\shortjournalwidth=\skip75
+\shortserieswidth=\skip76
+\shorttitlewidth=\skip77
+\shortauthorwidth=\skip78
+\shorteditorwidth=\skip79
+Package biblatex Info: Trying to load compatibility code...
+Package biblatex Info: ... file 'blx-compat.def' found.
+
+(/usr/share/texlive/texmf-dist/tex/latex/biblatex/blx-compat.def
+File: blx-compat.def 2016/05/14 v3.4 biblatex compatibility (PK/JW/AB)
+)
+Package biblatex Info: Trying to load generic definitions...
+Package biblatex Info: ... file 'biblatex.def' found.
+
+(/usr/share/texlive/texmf-dist/tex/latex/biblatex/biblatex.def
+File: biblatex.def 2016/05/14 v3.4 biblatex compatibility (PK/JW/AB)
+\c@textcitecount=\count368
+\c@textcitetotal=\count369
+\c@textcitemaxnames=\count370
+\c@biburlnumpenalty=\count371
+\c@biburlucpenalty=\count372
+\c@biburllcpenalty=\count373
+\c@smartand=\count374
+)
+Package biblatex Info: Trying to load bibliography style 'numeric'...
+Package biblatex Info: ... file 'numeric.bbx' found.
+
+(/usr/share/texlive/texmf-dist/tex/latex/biblatex/bbx/numeric.bbx
+File: numeric.bbx 2016/05/14 v3.4 biblatex bibliography style (PK/JW/AB)
+Package biblatex Info: Trying to load bibliography style 'standard'...
+Package biblatex Info: ... file 'standard.bbx' found.
+
+(/usr/share/texlive/texmf-dist/tex/latex/biblatex/bbx/standard.bbx
+File: standard.bbx 2016/05/14 v3.4 biblatex bibliography style (PK/JW/AB)
+\c@bbx:relatedcount=\count375
+\c@bbx:relatedtotal=\count376
+))
+Package biblatex Info: Trying to load citation style 'numeric'...
+Package biblatex Info: ... file 'numeric.cbx' found.
+
+(/usr/share/texlive/texmf-dist/tex/latex/biblatex/cbx/numeric.cbx
+File: numeric.cbx 2016/05/14 v3.4 biblatex citation style (PK/JW/AB)
+Package biblatex Info: Redefining '\cite'.
+Package biblatex Info: Redefining '\parencite'.
+Package biblatex Info: Redefining '\footcite'.
+Package biblatex Info: Redefining '\footcitetext'.
+Package biblatex Info: Redefining '\smartcite'.
+Package biblatex Info: Redefining '\supercite'.
+Package biblatex Info: Redefining '\textcite'.
+Package biblatex Info: Redefining '\textcites'.
+Package biblatex Info: Redefining '\cites'.
+Package biblatex Info: Redefining '\parencites'.
+Package biblatex Info: Redefining '\smartcites'.
+)
+Package biblatex Info: Trying to load configuration file...
+Package biblatex Info: ... file 'biblatex.cfg' found.
+
+(/usr/share/texlive/texmf-dist/tex/latex/biblatex/biblatex.cfg
+File: biblatex.cfg 
+))
 (/usr/share/texlive/texmf-dist/tex/latex/beamer/themes/font/beamerfontthemeprof
 essionalfonts.sty
 Package: beamerfontthemeprofessionalfonts 2010/06/17  (rcs-revision d02a7cf4d8a
@@ -1109,9 +1315,9 @@ Package: fix-cm 2015/01/14 v1.1t fixes to LaTeX
 (/usr/share/texlive/texmf-dist/tex/latex/base/ts1enc.def
 File: ts1enc.def 2001/06/05 v3.0e (jk/car/fm) Standard LaTeX file
 ))
-\g__um_fam_int=\count192
+\g__um_fam_int=\count377
 \g__um_primekern_muskip=\muskip18
-\l__um_primecount_int=\count193
+\l__um_primecount_int=\count378
 .................................................
 . LaTeX info: "xparse/define-command"
 . 
@@ -1156,21 +1362,11 @@ File: ts1enc.def 2001/06/05 v3.0e (jk/car/fm) Standard LaTeX file
 . 
 . I'm going to patch macro \r@@t.
 .................................................
-)) (/usr/share/texlive/texmf-dist/tex/latex/polyglossia/gloss-russian.ldf
-File: gloss-russian.ldf polyglossia: module for russian
-
-(/usr/share/texlive/texmf-dist/tex/latex/polyglossia/babelsh.def
-File: babelsh.def 2013/04/30 Babel common definitions for shorthands
- Taken verbatim from babel.def (2013/04/15 v3.9e)
-)
-Package polyglossia Info: Making " an active character on input line 41.
-)
-Package polyglossia Info: Default language is russian.
-
-(/usr/share/texlive/texmf-dist/tex/latex/polyglossia/gloss-english.ldf
+)) (/usr/share/texlive/texmf-dist/tex/latex/polyglossia/gloss-english.ldf
 File: gloss-english.ldf polyglossia: module for english
 )
-\g__fontspec_family_CMUSerif_int=\count194
+Package polyglossia Info: Default language is english.
+\g__fontspec_family_CMUSerif_int=\count379
 .................................................
 . fontspec info: "defining-font"
 . 
@@ -1218,14 +1414,14 @@ File: gloss-english.ldf polyglossia: module for english
 . - 'bold italic small caps'  (bx/itsc) with NFSS spec.: 
 .................................................
 LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `normal'
-(Font)                  OT1/cmr/m/n --> EU1/CMUSerif(1)/m/n on input line 22.
+(Font)                  OT1/cmr/m/n --> EU1/CMUSerif(1)/m/n on input line 23.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
-(Font)                  OT1/cmr/m/it --> EU1/CMUSerif(1)/m/it on input line 22.
+(Font)                  OT1/cmr/m/it --> EU1/CMUSerif(1)/m/it on input line 23.
 
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
-(Font)                  OT1/cmr/bx/n --> EU1/CMUSerif(1)/bx/n on input line 22.
+(Font)                  OT1/cmr/bx/n --> EU1/CMUSerif(1)/bx/n on input line 23.
 
-\g__fontspec_family_CMUSansSerif_int=\count195
+\g__fontspec_family_CMUSansSerif_int=\count380
 .................................................
 . fontspec info: "defining-font"
 . 
@@ -1266,11 +1462,11 @@ LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
 .................................................
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
 (Font)                  OT1/cmss/m/n --> EU1/CMUSansSerif(1)/m/n on input line 
-23.
+24.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
 (Font)                  OT1/cmss/bx/n --> EU1/CMUSansSerif(1)/bx/n on input lin
-e 23.
-\g__fontspec_family_CMUTypewriterText_int=\count196
+e 24.
+\g__fontspec_family_CMUTypewriterText_int=\count381
 .................................................
 . fontspec info: "defining-font"
 . 
@@ -1324,11 +1520,11 @@ e 23.
 .................................................
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
 (Font)                  OT1/cmtt/m/n --> EU1/CMUTypewriterText(1)/m/n on input 
-line 24.
+line 25.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
 (Font)                  OT1/cmtt/m/n --> EU1/CMUTypewriterText(1)/bx/n on input
- line 24.
-\g__fontspec_family_LatinModernMath_int=\count197
+ line 25.
+\g__fontspec_family_LatinModernMath_int=\count382
 .................................................
 . fontspec info: "no-font-shape"
 . 
@@ -1352,15 +1548,15 @@ ize=10.95-},{Size=8-10.95,Font=Latin
 . - 'small caps'  (m/sc) with NFSS spec.: 
 .................................................
 LaTeX Font Info:    Encoding `OT1' has changed to `EU1' for symbol font
-(Font)              `operators' in the math version `normal' on input line 25.
+(Font)              `operators' in the math version `normal' on input line 26.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
 (Font)                  OT1/cmr/m/n --> EU1/LatinModernMath(0)/m/n on input lin
-e 25.
+e 26.
 LaTeX Font Info:    Encoding `OT1' has changed to `EU1' for symbol font
-(Font)              `operators' in the math version `bold' on input line 25.
+(Font)              `operators' in the math version `bold' on input line 26.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
 (Font)                  OT1/cmr/bx/n --> EU1/LatinModernMath(0)/bx/n on input l
-ine 25.
+ine 26.
 .................................................
 . fontspec info: "no-font-shape"
 . 
@@ -1406,15 +1602,15 @@ atin
 . \fontdimen 22\font =2.7375pt\relax \relax 
 .................................................
 LaTeX Font Info:    Encoding `OMS' has changed to `EU1' for symbol font
-(Font)              `symbols' in the math version `normal' on input line 25.
+(Font)              `symbols' in the math version `normal' on input line 26.
 LaTeX Font Info:    Overwriting symbol font `symbols' in version `normal'
 (Font)                  OMS/cmsy/m/n --> EU1/LatinModernMath(1)/m/n on input li
-ne 25.
+ne 26.
 LaTeX Font Info:    Encoding `OMS' has changed to `EU1' for symbol font
-(Font)              `symbols' in the math version `bold' on input line 25.
+(Font)              `symbols' in the math version `bold' on input line 26.
 LaTeX Font Info:    Overwriting symbol font `symbols' in version `bold'
 (Font)                  OMS/cmsy/b/n --> EU1/LatinModernMath(1)/bx/n on input l
-ine 25.
+ine 26.
 .................................................
 . fontspec info: "no-font-shape"
 . 
@@ -1451,71 +1647,65 @@ atin
 .................................................
 LaTeX Font Info:    Encoding `OMX' has changed to `EU1' for symbol font
 (Font)              `largesymbols' in the math version `normal' on input line 2
-5.
+6.
 LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `normal'
 (Font)                  OMX/cmex/m/n --> EU1/LatinModernMath(2)/m/n on input li
-ne 25.
+ne 26.
 LaTeX Font Info:    Encoding `OMX' has changed to `EU1' for symbol font
-(Font)              `largesymbols' in the math version `bold' on input line 25.
+(Font)              `largesymbols' in the math version `bold' on input line 26.
 
 LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `bold'
 (Font)                  OMX/cmex/m/n --> EU1/LatinModernMath(2)/bx/n on input l
-ine 25.
+ine 26.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\\' on input line 45.
+(hyperref)                removing `\\' on input line 49.
 
-(./slides.aux
-.................................................
-. fontspec info: "defining-font"
-. 
-. Font family 'CMUSansSerif(2)' created for font 'CMU Sans Serif' with options
-. [Ligatures={TeX},Ligatures=TeX,Script=Cyrillic].
-. 
-. This font family consists of the following NFSS series/shapes:
-. - 'normal' (m/n) with NFSS spec.: <->"CMU Sans
-. Serif/OT:script=cyrl;language=DFLT;mapping=tex-text;mapping=tex-text;"
-. - 'small caps'  (m/sc) with NFSS spec.: - 'bold' (bx/n) with NFSS spec.:
-. <->"CMU Sans
-. Serif/B/OT:script=cyrl;language=DFLT;mapping=tex-text;mapping=tex-text;"
-. - 'bold small caps'  (bx/sc) with NFSS spec.: - 'italic' (m/it) with NFSS
-. spec.: <->"CMU Sans
-. Serif/I/OT:script=cyrl;language=DFLT;mapping=tex-text;mapping=tex-text;"
-. - 'italic small caps'  (m/itsc) with NFSS spec.: - 'bold italic' (bx/it)
-. with NFSS spec.: <->"CMU Sans
-. Serif/BI/OT:script=cyrl;language=DFLT;mapping=tex-text;mapping=tex-text;"
-. - 'bold italic small caps'  (bx/itsc) with NFSS spec.: 
-.................................................
+Package biblatex Info: Trying to load language 'english'...
+Package biblatex Info: ... file 'english.lbx' found.
+(/usr/share/texlive/texmf-dist/tex/latex/biblatex/lbx/english.lbx
+File: english.lbx 2016/05/14 v3.4 biblatex localization (PK/JW/AB)
 )
+
+Package biblatex Warning: Patching footnotes failed.
+(biblatex)                Footnote detection will not work.
+
+
+Package biblatex Warning: 'babel/polyglossia' detected but 'csquotes' missing.
+(biblatex)                Loading 'csquotes' recommended.
+
+\@quotelevel=\count383
+\@quotereset=\count384
+(./slides.aux)
 \openout1 = `slides.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 49.
-LaTeX Font Info:    ... okay on input line 49.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 49.
-LaTeX Font Info:    ... okay on input line 49.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 49.
-LaTeX Font Info:    ... okay on input line 49.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 49.
-LaTeX Font Info:    ... okay on input line 49.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 49.
-LaTeX Font Info:    ... okay on input line 49.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 49.
-LaTeX Font Info:    ... okay on input line 49.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 49.
-LaTeX Font Info:    ... okay on input line 49.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 49.
-LaTeX Font Info:    ... okay on input line 49.
-LaTeX Font Info:    Checking defaults for EU1/lmr/m/n on input line 49.
-LaTeX Font Info:    ... okay on input line 49.
-LaTeX Font Info:    Checking defaults for T3/cmr/m/n on input line 49.
-LaTeX Font Info:    Try loading font information for T3+cmr on input line 49.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 53.
+LaTeX Font Info:    ... okay on input line 53.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 53.
+LaTeX Font Info:    ... okay on input line 53.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 53.
+LaTeX Font Info:    ... okay on input line 53.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 53.
+LaTeX Font Info:    ... okay on input line 53.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 53.
+LaTeX Font Info:    ... okay on input line 53.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 53.
+LaTeX Font Info:    ... okay on input line 53.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 53.
+LaTeX Font Info:    ... okay on input line 53.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 53.
+LaTeX Font Info:    ... okay on input line 53.
+LaTeX Font Info:    Checking defaults for EU1/lmr/m/n on input line 53.
+LaTeX Font Info:    ... okay on input line 53.
+LaTeX Font Info:    Checking defaults for T3/cmr/m/n on input line 53.
+LaTeX Font Info:    Try loading font information for T3+cmr on input line 53.
  (/usr/share/texmf/tex/latex/tipa/t3cmr.fd
 File: t3cmr.fd 2001/12/31 TIPA font definitions
 )
-LaTeX Font Info:    ... okay on input line 49.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 49.
-LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    ... okay on input line 53.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 53.
+LaTeX Font Info:    ... okay on input line 53.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: xetex
@@ -1553,13 +1743,13 @@ LaTeX Font Info:    ... okay on input line 49.
 
 ABD: EveryShipout initializing macros
 \AtBeginShipoutBox=\box70
-Package hyperref Info: Link coloring OFF on input line 49.
-LaTeX Info: Redefining \ref on input line 49.
-LaTeX Info: Redefining \pageref on input line 49.
-LaTeX Info: Redefining \nameref on input line 49.
+Package hyperref Info: Link coloring OFF on input line 53.
+LaTeX Info: Redefining \ref on input line 53.
+LaTeX Info: Redefining \pageref on input line 53.
+LaTeX Info: Redefining \nameref on input line 53.
  (./slides.out) (./slides.out)
-\@outlinefile=\write5
-\openout5 = `slides.out'.
+\@outlinefile=\write7
+\openout7 = `slides.out'.
 
 
 (/usr/share/texlive/texmf-dist/tex/latex/beamer/translator/dicts/translator-bas
@@ -1586,14 +1776,25 @@ Dictionary: translator-numbers-dictionary, Language: English
 orem-dictionary/translator-theorem-dictionary-English.dict
 Dictionary: translator-theorem-dictionary, Language: English 
 )
-LaTeX Info: Redefining \includegraphics on input line 49.
- (./slides.nav)
-[1
+LaTeX Info: Redefining \includegraphics on input line 53.
+Package biblatex Info: XeTeX detected.
+(biblatex)             Assuming input encoding 'utf8'.
+Package biblatex Info: Automatic encoding selection.
+(biblatex)             Assuming data encoding 'utf8'.
+\openout6 = `slides.bcf'.
+
+Package biblatex Info: Trying to load bibliographic data...
+Package biblatex Info: ... file 'slides.bbl' found.
+ (./slides.bbl)
+Package biblatex Info: Reference section=0 on input line 53.
+Package biblatex Info: Reference segment=0 on input line 53.
+
+(./slides.nav) [1
 
 ]
 File: p1.png Graphic file (type QTm)
  <use  "p1.png" >
-Overfull \vbox (6.76726pt too high) detected at line 59
+Overfull \vbox (6.76726pt too high) detected at line 63
  []
 
 [2
@@ -1601,7 +1802,7 @@ Overfull \vbox (6.76726pt too high) detected at line 59
 ]
 File: p2.png Graphic file (type QTm)
  <use  "p2.png" >
-Overfull \vbox (6.76726pt too high) detected at line 63
+Overfull \vbox (6.76726pt too high) detected at line 67
  []
 
 [3
@@ -1615,7 +1816,7 @@ File: pairReadAlig.png Graphic file (type QTm)
 ]
 File: rna.png Graphic file (type QTm)
  <use  "rna.png" >
-Overfull \hbox (82.15276pt too wide) in paragraph at lines 78--78
+Overfull \hbox (82.15276pt too wide) in paragraph at lines 82--82
  [] 
  []
 
@@ -1624,7 +1825,7 @@ Overfull \hbox (82.15276pt too wide) in paragraph at lines 78--78
 ]
 File: rnaReads.png Graphic file (type QTm)
  <use  "rnaReads.png" >
-Overfull \hbox (82.15276pt too wide) in paragraph at lines 84--84
+Overfull \hbox (82.15276pt too wide) in paragraph at lines 88--88
  [] 
  []
 
@@ -1632,50 +1833,52 @@ Overfull \hbox (82.15276pt too wide) in paragraph at lines 84--84
 
 ] [7
 
+] [8
+
 ]
 File: examp.jpg Graphic file (type QTm)
  <use  "examp.jpg" >
-Overfull \vbox (23.02884pt too high) detected at line 107
- []
-
-[8
-
-]
-File: diflib.png Graphic file (type QTm)
- <use  "diflib.png" >
-Overfull \hbox (10.26843pt too wide) in paragraph at lines 112--112
- [] 
+Overfull \vbox (23.02884pt too high) detected at line 121
  []
 
 [9
 
-] [10
+]
+File: diflib.png Graphic file (type QTm)
+ <use  "diflib.png" >
+Overfull \hbox (10.26843pt too wide) in paragraph at lines 126--126
+ [] 
+ []
+
+[10
+
+] [11
 
 ]
 File: rnaReadsCon.png Graphic file (type QTm)
- <use  "rnaReadsCon.png" > [11
+ <use  "rnaReadsCon.png" > [12
 
 ]
 File: wrong.png Graphic file (type QTm)
- <use  "wrong.png" > [12
+ <use  "wrong.png" > [13
 
 ]
 File: wrong.png Graphic file (type QTm)
 
 <use  "wrong.png" >
 File: outinline.png Graphic file (type QTm)
- <use  "outinline.png" > [13
+ <use  "outinline.png" > [14
 
 ]
 File: delCycl.png Graphic file (type QTm)
- <use  "delCycl.png" > [14
+ <use  "delCycl.png" > [15
 
 ]
 File: delCycl.png Graphic file (type QTm)
 
 <use  "delCycl.png" >
 File: bigDif.png Graphic file (type QTm)
- <use  "bigDif.png" > [15
+ <use  "bigDif.png" > [16
 
 ]
 File: delCycl.png Graphic file (type QTm)
@@ -1684,64 +1887,72 @@ File: bigDif.png Graphic file (type QTm)
 
 <use  "bigDif.png" >
 File: gline.png Graphic file (type QTm)
- <use  "gline.png" > [16
+ <use  "gline.png" > [17
 
 ]
 LaTeX Font Info:    Font shape `EU1/LatinModernMath(1)/m/n' will be
-(Font)              scaled to size 10.95015pt on input line 182.
+(Font)              scaled to size 10.95015pt on input line 197.
 LaTeX Font Info:    Font shape `EU1/LatinModernMath(1)/m/n' will be
-(Font)              scaled to size 7.67863pt on input line 182.
+(Font)              scaled to size 7.67863pt on input line 197.
 LaTeX Font Info:    Font shape `EU1/LatinModernMath(1)/m/n' will be
-(Font)              scaled to size 5.45398pt on input line 182.
+(Font)              scaled to size 5.45398pt on input line 197.
 LaTeX Font Info:    Font shape `EU1/LatinModernMath(2)/m/n' will be
-(Font)              scaled to size 10.94983pt on input line 182.
+(Font)              scaled to size 10.94983pt on input line 197.
 LaTeX Font Info:    Font shape `EU1/LatinModernMath(2)/m/n' will be
-(Font)              scaled to size 7.6784pt on input line 182.
+(Font)              scaled to size 7.6784pt on input line 197.
 LaTeX Font Info:    Font shape `EU1/LatinModernMath(2)/m/n' will be
-(Font)              scaled to size 5.45381pt on input line 182.
-LaTeX Font Info:    Try loading font information for U+msa on input line 182.
+(Font)              scaled to size 5.45381pt on input line 197.
+LaTeX Font Info:    Try loading font information for U+msa on input line 197.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 182.
+LaTeX Font Info:    Try loading font information for U+msb on input line 197.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-) [17
-
-]
-Overfull \vbox (5.6866pt too high) detected at line 201
+)
+Overfull \hbox (5.0564pt too wide) in paragraph at lines 197--197
+ [] 
  []
 
-[18
+File: beamericonarticle.pdf Graphic file (type QTm)
+<use  "beamericonarticle.pdf" >
+File: beamericonarticle.pdf Graphic file (type QTm)
+ <use  "beamericonarticle.pdf" > [18
 
 ] [19
 
 ]
-\tf@nav=\write6
-\openout6 = `slides.nav'.
+[20
 
-\tf@toc=\write7
-\openout7 = `slides.toc'.
+]
+\tf@nav=\write8
+\openout8 = `slides.nav'.
 
-\tf@snm=\write8
-\openout8 = `slides.snm'.
+\tf@toc=\write9
+\openout9 = `slides.toc'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 210.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 210.
+\tf@snm=\write10
+\openout10 = `slides.snm'.
+
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 225.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 225.
  (./slides.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 210.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 210.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 210.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 225.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 225.
+Package logreq Info: Writing requests to 'slides.run.xml'.
+\openout1 = `slides.run.xml'.
+
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 225.
  ) 
 Here is how much of TeX's memory you used:
- 36859 strings out of 493589
- 693242 string characters out of 6145556
- 801767 words of memory out of 5000000
- 39657 multiletter control sequences out of 15000+600000
- 7901 words of font info for 70 fonts, out of 8000000 for 9000
+ 42144 strings out of 493589
+ 791222 string characters out of 6145556
+ 1240163 words of memory out of 5000000
+ 44904 multiletter control sequences out of 15000+600000
+ 7861 words of font info for 65 fonts, out of 8000000 for 9000
  1347 hyphenation exceptions out of 8191
- 56i,16n,72p,10411b,724s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 56i,16n,72p,10411b,5777s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on slides.pdf (19 pages).
+Output written on slides.pdf (20 pages).

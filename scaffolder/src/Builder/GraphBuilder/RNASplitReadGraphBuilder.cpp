@@ -11,6 +11,7 @@ namespace builder {
             SplitterByUnmappedEnd su;
 
             wwot.alignmentRNA(refFileName, rnaReadsFileName, "rna.sam", path);
+
             std::string unmappedName;
             if (rnaReadsFileName[rnaReadsFileName.size() - 1] == 'q') {
                 unmappedName = path + "/Unmapped.fastq";

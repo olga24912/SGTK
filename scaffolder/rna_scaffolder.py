@@ -44,6 +44,61 @@ def parse_args():
     args = parser.parse_args()
     return args
 
+def alig_split(lib_name, reads, flag):
+    prevdir = os.getcwd()
+    log.log("START ALIG: " + lib_name)
+    lib_dir = os.path.dirname(os.path.abspath(lib_name) + "/")
+    if not os.path.exists(lib_dir):
+        os.makedirs(lib_dir)
+    os.chdir(lib_dir)
+
+    os.system(path_to_exec_dir + "readSplitter " + flag + " " + reads + " reads1.fasta reads2.fasta")
+    os.system("STAR --runThreadN 20 --genomeDir ../genomeDir --readFilesIn reads1.fasta")
+    os.system("mv Aligned.out.sam rna1.sam")
+
+    os.system("STAR --runThreadN 20 --genomeDir ../genomeDir --readFilesIn reads2.fasta")
+    os.system("mv Aligned.out.sam rna2.sam")
+
+    os.chdir(prevdir)
+
+def alig_pair_reads(i, rnap1, rnap2):
+    prevdir = os.getcwd()
+    lib_name = "rnap" + str(i)
+    log.log("START ALIG: " + lib_name)
+    lib_dir = os.path.dirname(os.path.abspath(lib_name) + "/")
+    if not os.path.exists(lib_dir):
+        os.makedirs(lib_dir)
+    os.chdir(lib_dir)
+
+    unm1 = ""
+    unm2 = ""
+
+    os.system("STAR --runThreadN 20 --genomeDir ../genomeDir --outReadsUnmapped Fastx --readFilesIn " + rnap1)
+    os.system("mv Aligned.out.sam rna1.sam")
+    if rnap1[-1] == "q":
+        os.system("mv Unmapped.out.mate1 Unmapped1.fastq")
+        unm1 = "../" + lib_name + "/Unmapped1.fastq"
+    else:
+        os.system("mv Unmapped.out.mate1 Unmapped1.fasta")
+        unm1 = "../" + lib_name + "/Unmapped1.fasta"
+
+    os.system("STAR --runThreadN 20 --genomeDir ../genomeDir --outReadsUnmapped Fastx --readFilesIn " + rnap2)
+    os.system("mv Aligned.out.sam rna2.sam")
+    if rnap1[-1] == "q":
+        os.system("mv Unmapped.out.mate1 Unmapped2.fastq")
+        unm2 = "../" + lib_name + "/Unmapped2.fastq"
+    else:
+        os.system("mv Unmapped.out.mate1 Unmapped2.fasta")
+        unm2 = "../" + lib_name + "/Unmapped2.fasta"
+
+    os.chdir(prevdir)
+
+    alig_split("rnap" + str(i) + "_50_1", unm1, 0)
+    alig_split("rnap" + str(i) + "_50_2", unm2, 0)
+    alig_split("rnap" + str(i) + "_30_1", "../" + lib_name + "rna1.sam", 1)
+    alig_split("rnap" + str(i) + "_30_2", "../" + lib_name + "rna2.sam", 1)
+
+
 def alig_reads(contig_file_name, rnap_list, rnas_list):
     genome_dir = "genomeDir"
     gen_dir = os.path.dirname(os.path.abspath(genome_dir) + "/")
@@ -58,19 +113,8 @@ def alig_reads(contig_file_name, rnap_list, rnas_list):
         return
 
     for i in range(len(rnap_list)):
-        prevdir = os.getcwd();
-        lib_name = "rnap" + str(i)
-        log.log("START ALIG: " + lib_name)
-        lib_dir = os.path.dirname(os.path.abspath(lib_name) + "/")
-        if not os.path.exists(lib_dir):
-            os.makedirs(lib_dir)
-        os.chdir(lib_dir)
+        alig_pair_reads(i, rnap_list[i][0], rnap_list[i][1])
 
-        os.system("STAR --runThreadN 20 --genomeDir ../genomeDir --readFilesIn " + rnap_list[i][0])
-        os.system("mv Aligned.out.sam rna1.sam")
-        os.system("STAR --runThreadN 20 --genomeDir ../genomeDir --readFilesIn " + rnap_list[i][1])
-        os.system("mv Aligned.out.sam rna2.sam")
-        os.chdir(prevdir)
 
     for i in range(len(rnas_list)):
         lib_name = "rnas" + str(i)

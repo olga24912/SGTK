@@ -6,6 +6,8 @@
 \usepackage{nameref}
 \usepackage{ifthen}
 
+\usepackage{biblatex}
+
 \usefonttheme{professionalfonts}
 \usetheme{Antibes}
 \useoutertheme{infolines_foot}
@@ -15,8 +17,7 @@
 \setbeamercolor{block title}{use={frametitle},fg=frametitle.fg,bg=frametitle.bg}
 
 \usepackage[math-style=ISO,vargreek-shape=unicode]{unicode-math}
-\setdefaultlanguage[spelling=modern,babelshorthands=true]{russian}
-\setotherlanguage{english}
+\setdefaultlanguage{english}
 
 \defaultfontfeatures{Ligatures={TeX}}
 \setmainfont{CMU Serif}
@@ -40,6 +41,9 @@
 	\end{center}%
 }
 
+\AtNextBibliography{\tiny}
+
+
 \title[RNA-seq scaffolding]{Scaffold graph visualization and RNA-Seq scaffolding}
 \author[Chernikova Olga]{Chernikova Olga\\
 	Supervisor: Andrey Prjibelski}
@@ -62,22 +66,22 @@
 \cimg{p2.png}{0.68}
 \end{frame}
 
-\begin{frame}[t]{Connection by pair DNA reads}
+\begin{frame}[t]{Connection using DNA paired-end reads}
 	\begin{itemize}
-		\item Pair reads:  
+		\item Paired reads:  
 		\cimg{pairRead.png}{1}
-		\item Finding connections by pair reads: 
+		\item Finding connections using paired reads: 
 		\cimg{pairReadAlig}{1}
 	\end{itemize}
 \end{frame}
 
-\begin{frame}[t]{By RNA-seq reads}
+\begin{frame}[t]{Using RNA-seq reads}
 \begin{center}
 \cimg{rna.png}{1.24}
 \end{center}
 \end{frame}
 
-\begin{frame}[t]{By RNA-seq reads}
+\begin{frame}[t]{Using RNA-seq reads}
 \begin{center}
 \cimg{rnaReads.png}{1.24}
 \end{center}
@@ -86,17 +90,27 @@
 \section{Goal and tasks}
 \begin{frame}[t]{Goal and tasks}
 	\begin{block}{Goal}
-	Building scaffolds by RNA-seq reads 
+	Build scaffolds using RNA-seq reads 
 	\end{block}
 	\begin{block}{Tasks}
 	\begin{itemize}
-		\item Building the contig graph
-		\item Building scaffolds by obtained connections
-		\item Creating tool for visualizing a contig graph
-		\item Comparing results with other tools for building scaffolds by RNA-seq  
+		\item Build the scaffold graph
+		\item Build scaffolds using obtained connections
+		\item Create tool for visualizing a scaffold graph
+		\item Compare results with other tools
 	\end{itemize}
 \end{block}
 \end{frame}	
+
+\section{Existing RNA-seq scaffolders}
+\begin{frame}[t]{Existing RNA-seq scaffolders}
+\begin{itemize}
+	\item {\bf L\_RNA\_scaffolder} (2013) uses long transcriptome reads.
+	\item {\bf AGOUTI} (2015) uses paired-end RNA-seq reads and gene predictions.
+	\item {\bf rascaf} (2016) uses paired-end RNA-seq reads.
+	\item {\bf P\_RNA\_scaffolder} uses paired-end RNA-seq reads, unpublished, details unknown. 
+\end{itemize}
+\end{frame}
 
 \section{Tasks solving}
 \subsection{Visualization}
@@ -107,53 +121,52 @@
 \end{frame}
 
 \begin{frame}[t]{Visualization}
-	%Какие виды связи можно визуализировать. Референс, РНК, ДНК, скаффолды. 
-	\cimg{diflib.png}{1.03}
+%Какие виды связи можно визуализировать. Референс, РНК, ДНК, скаффолды. 
+\cimg{diflib.png}{1.03}
 \end{frame}
 
 
 \begin{frame}[t]{Visualization}
-Options for filtering the graph:
+Drawing interesting parts:
 \begin{itemize}
-	\item by edge weight and contig size
-	\item showing only parts with difference in two libs 
-	\item showing only parts with one lib but without the second one
-	\item showing only parts with errors
-	\item etc.
+	\item difference between two libs 
+	\item one lib is present and another is not
+	\item difference with reference (possible missassembly)
+	\item etc
 \end{itemize}
 	%Варианты фильтрация +  несколько слов, для чего можно использовать 
 \end{frame}
 
 \subsection{Scaffolding}
 
-\begin{frame}[t]{Building a contig graph}
+\begin{frame}[t]{Building a scaffold graph}
 	\begin{itemize}
-		\item Alignment of pair RNA-seq reads
-		\item Building a contig graph on the basis of this alignment
-		\item Splitting reads into two parts
-		\item Alignment of these parts
-		\item Building graph by these parts of the reads
-		\item Saving graph
+		\item Align RNA-seq paired-end reads
+		\item Build a scaffold graph using these alignments
+		\item Split every read into two parts in the middle 
+		\item Align these parts independently
+		\item Build graph using these parts of the reads
+		\item Save graph
 	\end{itemize}	
 	\cimg{rnaReadsCon.png}{1}
 \end{frame}
 
-\begin{frame}[t]{Simplification of the graph}
+\begin{frame}[t]{Graph simplification}
 	\begin{itemize}
-		\item Deleting small weight edges 
+		\item Delete low-weight edges 
 		\cimg{wrong.png}{0.8}
 		\only<2->{\item Edge projection}
 		\only<2->{\cimg{outinline.png}{1}}
 	\end{itemize}
 \end{frame}
 
-\begin{frame}[t]{Simplification of the graph}
+\begin{frame}[t]{Graph simplification}
 	\begin{itemize}
-		\item Deleting cycles
-		\cimg{delCycl.png}{0.4}
+		\item Delete cycles
+		\cimg{delCycl.png}{0.35}
 		\only<2->{\item Fork with big difference in weight}
-		\only<2->{\cimg{bigDif.png}{0.4}}
-		\only<3->{\item Connecting simple paths into scaffolds}
+		\only<2->{\cimg{bigDif.png}{0.35}}
+		\only<3->{\item Connect simple paths into scaffolds}
 		\only<3->{\cimg{gline.png}{1}}
 	\end{itemize}
 \end{frame}
@@ -161,23 +174,25 @@ Options for filtering the graph:
 \begin{frame}[t]{Сomparison} 
 	C.elegans, SRR1560107
 	\begin{center}
-		\begin{tabular}{|l|>{\columncolor[gray]{0.8}}c|c|c|}
+		\begin{tabular}{|l|>{\columncolor[gray]{0.8}}c|c|c|c|}
 			\hline
-			&bio\_scaffolder&P\_RNA\_scaffolder&rascaf\\
+			&bio\_scaffolder&P\_RNA\_scaffolder&rascaf&AGOUTI\\
 			\hline
-			NG50&36855&36075&32879\\
+			NG50&36855&36075&32879&31714\\
 			\hline
-			NG75&17299&17188&18395\\
+			NG75&17299&17188&18395&14452\\
 			\hline
-			NGA50&30383&28828&27116\\
+			NGA50&30383&28828&27116&25384\\
 			\hline
-			NGA75&12735&12489&11667\\
+			NGA75&12735&12489&11667&10246\\
 			\hline
-			LGA50&918&955&995\\
+			LGA50&918&955&995&1025\\
 			\hline
-			misassemblies&529&621&521\\
+			misassemblies&529&621&521&545\\
 			\hline
 		\end{tabular}
+		\printbibliography
+		
 	\end{center}
 \end{frame}
 
@@ -185,18 +200,18 @@ Options for filtering the graph:
 \begin{frame}[t]{Results and plans}
 	\begin{block}{Results}
 		\begin{itemize}
-			\item Creating the program for RNA-seq scaffolding 
-			\item Creating the tool for visualization a contig graph
+			\item Designed an algorithm for RNA-seq scaffolding 
+			\item Developed a tool for visualization a scaffold graph
 		\end{itemize}
 	\end{block}
 	\begin{block}{Plans}
 		\begin{itemize}
-			\item Testing and comparing with other tools given bigger diversity of data
-			\item Making program faster 
-			\item Implementing new idea for making scaffolds 
-			\item Writing manual and interface
-			\item Writing an article
-			\end{itemize}-
+			\item Compare and test against other tools on more datasets
+			\item Improve performance
+			\item Implement new ideas for scaffolding  
+			\item Write manual and interface
+			\item Write a paper
+			\end{itemize}
 	\end{block}
 \end{frame}
 
