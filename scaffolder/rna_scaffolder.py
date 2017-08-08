@@ -84,7 +84,7 @@ def alig_pair_reads(i, rnap1, rnap2):
 
     os.system("STAR --runThreadN 20 --genomeDir ../genomeDir --outReadsUnmapped Fastx --readFilesIn " + rnap2)
     os.system("mv Aligned.out.sam rna2.sam")
-    if rnap1[-1] == "q":
+    if rnap2[-1] == "q":
         os.system("mv Unmapped.out.mate1 Unmapped2.fastq")
         unm2 = "../" + lib_name + "/Unmapped2.fastq"
     else:
@@ -153,7 +153,7 @@ def runGraphBuilder(lib_name, prevdir, type):
 
 def build_graph(contig_file_name, rnap_list, rnas_list):
     for i in range(len(rnap_list)):
-        prevdir = os.getcwd();
+        prevdir = os.getcwd()
         runGraphBuilder("rnap" + str(i), prevdir, "RNA_PAIR")
         runGraphBuilder("rnap" + str(i) + "_50_1", prevdir, "RNA_SPLIT_50")
         runGraphBuilder("rnap" + str(i) + "_50_2", prevdir, "RNA_SPLIT_50")
@@ -161,7 +161,7 @@ def build_graph(contig_file_name, rnap_list, rnas_list):
         runGraphBuilder("rnap" + str(i) + "_30_2", prevdir, "RNA_SPLIT_30")
 
     for i in range(len(rnas_list)):
-        prevdir = os.getcwd();
+        prevdir = os.getcwd()
         runGraphBuilder("rnas" + str(i) + "_50", prevdir, "RNA_SPLIT_50")
         runGraphBuilder("rnas" + str(i) + "_30", prevdir, "RNA_SPLIT_30")
     return
