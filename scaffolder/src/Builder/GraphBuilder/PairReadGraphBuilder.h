@@ -57,6 +57,18 @@ namespace builder {
 
         private:
             DECL_LOGGER("PairReadGraphBuilder");
+
+            std::pair<int, int> getCoord1(seqan::BamAlignmentRecord read, int target1);
+
+            std::pair<int, int> getCoord2(seqan::BamAlignmentRecord read, int target2);
+
+            int changeEdges(int target1, std::pair<int, int> c1, int target2, std::pair<int, int> c2);
+
+            bool isGoodEdgeFor1(ContigGraph::Edge edge, std::pair<int, int> c);
+
+            bool isGoodEdgeFor2(ContigGraph::Edge edge, std::pair<int, int> c);
+
+            std::pair<int, int> relaxCoord(std::pair<int, int> c1, std::pair<int, int> c2);
         };
     }
 }

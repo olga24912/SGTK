@@ -121,24 +121,30 @@ namespace builder {
         }
 
         void PairReadGraphBuilder::incEdgeWeight(seqan::BamAlignmentRecord read1, seqan::BamAlignmentRecord read2) {
-            TRACE("incEdgeWeight");
+            INFO("incEdgeWeight read1 " << read1.beginPos << " "
+                                         << (read1.beginPos + seqan::getAlignmentLengthInRef(read1)) << " RC=" <<  hasFlagRC(read1) <<
+                                         " target " << get1Target(read1));
+            INFO("incEdgeWeight read2 " << read2.beginPos << " "
+                                         << (read2.beginPos + seqan::getAlignmentLengthInRef(read2)) << " RC=" << hasFlagRC(read2) <<
+                                         " target " << get2Target(read2));
             assert(seqan::isUniqueMapRead(read1));
             assert(seqan::isUniqueMapRead(read2));
 
             int target1 = get1Target(read1);
+            std::pair<int, int> t1c = getCoord1(read1, target1);
             int target2 = get2Target(read2);
+            std::pair<int, int> t2c = getCoord2(read2, target2);
+
             if (target1 == target2 || target1 == pairTarget(target2)) {
                 return;
             }
 
-            int verFID = target1, verSID = target2, verRFID = pairTarget(verFID), verRSID = pairTarget(verSID);
 
-            int e1 = graph->incEdgeWeight(verFID, verSID,
-                                          read1.beginPos, read1.beginPos + seqan::getAlignmentLengthInRef(read1),
-                                          read2.beginPos, read2.beginPos + seqan::getAlignmentLengthInRef(read2));
-            int e2 = graph->incEdgeWeight(verRSID, verRFID,
-                                          read2.beginPos, read2.beginPos + seqan::getAlignmentLengthInRef(read2),
-                                          read1.beginPos, read1.beginPos + seqan::getAlignmentLengthInRef(read1));
+            int e1 = changeEdges(target1, t1c, target2, t2c);
+            int e2 = changeEdges(pairTarget(target2),
+                                 std::make_pair(graph->getTargetLen(target2) - t2c.second, graph->getTargetLen(target2) - t2c.first),
+                                 pairTarget(target1),
+                                 std::make_pair(graph->getTargetLen(target1) - t1c.second, graph->getTargetLen(target1) - t1c.first));
 
             samFileWriter.writeEdge(e1, read1, read2);
             samFileWriter.writeEdge(e2, read2, read1);
@@ -205,6 +211,72 @@ namespace builder {
 
             close(bamFile1);
             close(bamFile2);
+        }
+
+        std::pair<int, int> PairReadGraphBuilder::getCoord1(seqan::BamAlignmentRecord read, int target) {
+            if ((hasFlagRC(read))) {
+                return std::make_pair(graph->getTargetLen(target) - read.beginPos, graph->getTargetLen(target) - (int)(read.beginPos + seqan::getAlignmentLengthInRef(read)));
+            } else {
+                return std::make_pair(read.beginPos, (int)(read.beginPos + seqan::getAlignmentLengthInRef(read)));
+            }
+        }
+
+        std::pair<int, int> PairReadGraphBuilder::getCoord2(seqan::BamAlignmentRecord read, int target) {
+            if (!(hasFlagRC(read))) {
+                return std::make_pair(graph->getTargetLen(target) - read.beginPos, graph->getTargetLen(target) -
+                        (int)(read.beginPos + seqan::getAlignmentLengthInRef(read)));
+            } else {
+                return std::make_pair(read.beginPos, (int)(read.beginPos + seqan::getAlignmentLengthInRef(read)));
+            }
+        }
+
+        int
+        PairReadGraphBuilder::changeEdges(int v1, std::pair<int, int> c1, int v2, std::pair<int, int> c2) {
+            std::vector<ContigGraph::Edge> edges = graph->getEdgesBetween(v1, v2);
+
+            for (ContigGraph::Edge edge: edges) {
+                if (isGoodEdgeFor1(edge, c1) && isGoodEdgeFor2(edge, c2)) {
+                    std::pair<int, int> coord1 = relaxCoord(std::make_pair(edge.coordBegin1, edge.coordEnd1), c1);
+                    std::pair<int, int> coord2 = relaxCoord(std::make_pair(edge.coordBegin2, edge.coordEnd2), c2);
+
+                    graph->incEdge(edge.id, coord1, coord2);
+
+                    return edge.id;
+                }
+            }
+
+            int e = graph->addEdge(v1, v2, c1, c2);
+            return e;
+        }
+
+        bool PairReadGraphBuilder::isGoodEdgeFor1(ContigGraph::Edge edge, std::pair<int, int> c) {
+            if (c.first < c.second) {
+                if (edge.coordBegin1 >= edge.coordEnd1) return false;
+
+            } else {
+                if (edge.coordBegin1 <= edge.coordEnd1) return false;
+            }
+
+            return (std::abs(edge.coordBegin1 - c.second) <= 200) || (std::abs(edge.coordEnd1 - c.first) <= 200);
+        }
+
+        bool PairReadGraphBuilder::isGoodEdgeFor2(ContigGraph::Edge edge, std::pair<int, int> c) {
+            if (c.first < c.second) {
+                if (edge.coordBegin2 >= edge.coordEnd2) return false;
+
+            } else {
+                if (edge.coordBegin2 <= edge.coordEnd2) return false;
+            }
+
+            return (std::abs(edge.coordBegin2 - c.second) <= 200) || (std::abs(edge.coordEnd2 - c.first) <= 200);
+        }
+
+        std::pair<int, int> PairReadGraphBuilder::relaxCoord(std::pair<int, int> c1, std::pair<int, int> c2) {
+            if (c2.first < c2.second) {
+                return std::make_pair(std::min(c2.first, c1.first), std::max(c2.second, c1.second));
+            } else {
+                return std::make_pair(std::max(c2.first, c1.first), std::min(c2.second, c1.second));
+            }
         }
     }
 }
