@@ -16,7 +16,7 @@ namespace builder {
         private:
             DECL_LOGGER("RNASplitGraphBuilder");
 
-            std::pair<int, int> getCoord(seqan::BamAlignmentRecord read);
+            std::pair<int, int> getCoord(seqan::BamAlignmentRecord read, int target);
 
             int changeEdges(int v1, std::pair<int, int> c1, int v2, std::pair<int, int> c2);
 
