@@ -7,8 +7,6 @@ namespace builder {
     namespace graph_builder {
         class RNASplitGraphBuilder : public RNAPairReadGraphBuilder {
         protected:
-            int DIRECT = 0;
-
             int get2Target(const seqan::BamAlignmentRecord &read) const override;
 
             void incEdgeWeight(seqan::BamAlignmentRecord read1, seqan::BamAlignmentRecord read2) override;
@@ -27,14 +25,6 @@ namespace builder {
             bool isGoodEdgeFor2(ContigGraph::Edge edge, std::pair<int, int> c);
 
             std::pair<int, int> relaxCoord(std::pair<int, int> c1, std::pair<int, int> c);
-
-        public:
-            const int BACK = 1;
-            const int FORWARD = 0;
-
-            void setDirect(int dir) {
-                DIRECT = dir;
-            };
         };
     }
 }

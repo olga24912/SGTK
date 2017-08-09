@@ -5,7 +5,7 @@ int builder::graph_builder::RNASplitGraphBuilder::get1Target(const seqan::BamAli
 
     bool isRev = hasFlagRC(read);
     int target = 2 * (read.rID);
-    if ((isRev && (DIRECT == FORWARD)) || (!isRev && (DIRECT == BACK))) {
+    if (isRev) {
         target++;
     }
     return target;
@@ -17,7 +17,7 @@ int builder::graph_builder::RNASplitGraphBuilder::get2Target(const seqan::BamAli
 
     bool isRev = hasFlagRC(read);
     int target = 2 * (read.rID);
-    if ((isRev && (DIRECT == FORWARD)) || (!isRev && (DIRECT == BACK))) {
+    if (isRev) {
         target++;
     }
     return target;
@@ -51,7 +51,7 @@ void builder::graph_builder::RNASplitGraphBuilder::incEdgeWeight(seqan::BamAlign
 }
 
 std::pair<int, int> builder::graph_builder::RNASplitGraphBuilder::getCoord(seqan::BamAlignmentRecord read) {
-    if ((hasFlagRC(read) && (DIRECT == FORWARD)) || (!hasFlagRC(read) && (DIRECT == BACK))) {
+    if ((hasFlagRC(read))) {
         return std::make_pair((int)(read.beginPos + seqan::getAlignmentLengthInRef(read)), read.beginPos);
     } else {
         return std::make_pair(read.beginPos, (int)(read.beginPos + seqan::getAlignmentLengthInRef(read)));
@@ -74,7 +74,7 @@ int builder::graph_builder::RNASplitGraphBuilder::changeEdges(int v1, std::pair<
     }
 
     int e = graph->addEdge(v1, v2, c1, c2);
-    return 0;
+    return e;
 }
 
 bool builder::graph_builder::RNASplitGraphBuilder::isGoodEdgeFor1(builder::contig_graph::ContigGraph::Edge edge, std::pair<int, int> c) {

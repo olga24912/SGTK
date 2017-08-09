@@ -37,7 +37,6 @@ namespace builder {
             gb->setFileName2(argv[3]);
 
             gb->setLibName(argv[4]);
-            gb->setDirect(atoi(argv[5]));
 
             gb->setGraph(&graph);
             gb->evaluate();
@@ -48,7 +47,6 @@ namespace builder {
             gb->setFileName2(argv[3]);
 
             gb->setLibName(argv[4]);
-            gb->setDirect(atoi(argv[5]));
 
             gb->setGraph(&graph);
             gb->evaluate();
