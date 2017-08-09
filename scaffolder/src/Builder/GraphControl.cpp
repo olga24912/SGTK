@@ -1,4 +1,6 @@
 #include <Builder/GraphBuilder/RNAPairReadGraphBuilder.h>
+#include <Builder/GraphBuilder/RNASplit50GraphBuilder.h>
+#include <Builder/GraphBuilder/RNASplit30GraphBuilder.h>
 #include "GraphControl.h"
 #include "Builder/GraphBuilder/ReferenceGraphBuilder.h"
 
@@ -28,14 +30,25 @@ namespace builder {
 
             gb->setGraph(&graph);
             gb->evaluate();
-        } else if (std::string(argv[1]) == "RNA_SPLIT_50" || std::string(argv[1]) == "RNA_SPLIT_30") {
-            RNAPairReadGraphBuilder* gb = new RNAPairReadGraphBuilder;
+        } else if (std::string(argv[1]) == "RNA_SPLIT_50") {
+            RNASplit50GraphBuilder* gb = new RNASplit50GraphBuilder;
 
             gb->setFileName1(argv[2]);
             gb->setFileName2(argv[3]);
 
-            gb->setOneSideReadFlag(true);
             gb->setLibName(argv[4]);
+            gb->setDirect(atoi(argv[5]));
+
+            gb->setGraph(&graph);
+            gb->evaluate();
+        } else if ( std::string(argv[1]) == "RNA_SPLIT_30") {
+            RNASplit30GraphBuilder* gb = new RNASplit30GraphBuilder;
+
+            gb->setFileName1(argv[2]);
+            gb->setFileName2(argv[3]);
+
+            gb->setLibName(argv[4]);
+            gb->setDirect(atoi(argv[5]));
 
             gb->setGraph(&graph);
             gb->evaluate();

@@ -70,6 +70,10 @@ namespace builder {
 
             int getTargetId(std::string name);
 
+            int addEdge(int v1, int v2, std::pair<int, int> c1, std::pair<int, int> c2);
+
+            void incEdge(int v, std::pair<int, int> c1, std::pair<int, int> c2);
+
         private:
             static const int maxClusterSize = 1000;
             std::vector<std::vector<int> > graph; // graph[v][i] = e store edge id from vertex (e: v -> u)
@@ -86,15 +90,12 @@ namespace builder {
 
             std::vector<int> getEdges(int v); //get all edges from vertex v
             std::vector<int> getEdgesR(int v); //get all edges to vertex v
-            int getEdgeTo(int e); //if e: v -> u then to[e] = v
-            int getEdgeFrom(int e); //if e: v -> u then from[e] = u
-            int getEdgeWeight(int e); //return wieght of edge e
-            int getEdgeLib(int e); //return lib for this edge
+            std::vector<Edge> getEdgesBetween(int v, int u);
+
             void setEdgeChr(int e, std::string name);
 
             std::string getLibColor(int l); //return color for this lib
             Lib::Type getLibType(int l);
-            void setLib(Lib::Type type);
 
             int incEdgeWeight(int v, int u, int cb1, int ce1, int cb2,
                               int ce2); //increment edge wight between contigs with id v and u

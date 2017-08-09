@@ -18,11 +18,6 @@ namespace builder {
             PairReadGraphBuilder::fileName1 = fileName1;
         }
 
-        void PairReadGraphBuilder::setOneSideReadFlag(bool flag) {
-            DEBUG("setOneSideReadFlag flag=" << flag);
-            oneSideRead = flag;
-        }
-
         void PairReadGraphBuilder::evaluate() {
             read1ByName.clear();
             INFO("START build graph");
@@ -96,7 +91,7 @@ namespace builder {
 
             bool isRev = hasFlagRC(read);
             int target = 2 * (read.rID);
-            if ((!isRev && !oneSideRead) || (isRev && oneSideRead)) {
+            if (!isRev) {
                 target++;
             }
             return target;
@@ -150,7 +145,7 @@ namespace builder {
         }
 
         void PairReadGraphBuilder::handleReads() {
-            INFO("start habdle reads");
+            INFO("start handle reads");
             DEBUG("fileName1=" << fileName1 << " fileName2=" << fileName2);
 
             if (!open(bamFile1, fileName1.c_str())) {

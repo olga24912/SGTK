@@ -97,16 +97,6 @@ namespace builder {
             return graphR[v];
         }
 
-        int ContigGraph::getEdgeTo(int e) {
-            TRACE("get v (e(" << e << "):u(" << edges[e].from << ")->V(" << edges[e].to << "))");
-            return edges[e].to;
-        }
-
-        int ContigGraph::getEdgeFrom(int e) {
-            TRACE("get U (e(" << e << "):U(" << edges[e].from << ")->v(" << edges[e].to << "))");
-            return edges[e].from;
-        }
-
         void ContigGraph::write(std::string fileName) {
             INFO("start write graph to " << fileName);
             std::ofstream out(fileName);
@@ -211,16 +201,6 @@ namespace builder {
             return g;
         }
 
-        int ContigGraph::getEdgeWeight(int e) {
-            TRACE("getEdgeWeight e=" << e << " : " << edges[e].weight);
-            return edges[e].weight;
-        }
-
-        int ContigGraph::getEdgeLib(int e) {
-            TRACE("getEdgeLib e=" << e << " : " << edges[e].lib);
-            return edges[e].lib;
-        }
-
         std::string ContigGraph::getLibColor(int l) {
             TRACE("getLibColor l=" << l << " : " << libs[l].color);
             return libs[l].color;
@@ -240,8 +220,39 @@ namespace builder {
             return targetId[name];
         }
 
-        void ContigGraph::setLib(Lib::Type type) {
-            libs[libs.size() - 1].type = type;
+        std::vector<ContigGraph::Edge> ContigGraph::getEdgesBetween(int v, int u) {
+            std::vector<Edge> res;
+            for (int id : vrtsToEdge[v][u]) {
+                res.push_back(edges[id]);
+            }
+            return res;
+        }
+
+        int ContigGraph::addEdge(int v1, int v2, std::pair<int, int> c1, std::pair<int, int> c2) {
+            int e = (int) edges.size();
+            edges.push_back(Edge(e, v1, v2, (int) libs.size() - 1, 0, c1.first, c1.second,
+                                 c2.first, c2.second));
+
+            vrtsToEdge[v1][v2].push_back(e);
+
+            graph[v1].push_back(e);
+            graphR[v2].push_back(e);
+
+            edges[e].weight = 1;
+            edges[e].coordBegin1 = c1.first;
+            edges[e].coordEnd1 = c1.second;
+            edges[e].coordBegin2 = c2.first;
+            edges[e].coordEnd2 = c2.second;
+
+            return e;
+        }
+
+        void ContigGraph::incEdge(int e, std::pair<int, int> c1, std::pair<int, int> c2) {
+            edges[e].weight += 1;
+            edges[e].coordBegin1 = c1.first;
+            edges[e].coordEnd1 = c1.second;
+            edges[e].coordBegin2 = c2.first;
+            edges[e].coordEnd2 = c2.second;
         }
     }
 }

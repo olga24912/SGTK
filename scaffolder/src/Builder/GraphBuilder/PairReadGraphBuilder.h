@@ -14,8 +14,6 @@ namespace builder {
 //generate connection between contigs by pair reads
         class PairReadGraphBuilder : public GraphBuilder {
         protected:
-            bool oneSideRead = false;
-
             std::string fileName1;
             std::string fileName2;
 
@@ -33,9 +31,9 @@ namespace builder {
 
             virtual void addInfoAbout2Read(std::string readName, int target, seqan::BamAlignmentRecord read);
 
-            int get2Target(const seqan::BamAlignmentRecord &read) const;
+            virtual int get2Target(const seqan::BamAlignmentRecord &read) const;
 
-            int get1Target(const seqan::BamAlignmentRecord &read) const;
+            virtual int get1Target(const seqan::BamAlignmentRecord &read) const;
 
             void readHeaderInit();
 
@@ -54,9 +52,6 @@ namespace builder {
 
             //set sam file for second pair read alignment
             void setFileName2(const std::string &fileName2);
-
-            //set info about orintation  pair read
-            void setOneSideReadFlag(bool flag);
 
             virtual void evaluate();
 
