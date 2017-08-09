@@ -121,10 +121,10 @@ namespace builder {
         }
 
         void PairReadGraphBuilder::incEdgeWeight(seqan::BamAlignmentRecord read1, seqan::BamAlignmentRecord read2) {
-            INFO("incEdgeWeight read1 " << read1.beginPos << " "
+            TRACE("incEdgeWeight read1 " << read1.beginPos << " "
                                          << (read1.beginPos + seqan::getAlignmentLengthInRef(read1)) << " RC=" <<  hasFlagRC(read1) <<
                                          " target " << get1Target(read1));
-            INFO("incEdgeWeight read2 " << read2.beginPos << " "
+            TRACE("incEdgeWeight read2 " << read2.beginPos << " "
                                          << (read2.beginPos + seqan::getAlignmentLengthInRef(read2)) << " RC=" << hasFlagRC(read2) <<
                                          " target " << get2Target(read2));
             assert(seqan::isUniqueMapRead(read1));
@@ -215,7 +215,8 @@ namespace builder {
 
         std::pair<int, int> PairReadGraphBuilder::getCoord1(seqan::BamAlignmentRecord read, int target) {
             if ((hasFlagRC(read))) {
-                return std::make_pair(graph->getTargetLen(target) - read.beginPos, graph->getTargetLen(target) - (int)(read.beginPos + seqan::getAlignmentLengthInRef(read)));
+                return std::make_pair(graph->getTargetLen(target) - (int)(read.beginPos + seqan::getAlignmentLengthInRef(read)),
+                                      graph->getTargetLen(target) - read.beginPos);
             } else {
                 return std::make_pair(read.beginPos, (int)(read.beginPos + seqan::getAlignmentLengthInRef(read)));
             }
@@ -223,8 +224,8 @@ namespace builder {
 
         std::pair<int, int> PairReadGraphBuilder::getCoord2(seqan::BamAlignmentRecord read, int target) {
             if (!(hasFlagRC(read))) {
-                return std::make_pair(graph->getTargetLen(target) - read.beginPos, graph->getTargetLen(target) -
-                        (int)(read.beginPos + seqan::getAlignmentLengthInRef(read)));
+                return std::make_pair(graph->getTargetLen(target) -
+                        (int)(read.beginPos + seqan::getAlignmentLengthInRef(read)), graph->getTargetLen(target) - read.beginPos);
             } else {
                 return std::make_pair(read.beginPos, (int)(read.beginPos + seqan::getAlignmentLengthInRef(read)));
             }

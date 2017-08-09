@@ -25,10 +25,10 @@ int builder::graph_builder::RNASplitGraphBuilder::get2Target(const seqan::BamAli
 
 void builder::graph_builder::RNASplitGraphBuilder::incEdgeWeight(seqan::BamAlignmentRecord read1,
                                                                  seqan::BamAlignmentRecord read2) {
-    TRACE("incEdgeWeight read1 " << read1.beginPos << " "
+    INFO("incEdgeWeight read1 " << read1.beginPos << " "
                                 << (read1.beginPos + seqan::getAlignmentLengthInRef(read1)) << " RC=" <<  hasFlagRC(read1) <<
     " target " << get1Target(read1));
-    TRACE("incEdgeWeight read2 " << read2.beginPos << " "
+    INFO("incEdgeWeight read2 " << read2.beginPos << " "
                                 << (read2.beginPos + seqan::getAlignmentLengthInRef(read2)) << " RC=" << hasFlagRC(read2) <<
     " target " << get2Target(read2));
 
@@ -56,7 +56,8 @@ void builder::graph_builder::RNASplitGraphBuilder::incEdgeWeight(seqan::BamAlign
 
 std::pair<int, int> builder::graph_builder::RNASplitGraphBuilder::getCoord(seqan::BamAlignmentRecord read, int target) {
     if ((hasFlagRC(read))) {
-        return std::make_pair(graph->getTargetLen(target) - read.beginPos, graph->getTargetLen(target) - (int)(read.beginPos + seqan::getAlignmentLengthInRef(read)));
+        return std::make_pair(graph->getTargetLen(target) - (int)(read.beginPos + seqan::getAlignmentLengthInRef(read)),
+                              graph->getTargetLen(target) - read.beginPos);
     } else {
         return std::make_pair(read.beginPos, (int)(read.beginPos + seqan::getAlignmentLengthInRef(read)));
     }
