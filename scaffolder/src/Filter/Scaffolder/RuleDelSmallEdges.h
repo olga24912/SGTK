@@ -16,6 +16,8 @@ namespace filter {
             void simplifyGraph(ContigGraph *filter) override;
 
             void delEdges(ContigGraph *graph, std::vector<int> edges);
+
+            bool isAlone(ContigGraph *e, int i);
         };
     }
 }

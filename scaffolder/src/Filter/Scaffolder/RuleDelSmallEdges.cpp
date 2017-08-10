@@ -19,7 +19,9 @@ namespace filter {
         void RuleDelSmallEdges::delEdges(ContigGraph *graph, std::vector<int> edges) {
             std::vector<int> w;
             for (int e : edges) {
-                w.push_back(graph->getEdgeWeight(e));
+                if (isAlone(graph, e)) {
+                    w.push_back(graph->getEdgeWeight(e));
+                }
             }
 
             std::sort(w.begin(), w.end());
@@ -31,10 +33,26 @@ namespace filter {
             }
 
             for (int e : edges) {
-                if (graph->getEdgeWeight(e) <= curW) {
+                if (isAlone(graph, e) && graph->getEdgeWeight(e) <= curW) {
                     delEdge.insert(e);
                 }
             }
+        }
+
+        bool RuleDelSmallEdges::isAlone(ContigGraph *graph, int e) {
+            int u = graph->getEdgeFrom(e), v = graph->getEdgeTo(e);
+
+            std::vector<int> eds = graph->getEdges(u);
+
+            for (int ed : eds) {
+                if (ed != e) {
+                    if (graph->getEdgeTo(ed) == v) {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
         }
     }
 }
