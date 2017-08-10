@@ -96,6 +96,10 @@ namespace filter {
             for (int i = 0; i < (int) weightEdge.size(); ++i) {
                 writeOneEdge(weightEdge[i].second, out);
             }
+
+            out << "labelloc=\"t\"" << "\n";
+            out << "label=\"file name=" << fileName << "\";\n";
+
             out << "}\n";
             out.close();
         }

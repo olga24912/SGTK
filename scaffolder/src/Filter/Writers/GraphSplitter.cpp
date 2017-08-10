@@ -36,6 +36,9 @@ namespace filter {
 
             used.resize((unsigned int) graph->getVertexCount(), 2);
             for (int v : vert) {
+                if (v >= used.size()) {
+                    used.resize(v + 1, 2);
+                }
                 used[v] = 0;
             }
 

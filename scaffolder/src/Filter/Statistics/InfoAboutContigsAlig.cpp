@@ -17,11 +17,11 @@ namespace filter {
 
             std::ifstream in(coordFileName);
 
-            int l, r, lq, rq, x;
+            int l, r, lq, rq, x, chrLen;
             double xx;
             std::string rcont, qcont;
 
-            while (in >> l >> r >> lq >> rq >> x >> x >> xx >> x >> x >> rcont >> qcont) {
+            while (in >> l >> r >> lq >> rq >> x >> x >> xx >> chrLen >> x >> rcont >> qcont) {
                 int vid = idByName[qcont];
                 if (lq > rq) {
                     vid ^= 1;
@@ -29,7 +29,7 @@ namespace filter {
                 }
 
                 alignment[vid].push_back(Alignment(rcont, l, r));
-                alignment[vid ^ 1].push_back(Alignment(rcont + "-rev", l, r));
+                alignment[vid ^ 1].push_back(Alignment(rcont + "-rev", chrLen - r, chrLen - l));
             }
 
             in.close();

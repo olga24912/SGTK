@@ -11,7 +11,7 @@ using namespace std;
 //argc[4] - color
 int main(int argv, char** argc) {
     using namespace builder::contig_graph;
-    logging::create_console_logger("../log.properties");
+    logging::create_console_logger("../../src/log.properties");
     if (argv < 5) {
         ERROR("argv < 5")
         return 0;
