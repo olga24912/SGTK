@@ -1,3 +1,4 @@
+#include <set>
 #include "RuleDelSmallCycle.h"
 
 namespace filter {
@@ -8,21 +9,21 @@ namespace filter {
                 std::vector<int> edges = graph->getEdges(v);
                 std::vector<int> egdesR = graph->getEdgesR(v);
 
+                std::set<int> edgeForDel;
+
                 for (int e : edges) {
                     for (int er : egdesR) {
                         int u = graph->getEdgeTo(e);
                         int w = graph->getEdgeFrom(er);
                         if (u == w) {
-                            if (MAX_DIF * graph->getEdgeWeight(e) <= graph->getEdgeWeight(er)) {
-                                graph->delEdge(e);
-                            } else if (MAX_DIF * graph->getEdgeWeight(er) <= graph->getEdgeWeight(e)) {
-                                graph->delEdge(er);
-                            } else {
-                                graph->delEdge(e);
-                                graph->delEdge(er);
-                            }
+                            edgeForDel.insert(e);
+                            edgeForDel.insert(er);
                         }
                     }
+                }
+
+                for (int e : edgeForDel) {
+                    graph->delEdge(e);
                 }
             }
         }

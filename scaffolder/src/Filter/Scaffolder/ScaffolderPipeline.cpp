@@ -31,9 +31,9 @@ namespace filter {
 
             RuleDelSmallEdges rdse;
             rdse.simplifyGraph(graph);
-            graph->write("smp.gr");
             RuleDelSmallCycle rdsc;
             rdsc.simplifyGraph(graph);
+            graph->write("smp.gr");
             RuleInOneLine riol;
             riol.simplifyGraph(graph);
             RuleBigDifInWeight rbddiw;
