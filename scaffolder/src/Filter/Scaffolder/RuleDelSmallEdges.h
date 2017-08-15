@@ -19,9 +19,6 @@ namespace filter {
 
             bool isAlone(ContigGraph *e, int i);
 
-            bool sameCoord1(ContigGraph *graph, int e1, int e2);
-
-            bool sameCoord2(ContigGraph *graph, int e1, int e2);
         };
     }
 }

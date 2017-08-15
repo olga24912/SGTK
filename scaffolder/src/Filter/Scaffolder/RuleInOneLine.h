@@ -16,7 +16,7 @@ namespace filter {
 
             void projectEdge(ContigGraph *graph, int e);
 
-            int getPaths(ContigGraph *graph, int u, int w, std::vector<int> &path);
+            int getPaths(ContigGraph *graph, int u, int w, std::vector<int> &path, ContigGraph::Lib::Type type);
 
             std::set<int> getArea(ContigGraph *graph, int v);
 
@@ -28,6 +28,10 @@ namespace filter {
 
             void
     dfsMarkCycle(int &v, ContigGraph *graph, std::set<int> area, std::set<int>& used, std::set<int>& cycle, bool inCycle);
+
+            std::vector<int> reduceEdges(ContigGraph *graph, std::vector<int> edges, ContigGraph::Lib::Type type);
+
+            bool sameEdges(ContigGraph *graph, int e1, int e2);
         };
     }
 }

@@ -329,21 +329,30 @@ namespace filter {
             return vrtList;
         }
 
-        int ContigGraph::addEdge(int v, int u, int lib, int w) {
+        int ContigGraph::addEdge(int v, int u, int lib, int w, int b1, int e1, int b2, int e2) {
             Edge e;
             e.lib = lib;
             e.weight = w;
             e.from = v;
             e.to = u;
             e.id = edgeCnt;
+            e.coordBegin1 = b1;
+            e.coordEnd1 = e1;
+            e.coordBegin2 = b2;
+            e.coordEnd2 = e2;
             ++edgeCnt;
             targets[v].edges.push_back(e.id);
             targets[u].edgesR.push_back(e.id);
             edges[e.id] = e;
 
+
             e.to = v^1;
             e.from = u^1;
             e.id = edgeCnt;
+            e.coordBegin1 = getTargetLen(u) - e2;
+            e.coordEnd1 = getTargetLen(u) - b2;
+            e.coordBegin2 = getTargetLen(v) - e1;
+            e.coordEnd2 = getTargetLen(v) - b1;
             ++edgeCnt;
             targets[e.from].edges.push_back(e.id);
             targets[e.to].edges.push_back(e.id);

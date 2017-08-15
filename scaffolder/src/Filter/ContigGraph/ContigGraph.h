@@ -114,7 +114,7 @@ namespace filter {
             void write(std::string fileName); //serialize this graph in .gr format in "fileName" file
             static ContigGraph read(std::string fileName); //generate ContigGraph from .gr format file
 
-            int addEdge(int v, int u, int lib, int w);
+            int addEdge(int v, int u, int lib, int w, int b1, int e1, int b2, int e2);
             void setWeight(int e, int w);
             void delEdge(int e);
             void delVertex(int v);

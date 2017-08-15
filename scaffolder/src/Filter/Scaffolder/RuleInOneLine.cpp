@@ -33,7 +33,7 @@ namespace filter {
                 if (graph->getEdgeTo(e2) != w) {
                     int u = graph->getEdgeTo(e2);
 
-                    int cnt = getPaths(graph, u, w, path);
+                    int cnt = getPaths(graph, u, w, path, graph->getLibType(graph->getEdgeLib(e)));
                     cnt_path += cnt;
                     if (cnt == 1) {
                         path.push_back(e2);
@@ -44,12 +44,18 @@ namespace filter {
             if (cnt_path == 0) return;
 
             for (int e2 : path) {
-                graph->setWeight(e2, graph->getEdgeWeight(e2) + graph->getEdgeWeight(e));
+                if (graph->getLibType(graph->getEdgeLib(e2)) == graph->getLibType(graph->getEdgeLib(e))) {
+                    graph->setWeight(e2, graph->getEdgeWeight(e2) + graph->getEdgeWeight(e));
+                } else {
+                    graph->addEdge(graph->getEdgeFrom(e2), graph->getEdgeTo(e2),
+                                   graph->getEdgeLib(e), graph->getEdgeWeight(e), graph->getEdgeCoordB1(e2),
+                    graph->getEdgeCoordE1(e2), graph->getEdgeCoordB2(e2), graph->getEdgeCoordE2(e2));
+                }
             }
             graph->delEdge(e);
         }
 
-        int RuleInOneLine::getPaths(ContigGraph *graph, int u, int w, std::vector<int> &path) {
+        int RuleInOneLine::getPaths(ContigGraph *graph, int u, int w, std::vector<int> &path, ContigGraph::Lib::Type type) {
             DEBUG("start get path");
             std::set<int> uarea = getArea(graph, u);
             std::set<int> warea = getArea(graph, w);
@@ -71,7 +77,7 @@ namespace filter {
             for (int i = 0; i < (int) topSort.size(); ++i) {
                 //DEBUG(topSort[i]);
                 int v = topSort[i];
-                std::vector<int> edges = graph->getEdges(v);
+                std::vector<int> edges = reduceEdges(graph, graph->getEdges(v), type);
 
                 for (int e : edges) {
                     d[graph->getEdgeTo(e)] += d[v];
@@ -180,6 +186,29 @@ namespace filter {
                 cycle.insert(v);
                 dfsMarkCycle(u, graph, area, used, cycle, true);
             }
+        }
+
+        std::vector<int>
+        RuleInOneLine::reduceEdges(ContigGraph *graph, std::vector<int> edges, ContigGraph::Lib::Type type) {
+            std::vector<int> res;
+            for (int e : edges) {
+                for (int i = 0; i < (int)res.size(); ++i) {
+                    int e1 = res[i];
+                    if (sameEdges(graph, e, e1)) {
+                        if (graph->getLibType(graph->getEdgeLib(e)) == type) {
+                            res[i] = e;
+                        }
+                    }
+                }
+            }
+
+            return res;
+        }
+
+        bool RuleInOneLine::sameEdges(ContigGraph *graph, int e1, int e2) {
+            return (graph->getEdgeFrom(e1) == graph->getEdgeFrom(e2)) &&
+                    (graph->getEdgeTo(e1) == graph->getEdgeTo(e2)) &&
+                    (sameCoord1(graph, e1, e2) && sameCoord2(graph, e1, e2));
         }
     }
 }
