@@ -17,6 +17,7 @@
 #include <Filter/CommandParsers/Commands/CommandFV/CommandSetFVError.h>
 #include <Filter/CommandParsers/Commands/CommandSetCoordFile.h>
 #include <Filter/CommandParsers/Commands/CommandStatistic/CommandClusterStatistic.h>
+#include <Filter/CommandParsers/Commands/CommandFV/CommandSetFVNotSimplePath.h>
 #include "Manager.h"
 namespace filter {
     namespace commands {
@@ -42,6 +43,7 @@ namespace filter {
         const std::string Manager::SET_FV_ONLY_FIRST = "setFileVOnlyFirst";
         const std::string Manager::SET_FV_FEW_PARTS = "setFileVFewParts";
         const std::string Manager::SET_FV_ERROR = "setFileVError";
+        const std::string Manager::SET_FV_NOT_SIMPLE_PATH = "setFileVNotSimplePath";
         const std::string Manager::SET_BLOCK_SPLIT_DOT_WRITER = "setBlockSplitDotWriter";
         const std::string Manager::SET_MAX_VE_IN_ONE_FILE = "setMaxVEinOneFile";
         const std::string Manager::SET_COORD_FILE = "setCoordFile";
@@ -78,6 +80,7 @@ namespace filter {
             commandByKeyWord[SET_FV_ONLY_FIRST] = new CommandSetFVOnlyFirst();
             commandByKeyWord[SET_FV_FEW_PARTS] = new CommandSetFVFewParts();
             commandByKeyWord[SET_FV_ERROR] = new CommandSetFVError();
+            commandByKeyWord[SET_FV_NOT_SIMPLE_PATH] = new CommandSetFVNotSimplePath();
             commandByKeyWord[SET_BLOCK_SPLIT_DOT_WRITER] = new CommandSetBSDotWriter();
             commandByKeyWord[SET_MAX_VE_IN_ONE_FILE] = new CommandSetMaxVEinOneFile();
             commandByKeyWord[SET_COORD_FILE] = new CommandSetCoordFile();

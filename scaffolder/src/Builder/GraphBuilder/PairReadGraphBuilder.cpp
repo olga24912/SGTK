@@ -254,22 +254,37 @@ namespace builder {
             if (c.first < c.second) {
                 if (edge.coordBegin1 >= edge.coordEnd1) return false;
 
+                return (edge.coordBegin1 - 200 <= c.first && c.first <= edge.coordEnd1 + 200) ||
+                        (edge.coordBegin1 - 200 <= c.second && c.second <= edge.coordEnd1 + 200) ||
+                        (c.first - 200 <= edge.coordBegin1 && edge.coordBegin1 <= c.second + 200) ||
+                        (c.first - 200 <= edge.coordEnd1 && edge.coordEnd1 <= c.second + 200);
             } else {
                 if (edge.coordBegin1 <= edge.coordEnd1) return false;
-            }
 
-            return (std::abs(edge.coordBegin1 - c.second) <= 200) || (std::abs(edge.coordEnd1 - c.first) <= 200);
+                return (edge.coordEnd1 - 200 <= c.first && c.first <= edge.coordBegin1 + 200) ||
+                (edge.coordEnd1 - 200 <= c.second && c.second <= edge.coordBegin1 + 200) ||
+                (c.second - 200 <= edge.coordBegin1 && edge.coordBegin1 <= c.first + 200) ||
+                (c.second - 200 <= edge.coordEnd1 && edge.coordEnd1 <= c.first + 200);
+            }
         }
 
         bool PairReadGraphBuilder::isGoodEdgeFor2(ContigGraph::Edge edge, std::pair<int, int> c) {
             if (c.first < c.second) {
                 if (edge.coordBegin2 >= edge.coordEnd2) return false;
 
+                return (edge.coordBegin2 - 200 <= c.first && c.first <= edge.coordEnd2 + 200) ||
+                       (edge.coordBegin2 - 200 <= c.second && c.second <= edge.coordEnd2 + 200) ||
+                       (c.first - 200 <= edge.coordBegin2 && edge.coordBegin2 <= c.second + 200) ||
+                       (c.first - 200 <= edge.coordEnd2 && edge.coordEnd2 <= c.second + 200);
+
             } else {
                 if (edge.coordBegin2 <= edge.coordEnd2) return false;
-            }
 
-            return (std::abs(edge.coordBegin2 - c.second) <= 200) || (std::abs(edge.coordEnd2 - c.first) <= 200);
+                return (edge.coordEnd2 - 200 <= c.first && c.first <= edge.coordBegin2 + 200) ||
+                       (edge.coordEnd2 - 200 <= c.second && c.second <= edge.coordBegin2 + 200) ||
+                       (c.second - 200 <= edge.coordBegin2 && edge.coordBegin2 <= c.first + 200) ||
+                       (c.second - 200 <= edge.coordEnd2 && edge.coordEnd2 <= c.first + 200);
+            }
         }
 
         std::pair<int, int> PairReadGraphBuilder::relaxCoord(std::pair<int, int> c1, std::pair<int, int> c2) {

@@ -58,7 +58,7 @@ namespace filter {
 
         void DotWriter::writeOneVertexSet(std::vector<int> vert, std::string fileName) {
             TRACE("write vertex set");
-            std::vector<bool> hasOtherEdge((unsigned) graph->getVertexCount(), 0);
+            std::vector<bool> hasOtherEdge((unsigned) vert.size(), 0);
             std::vector<std::pair<int, int> > weightEdge;
             for (int i = 0; i < (int) vert.size(); ++i) {
                 int v = vert[i];

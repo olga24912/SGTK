@@ -451,5 +451,13 @@ namespace filter {
 
             return false;
         }
+
+        int ContigGraph::getMaxVertId() {
+            int mx = 0;
+            for (auto vert : targets) {
+                mx = std::max(mx, vert.first);
+            }
+            return mx;
+        }
     }
 }

@@ -47,6 +47,7 @@ namespace filter {
  * setFileVOnlyFirst <libNumPresent> <libNumNotPresent>
  * setFileVFewParts
  * setFileVError <coordFileName> <libNum>
+ * setFileVNotSimplePath
  * setBlockSplitDotWriter
  * setMaxVEinOneFile <maxVertNum> <maxEdgeNum>
  * setCoordFile <coordFile>
@@ -83,6 +84,7 @@ namespace filter {
             static const std::string SET_FV_ONLY_FIRST;
             static const std::string SET_FV_FEW_PARTS;
             static const std::string SET_FV_ERROR;
+            static const std::string SET_FV_NOT_SIMPLE_PATH;
             static const std::string SET_BLOCK_SPLIT_DOT_WRITER;
             static const std::string SET_MAX_VE_IN_ONE_FILE;
             static const std::string SET_COORD_FILE;

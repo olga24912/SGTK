@@ -8,7 +8,7 @@ namespace filter {
         using namespace contig_graph;
         void InfoAboutContigsAlig::parseCoordFile(ContigGraph *graph, std::string coordFileName) {
             if (alignment.size() > 0) return;
-            int n = graph->getVertexCount();
+            int n = graph->getMaxVertId() + 1;
             alignment.resize(n);
             std::map<std::string, int> idByName;
             for (int i = 0; i < n; i += 2) {

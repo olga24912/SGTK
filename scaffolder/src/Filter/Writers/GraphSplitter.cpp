@@ -55,7 +55,7 @@ namespace filter {
         }
 
         void GraphSplitter::findNewComp(int v) {
-            TRACE("find new components for v=" << v);
+            TRACE("find new components for v=" << v << " edges=" << graph->getEdges(v).size());
             std::queue<int> que;
             int cntV = 0;
             int cntE = 0;

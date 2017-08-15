@@ -29,6 +29,7 @@ set(SOURCE_FILES
         CommandParsers/Commands/CommandPrint.cpp CommandParsers/Commands/CommandPrint.h
         CommandParsers/Commands/CommandFilter/CommandMergeLib.cpp
         CommandParsers/Commands/CommandFilter/CommandMergeLib.h
+        CommandParsers/Commands/CommandFV/CommandSetFVNotSimplePath.h
         Writers/FileValidator/FileValidator.h Writers/FileValidator/ValidatorNotPathWithAllLib.cpp
         Writers/FileValidator/ValidatorNotPathWithAllLib.h
         CommandParsers/Commands/CommandFV/CommandSetFV.h
@@ -40,6 +41,7 @@ set(SOURCE_FILES
         Scaffolder/Scaffolds.cpp Scaffolder/Scaffolds.h
         Scaffolder/ScaffolderPipeline.cpp Scaffolder/ScaffolderPipeline.h
         Writers/FileValidator/ValidatorFork.cpp Writers/FileValidator/ValidatorFork.h
+        Writers/FileValidator/ValidatorNotSimplePath.cpp Writers/FileValidator/ValidatorNotSimplePath.h
         CommandParsers/Commands/CommandFV/CommandSetFVFork.h CommandParsers/Commands/CommandFV/CommandSetFVOnlyFirst.h
         Writers/FileValidator/ValidatorOnlyFirst.cpp Writers/FileValidator/ValidatorOnlyFirst.h
         CommandParsers/Commands/CommandFilter/CommandSetIgnoreEdge.cpp
