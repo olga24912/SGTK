@@ -78,6 +78,8 @@ namespace filter {
             int edgeCnt;
             int vertCnt;
             int libCnt;
+
+            int mxEdge = 0;
         public:
             std::vector<int> getEdges(int v); //get all edges from vertex v
             std::vector<int> getEdgesR(int v); //get all edges to vertex v

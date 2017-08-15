@@ -217,6 +217,8 @@ namespace filter {
                 if (ss >> tmp) {
                     ss >> g.edges[i].chr_name;
                 }
+
+                g.mxEdge = std::max(g.mxEdge, id);
             }
             assert(g.vertCnt == g.targets.size());
             in.close();
@@ -335,7 +337,8 @@ namespace filter {
             e.weight = w;
             e.from = v;
             e.to = u;
-            e.id = edgeCnt;
+            e.id = mxEdge + 1;
+            ++mxEdge;
             e.coordBegin1 = b1;
             e.coordEnd1 = e1;
             e.coordBegin2 = b2;
@@ -345,10 +348,11 @@ namespace filter {
             targets[u].edgesR.push_back(e.id);
             edges[e.id] = e;
 
-
+/*
             e.to = v^1;
             e.from = u^1;
-            e.id = edgeCnt;
+            e.id = mxEdge + 1;
+            ++mxEdge;
             e.coordBegin1 = getTargetLen(u) - e2;
             e.coordEnd1 = getTargetLen(u) - b2;
             e.coordBegin2 = getTargetLen(v) - e1;
@@ -356,9 +360,9 @@ namespace filter {
             ++edgeCnt;
             targets[e.from].edges.push_back(e.id);
             targets[e.to].edges.push_back(e.id);
-            edges[e.id] = e;
+            edges[e.id] = e;*/
 
-            return edgeCnt - 2;
+            return mxEdge - 1;
         }
 
         void ContigGraph::setWeight(int e, int w) {

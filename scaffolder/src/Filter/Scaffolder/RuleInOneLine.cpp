@@ -28,7 +28,7 @@ namespace filter {
             int cnt_path = 0;
 
             std::vector<int> path;
-            std::vector<int> edges = graph->getEdges(v);
+            std::vector<int> edges = reduceEdges(graph, graph->getEdges(v), graph->getLibType(graph->getEdgeLib(e)));
             for (int e2 : edges) {
                 if (graph->getEdgeTo(e2) != w) {
                     int u = graph->getEdgeTo(e2);
@@ -192,13 +192,18 @@ namespace filter {
         RuleInOneLine::reduceEdges(ContigGraph *graph, std::vector<int> edges, ContigGraph::Lib::Type type) {
             std::vector<int> res;
             for (int e : edges) {
+                int was = 0;
                 for (int i = 0; i < (int)res.size(); ++i) {
                     int e1 = res[i];
                     if (sameEdges(graph, e, e1)) {
                         if (graph->getLibType(graph->getEdgeLib(e)) == type) {
                             res[i] = e;
                         }
+                        was = 1;
                     }
+                }
+                if (was == 0) {
+                    res.push_back(e);
                 }
             }
 
