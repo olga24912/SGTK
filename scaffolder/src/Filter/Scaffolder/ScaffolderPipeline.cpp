@@ -37,6 +37,7 @@ namespace filter {
             riol.simplifyGraph(graph);
             RuleBigDifInWeight rbddiw;
             rbddiw.simplifyGraph(graph);
+            riol.simplifyGraph(graph);
             graph->write("smp.gr");
 
             ScaffoldStrategyUniqueConnection ssuc;

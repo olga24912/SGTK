@@ -2,6 +2,7 @@
 #define SCAFFOLDER_RULEBIGDIFINWEIGHT_H
 
 #include <ContigGraph/ContigGraph.h>
+#include <set>
 #include "Rule.h"
 
 namespace filter {
@@ -9,11 +10,15 @@ namespace filter {
         using namespace contig_graph;
         class RuleBigDifInWeight : public Rule {
         private:
-            const int maxDif = 10;
+            std::set<int> edgeForDel;
         public:
             void simplifyGraph(ContigGraph *graph) override;
 
-            void delSmallEdges(ContigGraph *graph, const std::vector<int> &edges) const;
+            void delSmallEdges(ContigGraph *graph, const std::vector<int> &edges);
+
+            bool isGoodConnection(ContigGraph *graph, int e, const std::vector<int>& edges) const;
+
+            bool isBadConnection(ContigGraph *graph, int e, const std::vector<int>& edges) const;
         };
     }
 }

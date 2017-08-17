@@ -3,7 +3,7 @@
 
 namespace filter {
     namespace scaffolder {
-        bool Rule::sameCoord1(ContigGraph *graph, int e1, int e2) {
+        bool Rule::sameCoord1(ContigGraph *graph, int e1, int e2) const {
             if (graph->getEdgeCoordB1(e1) <= graph->getEdgeCoordB1(e2) &&
                 graph->getEdgeCoordB1(e2) <= graph->getEdgeCoordE1(e1)) {
                 return true;
@@ -23,7 +23,7 @@ namespace filter {
             return false;
         }
 
-        bool Rule::sameCoord2(ContigGraph *graph, int e1, int e2) {
+        bool Rule::sameCoord2(ContigGraph *graph, int e1, int e2) const {
             if (graph->getEdgeCoordB2(e1) <= graph->getEdgeCoordB2(e2) &&
                 graph->getEdgeCoordB2(e2) <= graph->getEdgeCoordE2(e1)) {
                 return true;

@@ -10,9 +10,9 @@ namespace filter {
         public:
             virtual void simplifyGraph(ContigGraph* filter) = 0;
 
-            bool sameCoord1(ContigGraph *graph, int e1, int e2);
+            bool sameCoord1(ContigGraph *graph, int e1, int e2) const;
 
-            bool sameCoord2(ContigGraph *graph, int e1, int e2);
+            bool sameCoord2(ContigGraph *graph, int e1, int e2) const;
         };
     }
 }
