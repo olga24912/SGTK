@@ -70,6 +70,7 @@ set(SOURCE_FILES
         Scaffolder/RuleBigDifInWeight.cpp Scaffolder/RuleBigDifInWeight.h
         Scaffolder/RuleDelCycle.cpp Scaffolder/RuleDelCycle.h
         Scaffolder/RuleInOneLine.cpp Scaffolder/RuleInOneLine.h
+        Scaffolder/RuleCoord.cpp Scaffolder/RuleCoord.h
         Writers/FileValidator/ValidatorError.cpp Writers/FileValidator/ValidatorError.h
         CommandParsers/Commands/CommandFV/CommandSetFVError.h Scaffolder/RuleBigDeg.cpp
         Scaffolder/RuleBigDeg.h CommandParsers/Commands/CommandSetCoordFile.h Statistics/ClusterStatistic.cpp

@@ -10,6 +10,7 @@
 #include "RuleBigDeg.h"
 #include "RuleDelSmallCycle.h"
 #include "RuleDelSmallEdges.h"
+#include "RuleCoord.h"
 
 namespace filter {
     namespace scaffolder {
@@ -38,6 +39,8 @@ namespace filter {
             RuleBigDifInWeight rbddiw;
             rbddiw.simplifyGraph(graph);
             riol.simplifyGraph(graph);
+            RuleCoord rc;
+            rc.simplifyGraph(graph);
             graph->write("smp.gr");
 
             ScaffoldStrategyUniqueConnection ssuc;
