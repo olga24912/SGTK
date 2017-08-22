@@ -8,8 +8,8 @@ namespace filter {
     namespace scaffolder {
         class RuleDelSmallEdges : public Rule {
         private:
-            const int startDel = 1;
-            const int difDel = 2;
+            const int startDel = 2;
+            const int difDel = 3;
 
             std::set<int> delEdge;
         public:

@@ -52,9 +52,9 @@ namespace filter {
                 for (auto ual : ualig) {
                     auto al1 = val;
                     auto al2 = ual;
-                    if (al1.chrName[al1.chrName.size() - 1] == 'v') {
+                  /*  if (al1.chrName[al1.chrName.size() - 1] == 'v') {
                         std::swap(al1, al2);
-                    }
+                    }*/
 
                     if (al1.chrName != al2.chrName) {
                         if (ErrorType::DIF_CHR < status) {

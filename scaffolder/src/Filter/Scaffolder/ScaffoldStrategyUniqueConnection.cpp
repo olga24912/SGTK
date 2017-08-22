@@ -14,7 +14,7 @@ namespace filter {
                     continue;
                 }
                 int u = graph->getEdgeTo(edges[0]);
-                if (isUniquePair(v, u, graph) && color[v] != color[u] && graph->getEdgeWeight(edges[0]) >= 2) {
+                if (isUniquePair(v, u, graph) && color[v] != color[u]) {
                     scaffolds->addConnection(v, u);
                     scaffolds->addConnection(u^1, v^1);
                 }

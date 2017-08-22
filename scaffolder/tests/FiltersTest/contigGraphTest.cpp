@@ -243,7 +243,8 @@ TEST_F(ContigGraphTest, testAddEdge) {
     std::string resFileName = "../../../resources/filterTest/add_edge_graph.gr";
 
     ContigGraph graph = ContigGraph::read(graphFileName);
-    graph.addEdge(9, 1, 0, 5);
+    graph.addEdge(9, 1, 0, 5, 0, 0, 0, 0);
+    graph.addEdge(0, 8, 0, 5, 0, 0, 0, 0);
 
     std::string outFile = "/tmp/out.gr";
     graph.write(outFile);

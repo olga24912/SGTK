@@ -20,7 +20,8 @@ namespace filter {
                     }
                     if (was == 0) continue;
 
-                    if (aligInfo.isCorrectEdge(graph, e) != InfoAboutContigsAlig::OK) {
+                    if (aligInfo.isCorrectEdge(graph, e) != InfoAboutContigsAlig::OK &&
+                            aligInfo.isCorrectEdge(graph, e) != InfoAboutContigsAlig::OVERLAP) {
                         haveError = 1;
                     }
                 }

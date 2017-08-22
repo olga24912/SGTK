@@ -11,6 +11,8 @@
 #include "RuleDelSmallCycle.h"
 #include "RuleDelSmallEdges.h"
 #include "RuleCoord.h"
+#include "RuleDel30.h"
+#include "RuleValidateCoord.h"
 
 namespace filter {
     namespace scaffolder {
@@ -32,6 +34,7 @@ namespace filter {
 
             RuleDelSmallEdges rdse;
             rdse.simplifyGraph(graph);
+            graph->write("smp.gr");
             RuleDelSmallCycle rdsc;
             rdsc.simplifyGraph(graph);
             RuleInOneLine riol;
@@ -41,7 +44,10 @@ namespace filter {
             riol.simplifyGraph(graph);
             RuleCoord rc;
             rc.simplifyGraph(graph);
-            graph->write("smp.gr");
+            //RuleValidateCoord rvc;
+            //rvc.simplifyGraph(graph);
+            RuleDel30 rd30;
+            rd30.simplifyGraph(graph);
 
             ScaffoldStrategyUniqueConnection ssuc;
             ssuc.addConnection(&scaffolds, graph);

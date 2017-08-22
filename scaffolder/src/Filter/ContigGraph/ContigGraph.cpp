@@ -108,7 +108,12 @@ namespace filter {
             cur = 0;
             for (auto v : targets) {
                 new_vert[v.first] = cur;
+
+                if (v.first != cur) {
+                    WARN("v first = " << v.first << " cur=" << cur);
+                }
                 ++cur;
+
             }
 
             std::vector<int> edg;

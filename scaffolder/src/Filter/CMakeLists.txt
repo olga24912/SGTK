@@ -77,6 +77,8 @@ set(SOURCE_FILES
         Statistics/ClusterStatistic.h CommandParsers/Commands/CommandStatistic/CommandClusterStatistic.cpp
         CommandParsers/Commands/CommandStatistic/CommandClusterStatistic.h
         Scaffolder/RuleDelSmallCycle.cpp Scaffolder/RuleDelSmallCycle.h
+        Scaffolder/RuleDel30.cpp Scaffolder/RuleDel30.h
+        Scaffolder/RuleValidateCoord.cpp Scaffolder/RuleValidateCoord.h
         ContigGraph/ContigGraph.h ContigGraph/ContigGraph.cpp
         ContigGraph/SeqanUtils.h ContigGraph/SeqanUtils.cpp Scaffolder/RuleDelSmallEdges.cpp Scaffolder/RuleDelSmallEdges.h)
 
