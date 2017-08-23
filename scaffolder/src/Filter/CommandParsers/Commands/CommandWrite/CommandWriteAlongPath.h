@@ -2,7 +2,6 @@
 #define SCAFFOLDER_COMMANDWRITEALONGPATH_H
 
 #include "CommandWrite.h"
-#include <Filter/Writers/WriteAlongPath.h>
 
 namespace filter {
     namespace commands {

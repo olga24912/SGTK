@@ -32,7 +32,7 @@ namespace filter {
         const std::string Manager::WRITE_ALL_LOCAL = "writeAllLocal";
         const std::string Manager::WRITE_LOCAL_VERT_IN_SEG = "writeLocalSeg";
         const std::string Manager::WRITE_BIG_COMP = "writeBig";
-        const std::string Manager::WRITE_LOCAL_ALONG_PATH = "writeAlongPath";
+        const std::string Manager::WRITE_LOCAL_ALONG_PATH = "writeAlongChr";
         const std::string Manager::MERGE_SIMPLE_PATH = "mergeSimplePath";
         const std::string Manager::MERGE_LIB = "mergeLib";
         const std::string Manager::PRINT = "print";

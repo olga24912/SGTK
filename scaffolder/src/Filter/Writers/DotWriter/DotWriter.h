@@ -21,7 +21,7 @@ namespace filter {
             std::string coordFile = "";
             statistics::InfoAboutContigsAlig aligInfo;
 
-            virtual void writeOneVertex(int v, bool isColored, std::ofstream &out);
+            virtual void writeOneVertex(int v, int isColored, std::ofstream &out);
 
             virtual void writeOneEdge(int e, std::ofstream &out);
 
@@ -51,6 +51,9 @@ namespace filter {
 
         protected:
             DECL_LOGGER("DotWriter");
+
+            void findVertWithOtherEdges(const std::vector<int> &vert, std::vector<bool> &hasOtherEdge,
+                                std::vector<std::pair<int, int>> &weightEdge) const;
         };
     }
 }

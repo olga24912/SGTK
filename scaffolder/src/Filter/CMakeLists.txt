@@ -3,12 +3,13 @@ include_directories(.)
 set(SOURCE_FILES
         Tools/SystemTools.cpp  Tools/SystemTools.h
         Writers/DotWriter/DotWriter.cpp Writers/DotWriter/DotWriter.h
-         Writers/Searcher.cpp  Writers/Searcher.h
+        Writers/DotWriter/ChrDotWriter.cpp Writers/DotWriter/ChrDotWriter.h
+        Writers/DotWriter/ChrDotWriterBuilder.h
+        Writers/Searcher.cpp  Writers/Searcher.h
          Writers/Writer.h
          Writers/WriteFullGraph.cpp  Writers/WriteFullGraph.h
          Writers/WriteLocal.cpp  Writers/WriteLocal.h
          Writers/WriteBigComponent.cpp  Writers/WriteBigComponent.h
-         Writers/WriteAlongPath.cpp  Writers/WriteAlongPath.h
          Writers/GraphSplitter.cpp Writers/GraphSplitter.h
          CommandParsers/Manager.cpp  CommandParsers/Manager.h
          CommandParsers/Commands/Command.h

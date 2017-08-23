@@ -18,7 +18,7 @@ namespace filter {
             }
         }
 
-        void DotWriter::writeOneVertex(int v, bool isColored, std::ofstream &out) {
+        void DotWriter::writeOneVertex(int v, int isColored, std::ofstream &out) {
             TRACE("write one vertex v=" << v << " isColored=" << isColored);
 
             out << "    \"" << graph->getTargetName(v) << "\"[label=\" " << graph->getTargetName(v) <<
@@ -29,16 +29,24 @@ namespace filter {
                 out << "\n coord: \n";
 
                 std::vector<statistics::InfoAboutContigsAlig::Alignment> aligs = aligInfo.getAlignment(v);
-                for (auto alig : aligs) {
-                    out << alig.chrName << " " << alig.coordBegin << " " << alig.coordEnd << "\n";
+                if (aligs.size() > 10) {
+                    out << "too much alig\n";
+                } else {
+                    for (auto alig : aligs) {
+                        out << alig.chrName << " " << alig.coordBegin << " " << alig.coordEnd
+                            << " (" <<  100.0*(alig.coordEnd - alig.coordBegin)/graph->getTargetLen(v) << ")\n";
+                    }
                 }
             }
 
             out << "\"";
-            if (isColored) {
+            if (isColored == 1) {
                 out << " , style = \"filled\", color = \"#F0E68C\"";
+            } else if (isColored == 2) {
+                out << " , style = \"filled\", color = \"#c71585\"";
             }
             out << "];\n";
+            TRACE("finish write one vert");
         }
 
         void DotWriter::writeOneEdge(int e, std::ofstream &out) {
@@ -58,33 +66,9 @@ namespace filter {
 
         void DotWriter::writeOneVertexSet(std::vector<int> vert, std::string fileName) {
             TRACE("write vertex set");
-            std::vector<bool> hasOtherEdge((unsigned) vert.size(), 0);
-            std::vector<std::pair<int, int> > weightEdge;
-            for (int i = 0; i < (int) vert.size(); ++i) {
-                int v = vert[i];
-                for (int e : graph->getEdges(v)) {
-                    int u = graph->getEdgeTo(e);
-                    int was = 0;
-                    for (int h = 0; h < (int) vert.size(); ++h) {
-                        if (vert[h] == u) was = 1;
-                    }
-                    if (was) {
-                        weightEdge.push_back(std::make_pair(graph->getEdgeWeight(e), e));
-                    } else {
-                        hasOtherEdge[i] = 1;
-                    }
-                }
-                for (int e : graph->getEdgesR(v)) {
-                    int u = graph->getEdgeFrom(e);
-                    int was = 0;
-                    for (int h = 0; h < (int) vert.size(); ++h) {
-                        if (vert[h] == u) was = 1;
-                    }
-                    if (!was) {
-                        hasOtherEdge[i] = 1;
-                    }
-                }
-            }
+            std::vector<bool> hasOtherEdge(vert.size(), 0);
+            std::vector<std::pair<int, int>> weightEdge;
+            findVertWithOtherEdges(vert, hasOtherEdge, weightEdge);
             if (vert.size() == 1) return;
 
             std::ofstream out(fileName);
@@ -102,6 +86,46 @@ namespace filter {
 
             out << "}\n";
             out.close();
+        }
+
+        void DotWriter::findVertWithOtherEdges(const std::vector<int> &vert, std::vector<bool> &hasOtherEdge,
+                                               std::vector<std::pair<int, int>> &weightEdge) const {
+            TRACE("find vertex with outsize edges");
+            for (int i = 0; i < (int) vert.size(); ++i) {
+                int v = vert[i];
+                std::vector<std::pair<int, int> > curEdge;
+                for (int e : graph->getEdges(v)) {
+                    int u = graph->getEdgeTo(e);
+                    int was = 0;
+                    for (int h = 0; h < (int) vert.size(); ++h) {
+                        if (vert[h] == u) was = 1;
+                    }
+                    if (was) {
+                        curEdge.push_back(std::make_pair(graph->getEdgeWeight(e), e));
+                    } else {
+                        hasOtherEdge[i] = 1;
+                    }
+                }
+
+                for (int e : graph->getEdgesR(v)) {
+                    int u = graph->getEdgeFrom(e);
+                    int was = 0;
+                    for (int h = 0; h < (int) vert.size(); ++h) {
+                        if (vert[h] == u) was = 1;
+                    }
+                    if (!was) {
+                        hasOtherEdge[i] = 1;
+                    }
+                }
+
+                if (curEdge.size() > 20) {
+                    hasOtherEdge[i] = 2;
+                } else {
+                    for (auto cur : curEdge) {
+                        weightEdge.push_back(cur);
+                    }
+                }
+            }
         }
     }
 }

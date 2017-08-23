@@ -1,3 +1,5 @@
+#include <Filter/Writers/WriteFullGraph.h>
+#include <Filter/Writers/DotWriter/ChrDotWriterBuilder.h>
 #include "CommandWriteAlongPath.h"
 
 namespace filter {
@@ -7,15 +9,15 @@ namespace filter {
             std::stringstream ss(argv);
             std::string fileName;
             ss >> fileName;
-            int libNum;
-            int dist;
-            int minSize;
-            ss >> libNum >> dist >> minSize;
 
-            INFO("write along path fileName=" << fileName << " libNum=" << libNum << " dist=" << dist << " minSize="
-                                              << minSize);
+            writers::ChrDotWriterBuilder writerBuilder;
+            writerBuilder.setFilter(&graph);
+            writerBuilder.setValidator(state.validator);
+            writerBuilder.setMaxVert(state.maxVert);
+            writerBuilder.setMaxEdge(state.maxEdge);
+            writerBuilder.setCoordFile(state.coordFile);
 
-            writers::WriteAlongPath writer(fileName, libNum, dist, minSize, &graph, state.validator, state.dotWriterBuilder);
+            writers::WriteFullGraph writer(fileName, &graph, state.validator, &writerBuilder);
 
             writer.write();
         }

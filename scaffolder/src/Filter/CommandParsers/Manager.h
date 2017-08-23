@@ -40,7 +40,7 @@ namespace filter {
  * writeAllLocal <fileName> <dist>
  * writeLocalSeg <fileName> <vertexIDStart> <vertexIDFinish> <dist>
  * writeBig <prefixFileName> <size>
- * writeAlongPath <prefixFileName> <libNum> <dist> <minRefPathSize>
+ * writeAlongChr <prefixFileName>
  * setFileVNotPathWithAllLib
  * setFileVWithDifInLib <libNum>*
  * setFileVFork <libNum>
