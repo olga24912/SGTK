@@ -42,5 +42,21 @@ namespace filter {
             }
             return false;
         }
+
+        bool Rule::isAlone(ContigGraph *graph, int e) {
+            int u = graph->getEdgeFrom(e), v = graph->getEdgeTo(e);
+
+            std::vector<int> eds = graph->getEdges(u);
+
+            for (int ed : eds) {
+                if (ed != e) {
+                    if (graph->getEdgeTo(ed) == v && sameCoord1(graph, ed, e) && sameCoord2(graph, ed, e)) {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
     }
 }

@@ -18,7 +18,9 @@
 #include <Filter/CommandParsers/Commands/CommandSetCoordFile.h>
 #include <Filter/CommandParsers/Commands/CommandStatistic/CommandClusterStatistic.h>
 #include <Filter/CommandParsers/Commands/CommandFV/CommandSetFVNotSimplePath.h>
+#include <Filter/CommandParsers/Commands/CommandSetBamFile.h>
 #include "Manager.h"
+
 namespace filter {
     namespace commands {
         const std::string Manager::UPLOAD_GRAPH = "uploadGraph";
@@ -47,6 +49,7 @@ namespace filter {
         const std::string Manager::SET_BLOCK_SPLIT_DOT_WRITER = "setBlockSplitDotWriter";
         const std::string Manager::SET_MAX_VE_IN_ONE_FILE = "setMaxVEinOneFile";
         const std::string Manager::SET_COORD_FILE = "setCoordFile";
+        const std::string Manager::SET_BAM_FILE = "setBamFile";
         const std::string Manager::STAT_CORRECT_CON = "statisticCorrectConnection";
         const std::string Manager::STAT_WEIGHT = "statisticWeight";
         const std::string Manager::STAT_DIF = "statisticDif";
@@ -84,6 +87,7 @@ namespace filter {
             commandByKeyWord[SET_BLOCK_SPLIT_DOT_WRITER] = new CommandSetBSDotWriter();
             commandByKeyWord[SET_MAX_VE_IN_ONE_FILE] = new CommandSetMaxVEinOneFile();
             commandByKeyWord[SET_COORD_FILE] = new CommandSetCoordFile();
+            commandByKeyWord[SET_BAM_FILE] = new CommandSetBamFile();
             commandByKeyWord[STAT_CORRECT_CON] = new CommandCorrectConnectionStatistic();
             commandByKeyWord[STAT_WEIGHT] = new CommandWeightStatistic();
             commandByKeyWord[STAT_DIF] = new CommandDifStatistic();

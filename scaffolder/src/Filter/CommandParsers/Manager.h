@@ -51,6 +51,7 @@ namespace filter {
  * setBlockSplitDotWriter
  * setMaxVEinOneFile <maxVertNum> <maxEdgeNum>
  * setCoordFile <coordFile>
+ * setBamFile <bam1FileName> <bam2FileName> <bai1FileName> <bai2FileName> <lib>
  * statisticCorrectConnection <coordFile> <libNum>
  * statisticWeight <coordFile> <libNum> <step> <mxVal>
  * statisticDif <coordFile> <libNum> <step> <mxVal>
@@ -88,6 +89,7 @@ namespace filter {
             static const std::string SET_BLOCK_SPLIT_DOT_WRITER;
             static const std::string SET_MAX_VE_IN_ONE_FILE;
             static const std::string SET_COORD_FILE;
+            static const std::string SET_BAM_FILE;
             static const std::string STAT_CORRECT_CON;
             static const std::string STAT_WEIGHT;
             static const std::string STAT_DIF;

@@ -31,6 +31,7 @@ set(SOURCE_FILES
         CommandParsers/Commands/CommandFilter/CommandMergeLib.cpp
         CommandParsers/Commands/CommandFilter/CommandMergeLib.h
         CommandParsers/Commands/CommandFV/CommandSetFVNotSimplePath.h
+        CommandParsers/Commands/CommandSetBamFile.h
         Writers/FileValidator/FileValidator.h Writers/FileValidator/ValidatorNotPathWithAllLib.cpp
         Writers/FileValidator/ValidatorNotPathWithAllLib.h
         CommandParsers/Commands/CommandFV/CommandSetFV.h
@@ -80,6 +81,7 @@ set(SOURCE_FILES
         Scaffolder/RuleDelSmallCycle.cpp Scaffolder/RuleDelSmallCycle.h
         Scaffolder/RuleDel30.cpp Scaffolder/RuleDel30.h
         Scaffolder/RuleValidateCoord.cpp Scaffolder/RuleValidateCoord.h
+        Scaffolder/RuleCovering.cpp Scaffolder/RuleCovering.h
         ContigGraph/ContigGraph.h ContigGraph/ContigGraph.cpp
         ContigGraph/SeqanUtils.h ContigGraph/SeqanUtils.cpp Scaffolder/RuleDelSmallEdges.cpp Scaffolder/RuleDelSmallEdges.h)
 

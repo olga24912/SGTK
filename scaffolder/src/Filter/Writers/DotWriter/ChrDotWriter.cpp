@@ -85,13 +85,18 @@ namespace filter {
                 vert.push_back(v);
             }
             std::vector<int> coord;
+            std::vector<std::pair<int, int> >  vertE;
 
             for (auto v : chrV) {
                 vert.push_back(v.first);
-                if (coord.size() == 0 || coord[coord.size() - 1] != v.second.coordBegin/1000) {
-                    coord.push_back(v.second.coordBegin / 1000);
-                }
+                coord.push_back(v.second.coordBegin / 1000);
+                coord.push_back(std::max(v.second.coordEnd / 1000 - 1, v.second.coordBegin / 1000) );
+                vertE.push_back(std::make_pair(std::max(v.second.coordEnd / 1000 - 1, v.second.coordBegin / 1000), v.first));
             }
+
+            std::sort(coord.begin(), coord.end());
+            coord.resize(std::unique(coord.begin(), coord.end()) - coord.begin());
+            std::sort(vertE.begin(), vertE.end());
 
             hasOtherEdge.resize(vert.size());
             findVertWithOtherEdges(vert, hasOtherEdge, weightEdge);
@@ -101,9 +106,12 @@ namespace filter {
             std::ofstream out(fileName);
 
             out << "digraph {\n";
+            out << "newrank=true;\n";
+            out << "compound=true;\n";
+            out << "outputorder=edgesfirst;\n";
             out << "ranksep=.75; size = \"7.5,7.5\";\n";
             out << "{\n";
-            out << "node [shape=plaintext, fontsize=16];\n";
+            out << "node [shape=plaintext, fontsize=18];\n";
             out << coord[0];
             for (int i = 1; i < coord.size(); ++i) {
                 out << " -> " << coord[i];
@@ -115,18 +123,29 @@ namespace filter {
             out << "node [shape=box];\n";
 
             for (int i = 0; i < (int) chrV.size(); ++i) {
+                /*out << "subgraph cluster" << chrV[i].first << " {\n";
+                out << "style=filled;\n";
+                out << "color=\"#afdafc\";\n";*/
+
                 writeOneVertex(chrV[i].first, hasOtherEdge[allVert.size() + i], out);
+                /*out << "e" << chrV[i].first << "[style=\"invis\", label=\"\", shape=point, fontsize=0, fixedsize=\"true\"];\n";
+                out << "}\n";*/
             }
 
-            int cur = 0;
+            int cur = 0, cur2 = 0;
             int ps = 0;
-            while (cur < chrV.size()) {
+            while (cur < chrV.size() /*|| cur2 < vertE.size()*/) {
                 out << "{ rank = same; " << coord[ps] << "; ";
                 TRACE(ps << " " << chrV[cur].second.coordBegin/1000);
                 while (cur < chrV.size() && chrV[cur].second.coordBegin/1000 == coord[ps]) {
                     out << "\"" << graph->getTargetName(chrV[cur].first) << "\"; ";
                     ++cur;
                 }
+
+                /*while (cur2 < vertE.size() && vertE[cur2].first == coord[ps]) {
+                    out << "\"e" << vertE[cur2].second << "\"; ";
+                    ++cur2;
+                }*/
 
                 ++ps;
                 out << " }\n";
@@ -150,6 +169,23 @@ namespace filter {
             out.close();
 
             TRACE("finish write vert set");
+        }
+
+        void ChrDotWriter::writeOneEdge(int e, std::ofstream &out) {
+            TRACE("write one edge e=" << e);
+
+            int v = graph->getEdgeFrom(e);
+            int u = graph->getEdgeTo(e);
+            out << "    \"" << graph->getTargetName(v) << "\" -> \"";
+            out << graph->getTargetName(u) << "\" [ ";
+            out << "color = \"" << graph->getLibColor(graph->getEdgeLib(e)) << "\", ";
+            out << "penwidth = " << 1 + (int) log10(graph->getEdgeWeight(e)) << ", ";
+            out << "label = " << "\"" << graph->getLibName(graph->getEdgeLib(e));
+            out << "\n weight = " << (graph->getEdgeWeight(e));
+            out << "\n id = " << e;
+            out << "\n " << graph->getInfo(e) << "\"];\n ";
+            /*out << "ltail = cluster" << v << ", ";
+            out << "lhead = cluster" << u << "];\n";*/
         }
     }
 }

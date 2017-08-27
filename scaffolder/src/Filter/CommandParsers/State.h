@@ -12,6 +12,15 @@ namespace filter {
             enum StateName {
                 DEF, LOCAL
             };
+
+            struct BamFiles {
+                std::string bam1;
+                std::string bam2;
+                std::string bai1;
+                std::string bai2;
+                int lib;
+            };
+
             StateName name = StateName::DEF;
             std::string fileName = "";
             int dist = 0;
@@ -20,6 +29,8 @@ namespace filter {
             int maxEdge = 40;
             int maxVert = 20;
             std::string coordFile = "";
+
+            std::vector<BamFiles> bamFiles;
 
             ~State() {
                 delete validator;

@@ -13,7 +13,12 @@ namespace filter {
             INFO("create scaffolds contigFile=" << contigFile << " outFile=" << outFile);
 
             scaffolder::ScaffolderPipeline sp;
-            sp.evaluate(&graph, contigFile, outFile);
+
+            statistics::InfoAboutContigsAlig alig;
+            alig.parseCoordFile(&graph, state.coordFile);
+
+            sp.setAlig(&alig);
+            sp.evaluate(&graph, contigFile, outFile, state.bamFiles);
         }
     }
 }

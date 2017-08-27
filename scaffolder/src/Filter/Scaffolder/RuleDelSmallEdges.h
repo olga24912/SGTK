@@ -17,8 +17,6 @@ namespace filter {
 
             void delEdges(ContigGraph *graph, std::vector<int> edges);
 
-            bool isAlone(ContigGraph *e, int i);
-
         };
     }
 }

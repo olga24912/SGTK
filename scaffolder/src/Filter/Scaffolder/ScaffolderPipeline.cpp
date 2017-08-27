@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <iostream>
 #include <set>
+#include <Filter/CommandParsers/Commands/Command.h>
 #include "ScaffolderPipeline.h"
 #include "ScaffoldStrategy.h"
 #include "ScaffoldStrategyUniqueConnection.h"
@@ -13,13 +14,16 @@
 #include "RuleCoord.h"
 #include "RuleDel30.h"
 #include "RuleValidateCoord.h"
+#include "RuleCovering.h"
 
 namespace filter {
     namespace scaffolder {
-        void ScaffolderPipeline::evaluate(ContigGraph *graph, std::string contigFile, std::string out) {
+        using namespace commands;
+        void ScaffolderPipeline::evaluate(ContigGraph *graph, std::string contigFile,
+                                          std::string out, std::vector<State::BamFiles> bamFiles) {
             INFO("start build scaffolds");
             /*std::vector<int> libs = graph->getLibList();
-            for (int i = (int)libs.size() - 1; i > 0; --i) {
+            for (int i = (int)libs.size() - 1; i > 0; --i)
                 double w1 = 1, w2 = 1;
                 if (i == libs.size() - 1 && graph->getLibType(libs[i]) == contig_graph::ContigGraph::Lib::RNA_SPLIT_50) {
                     w1 = 1.75;
@@ -48,6 +52,11 @@ namespace filter {
             //rvc.simplifyGraph(graph);
             RuleDel30 rd30;
             rd30.simplifyGraph(graph);
+
+            RuleCovering rcov;
+            rcov.setBamFiles(bamFiles);
+            rcov.setAligFile(alig);
+            rcov.simplifyGraph(graph);
 
             ScaffoldStrategyUniqueConnection ssuc;
             ssuc.addConnection(&scaffolds, graph);

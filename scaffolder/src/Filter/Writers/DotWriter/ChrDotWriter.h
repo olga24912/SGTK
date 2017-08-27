@@ -19,6 +19,11 @@ namespace filter {
                 aligInfo.parseCoordFile(filter, coordFile);
             }
 
+        protected:
+            void writeOneEdge(int e, std::ofstream &out) override;
+
+        public:
+
             void writeOneChr(const std::string chr, std::vector<std::pair<int, statistics::InfoAboutContigsAlig::Alignment >> verts,
                      std::string fileName);
 
