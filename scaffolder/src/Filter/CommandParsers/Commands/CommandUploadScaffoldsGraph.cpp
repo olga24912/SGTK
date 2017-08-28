@@ -10,6 +10,7 @@ namespace filter {
                                                                     filter::contig_graph::ContigGraph &graph) {
 
             using namespace contig_graph;
+            INFO("start upload scaffold graph");
             std::stringstream ss(argv);
             std::string contigFileName;
             std::string scaffoldGraphFileName;
@@ -17,11 +18,11 @@ namespace filter {
             ss >> contigFileName >> scaffoldGraphFileName;
 
             graph = ContigGraph();
-            int libNum = graph.addLib("#ccffcc", "scaff", ContigGraph::Lib::SCAFF);
+            int libNum = graph.addLib("#00ffff", "scaff", ContigGraph::Lib::SCAFF);
 
             addVertexis(graph, libNum, contigFileName);
 
-            std::ifstream infoin(contigFileName);
+            std::ifstream infoin(scaffoldGraphFileName);
 
             std::string cur;
             while (getline(infoin, cur)) {
@@ -29,6 +30,8 @@ namespace filter {
                 int w, l;
                 std::stringstream ss(cur);
                 ss >> u_name >> v_name >> w >> l;
+
+                std::cerr << u_name << " " << v_name << " " << w << " " << l << "\n";
 
                 int u_dir = (u_name[u_name.size() - 2] == '+');
                 int v_dir = (v_name[v_name.size() - 2] == '+');
@@ -46,9 +49,11 @@ namespace filter {
             }
 
             infoin.close();
+            INFO("finish upload scaffold graph");
         }
 
         void CommandUploadScaffoldsGraph::addVertexis(ContigGraph &graph, int libNum, std::string contigFileName) {
+            DEBUG("start add vert");
             seqan::SeqFileIn seqFileIn(contigFileName.c_str());
             seqan::StringSet<seqan::CharString> ids;
             seqan::StringSet<seqan::Dna5String> seqs;
@@ -62,6 +67,7 @@ namespace filter {
                 graph.addVertex(i*2, contigName, seq_len);
                 graph.addVertex(i*2 + 1, contigName + "-rev", seq_len);
             }
+            DEBUG("finish add vert");
         }
 
         std::string CommandUploadScaffoldsGraph::getContigName(std::string s) {

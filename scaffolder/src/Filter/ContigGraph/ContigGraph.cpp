@@ -31,6 +31,7 @@ namespace filter {
 
             targets[id].name = name;
             targets[id].len = len;
+            ++vertCnt;
             return id;
         }
 
@@ -337,6 +338,7 @@ namespace filter {
         }
 
         int ContigGraph::addEdge(int v, int u, int lib, int w, int b1, int e1, int b2, int e2) {
+            DEBUG("addEdge v=" << v << " u=" << u << " lib=" << lib << " w=" << w);
             Edge e;
             e.lib = lib;
             e.weight = w;
