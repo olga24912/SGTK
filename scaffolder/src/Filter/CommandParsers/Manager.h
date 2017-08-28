@@ -26,6 +26,7 @@ namespace filter {
         using namespace contig_graph;
         /* commands:
  * uploadGraph <filename>
+ * uploadScaffoldsGraph <contigFile> <scaffoldFileName>
  * minEdgeW <libNum> <weight>
  * minContig <len>
  * mergeSimplePath <contigsFileName> <outFileName>
@@ -64,6 +65,7 @@ namespace filter {
         class Manager {
         private:
             static const std::string UPLOAD_GRAPH;
+            static const std::string UPLOAD_SCAFFOLDS_GRAPH;
             static const std::string MIN_EDGE_WEIGHT;
             static const std::string MIN_CONTIG_LEN;
             static const std::string WRITE_FULL;

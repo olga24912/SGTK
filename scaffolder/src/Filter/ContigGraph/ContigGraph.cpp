@@ -477,5 +477,17 @@ namespace filter {
             }
             return mx;
         }
+
+        int ContigGraph::addLib(std::string color, std::string name, ContigGraph::Lib::Type type) {
+            int mxLib = 0;
+            for (auto lib : libs) {
+                mxLib = std::max(mxLib, lib.first);
+            }
+            mxLib += 1;
+
+            libs[mxLib] = Lib(color, name, type);
+
+            return mxLib;
+        }
     }
 }

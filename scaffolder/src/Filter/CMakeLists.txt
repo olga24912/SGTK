@@ -48,6 +48,7 @@ set(SOURCE_FILES
         Writers/FileValidator/ValidatorOnlyFirst.cpp Writers/FileValidator/ValidatorOnlyFirst.h
         CommandParsers/Commands/CommandFilter/CommandSetIgnoreEdge.cpp
         CommandParsers/Commands/CommandFilter/CommandSetIgnoreEdge.h Scaffolder/ScaffoldStrategy.cpp
+        CommandParsers/Commands/CommandUploadScaffoldsGraph.cpp CommandParsers/Commands/CommandUploadScaffoldsGraph.h
         Scaffolder/ScaffoldStrategy.h
         Scaffolder/ScaffoldStrategyUniqueConnection.cpp Scaffolder/ScaffoldStrategyUniqueConnection.h
         Statistics/InfoAboutContigsAlig.cpp Statistics/InfoAboutContigsAlig.h Statistics/CntRightConnectionStatistic.cpp
