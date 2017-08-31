@@ -1,7 +1,7 @@
 #ifndef SCAFFOLDER_COMMANDUPLOADSCAFFOLDSGRAPH_H
 #define SCAFFOLDER_COMMANDUPLOADSCAFFOLDSGRAPH_H
 
-#include "Command.h"
+#include "Filter/CommandParsers/Commands/Command.h"
 
 namespace filter {
     namespace commands {

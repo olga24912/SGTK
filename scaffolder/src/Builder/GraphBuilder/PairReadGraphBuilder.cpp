@@ -121,10 +121,10 @@ namespace builder {
         }
 
         void PairReadGraphBuilder::incEdgeWeight(seqan::BamAlignmentRecord read1, seqan::BamAlignmentRecord read2) {
-            TRACE("incEdgeWeight read1 " << read1.beginPos << " "
+            DEBUG("incEdgeWeight read1 " << std::string(seqan::toCString(read1.qName)) << " " << read1.beginPos << " "
                                          << (read1.beginPos + seqan::getAlignmentLengthInRef(read1)) << " RC=" <<  hasFlagRC(read1) <<
                                          " target " << get1Target(read1));
-            TRACE("incEdgeWeight read2 " << read2.beginPos << " "
+            DEBUG("incEdgeWeight read2 " << std::string(seqan::toCString(read1.qName)) << " " << read2.beginPos << " "
                                          << (read2.beginPos + seqan::getAlignmentLengthInRef(read2)) << " RC=" << hasFlagRC(read2) <<
                                          " target " << get2Target(read2));
             assert(seqan::isUniqueMapRead(read1));

@@ -63,9 +63,9 @@ namespace filter {
             out << "\n\n\n\n";
             out.close();
 
-            if (cover1 * 20 < cover2 || cover2 * 20 < cover1) {
+            /*if (cover1 * 20 < cover2 || cover2 * 20 < cover1) {
                 graph->delEdge(e);
-            }
+            }*/
         }
 
         double RuleCovering::getCover(ContigGraph *graph, std::string bam, std::string bai, int cb, int ce, int v, int isRev) {
@@ -99,7 +99,7 @@ namespace filter {
 
             ++ce;
             bool hasAlignments = false;
-            if (!jumpToRegion(inFile, hasAlignments, rID, cb, ce, baiIndex)) {
+            if (!jumpToRegion(inFile, hasAlignments, rID, std::max(0, cb - 100), ce, baiIndex)) {
                 ERROR("Could not jump to " << cb << ":" << ce << "\n");
                 return 0;
             }
@@ -116,7 +116,7 @@ namespace filter {
                     break;
                 }
 
-                if (record.beginPos < cb) {
+                if (record.beginPos + (int) getAlignmentLengthInRef(record) < cb) {
                     continue;
                 }
 
@@ -139,12 +139,12 @@ namespace filter {
 
             double sum = 0;
             if (graph->getTargetName(v)[graph->getTargetName(v).size() - 1] == 'v') {
-                sum = getCover(graph, bamFile.bam1, bamFile.bai1, cb, ce, v, 1);
+                sum = getCover(graph, bamFile.bam1, bamFile.bai1, graph->getTargetLen(v) - ce, graph->getTargetLen(v) - cb, v, 1);
                 sum += getCover(graph, bamFile.bam2, bamFile.bai2, graph->getTargetLen(v) - ce, graph->getTargetLen(v) - cb, v, 1);
 
             } else {
                 sum = getCover(graph, bamFile.bam1, bamFile.bai1, cb, ce, v, 0);
-                sum += getCover(graph, bamFile.bam2, bamFile.bai2, graph->getTargetLen(v) - ce, graph->getTargetLen(v) - cb, v, 0);
+                sum += getCover(graph, bamFile.bam2, bamFile.bai2, cb, ce, v, 0);
             }
 
             return sum;
@@ -159,12 +159,12 @@ namespace filter {
 
             double sum = 0;
             if (graph->getTargetName(v)[graph->getTargetName(v).size() - 1] == 'v') {
-                sum = getCover(graph, bamFile.bam2, bamFile.bai2, cb, ce, v, 0);
+                sum = getCover(graph, bamFile.bam2, bamFile.bai2, graph->getTargetLen(v) - ce, graph->getTargetLen(v) - cb, v, 0);
                 sum += getCover(graph, bamFile.bam1, bamFile.bai1, graph->getTargetLen(v) - ce, graph->getTargetLen(v) - cb, v, 0);
 
             } else {
                 sum = getCover(graph, bamFile.bam2, bamFile.bai2, cb, ce, v, 1);
-                sum += getCover(graph, bamFile.bam1, bamFile.bai1, graph->getTargetLen(v) - ce, graph->getTargetLen(v) - cb, v, 1);
+                sum += getCover(graph, bamFile.bam1, bamFile.bai1, cb, ce, v, 1);
             }
 
             return sum;

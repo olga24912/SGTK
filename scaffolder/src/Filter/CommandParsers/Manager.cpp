@@ -19,13 +19,14 @@
 #include <Filter/CommandParsers/Commands/CommandStatistic/CommandClusterStatistic.h>
 #include <Filter/CommandParsers/Commands/CommandFV/CommandSetFVNotSimplePath.h>
 #include <Filter/CommandParsers/Commands/CommandSetBamFile.h>
-#include <Filter/CommandParsers/Commands/CommandUploadScaffoldsGraph.h>
+#include <Filter/CommandParsers/Commands/CommandUploadGraph/CommandUploadScaffoldsGraph.h>
 #include "Manager.h"
 
 namespace filter {
     namespace commands {
         const std::string Manager::UPLOAD_GRAPH = "uploadGraph";
         const std::string Manager::UPLOAD_SCAFFOLDS_GRAPH = "uploadScaffoldsGraph";
+        const std::string Manager::ADD_INFO_TO_GRAPH = "addInfoToGraph";
         const std::string Manager::MIN_EDGE_WEIGHT = "minEdgeW";
         const std::string Manager::MIN_CONTIG_LEN = "minContig";
         const std::string Manager::SET_IGNORE = "setIgnore";
@@ -66,6 +67,7 @@ namespace filter {
 
             commandByKeyWord[UPLOAD_GRAPH] = new CommandUploadGraph();
             commandByKeyWord[UPLOAD_SCAFFOLDS_GRAPH] = new CommandUploadScaffoldsGraph();
+            commandByKeyWord[ADD_INFO_TO_GRAPH] = new CommandAddInfoToGraph();
             commandByKeyWord[MIN_CONTIG_LEN] = new CommandMinContig();
             commandByKeyWord[MIN_EDGE_WEIGHT] = new CommandMinEdgeWeight();
             commandByKeyWord[SET_IGNORE] = new CommandSetIgnore();

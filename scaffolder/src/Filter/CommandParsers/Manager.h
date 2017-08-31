@@ -17,7 +17,7 @@
 #include <Filter/CommandParsers/Commands/CommandScaffold.h>
 #include <Filter/CommandParsers/Commands/CommandFV/CommandSetFVNotPathWithAllLib.h>
 #include "State.h"
-#include "Commands/CommandUploadGraph.h"
+#include "Filter/CommandParsers/Commands/CommandUploadGraph/CommandUploadGraph.h"
 #include <fstream>
 #include <sstream>
 
@@ -27,6 +27,7 @@ namespace filter {
         /* commands:
  * uploadGraph <filename>
  * uploadScaffoldsGraph <contigFile> <scaffoldFileName>
+ * addInfoToGraph <infoFile> <newLibName> <colorLib>
  * minEdgeW <libNum> <weight>
  * minContig <len>
  * mergeSimplePath <contigsFileName> <outFileName>
@@ -66,6 +67,7 @@ namespace filter {
         private:
             static const std::string UPLOAD_GRAPH;
             static const std::string UPLOAD_SCAFFOLDS_GRAPH;
+            static const std::string ADD_INFO_TO_GRAPH;
             static const std::string MIN_EDGE_WEIGHT;
             static const std::string MIN_CONTIG_LEN;
             static const std::string WRITE_FULL;

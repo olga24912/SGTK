@@ -13,8 +13,8 @@ set(SOURCE_FILES
          Writers/GraphSplitter.cpp Writers/GraphSplitter.h
          CommandParsers/Manager.cpp  CommandParsers/Manager.h
          CommandParsers/Commands/Command.h
-         CommandParsers/State.h  CommandParsers/Commands/CommandUploadGraph.cpp
-         CommandParsers/Commands/CommandUploadGraph.h
+         CommandParsers/State.h CommandParsers/Commands/CommandUploadGraph/CommandUploadGraph.cpp
+        CommandParsers/Commands/CommandUploadGraph/CommandUploadGraph.h
         CommandParsers/Commands/CommandFilter/CommandMinContig.cpp CommandParsers/Commands/CommandFilter/CommandMinContig.h
         CommandParsers/Commands/CommandFilter/CommandMinEdgeWeight.cpp CommandParsers/Commands/CommandFilter/CommandMinEdgeWeight.h
         CommandParsers/Commands/CommandFilter/CommandSetIgnore.cpp CommandParsers/Commands/CommandFilter/CommandSetIgnore.h
@@ -48,7 +48,8 @@ set(SOURCE_FILES
         Writers/FileValidator/ValidatorOnlyFirst.cpp Writers/FileValidator/ValidatorOnlyFirst.h
         CommandParsers/Commands/CommandFilter/CommandSetIgnoreEdge.cpp
         CommandParsers/Commands/CommandFilter/CommandSetIgnoreEdge.h Scaffolder/ScaffoldStrategy.cpp
-        CommandParsers/Commands/CommandUploadScaffoldsGraph.cpp CommandParsers/Commands/CommandUploadScaffoldsGraph.h
+        CommandParsers/Commands/CommandUploadGraph/CommandUploadScaffoldsGraph.cpp CommandParsers/Commands/CommandUploadGraph/CommandUploadScaffoldsGraph.h
+        CommandParsers/Commands/CommandUploadGraph/CommandAddInfoToGraph.cpp CommandParsers/Commands/CommandUploadGraph/CommandAddInfoToGraph.h
         Scaffolder/ScaffoldStrategy.h
         Scaffolder/ScaffoldStrategyUniqueConnection.cpp Scaffolder/ScaffoldStrategyUniqueConnection.h
         Statistics/InfoAboutContigsAlig.cpp Statistics/InfoAboutContigsAlig.h Statistics/CntRightConnectionStatistic.cpp

@@ -25,7 +25,7 @@ namespace filter {
             enum ErrorType {
                 OK, OVERLAP, PART_ALIG, BIG_DIST, WRONG_ORDER, DIF_CHR, NA
             };
-            const int MAX_DIST = 1000000;
+            const int MAX_DIST = 10000;
             const int MIN_OVERLAP = 100;
 
             ErrorType isCorrectEdge(ContigGraph *filter, int e);

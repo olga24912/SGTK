@@ -49,7 +49,9 @@ namespace filter {
             ErrorType status = ErrorType::NA;
 
             for (auto val : valig) {
+                if ((val.coordEnd - val.coordBegin)*1.0/filter->getTargetLen(v) < 0.5) continue;
                 for (auto ual : ualig) {
+                    if ((ual.coordEnd - ual.coordBegin)*1.0/filter->getTargetLen(u) < 0.5) continue;
                     auto al1 = val;
                     auto al2 = ual;
                   /*  if (al1.chrName[al1.chrName.size() - 1] == 'v') {
@@ -70,7 +72,7 @@ namespace filter {
                         continue;
                     }
 
-                    if (al2.coordBegin - al1.coordBegin > MAX_DIST) {
+                    if (al2.coordBegin - al1.coordEnd > MAX_DIST) {
                         if (ErrorType::BIG_DIST < status) {
                             status = ErrorType::BIG_DIST;
                         }
