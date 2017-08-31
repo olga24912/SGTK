@@ -50,6 +50,7 @@ set(SOURCE_FILES
         CommandParsers/Commands/CommandFilter/CommandSetIgnoreEdge.h Scaffolder/ScaffoldStrategy.cpp
         CommandParsers/Commands/CommandUploadGraph/CommandUploadScaffoldsGraph.cpp CommandParsers/Commands/CommandUploadGraph/CommandUploadScaffoldsGraph.h
         CommandParsers/Commands/CommandUploadGraph/CommandAddInfoToGraph.cpp CommandParsers/Commands/CommandUploadGraph/CommandAddInfoToGraph.h
+        CommandParsers/Commands/CommandUploadGraph/CommandAddBothPath.cpp CommandParsers/Commands/CommandUploadGraph/CommandAddBothPath.h
         Scaffolder/ScaffoldStrategy.h
         Scaffolder/ScaffoldStrategyUniqueConnection.cpp Scaffolder/ScaffoldStrategyUniqueConnection.h
         Statistics/InfoAboutContigsAlig.cpp Statistics/InfoAboutContigsAlig.h Statistics/CntRightConnectionStatistic.cpp

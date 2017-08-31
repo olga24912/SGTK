@@ -28,6 +28,7 @@ namespace filter {
  * uploadGraph <filename>
  * uploadScaffoldsGraph <contigFile> <scaffoldFileName>
  * addInfoToGraph <infoFile> <newLibName> <colorLib>
+ * addBothPath <bothPathFile> <newLibName> <colorLib>
  * minEdgeW <libNum> <weight>
  * minContig <len>
  * mergeSimplePath <contigsFileName> <outFileName>
@@ -68,6 +69,7 @@ namespace filter {
             static const std::string UPLOAD_GRAPH;
             static const std::string UPLOAD_SCAFFOLDS_GRAPH;
             static const std::string ADD_INFO_TO_GRAPH;
+            static const std::string ADD_BOTH_PATH;
             static const std::string MIN_EDGE_WEIGHT;
             static const std::string MIN_CONTIG_LEN;
             static const std::string WRITE_FULL;
