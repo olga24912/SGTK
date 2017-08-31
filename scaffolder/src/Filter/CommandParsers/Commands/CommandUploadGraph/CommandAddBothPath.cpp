@@ -38,7 +38,7 @@ namespace filter {
                 }
                 for (int j = 1; j < (int)vid.size(); ++j) {
                     graph.addEdge(vid[j - 1], vid[j], lib, 1, 0, 0, 0, 0);
-                    graph.addEdge(vid[j] ^ 1, vid[j - 1] ^ 1, lib, 1, 0, 0, 0, 0)
+                    graph.addEdge(vid[j] ^ 1, vid[j - 1] ^ 1, lib, 1, 0, 0, 0, 0);
                 }
             }
 

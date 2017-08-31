@@ -3,7 +3,7 @@
 
 int main(int argc, char **argv) {
     using namespace filter;
-    logging::create_console_logger("../../src/log.properties");
+    logging::create_console_logger("/home/olga/bio-project/bio_scaffolder/scaffolder/src/log.properties");
 
     commands::Manager filter;
     if (argc > 1) {

@@ -488,6 +488,7 @@ namespace filter {
             mxLib += 1;
 
             libs[mxLib] = Lib(color, name, type);
+            ++libCnt;
 
             return mxLib;
         }
