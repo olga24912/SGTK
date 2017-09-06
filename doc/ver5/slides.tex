@@ -1,0 +1,337 @@
+\documentclass{beamer}
+
+\usepackage{xcolor,colortbl}
+\usepackage{polyglossia}
+\usepackage{fontspec}
+\usepackage{nameref}
+\usepackage{ifthen}
+\usepackage{multirow}
+\usepackage{hhline}
+
+\usepackage{biblatex}
+
+\usefonttheme{professionalfonts}
+\usetheme{Antibes}
+\useoutertheme{infolines_foot}
+\setbeamercovered{transparent=20}
+
+\setbeamertemplate{blocks}[default]
+\setbeamercolor{block title}{use={frametitle},fg=frametitle.fg,bg=frametitle.bg}
+
+\usepackage[math-style=ISO,vargreek-shape=unicode]{unicode-math}
+\setdefaultlanguage{english}
+
+\definecolor{LightCyan}{rgb}{0.88,1,1}
+
+\defaultfontfeatures{Ligatures={TeX}}
+\setmainfont{CMU Serif}
+\setsansfont{CMU Sans Serif}
+\setmonofont{CMU Typewriter Text}
+\setmathfont{Latin Modern Math}
+\AtBeginDocument{\renewcommand{\setminus}{\mathbin{\backslash}}}
+
+\makeatletter
+\newcommand*{\currentname}{\@currentlabelname}
+\makeatother
+\def\t{\texttt}
+
+\newcommand{\cimg}[2]{%
+	\begin{center}%
+		\ifthenelse{\equal{#2}{}}{%
+			\includegraphics[width=0.75\linewidth]{#1}
+		}{%
+			\includegraphics[width=#2\linewidth]{#1}
+		}%
+	\end{center}%
+}
+
+\AtNextBibliography{\tiny}
+
+
+\title[RNA-seq scaffolding]{Scaffold graph visualization and RNA-Seq scaffolding}
+\author[Kunyavskaya Olga]{Kunyavskaya Olga\\
+	Supervisor: Andrey Prjibelski}
+\institute[CAB]{Center for Algorithmic Biotechnology}
+\date{07/27/2017}
+
+\begin{document}
+
+\begin{frame}
+	\titlepage
+\end{frame}
+
+\section{Introduction}
+
+\begin{frame}[t]{Genome assembly}
+\cimg{pic/p1.png}{0.68}
+\end{frame}
+
+\begin{frame}[t]{Genome assembly}
+\cimg{pic/p2.png}{0.68}
+\end{frame}
+
+\begin{frame}[t]{Connection using DNA paired-end reads}
+	\begin{itemize}
+		\item Paired reads:  
+		\cimg{pic/pairRead.png}{1}
+		\item Finding connections using paired reads: 
+		\cimg{pic/pairReadAlig}{1}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[t]{Using RNA-seq reads}
+\begin{center}
+\cimg{pic/rna.png}{1.24}
+\end{center}
+\end{frame}
+
+\begin{frame}[t]{Using RNA-seq reads}
+\begin{center}
+\cimg{pic/rnaReads.png}{1.24}
+\end{center}
+\end{frame}
+
+\section{Goal and tasks}
+\begin{frame}[t]{Goal and tasks}
+	\begin{block}{Goal}
+	Build scaffolds using RNA-seq reads 
+	\end{block}
+	\begin{block}{Tasks}
+	\begin{itemize}
+		\item Build the scaffold graph
+		\item Build scaffolds using obtained connections
+		\item Create tool for visualizing a scaffold graph
+		\item Compare results with other tools
+	\end{itemize}
+\end{block}
+\end{frame}	
+\section{Tasks solving}
+\subsection{Visualization}
+
+\begin{frame}[t]{Visualization}
+%связь между контигами, dot формат, разбиваем граф на несколько файликов. 
+\cimg{pic/examp.jpg}{0.8}
+\end{frame}
+
+\begin{frame}[t]{Visualization}
+%Какие виды связи можно визуализировать. Референс, РНК, ДНК, скаффолды. 
+\cimg{pic/diflib.png}{1.03}
+\end{frame}
+
+\begin{frame}[t]{Visualization}
+% Визуализация вдоль хромосомы
+\cimg{pic/alongChr.png}{1}
+\end{frame}
+
+\begin{frame}[t]{Visualization}
+Drawing interesting parts:
+\begin{itemize}
+	\item difference between two libs 
+	\item one lib is present and another is not
+	\item difference with reference (possible missassembly)
+	\item etc
+\end{itemize}
+	%Варианты фильтрация +  несколько слов, для чего можно использовать 
+\end{frame}
+
+\subsection{Scaffolding}
+
+\begin{frame}[t]{Existing RNA-seq scaffolders}
+	\begin{itemize}
+		\item {\bf L\_RNA\_scaffolder} (2013) uses long transcriptome reads.
+		\item {\bf AGOUTI} (2015) uses paired-end RNA-seq reads and gene predictions.
+		\item {\bf rascaf} (2016) uses paired-end RNA-seq reads.
+		\item {\bf P\_RNA\_scaffolder} uses paired-end RNA-seq reads, unpublished, details unknown. 
+	\end{itemize}
+	
+	\printbibliography
+			
+\end{frame}
+
+\begin{frame}[t]{L\_RNA\_scaffolder}
+	\cimg{pic/LrnaScaf1}{1}	
+\end{frame}
+
+\begin{frame}[t]{L\_RNA\_scaffolder}
+	\cimg{pic/LrnaScaf2}{0.9}	
+\end{frame}
+
+\begin{frame}[t]{AGOUTI}
+	\cimg{pic/AGOUTI1}{0.8}	
+\end{frame}
+
+\begin{frame}[t]{AGOUTI}
+	\cimg{pic/AGOUTI2}{0.75}	
+\end{frame}
+
+\begin{frame}[t]{Rascaf}
+	\cimg{pic/rascaf1}{0.9}	
+\end{frame}
+
+\begin{frame}[t]{Rascaf}
+	\cimg{pic/rascaf2}{1}	
+\end{frame}
+
+
+\begin{frame}[t]{Building a scaffold graph}
+	\begin{itemize}
+		\item Align RNA-seq paired-end reads
+		\item Build a scaffold graph using these alignments
+		\item Split every read into two parts in the middle 
+		\item Align these parts independently
+		\item Build graph using these parts of the reads
+		\item Save graph
+	\end{itemize}	
+	\cimg{pic/rnaReadsCon.png}{1}
+\end{frame}
+
+%
+%\begin{frame}[t]{Coordinates}
+%	\cimg{pic/crd.png}{0.9}
+%\end{frame}
+
+\begin{frame}[t]{Graph simplification}
+	Delete low-weight edges 
+	\cimg{pic/psh.png}{1.05}
+\end{frame}
+
+\begin{frame}[t]{Graph simplification}
+	Delete low-weight edges 
+	\cimg{pic/pshDel.png}{1.05}
+\end{frame}
+
+\begin{frame}[t]{Graph simplification}
+	Edge projection
+	\cimg{pic/prj.png}{1}
+\end{frame}
+
+\begin{frame}[t]{Graph simplification}
+	Edge projection
+	\cimg{pic/prjDel.png}{1}
+\end{frame}
+
+\begin{frame}[t]{Graph simplification}
+	Delete cycles
+	\cimg{pic/cycl.png}{0.325}
+\end{frame}
+
+\begin{frame}[t]{Graph simplification}
+	Delete cycles
+	\cimg{pic/cyclDel.png}{0.325}
+\end{frame}
+
+\begin{frame}[t]{Graph simplification}
+	Fork with big difference in weight
+	\cimg{pic/bigDif.png}{0.77}
+\end{frame}
+
+\begin{frame}[t]{Graph simplification}
+	Fork with big difference in weight
+	\cimg{pic/bigDifDel.png}{0.77}
+\end{frame}
+
+\begin{frame}[t]{Graph simplification}
+	Check coordinates order
+	\cimg{pic/scafCoord.png}{1}
+\end{frame}
+
+\begin{frame}[t]{Graph simplification}
+	Check coordinates order
+	\cimg{pic/coordRule.png}{1}
+\end{frame}
+
+\begin{frame}[t]{Graph simplification}
+	Check coordinates order
+	\cimg{pic/coordRulePic.png}{1}
+\end{frame}
+
+\begin{frame}[t]{Graph simplification}
+	Check coordinates order
+	\cimg{pic/coordRuleDel.png}{1}
+\end{frame}
+
+\begin{frame}[t]{Graph simplification}
+	Connect simple paths into scaffolds
+	\cimg{pic/gline.png}{1}
+\end{frame}
+
+\begin{frame}[t]{Plans}
+	\begin{itemize}
+		\item use covering info
+		\item find coords blocks
+		\item extra validate split-50 edges
+		\item ...
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}[t]{Сomparison} 
+	C.elegans
+	\begin{center}
+		{\small
+			
+		\begin{tabular}{|l|l|c|c|c|}
+		\hline
+		&&SRR1560107&SRR4181037&SRR5067781\\
+		\hline
+		\cellcolor{LightCyan}&\cellcolor{LightCyan}NGA50&\cellcolor{LightCyan}31168&\cellcolor{LightCyan}30974&\cellcolor{LightCyan}27650\\
+		\hhline{~----}
+		\multirow{-2}{*}{\cellcolor{LightCyan}bio\_scaf}&\cellcolor{LightCyan}mis&\cellcolor{LightCyan}550&\cellcolor{LightCyan}554&\cellcolor{LightCyan}509\\
+		\hline
+		\hline
+		\multirow{2}{*}{P\_RNA\_scaffolder}&NGA50&28828&33645&29786\\
+		\hhline{~----}
+		&mis&621&750&571\\
+		\hline
+		\hline
+		\multirow{2}{*}{rascaf}&NGA50&27116&30403&27266\\
+		\hhline{~----}
+		&mis&521&561&507\\
+		\hline
+		\hline
+		\multirow{2}{*}{AGOUTI}&NGA50&25384&27047&25275\\
+		\hhline{~----}
+		&mis&545&613&510\\
+		\hline
+		\hline
+		\multirow{2}{*}{contigs}&NGA50&21938&21938&21938\\
+		\hhline{~----}
+		&mis&352&352&352\\
+		\hline
+		\end{tabular}
+	}
+	\end{center}
+\end{frame}
+
+\section{Architecture}
+\begin{frame}[t]{Architecture}
+\cimg{pic/src.jpg}{0.8}
+\end{frame}
+
+\section{Results}
+\begin{frame}[t]{Results and plans}
+	\begin{block}{Results}
+		\begin{itemize}
+			\item Designed an algorithm for RNA-seq scaffolding 
+			\item Developed a tool for visualization a scaffold graph
+		\end{itemize}
+	\end{block}
+	\begin{block}{Plans}
+		\begin{itemize}
+			\item Compare and test against other tools on more datasets
+			\item Improve performance
+			\item Implement new ideas for scaffolding  
+			\item Write manual and interface
+			\item Write a paper
+			\end{itemize}
+	\end{block}
+\end{frame}
+
+
+\section{Thank you!}
+\begin{frame}{Thank you!}
+    \begin{center}
+        https://github.com/olga24912/bio\_scaffolder
+    \end{center}
+\end{frame}
+\end{document}

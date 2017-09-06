@@ -1,0 +1,357 @@
+This is BibTeX, Version 0.99d (TeX Live 2016/Debian)
+Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
+The top-level auxiliary file: art.aux
+The style file: biblatex.bst
+Reallocated glb_str_ptr (elt_size=4) to 20 items from 10.
+Reallocated global_strs (elt_size=20001) to 20 items from 10.
+Reallocated glb_str_end (elt_size=4) to 20 items from 10.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Database file #1: art-blx.bib
+Database file #2: slides.bib
+Biblatex version: 3.3
+Reallocated wiz_functions (elt_size=4) to 9000 items from 6000.
+Name 1 in "Li Song, Dhruv S. Shankar, and Liliana Florea" has a comma at the end for entry rascaf
+while executing---line 2630 of file biblatex.bst
+Name 1 in "Li Song, Dhruv S. Shankar, and Liliana Florea" has a comma at the end for entry rascaf
+while executing---line 2630 of file biblatex.bst
+Name 1 in "Li Song, Dhruv S. Shankar, and Liliana Florea" has a comma at the end for entry rascaf
+while executing---line 2630 of file biblatex.bst
+Name 1 in "Li Song, Dhruv S. Shankar, and Liliana Florea" has a comma at the end for entry rascaf
+while executing---line 2630 of file biblatex.bst
+Name 1 in "Zhang, S.V., L. Zhuo, and M.W. Hahn." has a comma at the end for entry AGOUTI
+while executing---line 2630 of file biblatex.bst
+Name 1 in "Zhang, S.V., L. Zhuo, and M.W. Hahn." has a comma at the end for entry AGOUTI
+while executing---line 2630 of file biblatex.bst
+Name 1 in "Zhang, S.V., L. Zhuo, and M.W. Hahn." has a comma at the end for entry AGOUTI
+while executing---line 2630 of file biblatex.bst
+Name 1 in "Zhang, S.V., L. Zhuo, and M.W. Hahn." has a comma at the end for entry AGOUTI
+while executing---line 2630 of file biblatex.bst
+Name 1 in "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" has a comma at the end for entry L_RNA_scaffolder
+while executing---line 2630 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2630 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2630 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2630 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2630 of file biblatex.bst
+Name 1 in "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" has a comma at the end for entry L_RNA_scaffolder
+while executing---line 2630 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2630 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2630 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2630 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2630 of file biblatex.bst
+Name 1 in "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" has a comma at the end for entry L_RNA_scaffolder
+while executing---line 2630 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2630 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2630 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2630 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2630 of file biblatex.bst
+Name 1 in "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" has a comma at the end for entry L_RNA_scaffolder
+while executing---line 2630 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2630 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2630 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2630 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2630 of file biblatex.bst
+Name 1 in "Li Song, Dhruv S. Shankar, and Liliana Florea" has a comma at the end for entry rascaf
+while executing---line 2634 of file biblatex.bst
+Name 1 in "Zhang, S.V., L. Zhuo, and M.W. Hahn." has a comma at the end for entry AGOUTI
+while executing---line 2634 of file biblatex.bst
+Name 1 in "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" has a comma at the end for entry L_RNA_scaffolder
+while executing---line 2634 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2634 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2634 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2634 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2634 of file biblatex.bst
+Name 1 in "Li Song, Dhruv S. Shankar, and Liliana Florea" has a comma at the end for entry rascaf
+while executing---line 2640 of file biblatex.bst
+Name 1 in "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" has a comma at the end for entry L_RNA_scaffolder
+while executing---line 2640 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2640 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2640 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2640 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2640 of file biblatex.bst
+Name 1 in "Zhang, S.V., L. Zhuo, and M.W. Hahn." has a comma at the end for entry AGOUTI
+while executing---line 2640 of file biblatex.bst
+Name 1 in "Zhang, S.V., L. Zhuo, and M.W. Hahn." has a comma at the end for entry AGOUTI
+while executing---line 2644 of file biblatex.bst
+Name 1 in "Zhang, S.V., L. Zhuo, and M.W. Hahn." has a comma at the end for entry AGOUTI
+while executing---line 2644 of file biblatex.bst
+Name 1 in "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" has a comma at the end for entry L_RNA_scaffolder
+while executing---line 2644 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2644 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2644 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2644 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2644 of file biblatex.bst
+Name 1 in "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" has a comma at the end for entry L_RNA_scaffolder
+while executing---line 2644 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2644 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2644 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2644 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2644 of file biblatex.bst
+Name 1 in "Li Song, Dhruv S. Shankar, and Liliana Florea" has a comma at the end for entry rascaf
+while executing---line 2644 of file biblatex.bst
+Name 1 in "Li Song, Dhruv S. Shankar, and Liliana Florea" has a comma at the end for entry rascaf
+while executing---line 2644 of file biblatex.bst
+Name 1 in "Li Song, Dhruv S. Shankar, and Liliana Florea" has a comma at the end for entry rascaf
+while executing---line 2648 of file biblatex.bst
+Name 1 in "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" has a comma at the end for entry L_RNA_scaffolder
+while executing---line 2648 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2648 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2648 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2648 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2648 of file biblatex.bst
+Name 1 in "Zhang, S.V., L. Zhuo, and M.W. Hahn." has a comma at the end for entry AGOUTI
+while executing---line 2648 of file biblatex.bst
+Name 1 in "Li Song, Dhruv S. Shankar, and Liliana Florea" has a comma at the end for entry rascaf
+while executing---line 2654 of file biblatex.bst
+Name 1 in "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" has a comma at the end for entry L_RNA_scaffolder
+while executing---line 2654 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2654 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2654 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2654 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2654 of file biblatex.bst
+Name 1 in "Zhang, S.V., L. Zhuo, and M.W. Hahn." has a comma at the end for entry AGOUTI
+while executing---line 2654 of file biblatex.bst
+Name 1 in "Zhang, S.V., L. Zhuo, and M.W. Hahn." has a comma at the end for entry AGOUTI
+while executing---line 2658 of file biblatex.bst
+Name 1 in "Zhang, S.V., L. Zhuo, and M.W. Hahn." has a comma at the end for entry AGOUTI
+while executing---line 2658 of file biblatex.bst
+Name 1 in "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" has a comma at the end for entry L_RNA_scaffolder
+while executing---line 2658 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2658 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2658 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2658 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2658 of file biblatex.bst
+Name 1 in "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" has a comma at the end for entry L_RNA_scaffolder
+while executing---line 2658 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2658 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2658 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2658 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2658 of file biblatex.bst
+Name 1 in "Li Song, Dhruv S. Shankar, and Liliana Florea" has a comma at the end for entry rascaf
+while executing---line 2658 of file biblatex.bst
+Name 1 in "Li Song, Dhruv S. Shankar, and Liliana Florea" has a comma at the end for entry rascaf
+while executing---line 2658 of file biblatex.bst
+Name 1 in "Li Song, Dhruv S. Shankar, and Liliana Florea" has a comma at the end for entry rascaf
+while executing---line 2698 of file biblatex.bst
+Name 1 in "Zhang, S.V., L. Zhuo, and M.W. Hahn." has a comma at the end for entry AGOUTI
+while executing---line 2698 of file biblatex.bst
+Name 1 in "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" has a comma at the end for entry L_RNA_scaffolder
+while executing---line 2698 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2698 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2698 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2698 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2698 of file biblatex.bst
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Name 1 in "Li Song, Dhruv S. Shankar, and Liliana Florea" has a comma at the end for entry rascaf
+while executing---line 2746 of file biblatex.bst
+Name 1 in "Li Song, Dhruv S. Shankar, and Liliana Florea" has a comma at the end for entry rascaf
+while executing---line 2746 of file biblatex.bst
+Name 1 in "Li Song, Dhruv S. Shankar, and Liliana Florea" has a comma at the end for entry rascaf
+while executing---line 2746 of file biblatex.bst
+Name 1 in "Li Song, Dhruv S. Shankar, and Liliana Florea" has a comma at the end for entry rascaf
+while executing---line 2746 of file biblatex.bst
+Name 1 in "Li Song, Dhruv S. Shankar, and Liliana Florea" has a comma at the end for entry rascaf
+while executing---line 2746 of file biblatex.bst
+Name 1 in "Li Song, Dhruv S. Shankar, and Liliana Florea" has a comma at the end for entry rascaf
+while executing---line 2746 of file biblatex.bst
+Name 1 in "Li Song, Dhruv S. Shankar, and Liliana Florea" has a comma at the end for entry rascaf
+while executing---line 2746 of file biblatex.bst
+Name 1 in "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" has a comma at the end for entry L_RNA_scaffolder
+while executing---line 2746 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2746 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2746 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2746 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2746 of file biblatex.bst
+Name 1 in "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" has a comma at the end for entry L_RNA_scaffolder
+while executing---line 2746 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2746 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2746 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2746 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2746 of file biblatex.bst
+Name 1 in "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" has a comma at the end for entry L_RNA_scaffolder
+while executing---line 2746 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2746 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2746 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2746 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2746 of file biblatex.bst
+Name 1 in "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" has a comma at the end for entry L_RNA_scaffolder
+while executing---line 2746 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2746 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2746 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2746 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2746 of file biblatex.bst
+Name 1 in "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" has a comma at the end for entry L_RNA_scaffolder
+while executing---line 2746 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2746 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2746 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2746 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2746 of file biblatex.bst
+Name 1 in "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" has a comma at the end for entry L_RNA_scaffolder
+while executing---line 2746 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2746 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2746 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2746 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2746 of file biblatex.bst
+Name 1 in "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" has a comma at the end for entry L_RNA_scaffolder
+while executing---line 2746 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2746 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2746 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2746 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2746 of file biblatex.bst
+Name 1 in "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" has a comma at the end for entry L_RNA_scaffolder
+while executing---line 2746 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2746 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2746 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2746 of file biblatex.bst
+Too many commas in name 1 of "Xue, W., J.T. Li, Y.P. Zhu, G.Y. Hou, X.F. Kong, Y.Y. Kuang, and X.W. Sun" for entry L_RNA_scaffolder
+while executing---line 2746 of file biblatex.bst
+Name 1 in "Zhang, S.V., L. Zhuo, and M.W. Hahn." has a comma at the end for entry AGOUTI
+while executing---line 2746 of file biblatex.bst
+Name 1 in "Zhang, S.V., L. Zhuo, and M.W. Hahn." has a comma at the end for entry AGOUTI
+while executing---line 2746 of file biblatex.bst
+Name 1 in "Zhang, S.V., L. Zhuo, and M.W. Hahn." has a comma at the end for entry AGOUTI
+while executing---line 2746 of file biblatex.bst
+Name 1 in "Zhang, S.V., L. Zhuo, and M.W. Hahn." has a comma at the end for entry AGOUTI
+while executing---line 2746 of file biblatex.bst
+Name 1 in "Zhang, S.V., L. Zhuo, and M.W. Hahn." has a comma at the end for entry AGOUTI
+while executing---line 2746 of file biblatex.bst
+Name 1 in "Zhang, S.V., L. Zhuo, and M.W. Hahn." has a comma at the end for entry AGOUTI
+while executing---line 2746 of file biblatex.bst
+Name 1 in "Zhang, S.V., L. Zhuo, and M.W. Hahn." has a comma at the end for entry AGOUTI
+while executing---line 2746 of file biblatex.bst
+Name 1 in "Zhang, S.V., L. Zhuo, and M.W. Hahn." has a comma at the end for entry AGOUTI
+while executing---line 2746 of file biblatex.bst
+You've used 4 entries,
+            6256 wiz_defined-function locations,
+            1194 strings with 9073 characters,
+and the built_in function-call counts, 19226 in all, are:
+= -- 1333
+> -- 379
+< -- 91
++ -- 421
+- -- 151
+* -- 1494
+:= -- 2095
+add.period$ -- 0
+call.type$ -- 4
+change.case$ -- 27
+chr.to.int$ -- 30
+cite$ -- 6
+duplicate$ -- 1710
+empty$ -- 1818
+format.name$ -- 203
+if$ -- 4028
+int.to.chr$ -- 0
+int.to.str$ -- 6
+missing$ -- 0
+newline$ -- 102
+num.names$ -- 123
+pop$ -- 1068
+preamble$ -- 1
+purify$ -- 42
+quote$ -- 0
+skip$ -- 570
+stack$ -- 0
+substring$ -- 2548
+swap$ -- 409
+text.length$ -- 107
+text.prefix$ -- 3
+top$ -- 1
+type$ -- 124
+warning$ -- 0
+while$ -- 233
+width$ -- 0
+write$ -- 99
+(There were 146 error messages)

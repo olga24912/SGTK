@@ -1,0 +1,78 @@
+digraph {
+    "I13921049"[label=" I13921049 id = 1352
+len = 99628"];
+    "I14020777"[label=" I14020777 id = 9650
+len = 5339"];
+    "IV2887458-rev"[label=" IV2887458-rev id = 14329
+len = 68311"];
+    "III2744049"[label=" III2744049 id = 12040
+len = 19232"];
+    "IV2878791-rev"[label=" IV2878791-rev id = 16889
+len = 3938"];
+    "IV2871302-rev"[label=" IV2871302-rev id = 7107
+len = 5349"];
+    "IV2882829-rev"[label=" IV2882829-rev id = 10283
+len = 3854"];
+    "IV2878791-rev" -> "IV2871302-rev" [ color = "#5388ff", penwidth = 3, label = "rnap0
+ weight = 978
+ id = 9346
+ coord: 3266-3468
+1257-1446" ]
+    "IV2878791-rev" -> "IV2871302-rev" [ color = "#eebef1", penwidth = 3, label = "sp_30
+ weight = 485
+ id = 4965
+ coord: 3399-3468
+1266-1335" ]
+    "IV2878791-rev" -> "IV2871302-rev" [ color = "#ccccff", penwidth = 3, label = "sp_50
+ weight = 194
+ id = 1770
+ coord: 3410-3468
+1266-1345" ]
+    "III2744049" -> "I13921049" [ color = "#5388ff", penwidth = 2, label = "rnap0
+ weight = 70
+ id = 8752
+ coord: 18995-19227
+53545-53701" ]
+    "IV2887458-rev" -> "IV2878791-rev" [ color = "#ccccff", penwidth = 2, label = "sp_50
+ weight = 55
+ id = 1772
+ coord: 65318-65370
+382-440" ]
+    "I13921049" -> "IV2887458-rev" [ color = "#5388ff", penwidth = 2, label = "rnap0
+ weight = 37
+ id = 9351
+ coord: 51915-52123
+54581-58003" ]
+    "IV2887458-rev" -> "I13921049" [ color = "#5388ff", penwidth = 2, label = "rnap0
+ weight = 14
+ id = 9352
+ coord: 54488-54628
+51929-52117" ]
+    "IV2882829-rev" -> "IV2878791-rev" [ color = "#eebef1", penwidth = 1, label = "sp_30
+ weight = 7
+ id = 4967
+ coord: 1390-1449
+385-451" ]
+    "IV2882829-rev" -> "IV2878791-rev" [ color = "#ccccff", penwidth = 1, label = "sp_50
+ weight = 2
+ id = 6518
+ coord: 1397-1448
+385-432" ]
+    "IV2882829-rev" -> "IV2878791-rev" [ color = "#5388ff", penwidth = 1, label = "rnap0
+ weight = 1
+ id = 9348
+ coord: 1390-1449
+437-527" ]
+    "I13921049" -> "I14020777" [ color = "#eebef1", penwidth = 1, label = "sp_30
+ weight = 1
+ id = 6758
+ coord: 99398-99459
+304-333" ]
+    "I13921049" -> "I14020777" [ color = "#ccccff", penwidth = 1, label = "sp_50
+ weight = 1
+ id = 6589
+ coord: 99401-99446
+303-334" ]
+labelloc="t"
+label="file name=smp/f1287";
+}
