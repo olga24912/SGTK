@@ -1,6 +1,7 @@
 include_directories(.)
 
 add_subdirectory(Filter)
+add_subdirectory(FindExon)
 add_subdirectory(Builder)
 #add_subdirectory(ContigMerger)
 add_subdirectory(Logger)
@@ -14,6 +15,7 @@ add_executable(addBothPath mainAddBothPath.cpp)
 add_executable(mergeGraph mainMergeGraph.cpp)
 #add_executable(splitFast mainSplitFastqFiles.cpp)
 add_executable(readSplitter mainSplitReads.cpp)
+add_executable(findExon mainFindExon.cpp)
 
 target_link_libraries(build builder_lib logger_lib ${SEQAN_LIBRARIES} ${ZLIB_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} ${Boost_LIBRARIES})
 target_link_libraries(filter filter_lib logger_lib ${SEQAN_LIBRARIES} ${ZLIB_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} ${Boost_LIBRARIES})
@@ -22,7 +24,7 @@ target_link_libraries(addInfoToGraph logger_lib builder_lib ${CMAKE_THREAD_LIBS_
 target_link_libraries(addBothPath logger_lib builder_lib)
 target_link_libraries(mergeGraph logger_lib ${CMAKE_THREAD_LIBS_INIT} ${Boost_LIBRARIES})
 target_link_libraries(readSplitter logger_lib read_splitter_lib ${SEQAN_LIBRARIES} ${ZLIB_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} ${Boost_LIBRARIES})
-
+target_link_libraries(findExon logger_lib findExon_lib ${SEQAN_LIBRARIES} ${ZLIB_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} ${Boost_LIBRARIES})
 
 install(TARGETS addBothPath
         DESTINATION bin

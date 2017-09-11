@@ -52,7 +52,7 @@
 \author[Kunyavskaya Olga]{Kunyavskaya Olga\\
 	Supervisor: Andrey Prjibelski}
 \institute[CAB]{Center for Algorithmic Biotechnology}
-\date{07/27/2017}
+\date{09/08/2017}
 
 \begin{document}
 
@@ -172,6 +172,14 @@ Drawing interesting parts:
 	\cimg{pic/rascaf2}{1}	
 \end{frame}
 
+\begin{frame}[t]{Pipeline}
+	\begin{itemize}
+		\item Align reads
+		\item Build scaffold graph
+		\item Filter graph
+		\item Output scaffolds
+	\end{itemize}
+\end{frame}
 
 \begin{frame}[t]{Building a scaffold graph}
 	\begin{itemize}
@@ -201,6 +209,16 @@ Drawing interesting parts:
 \end{frame}
 
 \begin{frame}[t]{Graph simplification}
+	Fork with big difference in weight
+	\cimg{pic/bigDif.png}{0.77}
+\end{frame}
+
+\begin{frame}[t]{Graph simplification}
+	Fork with big difference in weight
+	\cimg{pic/bigDifDel.png}{0.77}
+\end{frame}
+
+\begin{frame}[t]{Graph simplification}
 	Edge projection
 	\cimg{pic/prj.png}{1}
 \end{frame}
@@ -218,16 +236,6 @@ Drawing interesting parts:
 \begin{frame}[t]{Graph simplification}
 	Delete cycles
 	\cimg{pic/cyclDel.png}{0.325}
-\end{frame}
-
-\begin{frame}[t]{Graph simplification}
-	Fork with big difference in weight
-	\cimg{pic/bigDif.png}{0.77}
-\end{frame}
-
-\begin{frame}[t]{Graph simplification}
-	Fork with big difference in weight
-	\cimg{pic/bigDifDel.png}{0.77}
 \end{frame}
 
 \begin{frame}[t]{Graph simplification}
@@ -257,10 +265,9 @@ Drawing interesting parts:
 
 \begin{frame}[t]{Plans}
 	\begin{itemize}
-		\item use covering info
-		\item find coords blocks
-		\item extra validate split-50 edges
-		\item ...
+		\item Coverage depth
+		\item Detect exon blocks
+		\item Additional validation of split links 
 	\end{itemize}
 \end{frame}
 

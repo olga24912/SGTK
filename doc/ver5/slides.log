@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99996 (TeX Live 2016/Debian) (preloaded format=xelatex 2017.2.27)  6 SEP 2017 21:04
+This is XeTeX, Version 3.14159265-2.6-0.99996 (TeX Live 2016/Debian) (preloaded format=xelatex 2017.2.27)  8 SEP 2017 16:34
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1913,126 +1913,128 @@ Overfull \vbox (0.95934pt too high) detected at line 169
 File: pic/rascaf2.png Graphic file (type QTm)
  <use  "pic/rascaf2.png" > [18
 
+] [19
+
 ]
 File: pic/rnaReadsCon.png Graphic file (type QTm)
- <use  "pic/rnaReadsCon.png" > [19
+ <use  "pic/rnaReadsCon.png" > [20
 
 ]
 File: pic/psh.png Graphic file (type QTm)
 
 <use  "pic/psh.png" >
-Overfull \hbox (17.1158pt too wide) in paragraph at lines 196--196
- [] 
- []
-
-[20
-
-]
-File: pic/pshDel.png Graphic file (type QTm)
- <use  "pic/pshDel.png" >
-Overfull \hbox (17.1158pt too wide) in paragraph at lines 201--201
+Overfull \hbox (17.1158pt too wide) in paragraph at lines 204--204
  [] 
  []
 
 [21
 
 ]
-File: pic/prj.png Graphic file (type QTm)
- <use  "pic/prj.png" > [22
+File: pic/pshDel.png Graphic file (type QTm)
+ <use  "pic/pshDel.png" >
+Overfull \hbox (17.1158pt too wide) in paragraph at lines 209--209
+ [] 
+ []
+
+[22
 
 ]
-File: pic/prjDel.png Graphic file (type QTm)
- <use  "pic/prjDel.png" > [23
+File: pic/bigDif.png Graphic file (type QTm)
+ <use  "pic/bigDif.png" >
+Overfull \vbox (7.26775pt too high) detected at line 214
+ []
+
+[23
 
 ]
-File: pic/cycl.png Graphic file (type QTm)
-
-<use  "pic/cycl.png" >
-Overfull \vbox (8.13199pt too high) detected at line 216
+File: pic/bigDifDel.png Graphic file (type QTm)
+ <use  "pic/bigDifDel.png" >
+Overfull \vbox (7.26775pt too high) detected at line 219
  []
 
 [24
 
 ]
-File: pic/cyclDel.png Graphic file (type QTm)
- <use  "pic/cyclDel.png" >
-Overfull \vbox (8.13199pt too high) detected at line 221
- []
-
-[25
+File: pic/prj.png Graphic file (type QTm)
+ <use  "pic/prj.png" > [25
 
 ]
-File: pic/bigDif.png Graphic file (type QTm)
- <use  "pic/bigDif.png" >
-Overfull \vbox (7.26775pt too high) detected at line 226
- []
-
-[26
+File: pic/prjDel.png Graphic file (type QTm)
+ <use  "pic/prjDel.png" > [26
 
 ]
-File: pic/bigDifDel.png Graphic file (type QTm)
- <use  "pic/bigDifDel.png" >
-Overfull \vbox (7.26775pt too high) detected at line 231
+File: pic/cycl.png Graphic file (type QTm)
+
+<use  "pic/cycl.png" >
+Overfull \vbox (8.13199pt too high) detected at line 234
  []
 
 [27
 
 ]
+File: pic/cyclDel.png Graphic file (type QTm)
+ <use  "pic/cyclDel.png" >
+Overfull \vbox (8.13199pt too high) detected at line 239
+ []
+
+[28
+
+]
 File: pic/scafCoord.png Graphic file (type QTm)
- <use  "pic/scafCoord.png" > [28
+ <use  "pic/scafCoord.png" > [29
 
 ]
 File: pic/coordRule.png Graphic file (type QTm)
- <use  "pic/coordRule.png" > [29
+ <use  "pic/coordRule.png" > [30
 
 ]
 File: pic/coordRulePic.png Graphic file (type QTm)
 
-<use  "pic/coordRulePic.png" > [30
+<use  "pic/coordRulePic.png" > [31
 
 ]
 File: pic/coordRuleDel.png Graphic file (type QTm)
- <use  "pic/coordRuleDel.png" > [31
+ <use  "pic/coordRuleDel.png" > [32
 
 ]
 File: pic/gline.png Graphic file (type QTm)
 
-<use  "pic/gline.png" > [32
+<use  "pic/gline.png" > [33
 
-] [33
+] [34
 
 ]
 LaTeX Font Info:    Font shape `EU1/LatinModernMath(1)/m/n' will be
-(Font)              scaled to size 10.00015pt on input line 304.
+(Font)              scaled to size 10.00015pt on input line 311.
 LaTeX Font Info:    Font shape `EU1/LatinModernMath(1)/m/n' will be
-(Font)              scaled to size 7.0001pt on input line 304.
+(Font)              scaled to size 7.0001pt on input line 311.
 LaTeX Font Info:    Font shape `EU1/LatinModernMath(1)/m/n' will be
-(Font)              scaled to size 5.00008pt on input line 304.
+(Font)              scaled to size 5.00008pt on input line 311.
 LaTeX Font Info:    Font shape `EU1/LatinModernMath(2)/m/n' will be
-(Font)              scaled to size 9.99985pt on input line 304.
+(Font)              scaled to size 9.99985pt on input line 311.
 LaTeX Font Info:    Font shape `EU1/LatinModernMath(2)/m/n' will be
-(Font)              scaled to size 6.9999pt on input line 304.
+(Font)              scaled to size 6.9999pt on input line 311.
 LaTeX Font Info:    Font shape `EU1/LatinModernMath(2)/m/n' will be
-(Font)              scaled to size 4.99992pt on input line 304.
-LaTeX Font Info:    Try loading font information for U+msa on input line 304.
+(Font)              scaled to size 4.99992pt on input line 311.
+LaTeX Font Info:    Try loading font information for U+msa on input line 311.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 304.
+LaTeX Font Info:    Try loading font information for U+msb on input line 311.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-) [34
+) [35
 
 ]
 File: pic/src.jpg Graphic file (type QTm)
 
-<use  "pic/src.jpg" > [35
-
-] [36
+<use  "pic/src.jpg" > [36
 
 ] [37
+
+] [38
 
 ]
 \tf@nav=\write8
@@ -2044,23 +2046,23 @@ File: pic/src.jpg Graphic file (type QTm)
 \tf@snm=\write10
 \openout10 = `slides.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 337.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 337.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 344.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 344.
  (./slides.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 337.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 337.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 344.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 344.
 Package logreq Info: Writing requests to 'slides.run.xml'.
 \openout1 = `slides.run.xml'.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 337.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 344.
  ) 
 Here is how much of TeX's memory you used:
- 42242 strings out of 493589
- 792749 string characters out of 6145556
- 1243467 words of memory out of 5000000
- 44976 multiletter control sequences out of 15000+600000
+ 42244 strings out of 493589
+ 792767 string characters out of 6145556
+ 1243491 words of memory out of 5000000
+ 44978 multiletter control sequences out of 15000+600000
  6862 words of font info for 64 fonts, out of 8000000 for 9000
  1347 hyphenation exceptions out of 8191
  56i,16n,72p,10411b,5739s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on slides.pdf (37 pages).
+Output written on slides.pdf (38 pages).
