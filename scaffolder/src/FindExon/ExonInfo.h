@@ -11,7 +11,13 @@ namespace findExon {
         std::string contigName;
         std::vector<std::pair<int, int> > exons;
     public:
-        void addReadInfo();
+        ExonInfo(std::string contigName) : contigName(contigName) {}
+
+        std::string getContigName() {
+            return contigName;
+        };
+
+        void addReadInfo(int b1, int e1);
 
         void writeExonBlock(std::ofstream &out);
     };
