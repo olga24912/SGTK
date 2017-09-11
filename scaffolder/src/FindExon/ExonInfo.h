@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <iostream>
 
 namespace findExon {
 
@@ -19,7 +20,7 @@ namespace findExon {
 
         void addReadInfo(int b1, int e1);
 
-        void writeExonBlock(std::ofstream &out);
+        void writeExonBlock(std::ostream &out);
     };
 }
 
