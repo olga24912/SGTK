@@ -7,9 +7,9 @@
 namespace findExon {
 
     class ExonsInfo {
-    public:
-        std::vector<ExonInfo> exons;
     private:
+        std::vector<ExonInfo> exons;
+    public:
         void addInfo(std::string exonName, int b, int e);
 
         void printInfo(std::string fileName);

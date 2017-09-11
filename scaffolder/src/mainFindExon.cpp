@@ -25,6 +25,17 @@ int main(int argc, char **argv) {
         return 0;
     }
 
+    seqan::BamHeader samHeader;
+    readHeader(samHeader, bamFile);
 
+    seqan::BamAlignmentRecord read;
+
+    while (!seqan::atEnd(bamFile)) {
+        seqan::readRecord(read, bamFile);
+
+        exons.addInfo(toCString(read.qName), read.beginPos, read.beginPos + seqan::getAlignmentLengthInRef(read));
+    }
+
+    exons.printInfo(outFileName);
     return 0;
 }
