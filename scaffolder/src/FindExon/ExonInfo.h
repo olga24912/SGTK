@@ -9,18 +9,36 @@ namespace findExon {
 
     class ExonInfo {
     private:
+        struct Exon {
+            int b;
+            int e;
+            int genId;
+            double cover;
+        };
+
         std::string contigName;
-        std::vector<std::pair<int, int> > exons;
+        int len;
+        std::vector<Exon> exons;
+
+        std::vector<int>& cover;
+        std::vector<int>& misCover;
     public:
-        ExonInfo(std::string contigName) : contigName(contigName) {}
+        ExonInfo(std::string contigName, int len, std::vector<int>&cover, std::vector<int>&misCover) :
+                contigName(contigName), len(len), cover(cover), misCover(misCover) {}
 
         std::string getContigName() {
             return contigName;
         };
 
-        void addReadInfo(int b1, int e1);
+        void addReadInfo(seqan::BamAlignmentRecord read);
 
         void writeExonBlock(std::ostream &out);
+
+        void finish();
+
+        void findExonCon();
+
+        bool hasConnection(Exon &exon, Exon &exon1, std::vector<int> &next);
     };
 }
 

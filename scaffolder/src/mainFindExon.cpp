@@ -6,6 +6,31 @@
 //argv[1] = inFileName bamFormat
 //argv[2] = outFileName
 
+
+std::vector< std::pair<std::string, int> > readHeader(seqan::BamFileIn& bamFile) {
+            INFO("start initHeader");
+            typedef seqan::FormattedFileContext<seqan::BamFileIn, void>::Type TBamContext;
+
+            seqan::BamHeader sam_header;
+            readHeader(sam_header, bamFile);
+            TBamContext const &bamContext = seqan::context(bamFile);
+            size_t contig_num = seqan::length(contigNames(bamContext));
+
+            DEBUG("Contig num=" << contig_num);
+
+            std::vector<std::pair <std::string, int> > contigs;
+
+            for (int i = 0; i < static_cast<int>(contig_num); ++i) {
+                contigs.push_back(std::make_pair(
+                        std::string(seqan::toCString(contigNames(bamContext)[i])),
+                        contigLengths(bamContext)[i]));
+            }
+
+            INFO("finish initHeader");
+
+            return contigs;
+}
+
 int main(int argc, char **argv) {
     using namespace findExon;
     logging::create_console_logger("/home/olga/bio-project/bio_scaffolder/scaffolder/src/log.properties");
@@ -25,15 +50,16 @@ int main(int argc, char **argv) {
         return 0;
     }
 
-    seqan::BamHeader samHeader;
-    readHeader(samHeader, bamFile);
+    std::vector<std::pair<std::string, int> > contigs = readHeader(bamFile);
 
     seqan::BamAlignmentRecord read;
+    int cnt = 10000000;
 
-    while (!seqan::atEnd(bamFile)) {
+    while (!seqan::atEnd(bamFile) && cnt > 0) {
         seqan::readRecord(read, bamFile);
 
-        exons.addInfo(toCString(read.qName), read.beginPos, read.beginPos + seqan::getAlignmentLengthInRef(read));
+        exons.addInfo(contigs[read.rID].first, contigs[read.rID].second, read); //read.beginPos, read.beginPos + seqan::getAlignmentLengthInRef(read)
+        --cnt;
     }
 
     exons.printInfo(outFileName);

@@ -9,8 +9,10 @@ namespace findExon {
     class ExonsInfo {
     private:
         std::vector<ExonInfo> exons;
+        std::vector<int> cover;
+        std::vector<int> misCover;
     public:
-        void addInfo(std::string exonName, int b, int e);
+        void addInfo(std::string contigName, int contigLen, seqan::BamAlignmentRecord read);
 
         void printInfo(std::string fileName);
     };
