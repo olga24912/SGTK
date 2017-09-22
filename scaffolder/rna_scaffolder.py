@@ -253,10 +253,14 @@ def merge_graph(rnap_list, rnas_list):
     os.system(path_to_exec_dir + "filter " + os.path.abspath("filter_config"))
     return
 
-def create_scaffolds(contig_file_name):
+def create_scaffolds(contig_file_name, rnap_list, rnas_list):
     f = open("filter_config", 'w')
     f.write("uploadGraph out.gr\n")
     f.write("minContig 500\n")
+    if (len(rnap_list) != 0):
+        f.write("setExonBlockFile rnap0/out.crd\n")
+    elif (len(rnas_list) != 0):
+        f.write("setExonBlockFile rnas0_50/out.crd\n")
     f.write("mergeSimplePath " + contig_file_name + " scaffolds.fa\n")
     f.write("exit\n")
     f.close()
@@ -297,7 +301,7 @@ def run(args):
     build_graph(contig_file_name, rnap_list, rnas_list)
     find_exons(rnap_list, rnas_list)
     merge_graph(rnap_list, rnas_list)
-    create_scaffolds(contig_file_name)
+    create_scaffolds(contig_file_name, rnap_list, rnas_list)
 
     directory = os.path.dirname(main_out_dir)
     os.chdir(directory)
