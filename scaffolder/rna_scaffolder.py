@@ -53,12 +53,10 @@ def alig_split(lib_name, reads, flag):
     os.chdir(lib_dir)
 
     os.system(path_to_exec_dir + "readSplitter " + str(flag) + " " + reads + " reads1.fasta reads2.fasta")
-    os.system("STAR --runThreadN 20 --genomeDir ../genomeDir --readFilesIn reads1.fasta --outSAMtype BAM Unsorted SortedByCoordinate")
+    os.system("STAR --runThreadN 20 --genomeDir ../genomeDir --readFilesIn reads1.fasta --outSAMtype BAM Unsorted")
     os.system("mv Aligned.out.bam rna1.bam")
-    os.system("mv Aligned.sortedByCoord.out.bam rna1s.bam")
-    os.system("STAR --runThreadN 20 --genomeDir ../genomeDir --readFilesIn reads2.fasta --outSAMtype BAM Unsorted SortedByCoordinate")
+    os.system("STAR --runThreadN 20 --genomeDir ../genomeDir --readFilesIn reads2.fasta --outSAMtype BAM Unsorted")
     os.system("mv Aligned.out.bam rna2.bam")
-    os.system("mv Aligned.sortedByCoord.out.bam rna2s.bam")
 
     os.chdir(prevdir)
 
@@ -153,7 +151,7 @@ def runGraphBuilder(lib_name, prevdir, type):
     log.log("START BUILD GRAPH: " + lib_name)
     lib_dir = os.path.dirname(os.path.abspath(lib_name) + "/")
     os.chdir(lib_dir)
-    os.system(path_to_exec_dir + "build " + type + " rna1.sam rna2.sam " + lib_name)
+    os.system(path_to_exec_dir + "build " + type + " rna1.bam rna2.bam " + lib_name)
     os.chdir(prevdir)
     return
 
@@ -172,6 +170,31 @@ def build_graph(contig_file_name, rnap_list, rnas_list):
         runGraphBuilder("rnas" + str(i) + "_50", prevdir, "RNA_SPLIT_50")
         runGraphBuilder("rnas" + str(i) + "_30", prevdir, "RNA_SPLIT_30")
     return
+
+def runFindExons(lib_name, prevdir, type):
+    log.log("START FIND EXONS BLOCK: " + lib_name)
+    lib_dir = os.path.dirname(os.path.abspath(lib_name) + "/")
+    os.chdir(lib_dir)
+
+    if (type == "RNA_PAIR"):
+        os.system(path_to_exec_dir + "findExon " + type + " rna1s.bam  " + "out1.crd")
+        os.system(path_to_exec_dir + "findExon " + type + " rna2s.bam  " + "out2.crd")
+    else:
+        os.system(path_to_exec_dir + "findExon " + type + " rnas.bam  " + "out.crd")
+
+    os.chdir(prevdir)
+    return
+
+
+def find_exons(rnap_list, rnas_list):
+    for i in range(len(rnap_list)):
+        prevdir = os.getcwd()
+        runFindExons("rnap" + str(i), prevdir, "RNA_PAIR")
+
+    for i in range(len(rnas_list)):
+        prevdir = os.getcwd()
+        runFindExons("rnas" + str(i) + "_50", prevdir, "RNA_SINGLE")
+
 
 def merge_graph(rnap_list, rnas_list):
     args = ""
@@ -272,6 +295,7 @@ def run(args):
 
     alig_reads(contig_file_name, rnap_list, rnas_list)
     build_graph(contig_file_name, rnap_list, rnas_list)
+    find_exons(rnap_list, rnas_list)
     merge_graph(rnap_list, rnas_list)
     create_scaffolds(contig_file_name)
 
