@@ -15,7 +15,6 @@ namespace filter {
                 }
 
             }
-
         }
 
         void RuleValidateCoord::validateEdge(ContigGraph *graph, int e) {

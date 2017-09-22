@@ -492,5 +492,39 @@ namespace filter {
 
             return mxLib;
         }
+
+        void ContigGraph::addExonBlock(std::string fileName) {
+            std::ifstream in(fileName);
+            std::string line;
+            while (getline(in, line)) {
+                std::stringstream ss(line);
+                std::string contigName;
+                ss >> contigName;
+                int v = targetId[contigName];
+
+                if (targets.count(v) == 0) continue;
+
+                int len = targets[v].len;
+                int u = (v ^ 1);
+
+                char c;
+                while (ss >> c) {
+                    Exon ex;
+                    ss >> ex.b >> ex.e >> ex.cov >> ex.id;
+                    targets[v].exons.push_back(ex);
+                    int e = ex.e, b = ex.b;
+                    ex.b = len - e;
+                    ex.e = len - b;
+                    targets[u].exons.push_back(ex);
+                    ss >> c;
+                }
+
+                std::reverse(targets[u].exons.begin(), targets[u].exons.end());
+            }
+        }
+
+        std::vector<ContigGraph::Exon> ContigGraph::getExons(int v) {
+            return targets[v].exons;
+        }
     }
 }

@@ -39,6 +39,21 @@ namespace filter {
                 }
             }
 
+            std::vector<ContigGraph::Exon> exons = graph->getExons(v);
+            if (exons.size() > 0) {
+                out << "\n exons: \n";
+
+                int cur = 0;
+                for (int i = 0; i < exons.size(); ++i) {
+                    if (exons[i].id != cur) {
+                        out << "\n";
+                        cur = exons[i].id;
+                    }
+                    out << exons[i].b << " " << exons[i].e << " " << exons[i].cov << "; ";
+                }
+                out << "\n";
+            }
+
             out << "\"";
             if (isColored == 1) {
                 out << " , style = \"filled\", color = \"#F0E68C\"";

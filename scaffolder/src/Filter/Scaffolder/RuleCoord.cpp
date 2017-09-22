@@ -5,6 +5,7 @@ namespace filter {
     namespace scaffolder {
         using namespace contig_graph;
         void RuleCoord::simplifyGraph(ContigGraph *graph) {
+            infoAlig.parseCoordFile(graph, "data/out.coords");
             std::vector<int> vert = graph->getVertexList();
             for (int v : vert) {
                 directSimpl(graph, v);
@@ -17,6 +18,11 @@ namespace filter {
             for (int e : edgeForDel) {
                 graph->delEdge(e);
             }
+
+            std::cerr << "del OK: " << cnt[1] << " del Wrong:" << cnt[0] << "\n";
+            /*
+            std::cerr << "del Wrong, Wrong: " << cnt[0] << "; del OK, Wrong " << cnt[2] << "\n";
+            std::cerr << "del OK, OK: " << cnt[3] << "; del Wrong, OK " << cnt[1] << "\n";*/
         }
 
         void RuleCoord::directSimpl(ContigGraph *graph, int v) {
@@ -33,6 +39,11 @@ namespace filter {
                 for (int e : edges) {
                     int ce = graph->getEdgeCoordE1(e);
                     if (ce + 500 < cb) {
+                        if (infoAlig.isCorrectEdge(graph, e) == statistics::InfoAboutContigsAlig::OK) {
+                            cnt[1] += 1;
+                        } else {
+                            cnt[0] += 1;
+                        }
                         edgeForDel.insert(e);
                     }
                 }

@@ -32,6 +32,7 @@ set(SOURCE_FILES
         CommandParsers/Commands/CommandFilter/CommandMergeLib.h
         CommandParsers/Commands/CommandFV/CommandSetFVNotSimplePath.h
         CommandParsers/Commands/CommandSetBamFile.h
+        CommandParsers/Commands/CommandSetExonBlockFile.h
         Writers/FileValidator/FileValidator.h Writers/FileValidator/ValidatorNotPathWithAllLib.cpp
         Writers/FileValidator/ValidatorNotPathWithAllLib.h
         CommandParsers/Commands/CommandFV/CommandSetFV.h
@@ -86,6 +87,6 @@ set(SOURCE_FILES
         Scaffolder/RuleValidateCoord.cpp Scaffolder/RuleValidateCoord.h
         Scaffolder/RuleCovering.cpp Scaffolder/RuleCovering.h
         ContigGraph/ContigGraph.h ContigGraph/ContigGraph.cpp
-        ContigGraph/SeqanUtils.h ContigGraph/SeqanUtils.cpp Scaffolder/RuleDelSmallEdges.cpp Scaffolder/RuleDelSmallEdges.h)
+        ContigGraph/SeqanUtils.h ContigGraph/SeqanUtils.cpp Scaffolder/RuleDelSmallEdges.cpp Scaffolder/RuleDelSmallEdges.h Scaffolder/RuleExonBlocks.cpp Scaffolder/RuleExonBlocks.h)
 
 add_library(filter_lib ${SOURCE_FILES})

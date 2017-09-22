@@ -15,6 +15,17 @@ namespace filter {
         // Store graph on contigs with several libs
         class ContigGraph {
         public:
+            struct Exon {
+                int b;
+                int e;
+                double cov;
+                int id;
+
+                bool operator < (const Exon ex) const {
+                    return b < ex.b;
+                }
+            };
+
             struct Edge {
                 int id = 0;
                 int from = 0;
@@ -40,11 +51,13 @@ namespace filter {
                 int len;
                 std::vector<int> edges;
                 std::vector<int> edgesR;
+                std::vector<Exon> exons;
 
                 Vertex() {}
 
                 Vertex(int id, std::string name, int len) : id(id), name(name), len(len) {}
             };
+
             struct Lib {
                 static const int typeCnt = 6;
                 enum Type {
@@ -81,6 +94,8 @@ namespace filter {
 
             int mxEdge = 0;
         public:
+            std::vector<Exon> getExons(int v);
+
             std::vector<int> getEdges(int v); //get all edges from vertex v
             std::vector<int> getEdgesR(int v); //get all edges to vertex v
 
@@ -121,6 +136,8 @@ namespace filter {
             void setWeight(int e, int w);
             void delEdge(int e);
             void delVertex(int v);
+
+            void addExonBlock(std::string fileName);
 
             Lib mergeLib(int l1, int l2, std::string lib_name, double w1, double w2);
         private:

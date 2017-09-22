@@ -42,7 +42,7 @@ int main(int argc, char **argv) {
     std::string inFileName = argv[1];
     std::string outFileName = argv[2];
 
-    ExonsInfo exons;
+    ExonsInfo exons(outFileName);
     seqan::BamFileIn bamFile;
 
     if (!open(bamFile, inFileName.c_str())) {
@@ -53,15 +53,15 @@ int main(int argc, char **argv) {
     std::vector<std::pair<std::string, int> > contigs = readHeader(bamFile);
 
     seqan::BamAlignmentRecord read;
-    int cnt = 10000000;
+    //int cnt = 10000000;
 
-    while (!seqan::atEnd(bamFile) && cnt > 0) {
+    while (!seqan::atEnd(bamFile) /*&& cnt > 0*/) {
         seqan::readRecord(read, bamFile);
 
         exons.addInfo(contigs[read.rID].first, contigs[read.rID].second, read); //read.beginPos, read.beginPos + seqan::getAlignmentLengthInRef(read)
-        --cnt;
+        //--cnt;
     }
 
-    exons.printInfo(outFileName);
+    exons.printInfo();
     return 0;
 }

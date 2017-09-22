@@ -3,6 +3,7 @@
 
 #include <Filter/ContigGraph/ContigGraph.h>
 #include <set>
+#include <Filter/Statistics/InfoAboutContigsAlig.h>
 #include "Rule.h"
 
 namespace filter {
@@ -12,6 +13,8 @@ namespace filter {
         class RuleCoord : public Rule {
         private:
             std::set<int> edgeForDel;
+            statistics::InfoAboutContigsAlig infoAlig;
+            int cnt[2] = {0, 0};
         public:
             void simplifyGraph(ContigGraph *filter) override;
 

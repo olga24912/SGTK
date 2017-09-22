@@ -15,6 +15,7 @@
 #include "RuleDel30.h"
 #include "RuleValidateCoord.h"
 #include "RuleCovering.h"
+#include "RuleExonBlocks.h"
 
 namespace filter {
     namespace scaffolder {
@@ -46,17 +47,10 @@ namespace filter {
             RuleBigDifInWeight rbddiw;
             rbddiw.simplifyGraph(graph);
             riol.simplifyGraph(graph);
-            RuleCoord rc;
-            rc.simplifyGraph(graph);
-            //RuleValidateCoord rvc;
-            //rvc.simplifyGraph(graph);
+            RuleExonBlocks reb;
+            reb.simplifyGraph(graph);
             RuleDel30 rd30;
             rd30.simplifyGraph(graph);
-
-            RuleCovering rcov;
-            rcov.setBamFiles(bamFiles);
-            rcov.setAligFile(alig);
-            rcov.simplifyGraph(graph);
 
             ScaffoldStrategyUniqueConnection ssuc;
             ssuc.addConnection(&scaffolds, graph);

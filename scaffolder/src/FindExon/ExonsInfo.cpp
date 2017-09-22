@@ -4,30 +4,29 @@
 
 namespace findExon {
     void ExonsInfo::addInfo(std::string contigName, int contigLen, seqan::BamAlignmentRecord read) {
-        if (exons.size() == 0 || exons[exons.size() - 1].getContigName() != contigName) {
-            if (exons.size() > 0) {
-                exons[exons.size() - 1].finish();
+        if (exons == nullptr || exons->getContigName() != contigName) {
+            if (exons != nullptr) {
+                exons->finish();
+                exons->writeExonBlock(out);
+                delete(exons);
             }
 
-            if (cover.size() <= contigLen) {
-                cover.resize(contigLen + 1, 0);
-                misCover.resize(contigLen + 1, 0);
-            }
+            cover.resize(contigLen + 1, 0);
+            misCover.resize(contigLen + 1, 0);
 
-            exons.push_back(ExonInfo(contigName, contigLen, cover, misCover));
+            exons = new ExonInfo(contigName, contigLen, cover, misCover);
         }
 
-        exons[exons.size() - 1].addReadInfo(read);
+        exons->addReadInfo(read);
     }
 
-    void ExonsInfo::printInfo(std::string fileName) {
-        std::ofstream out(fileName);
-        if (exons.size() > 0) {
-            exons[exons.size() - 1].finish();
-        }
-
-        for (auto &exon : exons) {
-            exon.writeExonBlock(out);
+    void ExonsInfo::printInfo() {
+        if (exons != nullptr) {
+            exons->finish();
+            exons->writeExonBlock(out);
+            delete(exons);
         }
     }
+
+    ExonsInfo::ExonsInfo(std::string fileName) : out(fileName) {}
 }

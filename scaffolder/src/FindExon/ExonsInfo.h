@@ -8,13 +8,16 @@ namespace findExon {
 
     class ExonsInfo {
     private:
-        std::vector<ExonInfo> exons;
+        ExonInfo* exons = nullptr;
         std::vector<int> cover;
         std::vector<int> misCover;
+
+        std::ofstream out;
     public:
+        ExonsInfo(std::string fileName);
         void addInfo(std::string contigName, int contigLen, seqan::BamAlignmentRecord read);
 
-        void printInfo(std::string fileName);
+        void printInfo();
     };
 }
 

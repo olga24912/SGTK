@@ -22,6 +22,7 @@
 #include <Filter/CommandParsers/Commands/CommandUploadGraph/CommandUploadScaffoldsGraph.h>
 #include <Filter/CommandParsers/Commands/CommandUploadGraph/CommandAddInfoToGraph.h>
 #include <Filter/CommandParsers/Commands/CommandUploadGraph/CommandAddBothPath.h>
+#include <Filter/CommandParsers/Commands/CommandSetExonBlockFile.h>
 #include "Manager.h"
 
 namespace filter {
@@ -55,6 +56,7 @@ namespace filter {
         const std::string Manager::SET_BLOCK_SPLIT_DOT_WRITER = "setBlockSplitDotWriter";
         const std::string Manager::SET_MAX_VE_IN_ONE_FILE = "setMaxVEinOneFile";
         const std::string Manager::SET_COORD_FILE = "setCoordFile";
+        const std::string Manager::SET_EXON_BLOCK_FILE = "setExonBlockFile";
         const std::string Manager::SET_BAM_FILE = "setBamFile";
         const std::string Manager::STAT_CORRECT_CON = "statisticCorrectConnection";
         const std::string Manager::STAT_WEIGHT = "statisticWeight";
@@ -96,6 +98,7 @@ namespace filter {
             commandByKeyWord[SET_BLOCK_SPLIT_DOT_WRITER] = new CommandSetBSDotWriter();
             commandByKeyWord[SET_MAX_VE_IN_ONE_FILE] = new CommandSetMaxVEinOneFile();
             commandByKeyWord[SET_COORD_FILE] = new CommandSetCoordFile();
+            commandByKeyWord[SET_EXON_BLOCK_FILE] = new CommandSetExonBlockFile();
             commandByKeyWord[SET_BAM_FILE] = new CommandSetBamFile();
             commandByKeyWord[STAT_CORRECT_CON] = new CommandCorrectConnectionStatistic();
             commandByKeyWord[STAT_WEIGHT] = new CommandWeightStatistic();

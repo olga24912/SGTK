@@ -3,6 +3,7 @@
 
 #include <ContigGraph/ContigGraph.h>
 #include <set>
+#include <Filter/Statistics/InfoAboutContigsAlig.h>
 #include "Rule.h"
 
 namespace filter {
@@ -11,6 +12,7 @@ namespace filter {
         class RuleBigDifInWeight : public Rule {
         private:
             std::set<int> edgeForDel;
+
         public:
             void simplifyGraph(ContigGraph *graph) override;
 
