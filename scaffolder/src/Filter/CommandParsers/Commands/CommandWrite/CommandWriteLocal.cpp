@@ -3,20 +3,26 @@
 namespace filter {
     namespace commands {
         void CommandWriteLocal::writeGraph(std::string argv, State &state, ContigGraph &graph) {
-                std::stringstream ss(argv);
-                std::string fileName;
-                int v;
-                int dist;
-                ss >> fileName >> v >> dist;
+            std::stringstream ss(argv);
+            std::string fileName;
+            std::vector<int> v;
+            int dist;
+            ss >> fileName >> dist;
+            int w;
+            while (ss >> w) {
+                v.push_back(w);
+            }
 
-                INFO("write local graph fileName=" << fileName << " v=" << v << " dist=" << dist);
+            INFO("write local graph fileName=" << fileName << " len(v)=" << v.size() << " dist=" << dist);
 
-                writers::WriteLocal writer(v, dist, fileName, &graph, state.validator, state.dotWriterBuilder);
+            for (int w : v) {
+                writers::WriteLocal writer(w, dist, fileName, &graph, state.validator, state.dotWriterBuilder);
                 writer.write();
+            }
 
-                state.name = State::LOCAL;
-                state.fileName = fileName;
-                state.dist = dist;
+            state.name = State::LOCAL;
+            state.fileName = fileName;
+            state.dist = dist;
         }
     }
 }
