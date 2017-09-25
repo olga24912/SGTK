@@ -177,10 +177,10 @@ def runFindExons(lib_name, prevdir, type):
     os.chdir(lib_dir)
 
     if (type == "RNA_PAIR"):
-        os.system(path_to_exec_dir + "findExon " + type + " rna1s.bam  " + "out1.crd")
-        os.system(path_to_exec_dir + "findExon " + type + " rna2s.bam  " + "out2.crd")
+        os.system(path_to_exec_dir + "findExon  rna1s.bam  out1.crd")
+        os.system(path_to_exec_dir + "findExon  rna2s.bam  out2.crd")
     else:
-        os.system(path_to_exec_dir + "findExon " + type + " rnas.bam  " + "out.crd")
+        os.system(path_to_exec_dir + "findExon  rnas.bam  out.crd")
 
     os.chdir(prevdir)
     return
@@ -258,7 +258,7 @@ def create_scaffolds(contig_file_name, rnap_list, rnas_list):
     f.write("uploadGraph out.gr\n")
     f.write("minContig 500\n")
     if (len(rnap_list) != 0):
-        f.write("setExonBlockFile rnap0/out.crd\n")
+        f.write("setExonBlockFile rnap0/out1.crd\n")
     elif (len(rnas_list) != 0):
         f.write("setExonBlockFile rnas0_50/out.crd\n")
     f.write("mergeSimplePath " + contig_file_name + " scaffolds.fa\n")

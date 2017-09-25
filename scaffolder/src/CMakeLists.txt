@@ -41,6 +41,9 @@ install(TARGETS build
 install(TARGETS mergeGraph
         DESTINATION bin
         COMPONENT runtime)
+install(TARGETS findExon
+        DESTINATION bin
+        COMPONENT runtime)
 install(TARGETS readSplitter
         DESTINATION bin
         COMPONENT runtime)

@@ -87,6 +87,6 @@ set(SOURCE_FILES
         Scaffolder/RuleValidateCoord.cpp Scaffolder/RuleValidateCoord.h
         Scaffolder/RuleCovering.cpp Scaffolder/RuleCovering.h
         ContigGraph/ContigGraph.h ContigGraph/ContigGraph.cpp
-        ContigGraph/SeqanUtils.h ContigGraph/SeqanUtils.cpp Scaffolder/RuleDelSmallEdges.cpp Scaffolder/RuleDelSmallEdges.h Scaffolder/RuleExonBlocks.cpp Scaffolder/RuleExonBlocks.h)
+        ContigGraph/SeqanUtils.h ContigGraph/SeqanUtils.cpp Scaffolder/RuleDelSmallEdges.cpp Scaffolder/RuleDelSmallEdges.h Scaffolder/RuleExonBlocks.cpp Scaffolder/RuleExonBlocks.h CommandParsers/Commands/CommandStatistic/CommandWrongRightStatistic.cpp CommandParsers/Commands/CommandStatistic/CommandWrongRightStatistic.h)
 
 add_library(filter_lib ${SOURCE_FILES})

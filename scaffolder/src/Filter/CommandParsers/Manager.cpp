@@ -23,6 +23,7 @@
 #include <Filter/CommandParsers/Commands/CommandUploadGraph/CommandAddInfoToGraph.h>
 #include <Filter/CommandParsers/Commands/CommandUploadGraph/CommandAddBothPath.h>
 #include <Filter/CommandParsers/Commands/CommandSetExonBlockFile.h>
+#include <Filter/CommandParsers/Commands/CommandStatistic/CommandWrongRightStatistic.h>
 #include "Manager.h"
 
 namespace filter {
@@ -65,6 +66,7 @@ namespace filter {
         const std::string Manager::STAT_TWO_LIB = "statisticTwoLib";
         const std::string Manager::STAT_TWO_COMP = "statisticTwoCompetitor";
         const std::string Manager::STAT_CLUST = "statisticCluster";
+        const std::string Manager::STAT_WRONG_RIGHT = "statisticWrongRight";
         const std::string Manager::HISTOGRAM = "histogram";
 
         Manager::Manager() {
@@ -107,6 +109,7 @@ namespace filter {
             commandByKeyWord[STAT_TWO_LIB] = new CommandTwoLibStatistic();
             commandByKeyWord[STAT_TWO_COMP] = new CommandTwoCompStatistic();
             commandByKeyWord[STAT_CLUST] = new CommandClusterStatistic();
+            commandByKeyWord[STAT_WRONG_RIGHT] = new CommandWrongRightStatistic();
             commandByKeyWord[HISTOGRAM] = new CommandHistogram();
         }
 

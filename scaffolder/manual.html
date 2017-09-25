@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>??? Manual</title>
+    <title>IGAR Manual</title>
     <style type="text/css">
         .code {
             background-color: lightgray;
@@ -8,13 +8,12 @@
     </style>
 </head>
 <body>
-<h1>??? Manual</h1>
+<h1>IGAR Manual</h1>
 
-1. <a href="#sec1">About ???</a><br>
+1. <a href="#sec1">About IGAR</a><br>
 2. <a href="#sec2">Installation</a><br>
-3. <a href="#sec3">Running ???</a><br>
+3. <a href="#sec3">Running IGAR</a><br>
 &nbsp;&nbsp;&nbsp;&nbsp;3.1. <a href="#sec3.1">RNA scaffolder</a><br>
-
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.1.1. <a href="#sec3.1.1">Input</a><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.1.2. <a href="#sec3.1.2">Command line options</a><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.1.3. <a href="#sec3.1.3">Output</a><br>
@@ -30,14 +29,14 @@
 <br>
 
 <a name="sec1"></a>
-<h2>1. About ???</h2>
+<h2>1. About IGAR</h2>
 
 <a name="sec2"></a>
 <h2>2. Installation</h2>
 Downloading and compiling source code.
 
 <p>
-    If you wish to compile ??? by yourself you will need the following libraries to be pre-installed:
+    If you wish to compile IGAR by yourself you will need the following libraries to be pre-installed:
 <ul>
     <li>g++ </li>
     <li>cmake </li>
@@ -50,13 +49,13 @@ Downloading and compiling source code.
 </ul>
 
 <p>
-    If you meet these requirements, you can download the ???:
+    If you meet these requirements, you can download the IGAR.
 
 <pre class="code">
 <code>
-    wget ???
-    tar -xzf ???
-    cd ???
+    wget IGAR
+    tar -xzf IGAR
+    cd IGAR
 </code>
 </pre>
 
@@ -70,7 +69,7 @@ Downloading and compiling source code.
 </pre>
 
 <p>
-    ??? will be built in the directory <code>./bin</code>. If you wish to install ??? into another directory, you can specify full path of destination folder by running the following command in <code>bash</code> or <code>sh</code>:
+    IGAR will be built in the directory <code>./bin</code>. If you wish to install IGAR into another directory, you can specify full path of destination folder by running the following command in <code>bash</code> or <code>sh</code>:
 
 <pre class="code">
 <code>
@@ -88,7 +87,7 @@ Downloading and compiling source code.
 </pre>
 
 <p>
-    which will install ??? into <code>/usr/local/bin</code>.
+    which will install IGAR into <code>/usr/local/bin</code>.
 
 <p>
     After installation you will get the same files in <code>./bin</code> (or <code>&lt;destination_dir>/bin</code> if you specified PREFIX) directory:
@@ -103,10 +102,10 @@ Downloading and compiling source code.
 </ul>
 
 <p>
-    We also suggest adding ??? installation directory to the <code>PATH</code> variable.
+    We also suggest adding IGAR installation directory to the <code>PATH</code> variable.
 
 <a name="sec3"></a>
-<h2>3. Running ???</h2>
+<h2>3. Running IGAR</h2>
 
 <a name="sec3.1"></a>
 <h3>3.1. RNA scaffolder</h3>
@@ -115,7 +114,7 @@ Downloading and compiling source code.
 <h4>3.1.1. Input </h4>
 
 <p>
-    ??? takes as input contigs in FASTA format and paired-end RNA reads or single (unpaired) RNA reads in FASTA and FASTQ.
+    IGAR takes as input contigs in FASTA format and paired-end RNA reads or single (unpaired) RNA reads in FASTA and FASTQ.
 <p>
 
 <a name="sec3.1.2"></a>
@@ -129,7 +128,7 @@ Downloading and compiling source code.
     rna_scaffolder.py [options]
 </code>
 </pre>
-Note that we assume that ??? installation directory is added to the <code>PATH</code> variable (provide full path to ??? executable otherwise: <code>&lt;installation dir>/rna_scaffolder.py</code>).
+Note that we assume that IGAR installation directory is added to the <code>PATH</code> variable (provide full path to IGAR executable otherwise: <code>&lt;installation dir>/rna_scaffolder.py</code>).
 
 <a name="basicopt"></a>
 <h4>Basic options</h4>
@@ -158,7 +157,7 @@ Note that we assume that ??? installation directory is added to the <code>PATH</
 <a name="sec3.1.3"></a>
 <h4>3.1.3. Output</h4>
 
-??? stores all output files in <code>&lt;output_dir> </code>, which is set by the user.
+IGAR stores all output files in <code>&lt;output_dir> </code>, which is set by the user.
 
 <ul>
     <li><code>&lt;output_dir>/scaffolds.fa</code> contains resulting scaffolds </li>
@@ -167,7 +166,7 @@ Note that we assume that ??? installation directory is added to the <code>PATH</
 </ul>
 
 <p>
-    Scaffolds names in ??? output FASTA files have the following format: <br><code>path179 </code><br> Here <code>179</code> is the number of the scaffold.
+    Scaffolds names in IGAR output FASTA files have the following format: <br><code>path179 </code><br> Here <code>179</code> is the number of the scaffold.
 </p>
 
 
@@ -175,7 +174,7 @@ Note that we assume that ??? installation directory is added to the <code>PATH</
 <h4>3.1.4. Example</h4>
 
 <p>
-    To test the toy data set, you can also run the following command from the ??? <code>bin</code> directory:
+    To test the toy data set, you can also run the following command from the IGAR <code>bin</code> directory:
 
 <pre class="code">
 <code>
@@ -244,7 +243,7 @@ Note that we assume that ??? installation directory is added to the <code>PATH</
     visualize_scaffold_graph.py [options]
 </code>
 </pre>
-Note that we assume that ??? installation directory is added to the <code>PATH</code> variable (provide full path to ??? executable otherwise: <code>&lt;installation dir>/visualize_scaffold_graph.py</code>).
+Note that we assume that IGAR installation directory is added to the <code>PATH</code> variable (provide full path to IGAR executable otherwise: <code>&lt;installation dir>/visualize_scaffold_graph.py</code>).
 
 <a name="basicopt"></a>
 <h4>Basic options</h4>
@@ -292,7 +291,7 @@ Note that we assume that ??? installation directory is added to the <code>PATH</
 <a name="sec3.2.3"></a>
 <h4>3.2.3. Output</h4>
 
-??? stores all output files in <code>&lt;output_dir> </code>, which is set by the user.
+IGAR stores all output files in <code>&lt;output_dir> </code>, which is set by the user.
 
 <ul>
     <li><code>&lt;output_dir>/outdot/</code> dot files with graph</li>
@@ -304,7 +303,7 @@ Note that we assume that ??? installation directory is added to the <code>PATH</
 <a name="sec3.2.4"></a>
 <h4>3.2.4. Example</h4>
 <p>
-    To test the toy data set, you can also run the following command from the ??? <code>bin</code> directory:
+    To test the toy data set, you can also run the following command from the IGAR <code>bin</code> directory:
 
 <pre class="code">
 <code>
