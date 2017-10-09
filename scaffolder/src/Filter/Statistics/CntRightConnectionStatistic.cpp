@@ -1,8 +1,9 @@
 #include "CntRightConnectionStatistic.h"
-#include "InfoAboutContigsAlig.h"
+#include "Filter/AligInfo/InfoAboutContigsAlig.h"
 
 namespace filter {
     namespace statistics {
+        using namespace alig_info;
         void CntRightConnectionStatistic::calculateStatistic(ContigGraph *filter, std::string coordFile, int libNum) {
             InfoAboutContigsAlig aligInfo;
             aligInfo.parseCoordFile(filter, coordFile);

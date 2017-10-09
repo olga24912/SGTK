@@ -16,7 +16,10 @@ namespace filter {
             INFO("write local graph fileName=" << fileName << " len(v)=" << v.size() << " dist=" << dist);
 
             for (int w : v) {
-                writers::WriteLocal writer(w, dist, fileName, &graph, state.validator, state.dotWriterBuilder);
+                std::stringstream sw;
+                sw << fileName.c_str();
+                sw << "_" << w << "_";
+                writers::WriteLocal writer(w, dist, sw.str(), &graph, state.validator, state.dotWriterBuilder);
                 writer.write();
             }
 

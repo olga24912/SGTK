@@ -11,7 +11,7 @@ namespace filter {
         public:
             void calculateStatistic(ContigGraph *graph, std::string coordFile);
         private:
-            InfoAboutContigsAlig aligInfo;
+            alig_info::InfoAboutContigsAlig aligInfo;
             struct clusterInfo {
                 int size;
                 int minWeight;

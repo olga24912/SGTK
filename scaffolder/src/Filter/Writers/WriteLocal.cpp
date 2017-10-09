@@ -8,7 +8,7 @@ namespace filter {
                 Writer(graph1, validator, builder), v(v), dist(dist), fileName(fileName) {}
 
         void WriteLocal::write() {
-            INFO("Write Local");
+            INFO("Write Local " << fileName);
             dotWriter->writeVertexSet(searcher.findVertInLocalArea(v, dist), fileName);
         }
     }

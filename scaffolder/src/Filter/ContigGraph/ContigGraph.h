@@ -8,6 +8,8 @@
 #include <fstream>
 #include <iostream>
 #include <Logger/logger.hpp>
+#include <seqan/basic.h>
+#include <seqan/gff_io.h>
 #include "assert.h"
 
 namespace filter {
@@ -51,7 +53,8 @@ namespace filter {
                 int len;
                 std::vector<int> edges;
                 std::vector<int> edgesR;
-                std::vector<Exon> exons;
+                std::vector<Exon> exonsStr1;
+                std::vector<Exon> exonsStr2;
 
                 Vertex() {}
 
@@ -93,8 +96,10 @@ namespace filter {
             int libCnt;
 
             int mxEdge = 0;
+
+            void addExonBlockFromGffFile(std::string fileName);
         public:
-            std::vector<Exon> getExons(int v);
+            std::vector<Exon> getExons(int v, int strand);
 
             std::vector<int> getEdges(int v); //get all edges from vertex v
             std::vector<int> getEdgesR(int v); //get all edges to vertex v
@@ -126,6 +131,11 @@ namespace filter {
             int getLibNum(); //get the count of lib
             int getMaxVertId();
             std::string getInfo(int e);
+
+            Vertex getVertex(int v) {
+                targets[v].id = v;
+                return targets[v];
+            }
 
             std::vector<int> getVertexList();
 

@@ -2,6 +2,7 @@
 
 namespace filter {
     namespace statistics {
+        using namespace alig_info;
         void
         WeightStatistic::calculateStatistic(ContigGraph *graph, std::string coordFile, int libNum, int step, int mxWeight) {
             InfoAboutContigsAlig aligInfo;

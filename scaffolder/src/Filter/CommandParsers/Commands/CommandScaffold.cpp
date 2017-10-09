@@ -14,7 +14,7 @@ namespace filter {
 
             scaffolder::ScaffolderPipeline sp;
 
-            statistics::InfoAboutContigsAlig alig;
+            alig_info::InfoAboutContigsAlig alig;
             alig.parseCoordFile(&graph, state.coordFile);
 
             sp.setAlig(&alig);

@@ -5,7 +5,7 @@ namespace filter {
         void
         TwoLibStatistic::calculateStatistic(ContigGraph *graph, std::string coordFile, int libNum1, int step1, int mxW1,
                                             int step1_2, int mxW1_2, int libNum2, int step2, int mxW2) {
-            InfoAboutContigsAlig aligInfo;
+            alig_info::InfoAboutContigsAlig aligInfo;
             aligInfo.parseCoordFile(graph, coordFile);
 
             int cnt_box1 = mxW1 / step1 + 1;
@@ -62,7 +62,7 @@ namespace filter {
                     }
                 }
 
-                InfoAboutContigsAlig::ErrorType status = aligInfo.isCorrectEdge(graph, e1);
+                alig_info::InfoAboutContigsAlig::ErrorType status = aligInfo.isCorrectEdge(graph, e1);
                 int wg1 = graph->getEdgeWeight(e1) / step1;
                 int wg1_2 = 0;
                 int wg2 = 0;

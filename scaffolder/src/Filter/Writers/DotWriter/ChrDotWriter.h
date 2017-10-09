@@ -25,23 +25,23 @@ namespace filter {
         public:
 
             void writeOneChr(const std::string chr,
-                             std::vector<std::pair<int, statistics::InfoAboutContigsAlig::Alignment >> verts,
+                             std::vector<std::pair<int, alig_info::InfoAboutContigsAlig::Alignment >> verts,
                              const std::string chr2,
-                             std::vector<std::pair<int, statistics::InfoAboutContigsAlig::Alignment >> verts2,
+                             std::vector<std::pair<int, alig_info::InfoAboutContigsAlig::Alignment >> verts2,
                              std::string fileName);
 
             void writeOnePart(const std::string chrName,
-                              std::vector<std::pair<int, statistics::InfoAboutContigsAlig::Alignment > > chrV,
-                              std::vector<std::pair<int, statistics::InfoAboutContigsAlig::Alignment > > chrV2,
+                              std::vector<std::pair<int, alig_info::InfoAboutContigsAlig::Alignment > > chrV,
+                              std::vector<std::pair<int, alig_info::InfoAboutContigsAlig::Alignment > > chrV2,
                               std::vector<int> allVert,  std::string fileName);
 
-            void findVertsForCurFile(int &pos, std::vector<std::pair<int, statistics::InfoAboutContigsAlig::Alignment>> &verts,
-                             std::vector<std::pair<int, statistics::InfoAboutContigsAlig::Alignment>> &verts2,
-                             std::vector<std::pair<int, statistics::InfoAboutContigsAlig::Alignment>> &chrv,
-                             std::vector<std::pair<int, statistics::InfoAboutContigsAlig::Alignment>> &chrv2,
+            void findVertsForCurFile(int &pos, std::vector<std::pair<int, alig_info::InfoAboutContigsAlig::Alignment>> &verts,
+                             std::vector<std::pair<int, alig_info::InfoAboutContigsAlig::Alignment>> &verts2,
+                             std::vector<std::pair<int, alig_info::InfoAboutContigsAlig::Alignment>> &chrv,
+                             std::vector<std::pair<int, alig_info::InfoAboutContigsAlig::Alignment>> &chrv2,
                              std::vector<int> &toPrint);
 
-            std::ofstream &writeOneStrand(std::vector<std::pair<int, statistics::InfoAboutContigsAlig::Alignment>> chrV,
+            std::ofstream &writeOneStrand(std::vector<std::pair<int, alig_info::InfoAboutContigsAlig::Alignment>> chrV,
                                                       std::vector<bool, std::allocator<bool>> hasOtherEdge, std::vector<int> coord,
                                                       std::vector<std::pair<int, int>> vertE, std::ofstream& out);
         };

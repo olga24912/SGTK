@@ -494,6 +494,12 @@ namespace filter {
         }
 
         void ContigGraph::addExonBlock(std::string fileName) {
+            INFO("start add exons: " << fileName);
+            if (fileName.substr(fileName.size() - 3) == "gff") {
+                addExonBlockFromGffFile(fileName);
+                return;
+            }
+
             std::ifstream in(fileName);
             std::string line;
             while (getline(in, line)) {
@@ -511,20 +517,77 @@ namespace filter {
                 while (ss >> c) {
                     Exon ex;
                     ss >> ex.b >> ex.e >> ex.cov >> ex.id;
-                    targets[v].exons.push_back(ex);
+                    targets[v].exonsStr1.push_back(ex);
                     int e = ex.e, b = ex.b;
                     ex.b = len - e;
                     ex.e = len - b;
-                    targets[u].exons.push_back(ex);
+                    targets[u].exonsStr1.push_back(ex);
                     ss >> c;
                 }
 
-                std::reverse(targets[u].exons.begin(), targets[u].exons.end());
+                std::reverse(targets[u].exonsStr1.begin(), targets[u].exonsStr1.end());
             }
         }
 
-        std::vector<ContigGraph::Exon> ContigGraph::getExons(int v) {
-            return targets[v].exons;
+        std::vector<ContigGraph::Exon> ContigGraph::getExons(int v, int strand) {
+            if (strand == 1) {
+                return targets[v].exonsStr1;
+            } else {
+                return targets[v].exonsStr2;
+            }
+        }
+
+        void ContigGraph::addExonBlockFromGffFile(std::string fileName) {
+            seqan::GffFileIn gffIn(fileName.c_str());
+
+            seqan::GffRecord record;
+            std::vector<int> rev;
+            while (!seqan::atEnd(gffIn)) {
+                try {
+                    seqan::readRecord(record, gffIn);
+                    if (std::string(seqan::toCString(record.type)) != "gene") continue;
+                    //std::cerr << seqan::toCString(record.ref) << " "
+                    //          << seqan::toCString(record.type) << " "
+                    //          << record.beginPos << " " << record.endPos << "\n";
+                    int b = record.beginPos, e = record.endPos;
+                    std::string contigName = std::string(seqan::toCString(record.ref));
+
+                    int v = targetId[contigName];
+                    if (targets.count(v) == 0) continue;
+                    int len = targets[v].len;
+
+                    Exon ex;
+                    ex.b = b;
+                    ex.e = e;
+                    if (record.strand == '+') {
+                        ex.id = (int) targets[v].exonsStr1.size();
+                        targets[v].exonsStr1.push_back(ex);
+                    } else {
+                        ex.id = (int) targets[v].exonsStr2.size();
+                        targets[v].exonsStr2.push_back(ex);
+                    }
+
+                    ex.b = len - e;
+                    ex.e = len - b;
+                    if (record.strand == '+') {
+                        targets[v ^ 1].exonsStr1.push_back(ex);
+                    } else {
+                        targets[v ^ 1].exonsStr1.push_back(ex);
+                    }
+                    rev.push_back(v ^ 1);
+
+                } catch (seqan::Exception const & e) {
+                    WARN(e.what());
+                }
+            }
+
+            sort(rev.begin(), rev.end());
+            rev.resize(std::unique(rev.begin(), rev.end()) - rev.begin());
+
+            for (int v : rev) {
+                std::reverse(targets[v].exonsStr1.begin(), targets[v].exonsStr1.end());
+                std::reverse(targets[v].exonsStr2.begin(), targets[v].exonsStr2.end());
+            }
         }
     }
 }

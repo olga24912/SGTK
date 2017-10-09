@@ -1,14 +1,14 @@
 #ifndef SCAFFOLDER_RULEEXONBLOCKS_H
 #define SCAFFOLDER_RULEEXONBLOCKS_H
 
-#include <Filter/Statistics/InfoAboutContigsAlig.h>
+#include <Filter/AligInfo/InfoAboutContigsAlig.h>
 #include "Rule.h"
 
 namespace filter {
     namespace scaffolder {
         class RuleExonBlocks : public Rule {
         private:
-            statistics::InfoAboutContigsAlig infoAlig;
+            alig_info::InfoAboutContigsAlig infoAlig;
             int cnt[2] = {0, 0};
 
         public:

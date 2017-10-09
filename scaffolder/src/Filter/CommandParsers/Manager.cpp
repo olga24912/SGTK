@@ -24,6 +24,7 @@
 #include <Filter/CommandParsers/Commands/CommandUploadGraph/CommandAddBothPath.h>
 #include <Filter/CommandParsers/Commands/CommandSetExonBlockFile.h>
 #include <Filter/CommandParsers/Commands/CommandStatistic/CommandWrongRightStatistic.h>
+#include <Filter/CommandParsers/Commands/CommandStatistic/CommandStrandStatistic.h>
 #include "Manager.h"
 
 namespace filter {
@@ -57,7 +58,7 @@ namespace filter {
         const std::string Manager::SET_BLOCK_SPLIT_DOT_WRITER = "setBlockSplitDotWriter";
         const std::string Manager::SET_MAX_VE_IN_ONE_FILE = "setMaxVEinOneFile";
         const std::string Manager::SET_COORD_FILE = "setCoordFile";
-        const std::string Manager::SET_EXON_BLOCK_FILE = "setExonBlockFile";
+        const std::string Manager::SET_EXON_BLOCK_FILE = "setExonBlock";
         const std::string Manager::SET_BAM_FILE = "setBamFile";
         const std::string Manager::STAT_CORRECT_CON = "statisticCorrectConnection";
         const std::string Manager::STAT_WEIGHT = "statisticWeight";
@@ -67,6 +68,7 @@ namespace filter {
         const std::string Manager::STAT_TWO_COMP = "statisticTwoCompetitor";
         const std::string Manager::STAT_CLUST = "statisticCluster";
         const std::string Manager::STAT_WRONG_RIGHT = "statisticWrongRight";
+        const std::string Manager::STAT_STRAND = "statisticStrand";
         const std::string Manager::HISTOGRAM = "histogram";
 
         Manager::Manager() {
@@ -110,6 +112,7 @@ namespace filter {
             commandByKeyWord[STAT_TWO_COMP] = new CommandTwoCompStatistic();
             commandByKeyWord[STAT_CLUST] = new CommandClusterStatistic();
             commandByKeyWord[STAT_WRONG_RIGHT] = new CommandWrongRightStatistic();
+            commandByKeyWord[STAT_STRAND] = new CommandStrandStatistic();
             commandByKeyWord[HISTOGRAM] = new CommandHistogram();
         }
 

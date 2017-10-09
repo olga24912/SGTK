@@ -1,7 +1,7 @@
 #ifndef SCAFFOLDER_RULEVALIDATECOORD_H
 #define SCAFFOLDER_RULEVALIDATECOORD_H
 
-#include <Filter/Statistics/InfoAboutContigsAlig.h>
+#include <Filter/AligInfo/InfoAboutContigsAlig.h>
 #include "Rule.h"
 
 namespace filter {

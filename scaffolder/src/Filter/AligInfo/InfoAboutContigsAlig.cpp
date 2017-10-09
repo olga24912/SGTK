@@ -4,7 +4,7 @@
 #include "InfoAboutContigsAlig.h"
 
 namespace filter {
-    namespace statistics {
+    namespace alig_info {
         using namespace contig_graph;
         void InfoAboutContigsAlig::parseCoordFile(ContigGraph *graph, std::string coordFileName) {
             if (alignment.size() > 0) return;
@@ -28,8 +28,8 @@ namespace filter {
                     std::swap(lq, rq);
                 }
 
-                alignment[vid].push_back(Alignment(rcont, l, r));
-                alignment[vid ^ 1].push_back(Alignment(rcont + "-rev", chrLen - r, chrLen - l));
+                alignment[vid].push_back(Alignment(rcont, l, r, chrLen));
+                alignment[vid ^ 1].push_back(Alignment(rcont + "-rev", chrLen - r, chrLen - l, chrLen));
             }
 
             in.close();
@@ -95,6 +95,8 @@ namespace filter {
                     }
 
                     status = ErrorType::OK;
+
+                    INFO(al1.chrName << " " << al1.coordBegin << " " << al1.coordEnd << " " << al2.coordBegin << " " << al2.coordEnd << "\n");
                 }
             }
 

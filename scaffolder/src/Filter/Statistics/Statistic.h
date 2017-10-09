@@ -2,7 +2,7 @@
 #define SCAFFOLDER_STATISTIC_H
 
 
-#include "InfoAboutContigsAlig.h"
+#include "Filter/AligInfo/InfoAboutContigsAlig.h"
 
 namespace filter {
     namespace statistics {

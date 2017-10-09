@@ -18,7 +18,7 @@ namespace filter {
                 rlibs.push_back(lb);
             }
 
-            statistics::InfoAboutContigsAlig aligInfo;
+            alig_info::InfoAboutContigsAlig aligInfo;
             aligInfo.parseCoordFile(&graph, state.coordFile);
 
             std::vector<int> vert = graph.getVertexList();
@@ -29,7 +29,7 @@ namespace filter {
 
                 for (int e : edges) {
                     int u = graph.getEdgeTo(e);
-                    if (aligInfo.isCorrectEdge(&graph, e) == statistics::InfoAboutContigsAlig::OK) continue;
+                    if (aligInfo.isCorrectEdge(&graph, e) == alig_info::InfoAboutContigsAlig::OK) continue;
                     int lib = graph.getEdgeLib(e);
 
                     if (lib == wlib) {

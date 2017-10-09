@@ -64,6 +64,7 @@ namespace filter {
  * statisticTwoCompetitor <coordFile> <libNum1> <w1> <libNum2> <w2>
  * statisticCluster <coordFile>
  * statisticWrongRight <outputFile> <libForWrong> <libForRight>*
+ * statisticStrand <gffFile> <coordFile>
  * histogram <lib> <step>
  */
         class Manager {
@@ -107,6 +108,7 @@ namespace filter {
             static const std::string STAT_TWO_COMP;
             static const std::string STAT_CLUST;
             static const std::string STAT_WRONG_RIGHT;
+            static const std::string STAT_STRAND;
             static const std::string HISTOGRAM;
 
 

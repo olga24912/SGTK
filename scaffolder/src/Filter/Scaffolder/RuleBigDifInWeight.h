@@ -3,7 +3,7 @@
 
 #include <ContigGraph/ContigGraph.h>
 #include <set>
-#include <Filter/Statistics/InfoAboutContigsAlig.h>
+#include <Filter/AligInfo/InfoAboutContigsAlig.h>
 #include "Rule.h"
 
 namespace filter {

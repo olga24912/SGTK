@@ -28,7 +28,7 @@ namespace filter {
             if (coordFile != "") {
                 out << "\n coord: \n";
 
-                std::vector<statistics::InfoAboutContigsAlig::Alignment> aligs = aligInfo.getAlignment(v);
+                std::vector<alig_info::InfoAboutContigsAlig::Alignment> aligs = aligInfo.getAlignment(v);
                 if (aligs.size() > 10) {
                     out << "too much alig\n";
                 } else {
@@ -39,19 +39,22 @@ namespace filter {
                 }
             }
 
-            std::vector<ContigGraph::Exon> exons = graph->getExons(v);
+            std::vector<ContigGraph::Exon> exons = graph->getExons(v, 1);
             if (exons.size() > 0) {
                 out << "\n exons: \n";
-
-                int cur = 0;
-                for (int i = 0; i < exons.size(); ++i) {
-                    if (exons[i].id != cur) {
-                        out << "\n";
-                        cur = exons[i].id;
+                if (exons.size() > 30) {
+                    out << "too much\n";
+                } else {
+                    int cur = 0;
+                    for (int i = 0; i < exons.size(); ++i) {
+                        if (exons[i].id != cur) {
+                            out << "\n";
+                            cur = exons[i].id;
+                        }
+                        out << exons[i].b << " " << exons[i].e << " " << exons[i].cov << "; ";
                     }
-                    out << exons[i].b << " " << exons[i].e << " " << exons[i].cov << "; ";
+                    out << "\n";
                 }
-                out << "\n";
             }
 
             out << "\"";

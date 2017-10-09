@@ -6,10 +6,10 @@ namespace filter {
     namespace writers {
         void filter::writers::ChrDotWriter::writeVertexSet(std::vector<int> vert, std::string fileName) {
             TRACE("start write vert set");
-            std::map<std::string, std::vector<std::pair<int, statistics::InfoAboutContigsAlig::Alignment> > > vertInChr;
+            std::map<std::string, std::vector<std::pair<int, alig_info::InfoAboutContigsAlig::Alignment> > > vertInChr;
 
             for (int v : vert) {
-                std::vector<statistics::InfoAboutContigsAlig::Alignment> aligs = aligInfo.getAlignment(v);
+                std::vector<alig_info::InfoAboutContigsAlig::Alignment> aligs = aligInfo.getAlignment(v);
                 for (auto alig : aligs) {
                     if ((alig.coordEnd - alig.coordBegin) * 10 > graph->getTargetLen(v)) {
                         vertInChr[alig.chrName].push_back(std::make_pair(v, alig));
@@ -25,16 +25,16 @@ namespace filter {
             TRACE("finish write vert set");
         }
 
-        bool cmp(std::pair<int, statistics::InfoAboutContigsAlig::Alignment > a,
-                 std::pair<int, statistics::InfoAboutContigsAlig::Alignment > b) {
+        bool cmp(std::pair<int, alig_info::InfoAboutContigsAlig::Alignment > a,
+                 std::pair<int, alig_info::InfoAboutContigsAlig::Alignment > b) {
             return (a.second.coordBegin < b.second.coordBegin) ||
                     (a.second.coordBegin == b.second.coordBegin && a.second.chrName < b.second.chrName);
         }
 
         void ChrDotWriter::writeOneChr(const std::string chr,
-                                       std::vector<std::pair<int, statistics::InfoAboutContigsAlig::Alignment >> verts,
+                                       std::vector<std::pair<int, alig_info::InfoAboutContigsAlig::Alignment >> verts,
                                        const std::string chr2,
-                                       std::vector<std::pair<int, statistics::InfoAboutContigsAlig::Alignment >> verts2,
+                                       std::vector<std::pair<int, alig_info::InfoAboutContigsAlig::Alignment >> verts2,
                                        std::string fileName) {
 
             TRACE("start write chr " << chr);
@@ -48,8 +48,8 @@ namespace filter {
             int pos = 0;
             int id = 0;
             while (pos < verts.size()) {
-                std::vector<std::pair<int, statistics::InfoAboutContigsAlig::Alignment > > chrv;
-                std::vector<std::pair<int, statistics::InfoAboutContigsAlig::Alignment > > chrv2;
+                std::vector<std::pair<int, alig_info::InfoAboutContigsAlig::Alignment > > chrv;
+                std::vector<std::pair<int, alig_info::InfoAboutContigsAlig::Alignment > > chrv2;
                 std::vector<int> toPrint;
 
                 findVertsForCurFile(pos, verts, verts2, chrv, chrv2, toPrint);
@@ -66,8 +66,8 @@ namespace filter {
         }
 
         void ChrDotWriter::writeOnePart(const std::string chrName,
-                                        std::vector<std::pair<int, statistics::InfoAboutContigsAlig::Alignment > > chrV,
-                                        std::vector<std::pair<int, statistics::InfoAboutContigsAlig::Alignment > > chrV2,
+                                        std::vector<std::pair<int, alig_info::InfoAboutContigsAlig::Alignment > > chrV,
+                                        std::vector<std::pair<int, alig_info::InfoAboutContigsAlig::Alignment > > chrV2,
                                         std::vector<int> allVert,
                                         std::string fileName) {
             TRACE("write vertex set");
@@ -153,7 +153,7 @@ namespace filter {
             TRACE("finish write vert set");
         }
 
-        std::ofstream & ChrDotWriter::writeOneStrand(std::vector<std::pair<int, statistics::InfoAboutContigsAlig::Alignment>> chrV,
+        std::ofstream & ChrDotWriter::writeOneStrand(std::vector<std::pair<int, alig_info::InfoAboutContigsAlig::Alignment>> chrV,
                                                              std::vector<bool, std::allocator<bool>> hasOtherEdge, std::vector<int> coord,
                                                              std::vector<std::pair<int, int>> vertE, std::ofstream& out) {
             out << "subgraph {\n";
@@ -227,10 +227,10 @@ namespace filter {
         }
 
         void ChrDotWriter::findVertsForCurFile(int &pos,
-                                               std::vector<std::pair<int, statistics::InfoAboutContigsAlig::Alignment>> &verts,
-                                               std::vector<std::pair<int, statistics::InfoAboutContigsAlig::Alignment>> &verts2,
-                                               std::vector<std::pair<int, statistics::InfoAboutContigsAlig::Alignment>> &chrv,
-                                               std::vector<std::pair<int, statistics::InfoAboutContigsAlig::Alignment>> &chrv2,
+                                               std::vector<std::pair<int, alig_info::InfoAboutContigsAlig::Alignment>> &verts,
+                                               std::vector<std::pair<int, alig_info::InfoAboutContigsAlig::Alignment>> &verts2,
+                                               std::vector<std::pair<int, alig_info::InfoAboutContigsAlig::Alignment>> &chrv,
+                                               std::vector<std::pair<int, alig_info::InfoAboutContigsAlig::Alignment>> &chrv2,
                                                std::vector<int> &toPrint) {
             std::set<int> useVert;
             while (pos < verts.size() && useVert.size() < 40) {

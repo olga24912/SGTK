@@ -30,7 +30,7 @@ namespace filter {
             for (int e : edges) {
                 int ww = filter->getEdgeWeight(e);
                 weights.push_back(ww);
-                if (aligInfo.isCorrectEdge(filter, e) == filter::statistics::InfoAboutContigsAlig::OK) {
+                if (aligInfo.isCorrectEdge(filter, e) == filter::alig_info::InfoAboutContigsAlig::OK) {
                     clinfo.winWeight = std::max(clinfo.winWeight, ww);
                 }
             }

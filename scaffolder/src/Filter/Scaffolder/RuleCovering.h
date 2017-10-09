@@ -9,7 +9,7 @@
 namespace filter {
     namespace scaffolder {
         using namespace commands;
-        using namespace statistics;
+        using namespace alig_info;
 
         class RuleCovering : public Rule {
         private:

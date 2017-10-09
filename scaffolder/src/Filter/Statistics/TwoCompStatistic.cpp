@@ -2,6 +2,7 @@
 
 namespace filter {
     namespace statistics {
+        using namespace alig_info;
         void
         TwoCompStatistic::calculateStatistic(ContigGraph *filter, std::string coordFile, int libNum1, int val1, int libNum2,
                                              int val2) {

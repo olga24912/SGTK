@@ -39,7 +39,7 @@ namespace filter {
                 for (int e : edges) {
                     int ce = graph->getEdgeCoordE1(e);
                     if (ce + 500 < cb) {
-                        if (infoAlig.isCorrectEdge(graph, e) == statistics::InfoAboutContigsAlig::OK) {
+                        if (infoAlig.isCorrectEdge(graph, e) == alig_info::InfoAboutContigsAlig::OK) {
                             cnt[1] += 1;
                         } else {
                             cnt[0] += 1;

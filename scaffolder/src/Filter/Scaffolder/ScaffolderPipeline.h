@@ -4,13 +4,13 @@
 #include <string>
 #include <ContigGraph/ContigGraph.h>
 #include "Scaffolds.h"
-#include <Filter/Statistics/InfoAboutContigsAlig.h>
+#include <Filter/AligInfo/InfoAboutContigsAlig.h>
 #include <Filter/CommandParsers/State.h>
 
 namespace filter {
     namespace scaffolder {
         using namespace contig_graph;
-        using namespace statistics;
+        using namespace alig_info;
         class ScaffolderPipeline {
         private:
             InfoAboutContigsAlig* alig;

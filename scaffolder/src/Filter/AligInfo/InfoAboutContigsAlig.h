@@ -4,18 +4,21 @@
 #include <Filter/ContigGraph/ContigGraph.h>
 
 namespace filter {
-    namespace statistics {
+    namespace alig_info {
         using namespace contig_graph;
         class InfoAboutContigsAlig {
         public:
             struct Alignment {
                 std::string chrName;
+                int chrLen;
                 int coordBegin;
                 int coordEnd;
 
                 Alignment() {}
 
                 Alignment(std::string chrName, int cb, int ce) : chrName(chrName), coordBegin(cb), coordEnd(ce) {}
+                Alignment(std::string chrName, int cb, int ce, int chrLen) : chrName(chrName), coordBegin(cb),
+                                                                             coordEnd(ce), chrLen(chrLen) {}
             };
 
             void parseCoordFile(ContigGraph *graph, std::string coordFileName);

@@ -3,6 +3,7 @@
 
 namespace filter {
     namespace statistics {
+        using namespace alig_info;
         void DifStatistic::calculateStatistic(ContigGraph *filter, std::string coordFile, int libNum, int step, int mxVal) {
             InfoAboutContigsAlig aligInfo;
             aligInfo.parseCoordFile(filter, coordFile);

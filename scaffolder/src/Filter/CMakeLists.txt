@@ -54,7 +54,7 @@ set(SOURCE_FILES
         CommandParsers/Commands/CommandUploadGraph/CommandAddBothPath.cpp CommandParsers/Commands/CommandUploadGraph/CommandAddBothPath.h
         Scaffolder/ScaffoldStrategy.h
         Scaffolder/ScaffoldStrategyUniqueConnection.cpp Scaffolder/ScaffoldStrategyUniqueConnection.h
-        Statistics/InfoAboutContigsAlig.cpp Statistics/InfoAboutContigsAlig.h Statistics/CntRightConnectionStatistic.cpp
+        AligInfo/InfoAboutContigsAlig.cpp AligInfo/InfoAboutContigsAlig.h Statistics/CntRightConnectionStatistic.cpp
         Statistics/CntRightConnectionStatistic.h CommandParsers/Commands/CommandStatistic/CommandCorrectConnectionStatistic.cpp
         CommandParsers/Commands/CommandStatistic/CommandCorrectConnectionStatistic.h Statistics/Statistic.cpp Statistics/Statistic.h
         Statistics/WeightStatistic.cpp Statistics/WeightStatistic.h CommandParsers/Commands/CommandStatistic/CommandWeightStatistic.cpp
@@ -87,6 +87,6 @@ set(SOURCE_FILES
         Scaffolder/RuleValidateCoord.cpp Scaffolder/RuleValidateCoord.h
         Scaffolder/RuleCovering.cpp Scaffolder/RuleCovering.h
         ContigGraph/ContigGraph.h ContigGraph/ContigGraph.cpp
-        ContigGraph/SeqanUtils.h ContigGraph/SeqanUtils.cpp Scaffolder/RuleDelSmallEdges.cpp Scaffolder/RuleDelSmallEdges.h Scaffolder/RuleExonBlocks.cpp Scaffolder/RuleExonBlocks.h CommandParsers/Commands/CommandStatistic/CommandWrongRightStatistic.cpp CommandParsers/Commands/CommandStatistic/CommandWrongRightStatistic.h)
+        ContigGraph/SeqanUtils.h ContigGraph/SeqanUtils.cpp Scaffolder/RuleDelSmallEdges.cpp Scaffolder/RuleDelSmallEdges.h Scaffolder/RuleExonBlocks.cpp Scaffolder/RuleExonBlocks.h CommandParsers/Commands/CommandStatistic/CommandWrongRightStatistic.cpp CommandParsers/Commands/CommandStatistic/CommandWrongRightStatistic.h AligInfo/GeneFinder.cpp AligInfo/GeneFinder.h AligInfo/GeneAnnotationAns.cpp AligInfo/GeneAnnotationAns.h Statistics/StrandStatistic.cpp Statistics/StrandStatistic.h CommandParsers/Commands/CommandStatistic/CommandStrandStatistic.h)
 
 add_library(filter_lib ${SOURCE_FILES})

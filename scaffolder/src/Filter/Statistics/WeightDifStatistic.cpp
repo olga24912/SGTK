@@ -4,6 +4,7 @@
 
 namespace filter {
     namespace statistics {
+        using namespace alig_info;
         void
         WeightDifStatistic::calculateStatistic(ContigGraph *graph, std::string coordFile, int libNum, int step1, int mxW1,
                                                int step2, int mxW2) {

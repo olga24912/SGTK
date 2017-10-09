@@ -5,7 +5,7 @@
 #include <algorithm>
 #include <Filter/Writers/FileValidator/FileValidator.h>
 #include <Filter/Writers/FileValidator/ValidatorNotPathWithAllLib.h>
-#include <Filter/Statistics/InfoAboutContigsAlig.h>
+#include <Filter/AligInfo/InfoAboutContigsAlig.h>
 #include <Filter/ContigGraph/ContigGraph.h>
 #include "Filter/Writers/GraphSplitter.h"
 
@@ -19,7 +19,7 @@ namespace filter {
             GraphSplitter graphSplitter; //split graph on small parts
             FileValidator *validator = new ValidatorNotPathWithAllLib();
             std::string coordFile = "";
-            statistics::InfoAboutContigsAlig aligInfo;
+            alig_info::InfoAboutContigsAlig aligInfo;
 
             virtual void writeOneVertex(int v, int isColored, std::ofstream &out);
 
