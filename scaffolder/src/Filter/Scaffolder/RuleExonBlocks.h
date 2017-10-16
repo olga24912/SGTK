@@ -2,6 +2,7 @@
 #define SCAFFOLDER_RULEEXONBLOCKS_H
 
 #include <Filter/AligInfo/InfoAboutContigsAlig.h>
+#include <Filter/Statistics/StrandStatistic.h>
 #include "Rule.h"
 
 namespace filter {
@@ -9,8 +10,8 @@ namespace filter {
         class RuleExonBlocks : public Rule {
         private:
             alig_info::InfoAboutContigsAlig infoAlig;
+            filter::statistics::StrandStatistic* stat;
             int cnt[2] = {0, 0};
-
         public:
             void simplifyGraph(ContigGraph *filter) override;
 

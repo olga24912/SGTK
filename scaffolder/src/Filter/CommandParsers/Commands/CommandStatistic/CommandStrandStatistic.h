@@ -11,14 +11,16 @@ namespace filter {
         public:
             void execute(std::string argv, State &state, ContigGraph &graph) override {
                 std::stringstream ss(argv);
-                std::string gffFile;
+                std::string gffFileR, gffFileC, out;
                 std::string coordFile;
-                ss >> gffFile >> coordFile;
+                ss >> gffFileR >> coordFile >> gffFileC >> out;
 
                 INFO("STRAND STATISTIC");
 
-                statistics::StrandStatistic cs;
-                cs.calculateStatistic(&graph, coordFile, gffFile);
+                alig_info::InfoAboutContigsAlig aligInfo;
+                aligInfo.parseCoordFile(&graph, coordFile);
+                statistics::StrandStatistic cs(&graph, aligInfo, gffFileR, gffFileC, out);
+                cs.calculateStatistic();
             }
         };
     }

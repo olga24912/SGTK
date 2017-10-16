@@ -23,7 +23,6 @@ namespace filter {
                         gene.b = alig.chrLen - gene.b;
                         gene.e = alig.chrLen - gene.e;
                         std::swap(gene.b, gene.e);
-                        std::cerr << "strand: " << gene.strand << "\n";
                         gene.strand = ('+' + '-') - gene.strand;
 
                         for (int i = 0; i < gene.exons.size(); ++i) {

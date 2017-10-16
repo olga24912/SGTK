@@ -87,6 +87,6 @@ set(SOURCE_FILES
         Scaffolder/RuleValidateCoord.cpp Scaffolder/RuleValidateCoord.h
         Scaffolder/RuleCovering.cpp Scaffolder/RuleCovering.h
         ContigGraph/ContigGraph.h ContigGraph/ContigGraph.cpp
-        ContigGraph/SeqanUtils.h ContigGraph/SeqanUtils.cpp Scaffolder/RuleDelSmallEdges.cpp Scaffolder/RuleDelSmallEdges.h Scaffolder/RuleExonBlocks.cpp Scaffolder/RuleExonBlocks.h CommandParsers/Commands/CommandStatistic/CommandWrongRightStatistic.cpp CommandParsers/Commands/CommandStatistic/CommandWrongRightStatistic.h AligInfo/GeneFinder.cpp AligInfo/GeneFinder.h AligInfo/GeneAnnotationAns.cpp AligInfo/GeneAnnotationAns.h Statistics/StrandStatistic.cpp Statistics/StrandStatistic.h CommandParsers/Commands/CommandStatistic/CommandStrandStatistic.h)
+        ContigGraph/SeqanUtils.h ContigGraph/SeqanUtils.cpp Scaffolder/RuleDelSmallEdges.cpp Scaffolder/RuleDelSmallEdges.h Scaffolder/RuleExonBlocks.cpp Scaffolder/RuleExonBlocks.h CommandParsers/Commands/CommandStatistic/CommandWrongRightStatistic.cpp CommandParsers/Commands/CommandStatistic/CommandWrongRightStatistic.h AligInfo/GeneFinder.cpp AligInfo/GeneFinder.h AligInfo/GeneAnnotationAns.cpp AligInfo/GeneAnnotationAns.h Statistics/StrandStatistic.cpp Statistics/StrandStatistic.h CommandParsers/Commands/CommandStatistic/CommandStrandStatistic.h AligInfo/GeneAnnotationContigs.cpp AligInfo/GeneAnnotationContigs.h)
 
 add_library(filter_lib ${SOURCE_FILES})

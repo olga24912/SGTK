@@ -64,7 +64,7 @@ namespace filter {
  * statisticTwoCompetitor <coordFile> <libNum1> <w1> <libNum2> <w2>
  * statisticCluster <coordFile>
  * statisticWrongRight <outputFile> <libForWrong> <libForRight>*
- * statisticStrand <gffFile> <coordFile>
+ * statisticStrand <gffFileRef> <coordFile> <gffFileContig> <outputFile>
  * histogram <lib> <step>
  */
         class Manager {

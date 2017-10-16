@@ -36,24 +36,29 @@ namespace filter {
             fg.e = coord;
             fg.b = coord;
 
-            int pos =  std::lower_bound(genes.begin(), genes.end(), fg) - genes.begin();
+            int pos = std::lower_bound(genes.begin(), genes.end(), fg) - genes.begin();
 
             if (pos > 0) {
                 --pos;
-                if (genes[pos].b <= coord && genes[pos].e >= coord) {
-                    INFO("find " << pos << " cntexons: " << genes[pos].exons.size() << " " << genes[pos].b << " " << genes[pos].e);
+                if (genes[pos].b  - 5 <= coord && genes[pos].e + 5 >= coord) {
                     return genes[pos];
                 }
                 ++pos;
             }
 
+            if (pos + 1 < genes.size()) {
+                ++pos;
+                if (genes[pos].b  - 5 <= coord && genes[pos].e + 5 >= coord) {
+                    return genes[pos];
+                }
+                --pos;
+            }
+
             if (pos == genes.size()) {
-                INFO("not find gene");
                 Gene ret;
                 ret.b = -1;
                 return ret;
             } else {
-                INFO("find " << pos << " cntexons: " << genes[pos].exons.size() << " " << genes[pos].b << " " << genes[pos].e);
                 return genes[pos];
             }
         }
