@@ -6,8 +6,8 @@ namespace filter {
     namespace scaffolder {
         using namespace contig_graph;
         void RuleExonBlocks::simplifyGraph(ContigGraph *graph) {
-            infoAlig.parseCoordFile(graph, "data/out.coords");
-            stat = new filter::statistics::StrandStatistic(graph, infoAlig, "data/ref.gff", "data/input.gff", "out");
+            //infoAlig.parseCoordFile(graph, "data/out.coords");
+            //stat = new filter::statistics::StrandStatistic(graph, infoAlig, "data/ref.gff", "data/input.gff", "out");
 
             std::vector<int> vert = graph->getVertexList();
             for (int v : vert) {
@@ -16,7 +16,7 @@ namespace filter {
                     checkEdge(graph, e);
                 }
             }
-            std::cerr << "del OK: " << cnt[1] << " del Wrong:" << cnt[0] << "\n";
+            //std::cerr << "del OK: " << cnt[1] << " del Wrong:" << cnt[0] << "\n";
         }
 
         void RuleExonBlocks::checkEdge(ContigGraph *graph, int e) {
@@ -116,14 +116,14 @@ namespace filter {
             int scres = isGoodExon1(graph->getExons(v, 2), ex);
 
             if ((frres == 3 || scres == 3  || frres == 1 || scres == 1) && !(frres == 2 || scres == 2)) {
-                if (cntConnection(graph, e) == 1) {
-                    if (infoAlig.isCorrectEdge(graph, e) == alig_info::InfoAboutContigsAlig::OK) {
-                        cnt[1] += 1;
-                        stat->calculateStatisticForOneEdge(e);
-                    } else {
-                        cnt[0] += 1;
-                    }
-                }
+                //if (cntConnection(graph, e) == 1) {
+               //     if (infoAlig.isCorrectEdge(graph, e) == alig_info::InfoAboutContigsAlig::OK) {
+               //         cnt[1] += 1;
+               //         stat->calculateStatisticForOneEdge(e);
+               //     } else {
+               //         cnt[0] += 1;
+               //     }
+               // }
                 graph->delEdge(e);
                 return 1;
             }
@@ -144,13 +144,13 @@ namespace filter {
             int scres = isGoodExon2(graph->getExons(v, 2), ex);
 
             if ((frres == 3 || scres == 3  || frres == 1 || scres == 1) && !(frres == 2 || scres == 2)) {
-                if (cntConnection(graph, e) == 1) {
-                    if (infoAlig.isCorrectEdge(graph, e) == alig_info::InfoAboutContigsAlig::OK) {
-                        cnt[1] += 1;
-                    } else {
-                        cnt[0] += 1;
-                    }
-                }
+              //  if (cntConnection(graph, e) == 1) {
+              //      if (infoAlig.isCorrectEdge(graph, e) == alig_info::InfoAboutContigsAlig::OK) {
+              //          cnt[1] += 1;
+              //      } else {
+              //          cnt[0] += 1;
+              //      }
+              //  }
                 graph->delEdge(e);
             }
         }

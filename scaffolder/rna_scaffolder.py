@@ -40,6 +40,7 @@ def parse_args():
     parser.add_argument("--contigs", "-c", nargs=1, dest="contigs", help="path to contigs", type=str)
     parser.add_argument("--rna-p", dest="rnap", nargs=2, help="path to rna pair reads file", type=str, action='append')
     parser.add_argument("--rna-s", dest="rnas", nargs=1, help="path to rna read file", type=str, action='append')
+    parser.add_argument("--gene_annotation", nargs=1, help="path to gff file with gene anotation", type=str)
     parser.add_argument("--local_output_dir", "-o", nargs=1, help="use this output dir", type=str)
     args = parser.parse_args()
     return args
@@ -253,14 +254,11 @@ def merge_graph(rnap_list, rnas_list):
     os.system(path_to_exec_dir + "filter " + os.path.abspath("filter_config"))
     return
 
-def create_scaffolds(contig_file_name, rnap_list, rnas_list):
+def create_scaffolds(contig_file_name, rnap_list, rnas_list, exon_block_file_name):
     f = open("filter_config", 'w')
     f.write("uploadGraph out.gr\n")
     f.write("minContig 500\n")
-    if (len(rnap_list) != 0):
-        f.write("setExonBlockFile rnap0/out1.crd\n")
-    elif (len(rnas_list) != 0):
-        f.write("setExonBlockFile rnas0_50/out.crd\n")
+    f.write("setExonBlockFile " + exon_block_file_name + "\n")
     f.write("mergeSimplePath " + contig_file_name + " scaffolds.fa\n")
     f.write("exit\n")
     f.close()
@@ -274,6 +272,7 @@ def run(args):
         return
 
     contig_file_name = os.path.abspath(args.contigs[0])
+    exon_block_file_name = ""
     rnap_list = []
     rnas_list = []
     if args.rnap:
@@ -289,6 +288,12 @@ def run(args):
     if args.local_output_dir != None:
         main_out_dir = os.path.abspath(args.local_output_dir[0]) + "/"
 
+    if args.gene_annotation != None:
+        exon_block_file_name = os.path.abspath(args.gene_annotation[0])
+    else:
+        log.err("none gene annotation file provide")
+        return
+
     out_dir = main_out_dir + "tmp/"
     log.log("OUTPUT DIR: " + out_dir)
     directory = os.path.dirname(out_dir)
@@ -299,9 +304,8 @@ def run(args):
 
     alig_reads(contig_file_name, rnap_list, rnas_list)
     build_graph(contig_file_name, rnap_list, rnas_list)
-    find_exons(rnap_list, rnas_list)
     merge_graph(rnap_list, rnas_list)
-    create_scaffolds(contig_file_name, rnap_list, rnas_list)
+    create_scaffolds(contig_file_name, rnap_list, rnas_list, exon_block_file_name)
 
     directory = os.path.dirname(main_out_dir)
     os.chdir(directory)

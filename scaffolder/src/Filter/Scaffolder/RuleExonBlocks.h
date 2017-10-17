@@ -9,9 +9,9 @@ namespace filter {
     namespace scaffolder {
         class RuleExonBlocks : public Rule {
         private:
-            alig_info::InfoAboutContigsAlig infoAlig;
-            filter::statistics::StrandStatistic* stat;
-            int cnt[2] = {0, 0};
+            //alig_info::InfoAboutContigsAlig infoAlig;
+            //filter::statistics::StrandStatistic* stat;
+            //int cnt[2] = {0, 0};
         public:
             void simplifyGraph(ContigGraph *filter) override;
 

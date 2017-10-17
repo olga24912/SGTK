@@ -13,8 +13,8 @@ namespace filter {
         class RuleCoord : public Rule {
         private:
             std::set<int> edgeForDel;
-            alig_info::InfoAboutContigsAlig infoAlig;
-            int cnt[2] = {0, 0};
+            //alig_info::InfoAboutContigsAlig infoAlig;
+            //int cnt[2] = {0, 0};
         public:
             void simplifyGraph(ContigGraph *filter) override;
 

@@ -13,7 +13,7 @@ namespace filter {
         using namespace alig_info;
         class ScaffolderPipeline {
         private:
-            InfoAboutContigsAlig* alig;
+           // InfoAboutContigsAlig* alig;
         public:
             void evaluate(ContigGraph *graph, std::string contigFile,
                           std::string out, std::vector<commands::State::BamFiles> bamFiles);
