@@ -69,6 +69,8 @@ namespace builder {
             bool isGoodEdgeFor2(ContigGraph::Edge edge, std::pair<int, int> c);
 
             std::pair<int, int> relaxCoord(std::pair<int, int> c1, std::pair<int, int> c2);
+
+            int compareReads(std::pair<std::string, int> info1, std::pair<std::string, int> info2);
         };
     }
 }

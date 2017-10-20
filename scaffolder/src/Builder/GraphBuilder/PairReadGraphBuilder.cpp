@@ -177,40 +177,46 @@ namespace builder {
             seqan::BamAlignmentRecord read1, read2;
 
             int cnt = 0;
+            std::pair<std::string, int> readInfo1 = processOneFirstRead(read1);
+            std::pair<std::string, int> readInfo2 = processOneSecondRead(read2);
+
             while (!atEnd(bamFile1) || !atEnd(bamFile2)) {
                 TRACE("next read");
-                std::pair<std::string, int> readInfo1;
-                std::pair<std::string, int> readInfo2;
 
-                if (!atEnd(bamFile1)) {
-                    seqan::readRecord(read1, bamFile1);
-                    TRACE("read first rec");
-                    readInfo1 = processOneFirstRead(read1);
+                if (compareReads(readInfo1, readInfo2) == -1 || atEnd(bamFile2)) {
+                    if (!atEnd(bamFile1)) {
+                        seqan::readRecord(read1, bamFile1);
+                        TRACE("read first rec");
+                        readInfo1 = processOneFirstRead(read1);
+                    }
+                } else if (compareReads(readInfo1, readInfo2) == 1 || atEnd(bamFile1)) {
+                    if (!atEnd(bamFile2)) {
+                        seqan::readRecord(read2, bamFile2);
+                        TRACE("read sec rec");
+                        readInfo2 = processOneSecondRead(read2);
+                    }
+                } else {
+                    if (readInfo1.second != -1 && readInfo2.second != -1) {
+                        TRACE("read1Name=" << readInfo1.first << " read2Name=" << readInfo2.first);
+                        incEdgeWeight(read1, read2);
+                    }
+
+                    if (!atEnd(bamFile1)) {
+                        seqan::readRecord(read1, bamFile1);
+                        TRACE("read first rec");
+                        readInfo1 = processOneFirstRead(read1);
+                    }
+                    if (!atEnd(bamFile2)) {
+                        seqan::readRecord(read2, bamFile2);
+                        TRACE("read sec rec");
+                        readInfo2 = processOneSecondRead(read2);
+                    }
                 }
 
-                TRACE("finidh process first");
-                if (!atEnd(bamFile2)) {
-                    seqan::readRecord(read2, bamFile2);
-                    TRACE("read sec rec");
-                    readInfo2 = processOneSecondRead(read2);
-                }
-
-                TRACE("read1Name=" << readInfo1.first << " read2Name=" << readInfo2.first);
-
-                if (readInfo2.first != "" && read1ByName.count(readInfo2.first)) {
-                    incEdgeWeight(read1ByName[readInfo2.first], read2);
-                    read2ByName.erase(readInfo2.first);
-                }
-                read1ByName.erase(readInfo2.first);
-
-                if (readInfo1.first != "" && read2ByName.count(readInfo1.first)) {
-                    incEdgeWeight(read1, read2ByName[readInfo1.first]);
-                    read1ByName.erase(readInfo1.first);
-                }
-                read2ByName.erase(readInfo1.first);
                 if (cnt % 1000 == 0) {
                     INFO("finish handle first " << cnt << "reads")
-                    INFO("readInfo1 =" << readInfo1.first << " " << readInfo2.second);
+                    INFO("readInfo1 =" << readInfo1.first << " " << readInfo1.second);
+                    INFO("readInfo2 =" << readInfo2.first << " " << readInfo2.second);
                 }
                 ++cnt;
             }
@@ -300,6 +306,15 @@ namespace builder {
             } else {
                 return std::make_pair(std::max(c2.first, c1.first), std::min(c2.second, c1.second));
             }
+        }
+
+        int PairReadGraphBuilder::compareReads(std::pair<std::string, int> info1, std::pair<std::string, int> info2) {
+            if (info1.second == -1 && info2.second == -1) return 0;
+            if (info1.second == -1) return -1;
+            if (info2.second == -1) return 1;
+            if (info1.first < info2.first) return -1;
+            if (info1.first > info2.first) return 1;
+            return 0;
         }
     }
 }

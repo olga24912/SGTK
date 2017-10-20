@@ -56,10 +56,10 @@ def alig_split(lib_name, reads, flag, checkpoints, cpf):
 
         os.system(path_to_exec_dir + "readSplitter " + str(flag) + " " + reads + " reads1.fasta reads2.fasta")
         os.system("STAR --runThreadN 20 --genomeDir ../genomeDir --readFilesIn reads1.fasta --outSAMtype BAM Unsorted")
-        os.system("mv Aligned.out.bam rna1.bam")
+        os.system("samtools sort -n Aligned.out.bam -o rna1.bam")
         os.system("rm -r _STARtmp")
         os.system("STAR --runThreadN 20 --genomeDir ../genomeDir --readFilesIn reads2.fasta --outSAMtype BAM Unsorted")
-        os.system("mv Aligned.out.bam rna2.bam")
+        os.system("samtools sort -n Aligned.out.bam -o rna2.bam")
         os.system("rm -r _STARtmp")
 
         os.chdir(prevdir)
@@ -78,9 +78,9 @@ def alig_pair_reads(i, rnap1, rnap2, checkpoints, cpf):
         os.chdir(lib_dir)
 
         os.system("STAR --runThreadN 20 --genomeDir ../genomeDir --outReadsUnmapped Fastx --readFilesIn " + rnap1 +
-                  " --outSAMtype BAM Unsorted SortedByCoordinate")
+                  " --outSAMtype BAM Unsorted")
         os.system("mv Aligned.out.bam rna1.bam")
-        os.system("mv Aligned.sortedByCoord.out.bam rna1s.bam")
+        os.system("samtools sort -n Aligned.out.bam -o rna1.bam")
         os.system("rm -r _STARtmp")
         if rnap1[-1] == "q":
             os.system("mv Unmapped.out.mate1 Unmapped1.fastq")
@@ -90,9 +90,8 @@ def alig_pair_reads(i, rnap1, rnap2, checkpoints, cpf):
             unm1 = "../" + lib_name + "/Unmapped1.fasta"
 
         os.system("STAR --runThreadN 20 --genomeDir ../genomeDir --outReadsUnmapped Fastx --readFilesIn " + rnap2 +
-                  " --outSAMtype BAM Unsorted SortedByCoordinate")
-        os.system("mv Aligned.out.bam rna2.bam")
-        os.system("mv Aligned.sortedByCoord.out.bam rna2s.bam")
+                  " --outSAMtype BAM Unsorted")
+        os.system("samtools sort -n Aligned.out.bam -o rna2.bam")
         os.system("rm -r _STARtmp")
         if rnap2[-1] == "q":
             os.system("mv Unmapped.out.mate1 Unmapped2.fastq")
@@ -130,9 +129,8 @@ def alig_single_reads(i, rnas, checkpoints, cpf):
         os.chdir(lib_name)
         unm = ""
         os.system("STAR --runThreadN 20 --genomeDir ../genomeDir --outReadsUnmapped Fastx --readFilesIn " + rnas +
-                  " --outSAMtype BAM Unsorted SortedByCoordinate")
-        os.system("mv Aligned.out.bam rna.bam")
-        os.system("mv Aligned.sortedByCoord.out.bam rnas.bam")
+                  " --outSAMtype BAM Unsorted")
+        os.system("samtools sort -n Aligned.out.bam -o rna.bam")
         os.system("rm -r _STARtmp")
         if rnas[-1] == "q":
             os.system("mv Unmapped.out.mate1 Unmapped.fastq")
