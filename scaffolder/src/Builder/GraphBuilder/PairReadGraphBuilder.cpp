@@ -176,6 +176,7 @@ namespace builder {
 
             seqan::BamAlignmentRecord read1, read2;
 
+            int cnt = 0;
             while (!atEnd(bamFile1) || !atEnd(bamFile2)) {
                 TRACE("next read");
                 std::pair<std::string, int> readInfo1;
@@ -207,7 +208,13 @@ namespace builder {
                     read1ByName.erase(readInfo1.first);
                 }
                 read2ByName.erase(readInfo1.first);
+                if (cnt % 1000 == 0) {
+                    INFO("finish handle first " << cnt << "reads")
+                    INFO("readInfo1 =" << readInfo1.first << " " << readInfo2.second);
+                }
+                ++cnt;
             }
+            INFO("finish handle reads");
 
             close(bamFile1);
             close(bamFile2);

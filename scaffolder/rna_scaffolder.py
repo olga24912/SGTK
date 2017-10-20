@@ -45,131 +45,156 @@ def parse_args():
     args = parser.parse_args()
     return args
 
-def alig_split(lib_name, reads, flag):
-    prevdir = os.getcwd()
-    log.log("START ALIG: " + lib_name)
-    lib_dir = os.path.dirname(os.path.abspath(lib_name) + "/")
-    if not os.path.exists(lib_dir):
-        os.makedirs(lib_dir)
-    os.chdir(lib_dir)
+def alig_split(lib_name, reads, flag, checkpoints, cpf):
+    if not (lib_name + " alig" in checkpoints):
+        prevdir = os.getcwd()
+        log.log("START ALIG: " + lib_name)
+        lib_dir = os.path.dirname(os.path.abspath(lib_name) + "/")
+        if not os.path.exists(lib_dir):
+            os.makedirs(lib_dir)
+        os.chdir(lib_dir)
 
-    os.system(path_to_exec_dir + "readSplitter " + str(flag) + " " + reads + " reads1.fasta reads2.fasta")
-    os.system("STAR --runThreadN 20 --genomeDir ../genomeDir --readFilesIn reads1.fasta --outSAMtype BAM Unsorted")
-    os.system("mv Aligned.out.bam rna1.bam")
-    os.system("STAR --runThreadN 20 --genomeDir ../genomeDir --readFilesIn reads2.fasta --outSAMtype BAM Unsorted")
-    os.system("mv Aligned.out.bam rna2.bam")
+        os.system(path_to_exec_dir + "readSplitter " + str(flag) + " " + reads + " reads1.fasta reads2.fasta")
+        os.system("STAR --runThreadN 20 --genomeDir ../genomeDir --readFilesIn reads1.fasta --outSAMtype BAM Unsorted")
+        os.system("mv Aligned.out.bam rna1.bam")
+        os.system("rm -r _STARtmp")
+        os.system("STAR --runThreadN 20 --genomeDir ../genomeDir --readFilesIn reads2.fasta --outSAMtype BAM Unsorted")
+        os.system("mv Aligned.out.bam rna2.bam")
+        os.system("rm -r _STARtmp")
 
-    os.chdir(prevdir)
+        os.chdir(prevdir)
+    cpf.write(lib_name + " alig\n")
 
-def alig_pair_reads(i, rnap1, rnap2):
+def alig_pair_reads(i, rnap1, rnap2, checkpoints, cpf):
     prevdir = os.getcwd()
     lib_name = "rnap" + str(i)
-    log.log("START ALIG: " + lib_name)
-    lib_dir = os.path.dirname(os.path.abspath(lib_name) + "/")
-    if not os.path.exists(lib_dir):
-        os.makedirs(lib_dir)
-    os.chdir(lib_dir)
-
     unm1 = ""
     unm2 = ""
+    if not(lib_name + " alig" in checkpoints):
+        log.log("START ALIG: " + lib_name)
+        lib_dir = os.path.dirname(os.path.abspath(lib_name) + "/")
+        if not os.path.exists(lib_dir):
+            os.makedirs(lib_dir)
+        os.chdir(lib_dir)
 
-    os.system("STAR --runThreadN 20 --genomeDir ../genomeDir --outReadsUnmapped Fastx --readFilesIn " + rnap1 +
-              " --outSAMtype BAM Unsorted SortedByCoordinate")
-    os.system("mv Aligned.out.bam rna1.bam")
-    os.system("mv Aligned.sortedByCoord.out.bam rna1s.bam")
-    if rnap1[-1] == "q":
-        os.system("mv Unmapped.out.mate1 Unmapped1.fastq")
-        unm1 = "../" + lib_name + "/Unmapped1.fastq"
+        os.system("STAR --runThreadN 20 --genomeDir ../genomeDir --outReadsUnmapped Fastx --readFilesIn " + rnap1 +
+                  " --outSAMtype BAM Unsorted SortedByCoordinate")
+        os.system("mv Aligned.out.bam rna1.bam")
+        os.system("mv Aligned.sortedByCoord.out.bam rna1s.bam")
+        os.system("rm -r _STARtmp")
+        if rnap1[-1] == "q":
+            os.system("mv Unmapped.out.mate1 Unmapped1.fastq")
+            unm1 = "../" + lib_name + "/Unmapped1.fastq"
+        else:
+            os.system("mv Unmapped.out.mate1 Unmapped1.fasta")
+            unm1 = "../" + lib_name + "/Unmapped1.fasta"
+
+        os.system("STAR --runThreadN 20 --genomeDir ../genomeDir --outReadsUnmapped Fastx --readFilesIn " + rnap2 +
+                  " --outSAMtype BAM Unsorted SortedByCoordinate")
+        os.system("mv Aligned.out.bam rna2.bam")
+        os.system("mv Aligned.sortedByCoord.out.bam rna2s.bam")
+        os.system("rm -r _STARtmp")
+        if rnap2[-1] == "q":
+            os.system("mv Unmapped.out.mate1 Unmapped2.fastq")
+            unm2 = "../" + lib_name + "/Unmapped2.fastq"
+        else:
+            os.system("mv Unmapped.out.mate1 Unmapped2.fasta")
+            unm2 = "../" + lib_name + "/Unmapped2.fasta"
+
+        os.chdir(prevdir)
     else:
-        os.system("mv Unmapped.out.mate1 Unmapped1.fasta")
-        unm1 = "../" + lib_name + "/Unmapped1.fasta"
+        if (os.path.isfile("../" + lib_name + "/Unmapped1.fasta")):
+            unm1 = "../" + lib_name + "/Unmapped1.fasta"
+        else:
+            unm1 = "../" + lib_name + "/Unmapped1.fastq"
 
-    os.system("STAR --runThreadN 20 --genomeDir ../genomeDir --outReadsUnmapped Fastx --readFilesIn " + rnap2 +
-              " --outSAMtype BAM Unsorted SortedByCoordinate")
-    os.system("mv Aligned.out.bam rna2.bam")
-    os.system("mv Aligned.sortedByCoord.out.bam rna2s.bam")
-    if rnap2[-1] == "q":
-        os.system("mv Unmapped.out.mate1 Unmapped2.fastq")
-        unm2 = "../" + lib_name + "/Unmapped2.fastq"
-    else:
-        os.system("mv Unmapped.out.mate1 Unmapped2.fasta")
-        unm2 = "../" + lib_name + "/Unmapped2.fasta"
+        if (os.path.isfile("../" + lib_name + "/Unmapped2.fasta")):
+            unm2 = "../" + lib_name + "/Unmapped2.fasta"
+        else:
+            unm2 = "../" + lib_name + "/Unmapped2.fastq"
 
-    os.chdir(prevdir)
-
-    alig_split("rnap" + str(i) + "_50_1", unm1, 0)
-    alig_split("rnap" + str(i) + "_50_2", unm2, 0)
-    alig_split("rnap" + str(i) + "_30_1", "../" + lib_name + "/rna1.sam", 1)
-    alig_split("rnap" + str(i) + "_30_2", "../" + lib_name + "/rna2.sam", 1)
+    cpf.write(lib_name + " alig\n")
+    alig_split("rnap" + str(i) + "_50_1", unm1, 0, checkpoints, cpf)
+    alig_split("rnap" + str(i) + "_50_2", unm2, 0, checkpoints, cpf)
+    alig_split("rnap" + str(i) + "_30_1", "../" + lib_name + "/rna1.bam", 1, checkpoints, cpf)
+    alig_split("rnap" + str(i) + "_30_2", "../" + lib_name + "/rna2.bam", 1, checkpoints, cpf)
 
 
-def alig_single_reads(i, rnas):
+def alig_single_reads(i, rnas, checkpoints, cpf):
     prevdir = os.getcwd()
     lib_name = "rnas" + str(i) + "_50"
-    lib_dir = os.path.dirname(os.path.abspath(lib_name) + "/")
-    if not os.path.exists(lib_dir):
-        os.makedirs(lib_dir)
-    os.chdir(lib_name)
-    unm = ""
-    os.system("STAR --runThreadN 20 --genomeDir ../genomeDir --outReadsUnmapped Fastx --readFilesIn " + rnas +
-              " --outSAMtype BAM Unsorted SortedByCoordinate")
-    os.system("mv Aligned.out.bam rna.bam")
-    os.system("mv Aligned.sortedByCoord.out.bam rnas.bam")
-    if rnas[-1] == "q":
-        os.system("mv Unmapped.out.mate1 Unmapped.fastq")
-        unm = "Unmapped.fastq"
-    else:
-        os.system("mv Unmapped.out.mate1 Unmapped.fasta")
-        unm = "Unmapped.fasta"
+    if not(lib_name + " alig" in checkpoints):
+        lib_dir = os.path.dirname(os.path.abspath(lib_name) + "/")
+        if not os.path.exists(lib_dir):
+            os.makedirs(lib_dir)
+        os.chdir(lib_name)
+        unm = ""
+        os.system("STAR --runThreadN 20 --genomeDir ../genomeDir --outReadsUnmapped Fastx --readFilesIn " + rnas +
+                  " --outSAMtype BAM Unsorted SortedByCoordinate")
+        os.system("mv Aligned.out.bam rna.bam")
+        os.system("mv Aligned.sortedByCoord.out.bam rnas.bam")
+        os.system("rm -r _STARtmp")
+        if rnas[-1] == "q":
+            os.system("mv Unmapped.out.mate1 Unmapped.fastq")
+            unm = "Unmapped.fastq"
+        else:
+            os.system("mv Unmapped.out.mate1 Unmapped.fasta")
+            unm = "Unmapped.fasta"
 
 
-    os.chdir(prevdir)
-    alig_split(lib_name, unm, 0)
-    alig_split("rnas" + str(i) + "_30", "../rnas" + str(i) + "_30/rna.sam", 1)
+        os.chdir(prevdir)
+        alig_split(lib_name, unm, 0, checkpoints, cpf)
+    cpf.write(lib_name + " alig")
+    alig_split("rnas" + str(i) + "_30", "../rnas" + str(i) + "_30/rna.bam", 1, checkpoints, cpf)
 
-def alig_reads(contig_file_name, rnap_list, rnas_list):
+def alig_reads(contig_file_name, rnap_list, rnas_list, checkpoints, cpf):
     genome_dir = "genomeDir"
     gen_dir = os.path.dirname(os.path.abspath(genome_dir) + "/")
     if not os.path.exists(gen_dir):
         os.makedirs(gen_dir)
 
-    try:
-        os.system("STAR --runMode genomeGenerate --genomeDir genomeDir --runThreadN 20 --genomeSAindexNbases 10 --genomeFastaFiles " +
-              contig_file_name + " --limitGenomeGenerateRAM 90000000000")
-    except:
-        log.err(sys.exc_info()[0])
-        return
+    if not("geneDir" in checkpoints):
+        try:
+            os.system("STAR --runMode genomeGenerate --genomeDir genomeDir --runThreadN 20 --genomeSAindexNbases 10 --genomeFastaFiles " +
+                  contig_file_name + " --limitGenomeGenerateRAM 90000000000")
+        except:
+            log.err(sys.exc_info()[0])
+            return
+    cpf.write("geneDir\n")
 
     for i in range(len(rnap_list)):
-        alig_pair_reads(i, rnap_list[i][0], rnap_list[i][1])
+        alig_pair_reads(i, rnap_list[i][0], rnap_list[i][1], checkpoints, cpf)
 
 
     for i in range(len(rnas_list)):
-        alig_single_reads(i, rnas_list[i][0])
+        alig_single_reads(i, rnas_list[i][0], checkpoints, cpf)
     return
 
-def runGraphBuilder(lib_name, prevdir, type):
-    log.log("START BUILD GRAPH: " + lib_name)
-    lib_dir = os.path.dirname(os.path.abspath(lib_name) + "/")
-    os.chdir(lib_dir)
-    os.system(path_to_exec_dir + "build " + type + " rna1.bam rna2.bam " + lib_name)
-    os.chdir(prevdir)
+def runGraphBuilder(lib_name, prevdir, type, checkpoints, cpf):
+    if (not (lib_name + " build" in checkpoints)):
+        log.log("START BUILD GRAPH: " + lib_name)
+        lib_dir = os.path.dirname(os.path.abspath(lib_name) + "/")
+        os.chdir(lib_dir)
+        os.system(path_to_exec_dir + "build " + type + " rna1.bam rna2.bam " + lib_name)
+        os.chdir(prevdir)
+
+    cpf.write(lib_name + " build\n")
     return
 
 
-def build_graph(contig_file_name, rnap_list, rnas_list):
+def build_graph(contig_file_name, rnap_list, rnas_list, checkpoints, cpf):
     for i in range(len(rnap_list)):
         prevdir = os.getcwd()
-        runGraphBuilder("rnap" + str(i), prevdir, "RNA_PAIR")
-        runGraphBuilder("rnap" + str(i) + "_50_1", prevdir, "RNA_SPLIT_50")
-        runGraphBuilder("rnap" + str(i) + "_50_2", prevdir, "RNA_SPLIT_50")
-        runGraphBuilder("rnap" + str(i) + "_30_1", prevdir, "RNA_SPLIT_30")
-        runGraphBuilder("rnap" + str(i) + "_30_2", prevdir, "RNA_SPLIT_30")
+        runGraphBuilder("rnap" + str(i), prevdir, "RNA_PAIR", checkpoints, cpf)
+        runGraphBuilder("rnap" + str(i) + "_50_1", prevdir, "RNA_SPLIT_50", checkpoints, cpf)
+        runGraphBuilder("rnap" + str(i) + "_50_2", prevdir, "RNA_SPLIT_50", checkpoints, cpf)
+        runGraphBuilder("rnap" + str(i) + "_30_1", prevdir, "RNA_SPLIT_30", checkpoints, cpf)
+        runGraphBuilder("rnap" + str(i) + "_30_2", prevdir, "RNA_SPLIT_30", checkpoints, cpf)
 
     for i in range(len(rnas_list)):
         prevdir = os.getcwd()
-        runGraphBuilder("rnas" + str(i) + "_50", prevdir, "RNA_SPLIT_50")
-        runGraphBuilder("rnas" + str(i) + "_30", prevdir, "RNA_SPLIT_30")
+        runGraphBuilder("rnas" + str(i) + "_50", prevdir, "RNA_SPLIT_50", checkpoints, cpf)
+        runGraphBuilder("rnas" + str(i) + "_30", prevdir, "RNA_SPLIT_30", checkpoints, cpf)
     return
 
 def runFindExons(lib_name, prevdir, type):
@@ -302,17 +327,28 @@ def run(args):
         os.makedirs(directory)
     os.chdir(directory)
 
-    alig_reads(contig_file_name, rnap_list, rnas_list)
-    build_graph(contig_file_name, rnap_list, rnas_list)
+    filename = "checkpoints"
+    checkpoints = [""]
+    if os.path.isfile(filename):
+        with open(filename) as f:
+            checkpoints = f.read().splitlines()
+
+    cpf = open('checkpoints', 'w')
+
+    alig_reads(contig_file_name, rnap_list, rnas_list, checkpoints, cpf)
+    build_graph(contig_file_name, rnap_list, rnas_list, checkpoints, cpf)
     merge_graph(rnap_list, rnas_list)
     create_scaffolds(contig_file_name, rnap_list, rnas_list, exon_block_file_name)
 
     directory = os.path.dirname(main_out_dir)
     os.chdir(directory)
 
+    cpf.close()
+
     copyfile("tmp/scaffolds.fa", "scaffolds.fa")
     copyfile("tmp/out.gr", "graph.gr")
     copyfile("tmp/out.info", "out.info")
+
     return
 
 args = parse_args()

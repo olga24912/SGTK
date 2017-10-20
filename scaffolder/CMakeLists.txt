@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.3)
 project(scaffolder)
 
-find_package (ZLIB REQUIRED)
+find_package(ZLIB REQUIRED)
 find_package(Threads REQUIRED)
 find_package(Boost REQUIRED)
 

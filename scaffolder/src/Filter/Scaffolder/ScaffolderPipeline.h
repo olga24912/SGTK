@@ -19,7 +19,7 @@ namespace filter {
                           std::string out, std::vector<commands::State::BamFiles> bamFiles);
 
             void setAlig(InfoAboutContigsAlig* alig) {
-                this->alig = alig;
+                //this->alig = alig;
             }
         private:
             DECL_LOGGER("ScaffolderPipeline");
