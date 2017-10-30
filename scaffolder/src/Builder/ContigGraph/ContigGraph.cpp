@@ -47,6 +47,9 @@ namespace builder {
 
             int e = -1;
             std::vector<int> candidates = graph[v];
+            if (candidates.size() > 50) {
+                WARN("candidate size = " << candidates.size());
+            }
 
             for (int ec : candidates) {
                 if (std::fabs(cb1 - edges[ec].coordBegin1) < maxClusterSize &&
