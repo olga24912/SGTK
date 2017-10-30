@@ -35,20 +35,18 @@ namespace builder {
             targets[id].name = name;
             targets[id].len = len;
 
-            vrtsToEdge.push_back(std::unordered_map<int, std::vector<int> >());
             return id;
         }
 
         int ContigGraph::incEdgeWeight(int v, int u, int cb1, int ce1, int cb2, int ce2) {
             assert(libs.size() > 0);
-            assert(v < vrtsToEdge.size());
 
             DEBUG("increment edge Weight between v=" << v << "(" << cb1 << "-" << ce1 << ") u=" << u << "(" << cb2
                                                      << "-"
                                                      << ce2 << ")");
 
             int e = -1;
-            std::vector<int> candidates = vrtsToEdge[v][u];
+            std::vector<int> candidates = graph[v];
 
             for (int ec : candidates) {
                 if (std::fabs(cb1 - edges[ec].coordBegin1) < maxClusterSize &&
@@ -60,9 +58,6 @@ namespace builder {
             if (e == -1) {
                 e = (int) edges.size();
                 edges.push_back(Edge(e, v, u, (int) libs.size() - 1, 0, cb1, ce1, cb2, ce2));
-
-                vrtsToEdge[v][u].push_back(e);
-
                 graph[v].push_back(e);
                 graphR[u].push_back(e);
             }
@@ -81,10 +76,6 @@ namespace builder {
         void ContigGraph::newLib(std::string name, std::string color, Lib::Type type) {
             DEBUG("new lib with name=" << name << " color=" << color << " type=" << Lib::typeToStr[type]);
             libs.push_back(Lib(color, name, type));
-
-            for (int i = 0; i < (int) vrtsToEdge.size(); ++i) {
-                vrtsToEdge[i].clear();
-            }
         }
 
         std::vector<int> ContigGraph::getEdges(int v) {
@@ -157,7 +148,6 @@ namespace builder {
             DEBUG("vertex num=" << vn);
             g.graph.resize(vn);
             g.graphR.resize(vn);
-            g.vrtsToEdge.resize(vn);
 
             int mxT = 0;
 
@@ -222,8 +212,10 @@ namespace builder {
 
         std::vector<ContigGraph::Edge> ContigGraph::getEdgesBetween(int v, int u) {
             std::vector<Edge> res;
-            for (int id : vrtsToEdge[v][u]) {
-                res.push_back(edges[id]);
+            for (int id : graph[v]) {
+                if (edges[id].to == u) {
+                    res.push_back(edges[id]);
+                }
             }
             return res;
         }
@@ -232,8 +224,6 @@ namespace builder {
             int e = (int) edges.size();
             edges.push_back(Edge(e, v1, v2, (int) libs.size() - 1, 0, c1.first, c1.second,
                                  c2.first, c2.second));
-
-            vrtsToEdge[v1][v2].push_back(e);
 
             graph[v1].push_back(e);
             graphR[v2].push_back(e);

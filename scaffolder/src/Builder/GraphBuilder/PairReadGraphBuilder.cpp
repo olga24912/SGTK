@@ -175,6 +175,8 @@ namespace builder {
             DEBUG("finish read header");
 
             seqan::BamAlignmentRecord read1, read2;
+            seqan::readRecord(read1, bamFile1);
+            seqan::readRecord(read2, bamFile2);
 
             int cnt = 0;
             std::pair<std::string, int> readInfo1 = processOneFirstRead(read1);
@@ -213,10 +215,16 @@ namespace builder {
                     }
                 }
 
-                if (cnt % 1000 == 0) {
+                if (cnt % 100000 == 0) {
                     INFO("finish handle first " << cnt << "reads")
                     INFO("readInfo1 =" << readInfo1.first << " " << readInfo1.second);
                     INFO("readInfo2 =" << readInfo2.first << " " << readInfo2.second);
+                    int edgeCnt = 0;
+                    int vcnt = graph->getVertexCount();
+                    for (int v = 0; v < vcnt; ++v) {
+                        edgeCnt += graph->getEdges(v).size();
+                    }
+                    INFO("edges cnt =" << edgeCnt);
                 }
                 ++cnt;
             }
@@ -312,8 +320,22 @@ namespace builder {
             if (info1.second == -1 && info2.second == -1) return 0;
             if (info1.second == -1) return -1;
             if (info2.second == -1) return 1;
-            if (info1.first < info2.first) return -1;
-            if (info1.first > info2.first) return 1;
+            int num1 = 0, num2 = 0;
+            int ten = 1;
+            for (int i = (int)info1.first.size() - 1; i >= 0; --i) {
+                if (info1.first[i] == '.') break;
+                num1 = (info1.first[i] - '0') * ten + num1;
+                ten *= 10;
+            }
+            ten = 1;
+            for (int i = (int)info2.first.size() - 1; i >= 0; --i) {
+                if (info2.first[i] == '.') break;
+                num2 = (info2.first[i] - '0') * ten + num2;
+                ten *= 10;
+            }
+
+            if (num1 < num2) return -1;
+            if (num1 > num2) return 1;
             return 0;
         }
     }

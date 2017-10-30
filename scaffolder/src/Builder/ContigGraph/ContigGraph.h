@@ -78,13 +78,11 @@ namespace builder {
             static const int maxClusterSize = 1000;
             std::vector<std::vector<int> > graph; // graph[v][i] = e store edge id from vertex (e: v -> u)
             std::vector<std::vector<int> > graphR; // graph[u][i] = e store edge id to vertex (e: v -> u)
-            std::map<std::string, int> targetId; // return vertex in graph(aka target id) by target name
+            std::unordered_map<std::string, int> targetId; // return vertex in graph(aka target id) by target name
 
             std::vector<Vertex> targets;
             std::vector<Lib> libs;
             std::vector<Edge> edges;
-
-            std::vector<std::unordered_map<int, std::vector<int> > > vrtsToEdge; // if in last lib e: v -> u then vrtsToEdge[v][u] = e
         public:
             void newLib(std::string name, std::string color, Lib::Type type); //next edge library
 

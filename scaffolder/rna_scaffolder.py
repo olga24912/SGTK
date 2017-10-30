@@ -79,7 +79,6 @@ def alig_pair_reads(i, rnap1, rnap2, checkpoints, cpf):
 
         os.system("STAR --runThreadN 20 --genomeDir ../genomeDir --outReadsUnmapped Fastx --readFilesIn " + rnap1 +
                   " --outSAMtype BAM Unsorted")
-        os.system("mv Aligned.out.bam rna1.bam")
         os.system("samtools sort -n Aligned.out.bam -o rna1.bam")
         os.system("rm -r _STARtmp")
         if rnap1[-1] == "q":
