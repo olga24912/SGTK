@@ -28,7 +28,6 @@ namespace filter {
 
             RuleDelSmallEdges rdse;
             rdse.simplifyGraph(graph);
-            graph->write("smp.gr");
             RuleDelSmallCycle rdsc;
             rdsc.simplifyGraph(graph);
             RuleInOneLine riol;

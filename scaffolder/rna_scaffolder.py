@@ -280,7 +280,7 @@ def create_scaffolds(contig_file_name, rnap_list, rnas_list, exon_block_file_nam
     f = open("filter_config", 'w')
     f.write("uploadGraph out.gr\n")
     f.write("minContig 500\n")
-    f.write("setExonBlockFile " + exon_block_file_name + "\n")
+    f.write("setExonBlock " + exon_block_file_name + "\n")
     f.write("mergeSimplePath " + contig_file_name + " scaffolds.fa\n")
     f.write("exit\n")
     f.close()

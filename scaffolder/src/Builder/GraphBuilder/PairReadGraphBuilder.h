@@ -2,7 +2,6 @@
 #define SCAFFOLDER_PAIRREADGRAPHBUILDER_H
 
 #include "GraphBuilder.h"
-#include "Builder/SamFileWriter/SamFileWriteEdge.h"
 #include "ReadsSplitter/Utils/SeqanUtils.h"
 #include <string>
 #include <unordered_map>
@@ -20,17 +19,6 @@ namespace builder {
             seqan::BamFileIn bamFile1;
             seqan::BamFileIn bamFile2;
 
-            std::unordered_map<std::string, seqan::BamAlignmentRecord> read1ByName;
-            std::unordered_map<std::string, seqan::BamAlignmentRecord> read2ByName;
-
-            std::pair<std::string, int> processOneFirstRead(seqan::BamAlignmentRecord read);
-
-            std::pair<std::string, int> processOneSecondRead(seqan::BamAlignmentRecord read);
-
-            virtual void addInfoAboutRead(std::string readName, int target, seqan::BamAlignmentRecord read);
-
-            virtual void addInfoAbout2Read(std::string readName, int target, seqan::BamAlignmentRecord read);
-
             virtual int get2Target(const seqan::BamAlignmentRecord &read) const;
 
             virtual int get1Target(const seqan::BamAlignmentRecord &read) const;
@@ -39,7 +27,7 @@ namespace builder {
 
             bool isUniqueMapRead(seqan::BamAlignmentRecord read);
 
-            virtual void incEdgeWeight(seqan::BamAlignmentRecord read1, seqan::BamAlignmentRecord read2);
+            virtual void incEdgeWeight(seqan::BamAlignmentRecord& read1, seqan::BamAlignmentRecord& read2);
 
             int pairTarget(int id);
 
@@ -64,13 +52,13 @@ namespace builder {
 
             int changeEdges(int target1, std::pair<int, int> c1, int target2, std::pair<int, int> c2);
 
-            bool isGoodEdgeFor1(ContigGraph::Edge edge, std::pair<int, int> c);
+            virtual bool isGoodEdgeFor1(ContigGraph::Edge& edge, std::pair<int, int> c);
 
-            bool isGoodEdgeFor2(ContigGraph::Edge edge, std::pair<int, int> c);
+            virtual bool isGoodEdgeFor2(ContigGraph::Edge& edge, std::pair<int, int> c);
 
             std::pair<int, int> relaxCoord(std::pair<int, int> c1, std::pair<int, int> c2);
 
-            int compareReads(std::pair<std::string, int> info1, std::pair<std::string, int> info2);
+            int compareReads(seqan::BamAlignmentRecord& read1, seqan::BamAlignmentRecord& read2);
         };
     }
 }

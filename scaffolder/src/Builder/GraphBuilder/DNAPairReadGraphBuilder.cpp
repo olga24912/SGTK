@@ -8,12 +8,12 @@ namespace builder {
             DNAPairReadGraphBuilder::distBetweenPairReads = distBetweenPairReads;
         }
 
-        void
+        /*void
         DNAPairReadGraphBuilder::addInfoAboutRead(std::string readName, int target, seqan::BamAlignmentRecord read) {
             PairReadGraphBuilder::addInfoAboutRead(readName, target, read);
             TRACE("addInfoAboutRead readName=" << readName << " v=" << target);
             read1DistToEnd[readName] = readDist(read);
-        }
+        }*/
 
         int DNAPairReadGraphBuilder::readDist(seqan::BamAlignmentRecord read) {
             TRACE("get readDist to the end");
@@ -25,12 +25,12 @@ namespace builder {
             }
         }
 
-        void
+        /*void
         DNAPairReadGraphBuilder::addInfoAbout2Read(std::string readName, int target, seqan::BamAlignmentRecord read) {
             PairReadGraphBuilder::addInfoAbout2Read(readName, target, read);
             TRACE("addInfoAboutRead2 readName=" << readName << " v=" << target);
             read2DistToEnd[readName] = readDist(read);
-        }
+        }*/
 
         void DNAPairReadGraphBuilder::incEdgeWeight(seqan::BamAlignmentRecord read1, seqan::BamAlignmentRecord read2) {
             TRACE("incEdgeWeight");

@@ -157,8 +157,6 @@ namespace builder {
             return contigsAlignment;
         }
 
-        void ReferenceGraphBuilder::setSamFileWriter() {}
-
         void ReferenceGraphBuilder::setMinContigLen(int minContigLen) {
             TRACE("setMinContigLen=" << minContigLen);
             this->minContigLen = minContigLen;

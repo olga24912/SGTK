@@ -23,8 +23,8 @@ int builder::graph_builder::RNASplitGraphBuilder::get2Target(const seqan::BamAli
     return target;
 }
 
-void builder::graph_builder::RNASplitGraphBuilder::incEdgeWeight(seqan::BamAlignmentRecord read1,
-                                                                 seqan::BamAlignmentRecord read2) {
+void builder::graph_builder::RNASplitGraphBuilder::incEdgeWeight(seqan::BamAlignmentRecord& read1,
+                                                                 seqan::BamAlignmentRecord& read2) {
     TRACE("incEdgeWeight read1 " << read1.beginPos << " "
                                 << (read1.beginPos + seqan::getAlignmentLengthInRef(read1)) << " RC=" <<  hasFlagRC(read1) <<
     " target " << get1Target(read1));
@@ -32,29 +32,31 @@ void builder::graph_builder::RNASplitGraphBuilder::incEdgeWeight(seqan::BamAlign
                                 << (read2.beginPos + seqan::getAlignmentLengthInRef(read2)) << " RC=" << hasFlagRC(read2) <<
     " target " << get2Target(read2));
 
-    assert(seqan::isUniqueMapRead(read1));
-    assert(seqan::isUniqueMapRead(read2));
-
     int target1 = get1Target(read1);
     std::pair<int, int> t1c = getCoord(read1, target1);
     int target2 = get2Target(read2);
     std::pair<int, int> t2c = getCoord(read2, target2);
 
+    if (target1 < 0 || hasFlagSecondary(read1) || !isUniqueMapRead(read1)) {
+        return;
+    }
+    if (target2 < 0 || hasFlagSecondary(read2) || !isUniqueMapRead(read2)) {
+        return;
+    }
+
     if (target1 == target2 || target1 == pairTarget(target2)) {
         return;
     }
 
-    int e1 = changeEdges(target1, t1c, target2, t2c);
-    int e2 = changeEdges(pairTarget(target2),
+    changeEdges(target1, t1c, target2, t2c);
+    changeEdges(pairTarget(target2),
                 std::make_pair(graph->getTargetLen(target2) - t2c.second, graph->getTargetLen(target2) - t2c.first),
                 pairTarget(target1),
                 std::make_pair(graph->getTargetLen(target1) - t1c.second, graph->getTargetLen(target1) - t1c.first));
 
-    samFileWriter.writeEdge(e1, read1, read2);
-    samFileWriter.writeEdge(e2, read2, read1);
 }
 
-std::pair<int, int> builder::graph_builder::RNASplitGraphBuilder::getCoord(seqan::BamAlignmentRecord read, int target) {
+std::pair<int, int> builder::graph_builder::RNASplitGraphBuilder::getCoord(seqan::BamAlignmentRecord& read, int target) {
     if ((hasFlagRC(read))) {
         return std::make_pair(graph->getTargetLen(target) - (int)(read.beginPos + seqan::getAlignmentLengthInRef(read)),
                               graph->getTargetLen(target) - read.beginPos);
@@ -82,28 +84,28 @@ int builder::graph_builder::RNASplitGraphBuilder::changeEdges(int v1, std::pair<
     return e;
 }
 
-bool builder::graph_builder::RNASplitGraphBuilder::isGoodEdgeFor1(builder::contig_graph::ContigGraph::Edge edge, std::pair<int, int> c) {
+bool builder::graph_builder::RNASplitGraphBuilder::isGoodEdgeFor1(builder::contig_graph::ContigGraph::Edge& edge, std::pair<int, int> c) {
     if (c.first < c.second) {
         if (edge.coordBegin1 >= edge.coordEnd1) return false;
 
-        return std::abs(edge.coordEnd1 - c.second) < 10;
+        return std::abs(edge.coordEnd1 - c.second) < 40;
     } else {
         if (edge.coordBegin1 <= edge.coordEnd1) return false;
 
-        return std::abs(edge.coordBegin1 - c.first) < 10;
+        return std::abs(edge.coordBegin1 - c.first) < 40;
     }
 }
 
-bool builder::graph_builder::RNASplitGraphBuilder::isGoodEdgeFor2(builder::contig_graph::ContigGraph::Edge edge,
+bool builder::graph_builder::RNASplitGraphBuilder::isGoodEdgeFor2(builder::contig_graph::ContigGraph::Edge& edge,
                                                                   std::pair<int, int> c) {
     if (c.first < c.second) {
         if (edge.coordBegin1 >= edge.coordEnd1) return false;
 
-        return std::abs(edge.coordBegin1 - c.first) < 10;
+        return std::abs(edge.coordBegin2 - c.first) < 40;
     } else {
         if (edge.coordBegin1 <= edge.coordEnd1) return false;
 
-        return std::abs(edge.coordEnd1 - c.second) < 10;
+        return std::abs(edge.coordEnd2 - c.second) < 40;
     }
 }
 

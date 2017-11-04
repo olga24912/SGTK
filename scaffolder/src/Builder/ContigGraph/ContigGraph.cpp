@@ -47,9 +47,6 @@ namespace builder {
 
             int e = -1;
             std::vector<int> candidates = graph[v];
-            if (candidates.size() > 50) {
-                WARN("candidate size = " << candidates.size());
-            }
 
             for (int ec : candidates) {
                 if (std::fabs(cb1 - edges[ec].coordBegin1) < maxClusterSize &&
@@ -218,6 +215,14 @@ namespace builder {
             for (int id : graph[v]) {
                 if (edges[id].to == u) {
                     res.push_back(edges[id]);
+                }
+            }
+            if (res.size() > 500) {
+                WARN("edeges betwwen = " << res.size());
+                for (int i = 0; i < (int)res.size(); ++i) {
+                    WARN("edge id" << res[i].id << " v=" << res[i].from << "(" <<res[i].coordBegin1 << ", "
+                                   << res[i].coordEnd1 << ")"
+                                   << "  u=" << res[i].to << "(" << res[i].coordBegin2 << ", " << res[i].coordEnd2 << ")");
                 }
             }
             return res;

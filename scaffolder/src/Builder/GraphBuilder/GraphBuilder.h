@@ -1,13 +1,11 @@
 #ifndef SCAFFOLDER_GRAPHBUILDER_H
 #define SCAFFOLDER_GRAPHBUILDER_H
 
-#include <Builder/SamFileWriter/SamFileWriterEdgeFictive.h>
+#include <seqan/bam_io.h>
 #include "Builder/ContigGraph/ContigGraph.h"
-#include "Builder/SamFileWriter/SamFileWriteEdge.h"
 
 namespace builder {
     namespace graph_builder {
-        using namespace sam_file_writer;
         using namespace contig_graph;
 // main class for generate conection between contigs.
         class GraphBuilder {
@@ -15,7 +13,6 @@ namespace builder {
             std::string path; // path/to/the/dir where this class will generate files.
 
             ContigGraph *graph; //generated graph
-            SamFileWriteEdge samFileWriter = SamFileWriterEdgeFictive(); //for write info about edge's reads
 
             std::string libName; //name of the lib
 
@@ -42,8 +39,6 @@ namespace builder {
 
             //set libName
             void setLibName(std::string libName);
-
-            virtual void setSamFileWriter(); // init samFileWriter
         private:
             DECL_LOGGER("GraphBuilder");
         };

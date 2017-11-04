@@ -6,6 +6,7 @@ namespace filter {
     namespace scaffolder {
         using namespace contig_graph;
         void RuleExonBlocks::simplifyGraph(ContigGraph *graph) {
+            INFO("strat simplify graph")
             //infoAlig.parseCoordFile(graph, "data/out.coords");
             //stat = new filter::statistics::StrandStatistic(graph, infoAlig, "data/ref.gff", "data/input.gff", "out");
 
@@ -17,6 +18,7 @@ namespace filter {
                 }
             }
             //std::cerr << "del OK: " << cnt[1] << " del Wrong:" << cnt[0] << "\n";
+            INFO("finish simplify graph");
         }
 
         void RuleExonBlocks::checkEdge(ContigGraph *graph, int e) {

@@ -12,7 +12,7 @@ namespace filter {
             void simplifyGraph(ContigGraph *graph) override;
 
         private:
-            const int DIST = 10;
+            const int DIST = 5;
 
             void projectEdge(ContigGraph *graph, int e);
 

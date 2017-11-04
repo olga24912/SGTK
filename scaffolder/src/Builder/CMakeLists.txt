@@ -12,9 +12,7 @@ set(SOURCE_FILES GraphControl.cpp GraphControl.h
         GraphBuilder/RNASplit50GraphBuilder.cpp GraphBuilder/RNASplit50GraphBuilder.h
         GraphBuilder/RNASplit30GraphBuilder.cpp GraphBuilder/RNASplit30GraphBuilder.h
         Tools/SystemAlignmentTools.cpp Tools/SystemAlignmentTools.h
-        SamFileWriter/SamFileWriteEdge.cpp SamFileWriter/SamFileWriteEdge.h
         GraphBuilder/ReferenceGraphBuilder.cpp GraphBuilder/ReferenceGraphBuilder.h
-        SamFileWriter/SamFileWriterEdgeFictive.cpp SamFileWriter/SamFileWriterEdgeFictive.h
         ContigGraph/ContigGraph.cpp ContigGraph/ContigGraph.h)
 
 add_library(builder_lib ${SOURCE_FILES})

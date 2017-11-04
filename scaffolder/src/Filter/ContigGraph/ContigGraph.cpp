@@ -226,6 +226,19 @@ namespace filter {
 
                 g.mxEdge = std::max(g.mxEdge, id);
             }
+
+            std::vector<int> vertxs = g.getVertexList();
+            for (int v : vertxs) {
+                std::sort(g.targets[v].edges.begin(), g.targets[v].edges.end(), [&](int v1, int v2) {
+                   return g.edges[v1].to < g.edges[v2].to;
+                });
+
+
+                std::sort(g.targets[v].edgesR.begin(), g.targets[v].edgesR.end(), [&](int v1, int v2) {
+                    return g.edges[v1].from < g.edges[v2].from;
+                });
+            }
+
             assert(g.vertCnt == g.targets.size());
             in.close();
             return g;
@@ -354,6 +367,16 @@ namespace filter {
             targets[v].edges.push_back(e.id);
             targets[u].edgesR.push_back(e.id);
             edges[e.id] = e;
+
+            //TODO sort edges, put edge in right place
+           /* std::sort(targets[v].edges.begin(), targets[v].edges.end(), [](int v1, int v2) {
+                return edges[v1].to < edges[v2].to;
+            });
+
+
+            std::sort(targets[u].edgesR.begin(), targets[u].edgesR.end(), [](int v1, int v2) {
+                return edges[v1].from < edges[v2].from;
+            });*/
 
 /*
             e.to = v^1;

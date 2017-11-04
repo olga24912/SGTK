@@ -51,9 +51,6 @@ namespace builder {
         protected:
             ContigGraph::Lib::Type getLibType() override;
 
-        protected:
-            void setSamFileWriter() override;
-
         public:
             void evaluate();
 

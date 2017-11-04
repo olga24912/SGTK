@@ -11,7 +11,8 @@ namespace filter {
             for (int v : vect) {
                 std::vector<int> edges = graph->getEdges(v);
 
-                DEBUG("vertex num = " << v << " edegs cnt=" << edges.size());
+                INFO("vertex num = " << v << " edegs cnt=" << edges.size());
+                if (edges.size() > 20) continue; //TODO skip big deg
 
                 for (int i = 0; i < (int) edges.size(); ++i) {
                     projectEdge(graph, edges[i]);
@@ -112,7 +113,7 @@ namespace filter {
                 int u = que.front();
                 que.pop();
 
-                if (dist[v] == DIST) continue;
+                if (dist[v] == DIST || elems.size() > 50) continue;
 
                 std::vector<int> edges = graph->getEdges(u);
                 for (int edge : edges) {

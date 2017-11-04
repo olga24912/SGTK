@@ -4,6 +4,7 @@
 namespace filter {
     namespace scaffolder {
         void filter::scaffolder::RuleDelSmallCycle::simplifyGraph(ContigGraph *graph) {
+            INFO("start del small cycle");
             std::vector<int> vert = graph->getVertexList();
             for (int v : vert) {
                 std::vector<int> edges = graph->getEdges(v);
@@ -26,6 +27,7 @@ namespace filter {
                     graph->delEdge(e);
                 }
             }
+            INFO("finish del small cycle");
         }
     }
 }

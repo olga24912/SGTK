@@ -55,11 +55,5 @@ namespace builder {
             TRACE("colorToString color=(" << color[0] << " " << color[1] << " " << color[2] << ") : " << res);
             return res;
         }
-
-        void GraphBuilder::setSamFileWriter() {
-            using namespace sam_file_writer;
-            DEBUG("setSamFileWriter");
-            this->samFileWriter = SamFileWriteEdge(path);
-        }
     }
 }
