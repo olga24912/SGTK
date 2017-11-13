@@ -45,6 +45,7 @@ def parse_args():
     args = parser.parse_args()
     return args
 
+
 def alig_split(lib_name, reads, flag, checkpoints, cpf):
     if not (lib_name + " alig" in checkpoints):
         prevdir = os.getcwd()
@@ -68,6 +69,7 @@ def alig_split(lib_name, reads, flag, checkpoints, cpf):
                  ". If you don't want skip this step delete raw \"" + lib_name + " alig" "\" from checkpoints file")
 
     cpf.write(lib_name + " alig\n")
+
 
 def alig_pair_reads(i, rnap1, rnap2, checkpoints, cpf):
     prevdir = os.getcwd()
@@ -156,6 +158,7 @@ def alig_single_reads(i, rnas, checkpoints, cpf):
     cpf.write(lib_name + " alig")
     alig_split("rnas" + str(i) + "_30", "../rnas" + str(i) + "_30/rna.bam", 1, checkpoints, cpf)
 
+
 def alig_reads(contig_file_name, rnap_list, rnas_list, checkpoints, cpf):
     log.log("PHASE 1: READS' ALIGNMENT")
 
@@ -185,6 +188,7 @@ def alig_reads(contig_file_name, rnap_list, rnas_list, checkpoints, cpf):
 
     log.log("FINISH PHASE 1")
     return
+
 
 def runGraphBuilder(lib_name, prevdir, type, checkpoints, cpf):
     if (not (lib_name + " build" in checkpoints)):
@@ -218,30 +222,6 @@ def build_graph(contig_file_name, rnap_list, rnas_list, checkpoints, cpf):
 
     log.log("FINISH PHASE 2")
     return
-
-def runFindExons(lib_name, prevdir, type):
-    log.log("START FIND EXONS BLOCK: " + lib_name)
-    lib_dir = os.path.dirname(os.path.abspath(lib_name) + "/")
-    os.chdir(lib_dir)
-
-    if (type == "RNA_PAIR"):
-        os.system(path_to_exec_dir + "findExon  rna1s.bam  out1.crd")
-        os.system(path_to_exec_dir + "findExon  rna2s.bam  out2.crd")
-    else:
-        os.system(path_to_exec_dir + "findExon  rnas.bam  out.crd")
-
-    os.chdir(prevdir)
-    return
-
-
-def find_exons(rnap_list, rnas_list):
-    for i in range(len(rnap_list)):
-        prevdir = os.getcwd()
-        runFindExons("rnap" + str(i), prevdir, "RNA_PAIR")
-
-    for i in range(len(rnas_list)):
-        prevdir = os.getcwd()
-        runFindExons("rnas" + str(i) + "_50", prevdir, "RNA_SINGLE")
 
 
 def merge_graph(rnap_list, rnas_list):
@@ -286,7 +266,6 @@ def merge_graph(rnap_list, rnas_list):
         list_s30.append(cur_lib)
         cur_lib += 1
 
-
     f = open("filter_config", 'w')
     f.write("uploadGraph graph.gr\n")
     for i in range(len(list_s50)-1, 0, -1):
@@ -306,6 +285,7 @@ def merge_graph(rnap_list, rnas_list):
 
 def create_scaffolds(contig_file_name, rnap_list, rnas_list, exon_block_file_name):
     log.log("PHASE 4: GRAPH SIMPLIFICATION and SCAFFOLDS' CONSTRACTION")
+
     f = open("filter_config", 'w')
     f.write("uploadGraph out.gr\n")
     f.write("minContig 500\n")
@@ -315,6 +295,7 @@ def create_scaffolds(contig_file_name, rnap_list, rnas_list, exon_block_file_nam
     f.close()
 
     os.system(path_to_exec_dir + "filter " + os.path.abspath("filter_config"))
+
     log.log("FINISH PHASE 4")
     return
 
