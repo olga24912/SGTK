@@ -48,7 +48,7 @@ def parse_args():
 def alig_split(lib_name, reads, flag, checkpoints, cpf):
     if not (lib_name + " alig" in checkpoints):
         prevdir = os.getcwd()
-        log.log("START ALIG: " + lib_name)
+        log.log("align " + lib_name)
         lib_dir = os.path.dirname(os.path.abspath(lib_name) + "/")
         if not os.path.exists(lib_dir):
             os.makedirs(lib_dir)
@@ -63,6 +63,10 @@ def alig_split(lib_name, reads, flag, checkpoints, cpf):
         os.system("rm -r _STARtmp")
 
         os.chdir(prevdir)
+    else:
+        log.warn("skip step align " + lib_name +
+                 ". If you don't want skip this step delete raw \"" + lib_name + " alig" "\" from checkpoints file")
+
     cpf.write(lib_name + " alig\n")
 
 def alig_pair_reads(i, rnap1, rnap2, checkpoints, cpf):
@@ -71,7 +75,7 @@ def alig_pair_reads(i, rnap1, rnap2, checkpoints, cpf):
     unm1 = ""
     unm2 = ""
     if not(lib_name + " alig" in checkpoints):
-        log.log("START ALIG: " + lib_name)
+        log.log("align " + lib_name + ": " + rnap1 + " " + rnap2)
         lib_dir = os.path.dirname(os.path.abspath(lib_name) + "/")
         if not os.path.exists(lib_dir):
             os.makedirs(lib_dir)
@@ -101,6 +105,9 @@ def alig_pair_reads(i, rnap1, rnap2, checkpoints, cpf):
 
         os.chdir(prevdir)
     else:
+        log.warn("skip step align reads: " + rnap1 + " and " + rnap2 +
+                 ". If you don't want skip this step delete raw \"" + lib_name + " alig" "\" from checkpoints file")
+
         if (os.path.isfile("../" + lib_name + "/Unmapped1.fasta")):
             unm1 = "../" + lib_name + "/Unmapped1.fasta"
         else:
@@ -122,6 +129,7 @@ def alig_single_reads(i, rnas, checkpoints, cpf):
     prevdir = os.getcwd()
     lib_name = "rnas" + str(i) + "_50"
     if not(lib_name + " alig" in checkpoints):
+        log.log("align " + rnas + " reads to detect unalign reads")
         lib_dir = os.path.dirname(os.path.abspath(lib_name) + "/")
         if not os.path.exists(lib_dir):
             os.makedirs(lib_dir)
@@ -141,45 +149,60 @@ def alig_single_reads(i, rnas, checkpoints, cpf):
 
         os.chdir(prevdir)
         alig_split(lib_name, unm, 0, checkpoints, cpf)
+    else:
+        log.warn("skip step align " + lib_name +
+                 ". If you don't want skip this step delete raw \"" + lib_name + " alig" "\" from checkpoints file")
+
     cpf.write(lib_name + " alig")
     alig_split("rnas" + str(i) + "_30", "../rnas" + str(i) + "_30/rna.bam", 1, checkpoints, cpf)
 
 def alig_reads(contig_file_name, rnap_list, rnas_list, checkpoints, cpf):
+    log.log("PHASE 1: READS' ALIGNMENT")
+
     genome_dir = "genomeDir"
     gen_dir = os.path.dirname(os.path.abspath(genome_dir) + "/")
     if not os.path.exists(gen_dir):
         os.makedirs(gen_dir)
 
     if not("geneDir" in checkpoints):
+        log.log("genome generation for contigs: " + contig_file_name)
         try:
             os.system("STAR --runMode genomeGenerate --genomeDir genomeDir --runThreadN 20 --genomeSAindexNbases 10 --genomeFastaFiles " +
                   contig_file_name + " --limitGenomeGenerateRAM 90000000000")
         except:
             log.err(sys.exc_info()[0])
             return
+    else:
+        log.warn("skip genome generation step. If you have not genomeDir directory delete raw \"geneDir\" from checkpoints file")
+
     cpf.write("geneDir\n")
 
     for i in range(len(rnap_list)):
         alig_pair_reads(i, rnap_list[i][0], rnap_list[i][1], checkpoints, cpf)
 
-
     for i in range(len(rnas_list)):
         alig_single_reads(i, rnas_list[i][0], checkpoints, cpf)
+
+    log.log("FINISH PHASE 1")
     return
 
 def runGraphBuilder(lib_name, prevdir, type, checkpoints, cpf):
     if (not (lib_name + " build" in checkpoints)):
-        log.log("START BUILD GRAPH: " + lib_name)
+        log.log("build graph " + lib_name)
         lib_dir = os.path.dirname(os.path.abspath(lib_name) + "/")
         os.chdir(lib_dir)
         os.system(path_to_exec_dir + "build " + type + " rna1.bam rna2.bam " + lib_name)
         os.chdir(prevdir)
-
+    else:
+        log.warn("skip building graph for " + lib_name +
+                 ". If you don't want skip this step delete raw \"" + lib_name + " build" "\" from checkpoints file")
     cpf.write(lib_name + " build\n")
     return
 
 
 def build_graph(contig_file_name, rnap_list, rnas_list, checkpoints, cpf):
+    log.log("PHASE 2: GRAPH BUILDING")
+
     for i in range(len(rnap_list)):
         prevdir = os.getcwd()
         runGraphBuilder("rnap" + str(i), prevdir, "RNA_PAIR", checkpoints, cpf)
@@ -192,6 +215,8 @@ def build_graph(contig_file_name, rnap_list, rnas_list, checkpoints, cpf):
         prevdir = os.getcwd()
         runGraphBuilder("rnas" + str(i) + "_50", prevdir, "RNA_SPLIT_50", checkpoints, cpf)
         runGraphBuilder("rnas" + str(i) + "_30", prevdir, "RNA_SPLIT_30", checkpoints, cpf)
+
+    log.log("FINISH PHASE 2")
     return
 
 def runFindExons(lib_name, prevdir, type):
@@ -220,6 +245,8 @@ def find_exons(rnap_list, rnas_list):
 
 
 def merge_graph(rnap_list, rnas_list):
+    log.log("PHASE 3: GRAPHS' MERGING")
+
     args = ""
     for i in range(len(rnap_list)):
         args += "rnap" + str(i) + "_50_1/graph.gr "
@@ -274,9 +301,11 @@ def merge_graph(rnap_list, rnas_list):
     f.close()
 
     os.system(path_to_exec_dir + "filter " + os.path.abspath("filter_config"))
+    log.log("FINISH PHASE 3")
     return
 
 def create_scaffolds(contig_file_name, rnap_list, rnas_list, exon_block_file_name):
+    log.log("PHASE 4: GRAPH SIMPLIFICATION and SCAFFOLDS' CONSTRACTION")
     f = open("filter_config", 'w')
     f.write("uploadGraph out.gr\n")
     f.write("minContig 500\n")
@@ -286,6 +315,7 @@ def create_scaffolds(contig_file_name, rnap_list, rnas_list, exon_block_file_nam
     f.close()
 
     os.system(path_to_exec_dir + "filter " + os.path.abspath("filter_config"))
+    log.log("FINISH PHASE 4")
     return
 
 def run(args):
@@ -317,10 +347,8 @@ def run(args):
         return
 
     out_dir = main_out_dir + "tmp/"
-    log.log("OUTPUT DIR: " + out_dir)
     directory = os.path.dirname(out_dir)
     if not os.path.exists(directory):
-        log.log("MKDIR")
         os.makedirs(directory)
     os.chdir(directory)
 
@@ -331,6 +359,7 @@ def run(args):
             checkpoints = f.read().splitlines()
 
     cpf = open('checkpoints', 'w')
+
 
     alig_reads(contig_file_name, rnap_list, rnas_list, checkpoints, cpf)
     build_graph(contig_file_name, rnap_list, rnas_list, checkpoints, cpf)
@@ -346,6 +375,10 @@ def run(args):
     copyfile("tmp/out.gr", "graph.gr")
     copyfile("tmp/out.info", "out.info")
 
+    log.log("Scaffolds save to " + str(directory) + "/scaffolds.fa")
+    log.log("Graph save to " + str(directory) + "/graph.gr")
+    log.log("Scaffolds description save to " + str(directory) + "/out.info")
+    log.log("Thank you for use IGAR!")
     return
 
 args = parse_args()
