@@ -136,22 +136,34 @@ namespace builder {
             DEBUG("finish read header");
 
             seqan::BamAlignmentRecord read1, read2;
-            seqan::readRecord(read1, bamFile1);
-            seqan::readRecord(read2, bamFile2);
+            int cont = 0;
+            if (!atEnd(bamFile1)) {
+                seqan::readRecord(read1, bamFile1);
+            } else {
+                cont = 1;
+            }
+            if (!atEnd(bamFile2)) {
+                seqan::readRecord(read2, bamFile2);
+            } else {
+                cont = 1;
+            }
 
             int cnt = 0;
 
             while (!atEnd(bamFile1) || !atEnd(bamFile2)) {
+                if (cont == 1) {
+                    break;
+                }
                 TRACE("next read");
 
-                if (compareReads(read1, read2) == -1 || atEnd(bamFile2)) {
+                if (compareReads(read1, read2) == -1) {
                     if (!atEnd(bamFile1)) {
                         seqan::readRecord(read1, bamFile1);
                         TRACE("read first rec");
                     } else {
                         break;
                     }
-                } else if (compareReads(read1, read2) == 1 || atEnd(bamFile1)) {
+                } else if (compareReads(read1, read2) == 1) {
                     if (!atEnd(bamFile2)) {
                         seqan::readRecord(read2, bamFile2);
                         TRACE("read sec rec");
