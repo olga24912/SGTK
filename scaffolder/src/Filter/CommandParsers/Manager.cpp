@@ -121,7 +121,6 @@ namespace filter {
                 configFile = configFileName;
             }
             readConfig();
-            INFO("Finish read config file");
         }
 
         void Manager::readConfig() {

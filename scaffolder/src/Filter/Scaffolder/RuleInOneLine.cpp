@@ -5,21 +5,16 @@
 namespace filter {
     namespace scaffolder {
         void RuleInOneLine::simplifyGraph(ContigGraph *graph) {
-            INFO("start simplify graph");
-
             std::vector<int> vect = graph->getVertexList();
             for (int v : vect) {
                 std::vector<int> edges = graph->getEdges(v);
 
-                INFO("vertex num = " << v << " edegs cnt=" << edges.size());
                 if (edges.size() > 20) continue; //TODO skip big deg
 
                 for (int i = 0; i < (int) edges.size(); ++i) {
                     projectEdge(graph, edges[i]);
                 }
             }
-
-            INFO("finish simplify graph");
         }
 
         void RuleInOneLine::projectEdge(ContigGraph *graph, int e) {

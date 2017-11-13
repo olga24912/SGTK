@@ -3,7 +3,6 @@
 namespace filter {
     namespace scaffolder {
         void RuleDelCycle::simplifyGraph(ContigGraph *graph) {
-            INFO("start del cycles");
             int wasOpt = true;
 
             while(wasOpt) {

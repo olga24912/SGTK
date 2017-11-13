@@ -2,12 +2,11 @@
 #include "Scaffolds.h"
 #include <seqan/seq_io.h>
 
-
 using namespace filter::contig_graph;
 namespace filter {
     namespace scaffolder {
         void Scaffolds::print(std::string outFile) {
-            INFO("start print scaffolds, outFile=" << outFile << " info file= out.info");
+            INFO("Print scaffolds to outFile=" << outFile << " info file= out.info");
 
             seqan::SeqFileOut out(outFile.c_str());
             std::ofstream outInfo("out.info");

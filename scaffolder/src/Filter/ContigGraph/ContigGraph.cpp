@@ -95,7 +95,7 @@ namespace filter {
             std::unordered_map<int, int> new_vert;
             std::unordered_map<int, int> new_edge;
 
-            INFO("start write graph to " << fileName);
+            INFO("Write graph to " << fileName);
             std::ofstream out(fileName);
 
             DEBUG("libs num=" << libCnt << " vertex num=" << vertCnt << " edegs num=" << edgeCnt);
@@ -160,10 +160,11 @@ namespace filter {
             }
 
             out.close();
+            INFO("Finish write graph");
         }
 
         ContigGraph ContigGraph::read(std::string fileName) {
-            INFO("start read graph \"" << fileName << "\"");
+            INFO("Read graph from \"" << fileName << "\"");
 
             ContigGraph g;
             std::ifstream in(fileName);
@@ -517,7 +518,6 @@ namespace filter {
         }
 
         void ContigGraph::addExonBlock(std::string fileName) {
-            INFO("start add exons: " << fileName);
             if (fileName.substr(fileName.size() - 3) == "gff") {
                 addExonBlockFromGffFile(fileName);
                 return;

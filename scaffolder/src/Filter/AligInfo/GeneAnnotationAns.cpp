@@ -3,7 +3,7 @@
 namespace filter {
     namespace alig_info {
         GeneFinder::Gene GeneAnnotationAns::findGene(filter::contig_graph::ContigGraph::Vertex v, int coord) {
-            INFO("start find gene for v=" << v.id << " " << coord);
+            DEBUG("start find gene for v=" << v.id << " " << coord);
             std::vector<InfoAboutContigsAlig::Alignment> aligns = aligInfo.getAlignment(v.id);
 
             for (InfoAboutContigsAlig::Alignment alig : aligns) {

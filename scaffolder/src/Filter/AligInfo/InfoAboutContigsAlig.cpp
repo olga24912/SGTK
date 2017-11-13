@@ -96,7 +96,7 @@ namespace filter {
 
                     status = ErrorType::OK;
 
-                    INFO(al1.chrName << " " << al1.coordBegin << " " << al1.coordEnd << " " << al2.coordBegin << " " << al2.coordEnd << "\n");
+                    DEBUG(al1.chrName << " " << al1.coordBegin << " " << al1.coordEnd << " " << al2.coordBegin << " " << al2.coordEnd << "\n");
                 }
             }
 

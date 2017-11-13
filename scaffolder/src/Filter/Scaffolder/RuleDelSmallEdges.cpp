@@ -5,7 +5,6 @@ using namespace filter::contig_graph;
 namespace filter {
     namespace scaffolder {
         void RuleDelSmallEdges::simplifyGraph(ContigGraph *graph) {
-            INFO("start del small edges");
             std::vector<int> vertList = graph->getVertexList();
             for (int v : vertList) {
                 delEdges(graph, graph->getEdges(v));
@@ -15,7 +14,6 @@ namespace filter {
             for (int e : delEdge) {
                 graph->delEdge(e);
             }
-            INFO("finish del small edges");
         }
 
         void RuleDelSmallEdges::delEdges(ContigGraph *graph, const std::vector<int>& edges) {

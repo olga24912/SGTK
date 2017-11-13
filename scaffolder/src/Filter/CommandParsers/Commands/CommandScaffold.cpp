@@ -10,7 +10,7 @@ namespace filter {
 
             ss >> contigFile >> outFile;
 
-            INFO("create scaffolds contigFile=" << contigFile << " outFile=" << outFile);
+            INFO("Start create scaffolds contigFile=" << contigFile << " outFile=" << outFile);
 
             scaffolder::ScaffolderPipeline sp;
 

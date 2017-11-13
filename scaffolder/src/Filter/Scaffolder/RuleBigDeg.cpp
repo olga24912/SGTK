@@ -3,7 +3,6 @@
 namespace filter {
     namespace scaffolder {
         void RuleBigDeg::simplifyGraph(ContigGraph *graph) {
-            INFO("start simplify graph");
             std::vector<int> vert = graph->getVertexList();
             std::vector<int> wignore(graph->getVertexCount(), 0);
             std::vector<int> wignoreR(graph->getVertexCount(), 0);
@@ -28,8 +27,6 @@ namespace filter {
 
             ignoreEdges(graph, wignore);
             ignoreEdgesR(graph, wignoreR);
-            INFO("finish simplify graph");
-
         }
 
         void RuleBigDeg::ignoreEdges(ContigGraph *graph, std::vector<int> wig) {

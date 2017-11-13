@@ -22,26 +22,39 @@ namespace filter {
         using namespace commands;
         void ScaffolderPipeline::evaluate(ContigGraph *graph, std::string contigFile,
                                           std::string out, std::vector<State::BamFiles> bamFiles) {
-            INFO("start build scaffolds");
-
             Scaffolds scaffolds(contigFile);
 
+
+            INFO("Simplification step 1: delete small edges");
             RuleDelSmallEdges rdse;
             rdse.simplifyGraph(graph);
+
+            INFO("Simplification step 2: delete cycles");
             RuleDelSmallCycle rdsc;
             rdsc.simplifyGraph(graph);
+
+            INFO("Simplification step 3: edge projection");
             RuleInOneLine riol;
             riol.simplifyGraph(graph);
+
+            INFO("Simplification step 4: fork with big diff in wieght");
             RuleBigDifInWeight rbddiw;
             rbddiw.simplifyGraph(graph);
             riol.simplifyGraph(graph);
+
+            INFO("Simplification step 5: validation by gene annotation");
             RuleExonBlocks reb;
             reb.simplifyGraph(graph);
+
+            INFO("Simplification step 6: delete split-30 edges");
             RuleDel30 rd30;
             rd30.simplifyGraph(graph);
 
+            INFO("Build scaffolds");
             ScaffoldStrategyUniqueConnection ssuc;
             ssuc.addConnection(&scaffolds, graph);
+
+            INFO("Print scaffold to " + out);
             scaffolds.print(out);
         }
     }

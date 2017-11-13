@@ -29,7 +29,7 @@ namespace filter {
         }
 
         GeneFinder::Gene GeneFinder::getGeneByCoord(std::string contigName, int coord) {
-            INFO("get gene by coord " << contigName << " " << coord);
+            DEBUG("get gene by coord " << contigName << " " << coord);
             std::vector<Gene> genes = genesAnnotation[contigName];
 
             Gene fg;
