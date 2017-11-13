@@ -1,7 +1,7 @@
 #ifndef SCAFFOLDER_SCAFFOLDSTRATEGYUNIQUECONNECTION_H
 #define SCAFFOLDER_SCAFFOLDSTRATEGYUNIQUECONNECTION_H
 
-#include <ContigGraph/ContigGraph.h>
+#include <Filter/ContigGraph/ContigGraph.h>
 #include "ScaffoldStrategy.h"
 
 namespace filter {
