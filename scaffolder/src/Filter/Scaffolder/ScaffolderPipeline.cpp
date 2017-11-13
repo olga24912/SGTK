@@ -16,6 +16,7 @@
 #include "RuleValidateCoord.h"
 #include "RuleCovering.h"
 #include "RuleExonBlocks.h"
+#include "ScaffoldStrategyOneLine.h"
 
 namespace filter {
     namespace scaffolder {
@@ -33,25 +34,20 @@ namespace filter {
             RuleDelSmallCycle rdsc;
             rdsc.simplifyGraph(graph);
 
-            INFO("Simplification step 3: edge projection");
-            RuleInOneLine riol;
-            riol.simplifyGraph(graph);
-
-            INFO("Simplification step 4: fork with big diff in wieght");
+            INFO("Simplification step 3: fork with big diff in wieght");
             RuleBigDifInWeight rbddiw;
             rbddiw.simplifyGraph(graph);
-            riol.simplifyGraph(graph);
 
-            INFO("Simplification step 5: validation by gene annotation");
+            INFO("Simplification step 4: validation by gene annotation");
             RuleExonBlocks reb;
             reb.simplifyGraph(graph);
 
-            INFO("Simplification step 6: delete split-30 edges");
+            INFO("Simplification step 5: delete split-30 edges");
             RuleDel30 rd30;
             rd30.simplifyGraph(graph);
 
             INFO("Build scaffolds");
-            ScaffoldStrategyUniqueConnection ssuc;
+            ScaffoldStrategyOneLine ssuc;
             ssuc.addConnection(&scaffolds, graph);
 
             INFO("Print scaffold to " + out);
