@@ -1,6 +1,4 @@
-#include <Builder/GraphBuilder/RNAPairReadGraphBuilder.h>
-#include <Builder/GraphBuilder/RNASplit50GraphBuilder.h>
-#include <Builder/GraphBuilder/RNASplit30GraphBuilder.h>
+#include <Builder/GraphBuilder/RNASplitGraphBuilder.h>
 #include "GraphControl.h"
 #include "Builder/GraphBuilder/ReferenceGraphBuilder.h"
 
@@ -8,14 +6,14 @@ namespace builder {
     void GraphControl::evaluate(int argc, char **argv) {
         using namespace graph_builder;
         using namespace contig_graph;
-        INFO("start build graph with type: " << argv[1]);
 
         if (std::string(argv[1]) == "RNA_PAIR") {
-            RNAPairReadGraphBuilder* gb = new RNAPairReadGraphBuilder;
+            PairReadGraphBuilder* gb = new PairReadGraphBuilder;
 
             gb->setFileName1(argv[2]);
             gb->setFileName2(argv[3]);
             gb->setLibName(argv[4]);
+            gb->setLibType(ContigGraph::Lib::Type::RNA_PAIR);
 
             gb->setGraph(&graph);
             gb->evaluate();
@@ -27,26 +25,29 @@ namespace builder {
 
             gb->setDistBetweenPairReads(atoi(argv[4]));
             gb->setLibName(argv[5]);
+            gb->setLibType(ContigGraph::Lib::Type::DNA_PAIR);
 
             gb->setGraph(&graph);
             gb->evaluate();
         } else if (std::string(argv[1]) == "RNA_SPLIT_50") {
-            RNASplit50GraphBuilder* gb = new RNASplit50GraphBuilder;
+            RNASplitGraphBuilder* gb = new RNASplitGraphBuilder;
 
             gb->setFileName1(argv[2]);
             gb->setFileName2(argv[3]);
 
             gb->setLibName(argv[4]);
+            gb->setLibType(ContigGraph::Lib::Type::RNA_SPLIT_50);
 
             gb->setGraph(&graph);
             gb->evaluate();
         } else if ( std::string(argv[1]) == "RNA_SPLIT_30") {
-            RNASplit30GraphBuilder* gb = new RNASplit30GraphBuilder;
+            RNASplitGraphBuilder* gb = new RNASplitGraphBuilder;
 
             gb->setFileName1(argv[2]);
             gb->setFileName2(argv[3]);
 
             gb->setLibName(argv[4]);
+            gb->setLibType(ContigGraph::Lib::Type::RNA_SPLIT_30);
 
             gb->setGraph(&graph);
             gb->evaluate();
@@ -57,6 +58,7 @@ namespace builder {
             gb->setQueryFileName(argv[3]);
             gb->setMinContigLen(atoi(argv[4]));
             gb->setLibName(argv[5]);
+            gb->setLibType(ContigGraph::Lib::Type::REF);
 
             gb->setGraph(&graph);
             gb->evaluate();
@@ -65,6 +67,5 @@ namespace builder {
         }
 
         graph.write(path + "/graph.gr");
-        INFO("end build graph");
     }
 }

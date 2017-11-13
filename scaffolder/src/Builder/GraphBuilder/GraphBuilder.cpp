@@ -36,24 +36,5 @@ namespace builder {
             DEBUG("setLibName libName=" << libName);
             this->libName = libName;
         }
-
-        std::string GraphBuilder::colorToString(int *color) {
-            std::string res = "#";
-            for (int i = 0; i < 3; ++i) {
-                if (color[i] / 16 < 10) {
-                    res += (color[i] / 16) + '0';
-                } else {
-                    res += (color[i] / 16) - 10 + 'a';
-                }
-
-                if (color[i] % 16 < 10) {
-                    res += (color[i] % 16) + '0';
-                } else {
-                    res += (color[i] % 16) - 10 + 'a';
-                }
-            }
-            TRACE("colorToString color=(" << color[0] << " " << color[1] << " " << color[2] << ") : " << res);
-            return res;
-        }
     }
 }

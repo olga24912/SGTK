@@ -41,16 +41,5 @@ namespace builder {
             }
             PairReadGraphBuilder::incEdgeWeight(read1, read2);
         }
-
-        std::string DNAPairReadGraphBuilder::getLibColor() {
-            TRACE("getLibColor");
-            int color[3] = {rand() % 100, 255, rand() % 100};
-            return colorToString(color);
-        }
-
-        ContigGraph::Lib::Type DNAPairReadGraphBuilder::getLibType() {
-            TRACE("getLibColor");
-            return ContigGraph::Lib::DNA_PAIR;
-        }
     }
 }

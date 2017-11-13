@@ -3,7 +3,6 @@
 
 #include <seqan/seq_io.h>
 #include "GraphBuilder.h"
-#include "Builder/Tools/SystemAlignmentTools.h"
 #include "ReadsSplitter/Utils/SeqanUtils.h"
 
 namespace builder {
@@ -46,10 +45,7 @@ namespace builder {
 
             std::map<std::string, std::vector<alignmentInfo>> parseTSVFile(std::string fileName);
 
-            virtual std::string getLibColor();
-
-        protected:
-            ContigGraph::Lib::Type getLibType() override;
+            static void alignmentREF(std::string refFileName, std::string queryFileName);
 
         public:
             void evaluate();

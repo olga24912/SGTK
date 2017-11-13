@@ -19,9 +19,9 @@ namespace builder {
         }
 
         void PairReadGraphBuilder::evaluate() {
-            INFO("START build graph");
+            INFO("Start build graph " + libName + " with type " + ContigGraph::Lib::typeToStr[libType]);
             handleReads();
-            INFO("finish build graph");
+            INFO("Finish build graph");
         }
 
         void PairReadGraphBuilder::readHeaderInit() {

@@ -19,11 +19,6 @@ namespace builder {
 
             int readDist(seqan::BamAlignmentRecord read);
 
-            virtual std::string getLibColor();
-
-        protected:
-            ContigGraph::Lib::Type getLibType() override;
-
         public:
             // set max distance between DNA pair read,
             // if  dist will be more this conatcion will be ignore

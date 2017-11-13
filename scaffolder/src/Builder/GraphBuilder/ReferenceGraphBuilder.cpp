@@ -3,9 +3,9 @@
 namespace builder {
     namespace graph_builder {
         void ReferenceGraphBuilder::evaluate() {
-            INFO("start build graph by ref");
+            INFO("Start build graph " + libName + " with type " + ContigGraph::Lib::typeToStr[libType]);
             if (tsvFileName == "") {
-                tools::SystemAlignmentTools::alignmentREF(refContigFileName, queryContigsFileName);
+                alignmentREF(refContigFileName, queryContigsFileName);
             }
 
             generateVertex();
@@ -16,7 +16,7 @@ namespace builder {
                 createGraph(parseTSVFile(tsvFileName));
             }
 
-            INFO("finish build graph by ref");
+            INFO("Finish build graph");
         }
 
         void ReferenceGraphBuilder::generateVertex() {
@@ -56,12 +56,6 @@ namespace builder {
                 }
             }
             INFO("finish generateVertex");
-        }
-
-        std::string ReferenceGraphBuilder::getLibColor() {
-            TRACE("getLibColor");
-            int color[3] = {255, 0, 0};
-            return colorToString(color);
         }
 
         void ReferenceGraphBuilder::createGraph(
@@ -162,9 +156,19 @@ namespace builder {
             this->minContigLen = minContigLen;
         }
 
-        ContigGraph::Lib::Type ReferenceGraphBuilder::getLibType() {
-            TRACE("getLibType");
-            return ContigGraph::Lib::REF;
+        void ReferenceGraphBuilder::alignmentREF(std::string refFileName, std::string queryFileName) {
+            INFO("start alignmentREF refFileName=" << refFileName << " queryFileName=" << queryFileName);
+
+            std::string command = "nucmer " + refFileName + " " + queryFileName;
+            system(command.c_str());
+            DEBUG("command: " << command);
+
+            command = "show-coords out.delta -THrgl > out.coords";
+            std::cerr << command << std::endl;
+            system(command.c_str());
+            DEBUG("command: " << command);
+
+            INFO("finish alignmentREF");
         }
     }
 }

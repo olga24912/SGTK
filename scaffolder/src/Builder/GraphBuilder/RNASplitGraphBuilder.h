@@ -1,11 +1,11 @@
 #ifndef SCAFFOLDER_RNASPLITGRAPHBUILDER_H
 #define SCAFFOLDER_RNASPLITGRAPHBUILDER_H
 
-#include "RNAPairReadGraphBuilder.h"
+#include "PairReadGraphBuilder.h"
 
 namespace builder {
     namespace graph_builder {
-        class RNASplitGraphBuilder : public RNAPairReadGraphBuilder {
+        class RNASplitGraphBuilder : public PairReadGraphBuilder {
         protected:
             int get2Target(const seqan::BamAlignmentRecord &read) const override;
 

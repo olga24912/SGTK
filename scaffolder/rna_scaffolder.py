@@ -192,7 +192,6 @@ def alig_reads(contig_file_name, rnap_list, rnas_list, checkpoints, cpf):
 
 def runGraphBuilder(lib_name, prevdir, type, checkpoints, cpf):
     if (not (lib_name + " build" in checkpoints)):
-        log.log("build graph " + lib_name)
         lib_dir = os.path.dirname(os.path.abspath(lib_name) + "/")
         os.chdir(lib_dir)
         os.system(path_to_exec_dir + "build " + type + " rna1.bam rna2.bam " + lib_name)

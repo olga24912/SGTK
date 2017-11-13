@@ -15,12 +15,14 @@ namespace builder {
             ContigGraph *graph; //generated graph
 
             std::string libName; //name of the lib
+            ContigGraph::Lib::Type  libType;
 
-            virtual std::string getLibColor() = 0; //return color for current lib
-            virtual ContigGraph::Lib::Type getLibType() = 0;
-
-            static std::string
-            colorToString(int color[3]); // translate color like array {255, 0, 255} to  string "#ff00ff"
+            std::string getLibColor() {
+                return "#000000";
+            }
+            ContigGraph::Lib::Type getLibType() {
+                return libType;
+            }
 
             //return reads name without "/1", "/2" end.
             static std::string cutReadName(seqan::BamAlignmentRecord read);
@@ -39,6 +41,10 @@ namespace builder {
 
             //set libName
             void setLibName(std::string libName);
+            void setLibType(ContigGraph::Lib::Type ltype) {
+                libType = ltype;
+            }
+
         private:
             DECL_LOGGER("GraphBuilder");
         };
