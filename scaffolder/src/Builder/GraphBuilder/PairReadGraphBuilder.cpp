@@ -183,7 +183,7 @@ namespace builder {
                     }
                 }
 
-                if (cnt % 100000 == 0) {
+                if (cnt % 1000000 == 0) {
                     INFO("finish handle first " << cnt << "reads")
                     INFO("read1 =" << std::string(seqan::toCString(read1.qName)));
                     INFO("read2 =" << std::string(seqan::toCString(read2.qName)));

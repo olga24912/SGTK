@@ -8,11 +8,12 @@ const int MAX_STR_LEN = 100;
 
 int main(int argc, char ** argv) {
     logging::create_console_logger("../log.properties");
-    std::cerr << "start merge\n" << std::endl;
+    INFO("Start merge libs");
     std::vector<std::string> lib;
     std::vector<std::string> vec;
     std::vector<std::string> edge;
 
+    INFO("Read lib 1");
     std::string fileName = std::string(argv[1]);
 
     FILE* file = fopen((fileName.c_str()), "r");
@@ -20,6 +21,7 @@ int main(int argc, char ** argv) {
     fgets(str, MAX_STR_LEN, file);
     int x;
     sscanf(str, "%d", &x);
+    INFO("Libs count = " << x);
     for (int i = 0; i < x; ++i) {
         fgets(str, MAX_STR_LEN, file);
         lib.push_back(std::string(str));
@@ -38,13 +40,13 @@ int main(int argc, char ** argv) {
     }
     fclose(file);
     for (int j = 2; j < argc - 1; ++j) {
-        std::cerr << j << std::endl;
+        INFO("Read lib " << j);
         int oldLibCnt = (int)lib.size();
         fileName = std::string(argv[j]);
         file = fopen(fileName.c_str(), "r");
         fgets(str, MAX_STR_LEN, file);
         sscanf(str, "%d", &x);
-        std::cerr << x << std::endl;
+        INFO("Libs count = " << x);
         for (int i = 0; i < x; ++i) {
             fgets(str, MAX_STR_LEN, file);
             char c;
@@ -56,13 +58,11 @@ int main(int argc, char ** argv) {
         }
         fgets(str, MAX_STR_LEN, file);
         sscanf(str, "%d", &x);
-        std::cerr << x << std::endl;
         for (int i = 0; i < x; ++i) {
             fgets(str, MAX_STR_LEN, file);
         }
         fgets(str, MAX_STR_LEN, file);
         sscanf(str, "%d", &x);
-        std::cerr << x << std::endl;
         for (int i = 0; i < x; ++i) {
             fgets(str, MAX_STR_LEN, file);
             char c;
