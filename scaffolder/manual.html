@@ -30,6 +30,12 @@
 
 <a name="sec1"></a>
 <h2>1. About IGAR</h2>
+<p>
+    IGAR &ndash; Improving Genome Assembly with RNA-seq &ndash; is a tool which detects new connections between contigs
+    and build scaffolds or visualize scaffold graph. This manual will help you to install and run IGAR.
+<p>
+    The current version of IGAR works with Illumina RNA-seq paired-end reads and unpaired reads for building scaffolds
+    and also it is possible to provide Illumina paired-end reads and information about scaffolds for visualization.
 
 <a name="sec2"></a>
 <h2>2. Installation</h2>
@@ -95,7 +101,7 @@ Downloading and compiling source code.
     <li><code>rna_scaffolder.py</code>  (main executable script for build rna scaffolders)</li>
     <li><code>visualize_scaffold_graph.py</code>  (main executable script for visualize scaffold graph) </li>
     <li><code>build</code>  (build graph module)</li>
-    <li><code>graph</code>  (graph and print graph module)</li>
+    <li><code>filter</code>  (graph simplification and building scaffolds or visualization of this graph module)</li>
     <li><code>addInfoToGraph</code>  (add scaffolds to graph module) </li>
     <li><code>addBothPath</code>  (add scaffolds to graph module) </li>
     <li><code>mergeGraph</code>  (merge graph module)</li>
@@ -114,7 +120,7 @@ Downloading and compiling source code.
 <h4>3.1.1. Input </h4>
 
 <p>
-    IGAR takes as input contigs in FASTA format and paired-end RNA reads or single (unpaired) RNA reads in FASTA and FASTQ.
+    IGAR takes as input contigs in FASTA format and paired-end RNA reads or single (unpaired) RNA-seq reads in FASTA and FASTQ.
 <p>
 
 <a name="sec3.1.2"></a>
@@ -166,7 +172,7 @@ IGAR stores all output files in <code>&lt;output_dir> </code>, which is set by t
 
 <ul>
     <li><code>&lt;output_dir>/scaffolds.fa</code> contains resulting scaffolds </li>
-    <li><code>&lt;output_dir>/graph.gr</code> contig graph </li>
+    <li><code>&lt;output_dir>/graph.gr</code> scaffold graph </li>
     <li><code>&lt;output_dir>/out.info</code> scaffolds description</li>
 </ul>
 
@@ -184,7 +190,7 @@ IGAR stores all output files in <code>&lt;output_dir> </code>, which is set by t
 <pre class="code">
 <code>
     rna_scaffolder.py -c ../share/test_dataset/contigs.fasta --rna-p ../share/test_dataset/read_1.fasta \
-    ../share/test_dataset/read_2.fasta -o test
+    ../share/test_dataset/read_2.fasta --gene_annotation annotation.gff -o test
 </code>
 </pre>
 
@@ -222,6 +228,14 @@ IGAR stores all output files in <code>&lt;output_dir> </code>, which is set by t
 <code>
     lib1.fastq
 </code>
+        </pre>
+
+<p>
+    <li> gene annotation
+        <pre class="code">
+<code>
+    annotation.gff
+</code>
 </pre>
 <p>
 
@@ -229,7 +243,7 @@ IGAR stores all output files in <code>&lt;output_dir> </code>, which is set by t
 <code>
     rna_scaffolder.py -c contigs.fasta --rna-p lib_pe1_left.fastq lib_pe1_right.fastq \
     --rna-p lib_pe2_left.fastq --mp1-2 lib_pe2_right.fastq \
-    --rna-s lib1.fastq -o output
+    --rna-s lib1.fastq --gene_annotation annotation.gff -o output
 </code>
 </pre>
 
