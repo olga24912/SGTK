@@ -25,6 +25,7 @@
 #include <Filter/CommandParsers/Commands/CommandSetExonBlockFile.h>
 #include <Filter/CommandParsers/Commands/CommandStatistic/CommandWrongRightStatistic.h>
 #include <Filter/CommandParsers/Commands/CommandStatistic/CommandStrandStatistic.h>
+#include <Filter/CommandParsers/Commands/CommandDelCoord.h>
 #include "Manager.h"
 
 namespace filter {
@@ -70,6 +71,7 @@ namespace filter {
         const std::string Manager::STAT_WRONG_RIGHT = "statisticWrongRight";
         const std::string Manager::STAT_STRAND = "statisticStrand";
         const std::string Manager::HISTOGRAM = "histogram";
+        const std::string Manager::DEL_COORD = "delCoord";
 
         Manager::Manager() {
             graph = ContigGraph();
@@ -114,6 +116,7 @@ namespace filter {
             commandByKeyWord[STAT_WRONG_RIGHT] = new CommandWrongRightStatistic();
             commandByKeyWord[STAT_STRAND] = new CommandStrandStatistic();
             commandByKeyWord[HISTOGRAM] = new CommandHistogram();
+            commandByKeyWord[DEL_COORD] = new CommandDelCoord();
         }
 
         void Manager::main(std::string configFileName) {

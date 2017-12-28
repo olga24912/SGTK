@@ -612,5 +612,14 @@ namespace filter {
                 std::reverse(targets[v].exonsStr2.begin(), targets[v].exonsStr2.end());
             }
         }
+
+        void ContigGraph::setCoord(int e, int b1, int e1, int b2,  int e2) {
+            if (edges.count(e) == 0) return;
+            edges[e].coordBegin1 = b1;
+            edges[e].coordEnd1 = e1;
+            edges[e].coordBegin2 = b2;
+            edges[e].coordEnd2 = e2;
+
+        }
     }
 }

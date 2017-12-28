@@ -66,6 +66,7 @@ namespace filter {
  * statisticWrongRight <outputFile> <libForWrong> <libForRight>*
  * statisticStrand <gffFileRef> <coordFile> <gffFileContig> <outputFile>
  * histogram <lib> <step>
+ * delCoord <lib>
  */
         class Manager {
         private:
@@ -110,6 +111,7 @@ namespace filter {
             static const std::string STAT_WRONG_RIGHT;
             static const std::string STAT_STRAND;
             static const std::string HISTOGRAM;
+            static const std::string DEL_COORD;
 
 
             std::string configFile = "filter_config";

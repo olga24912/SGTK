@@ -144,6 +144,7 @@ namespace filter {
 
             int addEdge(int v, int u, int lib, int w, int b1, int e1, int b2, int e2);
             void setWeight(int e, int w);
+            void setCoord(int e, int b1, int e1, int b2, int e2);
             void delEdge(int e);
             void delVertex(int v);
 

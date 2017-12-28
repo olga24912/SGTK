@@ -192,7 +192,7 @@ def alig_pair_rna_reads(rnap):
     alig_split(rnap.name + "_30_2", "../" + rnap.name + "/rna2.sam", 1)
 
 
-def alig_pair_dna_reads(dnap):
+def alig_pair_dna_reads(dnap, contig_file_name):
     prevdir = os.getcwd()
     log.log("START ALIG: " + dnap.label)
     lib_dir = os.path.dirname(os.path.abspath(dnap.name) + "/")
@@ -248,7 +248,7 @@ def alig_reads(contig_file_name, args):
         alig_pair_rna_reads(args.libs["rnap"][i])
 
     for i in range(len(args.libs["dnap"])):
-        alig_pair_dna_reads(args.libs["dnap"][i])
+        alig_pair_dna_reads(args.libs["dnap"][i], contig_file_name)
 
     for i in range(len(args.libs["rnas"])):
         alig_single_rna_reads(args.libs["rnas"][i])
@@ -284,7 +284,7 @@ def build_graph(contig_file_name, args):
         log.log("START BUILD GRAPH: " + lib.label)
         lib_dir = os.path.dirname(os.path.abspath(lib.name) + "/")
         os.chdir(lib_dir)
-        os.system(path_to_exec_dir + "build -n DNA_PAIR -f dna1.sam -s dna2.sam -l " + lib.label)
+        os.system(path_to_exec_dir + "build DNA_PAIR dna1.sam dna2.sam 1000000000 " + lib.label)
         os.chdir(prevdir)
 
     for lib in args.libs["ref"]:
@@ -292,7 +292,7 @@ def build_graph(contig_file_name, args):
         log.log("START BUILD GRAPH: " + lib.label)
         lib_dir = os.path.dirname(os.path.abspath(lib.name) + "/")
         os.chdir(lib_dir)
-        os.system(path_to_exec_dir + "build -n REF -r " + lib.path[0] + " -q " + contig_file_name + " -l " + lib.label)
+        os.system(path_to_exec_dir + "build REF " + lib.path[0] + " " + contig_file_name + " 500 " + lib.label)
         os.chdir(prevdir)
 
     return

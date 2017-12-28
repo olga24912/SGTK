@@ -233,7 +233,7 @@ namespace filter {
                                                std::vector<std::pair<int, alig_info::InfoAboutContigsAlig::Alignment>> &chrv2,
                                                std::vector<int> &toPrint) {
             std::set<int> useVert;
-            while (pos < verts.size() && useVert.size() < 40) {
+            while (pos < verts.size() && useVert.size() < 5) {
                 if (useVert.count(verts[pos].first) == 0) {
                     chrv.push_back(verts[pos]);
                     useVert.insert(verts[pos].first);
@@ -245,7 +245,7 @@ namespace filter {
 
             for (auto v : chrv) {
                 std::vector<int> nw = searcher.findVertInLocalArea(v.first, 1);
-                if (nw.size() > 20) continue;
+                if (nw.size() > 5) continue;
                 for (int u : nw) {
                     if (useVert.count(u) == 0) {
                         toPrint.push_back(u);
@@ -256,7 +256,7 @@ namespace filter {
 
             for (auto v : chrv2) {
                 std::vector<int> nw = searcher.findVertInLocalArea(v.first, 1);
-                if (nw.size() > 20) continue;
+                if (nw.size() > 5) continue;
                 for (int u : nw) {
                     if (useVert.count(u) == 0) {
                         toPrint.push_back(u);

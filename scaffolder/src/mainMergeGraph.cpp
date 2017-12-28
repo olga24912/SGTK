@@ -4,7 +4,7 @@
 #include <iostream>
 #include <Logger/log_writers.hpp>
 
-const int MAX_STR_LEN = 100;
+const int MAX_STR_LEN = 1000;
 
 int main(int argc, char ** argv) {
     logging::create_console_logger("../log.properties");

@@ -32,6 +32,7 @@ set(SOURCE_FILES
         CommandParsers/Commands/CommandFV/CommandSetFVNotSimplePath.h
         CommandParsers/Commands/CommandSetBamFile.h
         CommandParsers/Commands/CommandSetExonBlockFile.h
+        CommandParsers/Commands/CommandDelCoord.h
         Writers/FileValidator/FileValidator.h
         Writers/FileValidator/ValidatorNotPathWithAllLib.h
         CommandParsers/Commands/CommandFV/CommandSetFV.h
