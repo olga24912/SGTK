@@ -47,6 +47,38 @@ var scaffoldedges = [new ScaffoldEdge(0, 0, 1, 0, 1), new ScaffoldEdge(1, 1, 2, 
 
 var scaffoldgraph = new ScaffoldGraph(scaffoldlibs, scaffoldnodes, scaffoldedges);
 
+function createLabelForNode(node) {
+    var label = "";
+    if (document.getElementById("vert_checkbox_id").checked) {
+        label += "id: " + scaffoldgraph.nodes[node].id + "\n";
+    }
+    if (document.getElementById("vert_checkbox_name").checked) {
+        label += scaffoldgraph.nodes[node].name + "\n";
+    }
+    if (document.getElementById("vert_checkbox_len").checked) {
+        label += "len: " + scaffoldgraph.nodes[node].len + "\n";
+    }
+    return label;
+}
+
+function createLabelForEdge(edge) {
+    var label = "";
+    if (document.getElementById("edge_checkbox_id").checked) {
+        label += "id: " + scaffoldgraph.edges[edge].id + "\n";
+    }
+    if (document.getElementById("edge_checkbox_name").checked) {
+        label += scaffoldgraph.libs[scaffoldgraph.edges[edge].lib].name + "\n";
+    }
+    if (document.getElementById("edge_checkbox_weight").checked) {
+        label += "w: " + scaffoldgraph.edges[edge].weight + "\n";
+    }
+
+    if (document.getElementById("edge_checkbox_type").checked) {
+        label += scaffoldgraph.libs[scaffoldgraph.edges[edge].lib].type + "\n";
+    }
+    return label;
+}
+
 function DrawGraph(nodes_to_draw, edges_to_draw) {
     var nodeslist = [];
     var edgeslist = [];
@@ -54,7 +86,8 @@ function DrawGraph(nodes_to_draw, edges_to_draw) {
     var j = 0;
     for (i=0; i < nodes_to_draw.length; i++) {
         j = nodes_to_draw[i];
-        nodeslist.push({id: scaffoldgraph.nodes[j].id, label: scaffoldgraph.nodes[j].name});
+        var label = createLabelForNode(j);
+        nodeslist.push({id: scaffoldgraph.nodes[j].id, label: label});
     }
 
     // create an array with nodes
@@ -62,7 +95,9 @@ function DrawGraph(nodes_to_draw, edges_to_draw) {
 
     for (i=0; i < edges_to_draw.length; i++) {
         j = edges_to_draw[i];
-        edgeslist.push({from: scaffoldgraph.edges[j].from, to: scaffoldgraph.edges[j].to, arrows: 'to', color:{color: scaffoldgraph.libs[scaffoldgraph.edges[j].lib].color}});
+        label = createLabelForEdge(j);
+        
+        edgeslist.push({from: scaffoldgraph.edges[j].from, to: scaffoldgraph.edges[j].to, label : label, arrows: 'to', color:{color: scaffoldgraph.libs[scaffoldgraph.edges[j].lib].color}});
     }
 
     // create an array with edges
@@ -76,7 +111,12 @@ function DrawGraph(nodes_to_draw, edges_to_draw) {
         nodes: nodes,
         edges: edges
     };
-    var options = {};
+    var options = {
+        nodes : {
+            shape: 'dot',
+            size: 7
+        }
+    };
 
     // initialize your network!
     var network = new vis.Network(container, data, options);
@@ -99,7 +139,6 @@ function drawLocalArea(inodes, area_size) {
         var curv = queue[bp];
         ++bp;
         var curd = dist.get(curv);
-        //alert("curv " + curv + " curd " + curd);
         if (curd <= area_size) {
             nodes_to_draw.push(curv);
             for (i = 0; i < scaffoldgraph.g[curv].length; ++i) {
