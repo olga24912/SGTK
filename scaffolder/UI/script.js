@@ -2,6 +2,22 @@ function ScaffoldGraph(libs, nodes, edges) {
     this.libs = libs;
     this.nodes = nodes;
     this.edges = edges;
+
+    this.id_by_name = new Map();
+    this.g = [];
+    this.gr = [];
+
+    var i = 0;
+    for (i=0; i < this.nodes.length; ++i) {
+        this.id_by_name.set(this.nodes[i].name, this.nodes[i].id);
+        this.g.push([]);
+        this.gr.push([]);
+    }
+
+    for (i = 0; i < this.edges.length; ++i) {
+        this.g[this.edges[i].from].push(this.edges[i]);
+        this.gr[this.edges[i].to].push(this.edges[i]);
+    }
 }
 
 function ScaffoldEdge(id, from, to, lib, weight) {
@@ -67,8 +83,51 @@ function DrawGraph(nodes_to_draw, edges_to_draw) {
 }
 
 function drawLocalArea(inodes, area_size) {
+    var dist = new Map();
+    var queue = [];
+    var bp = 0;
+    var i = 0;
+    for (i=0; i < inodes.length; ++i) {
+        queue.push(inodes[i]);
+        dist.set(inodes[i], 0);
+    }
+
     var nodes_to_draw = [];
     var edges_to_draw = [];
+
+    while (bp < queue.length) {
+        var curv = queue[bp];
+        ++bp;
+        var curd = dist.get(curv);
+        //alert("curv " + curv + " curd " + curd);
+        if (curd <= area_size) {
+            nodes_to_draw.push(curv);
+            for (i = 0; i < scaffoldgraph.g[curv].length; ++i) {
+                var curedge = scaffoldgraph.g[curv][i];
+                var curu = curedge.to;
+
+                if (!dist.has(curu)) {
+                    queue.push(curu);
+                    dist.set(curu, curd + 1);
+                }
+
+                if (dist.get(curu) <= area_size) {
+                    edges_to_draw.push(curedge.id);
+                }
+            }
+
+
+            for (i = 0; i < scaffoldgraph.gr[curv].length; ++i) {
+                curedge = scaffoldgraph.gr[curv][i];
+                curu = curedge.from;
+
+                if (!dist.has(curu)) {
+                    queue.push(curu);
+                    dist.set(curu, curd + 1);
+                }
+            }
+        }
+    }
 
     DrawGraph(nodes_to_draw, edges_to_draw);
 }
@@ -76,10 +135,13 @@ function drawLocalArea(inodes, area_size) {
 function handleFilterButton() {
     var opt = document.getElementById("select_show_type").value;
     if (opt=="vertices_local_area") {
-        alert("first option");
         var areasize = document.getElementById("area_size").value;
-        var nodes = document.getElementById("");
-        drawLocalArea([], 0)
+        var nodes = document.getElementById("vertext").value.replace(/\n/g, " ").split(" ");
+        var nodes_id = [];
+        for (var i=0; i < nodes.length; ++i) {
+            nodes_id.push(scaffoldgraph.id_by_name.get(nodes[i]));
+        }
+        drawLocalArea(nodes_id, areasize);
     }
 }
 
