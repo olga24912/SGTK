@@ -11,7 +11,10 @@
 </head>
 <body>
     <div class="top">
-        <div class="SGTK">SGTK</div>
+        <span class="SGTK">SGTK</span>
+        <span class="titel_text" id="titel_text">
+
+        </span>
     </div>
 
     <div class="filter_panel">
@@ -24,7 +27,7 @@
                 <div class="styled-select">
                 <select id="select_show_type">
                     <option value="vertices_local_area">Vertices local area</option>
-                    <option value="vertices_local_area">Edges local area</option>
+                    <option value="edges_local_area">Edges local area</option>
                     <option value="diff in libs">Diff in libs</option>
                     <option value="full graph">Full graph</option>
                     <option value="scaffolds"> Scaffolds</option>
@@ -34,7 +37,7 @@
                 </div>
             </div>
 
-            <div class="block_with_line">
+            <div class="block_with_line" id = "change_block">
                 <div class="block">
                     <p>Area size:<br/>
                         <input type="number" min="0" id="area_size">
@@ -104,7 +107,7 @@
 
                 <p>
                     Min contig len:
-                    <input type="number" min="0">
+                    <input type="number" min="0" id="min_contig_len">
                 </p>
                 </div>
             </div>
@@ -161,15 +164,18 @@
 
     <div class="show-panel">
         <div class="cnt_page_block">
-            <div class="cnt_page">
-                <input type="number" min="0">
+            <div class="cnt_page" id = "cnt_page">
+                <input type="number" min="0" max="0" id = "choose_page">
                 of 0
             </div>
+        </div>
+        <div class="overflowdiva" id="show_block">
         </div>
     </div>
 
     <script src="scaffoldgraph.js"></script>
     <script src="genescaffoldgraphb.js"></script>
     <script src="script.js"></script>
+    <script src="showListScript.js"></script>
 </body>
 </html>

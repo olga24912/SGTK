@@ -58,7 +58,7 @@ p {
 .cnt_page_block .cnt_page {
     -webkit-margin-before: 10px;
     -webkit-margin-start: 10px;
-    width: 50%;
+    width: 70%;
     background: #BECCE0;
 }
 
@@ -75,6 +75,23 @@ p {
 
 .show_pic {
 
+}
+
+.titel_text {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    font-size: 24px;
+
+    color: #2A4986;
+
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%)
 }
 
 .top {
@@ -231,5 +248,46 @@ table tr th {
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
+}
+
+
+.overflowdiva {
+    border: none;
+    padding: 5px;
+    font: 24px/36px sans-serif;
+    width: 94%;
+    height: 94.5%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.choosePic {
+    background: #FFFFFF;
+    width: 97%;
+    border: 4px solid #6189C3;
+}
+
+.pic {
+    background: #FFFFFF;
+    width: 100%;
+}
+
+/* Scrollbar styles */
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-track {
+    border: 0px solid #4F4F4F;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #4F4F4F;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #4F4F4F;
 }
 
