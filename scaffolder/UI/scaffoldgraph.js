@@ -26,12 +26,19 @@ function ScaffoldEdge(id, from, to, lib, weight) {
     this.to = to;
     this.lib = lib;
     this.weight = weight;
+    this.name = "";
+}
+
+function Scaffold(name) {
+    this.name = name;
+    this.edges = [];
 }
 
 function ScaffoldNode(id, name, len) {
     this.id = id;
     this.name = name;
     this.len = len;
+    this.alignments = [];
 }
 
 function ScaffoldEdgeLib(id, color, name, type) {
@@ -39,4 +46,19 @@ function ScaffoldEdgeLib(id, color, name, type) {
     this.color = color;
     this.name = name;
     this.type = type;
+    this.scaffolds = [];
+}
+
+function Chromosome(id, name, len) {
+    this.id = id;
+    this.name = name;
+    this.len = len;
+    this.alignments = [];
+}
+
+function Alignment(coord_begin, coord_end, chr_id, node_id) {
+    this.coordb = coord_begin;
+    this.coorde = coord_end;
+    this.chr_id = chr_id;
+    this.node_id = node_id;
 }

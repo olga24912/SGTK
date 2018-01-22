@@ -32,6 +32,10 @@ function createLabelForEdge(edge) {
 
 var edges_set = [];
 var nodes_set = [];
+var special_nodes = new Set();
+var special_edges = new Set();
+var nodes_to_draw = [];
+var edges_to_draw = [];
 var cur_show_id = 0;
 
 function DrawGraph(nodes_to_draw, edges_to_draw) {
@@ -129,6 +133,7 @@ function splitOnParts(nodes_to_draw, edges_to_draw) {
 
     var curc = 0;
     for (i=0; i < nodes_to_draw.length; ++i) {
+        alert(toString(nodes_to_draw[i]) + " " + toString(color.get(nodes_to_draw[i])));
         if (color.get(nodes_to_draw[i]) === -1) {
             findComponent(nodes_to_draw[i], g, color, curc);
             ++curc;
@@ -229,18 +234,57 @@ function handleFilterButton() {
         return true;
     };
 
+    nodes_to_draw = [];
+    edges_to_draw = [];
 
     if (opt=="vertices_local_area") {
+        special_nodes.clear();
+        special_edges.clear();
         var areasize = document.getElementById("area_size").value;
         var nodes = document.getElementById("vertext").value.replace(/\n/g, " ").split(" ");
         var nodes_id = [];
         for (i=0; i < nodes.length; ++i) {
-            nodes_id.push(scaffoldgraph.id_by_name.get(nodes[i]));
+            if (scaffoldgraph.id_by_name.has(nodes[i])) {
+                nodes_id.push(scaffoldgraph.id_by_name.get(nodes[i]));
+            } else {
+                nodes_id.push(parseInt(nodes[i]));
+            }
+            special_nodes.add(nodes_id[nodes_id.length - 1]);
         }
-        drawLocalArea(nodes_id, areasize, min_edge_weight);
+
+        alert(nodes_id);
+        alert("try run localarea1");
+        findLocalArea(nodes_id, areasize, min_contig_len, isGoodEdge);
+
+        alert(nodes_to_draw);
+        alert(edges_to_draw);
+
+        splitOnParts(nodes_to_draw, edges_to_draw);
+
+        alert(nodes_set.length);
+        alert(edges_set.length);
+
+        createComponentShowList(function(i) {
+            DrawGraph(nodes_set[i], edges_set[i]);
+        }, function(i) {
+            var nm = "a <br/>";
+            //for(var j=0; j < nodes_set[i].length; ++j) {
+            //    if (special_nodes.has(nodes_set[i][j])) {
+            //        nm += scaffoldgraph.nodes[nodes_set[i][j]].name + " id=" + nodes_set[i][j] + "<br/>";
+            //    }
+            //}
+            return nm;
+        }, function(compnum) {
+            var nm = "a ";
+            //for(var j=0; j < nodes_set[i].length; ++j) {
+            //    if (special_nodes.has(nodes_set[i][j])) {
+            //        nm += scaffoldgraph.nodes[nodes_set[i][j]].name;
+            //        break;
+            //    }
+            //}
+            return nm;
+        }, nodes_set.length);
     } else if (opt=="full graph") {
-        var nodes_to_draw = [];
-        var edges_to_draw = [];
         for (i=0; i < scaffoldgraph.nodes.length; ++i) {
             if (scaffoldgraph.nodes[i].len >= min_contig_len) {
                 nodes_to_draw.push(scaffoldgraph.nodes[i].id);
@@ -260,6 +304,13 @@ function handleFilterButton() {
         }, function(compnum) {
             return "Component #" + compnum;
         }, nodes_set.length);
+    } else if (opt=="along chromosoms") {
+        areasize = document.getElementById("area_size").value;
+        handleAlongChromosomesFilter(areasize, min_edge_weight, min_contig_len);
+    } else if (opt=="scaffolds") {
+        areasize = document.getElementById("area_size").value;
+        alert("scaff");
+        handleScaffoldsFilter(document.getElementById("select_scaff_lib").value, areasize, min_contig_len, isGoodEdge);
     }
 }
 
@@ -269,18 +320,17 @@ function InitLibTable() {
     for (var i=0; i < scaffoldgraph.libs.length; ++i) {
         var tr = document.createElement("tr");
 
-        var td_type = document.createElement("td");
-        var lib_type = document.createElement("p");
-        lib_type.appendChild(document.createTextNode(scaffoldgraph.libs[i].type));
-        td_type.appendChild(lib_type);
-        td_type.align="center";
-
         var td_id = document.createElement("td");
         var lib_id = document.createElement("p");
         lib_id.appendChild(document.createTextNode("l" + scaffoldgraph.libs[i].id));
         td_id.align="center";
         td_id.appendChild(lib_id);
 
+        var td_type = document.createElement("td");
+        var lib_type = document.createElement("p");
+        lib_type.appendChild(document.createTextNode((scaffoldgraph.libs[i].type).replace(/_/g, " ")));
+        td_type.appendChild(lib_type);
+        td_type.align="center";
 
 
         var td_name = document.createElement("td");
@@ -294,19 +344,30 @@ function InitLibTable() {
         var input_weight = document.createElement("input");
         input_weight.type = "number";
         input_weight.min = 0;
+        input_weight.size = 1;
+        input_weight.value = 2;
         input_weight.id = "min_w_" + scaffoldgraph.libs[i].name;
         td_min_edge_weight.align="center";
         td_min_edge_weight.appendChild(input_weight);
 
-        tr.appendChild(td_type);
         tr.appendChild(td_id);
+        tr.appendChild(td_type);
         tr.appendChild(td_name);
         tr.appendChild(td_min_edge_weight);
         table.appendChild(tr);
     }
 }
 
+function InitAlignmentsForNodes() {
+    for (var i=0; i < chromosomes.length; ++i) {
+        for (var j=0; j < chromosomes[i].alignments.length; ++j) {
+            scaffoldgraph.nodes[chromosomes[i].alignments[j].node_id].alignments.push(chromosomes[i].alignments[j]);
+        }
+    }
+}
+
 InitLibTable();
+InitAlignmentsForNodes();
 document.getElementById("filter_button").addEventListener("click", handleFilterButton);
 document.getElementById("select_show_type").addEventListener("change", function() {
     if(document.getElementById("select_show_type").value == "full graph") {
@@ -368,5 +429,29 @@ document.getElementById("select_show_type").addEventListener("change", function(
         present_block += "</div>\n";
         not_present_block += "</div>\n";
         document.getElementById("change_block").innerHTML = html_code + present_block + not_present_block;
+    } else if (document.getElementById("select_show_type").value == "along chromosoms") {
+        document.getElementById("change_block").innerHTML = "<div class=\"block\">\n" +
+            "                    <p>Area size:<br/>\n" +
+            "                        <input type=\"number\" min=\"0\" id=\"area_size\" value=2>\n" +
+            "                    </p>\n" +
+            "                </div>";
+    } else if (document.getElementById("select_show_type").value == "scaffolds") {
+        document.getElementById("change_block").innerHTML = "<div class=\"block\">\n" +
+            "                    <p>Area size:<br/>\n" +
+            "                        <input type=\"number\" min=\"0\" id=\"area_size\" value=2>\n" +
+            "                    </p>\n" +
+            "                    <p>Scaffold lib:<br/>\n" +
+            "                        <div class=\"styled-select\">\n" +
+            "                           <select id=\"select_scaff_lib\">\n" +
+            "                           </select>\n" +
+            "                       </div>" +
+            "                    </p>\n" +
+            "                </div>";
+
+        for (i=0; i < scaffoldgraph.libs.length; ++i) {
+            if (scaffoldgraph.libs[i].type == 'SCAFF') {
+                document.getElementById("select_scaff_lib").innerHTML += "<option value=\"" + scaffoldgraph.libs[i].name + "\">" + scaffoldgraph.libs[i].name + "</option>\n";
+            }
+        }
     }
 });

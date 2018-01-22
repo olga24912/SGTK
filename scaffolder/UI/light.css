@@ -22,6 +22,13 @@ p {
     -webkit-margin-end: 0px;
 }
 
+svg {
+    height: 100%;
+    margin: 0;
+    width: 100%;
+    float: left;
+}
+
 .filter_panel {
     position: absolute;
     width: 318px;
@@ -289,5 +296,19 @@ table tr th {
 
 ::-webkit-scrollbar-thumb:hover {
     background: #4F4F4F;
+}
+
+.axis path {
+    display: none;
+}
+
+.axis line {
+    stroke-opacity: 0.3;
+    shape-rendering: crispEdges;
+}
+
+.view {
+    fill: url(#gradient);
+    stroke: #000;
 }
 
