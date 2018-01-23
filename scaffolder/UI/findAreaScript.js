@@ -1,5 +1,4 @@
 function findLocalArea(inodes, area_size, min_contig_len, isGoodEdge) {
-    alert("find local area");
     var dist = new Map();
     var queue = [];
     var bp = 0;
@@ -7,7 +6,6 @@ function findLocalArea(inodes, area_size, min_contig_len, isGoodEdge) {
     for (i=0; i < inodes.length; ++i) {
         queue.push(inodes[i]);
         dist.set(inodes[i], 0);
-        alert(inodes[i].toString() + " " + dist.has(inodes[i]).toString());
     }
 
     nodes_to_draw = [];
@@ -23,8 +21,6 @@ function findLocalArea(inodes, area_size, min_contig_len, isGoodEdge) {
                 var curedge = scaffoldgraph.g[curv][i];
                 if (isGoodEdge(curedge.id)) {
                     var curu = curedge.to;
-
-                    alert(curu.toString() + " " + dist.has(curu).toString());
 
                     if (!dist.has(curu)) {
                         queue.push(curu);

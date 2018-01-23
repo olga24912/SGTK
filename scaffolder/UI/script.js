@@ -133,7 +133,6 @@ function splitOnParts(nodes_to_draw, edges_to_draw) {
 
     var curc = 0;
     for (i=0; i < nodes_to_draw.length; ++i) {
-        alert(toString(nodes_to_draw[i]) + " " + toString(color.get(nodes_to_draw[i])));
         if (color.get(nodes_to_draw[i]) === -1) {
             findComponent(nodes_to_draw[i], g, color, curc);
             ++curc;
@@ -156,69 +155,16 @@ function splitOnParts(nodes_to_draw, edges_to_draw) {
     }
 }
 
-function drawLocalArea(inodes, area_size, min_edge_weight) {
-    var dist = new Map();
-    var queue = [];
-    var bp = 0;
-    var i = 0;
-    for (i=0; i < inodes.length; ++i) {
-        queue.push(inodes[i]);
-        dist.set(inodes[i], 0);
-    }
-
-    var nodes_to_draw = [];
-    var edges_to_draw = [];
-
-    while (bp < queue.length) {
-        var curv = queue[bp];
-        ++bp;
-        var curd = dist.get(curv);
-        if (curd <= area_size) {
-            nodes_to_draw.push(curv);
-            for (i = 0; i < scaffoldgraph.g[curv].length; ++i) {
-                var curedge = scaffoldgraph.g[curv][i];
-                if (min_edge_weight[curedge.lib] <= curedge.weight) {
-                    var curu = curedge.to;
-
-                    if (!dist.has(curu)) {
-                        queue.push(curu);
-                        dist.set(curu, curd + 1);
-                    }
-
-                    if (dist.get(curu) <= area_size) {
-                        edges_to_draw.push(curedge.id);
-                    }
-                }
-            }
-
-
-            for (i = 0; i < scaffoldgraph.gr[curv].length; ++i) {
-                curedge = scaffoldgraph.gr[curv][i];
-                if (min_edge_weight[curedge.lib] <= curedge.weight) {
-                    curu = curedge.from;
-
-                    if (!dist.has(curu)) {
-                        queue.push(curu);
-                        dist.set(curu, curd + 1);
-                    }
-                }
-            }
-        }
-    }
-
-    DrawGraph(nodes_to_draw, edges_to_draw);
-}
-
 function handleFilterButton() {
     var opt = document.getElementById("select_show_type").value;
     var min_edge_weight = [];
     var min_contig_len = document.getElementById("min_contig_len").value;
 
-    for (var i=0; i < scaffoldgraph.libs.length; ++i) {
+    for (var i = 0; i < scaffoldgraph.libs.length; ++i) {
         min_edge_weight.push(document.getElementById("min_w_" + scaffoldgraph.libs[i].name).value);
     }
 
-    var isGoodEdge = function(e) {
+    var isGoodEdge = function (e) {
         if (min_edge_weight[scaffoldgraph.edges[e].lib] > scaffoldgraph.edges[e].weight) {
             return false;
         }
@@ -237,13 +183,13 @@ function handleFilterButton() {
     nodes_to_draw = [];
     edges_to_draw = [];
 
-    if (opt=="vertices_local_area") {
+    if (opt == "vertices_local_area") {
         special_nodes.clear();
         special_edges.clear();
         var areasize = document.getElementById("area_size").value;
         var nodes = document.getElementById("vertext").value.replace(/\n/g, " ").split(" ");
         var nodes_id = [];
-        for (i=0; i < nodes.length; ++i) {
+        for (i = 0; i < nodes.length; ++i) {
             if (scaffoldgraph.id_by_name.has(nodes[i])) {
                 nodes_id.push(scaffoldgraph.id_by_name.get(nodes[i]));
             } else {
@@ -252,36 +198,78 @@ function handleFilterButton() {
             special_nodes.add(nodes_id[nodes_id.length - 1]);
         }
 
-        alert(nodes_id);
-        alert("try run localarea1");
         findLocalArea(nodes_id, areasize, min_contig_len, isGoodEdge);
-
-        alert(nodes_to_draw);
-        alert(edges_to_draw);
 
         splitOnParts(nodes_to_draw, edges_to_draw);
 
-        alert(nodes_set.length);
-        alert(edges_set.length);
-
-        createComponentShowList(function(i) {
+        createComponentShowList(function (i) {
             DrawGraph(nodes_set[i], edges_set[i]);
-        }, function(i) {
-            var nm = "a <br/>";
-            //for(var j=0; j < nodes_set[i].length; ++j) {
-            //    if (special_nodes.has(nodes_set[i][j])) {
-            //        nm += scaffoldgraph.nodes[nodes_set[i][j]].name + " id=" + nodes_set[i][j] + "<br/>";
-            //    }
-            //}
+        }, function (i) {
+            var nm = "";
+            for (var j = 0; j < nodes_set[i].length; ++j) {
+                if (special_nodes.has(nodes_set[i][j])) {
+                    nm += scaffoldgraph.nodes[nodes_set[i][j]].name + " id=" + nodes_set[i][j].toString() + "<br/>";
+                }
+            }
             return nm;
-        }, function(compnum) {
-            var nm = "a ";
-            //for(var j=0; j < nodes_set[i].length; ++j) {
-            //    if (special_nodes.has(nodes_set[i][j])) {
-            //        nm += scaffoldgraph.nodes[nodes_set[i][j]].name;
-            //        break;
-            //    }
-            //}
+        }, function (compnum) {
+            var nm = "";
+            for (var j = 0; j < nodes_set[compnum].length; ++j) {
+                if (special_nodes.has(nodes_set[compnum][j])) {
+                    nm += scaffoldgraph.nodes[nodes_set[compnum][j]].name + " id=" + nodes_set[compnum][j].toString() + "<br/>";
+                    break;
+                }
+            }
+            return nm;
+        }, nodes_set.length);
+    } else if (opt=="edges_local_area") {
+        special_nodes.clear();
+        special_edges.clear();
+        areasize = document.getElementById("area_size").value;
+        var edges = document.getElementById("vertext").value.replace(/\n/g, " ").split(" ");
+        var edges_id = [];
+        nodes_id = [];
+        for (i = 0; i < edges.length; ++i) {
+            edges_id.push(parseInt(edges[i]));
+            nodes_id.push(scaffoldgraph.edges[edges_id[i]].from);
+            nodes_id.push(scaffoldgraph.edges[edges_id[i]].to);
+            special_edges.add(edges_id[edges_id.length - 1]);
+        }
+
+        var uniqueNode = nodes_id.filter(function (value, index, self) {
+           return self.indexOf(value) === index;
+        });
+
+        if (areasize > 0) {
+            findLocalArea(uniqueNode, areasize, min_contig_len, isGoodEdge);
+        } else {
+            for (i = 0; i < uniqueNode.length; ++i) {
+                nodes_to_draw.push(uniqueNode[i]);
+            }
+            for (i = 0; i < edges_id.length; ++i) {
+                edges_to_draw.push(edges_id[i]);
+            }
+        }
+        splitOnParts(nodes_to_draw, edges_to_draw);
+
+        createComponentShowList(function (i) {
+            DrawGraph(nodes_set[i], edges_set[i]);
+        }, function (i) {
+            var nm = "";
+            for (var j = 0; j < edges_set[i].length; ++j) {
+                if (special_edges.has(edges_set[i][j])) {
+                    nm += "edge id=" + edges_set[i][j].toString() + "<br/>";
+                }
+            }
+            return nm;
+        }, function (i) {
+            var nm = "";
+            for (var j = 0; j < edges_set[i].length; ++j) {
+                if (special_edges.has(edges_set[i][j])) {
+                    nm += "edge id: " + edges_set[i][j].toString() + "<br/>";
+                    break;
+                }
+            }
             return nm;
         }, nodes_set.length);
     } else if (opt=="full graph") {
@@ -375,7 +363,7 @@ document.getElementById("select_show_type").addEventListener("change", function(
     } else if (document.getElementById("select_show_type").value == "vertices_local_area" || document.getElementById("select_show_type").value == "edges_local_area") {
         document.getElementById("change_block").innerHTML = "<div class=\"block\">\n" +
             "                    <p>Area size:<br/>\n" +
-            "                        <input type=\"number\" min=\"0\" id=\"area_size\">\n" +
+            "                        <input type=\"number\" min=\"0\" id=\"area_size\" value=2>\n" +
             "                    </p>\n" +
             "                </div>\n" +
             "                <div class=\"block\">\n" +
@@ -384,7 +372,7 @@ document.getElementById("select_show_type").addEventListener("change", function(
     } else if (document.getElementById("select_show_type").value == "diff in libs" ) {
         var html_code = "<div class=\"block\">\n" +
             "                    <p>Area size:<br/>\n" +
-            "                        <input type=\"number\" min=\"0\" id=\"area_size\">\n" +
+            "                        <input type=\"number\" min=\"0\" id=\"area_size\" value=2>\n" +
             "                    </p>\n" +
             "                </div>\n" +
             "<div class=\"one_line_block\">\n" +
