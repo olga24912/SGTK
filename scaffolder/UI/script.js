@@ -272,6 +272,9 @@ function handleFilterButton() {
             }
             return nm;
         }, nodes_set.length);
+    } else if (opt=="diff in libs") {
+        areasize = document.getElementById("area_size").value;
+        handleDiffInLibsFilter(areasize, min_contig_len, isGoodEdge);
     } else if (opt=="full graph") {
         for (i=0; i < scaffoldgraph.nodes.length; ++i) {
             if (scaffoldgraph.nodes[i].len >= min_contig_len) {
@@ -297,7 +300,6 @@ function handleFilterButton() {
         handleAlongChromosomesFilter(areasize, min_edge_weight, min_contig_len);
     } else if (opt=="scaffolds") {
         areasize = document.getElementById("area_size").value;
-        alert("scaff");
         handleScaffoldsFilter(document.getElementById("select_scaff_lib").value, areasize, min_contig_len, isGoodEdge);
     }
 }
@@ -402,14 +404,14 @@ document.getElementById("select_show_type").addEventListener("change", function(
             present_block +=
                 "                        <label class=\"container\">\n" +
                 "                            <p>" + lib_name + "</p>\n" +
-                "                            <input type=\"checkbox\" value=\"" + lib_name + "\" id=\"checkbox_present_"+lib_name + "\">\n" +
+                "                            <input type=\"checkbox\" value=\"" + lib_name + "\" id=\"checkbox_present_"+i.toString() + "\">\n" +
                 "                            <span class=\"checkmark\"></span>\n" +
                 "                        </label>\n";
 
             not_present_block +=
                 "                        <label class=\"container\">\n" +
                 "                            <p>" + lib_name + "</p>\n" +
-                "                            <input type=\"checkbox\" value=\"" + lib_name + "\" id=\"checkbox_not_present_"+lib_name + "\">\n" +
+                "                            <input type=\"checkbox\" value=\"" + lib_name + "\" id=\"checkbox_not_present_"+i.toString() + "\">\n" +
                 "                            <span class=\"checkmark\"></span>\n" +
                 "                        </label>\n";
         }
