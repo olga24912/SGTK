@@ -110,6 +110,9 @@ svg {
     background: #F5F5F5;
     border: 1px solid #BDBDBD;
     box-sizing: border-box;
+
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 .SGTK {
@@ -119,8 +122,6 @@ svg {
     line-height: normal;
     font-size: 48px;
     color: #2A4986;
-
-    padding-left: 10px;
 }
 
 .centerblock {

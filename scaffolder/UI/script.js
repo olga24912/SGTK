@@ -1,3 +1,8 @@
+//let cytoscape = require('cytoscape');
+//let dagre = require('cytoscape-dagre');
+
+//cytoscape.use( dagre ); // register extension
+
 function createLabelForNode(node) {
     var label = "";
     if (document.getElementById("vert_checkbox_id").checked) {
@@ -9,6 +14,14 @@ function createLabelForNode(node) {
     if (document.getElementById("vert_checkbox_len").checked) {
         label += "len: " + scaffoldgraph.nodes[node].len + "\n";
     }
+    return label;
+}
+
+function createFullLabelForNode(node) {
+    var label = "";
+    label += "id: " + scaffoldgraph.nodes[node].id + "<br/>";
+    label += scaffoldgraph.nodes[node].name + "<br/>";
+    label += "len: " + scaffoldgraph.nodes[node].len + "<br/>";
     return label;
 }
 
@@ -36,9 +49,277 @@ var special_nodes = new Set();
 var special_edges = new Set();
 var nodes_to_draw = [];
 var edges_to_draw = [];
+var isGoodEdge;
+var min_contig_len = 0;
 var cur_show_id = 0;
+var graph = null;
 
-function DrawGraph(nodes_to_draw, edges_to_draw) {
+function hasOtherEdges(v, curNodeSet) {
+    for (var h = 0; h < scaffoldgraph.g[v].length; ++h) {
+        if (isGoodEdge(scaffoldgraph.g[v][h].id)) {
+            if (scaffoldgraph.nodes[scaffoldgraph.g[v][h].to].len >= min_contig_len) {
+                if (!curNodeSet.has(scaffoldgraph.g[v][h].to)) {
+                    return true;
+                }
+            }
+        }
+    }
+
+    for (h = 0; h < scaffoldgraph.gr[v].length; ++h) {
+        if (isGoodEdge(scaffoldgraph.gr[v][h].id)) {
+            if (scaffoldgraph.nodes[scaffoldgraph.gr[v][h].from].len >= min_contig_len) {
+                if (!curNodeSet.has(scaffoldgraph.gr[v][h].from)) {
+                    return true;
+                }
+            }
+        }
+    }
+
+    return false;
+}
+
+function DrawGraphCytoscape(nodes_to_draw, edges_to_draw) {
+    var curNodeSet = new Set();
+    for (var g = 0; g < nodes_to_draw.length; ++g) {
+        curNodeSet.add(nodes_to_draw[g]);
+    }
+
+    var dnodes = [];
+    var dedges = [];
+    for (g = 0; g < nodes_to_draw.length; ++g) {
+        if (hasOtherEdges(nodes_to_draw[g], curNodeSet)) {
+            dnodes.push({
+                data: {
+                    id: nodes_to_draw[g],
+                    label: createLabelForNode(nodes_to_draw[g]),
+                    len: scaffoldgraph.nodes[nodes_to_draw[g]].len,
+                    notAll: 1
+                }, classes: 'multiline-manual'
+            });
+        } else {
+            dnodes.push({
+                data: {
+                    id: nodes_to_draw[g],
+                    label: createLabelForNode(nodes_to_draw[g]),
+                    len: scaffoldgraph.nodes[nodes_to_draw[g]].len,
+                    notAll: 0
+                }, classes: 'multiline-manual'
+            });
+        }
+    }
+
+    for (g = 0; g < edges_to_draw.length; ++g) {
+        dedges.push({ data: {source: scaffoldgraph.edges[edges_to_draw[g]].from,
+                target: scaffoldgraph.edges[edges_to_draw[g]].to, label: createLabelForEdge(edges_to_draw[g]),
+                faveColor: scaffoldgraph.libs[scaffoldgraph.edges[edges_to_draw[g]].lib].color,
+                weight: Math.log(scaffoldgraph.edges[edges_to_draw[g]].weight) + 1
+        }});
+    }
+
+    var cy = cytoscape({
+        container: document.getElementById('mainpanel'),
+
+        boxSelectionEnabled: false,
+        autounselectify: true,
+        maxZoom: 2,
+        minZoom: 0.25,
+
+        elements: {
+            nodes: dnodes,
+            edges: dedges
+        },
+
+        layout: {
+            name: 'dagre',
+            rankDir: 'LR'
+        },
+
+
+        ready: function(){
+            window.cy = this;
+        },
+
+        style:  cytoscape.stylesheet()
+            .selector('node')
+            .css({
+                'content': 'data(label)',
+                'color': '#2A4986',
+                'width': 'mapData(len, 0, 1000000, 10, 1000)',
+                'height': 'mapData(len, 0, 1000000, 10, 1000)',
+                'background-color': 'mapData(notAll, 0, 1, #2A4986, #FFD700)'
+            })
+            .selector('edge')
+            .css({
+                'curve-style': 'bezier',
+                'target-arrow-shape': 'triangle',
+                'line-color': 'data(faveColor)',
+                'target-arrow-color': 'data(faveColor)',
+                'width': 'data(weight)',
+                'content': 'data(label)'
+            })
+    });
+
+    cy.nodes().qtip({
+        content: {
+            text: function () {
+                return createFullLabelForNode(this.id());
+            }
+        },
+        show: {
+            event: 'mouseover'
+        },
+        hide: {
+            event: 'mouseout'
+        },
+        style: {
+            classes: 'qtip-bootstrap',
+            tip: {
+                width: 16,
+                height: 8
+            }
+        }
+    });
+
+    cy.on('tap', 'edge', function (evt) {
+        this.qtip({
+            content: function () {
+                return 'Expression: '
+            },
+            show: {
+                event: 'mouseover'
+            },
+            hide: {
+                event: 'mouseout'
+            },
+            style: {
+                classes: 'qtip-bootstrap',
+                tip: {
+                    width: 16,
+                    height: 8
+                }
+            }
+        });
+    });
+
+    cy.on('tap', 'node', function (evt) {
+        var v = evt.target.id();
+        var needAddVert = [];
+
+        for (var h = 0; h < scaffoldgraph.g[v].length; ++h) {
+            if (isGoodEdge(scaffoldgraph.g[v][h].id)) {
+                if (scaffoldgraph.nodes[scaffoldgraph.g[v][h].to].len >= min_contig_len) {
+                    if (!curNodeSet.has(scaffoldgraph.g[v][h].to)) {
+                        curNodeSet.add(scaffoldgraph.g[v][h].to);
+                        needAddVert.push(scaffoldgraph.g[v][h].to);
+                        nodes_to_draw.push(scaffoldgraph.g[v][h].to);
+                    }
+                }
+            }
+        }
+
+        for (h = 0; h < scaffoldgraph.gr[v].length; ++h) {
+            if (isGoodEdge(scaffoldgraph.gr[v][h].id)) {
+                if (scaffoldgraph.nodes[scaffoldgraph.gr[v][h].from].len >= min_contig_len) {
+                    if (!curNodeSet.has(scaffoldgraph.gr[v][h].from)) {
+                        curNodeSet.add(scaffoldgraph.gr[v][h].from);
+                        needAddVert.push(scaffoldgraph.gr[v][h].from);
+                        nodes_to_draw.push(scaffoldgraph.gr[v][h].from);
+                    }
+                }
+            }
+        }
+
+        var needAddEdge = [];
+
+
+
+        for (var g = 0; g < needAddVert.length; ++g) {
+            var u = needAddVert[g];
+
+            for (h = 0; h < scaffoldgraph.g[u].length; ++h) {
+                if (isGoodEdge(scaffoldgraph.g[u][h].id)) {
+                    if (curNodeSet.has(scaffoldgraph.g[u][h].to)) {
+                        needAddEdge.push(scaffoldgraph.g[u][h]);
+                    }
+                }
+            }
+
+            for (h = 0; h < scaffoldgraph.gr[u].length; ++h) {
+                if (isGoodEdge(scaffoldgraph.gr[u][h].id)) {
+                    if (curNodeSet.has(scaffoldgraph.gr[u][h].from)) {
+                        needAddEdge.push(scaffoldgraph.gr[u][h]);
+                    }
+                }
+            }
+        }
+
+        needAddEdge = needAddEdge.filter(function (value, index, self) {
+            return self.indexOf(value) === index;
+        });
+
+
+        for (g = 0; g < needAddVert.length; ++g) {
+            u = needAddVert[g];
+
+            cy.add({
+                group: "nodes",
+                data: {
+                    id: u,
+                    label: createLabelForNode(u),
+                    len: scaffoldgraph.nodes[u].len,
+                    notAll: 0
+                },
+                position: { x: evt.target.position().x + Math.floor(Math.random() * Math.floor(200) - 100) , y: evt.target.position().y + Math.floor(Math.random() * Math.floor(200) - 100)}
+            });
+        }
+
+        for (g = 0; g < needAddEdge.length; ++g) {
+            var eid = needAddEdge[g].id;
+
+            cy.add({
+                group: "edges",
+                data: {
+                    source: scaffoldgraph.edges[eid].from,
+                    target: scaffoldgraph.edges[eid].to,
+                    label: createLabelForEdge(eid),
+                    faveColor: scaffoldgraph.libs[scaffoldgraph.edges[eid].lib].color,
+                    weight: Math.log(scaffoldgraph.edges[eid].weight) + 1
+                }
+            });
+        }
+
+        for (g = 0; g < nodes_to_draw.length; ++g) {
+            if (hasOtherEdges(nodes_to_draw[g], curNodeSet)) {
+                cy.$('#' + nodes_to_draw[g]).data('notAll', 1);
+            } else {
+                cy.$('#' + nodes_to_draw[g]).data('notAll', 0);
+            }
+        }
+
+        cy.nodes().qtip({
+            content: {
+                text: function () {
+                    return createFullLabelForNode(this.id());
+                }
+            },
+            show: {
+                event: 'mouseover'
+            },
+            hide: {
+                event: 'mouseout'
+            },
+            style: {
+                classes: 'qtip-bootstrap',
+                tip: {
+                    width: 16,
+                    height: 8
+                }
+            }
+        });
+    });
+}
+
+function DrawGraphVis(nodes_to_draw, edges_to_draw) {
     var nodeslist = [];
     var edgeslist = [];
     var i = 0;
@@ -96,15 +377,160 @@ function DrawGraph(nodes_to_draw, edges_to_draw) {
         }
 
         //,
-       // interaction: {
-       //     hideEdgesOnDrag: true,
-       //     tooltipDelay: 200
-       // },
-       // physics: false
+        // interaction: {
+        //     hideEdgesOnDrag: true,
+        //     tooltipDelay: 200
+        // },
+        // physics: false
     };
 
     // initialize your network!
     var network = new vis.Network(container, data, options);
+}
+
+function DrawGraphViva(nodes_to_draw, edges_to_draw) {
+    if (graph === null) {
+        graph = Viva.Graph.graph();
+    }
+    graph.clear();
+
+    for (g = 0; g < nodes_to_draw.length; ++g) {
+        graph.addNode(nodes_to_draw[g]);
+    }
+
+    var graphics = Viva.Graph.View.svgGraphics(),
+        nodeSize = 5;
+
+
+    graphics.node(function(node) {
+        return Viva.Graph.svg('image')
+            .attr('width', nodeSize)
+            .attr('height', nodeSize)
+            .link('https://secure.gravatar.com/avatar/' + node.data);
+    }).placeNode(function(nodeUI, pos) {
+        nodeUI.attr('x', pos.x - nodeSize / 2).attr('y', pos.y - nodeSize / 2);
+    });
+
+    // To render an arrow we have to address two problems:
+    //  1. Links should start/stop at node's bounding box, not at the node center.
+    //  2. Render an arrow shape at the end of the link.
+
+    // Rendering arrow shape is achieved by using SVG markers, part of the SVG
+    // standard: http://www.w3.org/TR/SVG/painting.html#Markers
+    var createMarker = function(id) {
+            return Viva.Graph.svg('marker')
+                .attr('id', id)
+                .attr('viewBox', "0 0 10 10")
+                .attr('refX', "10")
+                .attr('refY', "5")
+                .attr('markerUnits', "strokeWidth")
+                .attr('markerWidth', "10")
+                .attr('markerHeight', "5")
+                .attr('orient', "auto");
+        },
+
+        marker = createMarker('Triangle');
+    marker.append('path').attr('d', 'M 0 0 L 10 5 L 0 10 z');
+
+    // Marker should be defined only once in <defs> child element of root <svg> element:
+    var defs = graphics.getSvgRoot().append('defs');
+    defs.append(marker);
+
+    var geom = Viva.Graph.geom();
+
+    graphics.link(function(link){
+        // Notice the Triangle marker-end attribe:
+        return Viva.Graph.svg('path')
+            .attr('stroke', 'gray')
+            .attr('marker-end', 'url(#Triangle)');
+    }).placeLink(function(linkUI, fromPos, toPos) {
+        // Here we should take care about
+        //  "Links should start/stop at node's bounding box, not at the node center."
+
+        // For rectangular nodes Viva.Graph.geom() provides efficient way to find
+        // an intersection point between segment and rectangle
+        var toNodeSize = nodeSize,
+            fromNodeSize = nodeSize;
+
+        var from = geom.intersectRect(
+            // rectangle:
+            fromPos.x - fromNodeSize / 2, // left
+            fromPos.y - fromNodeSize / 2, // top
+            fromPos.x + fromNodeSize / 2, // right
+            fromPos.y + fromNodeSize / 2, // bottom
+            // segment:
+            fromPos.x, fromPos.y, toPos.x, toPos.y)
+            || fromPos; // if no intersection found - return center of the node
+
+        var to = geom.intersectRect(
+            // rectangle:
+            toPos.x - toNodeSize / 2, // left
+            toPos.y - toNodeSize / 2, // top
+            toPos.x + toNodeSize / 2, // right
+            toPos.y + toNodeSize / 2, // bottom
+            // segment:
+            toPos.x, toPos.y, fromPos.x, fromPos.y)
+            || toPos; // if no intersection found - return center of the node
+
+        var data = 'M' + from.x + ',' + from.y +
+            'L' + to.x + ',' + to.y;
+
+        linkUI.attr("d", data);
+    });
+
+    for (g = 0; g < edges_to_draw.length; ++g) {
+        graph.addLink(scaffoldgraph.edges[edges_to_draw[g]].from, scaffoldgraph.edges[edges_to_draw[g]].to);
+    }
+
+    var layout = Viva.Graph.Layout.forceDirected(graph, {
+        springLength : 20,
+        springCoeff : 0.0005,
+        dragCoeff : 0.02,
+        gravity : -1.2
+    });
+
+    var renderer = Viva.Graph.View.renderer(graph, {
+        container: document.getElementById('mainpanel'),
+        layout : layout,
+        graphics: graphics
+    });
+    renderer.run();
+}
+
+function DrawGraphDagre(nodes_to_draw, edges_to_draw) {
+    var dagre = require("dagre");
+
+    // Create a new directed graph
+    var g = new dagre.graphlib.Graph();
+
+// Set an object for the graph label
+    g.setGraph({});
+
+// Default to assigning a new object as a label for each new edge.
+    g.setDefaultEdgeLabel(function() { return {}; });
+
+// Add nodes to the graph. The first argument is the node id. The second is
+// metadata about the node. In this case we're going to add labels to each of
+// our nodes.
+    g.setNode("kspacey",    { label: "Kevin Spacey",  width: 144, height: 100 });
+    g.setNode("swilliams",  { label: "Saul Williams", width: 160, height: 100 });
+    g.setNode("bpitt",      { label: "Brad Pitt",     width: 108, height: 100 });
+    g.setNode("hford",      { label: "Harrison Ford", width: 168, height: 100 });
+    g.setNode("lwilson",    { label: "Luke Wilson",   width: 144, height: 100 });
+    g.setNode("kbacon",     { label: "Kevin Bacon",   width: 121, height: 100 });
+
+// Add edges to the graph.
+    g.setEdge("kspacey",   "swilliams");
+    g.setEdge("swilliams", "kbacon");
+    g.setEdge("bpitt",     "kbacon");
+    g.setEdge("hford",     "lwilson");
+    g.setEdge("lwilson",   "kbacon");
+
+    dagre.layout(g);
+}
+
+function DrawGraph(nodes_to_draw, edges_to_draw) {
+    DrawGraphCytoscape(nodes_to_draw, edges_to_draw);
 }
 
 function findComponent(v, g, color, curc) {
@@ -158,13 +584,13 @@ function splitOnParts(nodes_to_draw, edges_to_draw) {
 function handleFilterButton() {
     var opt = document.getElementById("select_show_type").value;
     var min_edge_weight = [];
-    var min_contig_len = document.getElementById("min_contig_len").value;
+    min_contig_len = document.getElementById("min_contig_len").value;
 
     for (var i = 0; i < scaffoldgraph.libs.length; ++i) {
         min_edge_weight.push(document.getElementById("min_w_" + scaffoldgraph.libs[i].name).value);
     }
 
-    var isGoodEdge = function (e) {
+    isGoodEdge = function (e) {
         if (min_edge_weight[scaffoldgraph.edges[e].lib] > scaffoldgraph.edges[e].weight) {
             return false;
         }
@@ -288,13 +714,24 @@ function handleFilterButton() {
             }
         }
         splitOnParts(nodes_to_draw, edges_to_draw);
-        createComponentShowList(function(i) {
+
+        var notzero = [];
+        for (i=0; i < edges_set.length; ++i) {
+            if (edges_set[i].length > 0) {
+                notzero.push(i);
+            }
+        }
+
+        createComponentShowList(function(j) {
+            var i = notzero[j];
             DrawGraph(nodes_set[i], edges_set[i]);
-        }, function(i) {
+        }, function(j) {
+            var i = notzero[j];
             return "comp " + i + "<br/> #nodes = " + nodes_set[i].length + "<br/>#edges = " + edges_set[i].length;
-        }, function(compnum) {
+        }, function(i) {
+            var compnum = notzero[i];
             return "Component #" + compnum;
-        }, nodes_set.length);
+        }, notzero.length);
     } else if (opt=="along chromosoms") {
         areasize = document.getElementById("area_size").value;
         handleAlongChromosomesFilter(areasize, min_edge_weight, min_contig_len);

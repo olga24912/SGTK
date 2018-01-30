@@ -11,6 +11,7 @@
 </head>
 <body>
     <div class="top">
+        <img src="Icon.png" alt="icon" hspace="10">
         <span class="SGTK">SGTK</span>
         <span class="titel_text" id="titel_text">
 
@@ -97,14 +98,6 @@
                         <span class="checkmark"></span>
                     </label>
                 </div>
-                <div class="one_line_block">
-                <label class="container">
-                        <p>Exons</p>
-                        <input type="checkbox" value="Exons">
-                        <span class="checkmark"></span>
-                    </label>
-                </div>
-
                 <p>
                     Min contig len:
                     <input type="number" min="0" id="min_contig_len" value=500>
@@ -180,6 +173,14 @@
     <script src="findAreaScript.js"></script>
     <script src="script.js"></script>
     <script src="external/cytoscape.js-master/dist/cytoscape.js"></script>
+    <script src="external/vivagraph.js"></script>
+    <script src="external/dagre.js"></script>
+    <script src="external/cytoscape-dagre.js"></script>
+    <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/qtip2/2.2.0/jquery.qtip.min.js"></script>
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/qtip2/2.2.0/jquery.qtip.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.rawgit.com/cytoscape/cytoscape.js-qtip/2.7.0/cytoscape-qtip.js"></script>
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script src="handleAlongChromosomes.js"></script>
     <script src="habdleScaffolds.js"></script>
