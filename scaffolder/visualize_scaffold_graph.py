@@ -102,7 +102,7 @@ class Lib:
         f.close()
         g.close()
 
-libsType = {"rnap", "rnas", "dnap", "ref", "scafinfo", "scafpath", "scaffolds"}
+libsType = {"rnap", "rnas", "dnap", "ref", "scafinfo", "scaffolds"}
 
 class StoreArgAction(argparse.Action):
     def __call__(self, parser, namespace, values, option_string=None):
@@ -134,7 +134,6 @@ def parse_args():
     parser.add_argument("--ref", dest="ref", nargs=1, help="path to reference", type=str, action=StoreArgAction)
     parser.add_argument("--dna-p", dest="dnap", nargs=2, help="path to dna pair reads file", type=str, action=StoreArgAction)
     parser.add_argument("--scafinfo", nargs=1, help="path to .info file with info about scaffolds", type=str, action=StoreArgAction)
-    parser.add_argument("--scafpath", nargs=1, help="path to both.path file with info about scaffolds", type=str, action=StoreArgAction)
     parser.add_argument("--label", "-l", nargs='*', help="list with labels for all libs in definition order", type=str, action='store')
     parser.add_argument("--color", nargs='*', help="list with color for all libs in definition order", type=str, action='store')
     args = parser.parse_args()
@@ -317,7 +316,6 @@ def merge_lib_rna(libs):
         os.chdir(prevdir)
     return
 
-
 def merge_graph(args):
     merge_lib_rna(args.libs["rnap"])
 
@@ -336,14 +334,6 @@ def merge_graph(args):
     merge_list += "graph.gr"
     os.system(path_to_exec_dir + "mergeGraph " + merge_list)
     return
-
-
-class Scaffolds:
-    def __init__(self):
-        self.id
-        self.color
-        self.name
-        self.scaffolds = []
 
 idbyname = dict()
 lenbyid = []
@@ -413,11 +403,6 @@ def save_scaffolds_from_info(lib, f):
 
             scafnum += 2
     cntlib += 1
-
-
-def save_scaffolds_from_path(lib):
-    #TODO
-    pass
 
 
 def save_scaffolds_from_fasta(contig_file_name, lib, f):
@@ -495,20 +480,92 @@ def save_scaffolds(contig_file_name, args, f):
     for lib in args.libs["scafinfo"]:
         save_scaffolds_from_info(lib, f)
 
-    for lib in args.libs["scafpath"]:
-        save_scaffolds_from_path(lib)
-
     for lib in args.libs["scaffolds"]:
         save_scaffolds_from_fasta(contig_file_name, lib, f)
 
 
-def add_conection_to_res_file():
-    #TODO
-    pass
+def add_conection_to_res_file(f):
+    with open("graph.gr") as g:
+        cntlib = int(g.readline())
 
-def add_ref_to_res_file():
-    #TODO
-    pass
+        for i in range(cntlib):
+            libsinfo = g.readline().split(" ")
+            libsinfo[4] = libsinfo[4][:-1]
+            f.write("scaffoldlibs.push(new ScaffoldEdgeLib(" + libsinfo[1] + ", '" + libsinfo[2] + "', '" + libsinfo[3] + "', '" + libsinfo[4] + "'));\n")
+
+        nodecnt = int(g.readline())
+
+        for i in range(nodecnt):
+            g.readline()
+
+        edgescnt = int(g.readline())
+        for i in range(edgescnt):
+            edgesinfo = (g.readline()).split(" ")
+            f.write("scaffoldedges.push(new ScaffoldEdge(" + edgesinfo[1] + ", " + edgesinfo[2] + ", " + edgesinfo[3] + ", " + edgesinfo[4] + ", " + edgesinfo[5] + "));\n")
+
+
+def add_ref_to_res_file(contig_file_name, f):
+    lib = args.libs["ref"][0]
+
+    prevdir = os.getcwd()
+    lib_dir = os.path.dirname(os.path.abspath(lib.name) + "/")
+    os.chdir(lib_dir)
+    os.system("nucmer " + lib.path[0] + " " + contig_file_name)
+    os.system("show-coords out.delta -THrgl > out.coords")
+
+    global idbyname
+
+    chrlist = []
+    chralig = []
+
+    curid = -2
+    lastname = '-'
+
+    with open("out.coords") as cf:
+        for line in cf:
+            info = line.split("\t")
+            info[10] = info[10][:-1]
+            vid = idbyname[info[10]]
+            chrname = info[9]
+            lenf = int(info[7])
+            if (chrname != lastname):
+                curid += 2
+                chrlist.append("new Chromosome(" + str(curid) + ", '" + chrname + "', " + str(lenf) + ")")
+                chrlist.append("new Chromosome(" + str(curid + 1) + ", '" + chrname + "-rev', " + str(lenf) + ")")
+                chralig.append([])
+                chralig.append([])
+                lastname = chrname
+
+            lq = int(info[2])
+            rq = int(info[3])
+            l = int(info[0])
+            r = int(info[1])
+
+            if (lq > rq):
+                vid ^= 1
+
+            chralig[curid].append("new Alignment(" + str(l) + ", " + str(r) + ", " + str(curid) + ", " + str(vid) + ")")
+            chralig[curid + 1].append("new Alignment(" + str(lenf - r) + ", " + str(lenf - l) + ", " + str(curid + 1) + ", " + str(vid^1) + ")")
+
+    f.write("var chromosomes = [")
+    for i in range(len(chrlist)):
+        f.write(chrlist[i])
+        if (i != len(chrlist) - 1):
+            f.write(", ")
+    f.write("];\n")
+
+    for i in range(len(chrlist)):
+        f.write("chromosomes[" + str(i) + "].alignments = " + "[")
+        for j in range(len(chralig[i])):
+            f.write(chralig[i][j])
+            if (j != len(chralig[i]) - 1):
+                f.write(", ")
+        f.write("];\n")
+
+    f.close()
+
+    os.chdir(prevdir)
+
 
 def run(args):
     if args.contigs == None:
@@ -556,8 +613,8 @@ def run(args):
     gen_id_from_contig_file(contig_file_name, f)
     f.write("var scaffoldlibs = [];\n")
     f.write("var scaffoldedges = [];\n")
+    add_conection_to_res_file(f)
     save_scaffolds(contig_file_name, args, f)
-    add_conection_to_res_file()
     add_ref_to_res_file()
     f.write("var scaffoldgraph = new ScaffoldGraph(scaffoldlibs, scaffoldnodes, scaffoldedges);\n")
     f.close()
