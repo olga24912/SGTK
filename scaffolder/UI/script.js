@@ -794,7 +794,7 @@ function InitAlignmentsForNodes() {
 }
 
 InitLibTable();
-InitAlignmentsForNodes();
+//InitAlignmentsForNodes();
 document.getElementById("filter_button").addEventListener("click", handleFilterButton);
 document.getElementById("select_show_type").addEventListener("change", function() {
     if(document.getElementById("select_show_type").value == "full graph") {

@@ -4,6 +4,7 @@ import os
 import argparse
 from shutil import copyfile
 from shutil import move
+from Bio import SeqIO
 
 #Log class, use it, not print
 class Log:
@@ -101,8 +102,7 @@ class Lib:
         f.close()
         g.close()
 
-
-libsType = {"rnap", "rnas", "dnap", "ref", "scafinfo", "scafpath"}
+libsType = {"rnap", "rnas", "dnap", "ref", "scafinfo", "scafpath", "scaffolds"}
 
 class StoreArgAction(argparse.Action):
     def __call__(self, parser, namespace, values, option_string=None):
@@ -124,10 +124,10 @@ class StoreArgAction(argparse.Action):
         setattr(namespace, 'libs', libs)
         setattr(namespace, 'lib_cnt', lib_cnt)
 
-
 def parse_args():
     parser = argparse.ArgumentParser(formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--contigs", "-c", nargs=1, dest="contigs", help="path to contigs", type=str)
+    parser.add_argument("--scaffolds", "-s", nargs=1, dest="scaffolds", help="path to scaffolds in fasta format", type=str, action=StoreArgAction)
     parser.add_argument("--rna-p", dest="rnap", nargs=2, help="path to rna pair reads file", type=str, action=StoreArgAction)
     parser.add_argument("--rna-s", dest="rnas", nargs=1, help="path to rna read file", type=str, action=StoreArgAction)
     parser.add_argument("--local_output_dir", "-o", nargs=1, help="use this output dir", type=str)
@@ -154,7 +154,6 @@ def alig_split(lib_name, reads, flag):
     os.system("STAR --runThreadN 20 --genomeDir ../genomeDir --readFilesIn reads2.fasta")
     os.system("mv Aligned.out.sam rna2.sam")
     os.chdir(prevdir)
-
 
 def alig_pair_rna_reads(rnap):
     prevdir = os.getcwd()
@@ -191,7 +190,6 @@ def alig_pair_rna_reads(rnap):
     alig_split(rnap.name + "_30_1", "../" + rnap.name + "/rna1.sam", 1)
     alig_split(rnap.name + "_30_2", "../" + rnap.name + "/rna2.sam", 1)
 
-
 def alig_pair_dna_reads(dnap, contig_file_name):
     prevdir = os.getcwd()
     log.log("START ALIG: " + dnap.label)
@@ -206,7 +204,6 @@ def alig_pair_dna_reads(dnap, contig_file_name):
         os.system("bowtie2 -x contig -U " + dnap.path[0] + " -S dna1.sam")
         os.system("bowtie2 -x contig -U " + dnap.path[1] + " -S dna2.sam")
     os.chdir(prevdir)
-
 
 def alig_single_rna_reads(rnas):
     prevdir = os.getcwd()
@@ -229,7 +226,6 @@ def alig_single_rna_reads(rnas):
     alig_split(lib_name, unm, 0)
     alig_split(rnas.name + "_30", "../" + rnas.name + "_30/rna.sam", 1)
     return
-
 
 def alig_reads(contig_file_name, args):
     genome_dir = "genomeDir"
@@ -255,7 +251,6 @@ def alig_reads(contig_file_name, args):
 
     return
 
-
 def runGraphBuilder(lib_name, prevdir, type, label):
     log.log("START BUILD GRAPH: " + lib_name)
     lib_dir = os.path.dirname(os.path.abspath(lib_name) + "/")
@@ -263,7 +258,6 @@ def runGraphBuilder(lib_name, prevdir, type, label):
     os.system(path_to_exec_dir + "build " + type + " rna1.sam rna2.sam " + label)
     os.chdir(prevdir)
     return
-
 
 def build_graph(contig_file_name, args):
     for lib in args.libs["rnap"]:
@@ -341,34 +335,180 @@ def merge_graph(args):
 
     merge_list += "graph.gr"
     os.system(path_to_exec_dir + "mergeGraph " + merge_list)
+    return
 
+
+class Scaffolds:
+    def __init__(self):
+        self.id
+        self.color
+        self.name
+        self.scaffolds = []
+
+idbyname = dict()
+lenbyid = []
+cntedge = 0
+cntlib = 0
+
+#save id to idbyname
+#write node info to data
+def gen_id_from_contig_file(contig_file_name, f):
+    fasta_seq = SeqIO.parse(open(contig_file_name), 'fasta')
+    id = 0
+    nodestr = "var scaffoldnodes = ["
+    for fasta in fasta_seq:
+        name, lenn = fasta.id, len(fasta.seq.tostring())
+        idbyname[name] = id
+        idbyname[name + "-rev"] = id + 1
+        lenbyid.append(lenn)
+        lenbyid.append(lenn)
+        if (id != 0):
+            nodestr += ', '
+        nodestr += "new ScaffoldNode(" + str(id) + ", '" + name + "', " + str(lenn) + "), "
+        nodestr += "new ScaffoldNode(" + str(id + 1) + ", '" + name + "-rev', " + str(lenn) + ")"
+        id += 2
+    nodestr += "];"
+    f.write(nodestr)
+
+
+def save_scaffolds_from_info(lib, f):
+    global cntedge
+    global cntlib
+    global idbyname
+    with open(lib.path[0]) as g:
+        f.write("scaffoldlibs.push(new ScaffoldEdgeLib(" + str(cntlib) + ", '" + str(lib.color) + "', '" + str(lib.label) + "', 'SCAFF'));\n")
+
+        scafnum = 0
+
+        for line in g:
+            tokens = line.split(" ")
+            if (tokens[len(tokens) - 1] == '\n'):
+                tokens.pop()
+
+            f.write("scaffoldlibs["+ str(cntlib) +"].scaffolds.push(new Scaffold('" + tokens[0][1:] + "'));\n")
+            f.write("scaffoldlibs["+ str(cntlib) +"].scaffolds.push(new Scaffold('" + tokens[0][1:] + "-rev'));\n")
+
+            nodeslist = []
+            for i in range(1, len(tokens), 3):
+                nm = tokens[i][1:]
+                if (tokens[i + 2][0] == '+'):
+                    nodeslist.append(idbyname[nm])
+                else:
+                    nodeslist.append(idbyname[nm]^1)
+
+
+            for i in range(1, len(nodeslist)):
+                f.write("scaffoldedges.push(new ScaffoldEdge(" + str(cntedge) + ", "+ str(nodeslist[i - 1]) +
+                        ", " + str(nodeslist[i]) + ", " + str(cntlib) + ", 1));\n")
+                f.write("scaffoldedges["+str(cntedge)+"].name='"+ tokens[0][1:] + "';\n")
+                f.write("scaffoldlibs["+ str(cntlib) +"].scaffolds["+str(scafnum) +"].edges.push(scaffoldedges["+str(cntedge)+"]);\n")
+                cntedge += 1
+
+            for i in range(len(nodeslist)-2, -1, -1):
+                f.write("scaffoldedges.push(new ScaffoldEdge(" + str(cntedge) + ", "+ str(nodeslist[i + 1]^1) +
+                        ", " + str(nodeslist[i]^1) + ", " + str(cntlib) + ", 1));\n")
+                f.write("scaffoldedges["+str(cntedge)+"].name='"+ tokens[0][1:] + "-rev';\n")
+                f.write("scaffoldlibs["+ str(cntlib) +"].scaffolds["+str(scafnum+1) +"].edges.push(scaffoldedges["+str(cntedge)+"]);\n")
+                cntedge += 1
+
+            scafnum += 2
+    cntlib += 1
+
+
+def save_scaffolds_from_path(lib):
+    #TODO
+    pass
+
+
+def save_scaffolds_from_fasta(contig_file_name, lib, f):
+    prevdir = os.getcwd()
+    lib_dir = os.path.dirname(os.path.abspath(lib.name) + "/")
+    os.chdir(lib_dir)
+    os.system("nucmer " + lib.path[0] + " " + contig_file_name)
+    os.system("show-coords out.delta -THrgl > out.coords")
+
+    global cntedge
+    global cntlib
+    global idbyname
+    with open("out.coords") as g:
+        f.write("scaffoldlibs.push(new ScaffoldEdgeLib(" + str(cntlib) + ", '" + str(lib.color) + "', '" + str(lib.label) + "', 'SCAFF'));\n")
+
+        contigsAlignment = dict()
+        rcontlist = []
+
+        for line in g:
+            tokens = line.split("\t")
+            print(tokens)
+            if (tokens[len(tokens) - 1] == '\n'):
+                tokens.pop()
+            if (tokens[len(tokens) - 1][-1] == '\n'):
+                tokens[len(tokens) - 1] = tokens[len(tokens) - 1][0:-1]
+
+            lq = int(tokens[2])
+            rq = int(tokens[3])
+            l = int(tokens[0])
+            r = int(tokens[1])
+            qcont = tokens[10]
+            rcont = tokens[9]
+            chrlen = int(tokens[7])
+            if (lq > rq):
+                qcont += "-rev"
+                lq, rq = rq, lq
+
+            id = idbyname[qcont]
+            if (lq < 2 and rq > lenbyid[id] - 2):
+                if (rcont not in contigsAlignment):
+                    rcontlist.append(rcont)
+                    rcontlist.append(rcont + "-rev")
+                    contigsAlignment[rcont] = []
+                    contigsAlignment[rcont + "-rev"] = []
+
+                contigsAlignment[rcont].append((l, r, id))
+                contigsAlignment[rcont + "-rev"].append((chrlen - r, chrlen - l, id^1))
+
+
+        print(rcontlist)
+        scafnum = 0
+        for rc in rcontlist:
+            contigsAlignment[rc].sort()
+            print(rc)
+            print(contigsAlignment[rc])
+            f.write("scaffoldlibs["+ str(cntlib) +"].scaffolds.push(new Scaffold('" + rc + "'));\n")
+
+            lst = 0
+            for i in range(1, len(contigsAlignment[rc])):
+                if (contigsAlignment[rc][i][0] >= contigsAlignment[rc][lst][1]):
+                    f.write("scaffoldedges.push(new ScaffoldEdge(" + str(cntedge) + ", "+ str(contigsAlignment[rc][lst][2]) +
+                        ", " + str(contigsAlignment[rc][i][2]) + ", " + str(cntlib) + ", 1));\n")
+                    f.write("scaffoldedges["+str(cntedge)+"].name='"+ rc + "';\n")
+                    f.write("scaffoldlibs["+ str(cntlib) +"].scaffolds["+str(scafnum) +"].edges.push(scaffoldedges["+str(cntedge)+"]);\n")
+                    cntedge += 1
+                    lst = i
+
+            scafnum += 1
+
+        cntlib += 1
+
+    os.chdir(prevdir)
+
+def save_scaffolds(contig_file_name, args, f):
     for lib in args.libs["scafinfo"]:
-        os.system(path_to_exec_dir + "addInfoToGraph " + lib.path[0] + " graph.gr " + lib.label + " \"" + lib.color + "\" ")
-        copyfile("out.gr", "graph.gr")
+        save_scaffolds_from_info(lib, f)
 
     for lib in args.libs["scafpath"]:
-        os.system(path_to_exec_dir + "addBothPath " + lib.path[0] + " graph.gr " + lib.label + + " \"" + lib.color + "\" ")
-        copyfile("out.gr", "graph.gr")
+        save_scaffolds_from_path(lib)
 
-    return
-
-
-def vis():
-    directory = os.path.dirname("outdot/")
-    if not os.path.exists(directory):
-        os.makedirs(directory)
-
-    f = open("filter_config", 'w')
-    f.write("uploadGraph graph.gr\n")
-    f.write("mergeСontig 500\n")
-    f.write("writeFull outdot/f\n")
-    f.write("exit\n")
-    f.close()
-
-    os.system(path_to_exec_dir + "filter " + os.path.abspath("filter_config"))
-    return
+    for lib in args.libs["scaffolds"]:
+        save_scaffolds_from_fasta(contig_file_name, lib, f)
 
 
+def add_conection_to_res_file():
+    #TODO
+    pass
+
+def add_ref_to_res_file():
+    #TODO
+    pass
 
 def run(args):
     if args.contigs == None:
@@ -390,10 +530,6 @@ def run(args):
         os.makedirs(directory)
     os.chdir(directory)
 
-
-    print(args.color)
-    print(args.label)
-
     if args.color != None and len(args.color) != args.lib_cnt:
         log.err("wrong number of color provide")
 
@@ -414,15 +550,22 @@ def run(args):
 
     alig_reads(contig_file_name, args)
     build_graph(contig_file_name, args)
-    merge_graph(args)
-    vis()
+    merge_graph(args) #result file graph.gr
+
+    f = open("data.js", 'w')
+    gen_id_from_contig_file(contig_file_name, f)
+    f.write("var scaffoldlibs = [];\n")
+    f.write("var scaffoldedges = [];\n")
+    save_scaffolds(contig_file_name, args, f)
+    add_conection_to_res_file()
+    add_ref_to_res_file()
+    f.write("var scaffoldgraph = new ScaffoldGraph(scaffoldlibs, scaffoldnodes, scaffoldedges);\n")
+    f.close()
 
     directory = os.path.dirname(main_out_dir)
     os.chdir(directory)
 
-    move("tmp/graph.gr", "graph.gr")
-    move("tmp/outdot", "outdot")
-    copyfile("tmp/tmp.ps", "graph.ps")
+    move("tmp/data.js", "data.js")
     return
 
 args = parse_args()
