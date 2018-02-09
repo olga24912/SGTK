@@ -22,6 +22,10 @@ p {
     -webkit-margin-end: 0px;
 }
 
+input[type=number]{
+    width: 70px;
+}
+
 svg {
     height: 100%;
     margin: 0;

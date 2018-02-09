@@ -789,7 +789,7 @@ function InitLibTable() {
         input_weight.type = "number";
         input_weight.min = 0;
         input_weight.size = 1;
-        input_weight.value = 2;
+        input_weight.value = 1;
         input_weight.id = "min_w_" + scaffoldgraph.libs[i].name;
         td_min_edge_weight.align="center";
         td_min_edge_weight.appendChild(input_weight);
