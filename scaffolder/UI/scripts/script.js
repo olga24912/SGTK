@@ -9,6 +9,18 @@ function createLabelForNode(node) {
     if (document.getElementById("vert_checkbox_len").checked) {
         label += "len: " + scaffoldgraph.nodes[node].len + "\n";
     }
+    if (document.getElementById("vert_checkbox_align").checked) {
+        if (scaffoldgraph.nodes[node].alignments.length > 0) {
+            label += "Alignment: ";
+            scaffoldgraph.nodes[node].alignments.sort(function (a, b) {
+                return (b.coorde - b.coordb) - (a.coorde - a.coordb);
+            });
+            for (var i = 0; i < scaffoldgraph.nodes[node].alignments.length; ++i) {
+                var cura = scaffoldgraph.nodes[node].alignments[i];
+                label += chromosomes[cura.chr_id].name + " " + cura.coordb + " " + cura.coorde + " (" + ((cura.coorde - cura.coordb + 1) * 100/scaffoldgraph.nodes[node].len) +"%)\n";
+            }
+        }
+    }
     return label;
 }
 
@@ -17,6 +29,16 @@ function createFullLabelForNode(node) {
     label += "id: " + scaffoldgraph.nodes[node].id + "<br/>";
     label += scaffoldgraph.nodes[node].name + "<br/>";
     label += "len: " + scaffoldgraph.nodes[node].len + "<br/>";
+    if (scaffoldgraph.nodes[node].alignments.length > 0) {
+        label += "Alignment: ";
+        scaffoldgraph.nodes[node].alignments.sort(function (a, b) {
+            return (b.coorde - b.coordb) - (a.coorde - a.coordb);
+        });
+        for (var i = 0; i < scaffoldgraph.nodes[node].alignments.length; ++i) {
+            var cura = scaffoldgraph.nodes[node].alignments[i];
+            label += chromosomes[cura.chr_id].name + " " + cura.coordb + " " + cura.coorde + " (" + ((cura.coorde - cura.coordb + 1) * 100/scaffoldgraph.nodes[node].len) +"%)<br/>";
+        }
+    }
     return label;
 }
 
