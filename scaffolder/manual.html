@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>IGAR Manual</title>
+    <title>SGTK Manual</title>
     <style type="text/css">
         .code {
             background-color: lightgray;
@@ -29,9 +29,9 @@
 <br>
 
 <a name="sec1"></a>
-<h2>1. About IGAR</h2>
+<h2>1. About SGTK</h2>
 <p>
-    IGAR &ndash; Improving Genome Assembly with RNA-seq &ndash; is a tool which detects new connections between contigs
+    SGTK &ndash; Scaffold Graph ToolKit &ndash; is a tool which detects new connections between contigs
     and build scaffolds or visualize scaffold graph. This manual will help you to install and run IGAR.
 <p>
     The current version of IGAR works with Illumina RNA-seq paired-end reads and unpaired reads for building scaffolds
@@ -55,13 +55,13 @@ Downloading and compiling source code.
 </ul>
 
 <p>
-    If you meet these requirements, you can download the IGAR.
+    If you meet these requirements, you can download the SGTK.
 
 <pre class="code">
 <code>
-    wget IGAR
-    tar -xzf IGAR
-    cd IGAR
+    wget SGTK
+    tar -xzf SGTK
+    cd SGTK
 </code>
 </pre>
 
@@ -75,7 +75,7 @@ Downloading and compiling source code.
 </pre>
 
 <p>
-    IGAR will be built in the directory <code>./bin</code>. If you wish to install IGAR into another directory, you can specify full path of destination folder by running the following command in <code>bash</code> or <code>sh</code>:
+    SGTK will be built in the directory <code>./bin</code>. If you wish to install SGTK into another directory, you can specify full path of destination folder by running the following command in <code>bash</code> or <code>sh</code>:
 
 <pre class="code">
 <code>
@@ -93,7 +93,7 @@ Downloading and compiling source code.
 </pre>
 
 <p>
-    which will install IGAR into <code>/usr/local/bin</code>.
+    which will install SGTK into <code>/usr/local/bin</code>.
 
 <p>
     After installation you will get the same files in <code>./bin</code> (or <code>&lt;destination_dir>/bin</code> if you specified PREFIX) directory:
@@ -108,10 +108,10 @@ Downloading and compiling source code.
 </ul>
 
 <p>
-    We also suggest adding IGAR installation directory to the <code>PATH</code> variable.
+    We also suggest adding SGTK installation directory to the <code>PATH</code> variable.
 
 <a name="sec3"></a>
-<h2>3. Running IGAR</h2>
+<h2>3. Running SGTK</h2>
 
 <a name="sec3.1"></a>
 <h3>3.1. RNA scaffolder</h3>
@@ -120,7 +120,7 @@ Downloading and compiling source code.
 <h4>3.1.1. Input </h4>
 
 <p>
-    IGAR takes as input contigs in FASTA format and paired-end RNA reads or single (unpaired) RNA-seq reads in FASTA and FASTQ.
+    SGTK takes as input contigs in FASTA format and paired-end RNA reads or single (unpaired) RNA-seq reads in FASTA and FASTQ.
 <p>
 
 <a name="sec3.1.2"></a>
@@ -134,7 +134,7 @@ Downloading and compiling source code.
     rna_scaffolder.py [options]
 </code>
 </pre>
-Note that we assume that IGAR installation directory is added to the <code>PATH</code> variable (provide full path to IGAR executable otherwise: <code>&lt;installation dir>/rna_scaffolder.py</code>).
+Note that we assume that SGTK installation directory is added to the <code>PATH</code> variable (provide full path to IGAR executable otherwise: <code>&lt;installation dir>/rna_scaffolder.py</code>).
 
 <a name="basicopt"></a>
 <h4>Basic options</h4>
@@ -168,7 +168,7 @@ Note that we assume that IGAR installation directory is added to the <code>PATH<
 <a name="sec3.1.3"></a>
 <h4>3.1.3. Output</h4>
 
-IGAR stores all output files in <code>&lt;output_dir> </code>, which is set by the user.
+SGTK stores all output files in <code>&lt;output_dir> </code>, which is set by the user.
 
 <ul>
     <li><code>&lt;output_dir>/scaffolds.fa</code> contains resulting scaffolds </li>
@@ -177,7 +177,7 @@ IGAR stores all output files in <code>&lt;output_dir> </code>, which is set by t
 </ul>
 
 <p>
-    Scaffolds names in IGAR output FASTA files have the following format: <br><code>path179 </code><br> Here <code>179</code> is the number of the scaffold.
+    Scaffolds names in SGTK output FASTA files have the following format: <br><code>path179 </code><br> Here <code>179</code> is the number of the scaffold.
 </p>
 
 
@@ -185,7 +185,7 @@ IGAR stores all output files in <code>&lt;output_dir> </code>, which is set by t
 <h4>3.1.4. Example</h4>
 
 <p>
-    To test the toy data set, you can also run the following command from the IGAR <code>bin</code> directory:
+    To test the toy data set, you can also run the following command from the SGTK <code>bin</code> directory:
 
 <pre class="code">
 <code>
@@ -262,13 +262,17 @@ IGAR stores all output files in <code>&lt;output_dir> </code>, which is set by t
     visualize_scaffold_graph.py [options]
 </code>
 </pre>
-Note that we assume that IGAR installation directory is added to the <code>PATH</code> variable (provide full path to IGAR executable otherwise: <code>&lt;installation dir>/visualize_scaffold_graph.py</code>).
+Note that we assume that SGTK installation directory is added to the <code>PATH</code> variable (provide full path to IGAR executable otherwise: <code>&lt;installation dir>/visualize_scaffold_graph.py</code>).
 
 <a name="basicopt"></a>
 <h4>Basic options</h4>
 <p>
     <code>-c</code> (or <code>--contig</code>) <code> &lt;file_name> </code>><br>
     &nbsp;&nbsp;&nbsp;&nbsp;File with contigs in fasta format. Required option.
+</p>
+<p>
+    <code>-s</code> (or <code>--scaffolds</code>) <code> &lt;file_name> </code>><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;File with scaffolds in fasta format.
 </p>
 <p>
     <code>--rna-p &lt;file_name_1 file_name_2> </code>
@@ -291,10 +295,6 @@ Note that we assume that IGAR installation directory is added to the <code>PATH<
     &nbsp;&nbsp;&nbsp;&nbsp; File with scaffolds in info format.
 </p>
 <p>
-    <code>--scafpath &lt;file_name> </code>
-    &nbsp;&nbsp;&nbsp;&nbsp; File with scaffolds in path format.
-</p>
-<p>
     <code>--label &lt;label1 label2 ...></code>
     &nbsp;&nbsp;&nbsp;&nbsp; Labels for libraries in given order.
 </p>
@@ -310,23 +310,23 @@ Note that we assume that IGAR installation directory is added to the <code>PATH<
 <a name="sec3.2.3"></a>
 <h4>3.2.3. Output</h4>
 
-IGAR stores all output files in <code>&lt;output_dir> </code>, which is set by the user.
+SGTK stores all output files in <code>&lt;output_dir> </code>, which is set by the user.
 
 <ul>
-    <li><code>&lt;output_dir>/outdot/</code> dot files with graph</li>
-    <li><code>&lt;output_dir>/graph.gr</code> graph description </li>
-    <li><code>&lt;output_dir>/graph.ps</code> picture with graph </li>
+    <li><code>&lt;output_dir>/scripts/</code> files with scaffold graph description. It is needed to main.html work properly </li>
+    <li><code>&lt;output_dir>/main.html</code> main file for graph visualisation </li>
 </ul>
 
+Run main.html for see visualisation.
 
 <a name="sec3.2.4"></a>
 <h4>3.2.4. Example</h4>
 <p>
-    To test the toy data set, you can also run the following command from the IGAR <code>bin</code> directory:
+    To test the toy data set, you can also run the following command from the SGTK <code>bin</code> directory:
 
 <pre class="code">
 <code>
-    visualize_scaffold_graph.py -c ../share/test_dataset/contigs.fasta --rna-p ../share/test_dataset/read_1.fasta \
+    python3 visualize_scaffold_graph.py -c ../share/test_dataset/contigs.fasta --rna-p ../share/test_dataset/read_1.fasta \
     ../share/test_dataset/read_2.fasta -o test
 </code>
 </pre>
@@ -369,11 +369,11 @@ IGAR stores all output files in <code>&lt;output_dir> </code>, which is set by t
 And you would like set labels and colors. You need set labels and colors for all libraries in order of definition
 <pre class="code">
 <code>
-    visualize_scaffold_graph.py -c ../share/test_dataset/contigs.fasta \
+    python3 visualize_scaffold_graph.py -c ../share/test_dataset/contigs.fasta \
     --rna-p ../share/test_dataset/read_1.fasta ../share/test_dataset/read_2.fasta \
     --scafinfo ../share/test_dataset/scaf.info \
     --ref ../share/test_dataset/ref.fasta \
-    --labels rnap scaf ref \
+    --label rnap scaf ref \
     --color "#0000ff" "#00ff00" "#ff0000" \
     -o output
 </code>

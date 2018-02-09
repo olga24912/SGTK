@@ -279,15 +279,6 @@ def build_graph(contig_file_name, args):
         os.chdir(lib_dir)
         os.system(path_to_exec_dir + "build DNA_PAIR dna1.sam dna2.sam 1000000000 " + lib.label)
         os.chdir(prevdir)
-
-    for lib in args.libs["ref"]:
-        prevdir = os.getcwd()
-        log.log("START BUILD GRAPH: " + lib.label)
-        lib_dir = os.path.dirname(os.path.abspath(lib.name) + "/")
-        os.chdir(lib_dir)
-        os.system(path_to_exec_dir + "build REF " + lib.path[0] + " " + contig_file_name + " 500 " + lib.label)
-        os.chdir(prevdir)
-
     return
 
 def merge_lib_rna(libs):
@@ -323,7 +314,7 @@ def merge_graph(args):
 
     for lib_type in libsType:
         for lib in args.libs[lib_type]:
-            if lib_type != "scafinfo" and lib_type != "scafpath":
+            if lib_type == "rnap" or lib_type == "rnas" or lib_type == "dnap":
                 lib.fix_graph_file()
                 if lib_type != "rnas":
                     merge_list += lib.name + "/graph.gr "
@@ -405,6 +396,15 @@ def save_scaffolds_from_info(lib, f):
     cntlib += 1
 
 
+def sortcmp(x, y):
+    if (x[0] < y[0]):
+        return -1
+    if (x[0] == y[0] and x[1] > y[1]):
+        return -1
+    if (x[0] == y[0] and x[1] == y[1]):
+        return 0
+    return 1
+
 def save_scaffolds_from_fasta(contig_file_name, lib, f):
     prevdir = os.getcwd()
     lib_dir = os.path.dirname(os.path.abspath(lib.name) + "/")
@@ -452,12 +452,9 @@ def save_scaffolds_from_fasta(contig_file_name, lib, f):
                 contigsAlignment[rcont + "-rev"].append((chrlen - r, chrlen - l, id^1))
 
 
-        print(rcontlist)
         scafnum = 0
         for rc in rcontlist:
-            contigsAlignment[rc].sort()
-            print(rc)
-            print(contigsAlignment[rc])
+            contigsAlignment[rc].sort(key=lambda x: (x[0], -x[1]))
             f.write("scaffoldlibs["+ str(cntlib) +"].scaffolds.push(new Scaffold('" + rc + "'));\n")
 
             lst = 0
@@ -485,6 +482,11 @@ def save_scaffolds(contig_file_name, args, f):
 
 
 def add_conection_to_res_file(f):
+    global cntlib
+    global cntedge
+    if (not os.path.isfile("graph.gr")):
+        return
+
     with open("graph.gr") as g:
         cntlib = int(g.readline())
 
@@ -498,13 +500,16 @@ def add_conection_to_res_file(f):
         for i in range(nodecnt):
             g.readline()
 
-        edgescnt = int(g.readline())
-        for i in range(edgescnt):
+        cntedge = int(g.readline())
+        for i in range(cntedge):
             edgesinfo = (g.readline()).split(" ")
             f.write("scaffoldedges.push(new ScaffoldEdge(" + edgesinfo[1] + ", " + edgesinfo[2] + ", " + edgesinfo[3] + ", " + edgesinfo[4] + ", " + edgesinfo[5] + "));\n")
 
 
 def add_ref_to_res_file(contig_file_name, f):
+    if (len(args.libs["ref"]) == 0):
+        return
+
     lib = args.libs["ref"][0]
 
     prevdir = os.getcwd()
@@ -547,12 +552,8 @@ def add_ref_to_res_file(contig_file_name, f):
             chralig[curid].append("new Alignment(" + str(l) + ", " + str(r) + ", " + str(curid) + ", " + str(vid) + ")")
             chralig[curid + 1].append("new Alignment(" + str(lenf - r) + ", " + str(lenf - l) + ", " + str(curid + 1) + ", " + str(vid^1) + ")")
 
-    f.write("var chromosomes = [")
     for i in range(len(chrlist)):
-        f.write(chrlist[i])
-        if (i != len(chrlist) - 1):
-            f.write(", ")
-    f.write("];\n")
+        f.write("chromosomes.push(" + chrlist[i] + ");\n")
 
     for i in range(len(chrlist)):
         f.write("chromosomes[" + str(i) + "].alignments = " + "[")
@@ -561,8 +562,6 @@ def add_ref_to_res_file(contig_file_name, f):
             if (j != len(chralig[i]) - 1):
                 f.write(", ")
         f.write("];\n")
-
-    f.close()
 
     os.chdir(prevdir)
 
@@ -613,16 +612,19 @@ def run(args):
     gen_id_from_contig_file(contig_file_name, f)
     f.write("var scaffoldlibs = [];\n")
     f.write("var scaffoldedges = [];\n")
+    f.write("var chromosomes = [];\n")
     add_conection_to_res_file(f)
     save_scaffolds(contig_file_name, args, f)
-    add_ref_to_res_file()
+    add_ref_to_res_file(contig_file_name, f)
     f.write("var scaffoldgraph = new ScaffoldGraph(scaffoldlibs, scaffoldnodes, scaffoldedges);\n")
     f.close()
 
     directory = os.path.dirname(main_out_dir)
     os.chdir(directory)
 
-    move("tmp/data.js", "data.js")
+    os.system("cp -r " + path_to_exec_dir + "/scripts ./")
+    move("tmp/data.js", "./scripts/data.js")
+    os.system("cp " + path_to_exec_dir + "/mainPage.html ./main.html")
     return
 
 args = parse_args()

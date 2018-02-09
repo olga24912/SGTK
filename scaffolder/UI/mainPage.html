@@ -3,19 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>SGTK</title>
-    <link href="light.css" rel="stylesheet" type="text/css">
-
-    <script type="text/javascript" src="./external/vis-4.21.0/dist/vis.js"></script>
-    <link href="./external/vis-4.21.0/dist/vis.css" rel="stylesheet" type="text/css" />
-
+    <link href="scripts/light.css" rel="stylesheet" type="text/css">
 </head>
 <body>
     <div class="top">
-        <img src="Icon.png" alt="icon" hspace="10">
+        <img src="scripts/Icon.png" alt="icon" hspace="10">
         <span class="SGTK">SGTK</span>
-        <span class="titel_text" id="titel_text">
-
-        </span>
+        <span class="titel_text" id="titel_text"></span>
     </div>
 
     <div class="filter_panel">
@@ -155,7 +149,7 @@
 
     <div class="main_panel" id="mainpanel"></div>
 
-    <div class="show-panel">3
+    <div class="show-panel">
         <div class="cnt_page_block">
             <div class="cnt_page" id = "cnt_page">
                 <input type="number" min="0" max="0" id = "choose_page">
@@ -166,23 +160,23 @@
         </div>
     </div>
 
-    <script src="scaffoldgraph.js"></script>
-    <script src="data.js"></script>
-    <script src="showListScript.js"></script>
-    <script src="findAreaScript.js"></script>
-    <script src="script.js"></script>
-    <script src="external/cytoscape.js-master/dist/cytoscape.js"></script>
-    <script src="external/vivagraph.js"></script>
-    <script src="external/dagre.js"></script>
-    <script src="external/cytoscape-dagre.js"></script>
+    <script src="scripts/scaffoldgraph.js"></script>
+    <script src="scripts/data.js"></script>
+    <script src="scripts/showListScript.js"></script>
+    <script src="scripts/findAreaScript.js"></script>
+    <script src="scripts/script.js"></script>
+    <script src="scripts/external/cytoscape.js"></script>
+    <script src="scripts/external/vivagraph.js"></script>
+    <script src="scripts/external/dagre.js"></script>
+    <script src="scripts/external/cytoscape-dagre.js"></script>
     <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/qtip2/2.2.0/jquery.qtip.min.js"></script>
     <link href="http://cdnjs.cloudflare.com/ajax/libs/qtip2/2.2.0/jquery.qtip.min.css" rel="stylesheet" type="text/css" />
     <script src="https://cdn.rawgit.com/cytoscape/cytoscape.js-qtip/2.7.0/cytoscape-qtip.js"></script>
     <script src="https://d3js.org/d3.v4.min.js"></script>
-    <script src="handleAlongChromosomes.js"></script>
-    <script src="habdleScaffolds.js"></script>
-    <script src="handleDiffInLibs.js"></script>
+    <script src="scripts/handleAlongChromosomes.js"></script>
+    <script src="scripts/habdleScaffolds.js"></script>
+    <script src="scripts/handleDiffInLibs.js"></script>
 </body>
 </html>
