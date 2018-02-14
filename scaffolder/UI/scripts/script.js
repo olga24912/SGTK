@@ -68,6 +68,7 @@ var nodes_to_draw = [];
 var edges_to_draw = [];
 var isGoodEdge;
 var min_contig_len = 0;
+var area_size = 0;
 var cur_show_id = 0;
 var graph = null;
 
@@ -95,44 +96,7 @@ function hasOtherEdges(v, curNodeSet) {
     return false;
 }
 
-function DrawGraphCytoscape(nodes_to_draw, edges_to_draw) {
-    var curNodeSet = new Set();
-    for (var g = 0; g < nodes_to_draw.length; ++g) {
-        curNodeSet.add(nodes_to_draw[g]);
-    }
-
-    var dnodes = [];
-    var dedges = [];
-    for (g = 0; g < nodes_to_draw.length; ++g) {
-        if (hasOtherEdges(nodes_to_draw[g], curNodeSet)) {
-            dnodes.push({
-                data: {
-                    id: nodes_to_draw[g],
-                    label: createLabelForNode(nodes_to_draw[g]),
-                    len: scaffoldgraph.nodes[nodes_to_draw[g]].len,
-                    notAll: 1
-                }, classes: 'multiline-manual'
-            });
-        } else {
-            dnodes.push({
-                data: {
-                    id: nodes_to_draw[g],
-                    label: createLabelForNode(nodes_to_draw[g]),
-                    len: scaffoldgraph.nodes[nodes_to_draw[g]].len,
-                    notAll: 0
-                }, classes: 'multiline-manual'
-            });
-        }
-    }
-
-    for (g = 0; g < edges_to_draw.length; ++g) {
-        dedges.push({ data: {source: scaffoldgraph.edges[edges_to_draw[g]].from,
-                target: scaffoldgraph.edges[edges_to_draw[g]].to, label: createLabelForEdge(edges_to_draw[g]),
-                faveColor: scaffoldgraph.libs[scaffoldgraph.edges[edges_to_draw[g]].lib].color,
-                weight: Math.log(scaffoldgraph.edges[edges_to_draw[g]].weight) + 1
-        }});
-    }
-
+function DrawGraphCytoscapeWithPresetNode(dnodes, dedges) {
     var cy = cytoscape({
         container: document.getElementById('mainpanel'),
 
@@ -148,15 +112,15 @@ function DrawGraphCytoscape(nodes_to_draw, edges_to_draw) {
 
         layout: {
             name: 'dagre',
-            rankDir: 'LR'
+            rankDir: 'UD'
         },
 
 
-        ready: function(){
+        ready: function () {
             window.cy = this;
         },
 
-        style:  cytoscape.stylesheet()
+        style: cytoscape.stylesheet()
             .selector('node')
             .css({
                 'content': 'data(label)',
@@ -249,7 +213,6 @@ function DrawGraphCytoscape(nodes_to_draw, edges_to_draw) {
         var needAddEdge = [];
 
 
-
         for (var g = 0; g < needAddVert.length; ++g) {
             var u = needAddVert[g];
 
@@ -286,7 +249,10 @@ function DrawGraphCytoscape(nodes_to_draw, edges_to_draw) {
                     len: scaffoldgraph.nodes[u].len,
                     notAll: 0
                 },
-                position: { x: evt.target.position().x + Math.floor(Math.random() * Math.floor(200) - 100) , y: evt.target.position().y + Math.floor(Math.random() * Math.floor(200) - 100)}
+                position: {
+                    x: evt.target.position().x + Math.floor(Math.random() * Math.floor(200) - 100),
+                    y: evt.target.position().y + Math.floor(Math.random() * Math.floor(200) - 100)
+                }
             });
         }
 
@@ -334,6 +300,47 @@ function DrawGraphCytoscape(nodes_to_draw, edges_to_draw) {
             }
         });
     });
+}
+
+function DrawGraphCytoscape(nodes_to_draw, edges_to_draw) {
+    var curNodeSet = new Set();
+    for (var g = 0; g < nodes_to_draw.length; ++g) {
+        curNodeSet.add(nodes_to_draw[g]);
+    }
+
+    var dnodes = [];
+    var dedges = [];
+    for (g = 0; g < nodes_to_draw.length; ++g) {
+        if (hasOtherEdges(nodes_to_draw[g], curNodeSet)) {
+            dnodes.push({
+                data: {
+                    id: nodes_to_draw[g],
+                    label: createLabelForNode(nodes_to_draw[g]),
+                    len: scaffoldgraph.nodes[nodes_to_draw[g]].len,
+                    notAll: 1
+                }, classes: 'multiline-manual'
+            });
+        } else {
+            dnodes.push({
+                data: {
+                    id: nodes_to_draw[g],
+                    label: createLabelForNode(nodes_to_draw[g]),
+                    len: scaffoldgraph.nodes[nodes_to_draw[g]].len,
+                    notAll: 0
+                }, classes: 'multiline-manual'
+            });
+        }
+    }
+
+    for (g = 0; g < edges_to_draw.length; ++g) {
+        dedges.push({ data: {source: scaffoldgraph.edges[edges_to_draw[g]].from,
+                target: scaffoldgraph.edges[edges_to_draw[g]].to, label: createLabelForEdge(edges_to_draw[g]),
+                faveColor: scaffoldgraph.libs[scaffoldgraph.edges[edges_to_draw[g]].lib].color,
+                weight: Math.log(scaffoldgraph.edges[edges_to_draw[g]].weight) + 1
+        }});
+    }
+
+    DrawGraphCytoscapeWithPresetNode(dnodes, dedges);
 }
 
 function DrawGraphVis(nodes_to_draw, edges_to_draw) {
@@ -629,7 +636,7 @@ function handleFilterButton() {
     if (opt == "vertices_local_area") {
         special_nodes.clear();
         special_edges.clear();
-        var areasize = document.getElementById("area_size").value;
+        area_size = document.getElementById("area_size").value;
         var nodes = document.getElementById("vertext").value.replace(/\n/g, " ").split(" ");
         var nodes_id = [];
         for (i = 0; i < nodes.length; ++i) {
@@ -641,7 +648,7 @@ function handleFilterButton() {
             special_nodes.add(nodes_id[nodes_id.length - 1]);
         }
 
-        findLocalArea(nodes_id, areasize, min_contig_len, isGoodEdge);
+        findLocalArea(nodes_id, area_size, min_contig_len, isGoodEdge);
 
         splitOnParts(nodes_to_draw, edges_to_draw);
 
@@ -668,7 +675,7 @@ function handleFilterButton() {
     } else if (opt=="edges_local_area") {
         special_nodes.clear();
         special_edges.clear();
-        areasize = document.getElementById("area_size").value;
+        area_size = document.getElementById("area_size").value;
         var edges = document.getElementById("vertext").value.replace(/\n/g, " ").split(" ");
         var edges_id = [];
         nodes_id = [];
@@ -683,8 +690,8 @@ function handleFilterButton() {
            return self.indexOf(value) === index;
         });
 
-        if (areasize > 0) {
-            findLocalArea(uniqueNode, areasize, min_contig_len, isGoodEdge);
+        if (area_size > 0) {
+            findLocalArea(uniqueNode, area_size, min_contig_len, isGoodEdge);
         } else {
             for (i = 0; i < uniqueNode.length; ++i) {
                 nodes_to_draw.push(uniqueNode[i]);
@@ -716,8 +723,8 @@ function handleFilterButton() {
             return nm;
         }, nodes_set.length);
     } else if (opt=="diff in libs") {
-        areasize = document.getElementById("area_size").value;
-        handleDiffInLibsFilter(areasize, min_contig_len, isGoodEdge);
+        area_size = document.getElementById("area_size").value;
+        handleDiffInLibsFilter(area_size, min_contig_len, isGoodEdge);
     } else if (opt=="full graph") {
         for (i=0; i < scaffoldgraph.nodes.length; ++i) {
             if (scaffoldgraph.nodes[i].len >= min_contig_len) {
@@ -750,11 +757,11 @@ function handleFilterButton() {
             return "Component #" + compnum;
         }, notzero.length);
     } else if (opt=="along chromosoms") {
-        areasize = document.getElementById("area_size").value;
-        handleAlongChromosomesFilter(areasize, min_edge_weight, min_contig_len);
+        area_size = document.getElementById("area_size").value;
+        handleAlongChromosomesFilter();
     } else if (opt=="scaffolds") {
-        areasize = document.getElementById("area_size").value;
-        handleScaffoldsFilter(document.getElementById("select_scaff_lib").value, areasize, min_contig_len, isGoodEdge);
+        area_size = document.getElementById("area_size").value;
+        handleScaffoldsFilter(document.getElementById("select_scaff_lib").value, area_size, min_contig_len, isGoodEdge);
     }
 }
 
