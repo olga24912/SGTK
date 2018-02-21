@@ -115,7 +115,6 @@ function DrawGraphCytoscapeWithPresetNode(dnodes, dedges) {
             rankDir: 'UD'
         },
 
-
         ready: function () {
             window.cy = this;
         },

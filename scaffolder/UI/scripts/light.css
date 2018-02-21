@@ -22,6 +22,26 @@ p {
     -webkit-margin-end: 0px;
 }
 
+.loader {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    bottom: 5px;
+    left: 5px;
+    margin: auto;
+    border: 16px solid #E6ECF3; /* Light grey */
+    border-top: 16px solid #2A4986; /* Blue */
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
 input[type=number]{
     width: 70px;
 }

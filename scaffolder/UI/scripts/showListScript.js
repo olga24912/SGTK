@@ -17,7 +17,12 @@ function createComponentShowList(draw, write, get_title, cnt_comp) {
 
             (document.getElementById("choose_page")).value = cur_show_id;
             (document.getElementById("titel_text")).innerHTML = get_title(cur_show_id);
-            draw(cur_show_id);
+
+            (document.getElementById("mainpanel")).innerHTML = '<div class="loader" id="loader"></div>';
+            setTimeout(function() {
+                draw(cur_show_id);
+                (document.getElementById("loader")).style.display = 'none';
+            }, 100);
         });
         divb.appendChild(dive);
         show_block.appendChild(divb);
@@ -36,7 +41,11 @@ function createComponentShowList(draw, write, get_title, cnt_comp) {
                 (document.getElementById("pic_" + cur_show_id)).className = "choosePic";
                 (document.getElementById("titel_text")).innerHTML = get_title(cur_show_id);
                 (document.getElementById("show_block")).scrollTop = (document.getElementById("pic_" + cur_show_id)).offsetTop - 50;
-                draw(cur_show_id);
+                (document.getElementById("mainpanel")).innerHTML = '<div class="loader" id="loader"></div>';
+                setTimeout(function() {
+                    draw(cur_show_id);
+                    (document.getElementById("loader")).style.display = 'none';
+                }, 100);
             }
         }
     });
