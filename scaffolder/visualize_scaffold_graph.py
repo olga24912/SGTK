@@ -128,6 +128,7 @@ def parse_args():
     parser = argparse.ArgumentParser(formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--contigs", "-c", nargs=1, dest="contigs", help="path to contigs", type=str)
     parser.add_argument("--scaffolds", "-s", nargs=1, dest="scaffolds", help="path to scaffolds in fasta format", type=str, action=StoreArgAction)
+    parser.add_argument("--gr", nargs=1, dest="graph", help="path to graph in .gr format", type=str, action='store')
     parser.add_argument("--rna-p", dest="rnap", nargs=2, help="path to rna pair reads file", type=str, action=StoreArgAction)
     parser.add_argument("--rna-s", dest="rnas", nargs=1, help="path to rna read file", type=str, action=StoreArgAction)
     parser.add_argument("--local_output_dir", "-o", nargs=1, help="use this output dir", type=str)
@@ -308,19 +309,24 @@ def merge_lib_rna(libs):
     return
 
 def merge_graph(args):
-    merge_lib_rna(args.libs["rnap"])
+    if 'libs' in args:
+        merge_lib_rna(args.libs["rnap"])
 
     merge_list = ""
 
-    for lib_type in libsType:
-        for lib in args.libs[lib_type]:
-            if lib_type == "rnap" or lib_type == "rnas" or lib_type == "dnap":
-                lib.fix_graph_file()
-                if lib_type != "rnas":
-                    merge_list += lib.name + "/graph.gr "
-                else:
-                    merge_list += lib.name + "_50/graph.gr"
-                    merge_list += lib.name + "_30/graph.gr"
+    if 'libs' in args:
+        for lib_type in libsType:
+            for lib in args.libs[lib_type]:
+                if lib_type == "rnap" or lib_type == "rnas" or lib_type == "dnap":
+                    lib.fix_graph_file()
+                    if lib_type != "rnas":
+                        merge_list += lib.name + "/graph.gr "
+                    else:
+                        merge_list += lib.name + "_50/graph.gr "
+                        merge_list += lib.name + "_30/graph.gr "
+
+    for gr in args.graph:
+        merge_list += gr + " "
 
     merge_list += "graph.gr"
     os.system(path_to_exec_dir + "mergeGraph " + merge_list)
@@ -578,6 +584,9 @@ def run(args):
     if args.local_output_dir != None:
         main_out_dir = os.path.abspath(args.local_output_dir[0]) + "/"
 
+    for i in range(len(args.graph)):
+        args.graph[i] = os.path.abspath(args.graph[i])
+
     out_dir = main_out_dir + "tmp/"
     log.log("OUTPUT DIR: " + out_dir)
     directory = os.path.dirname(out_dir)
@@ -592,20 +601,21 @@ def run(args):
     if args.label != None and len(args.label) != args.lib_cnt:
         log.err("wrong number of labels provide")
 
-    for lib_type in libsType:
-        for lib in args.libs[lib_type]:
-            lib_dir = os.path.dirname(os.path.abspath(lib.name) + "/")
-            if not os.path.exists(lib_dir):
-                os.makedirs(lib_dir)
+    if 'libs' in args:
+        for lib_type in libsType:
+            for lib in args.libs[lib_type]:
+                lib_dir = os.path.dirname(os.path.abspath(lib.name) + "/")
+                if not os.path.exists(lib_dir):
+                    os.makedirs(lib_dir)
 
-            if args.color != None:
-                lib.color = args.color[lib.id]
-            if args.label != None:
-                lib.label = args.label[lib.id]
+                if args.color != None:
+                    lib.color = args.color[lib.id]
+                if args.label != None:
+                    lib.label = args.label[lib.id]
 
+        alig_reads(contig_file_name, args)
+        build_graph(contig_file_name, args)
 
-    alig_reads(contig_file_name, args)
-    build_graph(contig_file_name, args)
     merge_graph(args) #result file graph.gr
 
     f = open("data.js", 'w')
@@ -614,8 +624,10 @@ def run(args):
     f.write("var scaffoldedges = [];\n")
     f.write("var chromosomes = [];\n")
     add_conection_to_res_file(f)
-    save_scaffolds(contig_file_name, args, f)
-    add_ref_to_res_file(contig_file_name, f)
+    if 'libs' in args:
+        save_scaffolds(contig_file_name, args, f)
+        add_ref_to_res_file(contig_file_name, f)
+
     f.write("var scaffoldgraph = new ScaffoldGraph(scaffoldlibs, scaffoldnodes, scaffoldedges);\n")
     f.close()
 
