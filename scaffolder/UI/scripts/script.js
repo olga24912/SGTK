@@ -769,6 +769,7 @@ function InitAlignmentsForNodes() {
 
 InitLibTable();
 InitAlignmentsForNodes();
+setupAutocompleteSearch();
 
 document.getElementById("filter_button").addEventListener("click", handleFilterButton);
 document.getElementById("select_show_type").addEventListener("change", function() {
