@@ -10,6 +10,14 @@
         <img src="scripts/Icon.png" alt="icon" hspace="10">
         <span class="SGTK">SGTK</span>
         <span class="titel_text" id="titel_text"></span>
+
+        <div class="search-container">
+            <form action="JavaScript:search()" class="form_search">
+                <input type="text" class="search_text" id="search_text" placeholder="Search.." name="search">
+                <button type="submit" class="search_button"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+
     </div>
 
     <div class="filter_panel">
@@ -160,7 +168,9 @@
         </div>
     </div>
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="scripts/scaffoldgraph.js"></script>
+    <script src="scripts/search.js"></script>
     <script src="data/genealignmentb.js"></script>
     <script src="data/genescaffoldgraphb.js"></script>
     <script src="scripts/showListScript.js"></script>

@@ -6,18 +6,23 @@ var nodes_to_draw = [];
 var edges_to_draw = [];
 
 function drawScaffold(i) {
+    special_edges.clear();
+    special_nodes.clear();
     var inodes = [];
 
     inodes.push(scaffoldgraph.libs[libnum].scaffolds[i].edges[0].from);
+    special_nodes.add(inodes[0]);
     for (var g = 0; g < scaffoldgraph.libs[libnum].scaffolds[i].edges.length; ++g) {
         var e = scaffoldgraph.libs[libnum].scaffolds[i].edges[g];
         inodes.push(e.to);
+        special_nodes.add(e.to);
+        special_edges.add(e.id);
     }
 
     findLocalArea(inodes, global_areasize, global_min_contig_len, global_isGoodEdge);
 
-
     DrawGraph(nodes_to_draw, edges_to_draw);
+    cy.fit(cy.$('#' + scaffoldgraph.libs[libnum].scaffolds[i].edges[0].from));
 }
 
 function handleScaffoldsFilter(scafflibname, areasize, min_contig_len, isGoodEdge) {

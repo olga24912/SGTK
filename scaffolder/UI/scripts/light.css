@@ -42,6 +42,50 @@ p {
     100% { transform: rotate(360deg); }
 }
 
+.search-container {
+    margin: 0;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.search_text {
+    box-shadow: none;
+    border-color: rgba(0,0,0,0.15);
+    padding: 0 38px 0 15px;
+    vertical-align: top;
+    border-radius: 3px;
+    background-image: none;
+
+    height: 34px;
+    font-size: 15px;
+    line-height: 18px;
+    margin-left: 22px;
+
+    width: 244px;
+}
+
+.search_button {
+    position: absolute;
+    width: 38px;
+    height: 35px;
+    right: 1px;
+    top: 1px;
+    z-index: 2;
+    outline: 0;
+    cursor: pointer;
+    border: 0;
+    background-size: auto;
+    opacity: .6;
+}
+
+.form_search {
+    height: 34px;
+    line-height: 0;
+    display: inline-block;
+    vertical-align: middle;
+}
+
 input[type=number]{
     width: 70px;
 }

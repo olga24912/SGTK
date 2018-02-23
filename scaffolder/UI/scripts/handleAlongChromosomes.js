@@ -129,125 +129,6 @@ function createTapInfo(cy) {
             }
         });
     });
-
-    cy.on('tap', 'node', function (evt) {
-        var v = evt.target.id();
-        var needAddVert = [];
-
-        for (var h = 0; h < scaffoldgraph.g[v].length; ++h) {
-            if (isGoodEdge(scaffoldgraph.g[v][h].id)) {
-                if (scaffoldgraph.nodes[scaffoldgraph.g[v][h].to].len >= min_contig_len) {
-                    if (!curNodeSet.has(scaffoldgraph.g[v][h].to)) {
-                        curNodeSet.add(scaffoldgraph.g[v][h].to);
-                        needAddVert.push(scaffoldgraph.g[v][h].to);
-                        nodes_to_draw.push(scaffoldgraph.g[v][h].to);
-                    }
-                }
-            }
-        }
-
-        for (h = 0; h < scaffoldgraph.gr[v].length; ++h) {
-            if (isGoodEdge(scaffoldgraph.gr[v][h].id)) {
-                if (scaffoldgraph.nodes[scaffoldgraph.gr[v][h].from].len >= min_contig_len) {
-                    if (!curNodeSet.has(scaffoldgraph.gr[v][h].from)) {
-                        curNodeSet.add(scaffoldgraph.gr[v][h].from);
-                        needAddVert.push(scaffoldgraph.gr[v][h].from);
-                        nodes_to_draw.push(scaffoldgraph.gr[v][h].from);
-                    }
-                }
-            }
-        }
-
-        var needAddEdge = [];
-
-
-        for (var g = 0; g < needAddVert.length; ++g) {
-            var u = needAddVert[g];
-
-            for (h = 0; h < scaffoldgraph.g[u].length; ++h) {
-                if (isGoodEdge(scaffoldgraph.g[u][h].id)) {
-                    if (curNodeSet.has(scaffoldgraph.g[u][h].to)) {
-                        needAddEdge.push(scaffoldgraph.g[u][h]);
-                    }
-                }
-            }
-
-            for (h = 0; h < scaffoldgraph.gr[u].length; ++h) {
-                if (isGoodEdge(scaffoldgraph.gr[u][h].id)) {
-                    if (curNodeSet.has(scaffoldgraph.gr[u][h].from)) {
-                        needAddEdge.push(scaffoldgraph.gr[u][h]);
-                    }
-                }
-            }
-        }
-
-        needAddEdge = needAddEdge.filter(function (value, index, self) {
-            return self.indexOf(value) === index;
-        });
-
-
-        for (g = 0; g < needAddVert.length; ++g) {
-            u = needAddVert[g];
-
-            cy.add({
-                group: "nodes",
-                data: {
-                    id: u,
-                    label: createLabelForNode(u),
-                    len: scaffoldgraph.nodes[u].len,
-                    notAll: 0
-                },
-                position: {
-                    x: evt.target.position().x + Math.floor(Math.random() * Math.floor(200) - 100),
-                    y: evt.target.position().y + Math.floor(Math.random() * Math.floor(200) - 100)
-                }
-            });
-        }
-
-        for (g = 0; g < needAddEdge.length; ++g) {
-            var eid = needAddEdge[g].id;
-
-            cy.add({
-                group: "edges",
-                data: {
-                    source: scaffoldgraph.edges[eid].from,
-                    target: scaffoldgraph.edges[eid].to,
-                    label: createLabelForEdge(eid),
-                    faveColor: scaffoldgraph.libs[scaffoldgraph.edges[eid].lib].color,
-                    weight: Math.log(scaffoldgraph.edges[eid].weight) + 1
-                }
-            });
-        }
-
-        for (g = 0; g < nodes_to_draw.length; ++g) {
-            if (hasOtherEdges(nodes_to_draw[g], curNodeSet)) {
-                cy.$('#' + nodes_to_draw[g]).data('notAll', 1);
-            } else {
-                cy.$('#' + nodes_to_draw[g]).data('notAll', 0);
-            }
-        }
-
-        cy.nodes().qtip({
-            content: {
-                text: function () {
-                    return createFullLabelForNode(this.id());
-                }
-            },
-            show: {
-                event: 'mouseover'
-            },
-            hide: {
-                event: 'mouseout'
-            },
-            style: {
-                classes: 'qtip-bootstrap',
-                tip: {
-                    width: 16,
-                    height: 8
-                }
-            }
-        });
-    });
 }
 
 function calcY(curv, ypos, sumw) {
@@ -299,6 +180,7 @@ function findNodeAroundChr(inode, area_size, min_contig_len, isGoodEdge) {
                         } else {
                             yc = calcY(curv, ypos[curv], sumw[curv]);
                         }
+                        yc = yc + Math.random() * 1000;
 
                         ypos[curu] += curedge.weight * yc;
                         sumw[curu] += curedge.weight;
@@ -332,6 +214,7 @@ function findNodeAroundChr(inode, area_size, min_contig_len, isGoodEdge) {
                         } else {
                             yc = calcY(curv, ypos[curv], sumw[curv]);
                         }
+                        yc = yc  - Math.random() * 1000;
 
                         ypos[curu] += curedge.weight * yc;
                         sumw[curu] += curedge.weight;
@@ -359,6 +242,153 @@ function getWeight(e) {
     return curW
 }
 
+function calcYforV(u, area_size, min_contig_len, isGoodEdge, newNode, curNodeSet, cy) {
+    var ypos = 0;
+    var sumw = 0;
+    for (var h = 0; h < scaffoldgraph.g[u].length; ++h) {
+        if (isGoodEdge(scaffoldgraph.g[u][h].id)) {
+            if (scaffoldgraph.nodes[scaffoldgraph.g[u][h].to].len >= min_contig_len) {
+                if (curNodeSet.has(scaffoldgraph.g[u][h].to)) {
+                    if (!newNode.has(scaffoldgraph.g[u][h].to)) {
+                        var v = scaffoldgraph.g[u][h].to;
+                        var curedge = scaffoldgraph.g[u][h];
+                        var yc = cy.$('#' + v).position().y - 1000 * Math.random();
+                        ypos += curedge.weight * yc;
+                        sumw += curedge.weight;
+                    }
+                }
+            }
+        }
+    }
+
+
+    for (h = 0; h < scaffoldgraph.gr[u].length; ++h) {
+        if (isGoodEdge(scaffoldgraph.gr[u][h].id)) {
+            if (scaffoldgraph.nodes[scaffoldgraph.gr[u][h].from].len >= min_contig_len) {
+                if (curNodeSet.has(scaffoldgraph.gr[u][h].from)) {
+                    if (!newNode.has(scaffoldgraph.gr[u][h].from)) {
+                        v = scaffoldgraph.gr[u][h].from;
+                        curedge = scaffoldgraph.gr[u][h];
+                        yc = cy.$('#' + v).position().y + 1000 * Math.random();
+                        ypos += curedge.weight * yc;
+                        sumw += curedge.weight;
+                    }
+                }
+            }
+        }
+    }
+
+    return calcY(u, ypos, sumw);
+}
+
+function createNewVerAlongChr(cy, area_size, min_contig_len, isGoodEdge, curNodeSet) {
+    cy.on('tap', 'node', function (evt) {
+        var newNode = new Set();
+        var v = evt.target.id();
+        var needAddVert = [];
+
+        for (var h = 0; h < scaffoldgraph.g[v].length; ++h) {
+            if (isGoodEdge(scaffoldgraph.g[v][h].id)) {
+                if (scaffoldgraph.nodes[scaffoldgraph.g[v][h].to].len >= min_contig_len) {
+                    if (!curNodeSet.has(scaffoldgraph.g[v][h].to)) {
+                        curNodeSet.add(scaffoldgraph.g[v][h].to);
+                        newNode.add(scaffoldgraph.g[v][h].to);
+                        needAddVert.push(scaffoldgraph.g[v][h].to);
+                        nodes_to_draw.push(scaffoldgraph.g[v][h].to);
+                    }
+                }
+            }
+        }
+
+        for (h = 0; h < scaffoldgraph.gr[v].length; ++h) {
+            if (isGoodEdge(scaffoldgraph.gr[v][h].id)) {
+                if (scaffoldgraph.nodes[scaffoldgraph.gr[v][h].from].len >= min_contig_len) {
+                    if (!curNodeSet.has(scaffoldgraph.gr[v][h].from)) {
+                        curNodeSet.add(scaffoldgraph.gr[v][h].from);
+                        newNode.add(scaffoldgraph.gr[v][h].from);
+                        needAddVert.push(scaffoldgraph.gr[v][h].from);
+                        nodes_to_draw.push(scaffoldgraph.gr[v][h].from);
+                    }
+                }
+            }
+        }
+
+        var needAddEdge = [];
+
+        for (var g = 0; g < needAddVert.length; ++g) {
+            var u = needAddVert[g];
+
+            for (h = 0; h < scaffoldgraph.g[u].length; ++h) {
+                if (isGoodEdge(scaffoldgraph.g[u][h].id)) {
+                    if (curNodeSet.has(scaffoldgraph.g[u][h].to)) {
+                        needAddEdge.push(scaffoldgraph.g[u][h]);
+                    }
+                }
+            }
+
+            for (h = 0; h < scaffoldgraph.gr[u].length; ++h) {
+                if (isGoodEdge(scaffoldgraph.gr[u][h].id)) {
+                    if (curNodeSet.has(scaffoldgraph.gr[u][h].from)) {
+                        needAddEdge.push(scaffoldgraph.gr[u][h]);
+                    }
+                }
+            }
+        }
+
+        needAddEdge = needAddEdge.filter(function (value, index, self) {
+            return self.indexOf(value) === index;
+        });
+
+
+        for (g = 0; g < needAddVert.length; ++g) {
+            u = needAddVert[g];
+            var xc = evt.target.data('rank') + 1;
+            var yc = calcYforV(u, area_size, min_contig_len, isGoodEdge, newNode, curNodeSet, cy);
+
+            cy.add({
+                group: "nodes",
+                data: {
+                    id: u,
+                    label: createLabelForNode(u),
+                    len: 20 * Math.log(scaffoldgraph.nodes[u].len),
+                    width: 20 * Math.log(scaffoldgraph.nodes[u].len),
+                    color: '#2A4986',
+                    rank: xc,
+                    faveShape: 'ellipse'
+                },
+                position: {
+                    x: 1000*xc + Math.random()*1000,
+                    y: yc
+                }
+            });
+        }
+
+        for (g = 0; g < needAddEdge.length; ++g) {
+            var eid = needAddEdge[g].id;
+
+            cy.add({
+                group: "edges",
+                data: {
+                    id: "e" + eid.toString(),
+                    source: scaffoldgraph.edges[eid].from,
+                    target: scaffoldgraph.edges[eid].to,
+                    label: createLabelForEdge(eid),
+                    faveColor: scaffoldgraph.libs[scaffoldgraph.edges[eid].lib].color,
+                    weight: Math.log(getWeight(eid)) + 1
+                }
+            });
+        }
+
+        for (g = 0; g < nodes_to_draw.length; ++g) {
+            if (hasOtherEdges(nodes_to_draw[g], curNodeSet)) {
+                cy.$('#' + nodes_to_draw[g]).data('color', '#FFD700');
+            } else {
+                cy.$('#' + nodes_to_draw[g]).data('color', '#2A4986');
+            }
+        }
+    });
+}
+
 function drawAlongChromosome(chr) {
     var dnodes = [];
     var dedges = [];
@@ -381,6 +411,7 @@ function drawAlongChromosome(chr) {
                     len: scaffoldgraph.nodes[curalig.node_id].len,
                     color: '#2A4986',
                     width: 10,
+                    rank: 0,
                     faveShape: 'rectangle'
                 }
             });
@@ -388,14 +419,15 @@ function drawAlongChromosome(chr) {
         }
     }
 
+    nodes_to_draw = [];
     var vert_to_draw = findNodeAroundChr(inode, area_size, min_contig_len, isGoodEdge);
-    alert(vert_to_draw.length);
 
     for (var g = 0; g < vert_to_draw.length; ++g) {
         curNodeSet.add(vert_to_draw[g].id);
     }
 
     for (g = 0; g < vert_to_draw.length; ++g) {
+        nodes_to_draw.push(vert_to_draw[g].id);
         var nall = '#2A4986';
         if (hasOtherEdges(vert_to_draw[g].id, curNodeSet)) {
             nall = '#FFD700';
@@ -408,6 +440,7 @@ function drawAlongChromosome(chr) {
                 len: 20 * Math.log(scaffoldgraph.nodes[vert_to_draw[g].id].len),
                 width: 20 * Math.log(scaffoldgraph.nodes[vert_to_draw[g].id].len),
                 color: nall,
+                rank: vert_to_draw[g].rank,
                 faveShape: 'ellipse'
             }
         });
@@ -476,6 +509,7 @@ function drawAlongChromosome(chr) {
     cy.zoom(1);
     createCoordinates(chr, cy);
     createTapInfo(cy);
+    createNewVerAlongChr(cy, area_size, min_contig_len, isGoodEdge, curNodeSet);
 
     cy.on('zoom', function() {
         createCoordinates(chr, cy);

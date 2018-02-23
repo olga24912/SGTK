@@ -71,6 +71,7 @@ var min_contig_len = 0;
 var area_size = 0;
 var cur_show_id = 0;
 var graph = null;
+var cy = null;
 
 function hasOtherEdges(v, curNodeSet) {
     for (var h = 0; h < scaffoldgraph.g[v].length; ++h) {
@@ -97,7 +98,7 @@ function hasOtherEdges(v, curNodeSet) {
 }
 
 function DrawGraphCytoscapeWithPresetNode(dnodes, dedges) {
-    var cy = cytoscape({
+    cy = cytoscape({
         container: document.getElementById('mainpanel'),
 
         boxSelectionEnabled: false,
@@ -126,6 +127,7 @@ function DrawGraphCytoscapeWithPresetNode(dnodes, dedges) {
                 'color': '#2A4986',
                 'width': 'mapData(len, 0, 1000000, 10, 1000)',
                 'height': 'mapData(len, 0, 1000000, 10, 1000)',
+                'border-width': 'mapData(special, 0, 1, 0px, 5px)',
                 'background-color': 'mapData(notAll, 0, 1, #2A4986, #FFD700)'
             })
             .selector('edge')
@@ -135,6 +137,7 @@ function DrawGraphCytoscapeWithPresetNode(dnodes, dedges) {
                 'line-color': 'data(faveColor)',
                 'target-arrow-color': 'data(faveColor)',
                 'width': 'data(weight)',
+                'line-style': 'data(lstyle)',
                 'content': 'data(label)'
             })
     });
@@ -310,32 +313,39 @@ function DrawGraphCytoscape(nodes_to_draw, edges_to_draw) {
     var dnodes = [];
     var dedges = [];
     for (g = 0; g < nodes_to_draw.length; ++g) {
+        var nall = 0;
         if (hasOtherEdges(nodes_to_draw[g], curNodeSet)) {
-            dnodes.push({
-                data: {
-                    id: nodes_to_draw[g],
-                    label: createLabelForNode(nodes_to_draw[g]),
-                    len: scaffoldgraph.nodes[nodes_to_draw[g]].len,
-                    notAll: 1
-                }, classes: 'multiline-manual'
-            });
-        } else {
-            dnodes.push({
-                data: {
-                    id: nodes_to_draw[g],
-                    label: createLabelForNode(nodes_to_draw[g]),
-                    len: scaffoldgraph.nodes[nodes_to_draw[g]].len,
-                    notAll: 0
-                }, classes: 'multiline-manual'
-            });
+            nall = 1;
         }
+
+        var sp = 0;
+        if (special_nodes.has(nodes_to_draw[g])) {
+            sp = 1;
+        }
+
+        dnodes.push({
+            data: {
+                id: nodes_to_draw[g],
+                label: createLabelForNode(nodes_to_draw[g]),
+                len: scaffoldgraph.nodes[nodes_to_draw[g]].len,
+                notAll: nall,
+                special: sp
+            }, classes: 'multiline-manual'
+        });
+
     }
 
     for (g = 0; g < edges_to_draw.length; ++g) {
+        sp = 'dotted';
+        if (special_edges.has(edges_to_draw[g])) {
+            sp = 'solid';
+        }
+
         dedges.push({ data: {source: scaffoldgraph.edges[edges_to_draw[g]].from,
                 target: scaffoldgraph.edges[edges_to_draw[g]].to, label: createLabelForEdge(edges_to_draw[g]),
                 faveColor: scaffoldgraph.libs[scaffoldgraph.edges[edges_to_draw[g]].lib].color,
-                weight: Math.log(scaffoldgraph.edges[edges_to_draw[g]].weight) + 1
+                weight: Math.log(scaffoldgraph.edges[edges_to_draw[g]].weight) + 1,
+                lstyle: sp
         }});
     }
 
