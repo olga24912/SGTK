@@ -175,6 +175,7 @@ function createAddNewNode(cy, curNodeSet) {
             cy.add({
                 group: "edges",
                 data: {
+                    id: "e" + eid.toString(),
                     source: scaffoldgraph.edges[eid].from,
                     target: scaffoldgraph.edges[eid].to,
                     label: createLabelForEdge(eid),
@@ -282,7 +283,8 @@ function DrawGraphCytoscape(nodes_to_draw, edges_to_draw) {
         }
 
         dedges.push({ data: {
-                source: scaffoldgraph.edges[edges_to_draw[g]].from,
+            id: "e" + edges_to_draw[g].toString(),
+            source: scaffoldgraph.edges[edges_to_draw[g]].from,
                 target: scaffoldgraph.edges[edges_to_draw[g]].to, label: createLabelForEdge(edges_to_draw[g]),
                 faveColor: scaffoldgraph.libs[scaffoldgraph.edges[edges_to_draw[g]].lib].color,
                 weight: Math.log(scaffoldgraph.edges[edges_to_draw[g]].weight) + 1,
