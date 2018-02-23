@@ -51,6 +51,10 @@ install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/UI/scripts/external/vivagraph.js"
 install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/UI/scripts/external/dagre.js"
         DESTINATION bin/scripts/external/
         COMPONENT runtime)
+install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/UI/scripts/external/cytoscape-qtip.js"
+        DESTINATION bin/scripts/external/
+        COMPONENT runtime)
+
 
 install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/UI/scripts/scaffoldgraph.js"
         DESTINATION bin/scripts/

@@ -60,6 +60,16 @@ function createLabelForEdge(edge) {
     return label;
 }
 
+function createFullLabelForEdge(edge) {
+    var label = "";
+    label += "id: " + scaffoldgraph.edges[edge].id + "<br/>";
+    label += scaffoldgraph.libs[scaffoldgraph.edges[edge].lib].name + "<br/>";
+    label += "w: " + scaffoldgraph.edges[edge].weight + "<br/>";
+    label += scaffoldgraph.libs[scaffoldgraph.edges[edge].lib].type + "<br/>";
+    return label;
+}
+
+
 function createTapInfo(cy) {
     cy.nodes().qtip({
         content: {
@@ -82,25 +92,27 @@ function createTapInfo(cy) {
         }
     });
 
-    cy.on('tap', 'edge', function (evt) {
-        this.qtip({
-            content: function () {
-                return 'Expression: '
-            },
-            show: {
-                event: 'mouseover'
-            },
-            hide: {
-                event: 'mouseout'
-            },
-            style: {
-                classes: 'qtip-bootstrap',
-                tip: {
-                    width: 16,
-                    height: 8
-                }
+    cy.edges().qtip({
+        content: function(){
+            return createFullLabelForEdge(parseInt(this.id().substring(1)));
+        },
+        position: {
+            my: 'bottom left',
+            at: 'bottom center'
+        },
+        show: {
+            event: 'mouseover'
+        },
+        hide: {
+            event: 'mouseout'
+        },
+        style: {
+            classes: 'qtip-bootstrap',
+            tip: {
+                width: 10,
+                height: 8
             }
-        });
+        }
     });
 }
 
