@@ -60,6 +60,50 @@ function createLabelForEdge(edge) {
     return label;
 }
 
+function createTapInfo(cy) {
+    cy.nodes().qtip({
+        content: {
+            text: function () {
+                return createFullLabelForNode(this.id());
+            }
+        },
+        show: {
+            event: 'mouseover'
+        },
+        hide: {
+            event: 'mouseout'
+        },
+        style: {
+            classes: 'qtip-bootstrap',
+            tip: {
+                width: 16,
+                height: 8
+            }
+        }
+    });
+
+    cy.on('tap', 'edge', function (evt) {
+        this.qtip({
+            content: function () {
+                return 'Expression: '
+            },
+            show: {
+                event: 'mouseover'
+            },
+            hide: {
+                event: 'mouseout'
+            },
+            style: {
+                classes: 'qtip-bootstrap',
+                tip: {
+                    width: 16,
+                    height: 8
+                }
+            }
+        });
+    });
+}
+
 var edges_set = [];
 var nodes_set = [];
 var special_nodes = new Set();
@@ -97,7 +141,61 @@ function hasOtherEdges(v, curNodeSet) {
     return false;
 }
 
-function DrawGraphCytoscapeWithPresetNode(dnodes, dedges) {
+function createAddNewNode(cy, curNodeSet) {
+    cy.on('tap', 'node', function (evt) {
+        var v = evt.target.id();
+        var needAddVert = [];
+        var needAddEdge = [];
+        var newNode = new Set();
+        findConnectedVertex(v, needAddVert, needAddEdge, newNode, area_size, min_contig_len, isGoodEdge, curNodeSet);
+
+        for (g = 0; g < needAddVert.length; ++g) {
+            u = needAddVert[g];
+            var yc = calcYforV(u, area_size, min_contig_len, isGoodEdge, newNode, curNodeSet, cy, 500);
+
+            cy.add({
+                group: "nodes",
+                data: {
+                    id: u,
+                    label: createLabelForNode(u),
+                    len: scaffoldgraph.nodes[u].len,
+                    notAll: 0,
+                    special: 0
+                },
+                position: {
+                    x: evt.target.position().x + Math.floor(Math.random() * Math.floor(200) - 100),
+                    y: yc
+                }
+            });
+        }
+
+        for (g = 0; g < needAddEdge.length; ++g) {
+            var eid = needAddEdge[g].id;
+
+            cy.add({
+                group: "edges",
+                data: {
+                    source: scaffoldgraph.edges[eid].from,
+                    target: scaffoldgraph.edges[eid].to,
+                    label: createLabelForEdge(eid),
+                    faveColor: scaffoldgraph.libs[scaffoldgraph.edges[eid].lib].color,
+                    weight: Math.log(scaffoldgraph.edges[eid].weight) + 1,
+                    lstyle: 'dotted'
+                }
+            });
+        }
+
+        for (g = 0; g < nodes_to_draw.length; ++g) {
+            if (hasOtherEdges(nodes_to_draw[g], curNodeSet)) {
+                cy.$('#' + nodes_to_draw[g]).data('notAll', 1);
+            } else {
+                cy.$('#' + nodes_to_draw[g]).data('notAll', 0);
+            }
+        }
+    });
+}
+
+function DrawGraphCytoscapeWithPresetNode(dnodes, dedges, curNodeSet) {
     cy = cytoscape({
         container: document.getElementById('mainpanel'),
 
@@ -142,166 +240,8 @@ function DrawGraphCytoscapeWithPresetNode(dnodes, dedges) {
             })
     });
 
-    cy.nodes().qtip({
-        content: {
-            text: function () {
-                return createFullLabelForNode(this.id());
-            }
-        },
-        show: {
-            event: 'mouseover'
-        },
-        hide: {
-            event: 'mouseout'
-        },
-        style: {
-            classes: 'qtip-bootstrap',
-            tip: {
-                width: 16,
-                height: 8
-            }
-        }
-    });
-
-    cy.on('tap', 'edge', function (evt) {
-        this.qtip({
-            content: function () {
-                return 'Expression: '
-            },
-            show: {
-                event: 'mouseover'
-            },
-            hide: {
-                event: 'mouseout'
-            },
-            style: {
-                classes: 'qtip-bootstrap',
-                tip: {
-                    width: 16,
-                    height: 8
-                }
-            }
-        });
-    });
-
-    cy.on('tap', 'node', function (evt) {
-        var v = evt.target.id();
-        var needAddVert = [];
-
-        for (var h = 0; h < scaffoldgraph.g[v].length; ++h) {
-            if (isGoodEdge(scaffoldgraph.g[v][h].id)) {
-                if (scaffoldgraph.nodes[scaffoldgraph.g[v][h].to].len >= min_contig_len) {
-                    if (!curNodeSet.has(scaffoldgraph.g[v][h].to)) {
-                        curNodeSet.add(scaffoldgraph.g[v][h].to);
-                        needAddVert.push(scaffoldgraph.g[v][h].to);
-                        nodes_to_draw.push(scaffoldgraph.g[v][h].to);
-                    }
-                }
-            }
-        }
-
-        for (h = 0; h < scaffoldgraph.gr[v].length; ++h) {
-            if (isGoodEdge(scaffoldgraph.gr[v][h].id)) {
-                if (scaffoldgraph.nodes[scaffoldgraph.gr[v][h].from].len >= min_contig_len) {
-                    if (!curNodeSet.has(scaffoldgraph.gr[v][h].from)) {
-                        curNodeSet.add(scaffoldgraph.gr[v][h].from);
-                        needAddVert.push(scaffoldgraph.gr[v][h].from);
-                        nodes_to_draw.push(scaffoldgraph.gr[v][h].from);
-                    }
-                }
-            }
-        }
-
-        var needAddEdge = [];
-
-
-        for (var g = 0; g < needAddVert.length; ++g) {
-            var u = needAddVert[g];
-
-            for (h = 0; h < scaffoldgraph.g[u].length; ++h) {
-                if (isGoodEdge(scaffoldgraph.g[u][h].id)) {
-                    if (curNodeSet.has(scaffoldgraph.g[u][h].to)) {
-                        needAddEdge.push(scaffoldgraph.g[u][h]);
-                    }
-                }
-            }
-
-            for (h = 0; h < scaffoldgraph.gr[u].length; ++h) {
-                if (isGoodEdge(scaffoldgraph.gr[u][h].id)) {
-                    if (curNodeSet.has(scaffoldgraph.gr[u][h].from)) {
-                        needAddEdge.push(scaffoldgraph.gr[u][h]);
-                    }
-                }
-            }
-        }
-
-        needAddEdge = needAddEdge.filter(function (value, index, self) {
-            return self.indexOf(value) === index;
-        });
-
-
-        for (g = 0; g < needAddVert.length; ++g) {
-            u = needAddVert[g];
-
-            cy.add({
-                group: "nodes",
-                data: {
-                    id: u,
-                    label: createLabelForNode(u),
-                    len: scaffoldgraph.nodes[u].len,
-                    notAll: 0
-                },
-                position: {
-                    x: evt.target.position().x + Math.floor(Math.random() * Math.floor(200) - 100),
-                    y: evt.target.position().y + Math.floor(Math.random() * Math.floor(200) - 100)
-                }
-            });
-        }
-
-        for (g = 0; g < needAddEdge.length; ++g) {
-            var eid = needAddEdge[g].id;
-
-            cy.add({
-                group: "edges",
-                data: {
-                    source: scaffoldgraph.edges[eid].from,
-                    target: scaffoldgraph.edges[eid].to,
-                    label: createLabelForEdge(eid),
-                    faveColor: scaffoldgraph.libs[scaffoldgraph.edges[eid].lib].color,
-                    weight: Math.log(scaffoldgraph.edges[eid].weight) + 1
-                }
-            });
-        }
-
-        for (g = 0; g < nodes_to_draw.length; ++g) {
-            if (hasOtherEdges(nodes_to_draw[g], curNodeSet)) {
-                cy.$('#' + nodes_to_draw[g]).data('notAll', 1);
-            } else {
-                cy.$('#' + nodes_to_draw[g]).data('notAll', 0);
-            }
-        }
-
-        cy.nodes().qtip({
-            content: {
-                text: function () {
-                    return createFullLabelForNode(this.id());
-                }
-            },
-            show: {
-                event: 'mouseover'
-            },
-            hide: {
-                event: 'mouseout'
-            },
-            style: {
-                classes: 'qtip-bootstrap',
-                tip: {
-                    width: 16,
-                    height: 8
-                }
-            }
-        });
-    });
+    createTapInfo(cy);
+    createAddNewNode(cy, curNodeSet);
 }
 
 function DrawGraphCytoscape(nodes_to_draw, edges_to_draw) {
@@ -330,7 +270,7 @@ function DrawGraphCytoscape(nodes_to_draw, edges_to_draw) {
                 len: scaffoldgraph.nodes[nodes_to_draw[g]].len,
                 notAll: nall,
                 special: sp
-            }, classes: 'multiline-manual'
+            }
         });
 
     }
@@ -341,15 +281,16 @@ function DrawGraphCytoscape(nodes_to_draw, edges_to_draw) {
             sp = 'solid';
         }
 
-        dedges.push({ data: {source: scaffoldgraph.edges[edges_to_draw[g]].from,
+        dedges.push({ data: {
+                source: scaffoldgraph.edges[edges_to_draw[g]].from,
                 target: scaffoldgraph.edges[edges_to_draw[g]].to, label: createLabelForEdge(edges_to_draw[g]),
                 faveColor: scaffoldgraph.libs[scaffoldgraph.edges[edges_to_draw[g]].lib].color,
                 weight: Math.log(scaffoldgraph.edges[edges_to_draw[g]].weight) + 1,
                 lstyle: sp
-        }});
+            }});
     }
 
-    DrawGraphCytoscapeWithPresetNode(dnodes, dedges);
+    DrawGraphCytoscapeWithPresetNode(dnodes, dedges, curNodeSet);
 }
 
 function DrawGraphVis(nodes_to_draw, edges_to_draw) {

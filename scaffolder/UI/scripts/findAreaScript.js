@@ -48,3 +48,56 @@ function findLocalArea(inodes, area_size, min_contig_len, isGoodEdge) {
         }
     }
 }
+
+
+function findConnectedVertex(v, needAddVert, needAddEdge, newNode, area_size, min_contig_len, isGoodEdge, curNodeSet) {
+    for (var h = 0; h < scaffoldgraph.g[v].length; ++h) {
+        if (isGoodEdge(scaffoldgraph.g[v][h].id)) {
+            if (scaffoldgraph.nodes[scaffoldgraph.g[v][h].to].len >= min_contig_len) {
+                if (!curNodeSet.has(scaffoldgraph.g[v][h].to)) {
+                    curNodeSet.add(scaffoldgraph.g[v][h].to);
+                    newNode.add(scaffoldgraph.g[v][h].to);
+                    needAddVert.push(scaffoldgraph.g[v][h].to);
+                    nodes_to_draw.push(scaffoldgraph.g[v][h].to);
+                }
+            }
+        }
+    }
+
+    for (h = 0; h < scaffoldgraph.gr[v].length; ++h) {
+        if (isGoodEdge(scaffoldgraph.gr[v][h].id)) {
+            if (scaffoldgraph.nodes[scaffoldgraph.gr[v][h].from].len >= min_contig_len) {
+                if (!curNodeSet.has(scaffoldgraph.gr[v][h].from)) {
+                    curNodeSet.add(scaffoldgraph.gr[v][h].from);
+                    newNode.add(scaffoldgraph.gr[v][h].from);
+                    needAddVert.push(scaffoldgraph.gr[v][h].from);
+                    nodes_to_draw.push(scaffoldgraph.gr[v][h].from);
+                }
+            }
+        }
+    }
+
+    for (var g = 0; g < needAddVert.length; ++g) {
+        var u = needAddVert[g];
+
+        for (h = 0; h < scaffoldgraph.g[u].length; ++h) {
+            if (isGoodEdge(scaffoldgraph.g[u][h].id)) {
+                if (curNodeSet.has(scaffoldgraph.g[u][h].to)) {
+                    needAddEdge.push(scaffoldgraph.g[u][h]);
+                }
+            }
+        }
+
+        for (h = 0; h < scaffoldgraph.gr[u].length; ++h) {
+            if (isGoodEdge(scaffoldgraph.gr[u][h].id)) {
+                if (curNodeSet.has(scaffoldgraph.gr[u][h].from)) {
+                    needAddEdge.push(scaffoldgraph.gr[u][h]);
+                }
+            }
+        }
+    }
+
+    needAddEdge = needAddEdge.filter(function (value, index, self) {
+        return self.indexOf(value) === index;
+    });
+}
