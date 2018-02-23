@@ -58,7 +58,7 @@ function createCoordinates(chr, cy) {
     cy.$('#end').lock();
 
 
-    for (var i = 0; i < 20; ++i) {
+    for (var i = 0;  i < 50; ++i) {
         cy.remove(cy.$('#chrcoord' + i));
         if (start_pos + delta * i < chromosomes[chr].len) {
             cy.add({
@@ -292,6 +292,7 @@ function createNewVerAlongChr(cy, area_size, min_contig_len, isGoodEdge, curNode
                 cy.$('#' + nodes_to_draw[g]).data('color', '#2A4986');
             }
         }
+        createTapInfo(cy);
     });
 }
 
@@ -418,6 +419,10 @@ function drawAlongChromosome(chr) {
     createCoordinates(chr, cy);
     createTapInfo(cy);
     createNewVerAlongChr(cy, area_size, min_contig_len, isGoodEdge, curNodeSet);
+
+    if (inode.length > 0) {
+        cy.fit(cy.$('#' + inode[0].id));
+    }
 
     cy.on('zoom', function() {
         createCoordinates(chr, cy);

@@ -205,6 +205,7 @@ function createAddNewNode(cy, curNodeSet) {
                 cy.$('#' + nodes_to_draw[g]).data('notAll', 0);
             }
         }
+        createTapInfo(cy);
     });
 }
 
@@ -618,6 +619,9 @@ function handleFilterButton() {
 
         createComponentShowList(function (i) {
             DrawGraph(nodes_set[i], edges_set[i]);
+            if (nodes_id.length > 0) {
+                cy.fit(cy.$('#' + nodes_id[0]));
+            }
         }, function (i) {
             var nm = "";
             for (var j = 0; j < nodes_set[i].length; ++j) {
@@ -668,6 +672,9 @@ function handleFilterButton() {
 
         createComponentShowList(function (i) {
             DrawGraph(nodes_set[i], edges_set[i]);
+            if (edges_id.length > 0) {
+                cy.fit(cy.$('#e' + edges_id[0]));
+            }
         }, function (i) {
             var nm = "";
             for (var j = 0; j < edges_set[i].length; ++j) {
