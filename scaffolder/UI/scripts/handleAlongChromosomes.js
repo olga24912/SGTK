@@ -318,6 +318,8 @@ function drawAlongChromosome(chr) {
                     color: '#2A4986',
                     width: 10,
                     rank: 0,
+                    ymin: curalig.coordb,
+                    ymax: curalig.coorde,
                     faveShape: 'rectangle'
                 }
             });
@@ -419,19 +421,30 @@ function drawAlongChromosome(chr) {
 
     cy.on('zoom', function() {
         createCoordinates(chr, cy);
-
-        var v = inode[i];
         var nodeWidth = 10 / cy.zoom();
-        cy.nodes("[faveShape='rectangle']").data('width', nodeWidth);
-        for (var i = 0; i < edges_to_draw.length; ++i) {
+
+        var y1 = cy.extent().y1;
+        var y2 = cy.extent().y2;
+
+        var selectstr = "[faveShape='rectangle'][ymin <= " + y2 + "][ymax >= " + y1 + "]";
+
+        cy.nodes(selectstr).data('width', nodeWidth);
+        /*for (var i = 0; i < edges_to_draw.length; ++i) {
             var e = edges_to_draw[i];
             var w = (Math.log(getWeight(e)) + 1)/cy.zoom();
             cy.getElementById("e" + e.toString()).data('weight', w);
-        }
+        }*/
     });
 
     cy.on('pan', function () {
         createCoordinates(chr, cy);
+
+        var nodeWidth = 10 / cy.zoom();
+        var y1 = cy.extent().y1;
+        var y2 = cy.extent().y2;
+
+        var selectstr = "[faveShape='rectangle'][ymin <= " + y2 + "][ymax >= " + y1 + "]";
+        cy.nodes(selectstr).data('width', nodeWidth);
     })
 }
 
