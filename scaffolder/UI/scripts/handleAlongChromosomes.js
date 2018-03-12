@@ -301,31 +301,64 @@ function drawAlongChromosome(chr) {
     var dedges = [];
     var inode = [];
     var pos = {};
+    var posx = {};
+    var posmin = {};
+    var posmax = {};
+    var cntid = {};
 
     special_nodes.clear();
     var curNodeSet = new Set();
 
     for (i = 0; i < chromosomes[chr].alignments.length; ++i) {
         var curalig = chromosomes[chr].alignments[i];
-        if (1.2 * (curalig.coorde - curalig.coordb) > scaffoldgraph.nodes[curalig.node_id].len) {
-            inode.push({id: curalig.node_id, cb: curalig.coordb, ce: curalig.coorde});
+        var vid = curalig.node_id;
+        if (!(vid in cntid)) {
+            cntid[vid] = 0;
+            posx[vid] = Math.random() * 1000;
+            posmin[vid] = curalig.coordb;
+            posmax[vid] = curalig.coorde;
+            inode.push({id: vid, cb: curalig.coordb, ce: curalig.coorde});
             special_nodes.add(curalig.node_id);
             curNodeSet.add(curalig.node_id);
-            dnodes.push({
-                data: {
-                    id: curalig.node_id,
-                    label: createLabelForNode(curalig.node_id),
-                    len: scaffoldgraph.nodes[curalig.node_id].len,
-                    color: '#2A4986',
-                    width: 10,
-                    rank: 0,
-                    ymin: curalig.coordb,
-                    ymax: curalig.coorde,
-                    faveShape: 'rectangle'
-                }
-            });
-            pos[curalig.node_id] = {x: Math.random()*1000, y: (curalig.coorde + curalig.coordb)/2};
         }
+
+        dnodes.push({
+            data: {
+                id: vid.toString() + ":" + cntid[vid].toString(),
+                parent: vid,
+                label: createLabelForNode(curalig.node_id),
+                len: curalig.coorde - curalig.coordb,
+                color: '#2A4986',
+                width: 10,
+                rank: 0,
+                ymin: curalig.coordb,
+                ymax: curalig.coorde,
+                faveShape: 'rectangle'
+            }
+        });
+        pos[vid.toString() + ":" + cntid[vid].toString()] = {x: posx[vid], y: (curalig.coorde + curalig.coordb)/2};
+        posmin[vid] = Math.min(posmin[vid], curalig.coordb);
+        posmax[vid] = Math.max(posmax[vid], curalig.coorde);
+        cntid[vid] += 1;
+    }
+
+    for (i = 0; i < inode.length; ++i) {
+        inode[i].cb = posmin[inode[i].id];
+        inode[i].ce = posmax[inode[i].id];
+        
+        dnodes.push({
+            data: {
+                id: inode[i].id,
+                label: createLabelForNode(inode[i].id),
+                len: inode[i].ce - inode[i].cb,
+                color: '#BECCE0',
+                width: 10,
+                rank: 0,
+                ymin: inode[i].cb,
+                ymax: inode[i].ce,
+                faveShape: 'rectangle'
+            }
+        });
     }
 
     nodes_to_draw = [];

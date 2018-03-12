@@ -521,10 +521,11 @@ def add_ref_to_res_file(contig_file_name, f):
     prevdir = os.getcwd()
     lib_dir = os.path.dirname(os.path.abspath(lib.name) + "/")
     os.chdir(lib_dir)
-    os.system("nucmer " + lib.path[0] + " " + contig_file_name)
+    os.system("nucmer -b 10000 " + lib.path[0] + " " + contig_file_name)
     os.system("show-coords out.delta -THrgl > out.coords")
 
     global idbyname
+    global lenbyid
 
     chrlist = []
     chralig = []
@@ -552,8 +553,13 @@ def add_ref_to_res_file(contig_file_name, f):
             l = int(info[0])
             r = int(info[1])
 
+
+            if ((max(rq, lq) - min(rq, lq)) * 100 < lenbyid[vid]):
+                continue
+            
             if (lq > rq):
                 vid ^= 1
+   
 
             chralig[curid].append("new Alignment(" + str(l) + ", " + str(r) + ", " + str(curid) + ", " + str(vid) + ")")
             chralig[curid + 1].append("new Alignment(" + str(lenf - r) + ", " + str(lenf - l) + ", " + str(curid + 1) + ", " + str(vid^1) + ")")
