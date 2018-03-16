@@ -49,9 +49,9 @@ namespace filter {
             ErrorType status = ErrorType::NA;
 
             for (auto val : valig) {
-                if ((val.coordEnd - val.coordBegin)*1.0/filter->getTargetLen(v) < 0.9) continue;
+                if ((val.coordEnd - val.coordBegin)*1.0/filter->getTargetLen(v) < 0.1) continue;
                 for (auto ual : ualig) {
-                    if ((ual.coordEnd - ual.coordBegin)*1.0/filter->getTargetLen(u) < 0.9) continue;
+                    if ((ual.coordEnd - ual.coordBegin)*1.0/filter->getTargetLen(u) < 0.1) continue;
                     auto al1 = val;
                     auto al2 = ual;
                   /*  if (al1.chrName[al1.chrName.size() - 1] == 'v') {
@@ -79,13 +79,13 @@ namespace filter {
                         continue;
                     }
 
-                    if ((al1.coordEnd - al1.coordBegin) * 10 < 7 * filter->getTargetLen(v) &&
+                    /*if ((al1.coordEnd - al1.coordBegin) * 10 < 7 * filter->getTargetLen(v) &&
                         (al2.coordEnd - al2.coordBegin) * 10 < 7 * filter->getTargetLen(u)) {
                         if (ErrorType::PART_ALIG < status) {
                             status = ErrorType::PART_ALIG;
                         }
                         continue;
-                    }
+                    }*/
 
                     if ((al1.coordEnd - al2.coordBegin) > MIN_OVERLAP) {
                         if (ErrorType::OVERLAP < status) {

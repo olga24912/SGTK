@@ -78,6 +78,7 @@ set(SOURCE_FILES
         Scaffolder/Rule.h
         Scaffolder/RuleBigDifInWeight.h
         Scaffolder/RuleInOneLine.h
+        Scaffolder/RuleDelWrongCoonection.h
         Writers/FileValidator/ValidatorError.h
         CommandParsers/Commands/CommandFV/CommandSetFVError.h
         CommandParsers/Commands/CommandSetCoordFile.h
@@ -156,6 +157,7 @@ set(SOURCE_FILES
         Scaffolder/Rule.cpp
         Scaffolder/RuleBigDifInWeight.cpp
         Scaffolder/RuleInOneLine.cpp
+        Scaffolder/RuleDelWrongCoonection.cpp
         Writers/FileValidator/ValidatorError.cpp
         Statistics/ClusterStatistic.cpp
         CommandParsers/Commands/CommandStatistic/CommandClusterStatistic.cpp

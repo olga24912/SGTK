@@ -51,14 +51,17 @@ function ScaffoldEdgeLib(id, color, name, type) {
 
 function Chromosome(id, name, len) {
     this.id = id;
+    this.color = "#"+((1<<24)*Math.random()|0).toString(16);
     this.name = name;
     this.len = len;
     this.alignments = [];
 }
 
-function Alignment(coord_begin, coord_end, chr_id, node_id) {
+function Alignment(coord_begin, coord_end, chr_id, node_id/*, coordnb, coordne*/) {
     this.coordb = coord_begin;
     this.coorde = coord_end;
+    //this.coordnb = coordnb;
+    //this.coordne = coordne;
     this.chr_id = chr_id;
     this.node_id = node_id;
 }

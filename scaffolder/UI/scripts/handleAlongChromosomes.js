@@ -258,7 +258,7 @@ function createNewVerAlongChr(cy, area_size, min_contig_len, isGoodEdge, curNode
                     label: createLabelForNode(u),
                     len: 20 * Math.log(scaffoldgraph.nodes[u].len),
                     width: 20 * Math.log(scaffoldgraph.nodes[u].len),
-                    color: '#2A4986',
+                    color: genColorNode(u),
                     rank: xc,
                     faveShape: 'ellipse'
                 },
@@ -287,9 +287,9 @@ function createNewVerAlongChr(cy, area_size, min_contig_len, isGoodEdge, curNode
 
         for (g = 0; g < nodes_to_draw.length; ++g) {
             if (hasOtherEdges(nodes_to_draw[g], curNodeSet)) {
-                cy.$('#' + nodes_to_draw[g]).data('color', '#FFD700');
+                cy.$('#' + nodes_to_draw[g]).data('faveShape', 'triangle');
             } else {
-                cy.$('#' + nodes_to_draw[g]).data('color', '#2A4986');
+                cy.$('#' + nodes_to_draw[g]).data('faveShape', 'ellipse');
             }
         }
         createTapInfo(cy);
@@ -328,7 +328,7 @@ function drawAlongChromosome(chr) {
                 parent: vid,
                 label: createLabelForNode(curalig.node_id),
                 len: curalig.coorde - curalig.coordb,
-                color: '#2A4986',
+                color: genColorNode(curalig.node_id),
                 width: 10,
                 rank: 0,
                 ymin: curalig.coordb,
@@ -345,7 +345,7 @@ function drawAlongChromosome(chr) {
     for (i = 0; i < inode.length; ++i) {
         inode[i].cb = posmin[inode[i].id];
         inode[i].ce = posmax[inode[i].id];
-        
+
         dnodes.push({
             data: {
                 id: inode[i].id,
@@ -370,9 +370,9 @@ function drawAlongChromosome(chr) {
 
     for (g = 0; g < vert_to_draw.length; ++g) {
         nodes_to_draw.push(vert_to_draw[g].id);
-        var nall = '#2A4986';
+        var nall = 'ellipse';
         if (hasOtherEdges(vert_to_draw[g].id, curNodeSet)) {
-            nall = '#FFD700';
+            nall = 'triangle';
         }
 
         dnodes.push({
@@ -381,9 +381,9 @@ function drawAlongChromosome(chr) {
                 label: createLabelForNode(vert_to_draw[g].id),
                 len: 20 * Math.log(scaffoldgraph.nodes[vert_to_draw[g].id].len),
                 width: 20 * Math.log(scaffoldgraph.nodes[vert_to_draw[g].id].len),
-                color: nall,
+                color: genColorNode(vert_to_draw[g].id),
                 rank: vert_to_draw[g].rank,
-                faveShape: 'ellipse'
+                faveShape: nall
             }
         });
 

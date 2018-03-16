@@ -69,7 +69,6 @@ function createFullLabelForEdge(edge) {
     return label;
 }
 
-
 function createTapInfo(cy) {
     cy.nodes().qtip({
         content: {
@@ -170,8 +169,9 @@ function createAddNewNode(cy, curNodeSet) {
                 data: {
                     id: u,
                     label: createLabelForNode(u),
-                    len: scaffoldgraph.nodes[u].len,
-                    notAll: 0,
+                    len: 2*Math.log(scaffoldgraph.nodes[u].len),
+                    shape: 'ellipse',
+                    color: genColorNode(u),
                     special: 0
                 },
                 position: {
@@ -200,9 +200,9 @@ function createAddNewNode(cy, curNodeSet) {
 
         for (g = 0; g < nodes_to_draw.length; ++g) {
             if (hasOtherEdges(nodes_to_draw[g], curNodeSet)) {
-                cy.$('#' + nodes_to_draw[g]).data('notAll', 1);
+                cy.$('#' + nodes_to_draw[g]).data('shape', 'triangle');
             } else {
-                cy.$('#' + nodes_to_draw[g]).data('notAll', 0);
+                cy.$('#' + nodes_to_draw[g]).data('shape', 'ellipse');
             }
         }
         createTapInfo(cy);
@@ -237,10 +237,11 @@ function DrawGraphCytoscapeWithPresetNode(dnodes, dedges, curNodeSet) {
             .css({
                 'content': 'data(label)',
                 'color': '#2A4986',
-                'width': 'mapData(len, 0, 1000000, 10, 1000)',
-                'height': 'mapData(len, 0, 1000000, 10, 1000)',
+                'width': 'data(len)',
+                'height': 'data(len)',
                 'border-width': 'mapData(special, 0, 1, 0px, 5px)',
-                'background-color': 'mapData(notAll, 0, 1, #2A4986, #FFD700)'
+                'background-color': 'data(color)',
+                'shape' : 'data(shape)'
             })
             .selector('edge')
             .css({
@@ -258,6 +259,19 @@ function DrawGraphCytoscapeWithPresetNode(dnodes, dedges, curNodeSet) {
     createAddNewNode(cy, curNodeSet);
 }
 
+function genColorNode(vid) {
+    cur_max = 0;
+    cur_color = '#2a4986';
+    for (var i = 0; i < scaffoldgraph.nodes[vid].alignments.length; ++i) {
+        alig = scaffoldgraph.nodes[vid].alignments[i];
+        if (alig.coorde - alig.coordb > cur_max) {
+            cur_max = alig.coorde - alig.coordb;
+            cur_color = chromosomes[alig.chr_id].color;
+        }
+    }
+    return cur_color;
+}
+
 function DrawGraphCytoscape(nodes_to_draw, edges_to_draw) {
     var curNodeSet = new Set();
     for (var g = 0; g < nodes_to_draw.length; ++g) {
@@ -267,9 +281,9 @@ function DrawGraphCytoscape(nodes_to_draw, edges_to_draw) {
     var dnodes = [];
     var dedges = [];
     for (g = 0; g < nodes_to_draw.length; ++g) {
-        var nall = 0;
+        var nall = 'ellipse';
         if (hasOtherEdges(nodes_to_draw[g], curNodeSet)) {
-            nall = 1;
+            nall = 'triangle';
         }
 
         var sp = 0;
@@ -281,8 +295,9 @@ function DrawGraphCytoscape(nodes_to_draw, edges_to_draw) {
             data: {
                 id: nodes_to_draw[g],
                 label: createLabelForNode(nodes_to_draw[g]),
-                len: scaffoldgraph.nodes[nodes_to_draw[g]].len,
-                notAll: nall,
+                len: 2*Math.log(scaffoldgraph.nodes[nodes_to_draw[g]].len),
+                shape: nall,
+                color: genColorNode(nodes_to_draw[g]),
                 special: sp
             }
         });

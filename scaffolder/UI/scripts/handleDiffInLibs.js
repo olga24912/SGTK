@@ -3,9 +3,9 @@ function isCorrectOrder(v, u) {
     var nu = scaffoldgraph.nodes[u];
 
     for (var i = 0; i < nv.alignments.length; ++i) {
-        if ((nv.alignments[i].coorde - nv.alignments[i].coordb) * 10 >= nv.len * 9) {
+        //if (nv.alignments[i].coordne + 1000 >= nv.len) {
             for (var j = 0; j < nu.alignments.length; ++j) {
-                if ((nu.alignments[j].coorde - nu.alignments[j].coordb) * 10 >= nu.len * 9) {
+                //if (nu.alignments[j].coordnb - 1000 <= 0) {
                     if (nv.alignments[i].chr_id === nu.alignments[j].chr_id) {
                         if (nv.alignments[i].coorde - 100 < nu.alignments[j].coordb) {
                             if (nu.alignments[j].coordb - nv.alignments[i].coorde < 5000000) {
@@ -13,9 +13,9 @@ function isCorrectOrder(v, u) {
                             }
                         }
                     }
-                }
+                //}
             }
-        }
+        //}
     }
 
     return false;
