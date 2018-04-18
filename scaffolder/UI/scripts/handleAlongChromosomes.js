@@ -423,7 +423,7 @@ function drawAlongChromosome(chr) {
         }
     }
 
-    var cy = cytoscape({
+    cy = cytoscape({
         container: document.getElementById('mainpanel'),
 
         boxSelectionEnabled: false,

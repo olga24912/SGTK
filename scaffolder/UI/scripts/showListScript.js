@@ -1,4 +1,5 @@
 function createComponentShowList(draw, write, get_title, cnt_comp) {
+    cur_show_id = 0;
     var show_block = document.getElementById("show_block");
     show_block.innerHTML = "";
     for (var i = 0; i < cnt_comp; ++i) {

@@ -299,6 +299,12 @@ function updateColorsNode(vid, node) {
             val : chrmCnt[i]
         });
     }
+    for (i = chromosomes.length; i < 4; ++i) {
+        sortChrVal.push({
+            id : 0,
+            val : 0
+        });
+    }
 
     sortChrVal.sort(function (a, b) {
         return b.val - a.val;
@@ -314,12 +320,12 @@ function updateColorsNode(vid, node) {
     node.data.cnt1 = sortChrVal[0].val*100/sum;
     node.data.cnt2 = sortChrVal[1].val*100/sum;
     node.data.cnt3 = sortChrVal[2].val*100/sum;
-    //alert(node.data.color1);
-    //alert(node.data.cnt1);
-    //alert(node.data.color2);
-    //alert(node.data.cnt2);
-    //alert(node.data.color3);
-    //alert(node.data.cnt3);
+//    alert(node.data.color1);
+//    alert(node.data.cnt1);
+//    alert(node.data.color2);
+//    alert(node.data.cnt2);
+//    alert(node.data.color3);
+//    alert(node.data.cnt3);
 }
 
 function DrawGraphCytoscape(nodes_to_draw, edges_to_draw) {
@@ -357,6 +363,7 @@ function DrawGraphCytoscape(nodes_to_draw, edges_to_draw) {
                 special: sp
             }
         });
+
         updateColorsNode(nodes_to_draw[g], dnodes[dnodes.length - 1]);
 
     }
