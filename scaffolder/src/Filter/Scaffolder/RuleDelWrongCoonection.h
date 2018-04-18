@@ -12,8 +12,6 @@ namespace filter {
         public:
             void simplifyGraph(ContigGraph *filter) override;
 
-            void delEdges(ContigGraph *graph, const std::vector<int>& edges);
-
         };
     }
 }

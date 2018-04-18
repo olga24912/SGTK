@@ -102,7 +102,7 @@ class Lib:
         f.close()
         g.close()
 
-libsType = {"rnap", "rnas", "dnap", "ref", "scafinfo", "scaffolds"}
+libsType = {"rnap", "rnas", "dnap", "scg", "ref", "scafinfo", "scaffolds", "refcoord"}
 
 class StoreArgAction(argparse.Action):
     def __call__(self, parser, namespace, values, option_string=None):
@@ -128,11 +128,13 @@ def parse_args():
     parser = argparse.ArgumentParser(formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--contigs", "-c", nargs=1, dest="contigs", help="path to contigs", type=str)
     parser.add_argument("--scaffolds", "-s", nargs=1, dest="scaffolds", help="path to scaffolds in fasta format", type=str, action=StoreArgAction)
+    parser.add_argument("--scg", nargs=1, dest="scg", help="path to file with connection list", type=str, action=StoreArgAction)
     parser.add_argument("--gr", nargs=1, dest="graph", help="path to graph in .gr format", type=str, action='store')
     parser.add_argument("--rna-p", dest="rnap", nargs=2, help="path to rna pair reads file", type=str, action=StoreArgAction)
     parser.add_argument("--rna-s", dest="rnas", nargs=1, help="path to rna read file", type=str, action=StoreArgAction)
     parser.add_argument("--local_output_dir", "-o", nargs=1, help="use this output dir", type=str)
     parser.add_argument("--ref", dest="ref", nargs=1, help="path to reference", type=str, action=StoreArgAction)
+    parser.add_argument("--refcoord", dest="refcoord", nargs=2, help="path to ref and to alignment of contigs to reference in coord format", type=str, action=StoreArgAction)
     parser.add_argument("--dna-p", dest="dnap", nargs=2, help="path to dna pair reads file", type=str, action=StoreArgAction)
     parser.add_argument("--scafinfo", nargs=1, help="path to .info file with info about scaffolds", type=str, action=StoreArgAction)
     parser.add_argument("--label", "-l", nargs='*', help="list with labels for all libs in definition order", type=str, action='store')
@@ -280,6 +282,15 @@ def build_graph(contig_file_name, args):
         os.chdir(lib_dir)
         os.system(path_to_exec_dir + "build DNA_PAIR dna1.sam dna2.sam 1000000000 " + lib.label)
         os.chdir(prevdir)
+
+    for lib in args.libs["scg"]:
+        prevdir = os.getcwd()
+        log.log("START BUILD GRAPH: " + lib.label)
+        lib_dir = os.path.dirname(os.path.abspath(lib.name) + "/")
+        os.chdir(lib_dir)
+        os.system(path_to_exec_dir + "build CONNECTION " + lib.path[0] + " " + contig_file_name + " " + lib.label)
+        os.chdir(prevdir)
+        
     return
 
 def merge_lib_rna(libs):
@@ -317,7 +328,7 @@ def merge_graph(args):
     if 'libs' in args:
         for lib_type in libsType:
             for lib in args.libs[lib_type]:
-                if lib_type == "rnap" or lib_type == "rnas" or lib_type == "dnap":
+                if lib_type == "rnap" or lib_type == "rnas" or lib_type == "dnap" or lib_type == "scg":
                     lib.fix_graph_file()
                     if lib_type != "rnas":
                         merge_list += lib.name + "/graph.gr "
@@ -325,8 +336,9 @@ def merge_graph(args):
                         merge_list += lib.name + "_50/graph.gr "
                         merge_list += lib.name + "_30/graph.gr "
 
-    for gr in args.graph:
-        merge_list += gr + " "
+    if args.graph != None:
+        for gr in args.graph:
+            merge_list += gr + " "
 
     merge_list += "graph.gr"
     os.system(path_to_exec_dir + "mergeGraph " + merge_list)
@@ -512,6 +524,76 @@ def add_conection_to_res_file(f):
             f.write("scaffoldedges.push(new ScaffoldEdge(" + edgesinfo[1] + ", " + edgesinfo[2] + ", " + edgesinfo[3] + ", " + edgesinfo[4] + ", " + edgesinfo[5] + "));\n")
 
 
+def add_refcoord_to_res_file(contig_file_name, f):
+    if (len(args.libs["refcoord"]) == 0):
+        return
+
+    lib = args.libs["refcoord"][0]
+
+    chrid = {}
+    chrlen = []
+    chrlist = []
+    chralig = []
+    fasta_seq = SeqIO.parse(open(lib.path[0]), 'fasta')
+    curid = 0
+
+    for fasta in fasta_seq:
+        name, lenn = fasta.id, len(fasta.seq.tostring())
+        print(name)
+        chrid[name] = curid
+        chrid[name + "-rev"] = curid + 1
+        chrlen.append(lenn)
+        chrlen.append(lenn)
+        chrlist.append("new Chromosome(" + str(curid) + ", '" + name + "', " + str(lenn) + ")")
+        chrlist.append("new Chromosome(" + str(curid + 1) + ", '" + name + "-rev', " + str(lenn) + ")")
+        chralig.append([])
+        chralig.append([])
+        curid += 2
+
+    global idbyname
+    global lenbyid
+
+    lastname = '-'
+    #TODO: del file
+    g = open("out.coords", "w")
+
+    with open(lib.path[1]) as cf:
+        for line in cf:
+            if ("[S1]     [E1]  |     [S2]     [E2]  |  [LEN 1]  [LEN 2]  |  [% IDY]  | [TAGS]" in line or "====" in line):
+                continue
+            info = line.split(" ")
+            info[-1] = info[-1][:-1]
+            print(info)
+            vid = idbyname[info[12]]
+            curid = chrid[info[11].split('_')[0]]
+            lq = int(info[3])
+            rq = int(info[4])
+            l = int(info[0])
+            r = int(info[1])
+            lenf = chrlen[curid]
+            if ((max(rq, lq) - min(rq, lq)) * 100 < lenbyid[vid]):
+                continue
+            if (lq > rq):
+                vid ^= 1
+
+            chralig[curid].append("new Alignment(" + str(l) + ", " + str(r) + ", " + str(curid) + ", " + str(vid) + ")")
+            chralig[curid + 1].append("new Alignment(" + str(lenf - r) + ", " + str(lenf - l) + ", " + str(curid + 1) + ", " + str(vid^1) + ")")
+            g.write(str(l) + " " + str(r) + " " + str(lq) + " " + str(rq) + " 0 0 0 " + str(lenf) + " 0 " + info[11].split('_')[0] + " " + info[12] + "\n")
+
+    g.close()
+
+    for i in range(len(chrlist)):
+        f.write("chromosomes.push(" + chrlist[i] + ");\n")
+
+    for i in range(len(chrlist)):
+        f.write("chromosomes[" + str(i) + "].alignments = " + "[")
+        for j in range(len(chralig[i])):
+            f.write(chralig[i][j])
+            if (j != len(chralig[i]) - 1):
+                f.write(", ")
+        f.write("];\n")
+    
+
 def add_ref_to_res_file(contig_file_name, f):
     if (len(args.libs["ref"]) == 0):
         return
@@ -590,8 +672,9 @@ def run(args):
     if args.local_output_dir != None:
         main_out_dir = os.path.abspath(args.local_output_dir[0]) + "/"
 
-    for i in range(len(args.graph)):
-        args.graph[i] = os.path.abspath(args.graph[i])
+    if args.graph != None:
+        for i in range(len(args.graph)):
+            args.graph[i] = os.path.abspath(args.graph[i])
 
     out_dir = main_out_dir + "tmp/"
     log.log("OUTPUT DIR: " + out_dir)
@@ -633,6 +716,7 @@ def run(args):
     if 'libs' in args:
         save_scaffolds(contig_file_name, args, f)
         add_ref_to_res_file(contig_file_name, f)
+        add_refcoord_to_res_file(contig_file_name, f)
 
     f.write("var scaffoldgraph = new ScaffoldGraph(scaffoldlibs, scaffoldnodes, scaffoldedges);\n")
     f.close()

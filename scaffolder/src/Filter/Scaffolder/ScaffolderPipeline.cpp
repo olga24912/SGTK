@@ -12,6 +12,7 @@
 #include "RuleDel30.h"
 #include "RuleExonBlocks.h"
 #include "ScaffoldStrategyOneLine.h"
+#include "RuleDelWrongCoonection.h"
 
 namespace filter {
     namespace scaffolder {
@@ -20,6 +21,10 @@ namespace filter {
                                           std::string out, std::vector<State::BamFiles> bamFiles) {
             Scaffolds scaffolds(contigFile);
 
+
+            //TODO: del simplification by ref
+            RuleDelWrongConnection rdwc;
+            rdwc.simplifyGraph(graph);
 
             INFO("Simplification step 1: delete small edges");
             RuleDelSmallEdges rdse;

@@ -82,6 +82,8 @@ function handleDiffInLibsFilter(areasize, min_contig_len, isGoodEdge) {
                 if (isGoodConnection) {
                     nodes_id.push(i);
                     nodes_id.push(lstval);
+                    special_nodes.add(i);
+                    special_nodes.add(lstval);
                 }
             }
 

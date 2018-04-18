@@ -68,6 +68,9 @@ install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/UI/scripts/findAreaScript.js"
 install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/UI/scripts/script.js"
         DESTINATION bin/scripts/
         COMPONENT runtime)
+install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/UI/scripts/search.js"
+        DESTINATION bin/scripts/
+        COMPONENT runtime)
 install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/UI/scripts/handleAlongChromosomes.js"
         DESTINATION bin/scripts/
         COMPONENT runtime)

@@ -20,7 +20,7 @@ namespace builder {
                 int from;
                 int to;
                 int lib;
-                int weight;
+                double weight;
                 int coordBegin1;
                 int coordEnd1;
                 int coordBegin2;
@@ -30,6 +30,12 @@ namespace builder {
                 Edge() {}
 
                 Edge(int id, int from, int to, int lib, int weight, int coordBegin1, int coordEnd1, int coordBegin2,
+                     int coordEnd2) :
+                        id(id), from(from), to(to), lib(lib), weight(weight), coordBegin1(coordBegin1),
+                        coordEnd1(coordEnd1), coordBegin2(coordBegin2), coordEnd2(coordEnd2) {}
+
+
+                Edge(int id, int from, int to, int lib, double weight, int coordBegin1, int coordEnd1, int coordBegin2,
                      int coordEnd2) :
                         id(id), from(from), to(to), lib(lib), weight(weight), coordBegin1(coordBegin1),
                         coordEnd1(coordEnd1), coordBegin2(coordBegin2), coordEnd2(coordEnd2) {}
@@ -46,9 +52,9 @@ namespace builder {
             };
 
             struct Lib {
-                static const int typeCnt = 6;
+                static const int typeCnt = 7;
                 enum Type {
-                    REF, DNA_PAIR, RNA_PAIR, RNA_SPLIT_50, RNA_SPLIT_30, SCAFF
+                    REF, DNA_PAIR, RNA_PAIR, RNA_SPLIT_50, RNA_SPLIT_30, SCAFF, CONNECTION
                 };
                 static const std::string typeToStr[];
                 std::string color;
@@ -67,13 +73,6 @@ namespace builder {
                     }
                 }
             };
-
-            int getTargetId(std::string name);
-
-            int addEdge(int v1, int v2, std::pair<int, int> c1, std::pair<int, int> c2);
-
-            void incEdge(int v, std::pair<int, int> c1, std::pair<int, int> c2);
-
         private:
             static const int maxClusterSize = 1000;
             std::vector<std::vector<int> > graph; // graph[v][i] = e store edge id from vertex (e: v -> u)
@@ -101,6 +100,12 @@ namespace builder {
             int getTargetLen(int id) const; // get len of contig with id
             int getVertexCount(); //get count of vertexs
             int getLibNum(); //get the count of lib
+
+            int getTargetId(std::string name);
+            int addEdge(int v1, int v2, std::pair<int, int> c1, std::pair<int, int> c2);
+            int addEdge (int v1, int v2, double w);
+            void incEdge(int v, std::pair<int, int> c1, std::pair<int, int> c2);
+
 
             void write(std::string fileName); //serialize this graph in .gr format in "fileName" file
             static ContigGraph read(std::string fileName); //generate ContigGraph from .gr format file

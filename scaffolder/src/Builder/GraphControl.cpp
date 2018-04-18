@@ -1,4 +1,5 @@
 #include <Builder/GraphBuilder/RNASplitGraphBuilder.h>
+#include <Builder/GraphBuilder/ConnectionGraphBuilder.h>
 #include "GraphControl.h"
 #include "Builder/GraphBuilder/ReferenceGraphBuilder.h"
 
@@ -59,6 +60,17 @@ namespace builder {
             gb->setMinContigLen(atoi(argv[4]));
             gb->setLibName(argv[5]);
             gb->setLibType(ContigGraph::Lib::Type::REF);
+
+            gb->setGraph(&graph);
+            gb->evaluate();
+        } else if (std::string(argv[1]) == "CONNECTION") {
+            ConnectionGraphBuilder* gb = new ConnectionGraphBuilder;
+
+            gb->setConnectionFile(argv[2]);
+            gb->setContigFile(argv[3]);
+
+            gb->setLibName(argv[4]);
+            gb->setLibType(ContigGraph::Lib::Type::CONNECTION);
 
             gb->setGraph(&graph);
             gb->evaluate();

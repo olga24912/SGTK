@@ -49,9 +49,9 @@ namespace filter {
             ErrorType status = ErrorType::NA;
 
             for (auto val : valig) {
-                if ((val.coordEnd - val.coordBegin)*1.0/filter->getTargetLen(v) < 0.1) continue;
+                //if ((val.coordEnd - val.coordBegin)*1.0/filter->getTargetLen(v) < 0.99) continue;
                 for (auto ual : ualig) {
-                    if ((ual.coordEnd - ual.coordBegin)*1.0/filter->getTargetLen(u) < 0.1) continue;
+                    //if ((ual.coordEnd - ual.coordBegin)*1.0/filter->getTargetLen(u) < 0.99) continue;
                     auto al1 = val;
                     auto al2 = ual;
                   /*  if (al1.chrName[al1.chrName.size() - 1] == 'v') {

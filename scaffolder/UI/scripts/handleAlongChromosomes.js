@@ -280,7 +280,9 @@ function createNewVerAlongChr(cy, area_size, min_contig_len, isGoodEdge, curNode
                     target: scaffoldgraph.edges[eid].to,
                     label: createLabelForEdge(eid),
                     faveColor: scaffoldgraph.libs[scaffoldgraph.edges[eid].lib].color,
-                    weight: Math.log(getWeight(eid)) + 1
+                    weight: Math.log(getWeight(eid)) + 1,
+                    curveStyle: "bezier",
+                    controlPointDistances: 0
                 }
             });
         }
@@ -391,16 +393,34 @@ function drawAlongChromosome(chr) {
     }
 
     for (g = 0; g < edges_to_draw.length; ++g) {
-        dedges.push({
-            data: {
-                id: "e" + edges_to_draw[g].toString(),
-                source: scaffoldgraph.edges[edges_to_draw[g]].from,
-                target: scaffoldgraph.edges[edges_to_draw[g]].to,
-                label: createLabelForEdge(edges_to_draw[g]),
-                faveColor: scaffoldgraph.libs[scaffoldgraph.edges[edges_to_draw[g]].lib].color,
-                weight: Math.log(getWeight(edges_to_draw[g])) + 1
-            }
-        });
+        if (!(scaffoldgraph.edges[edges_to_draw[g]].from in cntid) ||
+            !(scaffoldgraph.edges[edges_to_draw[g]].to in cntid)) {
+            dedges.push({
+                data: {
+                    id: "e" + edges_to_draw[g].toString(),
+                    source: scaffoldgraph.edges[edges_to_draw[g]].from,
+                    target: scaffoldgraph.edges[edges_to_draw[g]].to,
+                    label: createLabelForEdge(edges_to_draw[g]),
+                    faveColor: scaffoldgraph.libs[scaffoldgraph.edges[edges_to_draw[g]].lib].color,
+                    weight: Math.log(getWeight(edges_to_draw[g])) + 1,
+                    curveStyle: "bezier",
+                    controlPointDistances: 0
+                }
+            });
+        } else {
+            dedges.push({
+                data: {
+                    id: "e" + edges_to_draw[g].toString(),
+                    source: scaffoldgraph.edges[edges_to_draw[g]].from,
+                    target: scaffoldgraph.edges[edges_to_draw[g]].to,
+                    label: createLabelForEdge(edges_to_draw[g]),
+                    faveColor: scaffoldgraph.libs[scaffoldgraph.edges[edges_to_draw[g]].lib].color,
+                    weight: Math.log(getWeight(edges_to_draw[g])) + 1,
+                    curveStyle: "unbundled-bezier",
+                    controlPointDistances: 1000 + Math.random() * 100
+                }
+            });
+        }
     }
 
     var cy = cytoscape({
@@ -439,7 +459,9 @@ function drawAlongChromosome(chr) {
             })
             .selector('edge')
             .css({
-                'curve-style': 'bezier',
+                'curve-style': 'data(curveStyle)',
+                "control-point-distances": 'data(controlPointDistances)',
+                "control-point-weights": 0.5,
                 'target-arrow-shape': 'triangle',
                 'line-color': 'data(faveColor)',
                 'target-arrow-color': 'data(faveColor)',
@@ -467,11 +489,16 @@ function drawAlongChromosome(chr) {
         var selectstr = "[faveShape='rectangle'][ymin <= " + y2 + "][ymax >= " + y1 + "]";
 
         cy.nodes(selectstr).data('width', nodeWidth);
-        /*for (var i = 0; i < edges_to_draw.length; ++i) {
+        for (var i = 0; i < edges_to_draw.length; ++i) {
             var e = edges_to_draw[i];
             var w = (Math.log(getWeight(e)) + 1)/cy.zoom();
+            var cpd = cy.getElementById("e" + e.toString()).data("curveStyle");
+            if (cpd === "unbundled-bezier") {
+                cpd = 100/cy.zoom() + (Math.random()-0.5)*100/cy.zoom();
+                cy.getElementById("e" + e.toString()).data("controlPointDistances", cpd);
+            }
             cy.getElementById("e" + e.toString()).data('weight', w);
-        }*/
+        }
     });
 
     cy.on('pan', function () {

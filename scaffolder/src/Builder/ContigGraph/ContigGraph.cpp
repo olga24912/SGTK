@@ -6,7 +6,7 @@ namespace builder {
     namespace contig_graph {
         const std::string ContigGraph::Lib::typeToStr[] = {"REF", "DNA_PAIR", "RNA_PAIR", "RNA_SPLIT_50",
                                                            "RNA_SPLIT_30",
-                                                           "SCAFF"};
+                                                           "SCAFF", "CONNECTION"};
 
         int ContigGraph::getLibNum() {
             TRACE("get lib num: " << (int) libs.size());
@@ -251,6 +251,16 @@ namespace builder {
             edges[e].coordEnd1 = c1.second;
             edges[e].coordBegin2 = c2.first;
             edges[e].coordEnd2 = c2.second;
+        }
+
+        int ContigGraph::addEdge(int v1, int v2, double w) {
+            int e = (int) edges.size();
+            edges.push_back(Edge(e, v1, v2, (int) libs.size() - 1, w, 0, 0,
+                                 0, 0));
+
+            graph[v1].push_back(e);
+            graphR[v2].push_back(e);
+            return e;
         }
     }
 }
