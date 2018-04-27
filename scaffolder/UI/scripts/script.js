@@ -650,6 +650,9 @@ function splitOnParts(nodes_to_draw, edges_to_draw) {
 }
 
 function handleFilterButton() {
+    special_nodes.clear();
+    special_edges.clear();
+
     var opt = document.getElementById("select_show_type").value;
     var min_edge_weight = [];
     min_contig_len = document.getElementById("min_contig_len").value;

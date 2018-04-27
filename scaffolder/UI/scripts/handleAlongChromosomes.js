@@ -1,3 +1,5 @@
+var defZoom = 100;
+
 function createCoordinates(chr, cy) {
     var cur_zoom = cy.zoom();
     var cur_coord = cy.extent();
@@ -15,9 +17,9 @@ function createCoordinates(chr, cy) {
         data: {
             id: "start",
             label: "Start: 0",
-            len: 10 / cur_zoom,
+            len: 10 / cy.zoom(),
             color: '#ff0000',
-            width: 10 / cur_zoom,
+            width: 10 / cy.zoom(),
             faveShape: 'rectangle'
         },
         position: {
@@ -30,7 +32,7 @@ function createCoordinates(chr, cy) {
         x: 10,
         y: ypos
     });
-    cy.$('#start').style({"font-size": 20 / cur_zoom, "text-valign": "center", "text-halign": "right"});
+    cy.$('#start').style({"font-size": 20 / cy.zoom(), "text-valign": "center", "text-halign": "right"});
     cy.$('#start').lock();
 
     cy.remove(cy.$('#end'));
@@ -39,14 +41,14 @@ function createCoordinates(chr, cy) {
         data: {
             id: "end",
             label: "End: " + chromosomes[chr].len,
-            len: 10 / cur_zoom,
+            len: 10 / cy.zoom(),
             color: '#ff0000',
-            width: 10 / cur_zoom,
+            width: 10 / cy.zoom(),
             faveShape: 'rectangle'
         },
         position: {
             x: 0,
-            y: chromosomes[chr].len
+            y: chromosomes[chr].len/defZoom
         }
     });
     ypos = cy.$('#end').renderedPosition().y;
@@ -54,21 +56,21 @@ function createCoordinates(chr, cy) {
         x: 10,
         y: ypos
     });
-    cy.$('#end').style({"font-size": 20 / cur_zoom, "text-valign": "center", "text-halign": "right"});
+    cy.$('#end').style({"font-size": 20 / cy.zoom(), "text-valign": "center", "text-halign": "right"});
     cy.$('#end').lock();
 
 
     for (var i = 0;  i < 50; ++i) {
         cy.remove(cy.$('#chrcoord' + i));
-        if (start_pos + delta * i < chromosomes[chr].len) {
+        if (start_pos + delta * i < chromosomes[chr].len/defZoom) {
             cy.add({
                 group: "nodes",
                 data: {
                     id: "chrcoord" + i,
-                    label: start_pos + delta * i,
-                    len: 1 / cur_zoom,
+                    label: (start_pos + delta * i)*defZoom,
+                    len: 1 / cy.zoom(),
                     color: '#ffa500',
-                    width: 1 / cur_zoom,
+                    width: 1 / cy.zoom(),
                     faveShape: 'rectangle'
                 },
                 position: {
@@ -81,7 +83,7 @@ function createCoordinates(chr, cy) {
                 x: 10,
                 y: ypos
             });
-            cy.$('#chrcoord' + i).style({"font-size": 20 / cur_zoom, "text-valign": "center", "text-halign": "right"});
+            cy.$('#chrcoord' + i).style({"font-size": 20 / cy.zoom(), "text-valign": "center", "text-halign": "right"});
             cy.$('#chrcoord' + i).lock();
         }
     }
@@ -263,7 +265,7 @@ function createNewVerAlongChr(cy, area_size, min_contig_len, isGoodEdge, curNode
                     faveShape: 'ellipse'
                 },
                 position: {
-                    x: 1000*xc + Math.random()*1000,
+                    x: 2000*xc + Math.random()*100,
                     y: yc
                 }
             });
@@ -271,7 +273,7 @@ function createNewVerAlongChr(cy, area_size, min_contig_len, isGoodEdge, curNode
 
         for (g = 0; g < needAddEdge.length; ++g) {
             var eid = needAddEdge[g].id;
-
+            edges_to_draw.push(eid);
             cy.add({
                 group: "edges",
                 data: {
@@ -282,7 +284,7 @@ function createNewVerAlongChr(cy, area_size, min_contig_len, isGoodEdge, curNode
                     faveColor: scaffoldgraph.libs[scaffoldgraph.edges[eid].lib].color,
                     weight: Math.log(getWeight(eid)) + 1,
                     curveStyle: "bezier",
-                    controlPointDistances: 0
+                    controlPointDistances: 100
                 }
             });
         }
@@ -297,6 +299,20 @@ function createNewVerAlongChr(cy, area_size, min_contig_len, isGoodEdge, curNode
         createTapInfo(cy);
     });
 }
+
+
+function createGraph(chr, cy) {
+    cy.elements().remove();
+    var y1 = cy.extent().y1;
+    var y2 = cy.extent().y2;
+    var zoom = cy.zoom();
+
+
+
+
+}
+
+
 
 function drawAlongChromosome(chr) {
     var dnodes = [];
@@ -316,10 +332,10 @@ function drawAlongChromosome(chr) {
         var vid = curalig.node_id;
         if (!(vid in cntid)) {
             cntid[vid] = 0;
-            posx[vid] = Math.random() * 1000;
-            posmin[vid] = curalig.coordb;
-            posmax[vid] = curalig.coorde;
-            inode.push({id: vid, cb: curalig.coordb, ce: curalig.coorde});
+            posx[vid] = Math.random() * 100;
+            posmin[vid] = curalig.coordb/defZoom;
+            posmax[vid] = curalig.coorde/defZoom;
+            inode.push({id: vid, cb: curalig.coordb/defZoom, ce: curalig.coorde/defZoom});
             special_nodes.add(curalig.node_id);
             curNodeSet.add(curalig.node_id);
         }
@@ -329,18 +345,18 @@ function drawAlongChromosome(chr) {
                 id: vid.toString() + ":" + cntid[vid].toString(),
                 parent: vid,
                 label: createLabelForNode(curalig.node_id),
-                len: curalig.coorde - curalig.coordb,
+                len: curalig.coorde/defZoom - curalig.coordb/defZoom,
                 color: genColorNode(curalig.node_id),
                 width: 10,
                 rank: 0,
-                ymin: curalig.coordb,
-                ymax: curalig.coorde,
+                ymin: curalig.coordb/defZoom,
+                ymax: curalig.coorde/defZoom,
                 faveShape: 'rectangle'
             }
         });
-        pos[vid.toString() + ":" + cntid[vid].toString()] = {x: posx[vid], y: (curalig.coorde + curalig.coordb)/2};
-        posmin[vid] = Math.min(posmin[vid], curalig.coordb);
-        posmax[vid] = Math.max(posmax[vid], curalig.coorde);
+        pos[vid.toString() + ":" + cntid[vid].toString()] = {x: posx[vid], y: (curalig.coorde/defZoom + curalig.coordb/defZoom) / 2};
+        posmin[vid] = Math.min(posmin[vid], curalig.coordb/defZoom);
+        posmax[vid] = Math.max(posmax[vid], curalig.coorde/defZoom);
         cntid[vid] += 1;
     }
 
@@ -389,7 +405,7 @@ function drawAlongChromosome(chr) {
             }
         });
 
-        pos[vert_to_draw[g].id] = {x: 1000*vert_to_draw[g].rank + Math.random()*1000, y: vert_to_draw[g].y};
+        pos[vert_to_draw[g].id] = {x: 2000 * vert_to_draw[g].rank + Math.random() * 100, y: vert_to_draw[g].y};
     }
 
     for (g = 0; g < edges_to_draw.length; ++g) {
@@ -404,7 +420,7 @@ function drawAlongChromosome(chr) {
                     faveColor: scaffoldgraph.libs[scaffoldgraph.edges[edges_to_draw[g]].lib].color,
                     weight: Math.log(getWeight(edges_to_draw[g])) + 1,
                     curveStyle: "bezier",
-                    controlPointDistances: 0
+                    controlPointDistances: 100
                 }
             });
         } else {
@@ -415,9 +431,9 @@ function drawAlongChromosome(chr) {
                     target: scaffoldgraph.edges[edges_to_draw[g]].to,
                     label: createLabelForEdge(edges_to_draw[g]),
                     faveColor: scaffoldgraph.libs[scaffoldgraph.edges[edges_to_draw[g]].lib].color,
-                    weight: Math.log(getWeight(edges_to_draw[g])) + 1,
+                    weight: 0.1, //Math.log(getWeight(edges_to_draw[g])) + 1,
                     curveStyle: "unbundled-bezier",
-                    controlPointDistances: 1000 + Math.random() * 100
+                    controlPointDistances: 100 + Math.random() * 10
                 }
             });
         }
@@ -428,8 +444,8 @@ function drawAlongChromosome(chr) {
 
         boxSelectionEnabled: false,
         autounselectify: true,
-        maxZoom: 3,
-        minZoom: 0.001,
+        maxZoom: 25,
+        minZoom: 0.005,
 
         elements: {
             nodes: dnodes,
@@ -462,6 +478,7 @@ function drawAlongChromosome(chr) {
                 'curve-style': 'data(curveStyle)',
                 "control-point-distances": 'data(controlPointDistances)',
                 "control-point-weights": 0.5,
+                "arrow-scale": 7,
                 'target-arrow-shape': 'triangle',
                 'line-color': 'data(faveColor)',
                 'target-arrow-color': 'data(faveColor)',
@@ -470,16 +487,10 @@ function drawAlongChromosome(chr) {
             })
     });
 
-    cy.zoom(1);
-    createCoordinates(chr, cy);
     createTapInfo(cy);
     createNewVerAlongChr(cy, area_size, min_contig_len, isGoodEdge, curNodeSet);
 
-    if (inode.length > 0) {
-        cy.fit(cy.$('#' + inode[0].id));
-    }
-
-    cy.on('zoom', function() {
+    cy.on('zoom', function () {
         createCoordinates(chr, cy);
         var nodeWidth = 10 / cy.zoom();
 
@@ -491,17 +502,27 @@ function drawAlongChromosome(chr) {
         cy.nodes(selectstr).data('width', nodeWidth);
         for (var i = 0; i < edges_to_draw.length; ++i) {
             var e = edges_to_draw[i];
-            var w = (Math.log(getWeight(e)) + 1)/cy.zoom();
+            var w = (Math.log(getWeight(e)) + 1) * 4/ Math.log((cy.zoom() * defZoom));
             var cpd = cy.getElementById("e" + e.toString()).data("curveStyle");
             if (cpd === "unbundled-bezier") {
-                cpd = 100/cy.zoom() + (Math.random()-0.5)*100/cy.zoom();
+                bg = scaffoldgraph.edges[e].from
+                ed = scaffoldgraph.edges[e].to
+
+                yminbg = cy.getElementById(bg).data('ymin');
+                ymaxbg = cy.getElementById(bg).data('ymax');
+                ymined = cy.getElementById(ed).data('ymin');
+                ymaxed = cy.getElementById(ed).data('ymax');
+
+                minDif = Math.min(Math.min(Math.abs(yminbg - ymaxed), Math.abs(yminbg - ymined)), Math.min(Math.abs(ymaxbg - ymaxed), Math.abs(ymaxbg - ymined)));
+
+                minDif = Math.log(minDif)
+                cpd = minDif * 10/ cy.zoom() + (Math.random() - 0.5) * minDif / cy.zoom();
                 cy.getElementById("e" + e.toString()).data("controlPointDistances", cpd);
             }
             cy.getElementById("e" + e.toString()).data('weight', w);
         }
     });
-
-    cy.on('pan', function () {
+    cy.on('pan', function() {
         createCoordinates(chr, cy);
 
         var nodeWidth = 10 / cy.zoom();
@@ -510,7 +531,14 @@ function drawAlongChromosome(chr) {
 
         var selectstr = "[faveShape='rectangle'][ymin <= " + y2 + "][ymax >= " + y1 + "]";
         cy.nodes(selectstr).data('width', nodeWidth);
-    })
+    });
+
+    cy.zoom(1);
+    if (inode.length > 0) {
+        cy.fit(cy.$('#' + inode[0].id));
+    }
+
+    createCoordinates(chr, cy);
 }
 
 function handleAlongChromosomesFilter() {
