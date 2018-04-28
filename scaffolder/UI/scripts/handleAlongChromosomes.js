@@ -301,91 +301,51 @@ function createNewVerAlongChr(cy, area_size, min_contig_len, isGoodEdge, curNode
 }
 
 
-function createGraph(chr, cy) {
-    cy.elements().remove();
-    var y1 = cy.extent().y1;
-    var y2 = cy.extent().y2;
-    var zoom = cy.zoom();
-
-
-
+function updateZooming() {
 
 }
 
-
-
-function drawAlongChromosome(chr) {
-    var dnodes = [];
-    var dedges = [];
-    var inode = [];
-    var pos = {};
-    var posx = {};
-    var posmin = {};
-    var posmax = {};
-    var cntid = {};
-
-    special_nodes.clear();
-    var curNodeSet = new Set();
-
+function findContigs(cy, chr, inode, posx, posmin, posmax, curNodeSet) {
     for (i = 0; i < chromosomes[chr].alignments.length; ++i) {
         var curalig = chromosomes[chr].alignments[i];
         var vid = curalig.node_id;
-        if (!(vid in cntid)) {
-            cntid[vid] = 0;
-            posx[vid] = Math.random() * 100;
-            posmin[vid] = curalig.coordb/defZoom;
-            posmax[vid] = curalig.coorde/defZoom;
-            inode.push({id: vid, cb: curalig.coordb/defZoom, ce: curalig.coorde/defZoom});
-            special_nodes.add(curalig.node_id);
-            curNodeSet.add(curalig.node_id);
-        }
-
-        dnodes.push({
-            data: {
-                id: vid.toString() + ":" + cntid[vid].toString(),
-                parent: vid,
-                label: createLabelForNode(curalig.node_id),
-                len: curalig.coorde/defZoom - curalig.coordb/defZoom,
-                color: genColorNode(curalig.node_id),
-                width: 10,
-                rank: 0,
-                ymin: curalig.coordb/defZoom,
-                ymax: curalig.coorde/defZoom,
-                faveShape: 'rectangle'
-            }
-        });
-        pos[vid.toString() + ":" + cntid[vid].toString()] = {x: posx[vid], y: (curalig.coorde/defZoom + curalig.coordb/defZoom) / 2};
-        posmin[vid] = Math.min(posmin[vid], curalig.coordb/defZoom);
-        posmax[vid] = Math.max(posmax[vid], curalig.coorde/defZoom);
-        cntid[vid] += 1;
+        posx[vid] = Math.random() * 100;
+        posmin[vid] = curalig.coordb / defZoom;
+        posmax[vid] = curalig.coorde / defZoom;
+        inode.push({id: vid, cb: curalig.coordb / defZoom, ce: curalig.coorde / defZoom});
+        special_nodes.add(curalig.node_id);
+        curNodeSet.add(curalig.node_id);
     }
+}
 
+function addContigs(cy, inode, posx, posmin, posmax) {
     for (i = 0; i < inode.length; ++i) {
-        inode[i].cb = posmin[inode[i].id];
-        inode[i].ce = posmax[inode[i].id];
-
-        dnodes.push({
+        var vid = inode[i].id;
+        cy.add({
+            group: "nodes",
             data: {
-                id: inode[i].id,
-                label: createLabelForNode(inode[i].id),
+                id: vid,
+                label: createLabelForNode(vid),
                 len: inode[i].ce - inode[i].cb,
-                color: '#BECCE0',
+                color: genColorNode(vid),
                 width: 10,
                 rank: 0,
                 ymin: inode[i].cb,
                 ymax: inode[i].ce,
                 faveShape: 'rectangle'
+            },
+            position: {
+                x: posx[vid],
+                y: (posmin[vid] + posmax[vid])/2
             }
         });
     }
+}
 
-    nodes_to_draw = [];
-    var vert_to_draw = findNodeAroundChr(inode, area_size, min_contig_len, isGoodEdge);
-
+function addOtherNodes(cy, curNodeSet, vert_to_draw) {
     for (var g = 0; g < vert_to_draw.length; ++g) {
         curNodeSet.add(vert_to_draw[g].id);
     }
-
     for (g = 0; g < vert_to_draw.length; ++g) {
         nodes_to_draw.push(vert_to_draw[g].id);
         var nall = 'ellipse';
@@ -393,7 +353,8 @@ function drawAlongChromosome(chr) {
             nall = 'triangle';
         }
 
-        dnodes.push({
+        cy.add({
+            group: "nodes",
             data: {
                 id: vert_to_draw[g].id,
                 label: createLabelForNode(vert_to_draw[g].id),
@@ -402,16 +363,25 @@ function drawAlongChromosome(chr) {
                 color: genColorNode(vert_to_draw[g].id),
                 rank: vert_to_draw[g].rank,
                 faveShape: nall
+            },
+            position: {
+                x: 2000 * vert_to_draw[g].rank + Math.random() * 100,
+                y: vert_to_draw[g].y
             }
         });
-
-        pos[vert_to_draw[g].id] = {x: 2000 * vert_to_draw[g].rank + Math.random() * 100, y: vert_to_draw[g].y};
     }
+}
+
+function addEdges(cy) {
+    alert(special_nodes.size);
+    alert(special_nodes.has(71));
+    alert('71' in special_nodes);
 
     for (g = 0; g < edges_to_draw.length; ++g) {
-        if (!(scaffoldgraph.edges[edges_to_draw[g]].from in cntid) ||
-            !(scaffoldgraph.edges[edges_to_draw[g]].to in cntid)) {
-            dedges.push({
+        if (!(special_nodes.has(scaffoldgraph.edges[edges_to_draw[g]].from)) ||
+            !(special_nodes.has(scaffoldgraph.edges[edges_to_draw[g]].to))) {
+            cy.add({
+                group: "edges",
                 data: {
                     id: "e" + edges_to_draw[g].toString(),
                     source: scaffoldgraph.edges[edges_to_draw[g]].from,
@@ -424,21 +394,58 @@ function drawAlongChromosome(chr) {
                 }
             });
         } else {
-            dedges.push({
+            cy.add({
+                group: "edges",
                 data: {
                     id: "e" + edges_to_draw[g].toString(),
                     source: scaffoldgraph.edges[edges_to_draw[g]].from,
                     target: scaffoldgraph.edges[edges_to_draw[g]].to,
                     label: createLabelForEdge(edges_to_draw[g]),
                     faveColor: scaffoldgraph.libs[scaffoldgraph.edges[edges_to_draw[g]].lib].color,
-                    weight: 0.1, //Math.log(getWeight(edges_to_draw[g])) + 1,
+                    weight: Math.log(getWeight(edges_to_draw[g])) + 1,
                     curveStyle: "unbundled-bezier",
                     controlPointDistances: 100 + Math.random() * 10
                 }
             });
         }
     }
+}
 
+function zoomAndFit() {
+
+}
+
+function createGraph(chr, cy, curNodeSet) {
+    alert("draw");
+    cy.elements().remove();
+    special_nodes.clear();
+
+    updateZooming();
+
+    var inode = [];
+    var posx = {};
+    var posmin = {};
+    var posmax = {};
+
+    nodes_to_draw = [];
+    edges_to_draw = [];
+
+    findContigs(cy, chr, inode, posx, posmin, posmax, curNodeSet);
+    alert("find Contig");
+    addContigs(cy, inode, posx, posmin, posmax);
+    alert("add Contigs");
+
+    var vert_to_draw = findNodeAroundChr(inode, area_size, min_contig_len, isGoodEdge);
+    addOtherNodes(cy, curNodeSet, vert_to_draw);
+    addEdges(cy);
+    zoomAndFit();
+    createCoordinates(chr, cy);
+}
+
+
+
+function drawAlongChromosome(chr) {
+    var curNodeSet = new Set();
     cy = cytoscape({
         container: document.getElementById('mainpanel'),
 
@@ -447,15 +454,8 @@ function drawAlongChromosome(chr) {
         maxZoom: 25,
         minZoom: 0.005,
 
-        elements: {
-            nodes: dnodes,
-            edges: dedges
-        },
-
         layout: {
-            name: 'preset',
-
-            positions: pos
+            name: 'preset'
         },
 
 
@@ -505,8 +505,8 @@ function drawAlongChromosome(chr) {
             var w = (Math.log(getWeight(e)) + 1) * 4/ Math.log((cy.zoom() * defZoom));
             var cpd = cy.getElementById("e" + e.toString()).data("curveStyle");
             if (cpd === "unbundled-bezier") {
-                bg = scaffoldgraph.edges[e].from
-                ed = scaffoldgraph.edges[e].to
+                bg = scaffoldgraph.edges[e].from;
+                ed = scaffoldgraph.edges[e].to;
 
                 yminbg = cy.getElementById(bg).data('ymin');
                 ymaxbg = cy.getElementById(bg).data('ymax');
@@ -515,7 +515,7 @@ function drawAlongChromosome(chr) {
 
                 minDif = Math.min(Math.min(Math.abs(yminbg - ymaxed), Math.abs(yminbg - ymined)), Math.min(Math.abs(ymaxbg - ymaxed), Math.abs(ymaxbg - ymined)));
 
-                minDif = Math.log(minDif)
+                minDif = Math.log(minDif);
                 cpd = minDif * 10/ cy.zoom() + (Math.random() - 0.5) * minDif / cy.zoom();
                 cy.getElementById("e" + e.toString()).data("controlPointDistances", cpd);
             }
@@ -533,12 +533,12 @@ function drawAlongChromosome(chr) {
         cy.nodes(selectstr).data('width', nodeWidth);
     });
 
-    cy.zoom(1);
-    if (inode.length > 0) {
-        cy.fit(cy.$('#' + inode[0].id));
-    }
 
-    createCoordinates(chr, cy);
+    cy.zoom(1);
+    //if (inode.length > 0) {
+    //    cy.fit(cy.$('#' + inode[0].id));
+    //}
+    createGraph(chr, cy, curNodeSet);
 }
 
 function handleAlongChromosomesFilter() {
