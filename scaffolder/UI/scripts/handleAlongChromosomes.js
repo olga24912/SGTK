@@ -1,4 +1,7 @@
 var defZoom = 100;
+var maxZoom = 1000;
+var IntervalTree = {};
+
 
 function createCoordinates(chr, cy) {
     var cur_zoom = cy.zoom();
@@ -93,7 +96,11 @@ function calcY(curv, ypos, sumw) {
     return ypos/sumw;
 }
 
-function findNodeAroundChr(inode, area_size, min_contig_len, isGoodEdge) {
+function getYC_D() {
+    return 100/defZoom;
+}
+
+function findNodeAroundChr(inode, area_size, min_contig_len, isGoodEdge, curNodeSet) {
     var ypos = {};
     var newvert = [];
     var sumw = {};
@@ -121,7 +128,7 @@ function findNodeAroundChr(inode, area_size, min_contig_len, isGoodEdge) {
             if (isGoodEdge(curedge.id)) {
                 var curu = curedge.to;
                 if (scaffoldgraph.nodes[curu].len >= min_contig_len) {
-                    if ((!used_id.has(curu)) && curd < area_size) {
+                    if ((!used_id.has(curu)) && (curd < area_size || curNodeSet.has(curu))) {
                         rank[curu] = curd + 1;
                         used_id.add(curu);
                         newvert.push(curu);
@@ -138,7 +145,7 @@ function findNodeAroundChr(inode, area_size, min_contig_len, isGoodEdge) {
                         } else {
                             yc = calcY(curv, ypos[curv], sumw[curv]);
                         }
-                        yc = yc + Math.random() * 1000;
+                        yc = yc + Math.random() * getYC_D();
 
                         ypos[curu] += curedge.weight * yc;
                         sumw[curu] += curedge.weight;
@@ -155,7 +162,7 @@ function findNodeAroundChr(inode, area_size, min_contig_len, isGoodEdge) {
             if (isGoodEdge(curedge.id)) {
                 curu = curedge.from;
                 if (scaffoldgraph.nodes[curu].len >= min_contig_len) {
-                    if ((!used_id.has(curu)) && curd < area_size) {
+                    if ((!used_id.has(curu)) && (curd < area_size || curNodeSet.has(curu))) {
                         rank[curu] = curd + 1;
                         used_id.add(curu);
                         newvert.push(curu);
@@ -172,7 +179,7 @@ function findNodeAroundChr(inode, area_size, min_contig_len, isGoodEdge) {
                         } else {
                             yc = calcY(curv, ypos[curv], sumw[curv]);
                         }
-                        yc = yc  - Math.random() * 1000;
+                        yc = yc  - Math.random() * getYC_D();
 
                         ypos[curu] += curedge.weight * yc;
                         sumw[curu] += curedge.weight;
@@ -300,22 +307,129 @@ function createNewVerAlongChr(cy, area_size, min_contig_len, isGoodEdge, curNode
     });
 }
 
+function getWidth(cy) {
+    return 10/cy.zoom();
+}
 
-function updateZooming() {
+function getDispersion() {
+    return 10;
+}
 
+function getRankDist() {
+    return 25;
+}
+
+function getEdgeWeight(cy, e) {
+    return Math.log(getWeight(e))/cy.zoom();
+}
+
+function getScala(cy) {
+    return 1.5/cy.zoom();
+}
+
+function geOtherNodeWidth(id) {
+    return Math.log(scaffoldgraph.nodes[id].len)/cy.zoom();
+}
+
+function getPointDistances(cy, e) {
+    bg = scaffoldgraph.edges[e].from;
+    ed = scaffoldgraph.edges[e].to;
+
+    yminbg = cy.getElementById(bg).data('ymin');
+    ymaxbg = cy.getElementById(bg).data('ymax');
+    ymined = cy.getElementById(ed).data('ymin');
+    ymaxed = cy.getElementById(ed).data('ymax');
+
+    minDif = Math.min(Math.min(Math.abs(yminbg - ymaxed), Math.abs(yminbg - ymined)), Math.min(Math.abs(ymaxbg - ymaxed), Math.abs(ymaxbg - ymined)));
+
+    //minDif = Math.log(minDif);
+    return minDif / (cy.zoom()) + (Math.random() - 0.5) * minDif * 0.1 / (cy.zoom());
+}
+
+function updateZooming(cy, posx, posmin, posmax, oldPosition) {
+    //alert(cy.zoom());
+    //alert(x / cy.zoom());
+    //alert(cy.extent().x1);
+    //alert(cy.extent().x2);
+    var mul = 1;
+    while (cy.zoom() > 10 && defZoom > 1) {
+        cy.zoom(cy.zoom()/10);
+        mul = mul * 10;
+    }
+    while (cy.zoom() < 1) {
+        cy.zoom(cy.zoom()*10);
+        mul = mul / 10;
+    }
+
+    //alert(cy.extent().x1);
+    //alert(cy.extent().x2);
+
+    cy.nodes().forEach(function (ele) {
+        oldPosition.set(ele.id(), {x: ele.position("x"), y: ele.position("y")});
+    });
+
+    if (mul !== 1) {
+        defZoom /= mul;
+        oldPosition.clear();
+        var ks = Array.from(posx.keys());
+        for (var k = 0; k < ks.length; ++k) {
+            posx.set(ks[k], posx.get(ks[k]) * mul);
+        }
+        posmin.clear();
+        posmax.clear();
+    }
+}
+
+function processFoundContig(elem, inode, posx, posmin, posmax, curNodeSet) {
+    var vid = elem.id;
+    if (!(posx.has(vid))) {
+        posx.set(vid, Math.random() * getDispersion());
+    }
+    if (!(posmin.has(vid))) {
+        posmin.set(vid, elem.cb);
+        posmax.set(vid, elem.ce);
+    }
+    inode.push({id: elem.id, cb: elem.cb, ce: elem.ce});
+    special_nodes.add(vid);
+    curNodeSet.add(vid);
+}
+
+function findContigsByTree(tr, inode, posx, posmin, posmax, curNodeSet, ymin, ymax) {
+    if (tr["lstL"].length === 0) {
+        return;
+    }
+
+    if (ymin <= tr["md"] && ymax >= tr["md"]) {
+        for (var i = 0; i < tr["lstL"].length; ++i) {
+            processFoundContig(tr["lstL"][i], inode, posx, posmin, posmax, curNodeSet);
+        }
+    } else if (ymax < tr["md"]) {
+        for (i = 0; i < tr["lstL"].length; ++i) {
+            if (tr["lstL"].cb > ymax) {
+                break;
+            }
+            processFoundContig(tr["lstL"][i], inode, posx, posmin, posmax, curNodeSet);
+        }
+    } else if (ymin > tr["md"]) {
+        for (i = 0; i < tr["lstR"].length; ++i) {
+            if (tr["lstR"].ce < ymax) {
+                break;
+            }
+            processFoundContig(tr["lstL"][i], inode, posx, posmin, posmax, curNodeSet);
+        }
+    }
+
+
+    if (ymin < tr["md"]) {
+        findContigsByTree(tr["lt"], inode, posx, posmin, posmax, curNodeSet, ymin, ymax);
+    }
+    if (ymax > tr["md"]) {
+        findContigsByTree(tr["rt"], inode, posx, posmin, posmax, curNodeSet, ymin, ymax);
+    }
 }
 
 function findContigs(cy, chr, inode, posx, posmin, posmax, curNodeSet) {
-    for (i = 0; i < chromosomes[chr].alignments.length; ++i) {
-        var curalig = chromosomes[chr].alignments[i];
-        var vid = curalig.node_id;
-        posx[vid] = Math.random() * 100;
-        posmin[vid] = curalig.coordb / defZoom;
-        posmax[vid] = curalig.coorde / defZoom;
-        inode.push({id: vid, cb: curalig.coordb / defZoom, ce: curalig.coorde / defZoom});
-        special_nodes.add(curalig.node_id);
-        curNodeSet.add(curalig.node_id);
-    }
+    findContigsByTree(IntervalTree[defZoom], inode, posx, posmin, posmax, curNodeSet, cy.extent().y1, cy.extent().y2);
 }
 
 function addContigs(cy, inode, posx, posmin, posmax) {
@@ -328,21 +442,21 @@ function addContigs(cy, inode, posx, posmin, posmax) {
                 label: createLabelForNode(vid),
                 len: inode[i].ce - inode[i].cb,
                 color: genColorNode(vid),
-                width: 10,
+                width: getWidth(cy),
                 rank: 0,
                 ymin: inode[i].cb,
                 ymax: inode[i].ce,
                 faveShape: 'rectangle'
             },
             position: {
-                x: posx[vid],
-                y: (posmin[vid] + posmax[vid])/2
+                x: posx.get(vid),
+                y: (posmin.get(vid) + posmax.get(vid))/2
             }
         });
     }
 }
 
-function addOtherNodes(cy, curNodeSet, vert_to_draw) {
+function addOtherNodes(cy, curNodeSet, vert_to_draw, oldPosition) {
     for (var g = 0; g < vert_to_draw.length; ++g) {
         curNodeSet.add(vert_to_draw[g].id);
     }
@@ -353,30 +467,31 @@ function addOtherNodes(cy, curNodeSet, vert_to_draw) {
             nall = 'triangle';
         }
 
+        if (!(oldPosition.has(vert_to_draw[g].id))) {
+            oldPosition.set(vert_to_draw[g].id, {x: getRankDist() * vert_to_draw[g].rank + Math.random() * getDispersion(),
+                y: vert_to_draw[g].y + Math.random() * getDispersion()});
+        }
+
         cy.add({
             group: "nodes",
             data: {
                 id: vert_to_draw[g].id,
                 label: createLabelForNode(vert_to_draw[g].id),
-                len: 20 * Math.log(scaffoldgraph.nodes[vert_to_draw[g].id].len),
-                width: 20 * Math.log(scaffoldgraph.nodes[vert_to_draw[g].id].len),
+                len: geOtherNodeWidth(vert_to_draw[g].id),
+                width: geOtherNodeWidth(vert_to_draw[g].id),
                 color: genColorNode(vert_to_draw[g].id),
                 rank: vert_to_draw[g].rank,
                 faveShape: nall
             },
             position: {
-                x: 2000 * vert_to_draw[g].rank + Math.random() * 100,
-                y: vert_to_draw[g].y
+                x: oldPosition.get(vert_to_draw[g].id).x,
+                y: oldPosition.get(vert_to_draw[g].id).y
             }
         });
     }
 }
 
 function addEdges(cy) {
-    alert(special_nodes.size);
-    alert(special_nodes.has(71));
-    alert('71' in special_nodes);
-
     for (g = 0; g < edges_to_draw.length; ++g) {
         if (!(special_nodes.has(scaffoldgraph.edges[edges_to_draw[g]].from)) ||
             !(special_nodes.has(scaffoldgraph.edges[edges_to_draw[g]].to))) {
@@ -388,9 +503,10 @@ function addEdges(cy) {
                     target: scaffoldgraph.edges[edges_to_draw[g]].to,
                     label: createLabelForEdge(edges_to_draw[g]),
                     faveColor: scaffoldgraph.libs[scaffoldgraph.edges[edges_to_draw[g]].lib].color,
-                    weight: Math.log(getWeight(edges_to_draw[g])) + 1,
+                    weight: getEdgeWeight(cy, edges_to_draw[g]),
                     curveStyle: "bezier",
-                    controlPointDistances: 100
+                    controlPointDistances: 1,
+                    scala: getScala(cy)
                 }
             });
         } else {
@@ -402,57 +518,99 @@ function addEdges(cy) {
                     target: scaffoldgraph.edges[edges_to_draw[g]].to,
                     label: createLabelForEdge(edges_to_draw[g]),
                     faveColor: scaffoldgraph.libs[scaffoldgraph.edges[edges_to_draw[g]].lib].color,
-                    weight: Math.log(getWeight(edges_to_draw[g])) + 1,
+                    weight: getEdgeWeight(cy, edges_to_draw[g]),
                     curveStyle: "unbundled-bezier",
-                    controlPointDistances: 100 + Math.random() * 10
+                    controlPointDistances: getPointDistances(cy, edges_to_draw[g]),
+                    scala: getScala(cy)
                 }
             });
         }
     }
 }
 
-function zoomAndFit() {
-
-}
-
-function createGraph(chr, cy, curNodeSet) {
-    alert("draw");
+function createGraph(chr, cy, curNodeSet, posx, posmin, posmax, oldPosition) {
+    updateZooming(cy, posx, posmin, posmax, oldPosition);
     cy.elements().remove();
     special_nodes.clear();
 
-    updateZooming();
-
     var inode = [];
-    var posx = {};
-    var posmin = {};
-    var posmax = {};
 
     nodes_to_draw = [];
     edges_to_draw = [];
 
     findContigs(cy, chr, inode, posx, posmin, posmax, curNodeSet);
-    alert("find Contig");
     addContigs(cy, inode, posx, posmin, posmax);
-    alert("add Contigs");
 
-    var vert_to_draw = findNodeAroundChr(inode, area_size, min_contig_len, isGoodEdge);
-    addOtherNodes(cy, curNodeSet, vert_to_draw);
+    var vert_to_draw = findNodeAroundChr(inode, area_size, min_contig_len, isGoodEdge, curNodeSet);
+    addOtherNodes(cy, curNodeSet, vert_to_draw, oldPosition);
     addEdges(cy);
-    zoomAndFit();
     createCoordinates(chr, cy);
 }
 
+function buildITree(lst) {
+    if (lst.length === 0) {
+        return {lt: -1, rt: -1, lstL: [], lstR: [], md: -1};
+    }
 
+    elem = [];
+    for (var i = 0; i < lst.length; ++i) {
+        elem.push(lst[i].cb);
+        elem.push(lst[i].ce);
+    }
+    elem.sort();
+
+    var tr = {lt: -1, rt: -1, lstL: [], lstR: [], md: elem[Math.floor(elem.length/2)]};
+    var lstR = [];
+    var lstL = [];
+    for (i = 0; i < lst.length; ++i) {
+        if (lst[i].ce < tr.md) {
+            lstL.push(lst[i]);
+        } else if (lst[i].cb > tr.md) {
+            lstR.push(lst[i]);
+        } else {
+            tr["lstL"].push(lst[i]);
+            tr["lstR"].push(lst[i]);
+        }
+    }
+
+    tr["lstL"].sort(function (a, b) { return a.cb - b.cb });
+    tr["lstR"].sort(function (a, b) { return b.ce - a.ce });
+
+    tr["lt"] = buildITree(lstL);
+    tr["rt"] = buildITree(lstR);
+    return tr;
+}
+
+function buildIT(chr, dz) {
+    lst = [];
+    for (var i = 0; i < chromosomes[chr].alignments.length; ++i) {
+        var curalig = chromosomes[chr].alignments[i];
+        lst.push({id: curalig.node_id, cb: curalig.coordb / dz, ce: curalig.coorde / dz})
+    }
+
+    return buildITree(lst);
+}
 
 function drawAlongChromosome(chr) {
+    defZoom = 100;
+    for (var i = 1; i <= maxZoom; i *= 10) {
+        alert("build " + i.toString());
+        IntervalTree[i] = buildIT(chr, i);
+    }
+    alert("Finish build");
+
     var curNodeSet = new Set();
+    var posx = new Map();
+    var posmin = new Map();
+    var posmax = new Map();
+    var oldPosition = new Map();
     cy = cytoscape({
         container: document.getElementById('mainpanel'),
 
         boxSelectionEnabled: false,
         autounselectify: true,
-        maxZoom: 25,
-        minZoom: 0.005,
+        maxZoom: 11,
+        minZoom: 0.1,
 
         layout: {
             name: 'preset'
@@ -478,7 +636,7 @@ function drawAlongChromosome(chr) {
                 'curve-style': 'data(curveStyle)',
                 "control-point-distances": 'data(controlPointDistances)',
                 "control-point-weights": 0.5,
-                "arrow-scale": 7,
+                "arrow-scale": 'data(scala)',
                 'target-arrow-shape': 'triangle',
                 'line-color': 'data(faveColor)',
                 'target-arrow-color': 'data(faveColor)',
@@ -491,54 +649,14 @@ function drawAlongChromosome(chr) {
     createNewVerAlongChr(cy, area_size, min_contig_len, isGoodEdge, curNodeSet);
 
     cy.on('zoom', function () {
-        createCoordinates(chr, cy);
-        var nodeWidth = 10 / cy.zoom();
-
-        var y1 = cy.extent().y1;
-        var y2 = cy.extent().y2;
-
-        var selectstr = "[faveShape='rectangle'][ymin <= " + y2 + "][ymax >= " + y1 + "]";
-
-        cy.nodes(selectstr).data('width', nodeWidth);
-        for (var i = 0; i < edges_to_draw.length; ++i) {
-            var e = edges_to_draw[i];
-            var w = (Math.log(getWeight(e)) + 1) * 4/ Math.log((cy.zoom() * defZoom));
-            var cpd = cy.getElementById("e" + e.toString()).data("curveStyle");
-            if (cpd === "unbundled-bezier") {
-                bg = scaffoldgraph.edges[e].from;
-                ed = scaffoldgraph.edges[e].to;
-
-                yminbg = cy.getElementById(bg).data('ymin');
-                ymaxbg = cy.getElementById(bg).data('ymax');
-                ymined = cy.getElementById(ed).data('ymin');
-                ymaxed = cy.getElementById(ed).data('ymax');
-
-                minDif = Math.min(Math.min(Math.abs(yminbg - ymaxed), Math.abs(yminbg - ymined)), Math.min(Math.abs(ymaxbg - ymaxed), Math.abs(ymaxbg - ymined)));
-
-                minDif = Math.log(minDif);
-                cpd = minDif * 10/ cy.zoom() + (Math.random() - 0.5) * minDif / cy.zoom();
-                cy.getElementById("e" + e.toString()).data("controlPointDistances", cpd);
-            }
-            cy.getElementById("e" + e.toString()).data('weight', w);
-        }
+        createGraph(chr, cy, curNodeSet, posx, posmin, posmax, oldPosition);
     });
+
     cy.on('pan', function() {
-        createCoordinates(chr, cy);
-
-        var nodeWidth = 10 / cy.zoom();
-        var y1 = cy.extent().y1;
-        var y2 = cy.extent().y2;
-
-        var selectstr = "[faveShape='rectangle'][ymin <= " + y2 + "][ymax >= " + y1 + "]";
-        cy.nodes(selectstr).data('width', nodeWidth);
+        createGraph(chr, cy, curNodeSet, posx, posmin, posmax, oldPosition);
     });
 
-
-    cy.zoom(1);
-    //if (inode.length > 0) {
-    //    cy.fit(cy.$('#' + inode[0].id));
-    //}
-    createGraph(chr, cy, curNodeSet);
+    createGraph(chr, cy, curNodeSet, posx, posmin, posmax, oldPosition);
 }
 
 function handleAlongChromosomesFilter() {
