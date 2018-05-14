@@ -59,10 +59,24 @@ namespace builder {
             int len;
 
             while (in >> fr >> frd >> sc >> scd >> w >> len) {
+                std::string info;
+                getline(in, info);
+                if (info != "") {
+                    int i = 0;
+                    while (i < info.size() && info[i] == ' ') {
+                        ++i;
+                    }
+                    info = info.substr(i, info.size() - i);
+                    while (info.size() > 0 && info[info.size() - 1] == ' ') {
+                        info.resize(info.size() - 1);
+                    }
+                    if (info[0] == '"' && info[info.size() - 1] == '"') {
+                        info = info.substr(1, info.size() - 2);
+                    }
+                }
+
                 fr = fr.substr(1, fr.size() - 1);
                 sc = sc.substr(1, sc.size() - 1);
-
-                std::cerr << fr << " " << sc << "\n";
 
                 if (frd[0] == '-') {
                     fr += "-rev";
@@ -71,8 +85,8 @@ namespace builder {
                     sc += "-rev";
                 }
 
-                graph->addEdge(contigsId[fr], contigsId[sc], w, len);
-                graph->addEdge(contigsId[sc]^1, contigsId[fr]^1, w, len);
+                graph->addEdge(contigsId[fr], contigsId[sc], w, len, info);
+                graph->addEdge(contigsId[sc]^1, contigsId[fr]^1, w, len, info);
             }
 
             in.close();

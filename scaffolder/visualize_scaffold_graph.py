@@ -521,10 +521,14 @@ def add_conection_to_res_file(f):
 
         cntedge = int(g.readline())
         for i in range(cntedge):
-            edgesinfo = (g.readline()).split(" ")
+            curs = g.readline()
+            extraInfo = ""
+            if ("\""  in curs):
+                extraInfo = curs.split("\"")[1]
+            edgesinfo = curs.split(" ")
             f.write("scaffoldedges.push(new ScaffoldEdge(" + edgesinfo[1] + ", " + edgesinfo[2] + ", " + edgesinfo[3] + ", " + edgesinfo[4] + ", " + edgesinfo[5] + "));\n")
             f.write("scaffoldedges[" + str(i) + "].len=" + str(edgesinfo[6]) + ";\n")
-
+            f.write("scaffoldedges[" + str(i) + "].info=\"" + extraInfo + "\";\n")
 
 def add_refcoord_to_res_file(contig_file_name, f):
     if (len(args.libs["refcoord"]) == 0):

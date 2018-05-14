@@ -149,13 +149,25 @@ namespace filter {
             out << edgeCnt << "\n";
             for (auto e : edges) {
                 out << "e " << new_edge[e.first] << " " << new_vert[e.second.from] << " " << new_vert[e.second.to] << " " <<
-                    new_lib[e.second.lib] << " " << e.second.weight << " " << e.second.len << " \"coord: " << e.second.coordBegin1 << " " <<
-                    e.second.coordEnd1 << " " << e.second.coordBegin2 << " " << e.second.coordEnd2;
+                    new_lib[e.second.lib] << " " << e.second.weight << " " << e.second.len;
 
-                if (e.second.chr_name != "") {
-                    out << " chr_name: " << e.second.chr_name << "\"\n";
+
+                if (libs[e.second.lib].type == Lib::RNA_PAIR || libs[e.second.lib].type == Lib::RNA_SPLIT_30 ||
+                    libs[e.second.lib].type == Lib::RNA_SPLIT_50) {
+                    out << " \"coord: " << e.second.coordBegin1 << " " <<
+                        e.second.coordEnd1 << " " << e.second.coordBegin2 << " " << e.second.coordEnd2;
+
+                    if (e.second.chr_name != "") {
+                        out << " chr_name: " << e.second.chr_name << "\" \n";
+                    } else {
+                        out << "\"\n";
+                    }
                 } else {
-                    out << "\"\n";
+                    if (e.second.info != "") {
+                        out << " \"" << e.second.info << "\"\n";
+                    } else {
+                        out << "\n";
+                    }
                 }
             }
 

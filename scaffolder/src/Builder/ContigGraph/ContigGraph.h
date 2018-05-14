@@ -27,6 +27,7 @@ namespace builder {
                 int coordBegin2;
                 int coordEnd2;
                 std::string chr_name = "";
+                std::string info = "";
 
                 Edge() {}
 
@@ -104,7 +105,7 @@ namespace builder {
 
             int getTargetId(std::string name);
             int addEdge(int v1, int v2, std::pair<int, int> c1, std::pair<int, int> c2);
-            int addEdge (int v1, int v2, double w, int len=-1);
+            int addEdge (int v1, int v2, double w, int len=-1, std::string info = "");
             void incEdge(int v, std::pair<int, int> c1, std::pair<int, int> c2);
 
 

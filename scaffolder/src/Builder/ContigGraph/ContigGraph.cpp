@@ -105,13 +105,24 @@ namespace builder {
             out << edges.size() << "\n";
             for (int i = 0; i < (int) edges.size(); ++i) {
                 out << "e " << i << " " << edges[i].from << " " << edges[i].to << " " <<
-                    edges[i].lib << " " << edges[i].weight << " " << edges[i].len << " " << " \"coord: " <<
-                    edges[i].coordBegin1 << " " << edges[i].coordEnd1 << " " <<
-                    edges[i].coordBegin2 << " " << edges[i].coordEnd2;
-                if (edges[i].chr_name != "") {
-                    out << " chr_name: " << edges[i].chr_name << "\"\n";
+                    edges[i].lib << " " << edges[i].weight << " " << edges[i].len;
+
+                if (libs[edges[i].lib].type == Lib::RNA_PAIR || libs[edges[i].lib].type == Lib::RNA_SPLIT_30 ||
+                        libs[edges[i].lib].type == Lib::RNA_SPLIT_50) {
+                    out << " " << " \"coord: " <<
+                        edges[i].coordBegin1 << " " << edges[i].coordEnd1 << " " <<
+                        edges[i].coordBegin2 << " " << edges[i].coordEnd2;
+                    if (edges[i].chr_name != "") {
+                        out << " chr_name: " << edges[i].chr_name << " \"\n";
+                    } else {
+                        out << "\"\n";
+                    }
                 } else {
-                    out << "\"\n";
+                    if (edges[i].info != "") {
+                        out << " \"" << edges[i].info << "\"\n";
+                    } else {
+                        out << "\n";
+                    }
                 }
             }
 
@@ -256,11 +267,12 @@ namespace builder {
             edges[e].coordEnd2 = c2.second;
         }
 
-        int ContigGraph::addEdge(int v1, int v2, double w, int len) {
+        int ContigGraph::addEdge(int v1, int v2, double w, int len, std::string info) {
             int e = (int) edges.size();
             edges.push_back(Edge(e, v1, v2, (int) libs.size() - 1, w, 0, 0,
                                  0, 0));
             edges[edges.size() - 1].len = len;
+            edges[edges.size() - 1].info = info;
 
             graph[v1].push_back(e);
             graphR[v2].push_back(e);

@@ -40,6 +40,7 @@ namespace filter {
                 int coordBegin2 = 0;
                 int coordEnd2 = 0;
                 std::string chr_name = "";
+                std::string info = "";
 
                 Edge() {}
 

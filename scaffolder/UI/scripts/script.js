@@ -14,11 +14,6 @@ function createLabelForNode(node) {
         label += "len: " + scaffoldgraph.nodes[node].len + "\n";
     }
 
-    if (document.getElementById("vert_checkbox_cover").checked) {
-        if (scaffoldgraph.nodes[node].cover >= 0) {
-            label += "Coverage: " + scaffoldgraph.nodes[node].cover + "\n";
-        }
-    }
     if (document.getElementById("vert_checkbox_align").checked) {
         if (scaffoldgraph.nodes[node].alignments.length > 0) {
             label += "Alignment: ";
@@ -45,9 +40,6 @@ function createFullLabelForNode(node) {
     label += "id: " + scaffoldgraph.nodes[node].id + "<br/>";
     label += scaffoldgraph.nodes[node].name + "<br/>";
     label += "len: " + scaffoldgraph.nodes[node].len + "<br/>";
-    if (scaffoldgraph.nodes[node].cover >= 0) {
-        label += "Coverage: " + scaffoldgraph.nodes[node].cover + "<br/>";
-    }
     if (scaffoldgraph.nodes[node].alignments.length > 0) {
         label += "Alignment: ";
         scaffoldgraph.nodes[node].alignments.sort(function (a, b) {

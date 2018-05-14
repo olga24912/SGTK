@@ -661,7 +661,6 @@ function ScaffoldNode(id, name, len) {
     this.name = name;
     this.len = len;
     this.alignments = [];
-    this.cover = -1;
     this.info = "";
 }
 
