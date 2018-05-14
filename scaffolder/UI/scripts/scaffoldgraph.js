@@ -647,6 +647,8 @@ function ScaffoldEdge(id, from, to, lib, weight) {
     this.lib = lib;
     this.weight = weight;
     this.name = "";
+    this.len = -1;
+    this.info = "";
 }
 
 function Scaffold(name) {
@@ -659,6 +661,8 @@ function ScaffoldNode(id, name, len) {
     this.name = name;
     this.len = len;
     this.alignments = [];
+    this.cover = -1;
+    this.info = "";
 }
 
 function ScaffoldEdgeLib(id, color, name, type) {

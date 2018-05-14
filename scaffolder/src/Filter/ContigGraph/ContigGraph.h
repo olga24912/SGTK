@@ -33,7 +33,8 @@ namespace filter {
                 int from = 0;
                 int to = 0;
                 int lib = 0;
-                int weight = 0;
+                double weight = 0;
+                int len = -1;
                 int coordBegin1 = 0;
                 int coordEnd1 = 0;
                 int coordBegin2 = 0;

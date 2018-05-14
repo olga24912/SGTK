@@ -21,6 +21,7 @@ namespace builder {
                 int to;
                 int lib;
                 double weight;
+                int len = -1;
                 int coordBegin1;
                 int coordEnd1;
                 int coordBegin2;
@@ -103,7 +104,7 @@ namespace builder {
 
             int getTargetId(std::string name);
             int addEdge(int v1, int v2, std::pair<int, int> c1, std::pair<int, int> c2);
-            int addEdge (int v1, int v2, double w);
+            int addEdge (int v1, int v2, double w, int len=-1);
             void incEdge(int v, std::pair<int, int> c1, std::pair<int, int> c2);
 
 

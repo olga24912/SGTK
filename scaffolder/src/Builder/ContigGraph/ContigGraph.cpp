@@ -105,12 +105,13 @@ namespace builder {
             out << edges.size() << "\n";
             for (int i = 0; i < (int) edges.size(); ++i) {
                 out << "e " << i << " " << edges[i].from << " " << edges[i].to << " " <<
-                    edges[i].lib << " " << edges[i].weight << " coord: " << edges[i].coordBegin1 << " " <<
-                    edges[i].coordEnd1 << " " << edges[i].coordBegin2 << " " << edges[i].coordEnd2;
+                    edges[i].lib << " " << edges[i].weight << " " << edges[i].len << " " << " \"coord: " <<
+                    edges[i].coordBegin1 << " " << edges[i].coordEnd1 << " " <<
+                    edges[i].coordBegin2 << " " << edges[i].coordEnd2;
                 if (edges[i].chr_name != "") {
-                    out << " chr_name: " << edges[i].chr_name << "\n";
+                    out << " chr_name: " << edges[i].chr_name << "\"\n";
                 } else {
-                    out << "\n";
+                    out << "\"\n";
                 }
             }
 
@@ -160,6 +161,7 @@ namespace builder {
                 g.targets.resize(mxT);
                 in >> g.targets[v].name;
                 in >> g.targets[v].len;
+                //TODO: read extra info to /dev/null ?
                 g.targetId[g.targets[v].name] = v;
             }
 
@@ -175,9 +177,10 @@ namespace builder {
                 std::string curLine;
                 getline(in, curLine);
                 std::stringstream ss(curLine);
-                ss >> c >> id >> g.edges[i].from >> g.edges[i].to >> g.edges[i].lib >> g.edges[i].weight;
+                ss >> c >> id >> g.edges[i].from >> g.edges[i].to >> g.edges[i].lib >> g.edges[i].weight >> g.edges[i].len;
                 g.graph[g.edges[i].from].push_back(i);
                 g.graphR[g.edges[i].to].push_back(i);
+                //TODO: read extra info to /dev/null ?
                 std::string tmp;
                 if (ss >> tmp) {
                     ss >> g.edges[i].coordBegin1 >> g.edges[i].coordEnd1 >> g.edges[i].coordBegin2 >> g.edges[i].coordEnd2;
@@ -253,10 +256,11 @@ namespace builder {
             edges[e].coordEnd2 = c2.second;
         }
 
-        int ContigGraph::addEdge(int v1, int v2, double w) {
+        int ContigGraph::addEdge(int v1, int v2, double w, int len) {
             int e = (int) edges.size();
             edges.push_back(Edge(e, v1, v2, (int) libs.size() - 1, w, 0, 0,
                                  0, 0));
+            edges[edges.size() - 1].len = len;
 
             graph[v1].push_back(e);
             graphR[v2].push_back(e);

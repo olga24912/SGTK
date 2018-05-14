@@ -481,6 +481,7 @@ def save_scaffolds_from_fasta(contig_file_name, lib, f):
                     f.write("scaffoldedges.push(new ScaffoldEdge(" + str(cntedge) + ", "+ str(contigsAlignment[rc][lst][2]) +
                         ", " + str(contigsAlignment[rc][i][2]) + ", " + str(cntlib) + ", 1));\n")
                     f.write("scaffoldedges["+str(cntedge)+"].name='"+ rc + "';\n")
+                    f.write("scaffoldedges["+str(cntedge)+"].len=" + str(contigsAlignment[rc][i][0] - contigsAlignment[rc][lst][1]) + "\n")
                     f.write("scaffoldlibs["+ str(cntlib) +"].scaffolds["+str(scafnum) +"].edges.push(scaffoldedges["+str(cntedge)+"]);\n")
                     cntedge += 1
                     lst = i
@@ -522,6 +523,7 @@ def add_conection_to_res_file(f):
         for i in range(cntedge):
             edgesinfo = (g.readline()).split(" ")
             f.write("scaffoldedges.push(new ScaffoldEdge(" + edgesinfo[1] + ", " + edgesinfo[2] + ", " + edgesinfo[3] + ", " + edgesinfo[4] + ", " + edgesinfo[5] + "));\n")
+            f.write("scaffoldedges[" + str(i) + "].len=" + str(edgesinfo[6]) + ";\n")
 
 
 def add_refcoord_to_res_file(contig_file_name, f):

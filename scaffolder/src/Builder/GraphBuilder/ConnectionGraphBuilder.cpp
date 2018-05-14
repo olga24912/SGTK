@@ -71,8 +71,8 @@ namespace builder {
                     sc += "-rev";
                 }
 
-                graph->addEdge(contigsId[fr], contigsId[sc], w);
-                graph->addEdge(contigsId[sc]^1, contigsId[fr]^1, w);
+                graph->addEdge(contigsId[fr], contigsId[sc], w, len);
+                graph->addEdge(contigsId[sc]^1, contigsId[fr]^1, w, len);
             }
 
             in.close();

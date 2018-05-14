@@ -149,13 +149,13 @@ namespace filter {
             out << edgeCnt << "\n";
             for (auto e : edges) {
                 out << "e " << new_edge[e.first] << " " << new_vert[e.second.from] << " " << new_vert[e.second.to] << " " <<
-                    new_lib[e.second.lib] << " " << e.second.weight << " coord: " << e.second.coordBegin1 << " " <<
+                    new_lib[e.second.lib] << " " << e.second.weight << " " << e.second.len << " \"coord: " << e.second.coordBegin1 << " " <<
                     e.second.coordEnd1 << " " << e.second.coordBegin2 << " " << e.second.coordEnd2;
 
                 if (e.second.chr_name != "") {
-                    out << " chr_name: " << e.second.chr_name << "\n";
+                    out << " chr_name: " << e.second.chr_name << "\"\n";
                 } else {
-                    out << "\n";
+                    out << "\"\n";
                 }
             }
 
@@ -195,6 +195,7 @@ namespace filter {
                 in >> v;
                 in >> g.targets[v].name;
                 in >> g.targets[v].len;
+                //TODO: read info
                 g.targetId[g.targets[v].name] = v;
             }
 
@@ -209,7 +210,7 @@ namespace filter {
                 std::string curLine;
                 getline(in, curLine);
                 std::stringstream ss(curLine);
-                ss >> c >> id >> g.edges[i].from >> g.edges[i].to >> g.edges[i].lib >> g.edges[i].weight;
+                ss >> c >> id >> g.edges[i].from >> g.edges[i].to >> g.edges[i].lib >> g.edges[i].weight >> g.edges[i].len;
                 g.targets[g.edges[i].from].edges.push_back(i);
                 g.targets[g.edges[i].to].edgesR.push_back(i);
                 std::string tmp;
@@ -218,6 +219,7 @@ namespace filter {
                 g.edges[i].coordBegin2 = 0;
                 g.edges[i].coordEnd2 = 0;
                 g.edges[i].chr_name = "";
+                //TODO: read info
                 if (ss >> tmp) {
                     ss >> g.edges[i].coordBegin1 >> g.edges[i].coordEnd1 >> g.edges[i].coordBegin2 >> g.edges[i].coordEnd2;
                 }

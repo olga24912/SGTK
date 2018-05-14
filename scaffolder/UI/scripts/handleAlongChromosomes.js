@@ -314,6 +314,7 @@ function createNewVerAlongChr(cy, area_size, min_contig_len, isGoodEdge, curNode
                     y: yc + (Math.random() - 0.5) * getDispersion()
                 }
             });
+            cy.$("#" + u.toString()).style({"font-size": 10 / cy.zoom(), "text-valign": "center", "text-halign": "right"});
         }
 
         for (g = 0; g < needAddEdge.length; ++g) {
@@ -333,6 +334,7 @@ function createNewVerAlongChr(cy, area_size, min_contig_len, isGoodEdge, curNode
                     scala: getScala(cy)
                 }
             });
+            cy.$("#" + "e" + eid.toString()).style({"font-size": 10 / cy.zoom(), "edge-text-rotation": "autorotate"});
         }
 
         for (g = 0; g < nodes_to_draw.length; ++g) {
@@ -446,6 +448,13 @@ function addContigs(cy, inode, posx, posmin, posmax) {
                 y: (posmin.get(vid) + posmax.get(vid))/2
             }
         });
+        if (defZoom < 10000) {
+            cy.$("#" + vid.toString()).style({
+                "font-size": 10 / cy.zoom(),
+                "text-valign": "center",
+                "text-halign": "right"
+            });
+        }
     }
 }
 
@@ -482,6 +491,13 @@ function addOtherNodes(cy, curNodeSet, vert_to_draw, oldPosition) {
                 y: oldPosition.get(vert_to_draw[g].id.toString()).y
             }
         });
+        if (defZoom < 10000) {
+            cy.$("#" + vert_to_draw[g].id.toString()).style({
+                "font-size": 10 / cy.zoom(),
+                "text-valign": "center",
+                "text-halign": "right"
+            });
+        }
     }
 }
 
@@ -494,7 +510,7 @@ function getPointDistances(cy, e, deepsPOS, toSmallCoord) {
     var order2 = cy.getElementById(ed).data('order');
 
     var oneStepDistant = 75;
-    var randFree = 30;
+    var randFree = 50;
     return deepsPOS[toSmallCoord[Math.min(order1, order2)]][toSmallCoord[Math.max(order1, order2)] -
     toSmallCoord[Math.min(order1, order2)]] * oneStepDistant/cy.zoom() + randFree*Math.random()/cy.zoom();
     /*deepsPOS[toSmallCoord[Math.min(order1, order2)]][toSmallCoord[Math.max(order1, order2)] -
@@ -597,6 +613,12 @@ function addEdges(cy) {
                     controlPointDistances: getPointDistances(cy, edges_to_draw[g], deepsPOS, toSmallCoord),
                     scala: getScala(cy)
                 }
+            });
+        }
+        if (defZoom < 10000) {
+            cy.$("#" + "e" + edges_to_draw[g].toString()).style({
+                "font-size": 10 / cy.zoom(),
+                "edge-text-rotation": "autorotate"
             });
         }
     }
