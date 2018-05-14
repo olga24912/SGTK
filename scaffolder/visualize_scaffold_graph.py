@@ -236,8 +236,9 @@ def alig_reads(contig_file_name, args):
         os.makedirs(gen_dir)
 
     try:
-        os.system("STAR --runMode genomeGenerate --genomeDir genomeDir --runThreadN 20 --genomeSAindexNbases 10 --genomeFastaFiles " +
-                  contig_file_name + " --limitGenomeGenerateRAM 90000000000")
+        if (len(args.libs["rnap"]) > 0 or len(args.libs["rnas"]) > 0):
+            os.system("STAR --runMode genomeGenerate --genomeDir genomeDir --runThreadN 20 --genomeSAindexNbases 10 --genomeFastaFiles " +
+                      contig_file_name + " --limitGenomeGenerateRAM 90000000000")
     except:
         log.err(sys.exc_info()[0])
         return
@@ -599,12 +600,27 @@ def add_refcoord_to_res_file(contig_file_name, f):
                 f.write(", ")
         f.write("];\n")
     
+def getRefFileName(fileName):
+    return fileName.split('/')[-1].split('.')[0]
+
+
+def merge_ref_files(ref_libs):
+    if (len(ref_libs) == 1):
+        return ref_libs[0]
+
+    with open("ref_merge.fasta", "w") as out:
+        for i in range(len(ref_libs)):
+            for record in SeqIO.parse(ref_libs[i].path[0], "fasta"):
+                record.id = getRefFileName(ref_libs[i].path[0]) + "_" + record.id
+                SeqIO.write(record, out, "fasta")
+
+    return Lib([os.path.abspath("ref_merge.fasta")], "ref", "ref")
 
 def add_ref_to_res_file(contig_file_name, f):
     if (len(args.libs["ref"]) == 0):
         return
 
-    lib = args.libs["ref"][0]
+    lib = merge_ref_files(args.libs["ref"])
 
     prevdir = os.getcwd()
     lib_dir = os.path.dirname(os.path.abspath(lib.name) + "/")
@@ -708,6 +724,8 @@ def run(args):
                 if args.label != None:
                     lib.label = args.label[lib.id]
 
+        if (not os.path.exists(os.path.dirname(os.path.abspath("ref_ref") + "/"))):
+            os.makedirs(os.path.dirname(os.path.abspath("ref_ref") + "/"))
         alig_reads(contig_file_name, args)
         build_graph(contig_file_name, args)
 

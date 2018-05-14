@@ -407,7 +407,7 @@ function findContigsByTree(tr, inode, posx, posmin, posmax, curNodeSet, ymin, ym
         }
     } else if (ymin > tr["md"]) {
         for (i = 0; i < tr["lstR"].length; ++i) {
-            if (tr["lstR"][i].ce < ymax) {
+            if (tr["lstR"][i].ce < ymin) {
                 break;
             }
             processFoundContig(tr["lstR"][i], inode, posx, posmin, posmax, curNodeSet, tr["lt"]["size"] + tr["lstR"].length - i - 1 + lsm);
@@ -429,6 +429,7 @@ function findContigs(cy, chr, inode, posx, posmin, posmax, curNodeSet) {
 function addContigs(cy, inode, posx, posmin, posmax) {
     for (i = 0; i < inode.length; ++i) {
         var vid = inode[i].id;
+        console.log("add contigs " + vid.toString());
         cy.add({
             group: "nodes",
             data: {
@@ -511,6 +512,10 @@ function getPointDistances(cy, e, deepsPOS, toSmallCoord) {
 
     var oneStepDistant = 75;
     var randFree = 50;
+    console.log(toSmallCoord[Math.min(order1, order2)]);
+    console.log(toSmallCoord[Math.max(order1, order2)]);
+    console.log(order2);
+    console.log(order1);
     return deepsPOS[toSmallCoord[Math.min(order1, order2)]][toSmallCoord[Math.max(order1, order2)] -
     toSmallCoord[Math.min(order1, order2)]] * oneStepDistant/cy.zoom() + randFree*Math.random()/cy.zoom();
     /*deepsPOS[toSmallCoord[Math.min(order1, order2)]][toSmallCoord[Math.max(order1, order2)] -
@@ -526,17 +531,24 @@ function calculateDinamicForDistPoint(cy, deepsPOS, toSmallCoord) {
     for (var g = 0; g < edges_to_draw.length; ++g) {
         if (special_nodes.has(scaffoldgraph.edges[edges_to_draw[g]].from) &&
             special_nodes.has(scaffoldgraph.edges[edges_to_draw[g]].to)) {
-            idslist.push(cy.getElementById(scaffoldgraph.edges[edges_to_draw[g]].from).data('order'));
-            idslist.push(cy.getElementById(scaffoldgraph.edges[edges_to_draw[g]].to).data('order'));
+            console.log("from " + scaffoldgraph.edges[edges_to_draw[g]].from.toString());
+            console.log("to " + scaffoldgraph.edges[edges_to_draw[g]].to.toString());
+            console.log(cy.getElementById(scaffoldgraph.edges[edges_to_draw[g]].from).data('order'));
+            console.log(cy.getElementById(scaffoldgraph.edges[edges_to_draw[g]].to).data('order'));
+            idslist.push(parseInt(cy.getElementById(scaffoldgraph.edges[edges_to_draw[g]].from).data('order')));
+            idslist.push(parseInt(cy.getElementById(scaffoldgraph.edges[edges_to_draw[g]].to).data('order')));
         }
     }
 
-    idslist.sort();
+    idslist.sort(function (a, b) {
+        return a - b;
+    });
     idslist = idslist.filter(function (v, i, a) {
         return a.indexOf(v) === i;
     });
 
     for (g = 0; g < idslist.length; ++g) {
+        console.log("id " + idslist[g]);
         toSmallCoord[idslist[g]] = g;
     }
 
@@ -546,8 +558,11 @@ function calculateDinamicForDistPoint(cy, deepsPOS, toSmallCoord) {
         if (special_nodes.has(fv) &&
             special_nodes.has(tv)) {
             mxLg = Math.max(mxLg, toSmallCoord[cy.getElementById(tv).data('order')] - toSmallCoord[cy.getElementById(fv).data('order')]);
+            mxLg = Math.max(mxLg, toSmallCoord[cy.getElementById(fv).data('order')] - toSmallCoord[cy.getElementById(tv).data('order')]);
         }
     }
+
+    console.log("mxLg: " + mxLg.toString());
 
     for (g = 0; g < idslist.length; ++g) {
         deepsPOS.push([]);
@@ -577,14 +592,18 @@ function calculateDinamicForDistPoint(cy, deepsPOS, toSmallCoord) {
 }
 
 
+function isAlign(u) {
+    return cy.getElementById(u).data('faveShape') === 'rectangle';
+}
+
 function addEdges(cy) {
     var deepsPOS = [];
     var toSmallCoord = {};
     calculateDinamicForDistPoint(cy, deepsPOS, toSmallCoord);
 
     for (var g = 0; g < edges_to_draw.length; ++g) {
-        if (!(special_nodes.has(scaffoldgraph.edges[edges_to_draw[g]].from)) ||
-            !(special_nodes.has(scaffoldgraph.edges[edges_to_draw[g]].to))) {
+        if (!(isAlign(scaffoldgraph.edges[edges_to_draw[g]].from)) ||
+            !(isAlign(scaffoldgraph.edges[edges_to_draw[g]].to))) {
             cy.add({
                 group: "edges",
                 data: {
@@ -600,6 +619,8 @@ function addEdges(cy) {
                 }
             });
         } else {
+            console.log("from " + scaffoldgraph.edges[edges_to_draw[g]].from.toString());
+            console.log("to " + scaffoldgraph.edges[edges_to_draw[g]].to.toString());
             cy.add({
                 group: "edges",
                 data: {
@@ -639,8 +660,8 @@ function createGraph(chr, cy, curNodeSet, posx, posmin, posmax, oldPosition) {
 
     var vert_to_draw = findNodeAroundChr(inode, area_size, min_contig_len, isGoodEdge, curNodeSet);
     addOtherNodes(cy, curNodeSet, vert_to_draw, oldPosition);
-    addEdges(cy);
 
+    addEdges(cy);
     if (defZoom < 10000) {
         createTapInfo(cy);
     }
