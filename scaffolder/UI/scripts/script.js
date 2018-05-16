@@ -875,6 +875,7 @@ function InitLibTable() {
         var lib_name = document.createElement("p");
         lib_name.style.color = scaffoldgraph.libs[i].color;
         lib_name.appendChild(document.createTextNode(scaffoldgraph.libs[i].name));
+        lib_name.id = "color" + scaffoldgraph.libs[i].name;
         td_name.align="center";
         td_name.appendChild(lib_name);
 

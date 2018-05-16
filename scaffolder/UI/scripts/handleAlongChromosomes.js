@@ -350,14 +350,13 @@ function createNewVerAlongChr(cy, area_size, min_contig_len, isGoodEdge, curNode
 
 function updateZooming(cy, posx, posmin, posmax, oldPosition) {
     var mul = 1;
-    while (cy.zoom() > 10 && defZoom > 1) {
-        cy.zoom(cy.zoom()/10);
+    while (cy.zoom()/mul > 10 && defZoom/mul > 1) {
         mul = mul * 10;
     }
-    while (cy.zoom() < 1 && defZoom < maxZoom) {
-        cy.zoom(cy.zoom()*10);
+    while (cy.zoom()/mul < 1 && defZoom/mul < maxZoom) {
         mul = mul / 10;
     }
+    cy.zoom(cy.zoom()/mul);
 
     cy.nodes().forEach(function (ele) {
         oldPosition.set(ele.id(), {x: ele.position("x"), y: ele.position("y")});
@@ -365,6 +364,11 @@ function updateZooming(cy, posx, posmin, posmax, oldPosition) {
 
     if (mul !== 1) {
         defZoom /= mul;
+        cy.maxZoom(defZoom);
+        cy.minZoom(defZoom/maxZoom);
+        console.log(defZoom);
+        console.log(cy.maxZoom());
+        console.log(cy.minZoom());
         oldPosition.clear();
         var ks = Array.from(posx.keys());
         for (var k = 0; k < ks.length; ++k) {
@@ -471,7 +475,6 @@ function addOtherNodes(cy, curNodeSet, vert_to_draw, oldPosition) {
         }
 
         if (!(oldPosition.has(vert_to_draw[g].id.toString()))) {
-            console.log("set id: " + vert_to_draw[g].id);
             oldPosition.set(vert_to_draw[g].id.toString(), {x: getRankDist() * vert_to_draw[g].rank + Math.random() * getDispersion(),
                 y: vert_to_draw[g].y + (Math.random() - 0.5) * getDispersion()});
         }
@@ -512,10 +515,6 @@ function getPointDistances(cy, e, deepsPOS, toSmallCoord) {
 
     var oneStepDistant = 75;
     var randFree = 50;
-    console.log(toSmallCoord[Math.min(order1, order2)]);
-    console.log(toSmallCoord[Math.max(order1, order2)]);
-    console.log(order2);
-    console.log(order1);
     return deepsPOS[toSmallCoord[Math.min(order1, order2)]][toSmallCoord[Math.max(order1, order2)] -
     toSmallCoord[Math.min(order1, order2)]] * oneStepDistant/cy.zoom() + randFree*Math.random()/cy.zoom();
     /*deepsPOS[toSmallCoord[Math.min(order1, order2)]][toSmallCoord[Math.max(order1, order2)] -
@@ -531,10 +530,6 @@ function calculateDinamicForDistPoint(cy, deepsPOS, toSmallCoord) {
     for (var g = 0; g < edges_to_draw.length; ++g) {
         if (special_nodes.has(scaffoldgraph.edges[edges_to_draw[g]].from) &&
             special_nodes.has(scaffoldgraph.edges[edges_to_draw[g]].to)) {
-            console.log("from " + scaffoldgraph.edges[edges_to_draw[g]].from.toString());
-            console.log("to " + scaffoldgraph.edges[edges_to_draw[g]].to.toString());
-            console.log(cy.getElementById(scaffoldgraph.edges[edges_to_draw[g]].from).data('order'));
-            console.log(cy.getElementById(scaffoldgraph.edges[edges_to_draw[g]].to).data('order'));
             idslist.push(parseInt(cy.getElementById(scaffoldgraph.edges[edges_to_draw[g]].from).data('order')));
             idslist.push(parseInt(cy.getElementById(scaffoldgraph.edges[edges_to_draw[g]].to).data('order')));
         }
@@ -548,7 +543,6 @@ function calculateDinamicForDistPoint(cy, deepsPOS, toSmallCoord) {
     });
 
     for (g = 0; g < idslist.length; ++g) {
-        console.log("id " + idslist[g]);
         toSmallCoord[idslist[g]] = g;
     }
 
@@ -561,8 +555,6 @@ function calculateDinamicForDistPoint(cy, deepsPOS, toSmallCoord) {
             mxLg = Math.max(mxLg, toSmallCoord[cy.getElementById(fv).data('order')] - toSmallCoord[cy.getElementById(tv).data('order')]);
         }
     }
-
-    console.log("mxLg: " + mxLg.toString());
 
     for (g = 0; g < idslist.length; ++g) {
         deepsPOS.push([]);
@@ -619,8 +611,6 @@ function addEdges(cy) {
                 }
             });
         } else {
-            console.log("from " + scaffoldgraph.edges[edges_to_draw[g]].from.toString());
-            console.log("to " + scaffoldgraph.edges[edges_to_draw[g]].to.toString());
             cy.add({
                 group: "edges",
                 data: {
@@ -732,16 +722,11 @@ function drawAlongChromosome(chr) {
 
         boxSelectionEnabled: false,
         autounselectify: true,
-        maxZoom: 11,
-        minZoom: 0.1,
+        maxZoom: 11000,
+        minZoom: 0.0001,
 
         layout: {
             name: 'preset'
-        },
-
-
-        ready: function () {
-            window.cy = this;
         },
 
         style: cytoscape.stylesheet()
@@ -774,10 +759,18 @@ function drawAlongChromosome(chr) {
         createGraph(chr, cy, curNodeSet, posx, posmin, posmax, oldPosition);
     });
     cy.on('pan', function() {
+        console.log("pan " + cy.pan().x.toString() + " " + cy.pan().y.toString());
         createGraph(chr, cy, curNodeSet, posx, posmin, posmax, oldPosition);
     });
 
-    createGraph(chr, cy, curNodeSet, posx, posmin, posmax, oldPosition);
+
+    cy.ready(function () {
+        window.cy = this;
+    });
+
+    setTimeout(function() {
+        createGraph(chr, cy, curNodeSet, posx, posmin, posmax, oldPosition);
+    }, 1);
 }
 
 function handleAlongChromosomesFilter() {
