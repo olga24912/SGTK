@@ -1,5 +1,7 @@
 #include <Builder/GraphBuilder/RNASplitGraphBuilder.h>
 #include <Builder/GraphBuilder/ConnectionGraphBuilder.h>
+#include <Builder/GraphBuilder/DNAMatePairReadsGraphBuilder.h>
+#include <Builder/GraphBuilder/PacbioGraphBuilder.h>
 #include "GraphControl.h"
 #include "Builder/GraphBuilder/ReferenceGraphBuilder.h"
 
@@ -27,6 +29,28 @@ namespace builder {
             gb->setDistBetweenPairReads(atoi(argv[4]));
             gb->setLibName(argv[5]);
             gb->setLibType(ContigGraph::Lib::Type::DNA_PAIR);
+
+            gb->setGraph(&graph);
+            gb->evaluate();
+        } else if (std::string(argv[1]) == "MATE_PAIR") {
+            DNAMatePairReadsGraphBuilder* gb = new DNAMatePairReadsGraphBuilder;
+
+            gb->setFileName1(argv[2]);
+            gb->setFileName2(argv[3]);
+
+            gb->setLibName(argv[4]);
+            gb->setLibType(ContigGraph::Lib::Type::MATE_PAIR);
+
+            gb->setGraph(&graph);
+            gb->evaluate();
+        } else if (std::string(argv[1]) == "PACBIO") {
+            PacbioGraphBuilder* gb = new PacbioGraphBuilder;
+
+            gb->setFileName(argv[2]);
+            gb->setContigFileName(argv[3]);
+
+            gb->setLibName(argv[4]);
+            gb->setLibType(ContigGraph::Lib::Type::PACBIO);
 
             gb->setGraph(&graph);
             gb->evaluate();

@@ -10,6 +10,8 @@ set(SOURCE_FILES GraphControl.cpp GraphControl.h
         GraphBuilder/RNASplitGraphBuilder.cpp GraphBuilder/RNASplitGraphBuilder.h
         GraphBuilder/ReferenceGraphBuilder.cpp GraphBuilder/ReferenceGraphBuilder.h
         GraphBuilder/ConnectionGraphBuilder.cpp GraphBuilder/ConnectionGraphBuilder.h
+        GraphBuilder/DNAMatePairReadsGraphBuilder.cpp GraphBuilder/DNAMatePairReadsGraphBuilder.h
+        GraphBuilder/PacbioGraphBuilder.cpp GraphBuilder/PacbioGraphBuilder.h
         ContigGraph/ContigGraph.cpp ContigGraph/ContigGraph.h)
 
 add_library(builder_lib ${SOURCE_FILES})

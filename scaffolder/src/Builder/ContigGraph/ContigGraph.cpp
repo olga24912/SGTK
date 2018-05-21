@@ -6,7 +6,7 @@ namespace builder {
     namespace contig_graph {
         const std::string ContigGraph::Lib::typeToStr[] = {"REF", "DNA_PAIR", "RNA_PAIR", "RNA_SPLIT_50",
                                                            "RNA_SPLIT_30",
-                                                           "SCAFF", "CONNECTION"};
+                                                           "SCAFF", "CONNECTION",  "MATE_PAIR", "PACBIO"};
 
         int ContigGraph::getLibNum() {
             TRACE("get lib num: " << (int) libs.size());
@@ -49,7 +49,8 @@ namespace builder {
             std::vector<int> candidates = graph[v];
 
             for (int ec : candidates) {
-                if (std::fabs(cb1 - edges[ec].coordBegin1) < maxClusterSize &&
+                if (edges[ec].to == u &&
+                    std::fabs(cb1 - edges[ec].coordBegin1) < maxClusterSize &&
                     std::fabs(cb2 - edges[ec].coordBegin2) < maxClusterSize) {
                     e = ec;
                 }

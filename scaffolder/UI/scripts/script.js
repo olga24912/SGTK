@@ -236,7 +236,7 @@ function createAddNewNode(cy, curNodeSet) {
 
         for (g = 0; g < nodes_to_draw.length; ++g) {
             if (hasOtherEdges(nodes_to_draw[g], curNodeSet)) {
-                cy.$('#' + nodes_to_draw[g]).data('shape', 'triangle');
+                cy.$('#' + nodes_to_draw[g]).data('shape', 'vee');
             } else {
                 cy.$('#' + nodes_to_draw[g]).data('shape', 'ellipse');
             }
@@ -273,6 +273,7 @@ function DrawGraphCytoscapeWithPresetNode(dnodes, dedges, curNodeSet) {
             .css({
                 'content': 'data(label)',
                 'color': '#2A4986',
+                'background-color': '#2A4986',
                 'width': 'data(len)',
                 'height': 'data(len)',
                 'border-width': 'mapData(special, 0, 1, 0px, 5px)',
@@ -372,7 +373,7 @@ function DrawGraphCytoscape(nodes_to_draw, edges_to_draw) {
     for (g = 0; g < nodes_to_draw.length; ++g) {
         var nall = 'ellipse';
         if (hasOtherEdges(nodes_to_draw[g], curNodeSet)) {
-            nall = 'triangle';
+            nall = 'vee';
         }
 
         var sp = 0;
