@@ -205,6 +205,13 @@ function createAddNewNode(cy, curNodeSet) {
                     len: 2*Math.log(scaffoldgraph.nodes[u].len),
                     shape: 'ellipse',
                     color: genColorNode(u),
+
+                    color1: "#2A4986",
+                    color2: "#2A4986",
+                    color3: "#2A4986",
+                    cnt1: 100,
+                    cnt2: 0,
+                    cnt3: 0,
                     special: 0
                 },
                 position: {
@@ -261,7 +268,14 @@ function DrawGraphCytoscapeWithPresetNode(dnodes, dedges, curNodeSet) {
 
         layout: {
             name: 'dagre',
-            rankDir: 'UD'
+            rankDir: 'UD',
+            ranker: 'tight-tree', //'longest-path',//'network-simplex',//
+            edgeWeight: function( edge ){
+                return edge.width();
+                console.log(edge.id());
+                console.log(100*special_edges.has(parseInt(edge.id().substring(1, edge.id().length))));
+                return 100*special_edges.has(edge.id().substring(1, edge.id().length));
+            }
         },
 
         ready: function () {
@@ -388,9 +402,9 @@ function DrawGraphCytoscape(nodes_to_draw, edges_to_draw) {
                 len: 2*Math.log2(scaffoldgraph.nodes[nodes_to_draw[g]].len)/Math.log2(1.5),
                 shape: nall,
                 color: genColorNode(nodes_to_draw[g]),
-                color1: "#000000",
-                color2: "#000000",
-                color3: "#000000",
+                color1: "#2A4986",
+                color2: "#2A4986",
+                color3: "#2A4986",
                 cnt1: 100,
                 cnt2: 0,
                 cnt3: 0,
@@ -408,12 +422,13 @@ function DrawGraphCytoscape(nodes_to_draw, edges_to_draw) {
             sp = 'solid';
         }
 
+        //TODO: small edge
         dedges.push({ data: {
             id: "e" + edges_to_draw[g].toString(),
             source: scaffoldgraph.edges[edges_to_draw[g]].from,
                 target: scaffoldgraph.edges[edges_to_draw[g]].to, label: createLabelForEdge(edges_to_draw[g]),
                 faveColor: scaffoldgraph.libs[scaffoldgraph.edges[edges_to_draw[g]].lib].color,
-                weight: Math.log(scaffoldgraph.edges[edges_to_draw[g]].weight) + 1,
+                weight: Math.min(5, Math.log(scaffoldgraph.edges[edges_to_draw[g]].weight) + 1),
                 lstyle: sp
             }});
     }
@@ -885,7 +900,7 @@ function InitLibTable() {
         input_weight.type = "number";
         input_weight.min = 0;
         input_weight.size = 1;
-        input_weight.value = 1;
+        input_weight.value = getDefaultWeight(i);
         input_weight.id = "min_w_" + scaffoldgraph.libs[i].name;
         td_min_edge_weight.align="center";
         td_min_edge_weight.appendChild(input_weight);
@@ -903,6 +918,27 @@ function InitAlignmentsForNodes() {
         for (var j=0; j < chromosomes[i].alignments.length; ++j) {
             scaffoldgraph.nodes[chromosomes[i].alignments[j].node_id].alignments.push(chromosomes[i].alignments[j]);
         }
+    }
+}
+
+function disableNot(checkBox) {
+    if (checkBox.checked) {
+        document.getElementById("checkbox_not_present_" + checkBox.id.substring(17)).disabled = true;
+        document.getElementById("notPresName" + checkBox.id.substring(17)).style.color = "#aaa";
+    } else {
+        document.getElementById("checkbox_not_present_" + checkBox.id.substring(17)).disabled = false;
+        document.getElementById("notPresName" + checkBox.id.substring(17)).style.color = "#4F4F4F";
+    }
+}
+
+
+function disable(checkBox) {
+    if (checkBox.checked) {
+        document.getElementById("checkbox_present_" + checkBox.id.substring(21)).disabled = true;
+        document.getElementById("presName" + checkBox.id.substring(21)).style.color = "#aaa";
+    } else {
+        document.getElementById("checkbox_present_" + checkBox.id.substring(21)).disabled = false;
+        document.getElementById("presName" + checkBox.id.substring(21)).style.color = "#4F4F4F";
     }
 }
 
@@ -932,7 +968,7 @@ document.getElementById("select_show_type").addEventListener("change", function(
             "<div class=\"one_line_block\">\n" +
             "                        <label class=\"container\">\n" +
             "                            <p>Wrong</p>\n" +
-            "                            <input type=\"checkbox\" value=\"Wrong\" id=\"checkbox_wrong\">\n" +
+            "                            <input type=\"checkbox\" checked=\"true\" value=\"Wrong\" id=\"checkbox_wrong\">\n" +
             "                            <span class=\"checkmark\"></span>\n" +
             "                        </label>\n" +
             "                    </div>\n" +
@@ -940,7 +976,7 @@ document.getElementById("select_show_type").addEventListener("change", function(
             "                    <div class=\"one_line_block\">\n" +
             "                        <label class=\"container\">\n" +
             "                            <p>Correct</p>\n" +
-            "                            <input type=\"checkbox\" value=\"Correct\" id=\"checkbox_correct\">\n" +
+            "                            <input type=\"checkbox\" checked=\"true\" value=\"Correct\" id=\"checkbox_correct\">\n" +
             "                            <span class=\"checkmark\"></span>\n" +
             "                        </label>\n" +
             "                    </div>\n" +
@@ -955,15 +991,15 @@ document.getElementById("select_show_type").addEventListener("change", function(
             var lib_name = scaffoldgraph.libs[i].name;
             present_block +=
                 "                        <label class=\"container\">\n" +
-                "                            <p>" + lib_name + "</p>\n" +
-                "                            <input type=\"checkbox\" value=\"" + lib_name + "\" id=\"checkbox_present_"+i.toString() + "\">\n" +
+                "                            <p id=\"presName" + i.toString() +"\">" + lib_name + "</p>\n" +
+                "                            <input type=\"checkbox\" value=\"" + lib_name + "\" id=\"checkbox_present_"+i.toString() + "\" onchange=\"disableNot(this)\">\n" +
                 "                            <span class=\"checkmark\"></span>\n" +
                 "                        </label>\n";
 
             not_present_block +=
                 "                        <label class=\"container\">\n" +
-                "                            <p>" + lib_name + "</p>\n" +
-                "                            <input type=\"checkbox\" value=\"" + lib_name + "\" id=\"checkbox_not_present_"+i.toString() + "\">\n" +
+                "                            <p id=\"notPresName" + i.toString() +"\">" + lib_name + "</p>\n" +
+                "                            <input type=\"checkbox\" value=\"" + lib_name + "\" id=\"checkbox_not_present_"+i.toString() + "\" onchange=\"disable(this)\" >\n" +
                 "                            <span class=\"checkmark\"></span>\n" +
                 "                        </label>\n";
         }
@@ -993,6 +1029,21 @@ document.getElementById("select_show_type").addEventListener("change", function(
         for (i=0; i < scaffoldgraph.libs.length; ++i) {
             if (scaffoldgraph.libs[i].type == 'SCAFF') {
                 document.getElementById("select_scaff_lib").innerHTML += "<option value=\"" + scaffoldgraph.libs[i].name + "\">" + scaffoldgraph.libs[i].name + "</option>\n";
+            }
+        }
+    }
+});
+
+window.addEventListener("keyup", function (evt) {
+    if (evt.altKey) {
+        var code = (evt.keyCode || evt.which);
+        if (code === 187) {
+            if (typeof cy !== 'undefined') {
+                cy.zoom(cy.zoom() * 1.5);
+            }
+        } else if (code === 189) {
+            if (typeof cy !== 'undefined') {
+                cy.zoom(cy.zoom() / 1.5);
             }
         }
     }

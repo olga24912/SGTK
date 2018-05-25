@@ -102,7 +102,7 @@ class Lib:
         f.close()
         g.close()
 
-libsType = {"rnap", "rnas", "dnap", "scg", "ref", "scafinfo", "scaffolds", "refcoord", "matepair", "pacbio"}
+libsType = {"rnap", "rnas", "rf", "ff", "scg", "ref", "scafinfo", "scaffolds", "refcoord", "fr", "pacbio"}
 
 class StoreArgAction(argparse.Action):
     def __call__(self, parser, namespace, values, option_string=None):
@@ -132,12 +132,15 @@ def parse_args():
     parser.add_argument("--gr", nargs=1, dest="graph", help="path to graph in .gr format", type=str, action='append')
     parser.add_argument("--rna-p", dest="rnap", nargs=2, help="path to rna pair reads file", type=str, action=StoreArgAction)
     parser.add_argument("--rna-s", dest="rnas", nargs=1, help="path to rna read file", type=str, action=StoreArgAction)
-    parser.add_argument("--mate-pair", dest="matepair", nargs=2, help="path to dna mate-pair reads file", type=str, action=StoreArgAction)
+
+    parser.add_argument("--fr", dest="fr", nargs=2, help="path to paired reads file with forward-reverse", type=str, action=StoreArgAction)
+    parser.add_argument("--rf", dest="rf", nargs=2, help="path to paired reads file reverse-forward", type=str, action=StoreArgAction)
+    parser.add_argument("--ff", dest="ff", nargs=2, help="path to paired reads file forward-forward", type=str, action=StoreArgAction)
+
     parser.add_argument("--pacbio", dest="pacbio", nargs=1, help="path to pacbio reads file", type=str, action=StoreArgAction)
     parser.add_argument("--local_output_dir", "-o", nargs=1, help="use this output dir", type=str)
     parser.add_argument("--ref", dest="ref", nargs=1, help="path to reference", type=str, action=StoreArgAction)
     parser.add_argument("--refcoord", dest="refcoord", nargs=2, help="path to ref and to alignment of contigs to reference in coord format", type=str, action=StoreArgAction)
-    parser.add_argument("--dna-p", dest="dnap", nargs=2, help="path to dna pair reads file", type=str, action=StoreArgAction)
     parser.add_argument("--scafinfo", nargs=1, help="path to .info file with info about scaffolds", type=str, action=StoreArgAction)
     parser.add_argument("--label", "-l", nargs='*', help="list with labels for all libs in definition order", type=str, action='store')
     parser.add_argument("--color", nargs='*', help="list with color for all libs in definition order", type=str, action='store')
@@ -168,7 +171,7 @@ def alig_pair_rna_reads(rnap):
     unm1 = ""
     unm2 = ""
 
-    os.system("STAR --runThreadN 20 --genomeDir ../genomeDir --outReadsUnmapped Fastx --readFilesIn " + rnap.path[0])
+    os.system("STAR --runThreadN 4 --genomeDir ../genomeDir --outReadsUnmapped Fastx --readFilesIn " + rnap.path[0])
     os.system("mv Aligned.out.sam rna1.sam")
     if rnap.path[0][-1] == "q":
         os.system("mv Unmapped.out.mate1 Unmapped1.fastq")
@@ -177,7 +180,7 @@ def alig_pair_rna_reads(rnap):
         os.system("mv Unmapped.out.mate1 Unmapped1.fasta")
         unm1 = "../" + rnap.name + "/Unmapped1.fasta"
 
-    os.system("STAR --runThreadN 20 --genomeDir ../genomeDir --outReadsUnmapped Fastx --readFilesIn " + rnap.path[1])
+    os.system("STAR --runThreadN 4 --genomeDir ../genomeDir --outReadsUnmapped Fastx --readFilesIn " + rnap.path[1])
     os.system("mv Aligned.out.sam rna2.sam")
 
     if rnap.path[1][-1] == "q":
@@ -200,13 +203,16 @@ def alig_pair_dna_reads(dnap, contig_file_name):
     lib_dir = os.path.dirname(os.path.abspath(dnap.name) + "/")
     os.chdir(lib_dir)
 
-    os.system("bowtie2-build " + contig_file_name + " contig")
-    if dnap.path[0].endswith(".fa") or dnap.path[0].endswith(".fasta") or dnap.path[0].endswith(".mfa") or dnap.path[0].endswith(".fna"):
-        os.system("bowtie2 -x contig -f --ignore-quals -U " + dnap.path[0] + " -S dna1.sam")
-        os.system("bowtie2 -x contig -f --ignore-quals -U " + dnap.path[1] + " -S dna2.sam")
-    else:
-        os.system("bowtie2 -x contig -U " + dnap.path[0] + " -S dna1.sam")
-        os.system("bowtie2 -x contig -U " + dnap.path[1] + " -S dna2.sam")
+    os.system("minimap2 -ax sr " + contig_file_name + " " + dnap.path[0] + " > dna1.sam")
+    os.system("minimap2 -ax sr " + contig_file_name + " " + dnap.path[1] + " > dna2.sam")
+
+    #os.system("bowtie2-build " + contig_file_name + " contig")
+    #if dnap.path[0].endswith(".fa") or dnap.path[0].endswith(".fasta") or dnap.path[0].endswith(".mfa") or dnap.path[0].endswith(".fna"):
+    #    os.system("bowtie2 -x contig -f --ignore-quals -U " + dnap.path[0] + " -S dna1.sam")
+    #    os.system("bowtie2 -x contig -f --ignore-quals -U " + dnap.path[1] + " -S dna2.sam")
+    #else:
+    #    os.system("bowtie2 -x contig -U " + dnap.path[0] + " -S dna1.sam")
+    #    os.system("bowtie2 -x contig -U " + dnap.path[1] + " -S dna2.sam")
     os.chdir(prevdir)
 
 def alig_pacbio(pacbio, contig_file_name):
@@ -227,7 +233,7 @@ def alig_single_rna_reads(rnas):
         os.makedirs(lib_dir)
     os.chdir(lib_name)
     unm = ""
-    os.system("STAR --runThreadN 20 --genomeDir ../genomeDir --outReadsUnmapped Fastx --readFilesIn " + rnas)
+    os.system("STAR --runThreadN 4 --genomeDir ../genomeDir --outReadsUnmapped Fastx --readFilesIn " + rnas)
     os.system("mv Aligned.out.sam rna.sam")
     if rnas.path[0][-1] == "q":
         os.system("mv Unmapped.out.mate1 Unmapped.fastq")
@@ -249,8 +255,10 @@ def alig_reads(contig_file_name, args):
 
     try:
         if (len(args.libs["rnap"]) > 0 or len(args.libs["rnas"]) > 0):
+            log.log("STAR --runMode genomeGenerate --genomeDir genomeDir --runThreadN 20 --genomeSAindexNbases 10 --genomeFastaFiles " +
+                    contig_file_name + " --limitGenomeGenerateRAM 90000000000 --genomeChrBinNbits 15")
             os.system("STAR --runMode genomeGenerate --genomeDir genomeDir --runThreadN 20 --genomeSAindexNbases 10 --genomeFastaFiles " +
-                      contig_file_name + " --limitGenomeGenerateRAM 90000000000")
+                      contig_file_name + " --limitGenomeGenerateRAM 90000000000 --genomeChrBinNbits 15")
     except:
         log.err(sys.exc_info()[0])
         return
@@ -258,11 +266,14 @@ def alig_reads(contig_file_name, args):
     for i in range(len(args.libs["rnap"])):
         alig_pair_rna_reads(args.libs["rnap"][i])
 
-    for i in range(len(args.libs["dnap"])):
-        alig_pair_dna_reads(args.libs["dnap"][i], contig_file_name)
+    for i in range(len(args.libs["fr"])):
+        alig_pair_dna_reads(args.libs["fr"][i], contig_file_name)
 
-    for i in range(len(args.libs["matepair"])):
-        alig_pair_dna_reads(args.libs["matepair"][i], contig_file_name)
+    for i in range(len(args.libs["rf"])):
+        alig_pair_dna_reads(args.libs["rf"][i], contig_file_name)
+
+    for i in range(len(args.libs["ff"])):
+        alig_pair_dna_reads(args.libs["ff"][i], contig_file_name)
 
     for i in range(len(args.libs["pacbio"])):
         alig_pacbio(args.libs["pacbio"][i], contig_file_name)
@@ -294,20 +305,28 @@ def build_graph(contig_file_name, args):
         runGraphBuilder(lib.name + "_50", prevdir, "RNA_SPLIT_50", lib.label)
         runGraphBuilder(lib.name + "_30", prevdir, "RNA_SPLIT_30", lib.label)
 
-    for lib in args.libs["dnap"]:
+    for lib in args.libs["fr"]:
         prevdir = os.getcwd()
         log.log("START BUILD GRAPH: " + lib.label)
         lib_dir = os.path.dirname(os.path.abspath(lib.name) + "/")
         os.chdir(lib_dir)
-        os.system(path_to_exec_dir + "build DNA_PAIR dna1.sam dna2.sam 1000000000 " + lib.label)
+        os.system(path_to_exec_dir + "build DNA_PAIR_FR dna1.sam dna2.sam " + lib.label)
         os.chdir(prevdir)
 
-    for lib in args.libs["matepair"]:
+    for lib in args.libs["rf"]:
         prevdir = os.getcwd()
         log.log("START BUILD GRAPH: " + lib.label)
         lib_dir = os.path.dirname(os.path.abspath(lib.name) + "/")
         os.chdir(lib_dir)
-        os.system(path_to_exec_dir + "build MATE_PAIR dna1.sam dna2.sam " + lib.label)
+        os.system(path_to_exec_dir + "build DNA_PAIR_RF dna1.sam dna2.sam " + lib.label)
+        os.chdir(prevdir)
+
+    for lib in args.libs["ff"]:
+        prevdir = os.getcwd()
+        log.log("START BUILD GRAPH: " + lib.label)
+        lib_dir = os.path.dirname(os.path.abspath(lib.name) + "/")
+        os.chdir(lib_dir)
+        os.system(path_to_exec_dir + "build DNA_PAIR_FF dna1.sam dna2.sam " + lib.label)
         os.chdir(prevdir)
 
     for lib in args.libs["pacbio"]:
@@ -363,8 +382,8 @@ def merge_graph(args):
     if 'libs' in args:
         for lib_type in libsType:
             for lib in args.libs[lib_type]:
-                if lib_type == "rnap" or lib_type == "rnas" or lib_type == "dnap" or lib_type == "matepair" or \
-                        lib_type == "pacbio" or lib_type == "scg":
+                if lib_type == "rnap" or lib_type == "rnas" or lib_type == "fr" or lib_type == "rf" or \
+                        lib_type == "pacbio" or lib_type == "ff" or lib_type == "scg":
                     lib.fix_graph_file()
                     if lib_type != "rnas":
                         merge_list += lib.name + "/graph.gr "
@@ -513,7 +532,7 @@ def save_scaffolds_from_fasta(contig_file_name, lib, f):
 
             lst = 0
             for i in range(1, len(contigsAlignment[rc])):
-                if (contigsAlignment[rc][i][0] >= contigsAlignment[rc][lst][1]):
+                if (contigsAlignment[rc][i][0] >= contigsAlignment[rc][lst][1] - 100):
                     f.write("scaffoldedges.push(new ScaffoldEdge(" + str(cntedge) + ", "+ str(contigsAlignment[rc][lst][2]) +
                         ", " + str(contigsAlignment[rc][i][2]) + ", " + str(cntlib) + ", 1));\n")
                     f.write("scaffoldedges["+str(cntedge)+"].name='"+ rc + "';\n")

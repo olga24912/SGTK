@@ -7,7 +7,7 @@ int builder::graph_builder::DNAMatePairReadsGraphBuilder::get1Target(const seqan
 
     bool isRev = hasFlagRC(read);
     int target = 2 * (read.rID);
-    if (!isRev) {
+    if (isRev != firstRev) {
         target++;
     }
     return target;
@@ -19,7 +19,7 @@ int builder::graph_builder::DNAMatePairReadsGraphBuilder::get2Target(const seqan
 
     bool isRev = hasFlagRC(read);
     int target = 2 * (read.rID);
-    if (isRev) {
+    if (isRev != secondRev) {
         target++;
     }
     return target;

@@ -98,7 +98,7 @@ svg {
 }
 
 .filter_panel {
-    position: absolute;
+    position: fixed;
     width: 318px;
     bottom: 0px;
     left: 0px;
@@ -107,7 +107,7 @@ svg {
 }
 
 .show-panel {
-    position: absolute;
+    position: fixed;
     width: 200px;
     bottom: 0px;
     right: 0px;
@@ -117,7 +117,7 @@ svg {
 }
 
 .main_panel {
-    position: absolute;
+    position: fixed;
     left: 318px;
     right: 200px;
     top: 60px;
@@ -170,7 +170,7 @@ svg {
 }
 
 .top {
-    position: absolute;
+    position: fixed;
     height: 60px;
     left: 0px;
     right: 0px;
@@ -294,6 +294,10 @@ table tr th {
 /* On mouse-over, add a grey background color */
 .container:hover input ~ .checkmark {
     background-color: #ccc;
+}
+
+.container input:disabled ~ .checkmark {
+    background-color: #fafafa;
 }
 
 /* When the checkbox is checked, add a blue background */

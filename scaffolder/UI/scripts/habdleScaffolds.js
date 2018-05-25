@@ -38,7 +38,17 @@ function handleScaffoldsFilter(scafflibname, areasize, min_contig_len, isGoodEdg
 
     notzero = [];
     for (j = 0; j < scaffoldgraph.libs[libnum].scaffolds.length; ++j) {
-        if (scaffoldgraph.libs[libnum].scaffolds[j].edges.length > 0) {
+        var vertCnt = 0;
+        for (var g = 0; g < scaffoldgraph.libs[libnum].scaffolds[j].edges.length; ++g) {
+            var e = scaffoldgraph.libs[libnum].scaffolds[j].edges[g];
+            if (scaffoldgraph.nodes[e.from].len >= min_contig_len) {
+                ++vertCnt;
+            }
+            if (scaffoldgraph.nodes[e.to].len >= min_contig_len) {
+                ++vertCnt;
+            }
+        }
+        if (scaffoldgraph.libs[libnum].scaffolds[j].edges.length > 0 && vertCnt > 0) {
             notzero.push(j);
         }
     }
@@ -46,9 +56,69 @@ function handleScaffoldsFilter(scafflibname, areasize, min_contig_len, isGoodEdg
     createComponentShowList(function(i) {
             drawScaffold(notzero[i]);
         }, function(i) {
-            return scaffoldgraph.libs[libnum].scaffolds[notzero[i]].name + "<br/> scaffold len: " + (scaffoldgraph.libs[libnum].scaffolds[notzero[i]].edges.length + 1);
+            var vertCnt = 0;
+            var j = notzero[i];
+            var e = scaffoldgraph.libs[libnum].scaffolds[j].edges[0];
+            if (scaffoldgraph.nodes[e.from].len >= min_contig_len) {
+                ++vertCnt;
+            }
+            for (var g = 0; g < scaffoldgraph.libs[libnum].scaffolds[j].edges.length; ++g) {
+                e = scaffoldgraph.libs[libnum].scaffolds[j].edges[g];
+                if (scaffoldgraph.nodes[e.to].len >= min_contig_len) {
+                    ++vertCnt;
+                }
+            }
+            return scaffoldgraph.libs[libnum].scaffolds[notzero[i]].name + "<br/> scaffold len: " + vertCnt;
         }, function(i) {
             return "Scaffold " + scaffoldgraph.libs[libnum].scaffolds[notzero[i]].name;
         }, notzero.length
     );
+}
+
+function getEdgeFrom(e) {
+    var v = scaffoldgraph.edges[e].from;
+    var edges_name = scaffoldgraph.edges[e].name;
+    var lib = scaffoldgraph.edges[e].lib;
+    while (scaffoldgraph.nodes[v].len < min_contig_len) {
+        var nxte = -1;
+
+        for (var i = 0; i < scaffoldgraph.gr[v].length; ++i) {
+            var ne = scaffoldgraph.gr[v][i];
+            if (scaffoldgraph.edges[ne].name === edges_name && scaffoldgraph.edges[e].lib === lib) {
+                nxte = ne;
+            }
+        }
+
+        if (nxte === -1) {
+            return v;
+        } else {
+            v = scaffoldgraph.edges[nxte].from;
+        }
+    }
+
+    return v;
+}
+
+function getEdgeTo(e) {
+    var v = scaffoldgraph.edges[e].to;
+    var edges_name = scaffoldgraph.edges[e].name;
+    var lib = scaffoldgraph.edges[e].lib;
+    while (scaffoldgraph.nodes[v].len < min_contig_len) {
+        var nxte = -1;
+
+        for (var i = 0; i < scaffoldgraph.g[v].length; ++i) {
+            var ne = scaffoldgraph.g[v][i];
+            if (scaffoldgraph.edges[ne].name === edges_name && scaffoldgraph.edges[e].lib === lib) {
+                nxte = ne;
+            }
+        }
+
+        if (nxte === -1) {
+            return v;
+        } else {
+            v = scaffoldgraph.edges[nxte].to;
+        }
+    }
+
+    return v;
 }

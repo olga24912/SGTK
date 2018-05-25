@@ -20,27 +20,43 @@ namespace builder {
 
             gb->setGraph(&graph);
             gb->evaluate();
-        } else if (std::string(argv[1]) == "DNA_PAIR") {
-            DNAPairReadGraphBuilder* gb = new DNAPairReadGraphBuilder;
-
-            gb->setFileName1(argv[2]);
-            gb->setFileName2(argv[3]);
-
-            gb->setDistBetweenPairReads(atoi(argv[4]));
-            gb->setLibName(argv[5]);
-            gb->setLibType(ContigGraph::Lib::Type::DNA_PAIR);
-
-            gb->setGraph(&graph);
-            gb->evaluate();
-        } else if (std::string(argv[1]) == "MATE_PAIR") {
+        } else if (std::string(argv[1]) == "DNA_PAIR_FR") {
             DNAMatePairReadsGraphBuilder* gb = new DNAMatePairReadsGraphBuilder;
 
             gb->setFileName1(argv[2]);
             gb->setFileName2(argv[3]);
 
             gb->setLibName(argv[4]);
-            gb->setLibType(ContigGraph::Lib::Type::MATE_PAIR);
+            gb->setLibType(ContigGraph::Lib::Type::DNA_PAIR);
 
+            gb->setRevFirstFlag(0);
+            gb->setRevSecondFlag(1);
+            gb->setGraph(&graph);
+            gb->evaluate();
+        } else if (std::string(argv[1]) == "DNA_PAIR_RF") {
+            DNAMatePairReadsGraphBuilder* gb = new DNAMatePairReadsGraphBuilder;
+
+            gb->setFileName1(argv[2]);
+            gb->setFileName2(argv[3]);
+
+            gb->setLibName(argv[4]);
+            gb->setLibType(ContigGraph::Lib::Type::DNA_PAIR);
+
+            gb->setRevFirstFlag(1);
+            gb->setRevSecondFlag(0);
+            gb->setGraph(&graph);
+            gb->evaluate();
+        } else if (std::string(argv[1]) == "DNA_PAIR_FF") {
+            DNAMatePairReadsGraphBuilder* gb = new DNAMatePairReadsGraphBuilder;
+
+            gb->setFileName1(argv[2]);
+            gb->setFileName2(argv[3]);
+
+            gb->setLibName(argv[4]);
+            gb->setLibType(ContigGraph::Lib::Type::DNA_PAIR);
+
+            gb->setRevFirstFlag(0);
+            gb->setRevSecondFlag(0);
             gb->setGraph(&graph);
             gb->evaluate();
         } else if (std::string(argv[1]) == "PACBIO") {

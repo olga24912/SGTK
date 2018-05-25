@@ -12,7 +12,7 @@ function createCoordinates(chr, cy) {
         delta *= 10;
     }
 
-    var start_pos = Math.max(delta, (Math.floor(cur_coord.y1 / delta) - 5) * delta);
+    var start_pos = Math.max(delta, (Math.floor(cur_coord.x1 / delta) - 5) * delta);
 
     cy.remove(cy.$('#start'));
     cy.add({
@@ -26,14 +26,14 @@ function createCoordinates(chr, cy) {
             faveShape: 'rectangle'
         },
         position: {
-            x: 0,
-            y: 0
+            y: 0,
+            x: 0
         }
     });
-    var ypos = cy.$('#start').renderedPosition().y;
+    var xpos = cy.$('#start').renderedPosition().x;
     cy.$('#start').renderedPosition({
-        x: 10,
-        y: ypos
+        y: 20,
+        x: xpos
     });
     cy.$('#start').style({"font-size": 20 / cy.zoom(), "text-valign": "center", "text-halign": "right"});
     cy.$('#start').lock();
@@ -50,14 +50,14 @@ function createCoordinates(chr, cy) {
             faveShape: 'rectangle'
         },
         position: {
-            x: 0,
-            y: chromosomes[chr].len/defZoom
+            y: 0,
+            x: chromosomes[chr].len/defZoom
         }
     });
-    ypos = cy.$('#end').renderedPosition().y;
+    xpos = cy.$('#end').renderedPosition().x;
     cy.$('#end').renderedPosition({
-        x: 10,
-        y: ypos
+        y: 20,
+        x: xpos
     });
     cy.$('#end').style({"font-size": 20 / cy.zoom(), "text-valign": "center", "text-halign": "right"});
     cy.$('#end').lock();
@@ -77,14 +77,14 @@ function createCoordinates(chr, cy) {
                     faveShape: 'rectangle'
                 },
                 position: {
-                    x: 10,
-                    y: start_pos + delta * i
+                    y: 20,
+                    x: start_pos + delta * i
                 }
             });
-            ypos = cy.$('#chrcoord' + i).renderedPosition().y;
+            xpos = cy.$('#chrcoord' + i).renderedPosition().x;
             cy.$('#chrcoord' + i).renderedPosition({
-                x: 10,
-                y: ypos
+                y: 20,
+                x: xpos
             });
 
             cy.$('#chrcoord' + i).style({"font-size": 20 / cy.zoom(), "text-valign": "center", "text-halign": "right"});
@@ -200,7 +200,7 @@ function findNodeAroundChr(inode, area_size, min_contig_len, isGoodEdge, curNode
     var res = [];
 
     for (i = 0; i < newvert.length; ++i) {
-        res.push({id: newvert[i], rank: rank[newvert[i]], y: calcY(newvert[i], ypos[newvert[i]], sumw[newvert[i]])});
+        res.push({id: newvert[i], rank: rank[newvert[i]], x: calcY(newvert[i], ypos[newvert[i]], sumw[newvert[i]])});
     }
 
     return res;
@@ -225,7 +225,7 @@ function calcYforV(u, area_size, min_contig_len, isGoodEdge, newNode, curNodeSet
                     if (!newNode.has(scaffoldgraph.g[u][h].to)) {
                         var v = scaffoldgraph.g[u][h].to;
                         var curedge = scaffoldgraph.g[u][h];
-                        var yc = cy.$('#' + v).position().y - rcoef * Math.random();
+                        var yc = cy.$('#' + v).position().x - rcoef * Math.random();
                         ypos += curedge.weight * yc;
                         sumw += curedge.weight;
                     }
@@ -242,7 +242,7 @@ function calcYforV(u, area_size, min_contig_len, isGoodEdge, newNode, curNodeSet
                     if (!newNode.has(scaffoldgraph.gr[u][h].from)) {
                         v = scaffoldgraph.gr[u][h].from;
                         curedge = scaffoldgraph.gr[u][h];
-                        yc = cy.$('#' + v).position().y + rcoef * Math.random();
+                        yc = cy.$('#' + v).position().x + rcoef * Math.random();
                         ypos += curedge.weight * yc;
                         sumw += curedge.weight;
                     }
@@ -310,8 +310,8 @@ function createNewVerAlongChr(cy, area_size, min_contig_len, isGoodEdge, curNode
                     faveShape: 'ellipse'
                 },
                 position: {
-                    x: getRankDist() * xc + Math.random() * getDispersion(),
-                    y: yc + (Math.random() - 0.5) * getDispersion()
+                    y: getRankDist() * xc + Math.random() * getDispersion(),
+                    x: yc + (Math.random() - 0.5) * getDispersion()
                 }
             });
             cy.$("#" + u.toString()).style({"font-size": 10 / cy.zoom(), "text-valign": "center", "text-halign": "right"});
@@ -427,7 +427,7 @@ function findContigsByTree(tr, inode, posx, posmin, posmax, curNodeSet, ymin, ym
 }
 
 function findContigs(cy, chr, inode, posx, posmin, posmax, curNodeSet) {
-    findContigsByTree(IntervalTree[defZoom], inode, posx, posmin, posmax, curNodeSet, cy.extent().y1, cy.extent().y2, 0);
+    findContigsByTree(IntervalTree[defZoom], inode, posx, posmin, posmax, curNodeSet, cy.extent().x1, cy.extent().x2, 0);
 }
 
 function addContigs(cy, inode, posx, posmin, posmax) {
@@ -449,8 +449,8 @@ function addContigs(cy, inode, posx, posmin, posmax) {
                 order: inode[i].order
             },
             position: {
-                x: posx.get(vid),
-                y: (posmin.get(vid) + posmax.get(vid))/2
+                y: posx.get(vid),
+                x: (posmin.get(vid) + posmax.get(vid))/2
             }
         });
         if (defZoom < 10000) {
@@ -475,8 +475,8 @@ function addOtherNodes(cy, curNodeSet, vert_to_draw, oldPosition) {
         }
 
         if (!(oldPosition.has(vert_to_draw[g].id.toString()))) {
-            oldPosition.set(vert_to_draw[g].id.toString(), {x: getRankDist() * vert_to_draw[g].rank + Math.random() * getDispersion(),
-                y: vert_to_draw[g].y + (Math.random() - 0.5) * getDispersion()});
+            oldPosition.set(vert_to_draw[g].id.toString(), {y: getRankDist() * vert_to_draw[g].rank + Math.random() * getDispersion(),
+                x: vert_to_draw[g].x + (Math.random() - 0.5) * getDispersion()});
         }
 
         cy.add({
@@ -735,8 +735,8 @@ function drawAlongChromosome(chr) {
                 'shape': 'data(faveShape)',
                 'content': 'data(label)',
                 'color': '#2A4986',
-                'height': 'data(len)',
-                'width': 'data(width)',
+                'width': 'data(len)',
+                'height': 'data(width)',
                 'background-color': 'data(color)'
             })
             .selector('edge')
