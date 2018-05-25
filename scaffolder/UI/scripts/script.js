@@ -67,6 +67,9 @@ function createLabelForEdge(edge) {
     }
     if (document.getElementById("edge_checkbox_name").checked) {
         label += scaffoldgraph.libs[scaffoldgraph.edges[edge].lib].name + "\n";
+        if (scaffoldgraph.libs[scaffoldgraph.edges[edge].lib].type === "SCAFF") {
+            label += scaffoldgraph.edges[edge].name + "\n";
+        }
     }
     if (document.getElementById("edge_checkbox_weight").checked) {
         label += "w: " + scaffoldgraph.edges[edge].weight + "\n";
@@ -91,6 +94,9 @@ function createFullLabelForEdge(edge) {
     var label = "";
     label += "id: " + scaffoldgraph.edges[edge].id + "<br/>";
     label += scaffoldgraph.libs[scaffoldgraph.edges[edge].lib].name + "<br/>";
+    if (scaffoldgraph.libs[scaffoldgraph.edges[edge].lib].type === "SCAFF") {
+        label += scaffoldgraph.edges[edge].name + "<br/>";
+    }
     label += "w: " + scaffoldgraph.edges[edge].weight + "<br/>";
     label += scaffoldgraph.libs[scaffoldgraph.edges[edge].lib].type + "<br/>";
     if (scaffoldgraph.edges[edge].len >= 0) {
@@ -202,7 +208,7 @@ function createAddNewNode(cy, curNodeSet) {
                 data: {
                     id: u,
                     label: createLabelForNode(u),
-                    len: 2*Math.log(scaffoldgraph.nodes[u].len),
+                    len: 2*Math.log2(scaffoldgraph.nodes[nodes_to_draw[g]].len)/Math.log2(1.5),
                     shape: 'ellipse',
                     color: genColorNode(u),
 
@@ -231,8 +237,8 @@ function createAddNewNode(cy, curNodeSet) {
                 group: "edges",
                 data: {
                     id: "e" + eid.toString(),
-                    source: scaffoldgraph.edges[eid].from,
-                    target: scaffoldgraph.edges[eid].to,
+                    source: getEdgeFrom(eid),
+                    target: getEdgeTo(eid),
                     label: createLabelForEdge(eid),
                     faveColor: scaffoldgraph.libs[scaffoldgraph.edges[eid].lib].color,
                     weight: Math.log(scaffoldgraph.edges[eid].weight) + 1,
@@ -425,8 +431,9 @@ function DrawGraphCytoscape(nodes_to_draw, edges_to_draw) {
         //TODO: small edge
         dedges.push({ data: {
             id: "e" + edges_to_draw[g].toString(),
-            source: scaffoldgraph.edges[edges_to_draw[g]].from,
-                target: scaffoldgraph.edges[edges_to_draw[g]].to, label: createLabelForEdge(edges_to_draw[g]),
+                source: getEdgeFrom(edges_to_draw[g]),
+                target: getEdgeTo(edges_to_draw[g]),
+                label: createLabelForEdge(edges_to_draw[g]),
                 faveColor: scaffoldgraph.libs[scaffoldgraph.edges[edges_to_draw[g]].lib].color,
                 weight: Math.min(5, Math.log(scaffoldgraph.edges[edges_to_draw[g]].weight) + 1),
                 lstyle: sp

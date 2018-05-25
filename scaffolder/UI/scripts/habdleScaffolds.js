@@ -21,6 +21,14 @@ function drawScaffold(i) {
 
     findLocalArea(inodes, global_areasize, global_min_contig_len, global_isGoodEdge);
 
+    for (g = 0; g < scaffoldgraph.libs[libnum].scaffolds[i].edges.length; ++g) {
+        e = scaffoldgraph.libs[libnum].scaffolds[i].edges[g];
+        if (scaffoldgraph.nodes[e.to].len >= global_min_contig_len && scaffoldgraph.nodes[e.from].len < global_min_contig_len) {
+            edges_to_draw.push(e.id);
+        }
+    }
+
+
     DrawGraph(nodes_to_draw, edges_to_draw);
     cy.fit(cy.$('#' + scaffoldgraph.libs[libnum].scaffolds[i].edges[0].from));
 }
@@ -83,7 +91,7 @@ function getEdgeFrom(e) {
         var nxte = -1;
 
         for (var i = 0; i < scaffoldgraph.gr[v].length; ++i) {
-            var ne = scaffoldgraph.gr[v][i];
+            var ne = scaffoldgraph.gr[v][i].id;
             if (scaffoldgraph.edges[ne].name === edges_name && scaffoldgraph.edges[e].lib === lib) {
                 nxte = ne;
             }
@@ -107,7 +115,7 @@ function getEdgeTo(e) {
         var nxte = -1;
 
         for (var i = 0; i < scaffoldgraph.g[v].length; ++i) {
-            var ne = scaffoldgraph.g[v][i];
+            var ne = scaffoldgraph.g[v][i].id;
             if (scaffoldgraph.edges[ne].name === edges_name && scaffoldgraph.edges[e].lib === lib) {
                 nxte = ne;
             }
