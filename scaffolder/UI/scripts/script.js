@@ -318,6 +318,10 @@ function DrawGraphCytoscapeWithPresetNode(dnodes, dedges, curNodeSet) {
             })
     });
 
+    cy.navigator({
+        // options...
+    });
+
     createTapInfo(cy);
     createAddNewNode(cy, curNodeSet);
 }
