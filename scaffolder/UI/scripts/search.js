@@ -31,9 +31,9 @@ function setupAutocompleteSearch(){
         maxHeight: 200,
         deferRequestBy: 50,
         source:  function(request, response) {
-            var opt = document.getElementById("select_show_type").value;
+            var opt = document.getElementById("select_layout").value;
             var result = [];
-            if (opt === "along chromosoms") {
+            if (opt === "genome_browser") {
                 getALLNamesFrom(IntervalTree[1], result);
             } else {
                 var nodes = cy.filter('node');
@@ -90,13 +90,12 @@ function parseNode(nodes, scr, vid, request) {
 
 function search() {
     var request = document.getElementById("search_text").value;
-    var opt = document.getElementById("select_show_type").value;
+    var opt = document.getElementById("select_layout").value;
     var vid = 0;
     var scr = 0;
     var nodes = [];
 
-    if (opt === "along chromosoms") {
-        alert("along chr");
+    if (opt === "genome_browser") {
         getNodesId(IntervalTree[1], nodes);
         var res = parseNode(nodes, scr, vid, request);
         vid = res[1];
