@@ -47,17 +47,31 @@
         <div class="centerblock">
             <div class="block_with_line">
                 <div class="block">
+                    <h2 class="section_name">
+                        Layout:
+                    </h2>
+                    <div class="styled-select">
+                        <select id="select_layout">
+                            <option value="free_layout">Free layout</option>
+                            <option value="genome_browser">Genome browser</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="block_with_line" id = "filtration">
+                <div class="block">
                 <h2 class="section_name">
-                Show:
+                Filtration:
                 </h2>
                 <div class="styled-select">
                 <select id="select_show_type">
                     <option value="vertices_local_area">Vertices local area</option>
                     <option value="edges_local_area">Edges local area</option>
-                    <option value="diff in libs">Diff in libs</option>
+                    <option value="diff in libs">Difference in libs</option>
                     <option value="full graph">Full graph</option>
                     <option value="scaffolds"> Scaffolds</option>
-                    <option value="along chromosoms"> Along chromosoms</option>
                 </select>
                 </div>
                 </div>
@@ -216,13 +230,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="scripts/scaffoldgraph.js"></script>
     <script src="scripts/search.js"></script>
-    <script src="scripts/data2.js"></script>
+    <script src="scripts/data.js"></script>
     <!-script src="data/genealignmentb.js"></script->
     <!-script src="data/genescaffoldgraphb.js"></script->
     <script src="scripts/defaultWeight.js"></script>
     <script src="scripts/showListScript.js"></script>
     <script src="scripts/findAreaScript.js"></script>
     <script src="scripts/zoomChoose.js"></script>
+    <script src="scripts/freeLayout.js"></script>
     <script src="scripts/script.js"></script>
     <script src="scripts/external/cytoscape.js"></script>
     <script src="scripts/external/vivagraph.js"></script>

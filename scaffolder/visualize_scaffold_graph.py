@@ -9,7 +9,6 @@ from Bio import SeqIO
 #Log class, use it, not print
 class Log:
     text = ""
-
     def log(self, s):
         self.text += s + "\n"
         print(s)

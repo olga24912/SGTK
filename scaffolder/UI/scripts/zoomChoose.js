@@ -44,9 +44,9 @@ function updateZoomFromInput() {
 
     if (cy !== null) {
         if (inputVal > 0 && inputVal < 10000) {
-            cy.zoom(inputVal/100);
+            cy.zoom((inputVal*defZoom/(100 * 100)));
         }
-        (document.getElementById("zoomInput")).innerText = (cy.zoom() * 100).toString() +  "%";
+        (document.getElementById("zoomInput")).innerText = (cy.zoom() * 100 * 100/defZoom).toString() +  "%";
     } else {
         (document.getElementById("zoomInput")).innerText = "100%";
     }

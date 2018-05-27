@@ -2,13 +2,22 @@ var defZoom = 100;
 var maxZoom = 10000000;
 var IntervalTree = {};
 
+function generateCoordinateLabel(x, delta) {
+    if (defZoom*delta >= 1000000) {
+        return (x/1000000).toString() + "M";
+    } else if (defZoom*delta >= 1000) {
+        return (x/1000).toString() + "K";
+    } else {
+        return x
+    }
+}
 
 function createCoordinates(chr, cy) {
     var cur_zoom = cy.zoom();
     var cur_coord = cy.extent();
 
     var delta = 1;
-    while (cur_zoom * delta < 50) {
+    while (cur_zoom * delta < 100) {
         delta *= 10;
     }
 
@@ -20,9 +29,9 @@ function createCoordinates(chr, cy) {
         data: {
             id: "start",
             label: "Start: 0",
-            len: 10 / cy.zoom(),
+            len: 2 / cy.zoom(),
             color: '#ff0000',
-            width: 10 / cy.zoom(),
+            width: 20 / cy.zoom(),
             faveShape: 'rectangle'
         },
         position: {
@@ -32,10 +41,10 @@ function createCoordinates(chr, cy) {
     });
     var xpos = cy.$('#start').renderedPosition().x;
     cy.$('#start').renderedPosition({
-        y: 20,
+        y: 32,
         x: xpos
     });
-    cy.$('#start').style({"font-size": 20 / cy.zoom(), "text-valign": "center", "text-halign": "right"});
+    cy.$('#start').style({"font-size": 20 / cy.zoom(),"text-valign": "top", "text-halign": "left"});
     cy.$('#start').lock();
 
     cy.remove(cy.$('#end'));
@@ -44,9 +53,9 @@ function createCoordinates(chr, cy) {
         data: {
             id: "end",
             label: "End: " + chromosomes[chr].len,
-            len: 10 / cy.zoom(),
+            len: 2 / cy.zoom(),
             color: '#ff0000',
-            width: 10 / cy.zoom(),
+            width: 20 / cy.zoom(),
             faveShape: 'rectangle'
         },
         position: {
@@ -56,10 +65,10 @@ function createCoordinates(chr, cy) {
     });
     xpos = cy.$('#end').renderedPosition().x;
     cy.$('#end').renderedPosition({
-        y: 20,
+        y: 32,
         x: xpos
     });
-    cy.$('#end').style({"font-size": 20 / cy.zoom(), "text-valign": "center", "text-halign": "right"});
+    cy.$('#end').style({"font-size": 20 / cy.zoom(), "text-valign": "top", "text-halign": "right"});
     cy.$('#end').lock();
 
 
@@ -70,24 +79,24 @@ function createCoordinates(chr, cy) {
                 group: "nodes",
                 data: {
                     id: "chrcoord" + i,
-                    label: (start_pos + delta * i)*defZoom,
-                    len: 1 / cy.zoom(),
-                    color: '#ffa500',
-                    width: 1 / cy.zoom(),
+                    label: generateCoordinateLabel((start_pos + delta * i)*defZoom, delta),
+                    len: 2 / cy.zoom(),
+                    color: '#2A4986',
+                    width: 20 / cy.zoom(),
                     faveShape: 'rectangle'
                 },
                 position: {
-                    y: 20,
+                    y: 30,
                     x: start_pos + delta * i
                 }
             });
             xpos = cy.$('#chrcoord' + i).renderedPosition().x;
             cy.$('#chrcoord' + i).renderedPosition({
-                y: 20,
+                y: 32,
                 x: xpos
             });
 
-            cy.$('#chrcoord' + i).style({"font-size": 20 / cy.zoom(), "text-valign": "center", "text-halign": "right"});
+            cy.$('#chrcoord' + i).style({"font-size": 20 / cy.zoom(), "text-valign": "top", "text-halign": "center"});
             cy.$('#chrcoord' + i).lock();
         }
     }
@@ -515,8 +524,8 @@ function getPointDistances(cy, e, deepsPOS, toSmallCoord) {
 
     var oneStepDistant = 75;
     var randFree = 50;
-    return deepsPOS[toSmallCoord[Math.min(order1, order2)]][toSmallCoord[Math.max(order1, order2)] -
-    toSmallCoord[Math.min(order1, order2)]] * oneStepDistant/cy.zoom() + randFree*Math.random()/cy.zoom();
+    return -(deepsPOS[toSmallCoord[Math.min(order1, order2)]][toSmallCoord[Math.max(order1, order2)] -
+    toSmallCoord[Math.min(order1, order2)]] * oneStepDistant/cy.zoom() + randFree*Math.random()/cy.zoom());
     /*deepsPOS[toSmallCoord[Math.min(order1, order2)]][toSmallCoord[Math.max(order1, order2)] -
        toSmallCoord[Math.min(order1, order2)]]*/
     //return Math.min(5, (Math.max(order1, order2) - Math.min(order1, order2))) * oneStepDistant/cy.zoom() + randFree*Math.random()/cy.zoom();
@@ -753,11 +762,15 @@ function drawAlongChromosome(chr) {
             })
     });
 
+    var element =  document.getElementById("cynav");
+    if (typeof(element) != 'undefined' && element != null) {
+        document.getElementById("cynav").remove();
+    }
     createNewVerAlongChr(cy, area_size, min_contig_len, isGoodEdge, curNodeSet);
 
     cy.on('zoom', function () {
         createGraph(chr, cy, curNodeSet, posx, posmin, posmax, oldPosition);
-        (document.getElementById("zoomInput")).innerText = Math.floor(cy.zoom() * 100).toString() +  "%";
+        (document.getElementById("zoomInput")).innerText = Math.floor(cy.zoom() * 100 * 100/ defZoom).toString() +  "%";
     });
     cy.on('pan', function() {
         console.log("pan " + cy.pan().x.toString() + " " + cy.pan().y.toString());

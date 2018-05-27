@@ -45,14 +45,20 @@ install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/UI/scripts/external/cytoscape.js"
 install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/UI/scripts/external/cytoscape-dagre.js"
         DESTINATION bin/scripts/external/
         COMPONENT runtime)
-install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/UI/scripts/external/vivagraph.js"
-        DESTINATION bin/scripts/external/
-        COMPONENT runtime)
-install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/UI/scripts/external/dagre.js"
-        DESTINATION bin/scripts/external/
-        COMPONENT runtime)
 install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/UI/scripts/external/cytoscape-qtip.js"
         DESTINATION bin/scripts/external/
+        COMPONENT runtime)
+install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/UI/scripts/external/cytoscape.js-navigator/cytoscape-navigator.js"
+        DESTINATION bin/scripts/external/cytoscape.js-navigator/
+        COMPONENT runtime)
+install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/UI/scripts/external/cytoscape.js-navigator/bower.json"
+        DESTINATION bin/scripts/external/cytoscape.js-navigator/
+        COMPONENT runtime)
+install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/UI/scripts/external/cytoscape.js-navigator/gulpfile.js"
+        DESTINATION bin/scripts/external/cytoscape.js-navigator/
+        COMPONENT runtime)
+install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/UI/scripts/external/cytoscape.js-navigator/package.json"
+        DESTINATION bin/scripts/external/cytoscape.js-navigator/
         COMPONENT runtime)
 
 
@@ -78,6 +84,15 @@ install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/UI/scripts/habdleScaffolds.js"
         DESTINATION bin/scripts/
         COMPONENT runtime)
 install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/UI/scripts/handleDiffInLibs.js"
+        DESTINATION bin/scripts/
+        COMPONENT runtime)
+install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/UI/scripts/defaultWeight.js"
+        DESTINATION bin/scripts/
+        COMPONENT runtime)
+install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/UI/scripts/zoomChoose.js"
+        DESTINATION bin/scripts/
+        COMPONENT runtime)
+install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/UI/scripts/freeLayout.js"
         DESTINATION bin/scripts/
         COMPONENT runtime)
 
