@@ -322,6 +322,10 @@ function DrawGraphCytoscapeWithPresetNode(dnodes, dedges, curNodeSet) {
         // options...
     });
 
+    cy.on('zoom', function () {
+        (document.getElementById("zoomInput")).innerText = Math.floor(cy.zoom() * 100).toString() +  "%";
+    });
+
     createTapInfo(cy);
     createAddNewNode(cy, curNodeSet);
 }
@@ -1040,21 +1044,6 @@ document.getElementById("select_show_type").addEventListener("change", function(
         for (i=0; i < scaffoldgraph.libs.length; ++i) {
             if (scaffoldgraph.libs[i].type == 'SCAFF') {
                 document.getElementById("select_scaff_lib").innerHTML += "<option value=\"" + scaffoldgraph.libs[i].name + "\">" + scaffoldgraph.libs[i].name + "</option>\n";
-            }
-        }
-    }
-});
-
-window.addEventListener("keyup", function (evt) {
-    if (evt.altKey) {
-        var code = (evt.keyCode || evt.which);
-        if (code === 187) {
-            if (typeof cy !== 'undefined') {
-                cy.zoom(cy.zoom() * 1.5);
-            }
-        } else if (code === 189) {
-            if (typeof cy !== 'undefined') {
-                cy.zoom(cy.zoom() / 1.5);
             }
         }
     }

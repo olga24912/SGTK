@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
 </head>
 <body>
     <div class="top">
@@ -24,6 +23,24 @@
             </form>
         </div>
 
+        <div class="zoomInputBox" id="zoomInputBox">
+            <div class="zoom_one_line_block">
+            <div class="zoomInput" id="zoomInput" contenteditable="true">
+                100%
+            </div>
+            </div>
+            <div class="zoom_one_line_block">
+                <button class="zoomSelect" id="zoomSelect" onclick="zoomDropDown()">
+                    <div class="arrow_down"></div>
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="zoomDropdown" class="dropdown-content">
+        <p onclick="zoomPlus()">Zoom +1.5x (Alt=)</p>
+        <p onclick="zoomMinus()">Zoom -1.5x (Alt-)</p>
     </div>
 
     <div class="filter_panel">
@@ -205,6 +222,7 @@
     <script src="scripts/defaultWeight.js"></script>
     <script src="scripts/showListScript.js"></script>
     <script src="scripts/findAreaScript.js"></script>
+    <script src="scripts/zoomChoose.js"></script>
     <script src="scripts/script.js"></script>
     <script src="scripts/external/cytoscape.js"></script>
     <script src="scripts/external/vivagraph.js"></script>

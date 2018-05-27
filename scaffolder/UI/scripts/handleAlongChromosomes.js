@@ -757,6 +757,7 @@ function drawAlongChromosome(chr) {
 
     cy.on('zoom', function () {
         createGraph(chr, cy, curNodeSet, posx, posmin, posmax, oldPosition);
+        (document.getElementById("zoomInput")).innerText = Math.floor(cy.zoom() * 100).toString() +  "%";
     });
     cy.on('pan', function() {
         console.log("pan " + cy.pan().x.toString() + " " + cy.pan().y.toString());
