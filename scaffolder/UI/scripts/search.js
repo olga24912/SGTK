@@ -100,10 +100,8 @@ function search() {
         var res = parseNode(nodes, scr, vid, request);
         vid = res[1];
 
-        alert(vid.id);
-        alert(vid.cb);
         cy.zoom((1000/(vid.ce - vid.cb))*defZoom);
-        cy.pan({x: 0, y: -cy.zoom()*vid.cb/defZoom});
+        cy.pan({y: 0, x: -cy.zoom()*vid.cb/defZoom});
     } else {
         nodes = cy.filter('node');
         for (var i = 0; i < nodes.length; ++i) {

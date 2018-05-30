@@ -436,7 +436,7 @@ function updeteChangeBlock() {
     } else if (document.getElementById("select_show_type").value == "vertices_local_area" || document.getElementById("select_show_type").value == "edges_local_area") {
         document.getElementById("change_block").innerHTML = "<div class=\"block\">\n" +
             "                    <p>Area size:<br/>\n" +
-            "                        <input type=\"number\" min=\"0\" id=\"area_size\" value=2>\n" +
+            "                        <input type=\"number\" min=\"0\" id=\"area_size\" value=1>\n" +
             "                    </p>\n" +
             "                </div>\n" +
             "                <div class=\"block\">\n" +
@@ -445,7 +445,7 @@ function updeteChangeBlock() {
     } else if (document.getElementById("select_show_type").value == "diff in libs" ) {
         var html_code = "<div class=\"block\">\n" +
             "                    <p>Area size:<br/>\n" +
-            "                        <input type=\"number\" min=\"0\" id=\"area_size\" value=2>\n" +
+            "                        <input type=\"number\" min=\"0\" id=\"area_size\" value=1>\n" +
             "                    </p>\n" +
             "                </div>\n" +
             "<div class=\"one_line_block\">\n" +
@@ -493,7 +493,7 @@ function updeteChangeBlock() {
     } else if (document.getElementById("select_show_type").value == "scaffolds") {
         document.getElementById("change_block").innerHTML = "<div class=\"block\">\n" +
             "                    <p>Area size:<br/>\n" +
-            "                        <input type=\"number\" min=\"0\" id=\"area_size\" value=2>\n" +
+            "                        <input type=\"number\" min=\"0\" id=\"area_size\" value=1>\n" +
             "                    </p>\n" +
             "                    <p>Scaffold lib:<br/>\n" +
             "                        <div class=\"styled-select\">\n" +
@@ -521,29 +521,22 @@ document.getElementById("select_layout").addEventListener("change", function(){
             "                </h2>\n" +
             "                <div class=\"styled-select\">\n" +
             "                <select id=\"select_show_type\">\n" +
+            "                    <option value=\"full graph\">Full graph</option>\n" +
+            "                    <option value=\"diff in libs\">Difference in libs</option>\n" +
+            "                    <option value=\"scaffolds\"> Scaffolds</option>\n" +
             "                    <option value=\"vertices_local_area\">Vertices local area</option>\n" +
             "                    <option value=\"edges_local_area\">Edges local area</option>\n" +
-            "                    <option value=\"diff in libs\">Difference in libs</option>\n" +
-            "                    <option value=\"full graph\">Full graph</option>\n" +
-            "                    <option value=\"scaffolds\"> Scaffolds</option>\n" +
             "                </select>\n" +
             "                </div>\n" +
             "                </div>";
 
-        document.getElementById("change_block").innerHTML = "<div class=\"block\">\n" +
-            "                    <p>Area size:<br/>\n" +
-            "                        <input type=\"number\" min=\"0\" id=\"area_size\" value=2>\n" +
-            "                    </p>\n" +
-            "                </div>\n" +
-            "                <div class=\"block\">\n" +
-            "                    <textarea rows=\"6\" id=\"vertext\"></textarea>\n" +
-            "                </div>";
+        document.getElementById("change_block").innerHTML = "";
         document.getElementById("select_show_type").addEventListener("change", updeteChangeBlock);
     } else {
         document.getElementById("filtration").innerHTML = "";
         document.getElementById("change_block").innerHTML = "<div class=\"block\">\n" +
             "                    <p>Area size:<br/>\n" +
-            "                        <input type=\"number\" min=\"0\" id=\"area_size\" value=2>\n" +
+            "                        <input type=\"number\" min=\"0\" id=\"area_size\" value=1>\n" +
             "                    </p>\n" +
             "                </div>";
     }

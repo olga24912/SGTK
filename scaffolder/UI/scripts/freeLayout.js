@@ -22,6 +22,17 @@ function hasOtherEdges(v, curNodeSet) {
     return false;
 }
 
+
+function getYforNewVert(v, u, evt, isGoodEdge) {
+    for (var i = 0; i < scaffoldgraph.g[v].length; ++i) {
+        if (scaffoldgraph.g[v][i].to === u && isGoodEdge(scaffoldgraph.g[v][i].id)) {
+            return evt.target.position().y + Math.random() * Math.floor(200);
+        }
+    }
+
+    return evt.target.position().y - Math.random() * Math.floor(200);
+}
+
 function createAddNewNode(cy, curNodeSet) {
     cy.on('tap', 'node', function (evt) {
         var v = evt.target.id();
@@ -32,7 +43,7 @@ function createAddNewNode(cy, curNodeSet) {
 
         for (g = 0; g < needAddVert.length; ++g) {
             u = needAddVert[g];
-            var yc = calcYforV(u, area_size, min_contig_len, isGoodEdge, newNode, curNodeSet, cy, 500);
+            var yc = getYforNewVert(v, u, evt, isGoodEdge);
 
             var nnode = {
                 group: "nodes",
@@ -72,7 +83,7 @@ function createAddNewNode(cy, curNodeSet) {
                     target: getEdgeTo(eid),
                     label: createLabelForEdge(eid),
                     faveColor: scaffoldgraph.libs[scaffoldgraph.edges[eid].lib].color,
-                    weight: Math.log(scaffoldgraph.edges[eid].weight) + 1,
+                    weight: Math.min(5, Math.log(scaffoldgraph.edges[eid].weight) + 1),
                     lstyle: 'dotted'
                 }
             });

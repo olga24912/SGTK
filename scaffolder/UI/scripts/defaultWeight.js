@@ -29,11 +29,11 @@ function getDefaultWeight(libNum) {
 
     if (listWeightEdges.length === 0) {
         return 1;
-    } else if (listWeightEdges.length <= vertCnt) {
+    } else if (listWeightEdges.length <= vertCnt/2) {
         return 1;
     } else {
-        var pos = vertCnt;
-        while (pos > 0 && listWeightEdges[pos] === listWeightEdges[vertCnt]) {
+        var pos = parseInt(vertCnt/2);
+        while (pos > 0 && listWeightEdges[pos] === listWeightEdges[parseInt(vertCnt/2)]) {
             --pos;
         }
         return listWeightEdges[pos];

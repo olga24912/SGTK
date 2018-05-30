@@ -281,7 +281,7 @@ function getRankDist() {
 }
 
 function getEdgeWeight(cy, e) {
-    return Math.log(getWeight(e))/cy.zoom();
+    return Math.min(5, Math.log(getWeight(e)))/cy.zoom();
 }
 
 function getScala(cy) {

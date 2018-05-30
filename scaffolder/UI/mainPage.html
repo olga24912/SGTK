@@ -6,7 +6,7 @@
     <title>SGTK</title>
     <link href="scripts/light.css" rel="stylesheet" type="text/css">
 
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
@@ -67,25 +67,17 @@
                 </h2>
                 <div class="styled-select">
                 <select id="select_show_type">
+                    <option value="full graph">Full graph</option>
+                    <option value="diff in libs">Difference in libs</option>
+                    <option value="scaffolds"> Scaffolds</option>
                     <option value="vertices_local_area">Vertices local area</option>
                     <option value="edges_local_area">Edges local area</option>
-                    <option value="diff in libs">Difference in libs</option>
-                    <option value="full graph">Full graph</option>
-                    <option value="scaffolds"> Scaffolds</option>
                 </select>
                 </div>
                 </div>
             </div>
 
             <div class="block_with_line" id = "change_block">
-                <div class="block">
-                    <p>Area size:<br/>
-                        <input type="number" min="0" id="area_size" value=2>
-                    </p>
-                </div>
-                <div class="block">
-                    <textarea rows="6" id="vertext"></textarea>
-                </div>
             </div>
 
             <div class="block_with_line">
@@ -240,7 +232,6 @@
     <script src="scripts/freeLayout.js"></script>
     <script src="scripts/script.js"></script>
     <script src="scripts/external/cytoscape.js"></script>
-    <script src="scripts/external/vivagraph.js"></script>
     <script src="scripts/external/dagre.js"></script>
     <script src="scripts/external/cytoscape-dagre.js"></script>
     <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>

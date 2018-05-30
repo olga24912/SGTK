@@ -19,12 +19,6 @@ target_link_libraries(addBothPath logger_lib builder_lib)
 target_link_libraries(mergeGraph logger_lib ${CMAKE_THREAD_LIBS_INIT} ${Boost_LIBRARIES})
 target_link_libraries(readSplitter logger_lib read_splitter_lib ${SEQAN_LIBRARIES} ${ZLIB_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} ${Boost_LIBRARIES})
 
-install(TARGETS addBothPath
-        DESTINATION bin
-        COMPONENT runtime)
-install(TARGETS addInfoToGraph
-        DESTINATION bin
-        COMPONENT runtime)
 install(TARGETS filter
         DESTINATION bin
         COMPONENT runtime)
