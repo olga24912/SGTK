@@ -131,6 +131,7 @@ To obtain SGTK download source code and compile it yourself.
     <li><code>scripts/handleDiffInLibs.js</code> </li>
     <li><code>scripts/external/cytoscape.js</code></li>
     <li><code>scripts/external/cytoscape-dagre.js</code></li>
+    <li><code>scripts/external/dagre.js</code></li>
     <li><code>scripts/external/cytoscape-qtip.js</code></li>
     <li><code>scripts/external/cytoscape.js-navigator/bower.json</code></li>
     <li><code>scripts/external/cytoscape.js-navigator/package.json</code></li>
@@ -368,7 +369,7 @@ Run main.html for see visualisation.
 </pre>
 
 <p>
-    If you have several RNA paired-end reads, scaffolds and reference:
+    If you have several paired-end reads, scaffolds and reference:
 <p>
     <li> contigs
         <pre class="code">
@@ -406,10 +407,10 @@ And you would like set labels and colors. You need set labels and colors for all
 <pre class="code">
 <code>
     python3 visualize_scaffold_graph.py -c ../share/test_dataset/contigs.fasta \
-    --rna-p ../share/test_dataset/read_1.fasta ../share/test_dataset/read_2.fasta \
+    --fr ../share/test_dataset/read_1.fasta ../share/test_dataset/read_2.fasta \
     --scafinfo ../share/test_dataset/scaf.info \
     --ref ../share/test_dataset/ref.fasta \
-    --label rnap scaf ref \
+    --label pair scaf ref \
     --color "#0000ff" "#00ff00" "#ff0000" \
     -o output
 </code>
