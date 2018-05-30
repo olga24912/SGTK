@@ -7,7 +7,6 @@
         }
     </style>
 </head>
-<>
 <h1>SGTK Manual</h1>
 
 1. <a href="#sec1">About SGTK</a><br>
@@ -31,27 +30,26 @@
 <h2>1. About SGTK</h2>
 <p>
     SGTK &ndash; Scaffold Graph ToolKit &ndash; is a tool which is capable of scaffold graph construction,
-    interactive visualization and build scaffolds by RNA-seq data. This manual will help you to install and run SGTK.
+    interactive visualization and building scaffolds by RNA-seq data. This manual will help you to install and run SGTK.
 <p>
-    The current version of SGTK takes as input a set of contigs and an arbitrary number of linkage
-    information sources, such as:
-    <ul>
+    The current version of SGTK takes as input a set of contigs and an arbitrary number of linkage information sources, such as:
+<ul>
     <li>paired reads</li>
     <li>long reads</li>
     <li>paired and unpaired RNA-seq reads</li>
     <li>scaffolds</li>
     <li>assembly graph in GFA, FASTG formats</li>
     <li>reference sequences</li>
-    </ul>
+</ul>
 
-    SGTK works with Illumina RNA-seq paired-end reads and unpaired reads for building scaffolds.
+SGTK works with Illumina RNA-seq paired-end and unpaired reads for building scaffolds.
 
 <a name="sec2"></a>
 <h2>2. Installation</h2>
-To obtain SGTK download source code and compile it yourself.
+To install SGTK download the source code and compile it yourself.
 
 <p>
-    If you wish to compile SGTK by yourself you will need the following libraries to be pre-installed:
+    To compile SGTK by yourself you will need the following libraries to be pre-installed:
 <ul>
     <li>python3</li>
     <li>g++ </li>
@@ -69,8 +67,8 @@ To obtain SGTK download source code and compile it yourself.
 
 <pre class="code">
 <code>
-    git clone https://github.com/olga24912/SGTK.git
-    cd SGTK/scaffolder/
+   git clone https://github.com/olga24912/SGTK.git
+   cd SGTK/scaffolder/
 </code>
 </pre>
 
@@ -79,16 +77,16 @@ To obtain SGTK download source code and compile it yourself.
 
 <pre class="code">
 <code>
-    ./compile.sh
+   ./compile.sh
 </code>
 </pre>
 
 <p>
-    SGTK will be built in the directory <code>./bin</code>. If you wish to install SGTK into another directory, you can specify full path of destination folder by running the following command in <code>bash</code> or <code>sh</code>:
+    SGTK will be built in the directory <code>./bin</code>. If you wish to install SGTK into another directory, you can specify the full path of destination folder by running the following command in <code>bash</code> or <code>sh</code>:
 
 <pre class="code">
 <code>
-    PREFIX=&lt;destination_dir> ./compile.sh
+   PREFIX=&lt;destination_dir> ./compile.sh
 </code>
 </pre>
 
@@ -97,7 +95,7 @@ To obtain SGTK download source code and compile it yourself.
 
 <pre class="code">
 <code>
-    PREFIX=/usr/local ./compile.sh
+   PREFIX=/usr/local ./compile.sh
 </code>
 </pre>
 
@@ -105,17 +103,17 @@ To obtain SGTK download source code and compile it yourself.
     which will install SGTK into <code>/usr/local/bin</code>.
 
 <p>
-    After installation you will get the same files in <code>./bin</code> (or <code>&lt;destination_dir>/bin</code> if you specified PREFIX) directory:
+    After installation you will get the following files in <code>./bin</code> (or <code>&lt;destination_dir>/bin</code> if you specified PREFIX) directory:
 <ul>
-    <li><code>rna_scaffolder.py</code>  (main executable script for build rna scaffolders)</li>
-    <li><code>visualize_scaffold_graph.py</code>  (main executable script for visualize scaffold graph) </li>
+    <li><code>rna_scaffolder.py</code>  (main executable script for building rna scaffolders)</li>
+    <li><code>visualize_scaffold_graph.py</code>  (main executable script for visualization scaffold graph) </li>
     <li><code>build</code>  (graph construction module)</li>
     <li><code>filter</code>  (graph simplification and building scaffolds module)</li>
     <li><code>mergeGraph</code>  (graph merging module)</li>
     <li><code>readSplitter</code> (module for splitting RNA-seq reads)</li>
 
     <li><code>mainPage.html</code> (main html page for visualization)</li>
-    <li><code>scripts/</code> (folder contain JS necessary for visualization)</li>
+    <li><code>scripts/</code> (folder containing JS necessary for visualization)</li>
     <li><code>scripts/script.js</code> </li>
     <li><code>scripts/light.css</code> </li>
     <li><code>scripts/search.js</code> </li>
@@ -142,7 +140,7 @@ To obtain SGTK download source code and compile it yourself.
 <p>
     We also suggest adding SGTK installation directory to the <code>PATH</code> variable.
 
-<a name="sec3"></a>
+    <a name="sec3"></a>
 <h2>3. Running SGTK</h2>
 <a name="sec3.1"></a>
 <h3>3.1. Graph visualization</h3>
@@ -151,119 +149,117 @@ To obtain SGTK download source code and compile it yourself.
 SGTK takes as input contigs, reference and an arbitrary number of linkage
 information sources.
 <h4> Contigs </h4>
-    Contigs in fasta format. You can provide a few contigs file, in this case they will be merge together.
-    Make sure that all contigs have different names.
+Contigs in FASTA format. You can provide a few contigs files, in this case they will be merged together.
+Make sure that all contigs have different names.
 
-    If you have contigs in forward and reverse-complementary copies, provide only one copy.
+If you have contigs in forward and reverse-complementary copies, provide only one copy.
 <h4> Reference </h4>
-    If you provide reference genome in fasta format genome browser visualisation will be available.
-    In case of providing several files they will be merge together and chromosomes names will be changed
-    depending on the references files names.
+If you provide reference genome in FASTA format the genome browser visualization will be available.
+In case of providing several files they will be merged together and chromosomes’ names will be changed
+depending on the references’ files names.
 
-    If you have chromosomes in forward and reverse-complementary copies, provide only one copy.
+If you have chromosomes in forward and reverse-complementary copies, provide only one copy.
 
 <h4> Paired-end and mate-pair reads</h4>
-    SGTK takes paired reads in FASTA or FASTQ format in two files or as alignment in SAM/BAM format in two files as well.
-    In case of providing reads in FASTA/FASTQ format they will be align on contigs with minimap2:
-    <pre class="code">
-    <code>
-        minimap2 -ax sr &lt;contigs_file> &lt;dna1> > dna1.sam
-        minimap2 -ax sr &lt;contigs_file> &lt;dna2> > dna2.sam
-    </code></pre>
+SGTK takes paired reads in FASTA or FASTQ format in two files or alignments in SAM/BAM format in two files as well.
+In case of providing reads in FASTA/FASTQ format they will be aligned on contigs by minimap2:
+<pre class="code">
+   <code>
+       minimap2 -ax sr &lt;contigs_file> &lt;dna1> > dna1.sam
+       minimap2 -ax sr &lt;contigs_file> &lt;dna2> > dna2.sam
+   </code></pre>
 
 <h4> RNA-seq reads </h4>
-    You can provide both paired and single RNA-seq reads. Paired reads will be align to the contigs
-with STAR independent. Single reads first of all will be splitted on two parts and after that
-will be align with STAR.
+You can provide both paired and single RNA-seq reads. Paired reads will be aligned to the contigs by STAR independently. Single reads will be split into two parts and after that will be aligned by STAR.
 
-<h4> Pacbio reads </h4>
-    SGTK takes pacbio reads in FASTA or FASTQ format and align them on contigs with minimap2:
-    <pre class="code">
-    <code>
-        minimap2 -x map-pb &lt;contigs_file> &lt;pacbio> > out.paf
-    </code></pre>
+<h4> PacBio reads </h4>
+SGTK takes PacBio reads in FASTA or FASTQ format and aligns them on contigs by minimap2:
+<pre class="code">
+   <code>
+       minimap2 -x map-pb &lt;contigs_file> &lt;pacbio> > out.paf
+   </code></pre>
 
 <h4> Scaffolds </h4>
-    There is two ways to provide scaffolds:
-    <ul>
-        <li>scaffolds in FASTA format. In this case contigs will be align to scaffolds be nucmer.</li>
-        <li>scaffolds path in .info format </li>
-    </ul>
-    In info format each scaffold describe one per line in the next format:<br>
-    <pre class="code">
-    <code>
-        >SCAFFOLD_NAME (CONTIG_NAME_0 CONTIG_ID_0 DIRECTION_0) (CONTIG_NAME_1 CONTIG_ID_1 DIRECTION_1)
-    </code></pre>
+There are two ways to provide scaffolds:
+<ul>
+    <li>scaffolds in FASTA format. In this case contigs will be aligned to scaffolds by nucmer.</li>
+    <li>scaffolds paths in INFO format </li>
+</ul>
+In INFO format each line describes scaffold in the following format:<br>
+<pre class="code">
+   <code>
+       >SCAFFOLD_NAME (CONTIG_NAME_0 CONTIG_ID_0 DIRECTION_0) (CONTIG_NAME_1 CONTIG_ID_1 DIRECTION_1)
+   </code></pre>
 
-    For example, one line in info format:
-    <pre class="code">
-    <code>
-        >scaffoldName (contigName0 0 +) (contigName1 1 -) (contigName2 2 -) (contigName3 3 +)
-    </code></pre>
+For example, one line in INFO format:
+<pre class="code">
+   <code>
+       >scaffoldName (contigName0 0 +) (contigName1 1 -) (contigName2 2 -) (contigName3 3 +)
+   </code></pre>
 
 <h4> Connection list </h4>
-    Also it is possible to provide a file with your own connection, where each line describe one connection in next format:
-    <pre class="code">
-        <code>
-            (CONTIG_NAME_0 CONTOG_DIRECTION_0) (CONTIG_NAME_1 CONTOG_DIRECTION_1) WEIGHT LEN "EXTRA_INFO"
-        </code></pre>
-    For example:
-    <pre class="code">
-        <code>
-            (contig0 -) (contig1 +) 32.5 1168 "some info about connection"
-        </code></pre>
+Also it is possible to provide a file with your own connections, where each line describes one connection in the following format:
+<pre class="code">
+       <code>
+           (CONTIG_NAME_0 CONTOG_DIRECTION_0) (CONTIG_NAME_1 CONTOG_DIRECTION_1) WEIGHT LEN "EXTRA_INFO"
+       </code></pre>
+For example:
+<pre class="code">
+       <code>
+           (contig0 -) (contig1 +) 32.5 1168 "some info about connection"
+       </code></pre>
 
 
 <h4> Scaffold Graph </h4>
-    All information about connection will be merged in one scaffold graph in internal format. You can provide
-extra scaffold graph by your own.
+All information about connections will be merged in one scaffold graph in internal format. You can provide
+extra scaffold graph on your own.
 
-    Scaffold graph have next format:
-    <pre class="code">
-        <code>
-            LIB_DESCRIPTION
-            NODES_DESCRIPTION
-            EDGES_DESCRIPTION
-        </code></pre>
+Scaffold graph has the following format:
+<pre class="code">
+       <code>
+           LIB_DESCRIPTION
+           NODES_DESCRIPTION
+           EDGES_DESCRIPTION
+       </code></pre>
 
-    Format for LIB_DESCRIPTION is:
-    <pre class="code">
-        <code>
-            LIB_NUMBER
-            (l LIB_ID LIB_COLOR LIB_NAME LIB_TYPE)*LIB_NUMBER
-        </code></pre>
-    Where LIB_TYPE = {CONNECTION | PACBIO | DNA_PAIR | RNA_PAIR | RNA_SPLIT_50 | RNA_SPLIT_30}
-    <br>
-    <br>
-    Format for NODES_DESCRIPTION:
-    <pre class="code">
-        <code>
-            NODES_NUMBER
-            (v NODE_ID NODE_NAME NODE_LEN)* NODES_NUMBER
-        </code></pre>
+The format for LIB_DESCRIPTION:
+<pre class="code">
+       <code>
+           LIB_NUMBER
+           (l LIB_ID LIB_COLOR LIB_NAME LIB_TYPE)*LIB_NUMBER
+       </code></pre>
+Where LIB_TYPE = {CONNECTION | PACBIO | DNA_PAIR | RNA_PAIR | RNA_SPLIT_50 | RNA_SPLIT_30}
+<br>
+<br>
+The format for NODES_DESCRIPTION:
+<pre class="code">
+       <code>
+           NODES_NUMBER
+           (v NODE_ID NODE_NAME NODE_LEN)* NODES_NUMBER
+       </code></pre>
 
-    Format for EDGES_DESCRIPTION:
-    <pre class="code">
-        <code>
-            EDGES_NUMBER
-            (e EDGE_ID NODE_ID_0 NODE_ID_1 LIB_ID WEIGHT LEN "EXTRA_INFO")*EDGES_NUMBER
-        </code></pre>
+Format for EDGES_DESCRIPTION:
+<pre class="code">
+       <code>
+           EDGES_NUMBER
+           (e EDGE_ID NODE_ID_0 NODE_ID_1 LIB_ID WEIGHT LEN "EXTRA_INFO")*EDGES_NUMBER
+       </code></pre>
 
-    <br>
-    For example:
-    <pre class = "code">
-        <code>
-            1
-            l 0 #ff0000 lib_name DNA_PAIR
-            4
-            v 0 node_0 20132
-            v 1 node_0-rev 20132
-            v 2 node_1 20400
-            v 3 node_1-rev 20400
-            2
-            e 0 0 2 0 32.5 200 "some extra info"
-            e 1 3 1 0 32.5 200
-        </code></pre>
+<br>
+For example:
+<pre class = "code">
+       <code>
+           1
+           l 0 #ff0000 lib_name DNA_PAIR
+           4
+           v 0 node_0 20132
+           v 1 node_0-rev 20132
+           v 2 node_1 20400
+           v 3 node_1-rev 20400
+           2
+           e 0 0 2 0 32.5 200 "some extra info"
+           e 1 3 1 0 32.5 200
+       </code></pre>
 
 <a name="sec3.1.2"></a>
 <h4>3.1.2. Command line options </h4>
@@ -272,13 +268,13 @@ extra scaffold graph by your own.
 
 <pre class="code">
 <code>
-    visualize_scaffold_graph.py [options]
+   visualize_scaffold_graph.py [options]
 </code>
 </pre>
-Note that we assume that SGTK installation directory is added to the <code>PATH</code> variable (provide full path to SGTK executable otherwise: <code>&lt;installation dir>/visualize_scaffold_graph.py</code>).
+Note that we assume that SGTK installation directory is added to the <code>PATH</code> variable (otherwise provide full path to SGTK executable: <code>&lt;installation dir>/visualize_scaffold_graph.py</code>).
 
 <a name="basicopt"></a>
-<h4>Basic options</h4>
+<h4>Options</h4>
 <p>
     <code>-h</code> (or <code>--help</code>)
     &nbsp;&nbsp;&nbsp;&nbsp;Print help.
@@ -325,7 +321,7 @@ Note that we assume that SGTK installation directory is added to the <code>PATH<
 </p>
 <p>
     <code>--ref &lt;file_name> </code>
-    &nbsp;&nbsp;&nbsp;&nbsp; File with reference.
+    &nbsp;&nbsp;&nbsp;&nbsp; File with reference in FASTA format.
 </p>
 <p>
     <code>--scafinfo &lt;file_name> </code>
@@ -341,7 +337,7 @@ Note that we assume that SGTK installation directory is added to the <code>PATH<
 </p>
 <p>
     <code>-o</code> (or <code>--local_output_dir</code>) <code> &lt;output_dir> </code>
-    &nbsp;&nbsp;&nbsp;&nbsp;Specify the output directory. The default output dir is  "./"
+    &nbsp;&nbsp;&nbsp;&nbsp;Specify the output directory. The default output directory is  "./"
 </p>
 
 <a name="sec3.1.3"></a>
@@ -350,11 +346,11 @@ Note that we assume that SGTK installation directory is added to the <code>PATH<
 SGTK stores all output files in <code>&lt;output_dir> </code>, which is set by the user.
 
 <ul>
-    <li><code>&lt;output_dir>/scripts/</code> files with scaffold graph description. It is needed to main.html work properly </li>
-    <li><code>&lt;output_dir>/main.html</code> main file for graph visualisation </li>
+    <li><code>&lt;output_dir>/scripts/</code> files with scaffold graph description. It is needed for main.html to work properly </li>
+    <li><code>&lt;output_dir>/main.html</code> main file for graph visualization </li>
 </ul>
 
-Run main.html for see visualisation.
+Run main.html to see visualisation.
 
 <a name="sec3.1.4"></a>
 <h4>3.1.4. Example</h4>
@@ -363,8 +359,8 @@ Run main.html for see visualisation.
 
 <pre class="code">
 <code>
-    python3 visualize_scaffold_graph.py -c ../share/test_dataset/contigs.fasta --rna-p ../share/test_dataset/read_1.fasta \
-    ../share/test_dataset/read_2.fasta -o test
+   python3 visualize_scaffold_graph.py -c ../share/test_dataset/contigs.fasta --rna-p ../share/test_dataset/read_1.fasta \
+   ../share/test_dataset/read_2.fasta -o test
 </code>
 </pre>
 
@@ -373,16 +369,16 @@ Run main.html for see visualisation.
 <p>
     <li> contigs
         <pre class="code">
-    <code>
-    ../share/test_dataset/contigs.fasta
-    </code>
-    </pre>
+   <code>
+   ../share/test_dataset/contigs.fasta
+   </code>
+   </pre>
 
     <li> paired-end library
         <pre class="code">
 <code>
-    ../share/test_dataset/read_1.fasta
-    ../share/test_dataset/read_2.fasta
+   ../share/test_dataset/read_1.fasta
+   ../share/test_dataset/read_2.fasta
 </code>
 </pre>
 <p>
@@ -390,7 +386,7 @@ Run main.html for see visualisation.
 
         <pre class="code">
 <code>
-    scaf.info
+   scaf.info
 </code>
 </pre>
 
@@ -398,21 +394,21 @@ Run main.html for see visualisation.
     <li> reference
         <pre class="code">
 <code>
-    ref.fasta
+   ref.fasta
 </code>
 </pre>
 <p>
 
-And you would like set labels and colors. You need set labels and colors for all libraries in order of definition
+    If you would like to set labels and colors, you need to set labels and colors for all libraries in order of definition
 <pre class="code">
 <code>
-    python3 visualize_scaffold_graph.py -c ../share/test_dataset/contigs.fasta \
-    --fr ../share/test_dataset/read_1.fasta ../share/test_dataset/read_2.fasta \
-    --scafinfo ../share/test_dataset/scaf.info \
-    --ref ../share/test_dataset/ref.fasta \
-    --label pair scaf ref \
-    --color "#0000ff" "#00ff00" "#ff0000" \
-    -o output
+   python3 visualize_scaffold_graph.py -c ../share/test_dataset/contigs.fasta \
+   --fr ../share/test_dataset/read_1.fasta ../share/test_dataset/read_2.fasta \
+   --scafinfo ../share/test_dataset/scaf.info \
+   --ref ../share/test_dataset/ref.fasta \
+   --label pair scaf ref \
+   --color "#0000ff" "#00ff00" "#ff0000" \
+   -o output
 </code>
 </pre>
 
@@ -436,22 +432,22 @@ And you would like set labels and colors. You need set labels and colors for all
 
 <pre class="code">
 <code>
-    rna_scaffolder.py [options]
+   rna_scaffolder.py [options]
 </code>
 </pre>
-Note that we assume that SGTK installation directory is added to the <code>PATH</code> variable (provide full path to SGTK executable otherwise: <code>&lt;installation dir>/rna_scaffolder.py</code>).
+Note that we assume that SGTK installation directory is added to the <code>PATH</code> variable (otherwise provide full path to SGTK executable: <code>&lt;installation dir>/rna_scaffolder.py</code>).
 
 <a name="basicopt"></a>
-<h4>Basic options</h4>
+<h4>Options</h4>
 
 <p>
-    <code>-c</code> (or <code>--contig</code>) <code> &lt;file_name> </code>><br>
+    <code>-c</code> (or <code>--contig</code>) <code> &lt;file_name> </code><br>
     &nbsp;&nbsp;&nbsp;&nbsp;File with contigs in fasta format. Required option.
 </p>
 
 <p>
     <code>--rna-p &lt;file_name_1>  &lt;file_name_2> </code>
-    &nbsp;&nbsp;&nbsp;&nbsp; File with left reads and file with right eads for paired-end library.
+    &nbsp;&nbsp;&nbsp;&nbsp; File with left reads and file with right reads for paired-end library.
 </p>
 
 <p>
@@ -466,7 +462,7 @@ Note that we assume that SGTK installation directory is added to the <code>PATH<
 
 <p>
     <code>-o</code> (or <code>--local_output_dir</code>) <code> &lt;output_dir> </code><br>
-    &nbsp;&nbsp;&nbsp;&nbsp;Specify the output directory. The default output dir is  "./"
+    &nbsp;&nbsp;&nbsp;&nbsp;Specify the output directory. The default output directory is  "./"
 </p>
 
 
@@ -494,8 +490,8 @@ SGTK stores all output files in <code>&lt;output_dir> </code>, which is set by t
 
 <pre class="code">
 <code>
-    rna_scaffolder.py -c ../share/test_dataset/contigs.fasta --rna-p ../share/test_dataset/read_1.fasta \
-    ../share/test_dataset/read_2.fasta --gene_annotation annotation.gff -o test
+   rna_scaffolder.py -c ../share/test_dataset/contigs.fasta --rna-p ../share/test_dataset/read_1.fasta \
+   ../share/test_dataset/read_2.fasta --gene_annotation annotation.gff -o test
 </code>
 </pre>
 
@@ -505,16 +501,16 @@ SGTK stores all output files in <code>&lt;output_dir> </code>, which is set by t
 <p>
     <li> contigs
         <pre class="code">
-    <code>
-    contigs.fasta
-    </code>
-    </pre>
+   <code>
+   contigs.fasta
+   </code>
+   </pre>
 
     <li> paired-end library 1
         <pre class="code">
 <code>
-    lib_pe1_left.fastq
-    lib_pe1_right.fastq
+   lib_pe1_left.fastq
+   lib_pe1_right.fastq
 </code>
 </pre>
 <p>
@@ -522,8 +518,8 @@ SGTK stores all output files in <code>&lt;output_dir> </code>, which is set by t
 
         <pre class="code">
 <code>
-    lib_pe2_left.fastq
-    lib_pe2_right.fastq
+   lib_pe2_left.fastq
+   lib_pe2_right.fastq
 </code>
 </pre>
 
@@ -531,24 +527,24 @@ SGTK stores all output files in <code>&lt;output_dir> </code>, which is set by t
     <li> unpaired library 1
         <pre class="code">
 <code>
-    lib1.fastq
+   lib1.fastq
 </code>
-        </pre>
+       </pre>
 
 <p>
     <li> gene annotation
         <pre class="code">
 <code>
-    annotation.gff
+   annotation.gff
 </code>
 </pre>
 <p>
 
 <pre class="code">
 <code>
-    rna_scaffolder.py -c contigs.fasta --rna-p lib_pe1_left.fastq lib_pe1_right.fastq \
-    --rna-p lib_pe2_left.fastq --mp1-2 lib_pe2_right.fastq \
-    --rna-s lib1.fastq --gene_annotation annotation.gff -o output
+   rna_scaffolder.py -c contigs.fasta --rna-p lib_pe1_left.fastq lib_pe1_right.fastq \
+   --rna-p lib_pe2_left.fastq --mp1-2 lib_pe2_right.fastq \
+   --rna-s lib1.fastq --gene_annotation annotation.gff -o output
 </code>
 </pre>
 
@@ -562,3 +558,4 @@ SGTK stores all output files in <code>&lt;output_dir> </code>, which is set by t
 <br/>
 </body>
 </html>
+
