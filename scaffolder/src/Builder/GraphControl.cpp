@@ -2,6 +2,7 @@
 #include <Builder/GraphBuilder/ConnectionGraphBuilder.h>
 #include <Builder/GraphBuilder/DNAMatePairReadsGraphBuilder.h>
 #include <Builder/GraphBuilder/PacbioGraphBuilder.h>
+#include <Builder/GraphBuilder/FASTGGraphBuilder.h>
 #include "GraphControl.h"
 #include "Builder/GraphBuilder/ReferenceGraphBuilder.h"
 
@@ -111,6 +112,17 @@ namespace builder {
 
             gb->setLibName(argv[4]);
             gb->setLibType(ContigGraph::Lib::Type::CONNECTION);
+
+            gb->setGraph(&graph);
+            gb->evaluate();
+        } else if (std::string(argv[1]) == "FASTG") {
+            FASTGGraphBuilder* gb = new FASTGGraphBuilder;
+
+            gb->setFASTGFile(argv[2]);
+            gb->setContigFile(argv[3]);
+
+            gb->setLibName(argv[4]);
+            gb->setLibType(ContigGraph::Lib::Type::FASTG);
 
             gb->setGraph(&graph);
             gb->evaluate();

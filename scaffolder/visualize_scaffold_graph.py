@@ -101,7 +101,7 @@ class Lib:
         f.close()
         g.close()
 
-libsType = {"rnap", "rnas", "rf", "ff", "scg", "ref", "scafinfo", "scaffolds", "refcoord", "fr", "pacbio"}
+libsType = {"rnap", "rnas", "rf", "ff", "scg", "ref", "scafinfo", "scaffolds", "refcoord", "fr", "pacbio", "fastg"}
 
 class StoreArgAction(argparse.Action):
     def __call__(self, parser, namespace, values, option_string=None):
@@ -128,6 +128,7 @@ def parse_args():
     parser.add_argument("--contigs", "-c", nargs=1, dest="contigs", help="path to contigs", type=str, action='append')
     parser.add_argument("--scaffolds", "-s", nargs=1, dest="scaffolds", help="path to scaffolds in fasta format", type=str, action=StoreArgAction)
     parser.add_argument("--scg", nargs=1, dest="scg", help="path to file with connection list", type=str, action=StoreArgAction)
+    parser.add_argument("--fastg", nargs=1, dest="fastg", help="path to assembly graph in FASTG format", type=str, action=StoreArgAction)
     parser.add_argument("--gr", nargs=1, dest="graph", help="path to graph in .gr format", type=str, action='append')
     parser.add_argument("--rna-p", dest="rnap", nargs=2, help="path to rna pair reads file", type=str, action=StoreArgAction)
     parser.add_argument("--rna-s", dest="rnas", nargs=1, help="path to rna read file", type=str, action=StoreArgAction)
@@ -343,6 +344,14 @@ def build_graph(contig_file_name, args):
         os.chdir(lib_dir)
         os.system(path_to_exec_dir + "build CONNECTION " + lib.path[0] + " " + contig_file_name + " " + lib.label)
         os.chdir(prevdir)
+
+    for lib in args.libs["fastg"]:
+        prevdir = os.getcwd()
+        log.log("START BUILD GRAPH: " + lib.label)
+        lib_dir = os.path.dirname(os.path.abspath(lib.name) + "/")
+        os.chdir(lib_dir)
+        os.system(path_to_exec_dir + "build FASTG " + lib.path[0] + " " + contig_file_name + " " + lib.label)
+        os.chdir(prevdir)
         
     return
 
@@ -382,7 +391,7 @@ def merge_graph(args):
         for lib_type in libsType:
             for lib in args.libs[lib_type]:
                 if lib_type == "rnap" or lib_type == "rnas" or lib_type == "fr" or lib_type == "rf" or \
-                        lib_type == "pacbio" or lib_type == "ff" or lib_type == "scg":
+                        lib_type == "pacbio" or lib_type == "ff" or lib_type == "scg" or lib_type=="fastg":
                     lib.fix_graph_file()
                     if lib_type != "rnas":
                         merge_list += lib.name + "/graph.gr "
@@ -743,14 +752,36 @@ def merge_contigs(contigs):
 
     return os.path.abspath("contigs_merge.fasta")
 
+def fastg_to_contigs(args):
+    for lib in args.libs['fastg']:
+        lib_dir = os.path.dirname(os.path.abspath(lib.name) + "/")
+        if not os.path.exists(lib_dir):
+            os.makedirs(lib_dir)
+        prevdir = os.getcwd()
+        os.chdir(lib_dir)
+
+        with open("contigs.fasta", "w") as out:
+            for record in SeqIO.parse(lib.path[0], "fasta"):
+                record.id = record.id.split(':')[0].split(';')[0]
+                if (record.id[-1] != '\''):
+                    SeqIO.write(record, out, "fasta")
+
+        if (args.contigs == None):
+            args.contigs = []
+
+        args.contigs.append(os.path.abspath('contigs.fasta'))
+        os.chdir(prevdir)
+
+    pass
 
 def run(args):
-    if args.contigs == None:
-        log.err("none contig file provide")
+    if args.contigs == None and ('libs' not in args) and ('fastg' not in args.libs):
+        log.err("none contig or FASTG file provide")
         return
 
-    for i in range(len(args.contigs)):
-        args.contigs[i] = os.path.abspath(args.contigs[i][0])
+    if (args.contigs != None):
+        for i in range(len(args.contigs)):
+            args.contigs[i] = os.path.abspath(args.contigs[i][0])
 
     main_out_dir = os.path.abspath(".") + "/"
 
@@ -768,6 +799,9 @@ def run(args):
         log.log("MKDIR")
         os.makedirs(directory)
     os.chdir(directory)
+
+    if 'libs' in args:
+        fastg_to_contigs(args)
 
     contig_file_name = ""
     if (len(args.contigs) == 1):
