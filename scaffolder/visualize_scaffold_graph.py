@@ -5,6 +5,9 @@ import argparse
 from shutil import copyfile
 from shutil import move
 from Bio import SeqIO
+from Bio.Seq import Seq
+from Bio.SeqRecord import SeqRecord
+from Bio.Alphabet import IUPAC
 
 #Log class, use it, not print
 class Log:
@@ -101,7 +104,7 @@ class Lib:
         f.close()
         g.close()
 
-libsType = {"rnap", "rnas", "rf", "ff", "scg", "ref", "scafinfo", "scaffolds", "refcoord", "fr", "pacbio", "fastg"}
+libsType = {"rnap", "rnas", "rf", "ff", "scg", "ref", "scafinfo", "scaffolds", "refcoord", "fr", "pacbio", "fastg", "gfa"}
 
 class StoreArgAction(argparse.Action):
     def __call__(self, parser, namespace, values, option_string=None):
@@ -129,6 +132,7 @@ def parse_args():
     parser.add_argument("--scaffolds", "-s", nargs=1, dest="scaffolds", help="path to scaffolds in fasta format", type=str, action=StoreArgAction)
     parser.add_argument("--scg", nargs=1, dest="scg", help="path to file with connection list", type=str, action=StoreArgAction)
     parser.add_argument("--fastg", nargs=1, dest="fastg", help="path to assembly graph in FASTG format", type=str, action=StoreArgAction)
+    parser.add_argument("--gfa", nargs=1, dest="gfa", help="path to assembly graph in GFA format", type=str, action=StoreArgAction)
     parser.add_argument("--gr", nargs=1, dest="graph", help="path to graph in .gr format", type=str, action='append')
     parser.add_argument("--rna-p", dest="rnap", nargs=2, help="path to rna pair reads file", type=str, action=StoreArgAction)
     parser.add_argument("--rna-s", dest="rnas", nargs=1, help="path to rna read file", type=str, action=StoreArgAction)
@@ -352,6 +356,14 @@ def build_graph(contig_file_name, args):
         os.chdir(lib_dir)
         os.system(path_to_exec_dir + "build FASTG " + lib.path[0] + " " + contig_file_name + " " + lib.label)
         os.chdir(prevdir)
+
+    for lib in args.libs["gfa"]:
+        prevdir = os.getcwd()
+        log.log("START BUILD GRAPH: " + lib.label)
+        lib_dir = os.path.dirname(os.path.abspath(lib.name) + "/")
+        os.chdir(lib_dir)
+        os.system(path_to_exec_dir + "build GFA " + lib.path[0] + " " + lib.label)
+        os.chdir(prevdir)
         
     return
 
@@ -391,7 +403,8 @@ def merge_graph(args):
         for lib_type in libsType:
             for lib in args.libs[lib_type]:
                 if lib_type == "rnap" or lib_type == "rnas" or lib_type == "fr" or lib_type == "rf" or \
-                        lib_type == "pacbio" or lib_type == "ff" or lib_type == "scg" or lib_type=="fastg":
+                        lib_type == "pacbio" or lib_type == "ff" or lib_type == "scg" or lib_type=="fastg" \
+                        or lib_type=="gfa":
                     lib.fix_graph_file()
                     if lib_type != "rnas":
                         merge_list += lib.name + "/graph.gr "
@@ -555,12 +568,61 @@ def save_scaffolds_from_fasta(contig_file_name, lib, f):
 
     os.chdir(prevdir)
 
+
+def save_scaffolds_from_gfa(lib, f):
+    global cntedge
+    global cntlib
+    global idbyname
+    with open(lib.path[0]) as g:
+        f.write("scaffoldlibs.push(new ScaffoldEdgeLib(" + str(cntlib) + ", '" + str(lib.color) + "', '" + str(lib.label) + "', 'SCAFF'));\n")
+
+        scafnum = 0
+
+        for line in g:
+            tokens = line.split()
+            if (tokens[0] != 'P'):
+                continue
+
+            f.write("scaffoldlibs["+ str(cntlib) +"].scaffolds.push(new Scaffold('" + tokens[1] + "'));\n")
+            f.write("scaffoldlibs["+ str(cntlib) +"].scaffolds.push(new Scaffold('" + tokens[1] + "-rev'));\n")
+
+            nodeslist = []
+            tt = tokens[2].split(',')
+            for i in range(0, len(tt)):
+                nm = tt[i][:-1]
+                if (tt[i][-1] == '+'):
+                    nodeslist.append(idbyname[nm])
+                else:
+                    nodeslist.append(idbyname[nm]^1)
+
+
+            for i in range(1, len(nodeslist)):
+                f.write("scaffoldedges.push(new ScaffoldEdge(" + str(cntedge) + ", "+ str(nodeslist[i - 1]) +
+                        ", " + str(nodeslist[i]) + ", " + str(cntlib) + ", 1));\n")
+                f.write("scaffoldedges["+str(cntedge)+"].name='"+ tokens[0][1:] + "';\n")
+                f.write("scaffoldlibs["+ str(cntlib) +"].scaffolds["+str(scafnum) +"].edges.push(scaffoldedges["+str(cntedge)+"]);\n")
+                cntedge += 1
+
+            for i in range(len(nodeslist)-2, -1, -1):
+                f.write("scaffoldedges.push(new ScaffoldEdge(" + str(cntedge) + ", "+ str(nodeslist[i + 1]^1) +
+                        ", " + str(nodeslist[i]^1) + ", " + str(cntlib) + ", 1));\n")
+                f.write("scaffoldedges["+str(cntedge)+"].name='"+ tokens[0][1:] + "-rev';\n")
+                f.write("scaffoldlibs["+ str(cntlib) +"].scaffolds["+str(scafnum+1) +"].edges.push(scaffoldedges["+str(cntedge)+"]);\n")
+                cntedge += 1
+
+            scafnum += 2
+    cntlib += 1
+
+
 def save_scaffolds(contig_file_name, args, f):
     for lib in args.libs["scafinfo"]:
         save_scaffolds_from_info(lib, f)
 
     for lib in args.libs["scaffolds"]:
         save_scaffolds_from_fasta(contig_file_name, lib, f)
+
+    for lib in args.libs["gfa"]:
+        save_scaffolds_from_gfa(lib, f)
 
 
 def add_conection_to_res_file(f):
@@ -772,11 +834,33 @@ def fastg_to_contigs(args):
         args.contigs.append(os.path.abspath('contigs.fasta'))
         os.chdir(prevdir)
 
-    pass
+
+def gfa_to_contigs(args):
+    for lib in args.libs['gfa']:
+        lib_dir = os.path.dirname(os.path.abspath(lib.name) + "/")
+        if not os.path.exists(lib_dir):
+            os.makedirs(lib_dir)
+        prevdir = os.getcwd()
+        os.chdir(lib_dir)
+
+        with open("contigs.fasta", "w") as out:
+            lines = [line.rstrip('\n') for line in open(lib.path[0])]
+            for line in lines:
+                parts = line.split()
+                if (parts[0] == 'S'):
+                    record = SeqRecord(Seq(parts[2], IUPAC.ambiguous_dna), id=parts[1])
+                    SeqIO.write(record, out, "fasta")
+
+        if (args.contigs == None):
+            args.contigs = []
+
+        args.contigs.append(os.path.abspath('contigs.fasta'))
+        os.chdir(prevdir)
+
 
 def run(args):
-    if args.contigs == None and ('libs' not in args) and ('fastg' not in args.libs):
-        log.err("none contig or FASTG file provide")
+    if args.contigs == None and ('libs' not in args) and ('fastg' not in args.libs)  and ('gfa' not in args.libs):
+        log.err("none contig/FASTG/GFA file provide")
         return
 
     if (args.contigs != None):
@@ -802,6 +886,7 @@ def run(args):
 
     if 'libs' in args:
         fastg_to_contigs(args)
+        gfa_to_contigs(args)
 
     contig_file_name = ""
     if (len(args.contigs) == 1):

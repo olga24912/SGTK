@@ -13,6 +13,7 @@ set(SOURCE_FILES GraphControl.cpp GraphControl.h
         GraphBuilder/DNAMatePairReadsGraphBuilder.cpp GraphBuilder/DNAMatePairReadsGraphBuilder.h
         GraphBuilder/PacbioGraphBuilder.cpp GraphBuilder/PacbioGraphBuilder.h
         GraphBuilder/FASTGGraphBuilder.cpp GraphBuilder/FASTGGraphBuilder.h
+        GraphBuilder/GFAGraphBuilder.cpp GraphBuilder/GFAGraphBuilder.h
         ContigGraph/ContigGraph.cpp ContigGraph/ContigGraph.h)
 
 add_library(builder_lib ${SOURCE_FILES})

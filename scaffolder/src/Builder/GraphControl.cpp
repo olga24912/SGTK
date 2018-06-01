@@ -3,6 +3,7 @@
 #include <Builder/GraphBuilder/DNAMatePairReadsGraphBuilder.h>
 #include <Builder/GraphBuilder/PacbioGraphBuilder.h>
 #include <Builder/GraphBuilder/FASTGGraphBuilder.h>
+#include <Builder/GraphBuilder/GFAGraphBuilder.h>
 #include "GraphControl.h"
 #include "Builder/GraphBuilder/ReferenceGraphBuilder.h"
 
@@ -123,6 +124,16 @@ namespace builder {
 
             gb->setLibName(argv[4]);
             gb->setLibType(ContigGraph::Lib::Type::FASTG);
+
+            gb->setGraph(&graph);
+            gb->evaluate();
+        } else if (std::string(argv[1]) == "GFA") {
+            GFAGraphBuilder* gb = new GFAGraphBuilder;
+
+            gb->setGFAFile(argv[2]);
+
+            gb->setLibName(argv[3]);
+            gb->setLibType(ContigGraph::Lib::Type::GFA);
 
             gb->setGraph(&graph);
             gb->evaluate();
