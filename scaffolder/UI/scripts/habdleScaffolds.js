@@ -33,6 +33,93 @@ function drawScaffold(i) {
     cy.fit(cy.$('#' + scaffoldgraph.libs[libnum].scaffolds[i].edges[0].from));
 }
 
+function containWrong(libnum, j) {
+    for (var g = 0; g < scaffoldgraph.libs[libnum].scaffolds[j].edges.length; ++g) {
+        var e = scaffoldgraph.libs[libnum].scaffolds[j].edges[g].id;
+        var v = getEdgeFrom(e);
+        var u = getEdgeTo(e);
+        if (!isCorrectOrder(v, u) && scaffoldgraph.nodes[v].len >= min_contig_len && scaffoldgraph.nodes[u].len >= min_contig_len) {
+            console.log("wrong " + v.toString() + " " + u.toString())
+            return true;
+        }
+    }
+    return false;
+}
+
+
+function containContinuation(libnum, j) {
+    global_min_contig_len = min_contig_len;
+    global_isGoodEdge = isGoodEdge;
+
+    var fv = -1;
+    for (var g = 0; g < scaffoldgraph.libs[libnum].scaffolds[j].edges.length; ++g) {
+        var e = scaffoldgraph.libs[libnum].scaffolds[j].edges[g].id;
+        var v = getEdgeFrom(e);
+        if (scaffoldgraph.nodes[v].len >= min_contig_len) {
+            fv = v;
+            break;
+        }
+    }
+
+    var lv = -1;
+    for (g = scaffoldgraph.libs[libnum].scaffolds[j].edges.length - 1; g >= 0; --g) {
+        e = scaffoldgraph.libs[libnum].scaffolds[j].edges[g].id;
+        v = getEdgeTo(e);
+        if (scaffoldgraph.nodes[v].len >= min_contig_len) {
+            lv = v;
+            break;
+        }
+    }
+
+    if (fv != -1) {
+        for (g = 0; g < scaffoldgraph.gr[fv].length; ++g) {
+            if (isGoodEdge(scaffoldgraph.gr[fv][g].id) &&
+            scaffoldgraph.nodes[scaffoldgraph.gr[fv][g].from].len >= min_contig_len) {
+                if (isCorrectOrder(scaffoldgraph.gr[fv][g].from, fv)) {
+                    return true;
+                }
+            }
+
+        }
+    }
+
+    if (lv != -1) {
+        for (g = 0; g < scaffoldgraph.g[lv].length; ++g) {
+            if (isGoodEdge(scaffoldgraph.g[lv][g].id) &&
+                scaffoldgraph.nodes[scaffoldgraph.g[lv][g].to].len >= min_contig_len) {
+                if (isCorrectOrder(lv, scaffoldgraph.g[lv][g].to)) {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
+function containAmbiguous(libnum, j) {
+    for (var g = 0; g < scaffoldgraph.libs[libnum].scaffolds[j].edges.length; ++g) {
+        var e = scaffoldgraph.libs[libnum].scaffolds[j].edges[g].id;
+        var v = getEdgeFrom(e);
+        var u = getEdgeTo(e);
+
+        if (scaffoldgraph.nodes[v].len >= min_contig_len && scaffoldgraph.nodes[u].len >= min_contig_len) {
+            for (var h = 0; h < scaffoldgraph.g[v].length; ++h) {
+                if (isGoodEdge(scaffoldgraph.g[v][h].id) && scaffoldgraph.g[v][h].to != u) {
+                    return true;
+                }
+            }
+
+            for (h = 0; h < scaffoldgraph.gr[u].length; ++h) {
+                if (isGoodEdge(scaffoldgraph.gr[u][h].id) && scaffoldgraph.gr[u][h].from != v) {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
+
 function handleScaffoldsFilter(scafflibname, areasize, min_contig_len, isGoodEdge) {
     for (var j = 0; j < scaffoldgraph.libs.length; ++j) {
         if (scaffoldgraph.libs[j].name == scafflibname) {
@@ -49,15 +136,23 @@ function handleScaffoldsFilter(scafflibname, areasize, min_contig_len, isGoodEdg
         var vertCnt = 0;
         for (var g = 0; g < scaffoldgraph.libs[libnum].scaffolds[j].edges.length; ++g) {
             var e = scaffoldgraph.libs[libnum].scaffolds[j].edges[g];
-            if (scaffoldgraph.nodes[e.from].len >= min_contig_len) {
+            if (g === 0 && scaffoldgraph.nodes[e.from].len >= min_contig_len) {
                 ++vertCnt;
             }
             if (scaffoldgraph.nodes[e.to].len >= min_contig_len) {
                 ++vertCnt;
             }
         }
-        if (scaffoldgraph.libs[libnum].scaffolds[j].edges.length > 0 && vertCnt > 0) {
-            notzero.push(j);
+        if (scaffoldgraph.libs[libnum].scaffolds[j].edges.length > 0 && vertCnt >= document.getElementById("min_scaffold_len").value) {
+            if (!document.getElementById("scaff_wrng").checked && !document.getElementById("scaff_cont").checked && !document.getElementById("scaff_ambig").checked) {
+                notzero.push(j);
+            } else if (document.getElementById("scaff_wrng").checked && containWrong(libnum, j)) {
+                notzero.push(j);
+            } else if (document.getElementById("scaff_cont").checked && containContinuation(libnum, j)) {
+                notzero.push(j);
+            } else if (document.getElementById("scaff_ambig").checked && containAmbiguous(libnum, j)) {
+                notzero.push(j);
+            }
         }
     }
 

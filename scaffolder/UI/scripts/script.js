@@ -349,6 +349,9 @@ function handleFilterButton() {
     } else if (opt=="scaffolds") {
         area_size = document.getElementById("area_size").value;
         handleScaffoldsFilter(document.getElementById("select_scaff_lib").value, area_size, min_contig_len, isGoodEdge);
+    } else if (opt=="ambiguous") {
+        area_size = document.getElementById("area_size").value;
+        handleAmbiguousFilter(area_size, min_contig_len, isGoodEdge);
     }
 }
 
@@ -492,15 +495,32 @@ function updeteChangeBlock() {
         document.getElementById("change_block").innerHTML = html_code + present_block + not_present_block;
     } else if (document.getElementById("select_show_type").value == "scaffolds") {
         document.getElementById("change_block").innerHTML = "<div class=\"block\">\n" +
-            "                    <p>Area size:<br/>\n" +
+            "                    <p>Area size: \n" +
             "                        <input type=\"number\" min=\"0\" id=\"area_size\" value=1>\n" +
             "                    </p>\n" +
-            "                    <p>Scaffold lib:<br/>\n" +
+            "                    <p>Scaffold lib:\n" +
             "                        <div class=\"styled-select\">\n" +
             "                           <select id=\"select_scaff_lib\">\n" +
             "                           </select>\n" +
             "                       </div>" +
             "                    </p>\n" +
+            "                    <p> Min scaffold len:\n" +
+            "                    <input type=\"number\" min=\"2\" id=\"min_scaffold_len\" value=2> </p>\n" +
+            "                    <label class=\"container\">\n" +
+            "                    <p> Contain wrong connection\n" +
+            "                    <input type=\"checkbox\" id=\"scaff_wrng\">\n" +
+            "                    <span class=\"checkmark\"></span>" +
+            "                    </p></label>" +
+            "                    <label class=\"container\">\n" +
+            "                    <p> Have continuation \n" +
+            "                    <input type=\"checkbox\" id=\"scaff_cont\">\n" +
+            "                    <span class=\"checkmark\"></span>" +
+            "                    </p></label>" +
+            "                    <label class=\"container\">\n" +
+            "                    <p> Have ambiguous \n" +
+            "                    <input type=\"checkbox\" id=\"scaff_ambig\">\n" +
+            "                    <span class=\"checkmark\"></span>" +
+            "                    </p></label>" +
             "                </div>";
 
         for (i=0; i < scaffoldgraph.libs.length; ++i) {
@@ -508,6 +528,12 @@ function updeteChangeBlock() {
                 document.getElementById("select_scaff_lib").innerHTML += "<option value=\"" + scaffoldgraph.libs[i].name + "\">" + scaffoldgraph.libs[i].name + "</option>\n";
             }
         }
+    } else if (document.getElementById("select_show_type").value == "ambiguous") {
+        document.getElementById("change_block").innerHTML = "<div class=\"block\">\n" +
+            "                    <p>Area size:<br/>\n" +
+            "                        <input type=\"number\" min=\"0\" id=\"area_size\" value=1>\n" +
+            "                    </p>\n" +
+            "                </div>";
     }
 }
 

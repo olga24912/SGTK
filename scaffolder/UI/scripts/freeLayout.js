@@ -403,8 +403,27 @@ function splitOnParts(nodes_to_draw, edges_to_draw) {
             nodes_set[color.get(edges_to_draw[i])].push(scaffoldgraph.edges[edges_to_draw[i]].to);
         }
     }
+}
 
-    for (i = 0; i < nodes_set[0].length; ++i) {
-        console.log(nodes_set[0][i])
+function isCorrectOrder(v, u) {
+    var nv = scaffoldgraph.nodes[v];
+    var nu = scaffoldgraph.nodes[u];
+
+    for (var i = 0; i < nv.alignments.length; ++i) {
+        //if (nv.alignments[i].coordne + 1000 >= nv.len) {
+        for (var j = 0; j < nu.alignments.length; ++j) {
+            //if (nu.alignments[j].coordnb - 1000 <= 0) {
+            if (nv.alignments[i].chr_id === nu.alignments[j].chr_id) {
+                if (nv.alignments[i].coorde - 100 < nu.alignments[j].coordb) {
+                    if (nu.alignments[j].coordb - nv.alignments[i].coorde < 5000) {
+                        return true;
+                    }
+                }
+            }
+            //}
+        }
+        //}
     }
+
+    return false;
 }

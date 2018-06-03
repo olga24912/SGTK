@@ -68,8 +68,9 @@
                 <div class="styled-select">
                 <select id="select_show_type">
                     <option value="full graph">Full graph</option>
-                    <option value="diff in libs">Difference in libs</option>
                     <option value="scaffolds"> Scaffolds</option>
+                    <option value="diff in libs">Difference in libs</option>
+                    <option value="ambiguous">Ambiguous</option>
                     <option value="vertices_local_area">Vertices local area</option>
                     <option value="edges_local_area">Edges local area</option>
                 </select>
@@ -151,51 +152,58 @@
 
                 <div class="one_line_block">
                     <label class="container">
-                        <p>ID</p>
+                        <p>ID
                         <input type="checkbox" value="ID" id="edge_checkbox_id">
                         <span class="checkmark"></span>
+                        </p>
                     </label>
                 </div>
                 <div class="one_line_block">
                     <label class="container" >
-                        <p>Name</p>
+                        <p>Name
                         <input type="checkbox" value="Name" id="edge_checkbox_name">
                         <span class="checkmark"></span>
+                        </p>
                     </label>
                 </div>
                 <div class="one_line_block">
                     <label class="container">
-                        <p>Weight</p>
+                        <p>Weight
                         <input type="checkbox" value="Weight" id="edge_checkbox_weight">
                         <span class="checkmark"></span>
+                        </p>
                     </label>
                 </div>
                 <div class="one_line_block">
                     <label class="container">
-                        <p>Alignment</p>
+                        <p>Alignment
                         <input type="checkbox" value="Alignment">
                         <span class="checkmark"></span>
+                        </p>
                     </label>
                 </div>
                 <div class="one_line_block">
                     <label class="container">
-                        <p>Type</p>
+                        <p>Type
                         <input type="checkbox" value="Type" id="edge_checkbox_type">
                         <span class="checkmark"></span>
+                        </p>
                     </label>
                 </div>
                 <div class="one_line_block">
                     <label class="container">
-                        <p>Len</p>
+                        <p>Len
                         <input type="checkbox" value="Len" id="edge_checkbox_len">
                         <span class="checkmark"></span>
+                        </p>
                     </label>
                 </div>
                 <div class="one_line_block">
                     <label class="container">
-                        <p>Info</p>
+                        <p>Info
                         <input type="checkbox" value="Info" id="edge_checkbox_info">
                         <span class="checkmark"></span>
+                        </p>
                     </label>
                 </div>
             </div>
@@ -230,6 +238,7 @@
     <script src="scripts/findAreaScript.js"></script>
     <script src="scripts/zoomChoose.js"></script>
     <script src="scripts/freeLayout.js"></script>
+    <script src="scripts/handleAmbiguous.js"></script>
     <script src="scripts/script.js"></script>
     <script src="scripts/external/cytoscape.js"></script>
     <script src="scripts/external/dagre.js"></script>

@@ -16,8 +16,9 @@ p {
 
     color: #4F4F4F;
 
-    -webkit-margin-before: 0px;
-    -webkit-margin-after: 0px;
+    padding-top: 2px;
+    -webkit-margin-before: 5px;
+    -webkit-margin-after: 5px;
     -webkit-margin-start: 0px;
     -webkit-margin-end: 0px;
 }

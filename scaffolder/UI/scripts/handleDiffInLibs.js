@@ -1,27 +1,3 @@
-function isCorrectOrder(v, u) {
-    var nv = scaffoldgraph.nodes[v];
-    var nu = scaffoldgraph.nodes[u];
-
-    for (var i = 0; i < nv.alignments.length; ++i) {
-        //if (nv.alignments[i].coordne + 1000 >= nv.len) {
-            for (var j = 0; j < nu.alignments.length; ++j) {
-                //if (nu.alignments[j].coordnb - 1000 <= 0) {
-                    if (nv.alignments[i].chr_id === nu.alignments[j].chr_id) {
-                        if (nv.alignments[i].coorde - 100 < nu.alignments[j].coordb) {
-                            if (nu.alignments[j].coordb - nv.alignments[i].coorde < 5000000) {
-                                return true;
-                            }
-                        }
-                    }
-                //}
-            }
-        //}
-    }
-
-    return false;
-}
-
-
 function handleDiffInLibsFilter(areasize, min_contig_len, isGoodEdge) {
     special_nodes.clear();
     special_edges.clear();
