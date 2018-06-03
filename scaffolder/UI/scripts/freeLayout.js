@@ -299,216 +299,6 @@ function DrawGraphCytoscape(nodes_to_draw, edges_to_draw) {
     DrawGraphCytoscapeWithPresetNode(dnodes, dedges, curNodeSet);
 }
 
-function DrawGraphVis(nodes_to_draw, edges_to_draw) {
-    var nodeslist = [];
-    var edgeslist = [];
-    var i = 0;
-    var j = 0;
-    for (i=0; i < nodes_to_draw.length; i++) {
-        j = nodes_to_draw[i];
-        var label = createLabelForNode(j);
-        nodeslist.push({id: scaffoldgraph.nodes[j].id, label: label});
-    }
-
-    // create an array with nodes
-    var nodes = new vis.DataSet(nodeslist);
-
-    for (i=0; i < edges_to_draw.length; i++) {
-        j = edges_to_draw[i];
-        label = createLabelForEdge(j);
-
-        edgeslist.push({from: scaffoldgraph.edges[j].from, to: scaffoldgraph.edges[j].to, label : label, arrows: 'to', color:{color: scaffoldgraph.libs[scaffoldgraph.edges[j].lib].color}});
-    }
-
-    // create an array with edges
-    var edges = new vis.DataSet(edgeslist);
-
-    // create a network
-    var container = document.getElementById('mainpanel');
-
-    // provide the data in the vis format
-    var data = {
-        nodes: nodes,
-        edges: edges
-    };
-    var options = {
-        nodes : {
-            shape: 'dot',
-            size: 7
-        },
-        layout:{
-            randomSeed:34
-        },
-        physics: {
-            forceAtlas2Based: {
-                gravitationalConstant: -26,
-                centralGravity: 0.005,
-                springLength: 230,
-                springConstant: 0.18
-            },
-            maxVelocity: 146,
-            solver: 'forceAtlas2Based',
-            timestep: 0.35,
-            stabilization: {
-                enabled:true,
-                iterations:2000,
-                updateInterval:25
-            }
-        }
-
-        //,
-        // interaction: {
-        //     hideEdgesOnDrag: true,
-        //     tooltipDelay: 200
-        // },
-        // physics: false
-    };
-
-    // initialize your network!
-    var network = new vis.Network(container, data, options);
-}
-
-function DrawGraphViva(nodes_to_draw, edges_to_draw) {
-    if (graph === null) {
-        graph = Viva.Graph.graph();
-    }
-    graph.clear();
-
-    for (g = 0; g < nodes_to_draw.length; ++g) {
-        graph.addNode(nodes_to_draw[g]);
-    }
-
-    var graphics = Viva.Graph.View.svgGraphics(),
-        nodeSize = 5;
-
-
-    graphics.node(function(node) {
-        return Viva.Graph.svg('image')
-            .attr('width', nodeSize)
-            .attr('height', nodeSize)
-            .link('https://secure.gravatar.com/avatar/' + node.data);
-    }).placeNode(function(nodeUI, pos) {
-        nodeUI.attr('x', pos.x - nodeSize / 2).attr('y', pos.y - nodeSize / 2);
-    });
-
-    // To render an arrow we have to address two problems:
-    //  1. Links should start/stop at node's bounding box, not at the node center.
-    //  2. Render an arrow shape at the end of the link.
-
-    // Rendering arrow shape is achieved by using SVG markers, part of the SVG
-    // standard: http://www.w3.org/TR/SVG/painting.html#Markers
-    var createMarker = function(id) {
-            return Viva.Graph.svg('marker')
-                .attr('id', id)
-                .attr('viewBox', "0 0 10 10")
-                .attr('refX', "10")
-                .attr('refY', "5")
-                .attr('markerUnits', "strokeWidth")
-                .attr('markerWidth', "10")
-                .attr('markerHeight', "5")
-                .attr('orient', "auto");
-        },
-
-        marker = createMarker('Triangle');
-    marker.append('path').attr('d', 'M 0 0 L 10 5 L 0 10 z');
-
-    // Marker should be defined only once in <defs> child element of root <svg> element:
-    var defs = graphics.getSvgRoot().append('defs');
-    defs.append(marker);
-
-    var geom = Viva.Graph.geom();
-
-    graphics.link(function(link){
-        // Notice the Triangle marker-end attribe:
-        return Viva.Graph.svg('path')
-            .attr('stroke', 'gray')
-            .attr('marker-end', 'url(#Triangle)');
-    }).placeLink(function(linkUI, fromPos, toPos) {
-        // Here we should take care about
-        //  "Links should start/stop at node's bounding box, not at the node center."
-
-        // For rectangular nodes Viva.Graph.geom() provides efficient way to find
-        // an intersection point between segment and rectangle
-        var toNodeSize = nodeSize,
-            fromNodeSize = nodeSize;
-
-        var from = geom.intersectRect(
-            // rectangle:
-            fromPos.x - fromNodeSize / 2, // left
-            fromPos.y - fromNodeSize / 2, // top
-            fromPos.x + fromNodeSize / 2, // right
-            fromPos.y + fromNodeSize / 2, // bottom
-            // segment:
-            fromPos.x, fromPos.y, toPos.x, toPos.y)
-            || fromPos; // if no intersection found - return center of the node
-
-        var to = geom.intersectRect(
-            // rectangle:
-            toPos.x - toNodeSize / 2, // left
-            toPos.y - toNodeSize / 2, // top
-            toPos.x + toNodeSize / 2, // right
-            toPos.y + toNodeSize / 2, // bottom
-            // segment:
-            toPos.x, toPos.y, fromPos.x, fromPos.y)
-            || toPos; // if no intersection found - return center of the node
-
-        var data = 'M' + from.x + ',' + from.y +
-            'L' + to.x + ',' + to.y;
-
-        linkUI.attr("d", data);
-    });
-
-    for (g = 0; g < edges_to_draw.length; ++g) {
-        graph.addLink(scaffoldgraph.edges[edges_to_draw[g]].from, scaffoldgraph.edges[edges_to_draw[g]].to);
-    }
-
-    var layout = Viva.Graph.Layout.forceDirected(graph, {
-        springLength : 20,
-        springCoeff : 0.0005,
-        dragCoeff : 0.02,
-        gravity : -1.2
-    });
-
-    var renderer = Viva.Graph.View.renderer(graph, {
-        container: document.getElementById('mainpanel'),
-        layout : layout,
-        graphics: graphics
-    });
-    renderer.run();
-}
-
-function DrawGraphDagre(nodes_to_draw, edges_to_draw) {
-    var dagre = require("dagre");
-
-    // Create a new directed graph
-    var g = new dagre.graphlib.Graph();
-
-// Set an object for the graph label
-    g.setGraph({});
-
-// Default to assigning a new object as a label for each new edge.
-    g.setDefaultEdgeLabel(function() { return {}; });
-
-// Add nodes to the graph. The first argument is the node id. The second is
-// metadata about the node. In this case we're going to add labels to each of
-// our nodes.
-    g.setNode("kspacey",    { label: "Kevin Spacey",  width: 144, height: 100 });
-    g.setNode("swilliams",  { label: "Saul Williams", width: 160, height: 100 });
-    g.setNode("bpitt",      { label: "Brad Pitt",     width: 108, height: 100 });
-    g.setNode("hford",      { label: "Harrison Ford", width: 168, height: 100 });
-    g.setNode("lwilson",    { label: "Luke Wilson",   width: 144, height: 100 });
-    g.setNode("kbacon",     { label: "Kevin Bacon",   width: 121, height: 100 });
-
-// Add edges to the graph.
-    g.setEdge("kspacey",   "swilliams");
-    g.setEdge("swilliams", "kbacon");
-    g.setEdge("bpitt",     "kbacon");
-    g.setEdge("hford",     "lwilson");
-    g.setEdge("lwilson",   "kbacon");
-
-    dagre.layout(g);
-}
-
 function DrawGraph(nodes_to_draw, edges_to_draw) {
     DrawGraphCytoscape(nodes_to_draw, edges_to_draw);
 }
@@ -524,23 +314,74 @@ function findComponent(v, g, color, curc) {
     }
 }
 
+function findArea(ev, g, color, curc) {
+    var edge_cnt = 0;
+    var queue = [];
+    queue.push(ev);
+    color.set(ev, curc);
+    edge_cnt += 1;
+    var bg = 0;
+    while (bg < queue.length) {
+        ev = queue[bg];
+        bg += 1;
+
+        var nb = g.get(scaffoldgraph.edges[ev].from);
+        for (i=0; i < nb.length; ++i) {
+            var u = nb[i];
+            if (color.get(u) === -1) {
+                queue.push(u);
+                color.set(u, curc);
+                edge_cnt += 1;
+            }
+        }
+
+        nb = g.get(scaffoldgraph.edges[ev].to);
+
+        for (var i=0; i < nb.length; ++i) {
+            u = nb[i];
+            if (color.get(u) === -1) {
+                queue.push(u);
+                color.set(u, curc);
+                edge_cnt += 1;
+            }
+        }
+
+
+        if (edge_cnt > 200) {
+            return;
+        }
+    }
+}
+
+function elemInList(elem, lst) {
+   for (var i = 0; i < lst.length; ++i) {
+       if (elem == lst[i]) {
+           return true;
+       }
+   }
+
+   return false;
+}
+
 function splitOnParts(nodes_to_draw, edges_to_draw) {
     var g = new Map();
     var color = new Map();
-    for (var i=0; i < nodes_to_draw.length; ++i) {
+    for (var i = 0; i < edges_to_draw.length; ++i) {
+        color.set(edges_to_draw[i], -1);
+    }
+    for (i = 0; i < nodes_to_draw.length; ++i) {
         g.set(nodes_to_draw[i], []);
-        color.set(nodes_to_draw[i], -1);
     }
 
     for (i=0; i < edges_to_draw.length; ++i) {
-        g.get(scaffoldgraph.edges[edges_to_draw[i]].from).push(scaffoldgraph.edges[edges_to_draw[i]].to);
-        g.get(scaffoldgraph.edges[edges_to_draw[i]].to).push(scaffoldgraph.edges[edges_to_draw[i]].from);
+        g.get(scaffoldgraph.edges[edges_to_draw[i]].from).push(edges_to_draw[i]);
+        g.get(scaffoldgraph.edges[edges_to_draw[i]].to).push(edges_to_draw[i]);
     }
 
     var curc = 0;
-    for (i=0; i < nodes_to_draw.length; ++i) {
-        if (color.get(nodes_to_draw[i]) === -1) {
-            findComponent(nodes_to_draw[i], g, color, curc);
+    for (i=0; i < edges_to_draw.length; ++i) {
+        if (color.get(edges_to_draw[i]) === -1) {
+            findArea(edges_to_draw[i], g, color, curc);
             ++curc;
         }
     }
@@ -552,11 +393,18 @@ function splitOnParts(nodes_to_draw, edges_to_draw) {
         edges_set.push([]);
     }
 
-    for(i=0; i < nodes_to_draw.length; ++i) {
-        nodes_set[color.get(nodes_to_draw[i])].push(nodes_to_draw[i]);
+    for(i=0; i < edges_to_draw.length; ++i) {
+        edges_set[color.get(edges_to_draw[i])].push(edges_to_draw[i]);
+
+        if (!elemInList(scaffoldgraph.edges[edges_to_draw[i]].from, nodes_set[color.get(edges_to_draw[i])])) {
+            nodes_set[color.get(edges_to_draw[i])].push(scaffoldgraph.edges[edges_to_draw[i]].from);
+        }
+        if (!elemInList(scaffoldgraph.edges[edges_to_draw[i]].to, nodes_set[color.get(edges_to_draw[i])])) {
+            nodes_set[color.get(edges_to_draw[i])].push(scaffoldgraph.edges[edges_to_draw[i]].to);
+        }
     }
 
-    for(i=0; i < edges_to_draw.length; ++i) {
-        edges_set[color.get(scaffoldgraph.edges[edges_to_draw[i]].from)].push(edges_to_draw[i]);
+    for (i = 0; i < nodes_set[0].length; ++i) {
+        console.log(nodes_set[0][i])
     }
 }
