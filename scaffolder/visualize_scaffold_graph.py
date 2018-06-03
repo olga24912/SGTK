@@ -104,7 +104,7 @@ class Lib:
         f.close()
         g.close()
 
-libsType = {"rnap", "rnas", "rf", "ff", "scg", "ref", "scafinfo", "scaffolds", "refcoord", "fr", "pacbio", "fastg", "gfa"}
+libsType = {"rnap", "rnas", "rf", "ff", "scg", "ref", "scafinfo", "scaffolds", "refcoord", "fr", "pacbio", "fastg", "gfa", "frsam", "rfsam", "ffsam"}
 
 class StoreArgAction(argparse.Action):
     def __call__(self, parser, namespace, values, option_string=None):
@@ -137,9 +137,13 @@ def parse_args():
     parser.add_argument("--rna-p", dest="rnap", nargs=2, help="path to rna pair reads file", type=str, action=StoreArgAction)
     parser.add_argument("--rna-s", dest="rnas", nargs=1, help="path to rna read file", type=str, action=StoreArgAction)
 
-    parser.add_argument("--fr", dest="fr", nargs=2, help="path to paired reads file with forward-reverse", type=str, action=StoreArgAction)
-    parser.add_argument("--rf", dest="rf", nargs=2, help="path to paired reads file reverse-forward", type=str, action=StoreArgAction)
-    parser.add_argument("--ff", dest="ff", nargs=2, help="path to paired reads file forward-forward", type=str, action=StoreArgAction)
+    parser.add_argument("--fr", dest="fr", nargs=2, help="path to forward-reverse paired reads file", type=str, action=StoreArgAction)
+    parser.add_argument("--rf", dest="rf", nargs=2, help="path to reverse-forward paired reads file", type=str, action=StoreArgAction)
+    parser.add_argument("--ff", dest="ff", nargs=2, help="path to forward-forward paired reads file", type=str, action=StoreArgAction)
+
+    parser.add_argument("--fr_sam", dest="frsam", nargs=2, help="path to alignment of forward-reverse paired reads file in SAM/BAM format", type=str, action=StoreArgAction)
+    parser.add_argument("--rf_sam", dest="rfsam", nargs=2, help="path to alignment of reverse-forward paired reads file in SAM/BAM format", type=str, action=StoreArgAction)
+    parser.add_argument("--ff_sam", dest="ffsam", nargs=2, help="path to alignment of forward-forward paired reads file in SAM/BAM format", type=str, action=StoreArgAction)
 
     parser.add_argument("--pacbio", dest="pacbio", nargs=1, help="path to pacbio reads file", type=str, action=StoreArgAction)
     parser.add_argument("--local_output_dir", "-o", nargs=1, help="use this output dir", type=str)
@@ -333,6 +337,32 @@ def build_graph(contig_file_name, args):
         os.system(path_to_exec_dir + "build DNA_PAIR_FF dna1.sam dna2.sam " + lib.label)
         os.chdir(prevdir)
 
+
+    for lib in args.libs["frsam"]:
+        prevdir = os.getcwd()
+        log.log("START BUILD GRAPH: " + lib.label)
+        lib_dir = os.path.dirname(os.path.abspath(lib.name) + "/")
+        os.chdir(lib_dir)
+        os.system(path_to_exec_dir + "build DNA_PAIR_FR " + lib.path[0] + " " + lib.path[1]  + " " + lib.label)
+        os.chdir(prevdir)
+
+    for lib in args.libs["rfsam"]:
+        prevdir = os.getcwd()
+        log.log("START BUILD GRAPH: " + lib.label)
+        lib_dir = os.path.dirname(os.path.abspath(lib.name) + "/")
+        os.chdir(lib_dir)
+        os.system(path_to_exec_dir + "build DNA_PAIR_RF " + lib.path[0] + " " + lib.path[1]  + " " + lib.label)
+        os.chdir(prevdir)
+
+    for lib in args.libs["ffsam"]:
+        prevdir = os.getcwd()
+        log.log("START BUILD GRAPH: " + lib.label)
+        lib_dir = os.path.dirname(os.path.abspath(lib.name) + "/")
+        os.chdir(lib_dir)
+        os.system(path_to_exec_dir + "build DNA_PAIR_FF " + lib.path[0] + " " + lib.path[1]  + " " + lib.label)
+        os.chdir(prevdir)
+
+
     for lib in args.libs["pacbio"]:
         prevdir = os.getcwd()
         log.log("START BUILD GRAPH: " + lib.label)
@@ -404,7 +434,7 @@ def merge_graph(args):
             for lib in args.libs[lib_type]:
                 if lib_type == "rnap" or lib_type == "rnas" or lib_type == "fr" or lib_type == "rf" or \
                         lib_type == "pacbio" or lib_type == "ff" or lib_type == "scg" or lib_type=="fastg" \
-                        or lib_type=="gfa":
+                        or lib_type=="gfa" or lib_type == "frsam" or lib_type == "rfsam" or lib_type == "ffsam":
                     lib.fix_graph_file()
                     if lib_type != "rnas":
                         merge_list += lib.name + "/graph.gr "
@@ -650,7 +680,7 @@ def add_conection_to_res_file(f):
             extraInfo = ""
             if ("\""  in curs):
                 extraInfo = curs.split("\"")[1]
-            edgesinfo = curs.split(" ")
+            edgesinfo = curs.split()
             f.write("scaffoldedges.push(new ScaffoldEdge(" + edgesinfo[1] + ", " + edgesinfo[2] + ", " + edgesinfo[3] + ", " + edgesinfo[4] + ", " + edgesinfo[5] + "));\n")
             f.write("scaffoldedges[" + str(i) + "].len=" + str(edgesinfo[6]) + ";\n")
             f.write("scaffoldedges[" + str(i) + "].info=\"" + extraInfo + "\";\n")
@@ -895,7 +925,7 @@ def run(args):
         contig_file_name = merge_contigs(args.contigs)
 
     if args.color != None and len(args.color) != args.lib_cnt:
-        log.err("wrong number of color provide")
+        log.err("wrong number of color provide, lib cnt = " + str(args.lib_cnt) + " color cnt = " + str(len(args.color)))
 
     if args.label != None and len(args.label) != args.lib_cnt:
         log.err("wrong number of labels provide")
