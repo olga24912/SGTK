@@ -427,3 +427,14 @@ function isCorrectOrder(v, u) {
 
     return false;
 }
+
+function updateText() {
+    var nodes = cy.nodes();
+    for (var i = 0; i < nodes.length; ++i) {
+        cy.$('#' + nodes[i].id().toString()).data('label', createLabelForNode(nodes[i].id()));
+    }
+    var edges = cy.edges();
+    for (var i = 0; i < edges.length; ++i) {
+        cy.$('#' + edges[i].id().toString()).data('label', createLabelForEdge(parseInt(edges[i].id().substring(1))));
+    }
+}
