@@ -83,7 +83,7 @@ install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/UI/scripts/search.js"
 install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/UI/scripts/handleAlongChromosomes.js"
         DESTINATION bin/scripts/
         COMPONENT runtime)
-install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/UI/scripts/habdleScaffolds.js"
+install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/UI/scripts/handleScaffolds.js"
         DESTINATION bin/scripts/
         COMPONENT runtime)
 install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/UI/scripts/handleDiffInLibs.js"
@@ -96,6 +96,9 @@ install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/UI/scripts/zoomChoose.js"
         DESTINATION bin/scripts/
         COMPONENT runtime)
 install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/UI/scripts/handleAmbiguous.js"
+        DESTINATION bin/scripts/
+        COMPONENT runtime)
+install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/UI/scripts/freeLayout.js"
         DESTINATION bin/scripts/
         COMPONENT runtime)
 

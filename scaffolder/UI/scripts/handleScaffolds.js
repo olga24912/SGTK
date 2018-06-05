@@ -182,12 +182,15 @@ function getEdgeFrom(e) {
     var v = scaffoldgraph.edges[e].from;
     var edges_name = scaffoldgraph.edges[e].name;
     var lib = scaffoldgraph.edges[e].lib;
+    var nm = scaffoldgraph.edges[e].num;
     while (scaffoldgraph.nodes[v].len < min_contig_len) {
         var nxte = -1;
 
         for (var i = 0; i < scaffoldgraph.gr[v].length; ++i) {
             var ne = scaffoldgraph.gr[v][i].id;
-            if (scaffoldgraph.edges[ne].name === edges_name && scaffoldgraph.edges[e].lib === lib) {
+            if (scaffoldgraph.edges[ne].name === edges_name &&
+                scaffoldgraph.edges[ne].lib === lib &&
+                scaffoldgraph.edges[ne].num === nm - 1) {
                 nxte = ne;
             }
         }
@@ -196,6 +199,7 @@ function getEdgeFrom(e) {
             return v;
         } else {
             v = scaffoldgraph.edges[nxte].from;
+            nm -= 1;
         }
     }
 
@@ -206,20 +210,23 @@ function getEdgeTo(e) {
     var v = scaffoldgraph.edges[e].to;
     var edges_name = scaffoldgraph.edges[e].name;
     var lib = scaffoldgraph.edges[e].lib;
+    var nm = scaffoldgraph.edges[e].num;
     while (scaffoldgraph.nodes[v].len < min_contig_len) {
         var nxte = -1;
 
         for (var i = 0; i < scaffoldgraph.g[v].length; ++i) {
             var ne = scaffoldgraph.g[v][i].id;
-            if (scaffoldgraph.edges[ne].name === edges_name && scaffoldgraph.edges[e].lib === lib) {
+            if (scaffoldgraph.edges[ne].name === edges_name && scaffoldgraph.edges[ne].lib === lib &&
+                scaffoldgraph.edges[ne].num === nm + 1) {
                 nxte = ne;
             }
         }
 
-        if (nxte === -1) {
+        if (nxte === -1 || nm === -1) {
             return v;
         } else {
             v = scaffoldgraph.edges[nxte].to;
+            nm += 1;
         }
     }
 

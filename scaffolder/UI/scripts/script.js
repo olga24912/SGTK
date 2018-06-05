@@ -95,7 +95,7 @@ function createFullLabelForEdge(edge) {
     label += "id: " + scaffoldgraph.edges[edge].id + "<br/>";
     label += scaffoldgraph.libs[scaffoldgraph.edges[edge].lib].name + "<br/>";
     if (scaffoldgraph.libs[scaffoldgraph.edges[edge].lib].type === "SCAFF") {
-        label += scaffoldgraph.edges[edge].name + "<br/>";
+        label += scaffoldgraph.edges[edge].name + " " + scaffoldgraph.edges[edge].num + "<br/>";
     }
     label += "w: " + scaffoldgraph.edges[edge].weight + "<br/>";
     label += scaffoldgraph.libs[scaffoldgraph.edges[edge].lib].type + "<br/>";
@@ -429,9 +429,24 @@ function disable(checkBox) {
     }
 }
 
+function putEdgesNumForScaffolds() {
+    for (var i = 0; i < scaffoldgraph.libs.length; ++i) {
+        var lb = scaffoldgraph.libs[i];
+        for (var j = 0; j < lb.scaffolds.length; ++j) {
+            var scaffs = lb.scaffolds[j];
+            for (var g = 0; g < scaffs.edges.length; ++g) {
+                scaffs.edges[g].num = g;
+                scaffs.edges[g].name = scaffs.name;
+            }
+        }
+    }
+}
+
 InitLibTable();
 InitAlignmentsForNodes();
 setupAutocompleteSearch();
+putEdgesNumForScaffolds();
+
 
 function updeteChangeBlock() {
     if(document.getElementById("select_show_type").value == "full graph") {

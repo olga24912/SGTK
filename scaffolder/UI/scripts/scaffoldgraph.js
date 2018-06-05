@@ -466,7 +466,6 @@ colors = [
     "#9C8AA4",
     "#40826D",
     "#A9203E",
-    "#EF3038",
     "#E9692C",
     "#DA3287",
     "#FAD6A5",
@@ -478,7 +477,6 @@ colors = [
     "#0E7C61",
     "#004B49",
     "#333366",
-    "#F5C71A",
     "#9955BB",
     "#CC00CC",
     "#820000",
@@ -531,6 +529,22 @@ colors = [
     "#1B1B1B",
     "#614051",
     "#F0EAD6",
+    "#FD6C9E",
+    "#811453",
+    "#4E1609",
+    "#C72C48",
+    "#F64A8A",
+    "#8806CE",
+    "#AC1E44",
+    "#A6E7FF",
+    "#EF3038",
+    "#E936A7",
+    "#FF00FF",
+    "#FF77FF",
+    "#CC397B",
+    "#C74375",
+    "#E48400",
+    "#CC6666",
     "#1034A6",
     "#17182B",
     "#7DF9FF",
@@ -541,13 +555,11 @@ colors = [
     "#6F00FF",
     "#F4BBFF",
     "#CCFF00",
-    "#FF3503",
     "#F62681",
     "#BF00FF",
     "#E60000",
     "#3F00FF",
     "#8F00FF",
-    "#FFFF33",
     "#50C878",
     "#046307",
     "#6C3082",
@@ -558,7 +570,6 @@ colors = [
     "#563C5C",
     "#96C8A2",
     "#44D7A8",
-    "#39569C",
     "#C19A6B",
     "#801818",
     "#B53389",
@@ -581,42 +592,31 @@ colors = [
     "#EEDC82",
     "#FFE9D1",
     "#216BD6",
-    "#FB0081",
     "#A2006D",
     "#FFFAF0",
     "#F498AD",
     "#15F4EE",
-    "#FFBF00",
+    "#FF004F",
     "#FF1493",
     "#CCFF00",
-    "#FF004F",
     "#5FA777",
     "#014421",
-    "#228B22",
     "#A67B5B",
     "#856D4D",
     "#0072BB",
     "#FD3F92",
+    "#F5C71A",
     "#86608E",
     "#9EFD38",
     "#D473D4",
-    "#FD6C9E",
-    "#811453",
-    "#4E1609",
-    "#C72C48",
-    "#F64A8A",
+    "#FB0081",
     "#77B5FE",
-    "#8806CE",
-    "#AC1E44",
-    "#A6E7FF",
-    "#E936A7",
-    "#FF00FF",
+    "#FFFF33",
     "#C154C1",
-    "#FF77FF",
-    "#CC397B",
-    "#C74375",
-    "#E48400",
-    "#CC6666"];
+    "#228B22",
+    "#FF3503",
+    "#39569C",
+    "#FFBF00"];
 
 function ScaffoldGraph(libs, nodes, edges) {
     this.libs = libs;
@@ -649,6 +649,7 @@ function ScaffoldEdge(id, from, to, lib, weight) {
     this.name = "";
     this.len = -1;
     this.info = "";
+    this.num = -1;
 }
 
 function Scaffold(name) {
@@ -667,6 +668,10 @@ function ScaffoldNode(id, name, len) {
 function ScaffoldEdgeLib(id, color, name, type) {
     this.id = id;
     this.color = color;
+    if (color === '#000000') {
+        this.color = colors[colors.length - id - 1];
+    }
+
     this.name = name;
     this.type = type;
     this.scaffolds = [];
