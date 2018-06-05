@@ -172,11 +172,11 @@ In case of providing reads in FASTA/FASTQ format they will be aligned on contigs
 <h4> RNA-seq reads </h4>
 You can provide both paired and single RNA-seq reads. Paired reads will be aligned to the contigs by STAR independently. Single reads will be split into two parts and after that will be aligned by STAR.
 
-<h4> PacBio reads </h4>
-SGTK takes PacBio reads in FASTA or FASTQ format and aligns them on contigs by minimap2:
+<h4> PacBio/Oxford Nanopore reads </h4>
+SGTK takes PacBio/Oxford Nanopore reads in FASTA or FASTQ format and aligns them on contigs by minimap2:
 <pre class="code">
    <code>
-       minimap2 -x map-pb &lt;contigs_file> &lt;pacbio> > out.paf
+       minimap2 -x map-pb &lt;contigs_file> &lt;long_reads> > out.paf
    </code></pre>
 
 <h4> Scaffolds </h4>
@@ -196,6 +196,10 @@ For example, one line in INFO format:
    <code>
        >scaffoldName (contigName0 0 +) (contigName1 1 -) (contigName2 2 -) (contigName3 3 +)
    </code></pre>
+
+<h4>Assembly graph</h4>
+Assembly graph can be provide in FASTG or in GFA formats. It will be used instead of contigs and connection from
+assembly graph will be detected. In case of graph in GFA format scaffolds(paths) also will be visualized.
 
 <h4> Connection list </h4>
 Also it is possible to provide a file with your own connections, where each line describes one connection in the following format:
@@ -261,6 +265,8 @@ For example:
            e 1 3 1 0 32.5 200
        </code></pre>
 
+Note, that you should specify contigs, FASTG or GFA file.
+
 <a name="sec3.1.2"></a>
 <h4>3.1.2. Command line options </h4>
 <p>
@@ -281,11 +287,19 @@ Note that we assume that SGTK installation directory is added to the <code>PATH<
 </p>
 <p>
     <code>-c</code> (or <code>--contig</code>) <code> &lt;file_name> </code>
-    &nbsp;&nbsp;&nbsp;&nbsp;File with contigs in fasta format. Required option.
+    &nbsp;&nbsp;&nbsp;&nbsp;File with contigs in fasta format.
 </p>
 <p>
     <code>-s</code> (or <code>--scaffolds</code>) <code> &lt;file_name> </code>
     &nbsp;&nbsp;&nbsp;&nbsp;File with scaffolds in fasta format.
+</p>
+<p>
+    <code>--fastg &lt;file_name> </code>
+        File with assembly graph in FASTG format.
+</p>
+<p>
+    <code>--gfa &lt;file_name> </code>
+    File with assembly graph in GFA format.
 </p>
 <p>
     <code>--fr &lt;file_name_1> &lt;file_name_2> </code>
@@ -299,9 +313,22 @@ Note that we assume that SGTK installation directory is added to the <code>PATH<
     <code>--ff &lt;file_name_1> &lt;file_name_2> </code>
     &nbsp;&nbsp;&nbsp;&nbsp; File with left reads and file with right reads for paired-end/mate-pair DNA library with forward-forward orientation.
 </p>
+
 <p>
-    <code>--pacbio &lt;file_name> </code>
-    &nbsp;&nbsp;&nbsp;&nbsp; File with PacBio reads.
+    <code>--fr_sam &lt;file_name_1> &lt;file_name_2> </code>
+    &nbsp;&nbsp;&nbsp;&nbsp; File with left reads alignment and file with right reads alignment in SAM/BAM format for paired-end/mate-pair DNA library with forward-reverse orientation.
+</p>
+<p>
+    <code>--rf_sam &lt;file_name_1> &lt;file_name_2> </code>
+    &nbsp;&nbsp;&nbsp;&nbsp; File with left reads alignment and file with right reads alignment in SAM/BAM format for paired-end/mate-pair DNA library with reverse-forward orientation.
+</p>
+<p>
+    <code>--ff_sam &lt;file_name_1> &lt;file_name_2> </code>
+    &nbsp;&nbsp;&nbsp;&nbsp; File with left reads alignment and file with right reads alignment in SAM/BAM format for paired-end/mate-pair DNA library with forward-forward orientation.
+</p>
+<p>
+    <code>--long &lt;file_name> </code>
+    &nbsp;&nbsp;&nbsp;&nbsp; File with PacBio/Oxford Nanopore reads.
 </p>
 <p>
     <code>--scg &lt;file_name> </code>
