@@ -1,7 +1,7 @@
 #include <Builder/GraphBuilder/RNASplitGraphBuilder.h>
 #include <Builder/GraphBuilder/ConnectionGraphBuilder.h>
 #include <Builder/GraphBuilder/DNAMatePairReadsGraphBuilder.h>
-#include <Builder/GraphBuilder/PacbioGraphBuilder.h>
+#include <Builder/GraphBuilder/LongGraphBuilder.h>
 #include <Builder/GraphBuilder/FASTGGraphBuilder.h>
 #include <Builder/GraphBuilder/GFAGraphBuilder.h>
 #include "GraphControl.h"
@@ -61,14 +61,14 @@ namespace builder {
             gb->setRevSecondFlag(0);
             gb->setGraph(&graph);
             gb->evaluate();
-        } else if (std::string(argv[1]) == "PACBIO") {
-            PacbioGraphBuilder* gb = new PacbioGraphBuilder;
+        } else if (std::string(argv[1]) == "LONG") {
+            LongGraphBuilder* gb = new LongGraphBuilder;
 
             gb->setFileName(argv[2]);
             gb->setContigFileName(argv[3]);
 
             gb->setLibName(argv[4]);
-            gb->setLibType(ContigGraph::Lib::Type::PACBIO);
+            gb->setLibType(ContigGraph::Lib::Type::LONG);
 
             gb->setGraph(&graph);
             gb->evaluate();

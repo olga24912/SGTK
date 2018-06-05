@@ -95,9 +95,10 @@ install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/UI/scripts/defaultWeight.js"
 install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/UI/scripts/zoomChoose.js"
         DESTINATION bin/scripts/
         COMPONENT runtime)
-install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/UI/scripts/freeLayout.js"
+install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/UI/scripts/handleAmbiguous.js"
         DESTINATION bin/scripts/
         COMPONENT runtime)
+
 
 install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/UI/scripts/Icon.png"
         DESTINATION bin/scripts/

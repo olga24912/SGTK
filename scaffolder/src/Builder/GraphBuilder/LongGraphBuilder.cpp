@@ -1,14 +1,14 @@
-#include "PacbioGraphBuilder.h"
+#include "LongGraphBuilder.h"
 
-void builder::graph_builder::PacbioGraphBuilder::setFileName(const std::string &fileName) {
+void builder::graph_builder::LongGraphBuilder::setFileName(const std::string &fileName) {
     this->fileName = fileName;
 }
 
-void builder::graph_builder::PacbioGraphBuilder::setContigFileName(const std::string &fileName) {
+void builder::graph_builder::LongGraphBuilder::setContigFileName(const std::string &fileName) {
     this->contigFileName = fileName;
 }
 
-void builder::graph_builder::PacbioGraphBuilder::readHeaderInit() {
+void builder::graph_builder::LongGraphBuilder::readHeaderInit() {
     seqan::CharString seqFileName(contigFileName.c_str());
     seqan::CharString id;
     seqan::Dna5String seq;
@@ -24,7 +24,7 @@ void builder::graph_builder::PacbioGraphBuilder::readHeaderInit() {
     }
 }
 
-void builder::graph_builder::PacbioGraphBuilder::evaluate() {
+void builder::graph_builder::LongGraphBuilder::evaluate() {
     readHeaderInit();
     std::ifstream in(fileName);
     std::string s;
@@ -35,7 +35,7 @@ void builder::graph_builder::PacbioGraphBuilder::evaluate() {
     in.close();
 }
 
-void builder::graph_builder::PacbioGraphBuilder::updateEdges(std::string s) {
+void builder::graph_builder::LongGraphBuilder::updateEdges(std::string s) {
     std::stringstream ss(s);
     std::string readname;
     ss >> readname;

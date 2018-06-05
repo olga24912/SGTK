@@ -11,7 +11,7 @@ set(SOURCE_FILES GraphControl.cpp GraphControl.h
         GraphBuilder/ReferenceGraphBuilder.cpp GraphBuilder/ReferenceGraphBuilder.h
         GraphBuilder/ConnectionGraphBuilder.cpp GraphBuilder/ConnectionGraphBuilder.h
         GraphBuilder/DNAMatePairReadsGraphBuilder.cpp GraphBuilder/DNAMatePairReadsGraphBuilder.h
-        GraphBuilder/PacbioGraphBuilder.cpp GraphBuilder/PacbioGraphBuilder.h
+        GraphBuilder/LongGraphBuilder.cpp GraphBuilder/LongGraphBuilder.h
         GraphBuilder/FASTGGraphBuilder.cpp GraphBuilder/FASTGGraphBuilder.h
         GraphBuilder/GFAGraphBuilder.cpp GraphBuilder/GFAGraphBuilder.h
         ContigGraph/ContigGraph.cpp ContigGraph/ContigGraph.h)

@@ -104,7 +104,7 @@ class Lib:
         f.close()
         g.close()
 
-libsType = {"rnap", "rnas", "rf", "ff", "scg", "ref", "scafinfo", "scaffolds", "refcoord", "fr", "pacbio", "fastg", "gfa", "frsam", "rfsam", "ffsam"}
+libsType = {"rnap", "rnas", "rf", "ff", "scg", "ref", "scafinfo", "scaffolds", "refcoord", "fr", "long", "fastg", "gfa", "frsam", "rfsam", "ffsam"}
 
 class StoreArgAction(argparse.Action):
     def __call__(self, parser, namespace, values, option_string=None):
@@ -145,7 +145,7 @@ def parse_args():
     parser.add_argument("--rf_sam", dest="rfsam", nargs=2, help="path to alignment of reverse-forward paired reads file in SAM/BAM format", type=str, action=StoreArgAction)
     parser.add_argument("--ff_sam", dest="ffsam", nargs=2, help="path to alignment of forward-forward paired reads file in SAM/BAM format", type=str, action=StoreArgAction)
 
-    parser.add_argument("--pacbio", dest="pacbio", nargs=1, help="path to pacbio reads file", type=str, action=StoreArgAction)
+    parser.add_argument("--long", dest="long", nargs=1, help="path to long reads(PacBio/Oxford Nanopore) file", type=str, action=StoreArgAction)
     parser.add_argument("--local_output_dir", "-o", nargs=1, help="use this output dir", type=str)
     parser.add_argument("--ref", dest="ref", nargs=1, help="path to reference", type=str, action=StoreArgAction)
     parser.add_argument("--refcoord", dest="refcoord", nargs=2, help="path to ref and to alignment of contigs to reference in coord format", type=str, action=StoreArgAction)
@@ -223,13 +223,13 @@ def alig_pair_dna_reads(dnap, contig_file_name):
     #    os.system("bowtie2 -x contig -U " + dnap.path[1] + " -S dna2.sam")
     os.chdir(prevdir)
 
-def alig_pacbio(pacbio, contig_file_name):
+def alig_long(long, contig_file_name):
     prevdir = os.getcwd()
-    log.log("START ALIG: " + pacbio.label)
-    lib_dir = os.path.dirname(os.path.abspath(pacbio.name) + "/")
+    log.log("START ALIG: " + long.label)
+    lib_dir = os.path.dirname(os.path.abspath(long.name) + "/")
     os.chdir(lib_dir)
 
-    os.system("minimap2 -x map-pb " + contig_file_name + " " + pacbio.path[0] + " > out.paf")
+    os.system("minimap2 -x map-pb " + contig_file_name + " " + long.path[0] + " > out.paf")
 
     os.chdir(prevdir)
 
@@ -283,8 +283,8 @@ def alig_reads(contig_file_name, args):
     for i in range(len(args.libs["ff"])):
         alig_pair_dna_reads(args.libs["ff"][i], contig_file_name)
 
-    for i in range(len(args.libs["pacbio"])):
-        alig_pacbio(args.libs["pacbio"][i], contig_file_name)
+    for i in range(len(args.libs["long"])):
+        alig_long(args.libs["long"][i], contig_file_name)
 
     for i in range(len(args.libs["rnas"])):
         alig_single_rna_reads(args.libs["rnas"][i])
@@ -363,12 +363,12 @@ def build_graph(contig_file_name, args):
         os.chdir(prevdir)
 
 
-    for lib in args.libs["pacbio"]:
+    for lib in args.libs["long"]:
         prevdir = os.getcwd()
         log.log("START BUILD GRAPH: " + lib.label)
         lib_dir = os.path.dirname(os.path.abspath(lib.name) + "/")
         os.chdir(lib_dir)
-        os.system(path_to_exec_dir + "build PACBIO out.paf " + contig_file_name + " " + lib.label)
+        os.system(path_to_exec_dir + "build LONG out.paf " + contig_file_name + " " + lib.label)
         os.chdir(prevdir)
 
     for lib in args.libs["scg"]:
@@ -433,7 +433,7 @@ def merge_graph(args):
         for lib_type in libsType:
             for lib in args.libs[lib_type]:
                 if lib_type == "rnap" or lib_type == "rnas" or lib_type == "fr" or lib_type == "rf" or \
-                        lib_type == "pacbio" or lib_type == "ff" or lib_type == "scg" or lib_type=="fastg" \
+                        lib_type == "long" or lib_type == "ff" or lib_type == "scg" or lib_type=="fastg" \
                         or lib_type=="gfa" or lib_type == "frsam" or lib_type == "rfsam" or lib_type == "ffsam":
                     lib.fix_graph_file()
                     if lib_type != "rnas":

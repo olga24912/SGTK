@@ -1,12 +1,12 @@
-#ifndef SCAFFOLDER_PACBIOGRAPHBUILDER_H
-#define SCAFFOLDER_PACBIOGRAPHBUILDER_H
+#ifndef SCAFFOLDER_LONGGRAPHBUILDER_H
+#define SCAFFOLDER_LONGGRAPHBUILDER_H
 
 #include "GraphBuilder.h"
 #include <seqan/seq_io.h>
 
 namespace builder {
     namespace graph_builder {
-        class PacbioGraphBuilder : public GraphBuilder {
+        class LongGraphBuilder : public GraphBuilder {
         protected:
             std::string contigFileName;
             std::string fileName;
@@ -27,7 +27,7 @@ namespace builder {
             void readHeaderInit();
             void updateEdges(std::string s);
         public:
-            PacbioGraphBuilder() = default;
+            LongGraphBuilder() = default;
 
             void setFileName(const std::string &fileName);
             void setContigFileName(const std::string &fileName);
@@ -35,7 +35,7 @@ namespace builder {
             virtual void evaluate();
 
         private:
-            DECL_LOGGER("PairReadGraphBuilder");
+            DECL_LOGGER("LongGraphBuilder");
         };
     }
 }
