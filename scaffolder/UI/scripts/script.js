@@ -510,10 +510,10 @@ function updeteChangeBlock() {
         document.getElementById("change_block").innerHTML = html_code + present_block + not_present_block;
     } else if (document.getElementById("select_show_type").value == "scaffolds") {
         document.getElementById("change_block").innerHTML = "<div class=\"block\">\n" +
-            "                    <p>Area size: \n" +
+            "                    <p>Area size: \n<br>" +
             "                        <input type=\"number\" min=\"0\" id=\"area_size\" value=1>\n" +
             "                    </p>\n" +
-            "                    <p>Scaffold lib:\n" +
+            "                    <p>Scaffold lib:\n<br>" +
             "                        <div class=\"styled-select\">\n" +
             "                           <select id=\"select_scaff_lib\">\n" +
             "                           </select>\n" +
@@ -522,20 +522,21 @@ function updeteChangeBlock() {
             "                    <p> Min scaffold len:\n" +
             "                    <input type=\"number\" min=\"2\" id=\"min_scaffold_len\" value=2> </p>\n" +
             "                    <label class=\"container\">\n" +
-            "                    <p> Contain wrong connection\n" +
+            "                    <p>Wrong connection(s)\n" +
             "                    <input type=\"checkbox\" id=\"scaff_wrng\">\n" +
             "                    <span class=\"checkmark\"></span>" +
             "                    </p></label>" +
             "                    <label class=\"container\">\n" +
-            "                    <p> Have continuation \n" +
+            "                    <p>Possibly incomplete\n" +
             "                    <input type=\"checkbox\" id=\"scaff_cont\">\n" +
             "                    <span class=\"checkmark\"></span>" +
             "                    </p></label>" +
             "                    <label class=\"container\">\n" +
-            "                    <p> Have ambiguous \n" +
-            "                    <input type=\"checkbox\" id=\"scaff_ambig\">\n" +
+            "                    <p>Ambiguous connection(s)\n" +
+            "                    <input type=\"checkbox\" id=\"scaff_ambig\" style='width: 13px'>\n" +
             "                    <span class=\"checkmark\"></span>" +
             "                    </p></label>" +
+            "                    <p style='font-size: 12px;'>When multiple boxes are checked, components that satisfy at least one connection will be shown.</p>" +
             "                </div>";
 
         for (i=0; i < scaffoldgraph.libs.length; ++i) {

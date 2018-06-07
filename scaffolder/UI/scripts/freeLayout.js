@@ -1,3 +1,13 @@
+function generateEdgeWeight(eid) {
+    var edge = scaffoldgraph.edges[eid];
+    if (scaffoldgraph.libs[edge.lib].type === "SCAFF" || scaffoldgraph.libs[edge.lib].type === "FASTG" ||
+        scaffoldgraph.libs[edge.lib].type === "GFA") {
+        return 3;
+    }
+
+    return Math.min(5, Math.log(edge.weight) + 1);
+}
+
 function hasOtherEdges(v, curNodeSet) {
     for (var h = 0; h < scaffoldgraph.g[v].length; ++h) {
         if (isGoodEdge(scaffoldgraph.g[v][h].id)) {
@@ -26,11 +36,11 @@ function hasOtherEdges(v, curNodeSet) {
 function getYforNewVert(v, u, evt, isGoodEdge) {
     for (var i = 0; i < scaffoldgraph.g[v].length; ++i) {
         if (scaffoldgraph.g[v][i].to === u && isGoodEdge(scaffoldgraph.g[v][i].id)) {
-            return evt.target.position().y + Math.random() * Math.floor(200);
+            return evt.target.position().x + Math.random() * Math.floor(200);
         }
     }
 
-    return evt.target.position().y - Math.random() * Math.floor(200);
+    return evt.target.position().x - Math.random() * Math.floor(200);
 }
 
 function createAddNewNode(cy, curNodeSet) {
@@ -63,8 +73,8 @@ function createAddNewNode(cy, curNodeSet) {
                     special: 0
                 },
                 position: {
-                    x: evt.target.position().x + Math.floor(Math.random() * Math.floor(200) - 100),
-                    y: yc
+                    y: evt.target.position().y + Math.floor(Math.random() * Math.floor(200) - 100),
+                    x: yc
                 }
             };
             updateColorsNode(u, nnode);
@@ -83,7 +93,7 @@ function createAddNewNode(cy, curNodeSet) {
                     target: getEdgeTo(eid),
                     label: createLabelForEdge(eid),
                     faveColor: scaffoldgraph.libs[scaffoldgraph.edges[eid].lib].color,
-                    weight: Math.min(5, Math.log(scaffoldgraph.edges[eid].weight) + 1),
+                    weight: generateEdgeWeight(eid),
                     lstyle: 'dotted'
                 }
             });
@@ -116,7 +126,7 @@ function DrawGraphCytoscapeWithPresetNode(dnodes, dedges, curNodeSet) {
 
         layout: {
             name: 'dagre',
-            rankDir: 'UD',
+            rankDir: 'LR',
             ranker: 'tight-tree', //'longest-path',//'network-simplex',//
             edgeWeight: function( edge ){
                 return edge.width();
@@ -156,7 +166,9 @@ function DrawGraphCytoscapeWithPresetNode(dnodes, dedges, curNodeSet) {
                 'target-arrow-color': 'data(faveColor)',
                 'width': 'data(weight)',
                 'line-style': 'data(lstyle)',
-                'content': 'data(label)'
+                'content': 'data(label)',
+                //'target-endpoint': '-50% 0px',
+                'target-distance-from-node': '1px'
             })
     });
 
@@ -174,7 +186,12 @@ function DrawGraphCytoscapeWithPresetNode(dnodes, dedges, curNodeSet) {
         (document.getElementById("zoomInput")).innerText = Math.floor(cy.zoom() * 100).toString() +  "%";
     });
 
-    createTapInfo(cy);
+    cy.on('cxttap', 'node', function (evt) {
+        var v = evt.target.id();
+        cy.remove(cy.$("#" + v.toString()));
+    });
+
+        createTapInfo(cy);
     createAddNewNode(cy, curNodeSet);
 }
 
@@ -291,7 +308,7 @@ function DrawGraphCytoscape(nodes_to_draw, edges_to_draw) {
                 target: getEdgeTo(edges_to_draw[g]),
                 label: createLabelForEdge(edges_to_draw[g]),
                 faveColor: scaffoldgraph.libs[scaffoldgraph.edges[edges_to_draw[g]].lib].color,
-                weight: Math.min(5, Math.log(scaffoldgraph.edges[edges_to_draw[g]].weight) + 1),
+                weight: generateEdgeWeight(edges_to_draw[g]),
                 lstyle: sp
             }});
     }

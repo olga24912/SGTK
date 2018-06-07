@@ -21,6 +21,22 @@ p {
     -webkit-margin-after: 5px;
     -webkit-margin-start: 0px;
     -webkit-margin-end: 0px;
+
+    margin-top: 5px;
+    margin-bottom: 5px;
+    -moz-margin-start: 0px;
+    -moz-margin-end: 0px;
+}
+
+.centerblock {
+    overflow-y: scroll;
+    overflow-x: hidden;
+
+    height: 92%;
+    padding-top: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    padding-left: 20px;;
 }
 
 .loader {
@@ -47,12 +63,13 @@ p {
     margin: 0;
     position: absolute;
     top: 10px;
-    right: 90px;
+    right: 75px;
 }
 
 .search_text {
     box-shadow: none;
     border-color: rgba(0,0,0,0.15);
+    border-style: solid;
     padding: 0 38px 0 15px;
     vertical-align: top;
     border-radius: 3px;
@@ -78,6 +95,7 @@ p {
     border: 0;
     background-size: auto;
     opacity: .6;
+    background-color: rgba(0,0,0,0.15);
 }
 
 .form_search {
@@ -134,6 +152,9 @@ svg {
 .cnt_page_block .cnt_page {
     -webkit-margin-before: 10px;
     -webkit-margin-start: 10px;
+
+    -moz-margin-before: 10px;
+    -moz-margin-start: 10px;
     width: 70%;
     background: #BECCE0;
 }
@@ -145,6 +166,9 @@ svg {
 
     -webkit-margin-before: 0px;
     -webkit-margin-start: 0px;
+
+    -moz-margin-before: 0px;
+    -moz-margin-start: 0px;
 
     border: 1px solid #E6ECF3;
 }
@@ -191,13 +215,6 @@ svg {
     line-height: normal;
     font-size: 48px;
     color: #2A4986;
-}
-
-.centerblock {
-    padding-top: 10px;
-    padding-right: 10px;
-    padding-bottom: 0px;
-    padding-left: 20px;;
 }
 
 .block_with_line {
@@ -434,8 +451,12 @@ table tr th {
 }
 
 .zoomSelect {
+    position: fixed;
+    top: 20px;
+    right: 5px;
+
     padding: 0 0;
-    height: 25px;
+    height: 17px;
     overflow: hidden;
     width: 10px;
 
@@ -453,25 +474,28 @@ table tr th {
 }
 
 .zoomInputBox {
-    position: absolute;
+    position: fixed;
     top: 20px;
-    right: 10px;
+    right: 15px;
+    text-align: right;
+
+    -moz-box-sizing: content-box; /* or `border-box` */
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
 }
 
 .zoomInput {
-    width: 40px;
-    height: 20px;
+    width: 50px;
+    height: 15px;
     overflow: hidden;
     white-space: nowrap;
 }
 
 .zoom_one_line_block{
     position: relative;
-    bottom: 0;
+
     display: inline-block ;
     margin: 0px;
-    margin-bottom: 0px;
-    margin-top: 0px;
     padding-bottom: 0px;
     padding-top: 0px;
 }

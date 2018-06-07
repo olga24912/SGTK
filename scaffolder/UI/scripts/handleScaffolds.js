@@ -75,9 +75,9 @@ function containContinuation(libnum, j) {
         for (g = 0; g < scaffoldgraph.gr[fv].length; ++g) {
             if (isGoodEdge(scaffoldgraph.gr[fv][g].id) &&
             scaffoldgraph.nodes[scaffoldgraph.gr[fv][g].from].len >= min_contig_len) {
-                if (isCorrectOrder(scaffoldgraph.gr[fv][g].from, fv)) {
+                //if (isCorrectOrder(scaffoldgraph.gr[fv][g].from, fv)) {
                     return true;
-                }
+                //}
             }
 
         }
@@ -87,9 +87,9 @@ function containContinuation(libnum, j) {
         for (g = 0; g < scaffoldgraph.g[lv].length; ++g) {
             if (isGoodEdge(scaffoldgraph.g[lv][g].id) &&
                 scaffoldgraph.nodes[scaffoldgraph.g[lv][g].to].len >= min_contig_len) {
-                if (isCorrectOrder(lv, scaffoldgraph.g[lv][g].to)) {
+                //if (isCorrectOrder(lv, scaffoldgraph.g[lv][g].to)) {
                     return true;
-                }
+                //}
             }
         }
     }
