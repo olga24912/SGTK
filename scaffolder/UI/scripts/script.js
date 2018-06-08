@@ -37,9 +37,9 @@ function createLabelForNode(node) {
 
 function createFullLabelForNode(node) {
     var label = "";
-    label += "id: " + scaffoldgraph.nodes[node].id + "<br/>";
-    label += scaffoldgraph.nodes[node].name + "<br/>";
-    label += "len: " + scaffoldgraph.nodes[node].len + "<br/>";
+    label += "id: " + scaffoldgraph.nodes[node].id + "</br>";
+    label += scaffoldgraph.nodes[node].name + "</br>";
+    label += "len: " + scaffoldgraph.nodes[node].len + "</br>";
     if (scaffoldgraph.nodes[node].alignments.length > 0) {
         label += "Alignment: ";
         scaffoldgraph.nodes[node].alignments.sort(function (a, b) {
@@ -47,11 +47,11 @@ function createFullLabelForNode(node) {
         });
         for (var i = 0; i < scaffoldgraph.nodes[node].alignments.length; ++i) {
             var cura = scaffoldgraph.nodes[node].alignments[i];
-            label += chromosomes[cura.chr_id].name + " " + cura.coordb + " " + cura.coorde + " (" + ((cura.coorde - cura.coordb + 1) * 100/scaffoldgraph.nodes[node].len) +"%)<br/>";
+            label += chromosomes[cura.chr_id].name + " " + cura.coordb + " " + cura.coorde + " (" + ((cura.coorde - cura.coordb + 1) * 100/scaffoldgraph.nodes[node].len) +"%)</br>";
         }
     }
     if (scaffoldgraph.nodes[node].info !== "") {
-        label += scaffoldgraph.nodes[node].info + "<br/>";
+        label += scaffoldgraph.nodes[node].info + "</br>";
     }
     return label;
 }
@@ -92,18 +92,18 @@ function createLabelForEdge(edge) {
 
 function createFullLabelForEdge(edge) {
     var label = "";
-    label += "id: " + scaffoldgraph.edges[edge].id + "<br/>";
-    label += scaffoldgraph.libs[scaffoldgraph.edges[edge].lib].name + "<br/>";
+    label += "id: " + scaffoldgraph.edges[edge].id + "</br>";
+    label += scaffoldgraph.libs[scaffoldgraph.edges[edge].lib].name + "</br>";
     if (scaffoldgraph.libs[scaffoldgraph.edges[edge].lib].type === "SCAFF") {
-        label += scaffoldgraph.edges[edge].name + " " + scaffoldgraph.edges[edge].num + "<br/>";
+        label += scaffoldgraph.edges[edge].name + " " + scaffoldgraph.edges[edge].num + "</br>";
     }
-    label += "w: " + scaffoldgraph.edges[edge].weight + "<br/>";
-    label += scaffoldgraph.libs[scaffoldgraph.edges[edge].lib].type + "<br/>";
+    label += "w: " + scaffoldgraph.edges[edge].weight + "</br>";
+    label += scaffoldgraph.libs[scaffoldgraph.edges[edge].lib].type + "</br>";
     if (scaffoldgraph.edges[edge].len >= 0) {
-        label += "len: " + scaffoldgraph.edges[edge].len + "<br/>";
+        label += "len: " + scaffoldgraph.edges[edge].len + "</br>";
     }
     if (scaffoldgraph.edges[edge].info !== "") {
-        label += scaffoldgraph.edges[edge].info + "<br/>";
+        label += scaffoldgraph.edges[edge].info + "</br>";
     }
     return label;
 }
@@ -151,6 +151,59 @@ function createTapInfo(cy) {
                 height: 8
             }
         }
+    });
+}
+
+function getHg(str, maxLen) {
+    var cnt = 0;
+    var sum = 0;
+    console.log(str);
+    for (var i = 0; i < str.length; ++i) {
+        if (i < str.length - 5 && (str[i] === '<' &&  str[i + 1] === '/' &&
+                str[i + 2] === 'b' && str[i + 3] === 'r' && str[i + 4] === '>')) {
+            i += 4;
+            sum += Math.ceil((cnt)/maxLen);
+            console.log(cnt);
+            cnt = 0;
+            console.log("br");
+        } else {
+            cnt += 1;
+        }
+    }
+    console.log(cnt);
+    sum += Math.ceil(cnt/maxLen);
+    return sum;
+}
+
+function createInformationShown(cy) {
+    cy.on('mouseover', 'node', function (evt) {
+        var v = evt.target.id();
+        var printInfo = createFullLabelForNode(v);
+        var hg = getHg(printInfo, 39);
+        console.log(hg);
+        document.getElementById("extra_info").style.height = Math.max(80, (hg * 15)).toString() + 'px';
+        document.getElementById("extra_info").innerHTML =
+            "<p style='font-size: 14px; margin-top: 0px; margin-bottom: 0px;'>" + printInfo + "</p>";
+    });
+
+    cy.on('mouseout', 'node', function (evt) {
+        document.getElementById("extra_info").style.height = '80px';
+        document.getElementById("extra_info").innerHTML = "";
+    });
+
+    cy.on('mouseover', 'edge', function (evt) {
+        var v = evt.target.id();
+        var printInfo = createFullLabelForEdge(v.substring(1));
+        var hg = getHg(printInfo, 39);
+        console.log(hg);
+        document.getElementById("extra_info").style.height = Math.max(80, (hg * 15)).toString() + 'px';
+        document.getElementById("extra_info").innerHTML =
+            "<p style='font-size: 14px; margin-top: 0px; margin-bottom: 0px;'>" + printInfo + "</p>";
+    });
+
+    cy.on('mouseout', 'edge', function (evt) {
+        document.getElementById("extra_info").style.height = '80px';
+        document.getElementById("extra_info").innerHTML = "";
     });
 }
 

@@ -665,6 +665,7 @@ function createGraph(chr, cy, curNodeSet, posx, posmin, posmax, oldPosition) {
     /*if (defZoom < 10000) {
         createTapInfo(cy);
     }*/
+    createInformationShown(cy);
     createCoordinates(chr, cy);
 }
 

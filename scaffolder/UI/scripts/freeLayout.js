@@ -191,7 +191,8 @@ function DrawGraphCytoscapeWithPresetNode(dnodes, dedges, curNodeSet) {
         cy.remove(cy.$("#" + v.toString()));
     });
 
-        createTapInfo(cy);
+    createInformationShown(cy);
+    //createTapInfo(cy);
     createAddNewNode(cy, curNodeSet);
 }
 
