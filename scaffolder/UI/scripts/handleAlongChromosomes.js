@@ -353,7 +353,7 @@ function createNewVerAlongChr(cy, area_size, min_contig_len, isGoodEdge, curNode
                 cy.$('#' + nodes_to_draw[g]).data('faveShape', 'ellipse');
             }
         }
-        createTapInfo(cy);
+        //createTapInfo(cy);
     });
 }
 
@@ -648,6 +648,7 @@ function createGraph(chr, cy, curNodeSet, posx, posmin, posmax, oldPosition) {
     updateZooming(cy, posx, posmin, posmax, oldPosition);
     cy.elements().remove();
     special_nodes.clear();
+    curNodeSet.clear();
 
     var inode = [];
 
@@ -661,9 +662,9 @@ function createGraph(chr, cy, curNodeSet, posx, posmin, posmax, oldPosition) {
     addOtherNodes(cy, curNodeSet, vert_to_draw, oldPosition);
 
     addEdges(cy);
-    if (defZoom < 10000) {
+    /*if (defZoom < 10000) {
         createTapInfo(cy);
-    }
+    }*/
     createCoordinates(chr, cy);
 }
 

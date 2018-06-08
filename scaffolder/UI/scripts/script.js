@@ -564,8 +564,9 @@ document.getElementById("select_layout").addEventListener("change", function(){
             "                <div class=\"styled-select\">\n" +
             "                <select id=\"select_show_type\">\n" +
             "                    <option value=\"full graph\">Full graph</option>\n" +
+            "                    <option value=\"scaffolds\">Scaffolds</option>\n" +
             "                    <option value=\"diff in libs\">Difference in libs</option>\n" +
-            "                    <option value=\"scaffolds\"> Scaffolds</option>\n" +
+            "                    <option value=\"ambiguous\">Ambiguous</option>\n" +
             "                    <option value=\"vertices_local_area\">Vertices local area</option>\n" +
             "                    <option value=\"edges_local_area\">Edges local area</option>\n" +
             "                </select>\n" +

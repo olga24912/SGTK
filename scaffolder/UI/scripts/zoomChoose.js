@@ -4,13 +4,28 @@ function zoomDropDown() {
 
 function zoomPlus() {
     if (cy !== null) {
+        var width =  document.getElementById('mainpanel').clientWidth;
+        var height =  document.getElementById('mainpanel').clientHeight;
+        cy.panBy({x: -(width - width/1.5)/2, y: -(height - height/1.5)/2});
+        cy.pan({x: cy.pan().x * 1.5, y: cy.pan().y * 1.5});
         cy.zoom(cy.zoom() * 1.5);
+        if ((document.getElementById("select_layout").value !== "free_layout")) {
+            cy.pan({x:cy.pan().x, y: height/3});
+        }
     }
 }
 
 function zoomMinus() {
     if (cy !== null) {
+        var width =  document.getElementById('mainpanel').clientWidth;
+        var height =  document.getElementById('mainpanel').clientHeight;
+        cy.panBy({x: -(width - width*1.5)/2, y: -(height - height*1.5)/2});
+        cy.pan({x: cy.pan().x / 1.5, y: cy.pan().y / 1.5});
         cy.zoom(cy.zoom() / 1.5);
+        if ((document.getElementById("select_layout").value !== "free_layout")) {
+            cy.pan({x: cy.pan().x, y: height/3});
+        }
+        //cy.pan({x: 0, y: -100});
     }
 }
 
@@ -38,6 +53,36 @@ window.addEventListener("keyup", function (evt) {
         }
     }
 });
+
+window.addEventListener("keydown", function (evt) {
+    var delta = 20;
+    if (evt.shiftKey) {
+        delta = 100;
+    }
+    var code = (evt.keyCode || evt.which);
+    if (code === 37) { //left arrow
+        cy.panBy({
+            x: delta,
+            y:0
+        });
+    } else if (code === 39) { //right arrow
+        cy.panBy({
+            x:-delta,
+            y:0
+        });
+    } else if (code === 38) { //up arrow
+        cy.panBy({
+            x:0,
+            y:delta
+        });
+    } else if (code === 40) { //down arrow
+        cy.panBy({
+            x:0,
+            y:-delta
+        });
+    }
+});
+
 
 function updateZoomFromInput() {
     var inputVal = parseInt(document.getElementById("zoomInput").innerText);
