@@ -106,7 +106,7 @@ function createAddNewNode(cy, curNodeSet) {
                 cy.$('#' + nodes_to_draw[g]).data('shape', 'ellipse');
             }
         }
-        createTapInfo(cy);
+        //createTapInfo(cy);
     });
 }
 

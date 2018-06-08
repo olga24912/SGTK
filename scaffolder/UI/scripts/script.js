@@ -108,51 +108,6 @@ function createFullLabelForEdge(edge) {
     return label;
 }
 
-function createTapInfo(cy) {
-    cy.nodes().qtip({
-        content: {
-            text: function () {
-                return createFullLabelForNode(this.id());
-            }
-        },
-        show: {
-            event: 'mouseover'
-        },
-        hide: {
-            event: 'mouseout'
-        },
-        style: {
-            classes: 'qtip-bootstrap',
-            tip: {
-                width: 16,
-                height: 8
-            }
-        }
-    });
-
-    cy.edges().qtip({
-        content: function(){
-            return createFullLabelForEdge(parseInt(this.id().substring(1)));
-        },
-        position: {
-            my: 'bottom left',
-            at: 'bottom center'
-        },
-        show: {
-            event: 'mouseover'
-        },
-        hide: {
-            event: 'mouseout'
-        },
-        style: {
-            classes: 'qtip-bootstrap',
-            tip: {
-                width: 10,
-                height: 8
-            }
-        }
-    });
-}
 
 function getHg(str, maxLen) {
     var cnt = 0;
@@ -175,6 +130,13 @@ function getHg(str, maxLen) {
     return sum;
 }
 
+function generateGeneralInfo() {
+    return "Nodes: " + scaffoldgraph.nodes.length.toString() + "</br>" +
+        "Edges: " + scaffoldgraph.edges.length.toString() + "</br>" +
+        "Chromosomes: " + chromosomes.length.toString() + "</br>" +
+        "Libs: " + scaffoldgraph.libs.length.toString() + "</br>";
+}
+
 function createInformationShown(cy) {
     cy.on('mouseover', 'node', function (evt) {
         var v = evt.target.id();
@@ -188,7 +150,7 @@ function createInformationShown(cy) {
 
     cy.on('mouseout', 'node', function (evt) {
         document.getElementById("extra_info").style.height = '80px';
-        document.getElementById("extra_info").innerHTML = "";
+        document.getElementById("extra_info").innerHTML = "<p style='margin-top: 0px; margin-bottom: 0px;'>" + generateGeneralInfo() + "</p>";
     });
 
     cy.on('mouseover', 'edge', function (evt) {
@@ -203,7 +165,7 @@ function createInformationShown(cy) {
 
     cy.on('mouseout', 'edge', function (evt) {
         document.getElementById("extra_info").style.height = '80px';
-        document.getElementById("extra_info").innerHTML = "";
+        document.getElementById("extra_info").innerHTML = "<p style='margin-top: 0px; margin-bottom: 0px;'>" + generateGeneralInfo() + "</p>";
     });
 }
 
@@ -499,7 +461,7 @@ InitLibTable();
 InitAlignmentsForNodes();
 setupAutocompleteSearch();
 putEdgesNumForScaffolds();
-
+document.getElementById("extra_info").innerHTML = "<p style='margin-top: 0px; margin-bottom: 0px;'>" + generateGeneralInfo() + "</p>";
 
 function updeteChangeBlock() {
     if(document.getElementById("select_show_type").value == "full graph") {
