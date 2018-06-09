@@ -112,20 +112,16 @@ function createFullLabelForEdge(edge) {
 function getHg(str, maxLen) {
     var cnt = 0;
     var sum = 0;
-    console.log(str);
     for (var i = 0; i < str.length; ++i) {
         if (i < str.length - 5 && (str[i] === '<' &&  str[i + 1] === '/' &&
                 str[i + 2] === 'b' && str[i + 3] === 'r' && str[i + 4] === '>')) {
             i += 4;
             sum += Math.ceil((cnt)/maxLen);
-            console.log(cnt);
             cnt = 0;
-            console.log("br");
         } else {
             cnt += 1;
         }
     }
-    console.log(cnt);
     sum += Math.ceil(cnt/maxLen);
     return sum;
 }
@@ -142,7 +138,6 @@ function createInformationShown(cy) {
         var v = evt.target.id();
         var printInfo = createFullLabelForNode(v);
         var hg = getHg(printInfo, 39);
-        console.log(hg);
         document.getElementById("extra_info").style.height = Math.max(80, (hg * 15)).toString() + 'px';
         document.getElementById("extra_info").innerHTML =
             "<p style='font-size: 14px; margin-top: 0px; margin-bottom: 0px;'>" + printInfo + "</p>";
@@ -157,7 +152,6 @@ function createInformationShown(cy) {
         var v = evt.target.id();
         var printInfo = createFullLabelForEdge(v.substring(1));
         var hg = getHg(printInfo, 39);
-        console.log(hg);
         document.getElementById("extra_info").style.height = Math.max(80, (hg * 15)).toString() + 'px';
         document.getElementById("extra_info").innerHTML =
             "<p style='font-size: 14px; margin-top: 0px; margin-bottom: 0px;'>" + printInfo + "</p>";

@@ -144,6 +144,7 @@ function findNodeAroundChr(inode, area_size, min_contig_len, isGoodEdge, curNode
             var curedge = scaffoldgraph.g[curv][i];
             if (isGoodEdge(curedge.id)) {
                 var curu = curedge.to;
+
                 if (isBigContig(0, scaffoldgraph.nodes[curu].len, defZoom)) {
                     if ((!used_id.has(curu)) && (curd < area_size || curNodeSet.has(curu))) {
                         rank[curu] = curd + 1;
@@ -168,7 +169,9 @@ function findNodeAroundChr(inode, area_size, min_contig_len, isGoodEdge, curNode
                         sumw[curu] += curedge.weight;
                     }
 
-                    edges_to_draw.push(curedge.id);
+                    if ((curd < area_size || curNodeSet.has(curu) || (curd === area_size && used_id.has(curu)))) {
+                        edges_to_draw.push(curedge.id);
+                    }
                 }
             }
         }
@@ -201,9 +204,17 @@ function findNodeAroundChr(inode, area_size, min_contig_len, isGoodEdge, curNode
                         ypos[curu] += curedge.weight * yc;
                         sumw[curu] += curedge.weight;
                     }
+
+                    if ((curd < area_size || curNodeSet.has(curu) || (curd == area_size && used_id.has(curu)))) {
+                        edges_to_draw.push(curedge.id);
+                    }
                 }
             }
         }
+
+        edges_to_draw = edges_to_draw.filter(function (value, index, self) {
+            return self.indexOf(value) === index;
+        });
     }
 
     var res = [];
@@ -277,11 +288,11 @@ function getContigXPosD() {
 }
 
 function getRankDist() {
-    return 25;
+    return 50;
 }
 
 function getEdgeWeight(cy, e) {
-    return Math.min(5, Math.log(getWeight(e)))/cy.zoom();
+    return Math.min(5, Math.log(getWeight(e)) + 1)/cy.zoom();
 }
 
 function getScala(cy) {
@@ -289,7 +300,7 @@ function getScala(cy) {
 }
 
 function geOtherNodeWidth(id) {
-    return Math.log(scaffoldgraph.nodes[id].len)/cy.zoom();
+    return Math.log(scaffoldgraph.nodes[id].len)*2/cy.zoom();
 }
 
 function createNewVerAlongChr(cy, area_size, min_contig_len, isGoodEdge, curNodeSet) {
@@ -375,9 +386,7 @@ function updateZooming(cy, posx, posmin, posmax, oldPosition) {
         defZoom /= mul;
         cy.maxZoom(defZoom);
         cy.minZoom(defZoom/maxZoom);
-        console.log(defZoom);
-        console.log(cy.maxZoom());
-        console.log(cy.minZoom());
+
         oldPosition.clear();
         var ks = Array.from(posx.keys());
         for (var k = 0; k < ks.length; ++k) {
@@ -442,7 +451,6 @@ function findContigs(cy, chr, inode, posx, posmin, posmax, curNodeSet) {
 function addContigs(cy, inode, posx, posmin, posmax) {
     for (i = 0; i < inode.length; ++i) {
         var vid = inode[i].id;
-        console.log("add contigs " + vid.toString());
         cy.add({
             group: "nodes",
             data: {
@@ -464,9 +472,9 @@ function addContigs(cy, inode, posx, posmin, posmax) {
         });
         if (defZoom < 10000) {
             cy.$("#" + vid.toString()).style({
-                "font-size": 10 / cy.zoom(),
-                "text-valign": "center",
-                "text-halign": "right"
+                "font-size": 15 / cy.zoom(),
+                "text-valign": "top",
+                "text-halign": "center"
             });
         }
     }
@@ -506,9 +514,9 @@ function addOtherNodes(cy, curNodeSet, vert_to_draw, oldPosition) {
         });
         if (defZoom < 10000) {
             cy.$("#" + vert_to_draw[g].id.toString()).style({
-                "font-size": 10 / cy.zoom(),
-                "text-valign": "center",
-                "text-halign": "right"
+                "font-size": 15 / cy.zoom(),
+                "text-valign": "bottom",
+                "text-halign": "left"
             });
         }
     }
@@ -603,6 +611,8 @@ function addEdges(cy) {
     calculateDinamicForDistPoint(cy, deepsPOS, toSmallCoord);
 
     for (var g = 0; g < edges_to_draw.length; ++g) {
+
+
         if (!(isAlign(scaffoldgraph.edges[edges_to_draw[g]].from)) ||
             !(isAlign(scaffoldgraph.edges[edges_to_draw[g]].to))) {
             cy.add({
@@ -637,7 +647,7 @@ function addEdges(cy) {
         }
         if (defZoom < 10000) {
             cy.$("#" + "e" + edges_to_draw[g].toString()).style({
-                "font-size": 10 / cy.zoom(),
+                "font-size": 15 / cy.zoom(),
                 "edge-text-rotation": "autorotate"
             });
         }
@@ -662,9 +672,7 @@ function createGraph(chr, cy, curNodeSet, posx, posmin, posmax, oldPosition) {
     addOtherNodes(cy, curNodeSet, vert_to_draw, oldPosition);
 
     addEdges(cy);
-    /*if (defZoom < 10000) {
-        createTapInfo(cy);
-    }*/
+
     createInformationShown(cy);
     createCoordinates(chr, cy);
 }
@@ -775,7 +783,6 @@ function drawAlongChromosome(chr) {
         (document.getElementById("zoomInput")).innerText = Math.floor(cy.zoom() * 100 * 100/ defZoom).toString() +  "%";
     });
     cy.on('pan', function() {
-        console.log("pan " + cy.pan().x.toString() + " " + cy.pan().y.toString());
         createGraph(chr, cy, curNodeSet, posx, posmin, posmax, oldPosition);
     });
 
