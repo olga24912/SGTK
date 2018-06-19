@@ -231,7 +231,8 @@ svg {
     color: #E0E0E0;
     text-align: center;
     display: inline-block;
-    font-size: 16px;
+    font-size: 20px;
+    font-weight: bold;
     height: 30px;
     width: 288px;
     position: absolute;

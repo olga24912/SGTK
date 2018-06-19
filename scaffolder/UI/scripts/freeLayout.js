@@ -1,8 +1,29 @@
 function generateEdgeWeight(eid) {
     var edge = scaffoldgraph.edges[eid];
-    if (scaffoldgraph.libs[edge.lib].type === "SCAFF" || scaffoldgraph.libs[edge.lib].type === "FASTG" ||
+
+    var opt = document.getElementById("select_show_type").value;
+    if (opt !== "full graph") {
+        if (special_edges.has(eid)) {
+            return 5;
+        }
+    }
+
+    if (scaffoldgraph.libs[edge.lib].type === "FASTG" ||
         scaffoldgraph.libs[edge.lib].type === "GFA") {
+        return 4;
+    }
+
+    if (scaffoldgraph.libs[edge.lib].type === "SCAFF") {
         return 3;
+    }
+
+    if (scaffoldgraph.libs[edge.lib].type === "DNA_PAIR" ||
+        scaffoldgraph.libs[edge.lib].type === "LONG" ||
+        scaffoldgraph.libs[edge.lib].type === "RNA_PAIR" ||
+        scaffoldgraph.libs[edge.lib].type === "RNA_SPLIT_50" ||
+        scaffoldgraph.libs[edge.lib].type === "RNA_SPLIT_30" ||
+        scaffoldgraph.libs[edge.lib].type === "CONNECTION") {
+        return 1;
     }
 
     return Math.min(5, Math.log(edge.weight) + 1);
@@ -55,13 +76,20 @@ function createAddNewNode(cy, curNodeSet) {
             u = needAddVert[g];
             var yc = getYforNewVert(v, u, evt, isGoodEdge);
 
+            var spe = 0;
+            var opt = document.getElementById("select_show_type").value;
+            if (opt === "full graph") {
+                spe = 1;
+            }
+
             var nnode = {
                 group: "nodes",
                 data: {
                     id: u,
                     label: createLabelForNode(u),
                     len: 2*Math.log2(scaffoldgraph.nodes[nodes_to_draw[g]].len)/Math.log2(1.5),
-                    shape: 'ellipse',
+                    /*shape: 'ellipse',*/
+                    notALL: 0,
                     color: genColorNode(u),
 
                     color1: "#2A4986",
@@ -70,7 +98,7 @@ function createAddNewNode(cy, curNodeSet) {
                     cnt1: 100,
                     cnt2: 0,
                     cnt3: 0,
-                    special: 0
+                    special: spe
                 },
                 position: {
                     y: evt.target.position().y + Math.floor(Math.random() * Math.floor(200) - 100),
@@ -85,6 +113,12 @@ function createAddNewNode(cy, curNodeSet) {
         for (g = 0; g < needAddEdge.length; ++g) {
             var eid = needAddEdge[g].id;
 
+            spe = 0;
+            opt = document.getElementById("select_show_type").value;
+            if (opt === "full graph") {
+                spe = 1;
+            }
+
             cy.add({
                 group: "edges",
                 data: {
@@ -94,21 +128,24 @@ function createAddNewNode(cy, curNodeSet) {
                     label: createLabelForEdge(eid),
                     faveColor: scaffoldgraph.libs[scaffoldgraph.edges[eid].lib].color,
                     weight: generateEdgeWeight(eid),
-                    lstyle: 'dotted'
+                    lstyle: 'dotted',
+                    special: spe
                 }
             });
         }
 
         for (g = 0; g < nodes_to_draw.length; ++g) {
             if (hasOtherEdges(nodes_to_draw[g], curNodeSet)) {
-                cy.$('#' + nodes_to_draw[g]).data('shape', 'vee');
+                cy.$('#' + nodes_to_draw[g]).data('notALL', 1);
             } else {
-                cy.$('#' + nodes_to_draw[g]).data('shape', 'ellipse');
+                cy.$('#' + nodes_to_draw[g]).data('notALL', 0);
             }
         }
         //createTapInfo(cy);
     });
 }
+
+
 
 function DrawGraphCytoscapeWithPresetNode(dnodes, dedges, curNodeSet) {
     cy = cytoscape({
@@ -145,18 +182,22 @@ function DrawGraphCytoscapeWithPresetNode(dnodes, dedges, curNodeSet) {
             .css({
                 'content': 'data(label)',
                 'color': '#2A4986',
-                'background-color': '#2A4986',
+                'background-color': '#ffffff',
                 'width': 'data(len)',
                 'height': 'data(len)',
-                'border-width': 'mapData(special, 0, 1, 0px, 5px)',
+                'border-width': 'mapData(notALL, 0, 1, 0px, 5px)',
+                'opacity':  'mapData(special, 0, 1, 0.6, 1)',
                 'pie-size': '100%',
                 'pie-1-background-color': 'data(color1)',
                 'pie-1-background-size': 'data(cnt1)',
                 'pie-2-background-color': 'data(color2)',
                 'pie-2-background-size': 'data(cnt2)',
                 'pie-3-background-color': 'data(color3)',
-                'pie-3-background-size': 'data(cnt3)',
-                'shape' : 'data(shape)'
+                'pie-3-background-size': 'data(cnt3)'//,
+                //'pie-1-background-opacity': 'mapData(special, 0, 1, 1, 0.7)',
+                //'pie-2-background-opacity': 'mapData(special, 0, 1, 1, 0.7)',
+                //'pie-3-background-opacity': 'mapData(special, 0, 1, 1, 0.7)'
+                //'shape' : 'data(shape)'
             })
             .selector('edge')
             .css({
@@ -165,9 +206,10 @@ function DrawGraphCytoscapeWithPresetNode(dnodes, dedges, curNodeSet) {
                 'line-color': 'data(faveColor)',
                 'target-arrow-color': 'data(faveColor)',
                 'width': 'data(weight)',
-                'line-style': 'data(lstyle)',
+                'opacity':  'mapData(special, 0, 1, 0.6, 1)',
+                //'line-style': 'data(lstyle)',
                 'content': 'data(label)',
-                //'target-endpoint': '-50% 0px',
+                //'target-endpoint': '-25% 0px',
                 'target-distance-from-node': '1px'
             })
     });
@@ -187,6 +229,11 @@ function DrawGraphCytoscapeWithPresetNode(dnodes, dedges, curNodeSet) {
     });
 
     cy.on('cxttap', 'node', function (evt) {
+        var v = evt.target.id();
+        cy.remove(cy.$("#" + v.toString()));
+    });
+
+    cy.on('cxttap', 'edge', function (evt) {
         var v = evt.target.id();
         cy.remove(cy.$("#" + v.toString()));
     });
@@ -265,9 +312,9 @@ function DrawGraphCytoscape(nodes_to_draw, edges_to_draw) {
     var dnodes = [];
     var dedges = [];
     for (g = 0; g < nodes_to_draw.length; ++g) {
-        var nall = 'ellipse';
+        var nall = 0; /*'ellipse';*/
         if (hasOtherEdges(nodes_to_draw[g], curNodeSet)) {
-            nall = 'vee';
+            nall = 1; /*'vee';*/
         }
 
         var sp = 0;
@@ -280,7 +327,8 @@ function DrawGraphCytoscape(nodes_to_draw, edges_to_draw) {
                 id: nodes_to_draw[g],
                 label: createLabelForNode(nodes_to_draw[g]),
                 len: 2*Math.log2(scaffoldgraph.nodes[nodes_to_draw[g]].len)/Math.log2(1.5),
-                shape: nall,
+                //shape: nall,
+                notALL: nall,
                 color: genColorNode(nodes_to_draw[g]),
                 color1: "#2A4986",
                 color2: "#2A4986",
@@ -298,8 +346,10 @@ function DrawGraphCytoscape(nodes_to_draw, edges_to_draw) {
 
     for (g = 0; g < edges_to_draw.length; ++g) {
         sp = 'dotted';
+        var spe = 0;
         if (special_edges.has(edges_to_draw[g])) {
             sp = 'solid';
+            spe = 1;
         }
 
         //TODO: small edge
@@ -310,6 +360,7 @@ function DrawGraphCytoscape(nodes_to_draw, edges_to_draw) {
                 label: createLabelForEdge(edges_to_draw[g]),
                 faveColor: scaffoldgraph.libs[scaffoldgraph.edges[edges_to_draw[g]].lib].color,
                 weight: generateEdgeWeight(edges_to_draw[g]),
+                special: spe,
                 lstyle: sp
             }});
     }

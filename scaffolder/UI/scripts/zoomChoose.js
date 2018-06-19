@@ -52,7 +52,19 @@ window.addEventListener("keyup", function (evt) {
             zoomMinus();
         }
     }
+
+    if (evt.keyCode === 69) {
+        var imgBlob = cy.png({
+            output: 'blob',
+            bg: "#ffffff",
+            quality: 1,
+            scale: 5});
+        //var imgBlob = base64ToBlob( b64, 'image/svg' );
+
+        saveAs( imgBlob, 'graph.png' );
+    }
 });
+
 
 window.addEventListener("keydown", function (evt) {
     var delta = 20;

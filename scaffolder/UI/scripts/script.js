@@ -180,12 +180,14 @@ function handleFullGraph() {
     for (i=0; i < scaffoldgraph.nodes.length; ++i) {
         if (scaffoldgraph.nodes[i].len >= min_contig_len) {
             nodes_to_draw.push(scaffoldgraph.nodes[i].id);
+            special_nodes.add(scaffoldgraph.nodes[i].id);
         }
     }
 
     for (i=0; i < scaffoldgraph.edges.length; ++i) {
         if (isGoodEdge(i)) {
             edges_to_draw.push(scaffoldgraph.edges[i].id);
+            special_edges.add(scaffoldgraph.edges[i].id);
         }
     }
     splitOnParts(nodes_to_draw, edges_to_draw);
@@ -455,6 +457,7 @@ InitLibTable();
 InitAlignmentsForNodes();
 setupAutocompleteSearch();
 putEdgesNumForScaffolds();
+handleFilterButton();
 document.getElementById("extra_info").innerHTML = "<p style='margin-top: 0px; margin-bottom: 0px;'>" + generateGeneralInfo() + "</p>";
 
 function updeteChangeBlock() {

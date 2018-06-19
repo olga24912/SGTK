@@ -54,5 +54,13 @@ function createComponentShowList(draw, write, get_title, cnt_comp) {
     document.getElementById("choose_page").addEventListener("focusout", function() {
         (document.getElementById("choose_page")).value = cur_show_id;
     });
+
+    if (cnt_comp > 0) {
+        cur_show_id = 0;
+        setTimeout(function() {
+            draw(cur_show_id);
+            (document.getElementById("loader")).style.display = 'none';
+        }, 100);
+    }
 }
 
