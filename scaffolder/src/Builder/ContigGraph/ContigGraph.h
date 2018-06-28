@@ -15,6 +15,7 @@ namespace builder {
 // Store graph on contigs with several libs
         class ContigGraph {
         public:
+            const int MAX_EDGES_CNT=5*1e5;
             struct Edge {
                 int id;
                 int from;
@@ -84,6 +85,8 @@ namespace builder {
             std::vector<Vertex> targets;
             std::vector<Lib> libs;
             std::vector<Edge> edges;
+
+            void filterGraph();
         public:
             void newLib(std::string name, std::string color, Lib::Type type); //next edge library
 

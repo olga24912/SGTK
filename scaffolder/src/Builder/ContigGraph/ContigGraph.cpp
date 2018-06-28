@@ -89,6 +89,39 @@ namespace builder {
             return graphR[v];
         }
 
+
+        void ContigGraph::filterGraph() {
+            WARN("GRAPH is too big... Small edges deletion.");
+            int cntEdges[501];
+            for (int i = 0; i < 501; ++i) {
+                cntEdges[i] = 0;
+            }
+            for (int i = 0; i < (int)edges.size(); ++i) {
+                if (edges[i].weight < 500) {
+                    cntEdges[int(edges[i].weight)] += 1;
+                }
+            }
+            int sum = 0;
+            int lst = 0;
+            while (lst < 500 && (edges.size() - sum > MAX_EDGES_CNT)) {
+                sum += cntEdges[lst];
+                ++lst;
+                INFO(edges.size() - sum);
+            }
+
+            int swp = (int)edges.size() - 1;
+
+            for (int i = 0; i <= swp; ++i) {
+                if (edges[i].weight < lst) {
+                    std::swap(edges[i], edges[swp]);
+                    --swp;
+                    --i;
+                }
+            }
+
+            edges.resize(swp);
+        }
+
         void ContigGraph::write(std::string fileName) {
             INFO("start write graph to " << fileName);
             std::ofstream out(fileName);
@@ -103,6 +136,11 @@ namespace builder {
             for (int i = 0; i < (int) graph.size(); ++i) {
                 out << "v " << i << " " << targets[i].name << " " << targets[i].len << "\n";
             }
+
+            if (edges.size() > MAX_EDGES_CNT) {
+                filterGraph();
+            }
+
             out << edges.size() << "\n";
             for (int i = 0; i < (int) edges.size(); ++i) {
                 out << "e " << i << " " << edges[i].from << " " << edges[i].to << " " <<

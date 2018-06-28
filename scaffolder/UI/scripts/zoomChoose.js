@@ -51,17 +51,20 @@ window.addEventListener("keyup", function (evt) {
         } else if (code === 189) {
             zoomMinus();
         }
-    }
 
-    if (evt.keyCode === 69) {
-        var imgBlob = cy.png({
-            output: 'blob',
-            bg: "#ffffff",
-            quality: 1,
-            scale: 5});
-        //var imgBlob = base64ToBlob( b64, 'image/svg' );
+        if (evt.ctrlKey) {
+            if (evt.keyCode === 69) {
+                var imgBlob = cy.png({
+                    output: 'blob',
+                    bg: "#ffffff",
+                    quality: 1,
+                    scale: 5
+                });
+                //var imgBlob = base64ToBlob( b64, 'image/svg' );
 
-        saveAs( imgBlob, 'graph.png' );
+                saveAs(imgBlob, 'graph.png');
+            }
+        }
     }
 });
 

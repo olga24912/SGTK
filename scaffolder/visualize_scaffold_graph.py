@@ -211,8 +211,8 @@ def alig_pair_dna_reads(dnap, contig_file_name):
     lib_dir = os.path.dirname(os.path.abspath(dnap.name) + "/")
     os.chdir(lib_dir)
 
-    os.system("minimap2 -ax sr " + contig_file_name + " " + dnap.path[0] + " > dna1.sam")
-    os.system("minimap2 -ax sr " + contig_file_name + " " + dnap.path[1] + " > dna2.sam")
+    os.system("minimap2 -t 16 -ax sr " + contig_file_name + " " + dnap.path[0] + " > dna1.sam")
+    os.system("minimap2 -t 16 -ax sr " + contig_file_name + " " + dnap.path[1] + " > dna2.sam")
 
     #os.system("bowtie2-build " + contig_file_name + " contig")
     #if dnap.path[0].endswith(".fa") or dnap.path[0].endswith(".fasta") or dnap.path[0].endswith(".mfa") or dnap.path[0].endswith(".fna"):
@@ -229,7 +229,7 @@ def alig_long(long, contig_file_name):
     lib_dir = os.path.dirname(os.path.abspath(long.name) + "/")
     os.chdir(lib_dir)
 
-    os.system("minimap2 -x map-pb " + contig_file_name + " " + long.path[0] + " > out.paf")
+    os.system("minimap2 -t 16 -x map-pb " + contig_file_name + " " + long.path[0] + " > out.paf")
 
     os.chdir(prevdir)
 
