@@ -1,5 +1,8 @@
-.idea
+*.idea
 *.vpp.*
 test
 *.vux
-
+cmake-build-debug
+*.ipynb_checkpoints
+doc
+build
