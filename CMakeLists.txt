@@ -23,19 +23,19 @@ install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/rna_scaffolder.py"
 install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/visualize_scaffold_graph.py"
         DESTINATION bin
         COMPONENT runtime)
-install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/resources/ref.fasta"
+install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/resources/test_dataset/ref.fasta"
         DESTINATION share/test_dataset
         COMPONENT runtime)
-install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/resources/contigs.fasta"
+install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/resources/test_dataset/contigs.fasta"
         DESTINATION share/test_dataset
         COMPONENT runtime)
-install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/resources/read_1.fasta"
+install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/resources/test_dataset/read_1.fasta"
         DESTINATION share/test_dataset
         COMPONENT runtime)
-install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/resources/read_2.fasta"
+install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/resources/test_dataset/read_2.fasta"
         DESTINATION share/test_dataset
         COMPONENT runtime)
-install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/resources/scaf.info"
+install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/resources/test_dataset/scaf.info"
         DESTINATION share/test_dataset
         COMPONENT runtime)
 

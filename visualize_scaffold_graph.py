@@ -878,7 +878,7 @@ def gfa_to_contigs(args):
             for line in lines:
                 parts = line.split()
                 if (parts[0] == 'S'):
-                    record = SeqRecord(Seq(parts[2], IUPAC.ambiguous_dna), id=parts[1])
+                    record = SeqRecord(Seq(parts[2], IUPAC.ambiguous_dna), id=parts[1], description='')
                     SeqIO.write(record, out, "fasta")
 
         if (args.contigs == None):
