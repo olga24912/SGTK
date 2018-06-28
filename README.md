@@ -1,2 +1,2 @@
 # SGTK
-![Main screen](https://github.com/olga24912/SGTK/tree/develop/resources/pic/main.png)
+![Main screen](https://raw.githubusercontent.com/olga24912/SGTK/develop/resources/pic/main.png)
