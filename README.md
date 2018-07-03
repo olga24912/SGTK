@@ -25,38 +25,15 @@ The current version of SGTK takes as input a set of contigs and an arbitrary num
 
 <a name="sec2"></a>
 ## 2. Installation
-To install SGTK download the source code and compile it yourself.
-
-To compile SGTK by yourself you will need the following libraries to be pre-installed:
-    <li>python3</li>
-    <li>g++ </li>
-    <li>cmake </li>
-    <li>zlib</li>
-    <li>Threads</li>
-    <li>Boost</li>
-    <li>SEQAN</li>
+SGTK requires a 64-bit Linux system or Mac OS and Python 3 to be pre-installed on it.
+To use some SGTK option you need next tools to be pre-installed:
     <li>minimap2</li>
     <li>STAR</li>
     <li>nucmer</li>
 
+To obtain SGTK you can either download binaries or download source code and compile it yourself.
 
-If you meet these requirements, you can download the SGTK source code:
-
-    git clone https://github.com/olga24912/SGTK.git
-    cd SGTK/scaffolder/
-and build it with the following script:
-
-    ./compile.sh
-SGTK will be built in the directory <code>./bin</code>. If you wish to install SGTK into another directory, you can specify the full path of destination folder by running the following command in <code>bash</code> or <code>sh</code>:
-
-    PREFIX=<destination_dir> ./compile.sh
-for example:
-
-    PREFIX=/usr/local ./compile.sh
-
-which will install SGTK into <code>/usr/local/bin</code>.
-
-After installation you will get the following files in <code>./bin</code> (or <code>&lt;destination_dir>/bin</code> if you specified PREFIX) directory:
+After installation you will get the following files in <code>bin</code> directory:
     <li><code>rna_scaffolder.py</code>  (main executable script for building rna scaffolders)</li>
     <li><code>visualize_scaffold_graph.py</code>  (main executable script for visualization scaffold graph) </li>
     <li><code>build</code>  (graph construction module)</li>
@@ -87,8 +64,52 @@ After installation you will get the following files in <code>./bin</code> (or <c
     <li><code>scripts/external/cytoscape.js-navigator/cytoscape-navigator.js</code></li>
     <li><code>scripts/external/cytoscape.js-navigator/gulpfile.js</code></li>
 
+### Downloading SGTK Linux binaries
+To download SGTK Linux binaries and extract them, go to the directory in
+which you wish SGTK to be installed and run:
 
-We also suggest adding SGTK installation directory to the <code>PATH</code> variable.
+    ???
+
+SGTK ready to use. We also suggest adding SGTK installation directory to the
+PATH variable.
+
+### Downloading SGTK binaries for MAC
+
+To download SGTK binaries for MAC, go to the directory in
+which you wish SGTK to be installed and run:
+
+    ???
+
+SGTK ready to use. We also suggest adding SGTK installation directory to the
+PATH variable.
+
+
+### Downloading and compiling SGTK source code
+To compile SGTK by yourself you will need the following libraries to be pre-installed:
+    <li>g++ </li>
+    <li>cmake </li>
+    <li>zlib</li>
+    <li>Threads</li>
+    <li>Boost</li>
+    <li>SEQAN</li>
+
+If you meet these requirements, you can download the SGTK source code:
+
+    git clone https://github.com/olga24912/SGTK.git
+    cd SGTK/scaffolder/
+and build it with the following script:
+
+    ./compile.sh
+SGTK will be built in the directory <code>./bin</code>. If you wish to install SGTK into another directory, you can specify the full path of destination folder by running the following command in <code>bash</code> or <code>sh</code>:
+
+    PREFIX=<destination_dir> ./compile.sh
+for example:
+
+    PREFIX=/usr/local ./compile.sh
+
+which will install SGTK into <code>/usr/local/bin</code>.
+
+After the installation you will get the same files in <code>./bin</code> directory (or <code>&lt;destination_dir>/bin</code> if you specified PREFIX). We also suggest adding SGTK installation directory to the <code>PATH</code> variable.
 
 <a name="sec3"></a>
 ## 3. Running SGTK
@@ -496,6 +517,7 @@ In genome browser layout it is possible to search only for alignment contigs on 
 For zooming you can use: (i) scroll wheel, (ii) keyboard shortcuts(Alt+Plus, Alt+Minus), (iii) set the zoom value at the top right input or (iv) using menu option.
 
 ![Zoom control](https://raw.githubusercontent.com/olga24912/SGTK/develop/resources/pic/zoom1.png)
+
 ![Zoom value changing](https://raw.githubusercontent.com/olga24912/SGTK/develop/resources/pic/zoom2.png)
 
 
