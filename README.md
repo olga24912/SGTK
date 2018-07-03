@@ -6,8 +6,9 @@
 &nbsp;&nbsp;&nbsp;&nbsp;3.2. <a href="#sec3.2">Command line options</a><br>
 &nbsp;&nbsp;&nbsp;&nbsp;3.3. <a href="#sec3.3">Output</a><br>
 &nbsp;&nbsp;&nbsp;&nbsp;3.4. <a href="#sec3.4">Example</a><br>
-4. <a href="#sec4">References</a><br>
-5. <a href="#sec5">Feedback and bug reports</a><br>
+4. <a href="#sec4">Visualization</a><br>
+5. <a href="#sec5">References</a><br>
+6. <a href="#sec6">Feedback and bug reports</a><br>
 
 <a name="sec1"></a>
 ## 1. About SGTK
