@@ -96,7 +96,7 @@ To compile SGTK by yourself you will need the following libraries to be pre-inst
 If you meet these requirements, you can download the SGTK source code:
 
     git clone https://github.com/olga24912/SGTK.git
-    cd SGTK/scaffolder/
+    cd SGTK
 and build it with the following script:
 
     ./compile.sh
@@ -326,6 +326,7 @@ Run main.html to see visualisation.
 
 <a name="sec3.4"></a>
 ### 3.4. Example
+#### Testing example
 To test the toy data set, you can also run the following command from the SGTK <code>bin</code> directory:
 
     python3 visualize_scaffold_graph.py -c ../share/test_dataset/contigs.fasta --rna-p ../share/test_dataset/read_1.fasta \
@@ -359,6 +360,18 @@ If you would like to set labels and colors, you need to set labels and colors fo
     --label pair scaf ref \
     --color "#0000ff" "#00ff00" "#ff0000" \
     -o output
+
+
+#### Visualization example
+To test visualization download SGTK:
+
+    git clone https://github.com/olga24912/SGTK.git
+    cd SGTK
+
+and open <code>./resources/E.coli/main.html</code> in browser.
+
+It is example data set which contains next connection source: paired-end reads, pacbio reads.
+Contigs and scaffolds were taken from GFA file, reference was also provide.
 
 <a name="sec4"></a>
 ## 4. Visualization
