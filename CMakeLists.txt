@@ -1,5 +1,5 @@
-cmake_minimum_required(VERSION 3.3)
-project(scaffolder)
+cmake_minimum_required(VERSION 2.8)
+project(SGTK)
 
 # Define option for static / dynamic build.
 option(SGTK_STATIC_BUILD "Link SGTK statically" OFF)
@@ -32,12 +32,12 @@ include_directories (${SEQAN_INCLUDE_DIRS})
 INCLUDE_DIRECTORIES( ${Boost_INCLUDE_DIR} )
 
 add_definitions (${SEQAN_DEFINITIONS})
-set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${SEQAN_CXX_FLAGS} -std=c++14 -O3 -DSEQAN_HAS_ZLIB=1")
+set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${SEQAN_CXX_FLAGS} -std=c++11 -O3 -DSEQAN_HAS_ZLIB=1")
 
 include_directories(src)
 
 add_subdirectory(src)
-add_subdirectory(tests)
+#add_subdirectory(tests)
 
 # Main pipeline script
 install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/rna_scaffolder.py"
