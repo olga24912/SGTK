@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.5)
 project(SGTK)
 
 # Define option for static / dynamic build.
@@ -32,7 +32,7 @@ include_directories (${SEQAN_INCLUDE_DIRS})
 INCLUDE_DIRECTORIES( ${Boost_INCLUDE_DIR} )
 
 add_definitions (${SEQAN_DEFINITIONS})
-set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${SEQAN_CXX_FLAGS} -std=c++11 -O3 -DSEQAN_HAS_ZLIB=1")
+set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${SEQAN_CXX_FLAGS} -std=c++14 -O3 -DSEQAN_HAS_ZLIB=1")
 
 include_directories(src)
 
