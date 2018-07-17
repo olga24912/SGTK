@@ -962,7 +962,6 @@ def run(args):
         sys.exit()
 
     if args.contigs == None and (('libs' not in args) or (len(args.libs['fastg']) == 0)) and (('libs' not in args) or (len(args.libs['gfa']) == 0)):
-        print("srgs contig == None")
         log.err("none contig/FASTG/GFA file provide")
         sys.exit()
 
