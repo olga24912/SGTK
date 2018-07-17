@@ -27,6 +27,8 @@ class Log:
         self.text += msg
         sys.stdout.write(msg)
         sys.stdout.flush()
+        parser.print_help()
+        sys.exit()
 
     def print_log(self):
         print(self.text)
@@ -104,7 +106,7 @@ class Lib:
         f.close()
         g.close()
 
-libsType = {"rnap", "rnas", "rf", "ff", "scg", "ref", "scafinfo", "scaffolds", "refcoord", "fr", "long", "fastg", "gfa", "frsam", "rfsam", "ffsam"}
+libsType = {"rnap", "rnas", "rf", "ff", "scg", "ref", "scafinfo", "scafpath", "scaffolds", "refcoord", "fr", "long", "fastg", "gfa", "frsam", "rfsam", "ffsam"}
 
 class StoreArgAction(argparse.Action):
     def __call__(self, parser, namespace, values, option_string=None):
@@ -127,6 +129,7 @@ class StoreArgAction(argparse.Action):
         setattr(namespace, 'lib_cnt', lib_cnt)
 
 def parse_args():
+    global parser
     parser = argparse.ArgumentParser(formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--contigs", "-c", nargs=1, dest="contigs", help="path to contigs", type=str, action='append')
     parser.add_argument("--scaffolds", "-s", nargs=1, dest="scaffolds", help="path to scaffolds in fasta format", type=str, action=StoreArgAction)
@@ -150,6 +153,8 @@ def parse_args():
     parser.add_argument("--ref", dest="ref", nargs=1, help="path to reference", type=str, action=StoreArgAction)
     parser.add_argument("--refcoord", dest="refcoord", nargs=2, help="path to ref and to alignment of contigs to reference in coord format", type=str, action=StoreArgAction)
     parser.add_argument("--scafinfo", nargs=1, help="path to .info file with info about scaffolds", type=str, action=StoreArgAction)
+    parser.add_argument("--scafpath", nargs=1, help="path to scaffold path file with info about scaffolds", type=str, action=StoreArgAction)
+
     parser.add_argument("--label", "-l", nargs='*', help="list with labels for all libs in definition order", type=str, action='store')
     parser.add_argument("--color", nargs='*', help="list with color for all libs in definition order", type=str, action='store')
     args = parser.parse_args()
@@ -451,6 +456,7 @@ def merge_graph(args):
     return
 
 idbyname = dict()
+partnametoname = dict()
 lenbyid = []
 cntedge = 0
 cntlib = 0
@@ -644,9 +650,70 @@ def save_scaffolds_from_gfa(lib, f):
     cntlib += 1
 
 
+def save_scaffolds_from_path(lib, f):
+    global cntedge
+    global cntlib
+    global idbyname
+    global partnametoname
+    with open(lib.path[0]) as g:
+        f.write("scaffoldlibs.push(new ScaffoldEdgeLib(" + str(cntlib) + ", '" + str(lib.color) + "', '" + str(lib.label) + "', 'SCAFF'));\n")
+
+        scafnum = 0
+        lines = g.readlines()
+
+        for il in range(0, len(lines), 2):
+            scafname = lines[il]
+            if (scafname[-1] == '\n'):
+                scafname = scafname[:-1]
+            print(scafname)
+            if (scafname[-1] == "'"):
+                continue
+
+            tokens = lines[il + 1].split(",")
+            print(tokens)
+            if (tokens[len(tokens) - 1] == '\n'):
+                tokens.pop()
+
+            if (tokens[len(tokens) - 1][-1] == '\n'):
+                tokens[len(tokens) - 1] = tokens[len(tokens) - 1][:-1]
+
+            f.write("scaffoldlibs["+ str(cntlib) +"].scaffolds.push(new Scaffold('" + scafname + "'));\n")
+            f.write("scaffoldlibs["+ str(cntlib) +"].scaffolds.push(new Scaffold('" + scafname + "-rev'));\n")
+
+            nodeslist = []
+            for i in range(0, len(tokens)):
+                nm = partnametoname[tokens[i][:-1]]
+                if (tokens[i][-1] == '+'):
+                    nodeslist.append(idbyname[nm])
+                else:
+                    nodeslist.append(idbyname[nm]^1)
+
+
+            for i in range(1, len(nodeslist)):
+                f.write("scaffoldedges.push(new ScaffoldEdge(" + str(cntedge) + ", "+ str(nodeslist[i - 1]) +
+                        ", " + str(nodeslist[i]) + ", " + str(cntlib) + ", 1));\n")
+                f.write("scaffoldedges["+str(cntedge)+"].name='"+ scafname + "';\n")
+                f.write("scaffoldlibs["+ str(cntlib) +"].scaffolds["+str(scafnum) +"].edges.push(scaffoldedges["+str(cntedge)+"]);\n")
+                cntedge += 1
+
+            for i in range(len(nodeslist)-2, -1, -1):
+                f.write("scaffoldedges.push(new ScaffoldEdge(" + str(cntedge) + ", "+ str(nodeslist[i + 1]^1) +
+                        ", " + str(nodeslist[i]^1) + ", " + str(cntlib) + ", 1));\n")
+                f.write("scaffoldedges["+str(cntedge)+"].name='"+ scafname + "-rev';\n")
+                f.write("scaffoldlibs["+ str(cntlib) +"].scaffolds["+str(scafnum+1) +"].edges.push(scaffoldedges["+str(cntedge)+"]);\n")
+                cntedge += 1
+
+            scafnum += 2
+    cntlib += 1
+
+
+
 def save_scaffolds(contig_file_name, args, f):
     for lib in args.libs["scafinfo"]:
         save_scaffolds_from_info(lib, f)
+
+    for lib in args.libs["scafpath"]:
+        save_scaffolds_from_path(lib, f)
 
     for lib in args.libs["scaffolds"]:
         save_scaffolds_from_fasta(contig_file_name, lib, f)
@@ -856,6 +923,7 @@ def fastg_to_contigs(args):
             for record in SeqIO.parse(lib.path[0], "fasta"):
                 record.id = record.id.split(':')[0].split(';')[0]
                 if (record.id[-1] != '\''):
+                    partnametoname[record.id.split('_')[1]]=record.id
                     SeqIO.write(record, out, "fasta")
 
         if (args.contigs == None):
@@ -889,9 +957,14 @@ def gfa_to_contigs(args):
 
 
 def run(args):
-    if args.contigs == None and ('libs' not in args) and ('fastg' not in args.libs)  and ('gfa' not in args.libs):
+    if (len(sys.argv) == 1):
+        parser.print_help()
+        sys.exit()
+
+    if args.contigs == None and (('libs' not in args) or (len(args.libs['fastg']) == 0)) and (('libs' not in args) or (len(args.libs['gfa']) == 0)):
+        print("srgs contig == None")
         log.err("none contig/FASTG/GFA file provide")
-        return
+        sys.exit()
 
     if (args.contigs != None):
         for i in range(len(args.contigs)):
