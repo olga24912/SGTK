@@ -31,6 +31,12 @@ To use some SGTK option you need next tools to be pre-installed:
     <li>STAR</li>
     <li>nucmer</li>
 
+For pre-installing these tools you can run the following commands:
+
+	???
+
+
+
 To obtain SGTK you can either download binaries or download source code and compile it yourself.
 
 After installation you will get the following files in <code>bin</code> directory:
@@ -68,21 +74,12 @@ After installation you will get the following files in <code>bin</code> director
 To download SGTK Linux binaries and extract them, go to the directory in
 which you wish SGTK to be installed and run:
 
-    ???
+    wget https://github.com/olga24912/SGTK/releases/download/v1.0/SGTK-1.0-Linux.zip
+    unzip SGTK-1.0-Linux.zip
+    cd SGTK-1.0-Linux
 
 SGTK ready to use. We also suggest adding SGTK installation directory to the
 PATH variable.
-
-### Downloading SGTK binaries for MAC
-
-To download SGTK binaries for MAC, go to the directory in
-which you wish SGTK to be installed and run:
-
-    ???
-
-SGTK ready to use. We also suggest adding SGTK installation directory to the
-PATH variable.
-
 
 ### Downloading and compiling SGTK source code
 To compile SGTK by yourself you will need the following libraries to be pre-installed:
@@ -93,10 +90,15 @@ To compile SGTK by yourself you will need the following libraries to be pre-inst
     <li>Boost</li>
     <li>SEQAN</li>
 
+For pre-installing these libraries run following commands:
+
+    ???
+
 If you meet these requirements, you can download the SGTK source code:
 
-    git clone https://github.com/olga24912/SGTK.git
-    cd SGTK
+    wget https://github.com/olga24912/SGTK/archive/v1.0.zip
+    unzip SGTK-1.0.zip
+    cd SGTK-1.0
 and build it with the following script:
 
     ./compile.sh

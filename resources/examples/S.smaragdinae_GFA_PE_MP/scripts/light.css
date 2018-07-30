@@ -1,0 +1,528 @@
+.section_name {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    line-height: normal;
+    font-size: 18px;
+    color: #2A4986;
+}
+
+p {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    line-height: normal;
+    font-size: 16px;
+
+    color: #4F4F4F;
+
+    padding-top: 2px;
+    -webkit-margin-before: 5px;
+    -webkit-margin-after: 5px;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+
+    margin-top: 5px;
+    margin-bottom: 5px;
+    -moz-margin-start: 0px;
+    -moz-margin-end: 0px;
+}
+
+.centerblock {
+    overflow-y: scroll;
+    overflow-x: hidden;
+
+    height: 92%;
+    padding-top: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    padding-left: 20px;;
+}
+
+.loader {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    bottom: 5px;
+    left: 5px;
+    margin: auto;
+    border: 16px solid #E6ECF3; /* Light grey */
+    border-top: 16px solid #2A4986; /* Blue */
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.search-container {
+    margin: 0;
+    position: absolute;
+    top: 10px;
+    right: 75px;
+}
+
+.search_text {
+    box-shadow: none;
+    border-color: rgba(0,0,0,0.15);
+    border-style: solid;
+    padding: 0 38px 0 15px;
+    vertical-align: top;
+    border-radius: 3px;
+    background-image: none;
+
+    height: 34px;
+    font-size: 15px;
+    line-height: 18px;
+    margin-left: 22px;
+
+    width: 244px;
+}
+
+.search_button {
+    position: absolute;
+    width: 38px;
+    height: 35px;
+    right: 1px;
+    top: 1px;
+    z-index: 2;
+    outline: 0;
+    cursor: pointer;
+    border: 0;
+    background-size: auto;
+    opacity: .6;
+    background-color: rgba(0,0,0,0.15);
+}
+
+.form_search {
+    height: 34px;
+    line-height: 0;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+input[type=number]{
+    width: 70px;
+}
+
+svg {
+    height: 100%;
+    margin: 0;
+    width: 100%;
+    float: left;
+}
+
+.filter_panel {
+    position: fixed;
+    width: 318px;
+    bottom: 0px;
+    left: 0px;
+    top:59px;
+    border: 1px solid#BDBDBD;
+}
+
+.show-panel {
+    position: fixed;
+    width: 200px;
+    bottom: 0px;
+    right: 0px;
+    top:60px;
+
+    background: #F2F2F2;
+}
+
+.main_panel {
+    position: fixed;
+    left: 318px;
+    right: 200px;
+    top: 60px;
+    bottom: 0px;
+}
+
+.cnt_page_block {
+    width: 100%;
+    top: 0px;
+    height: 30px;
+}
+
+.cnt_page_block .cnt_page {
+    -webkit-margin-before: 10px;
+    -webkit-margin-start: 10px;
+
+    -moz-margin-before: 10px;
+    -moz-margin-start: 10px;
+    width: 70%;
+    background: #BECCE0;
+}
+
+.cnt_page_block .cnt_page input {
+    width: 50%;
+    height: 100%;
+    background: #E6ECF3;
+
+    -webkit-margin-before: 0px;
+    -webkit-margin-start: 0px;
+
+    -moz-margin-before: 0px;
+    -moz-margin-start: 0px;
+
+    border: 1px solid #E6ECF3;
+}
+
+.show_pic {
+
+}
+
+.titel_text {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    font-size: 24px;
+
+    color: #2A4986;
+
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%)
+}
+
+.top {
+    position: fixed;
+    height: 60px;
+    left: 0px;
+    right: 0px;
+    top:0px;
+    background: #F5F5F5;
+    border: 1px solid #BDBDBD;
+    box-sizing: border-box;
+
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.SGTK {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    line-height: normal;
+    font-size: 48px;
+    color: #2A4986;
+}
+
+.block_with_line {
+    border-bottom: 1px solid #BDBDBD;
+}
+
+.block {
+    padding-bottom: 20px;
+}
+
+.button {
+    background-color: #2A4986;
+    border: none;
+    color: #E0E0E0;
+    text-align: center;
+    display: inline-block;
+    font-size: 20px;
+    font-weight: bold;
+    height: 30px;
+    width: 288px;
+    position: absolute;
+    bottom: 10px;
+    left: 20px;
+    right: 0px;
+}
+
+.styled-select {
+    border: 1px solid #ccc;
+    height: 30px;
+    overflow: hidden;
+    width: 268px;
+}
+
+.styled-select select {
+    background: transparent;
+    border: none;
+    font-size: 14px;
+    height: 29px;
+    padding: 5px; /* If you add too much padding here, the options won't show in IE */
+    width: 268px;
+}
+
+textarea { width:98%; }
+
+input{ width: 30%;}
+
+table {
+    width: 100%
+}
+
+table tr th {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    line-height: normal;
+    font-size: 11px;
+
+    color: #828282
+}
+
+.one_line_block{
+    display: inline-block ;
+    margin: 10px;
+    margin-bottom: 0px;
+    margin-top: 0px;
+    padding-bottom: 0px;
+    padding-top: 0px;
+}
+
+/* Customize the label (the container) */
+.container {
+    display: block;
+    position: relative;
+    padding-left: 30px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.container input {
+    position: absolute;
+    opacity: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: #eee;
+}
+
+/* On mouse-over, add a grey background color */
+.container:hover input ~ .checkmark {
+    background-color: #ccc;
+}
+
+.container input:disabled ~ .checkmark {
+    background-color: #fafafa;
+}
+
+/* When the checkbox is checked, add a blue background */
+.container input:checked ~ .checkmark {
+    background-color: #6189C3;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the checkmark when checked */
+.container input:checked ~ .checkmark:after {
+    display: block;
+}
+
+/* Style the checkmark/indicator */
+.container .checkmark:after {
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+
+.overflowdiva {
+    border: none;
+    padding: 5px;
+    font: 24px/36px sans-serif;
+    width: 94%;
+    height: 94.5%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.choosePic {
+    background: #FFFFFF;
+    width: 97%;
+    border: 4px solid #6189C3;
+}
+
+.pic {
+    background: #FFFFFF;
+    width: 100%;
+}
+
+/* Scrollbar styles */
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-track {
+    border: 0px solid #4F4F4F;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #4F4F4F;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #4F4F4F;
+}
+
+.axis path {
+    display: none;
+}
+
+.axis line {
+    stroke-opacity: 0.3;
+    shape-rendering: crispEdges;
+}
+
+.view {
+    fill: url(#gradient);
+    stroke: #000;
+}
+
+
+
+.cytoscape-navigator{
+    position: fixed;
+    border: 1px solid #BDBDBD;
+    background: #fff;
+    z-index: 99999;
+    width: 300px;
+    height: 200px;
+    bottom: 10px;
+    right: 220px;
+    overflow: hidden;
+}
+
+.cytoscape-navigator > img{
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.cytoscape-navigator > canvas{
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 101;
+}
+
+.cytoscape-navigatorView{
+    position: absolute;
+    top: 0;
+    left: 0;
+    cursor: move;
+    background: #BECCE0;
+    -moz-opacity: 0.50;
+    opacity: 0.50;
+    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha"(Opacity=50);
+    z-index: 102;
+}
+
+.cytoscape-navigatorOverlay{
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 103;
+}
+
+.zoomSelect {
+    position: fixed;
+    top: 20px;
+    right: 5px;
+
+    padding: 0 0;
+    height: 17px;
+    overflow: hidden;
+    width: 10px;
+
+    border: 0;
+    background-color: #F5F5F5;
+}
+
+.arrow_down {
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+
+    border-top: 5px solid black;
+}
+
+.zoomInputBox {
+    position: fixed;
+    top: 20px;
+    right: 15px;
+    text-align: right;
+
+    -moz-box-sizing: content-box; /* or `border-box` */
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+}
+
+.zoomInput {
+    width: 50px;
+    height: 15px;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.zoom_one_line_block{
+    position: relative;
+
+    display: inline-block ;
+    margin: 0px;
+    padding-bottom: 0px;
+    padding-top: 0px;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top:45px;
+    right:0px;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content p {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content p:hover {background-color: #ddd}
+
+/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+.show {display:block;}
