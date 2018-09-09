@@ -5,24 +5,24 @@ add_subdirectory(Builder)
 add_subdirectory(Logger)
 add_subdirectory(ReadsSplitter)
 
-add_executable(build mainBuildGraph.cpp)
-add_executable(filter mainFilter.cpp)
+add_executable(buildApp mainBuildGraph.cpp)
+add_executable(filterApp mainFilter.cpp)
 add_executable(addInfoToGraph mainAddInfoToGraph.cpp)
 add_executable(addBothPath mainAddBothPath.cpp)
 add_executable(mergeGraph mainMergeGraph.cpp)
 add_executable(readSplitter mainSplitReads.cpp)
 
-target_link_libraries(build builder_lib logger_lib ${SEQAN_LIBRARIES} ${ZLIB_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} ${Boost_LIBRARIES})
-target_link_libraries(filter filter_lib logger_lib ${SEQAN_LIBRARIES} ${ZLIB_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} ${Boost_LIBRARIES})
+target_link_libraries(buildApp builder_lib logger_lib ${SEQAN_LIBRARIES} ${ZLIB_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} ${Boost_LIBRARIES})
+target_link_libraries(filterApp filter_lib logger_lib ${SEQAN_LIBRARIES} ${ZLIB_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} ${Boost_LIBRARIES})
 target_link_libraries(addInfoToGraph logger_lib builder_lib ${CMAKE_THREAD_LIBS_INIT} ${Boost_LIBRARIES})
 target_link_libraries(addBothPath logger_lib builder_lib)
 target_link_libraries(mergeGraph logger_lib ${CMAKE_THREAD_LIBS_INIT} ${Boost_LIBRARIES})
 target_link_libraries(readSplitter logger_lib read_splitter_lib ${SEQAN_LIBRARIES} ${ZLIB_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} ${Boost_LIBRARIES})
 
-install(TARGETS filter
+install(TARGETS filterApp
         DESTINATION bin
         COMPONENT runtime)
-install(TARGETS build
+install(TARGETS buildApp
         DESTINATION bin
         COMPONENT runtime)
 install(TARGETS mergeGraph
