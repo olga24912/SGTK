@@ -1,7 +1,7 @@
 #ifndef SCAFFOLDER_SYSTEMTOOLS_H
 #define SCAFFOLDER_SYSTEMTOOLS_H
 
-#include "bits/stdc++.h"
+#include <string>
 
 namespace filter {
     namespace tools {

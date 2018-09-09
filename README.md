@@ -77,12 +77,12 @@ PATH variable.
 
 ### Downloading and compiling SGTK source code
 To compile SGTK by yourself you will need the following libraries to be pre-installed:
-    <li>g++ </li>
-    <li>cmake </li>
+    <li>g++ (version 5 or higher) / Clang (version 3.6 or higher)</li>
+    <li>cmake (version 3.5 or higher) </li>
     <li>zlib</li>
     <li>Threads</li>
     <li>Boost</li>
-    <li>SEQAN</li>
+    <li>[SEQAN (version 2.3 or higher)](https://seqan.readthedocs.io/en/seqan-v2.4.0/Infrastructure/Use/Install.html)</li>
 
 If you meet these requirements, you can download the SGTK source code:
 

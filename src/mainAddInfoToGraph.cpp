@@ -1,4 +1,3 @@
-#include <bits/stdc++.h>
 #include "Builder/ContigGraph/ContigGraph.h"
 #include "Logger/log_writers.hpp"
 
