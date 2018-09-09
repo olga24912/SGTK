@@ -22,7 +22,7 @@ namespace filter {
 
                 vertBlock(int vertId, int coordB, int coordE) : vertId(vertId), coordB(coordB), coordE(coordE) {}
 
-                bool operator<(vertBlock b2) {
+                bool operator<(vertBlock b2) const {
                     return coordB > b2.coordB;
                 }
             };

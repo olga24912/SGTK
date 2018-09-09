@@ -19,7 +19,7 @@ namespace filter {
                 int maxWeight;
                 int winWeight;
 
-                bool operator < (clusterInfo cl) {
+                bool operator < (clusterInfo cl) const {
                     return  (size > cl.size) ||
                             (size == cl.size && maxWeight > cl.maxWeight) ||
                             (size == cl.size && maxWeight == cl.maxWeight && minWeight > cl.minWeight);

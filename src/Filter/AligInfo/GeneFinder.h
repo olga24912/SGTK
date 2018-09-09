@@ -22,7 +22,7 @@ namespace filter {
                 int e;
                 char strand;
                 std::vector<Gene> exons;
-                bool operator < (Gene sec) {
+                bool operator < (Gene sec) const {
                     return b < sec.b;
                 }
             };

@@ -29,7 +29,7 @@ namespace builder {
                 alignmentInfo(int sr, int er, int sq, int eq, std::string name) : sr(sr), er(er), sq(sq), eq(eq),
                                                                                   contigName(name) {}
 
-                bool operator<(alignmentInfo b) {
+                bool operator<(alignmentInfo b) const {
                     return (sr < b.sr);
                 }
             };
