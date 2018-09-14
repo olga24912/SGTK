@@ -82,7 +82,7 @@ To compile SGTK by yourself you will need the following libraries to be pre-inst
     <li>zlib</li>
     <li>Threads</li>
     <li>Boost</li>
-    <li>[SEQAN (version 2.3 or higher)](https://seqan.readthedocs.io/en/seqan-v2.4.0/Infrastructure/Use/Install.html)</li>
+    <li>[SEQAN (version 2.4 or higher)](https://seqan.readthedocs.io/en/seqan-v2.4.0/Infrastructure/Use/Install.html)</li>
 
 If you meet these requirements, you can download the SGTK source code:
 
