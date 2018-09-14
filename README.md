@@ -86,9 +86,9 @@ To compile SGTK by yourself you will need the following libraries to be pre-inst
 
 If you meet these requirements, you can download the SGTK source code:
 
-    wget https://github.com/olga24912/SGTK/archive/v1.0.zip
-    unzip v1.0.zip
-    cd v1.0
+    wget https://github.com/olga24912/SGTK/archive/v1.0.1.zip
+    unzip v1.0.1.zip
+    cd v1.0.1
 and build it with the following script:
 
     ./compile.sh
