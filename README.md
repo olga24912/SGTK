@@ -36,8 +36,8 @@ To obtain SGTK you can either download binaries or download source code and comp
 After installation you will get the following files in <code>bin</code> directory:
     <li><code>rna_scaffolder.py</code>  (main executable script for building rna scaffolders)</li>
     <li><code>visualize_scaffold_graph.py</code>  (main executable script for visualization scaffold graph) </li>
-    <li><code>build</code>  (graph construction module)</li>
-    <li><code>filter</code>  (graph simplification and building scaffolds module)</li>
+    <li><code>buildApp</code>  (graph construction module)</li>
+    <li><code>filterApp</code>  (graph simplification and building scaffolds module)</li>
     <li><code>mergeGraph</code>  (graph merging module)</li>
     <li><code>readSplitter</code> (module for splitting RNA-seq reads)</li>
     <li><code>mainPage.html</code> (main html page for visualization)</li>
@@ -321,7 +321,7 @@ Run main.html to see visualisation.
 #### Testing example
 To test the toy data set, you can also run the following command from the SGTK <code>bin</code> directory:
 
-    python3 visualize_scaffold_graph.py -c ../share/test_dataset/contigs.fasta --rna-p ../share/test_dataset/read_1.fasta \
+    python3 visualize_scaffold_graph.py -c ../share/test_dataset/contigs.fasta --fr ../share/test_dataset/read_1.fasta \
     ../share/test_dataset/read_2.fasta -o test
 
 If you have several paired-end reads, scaffolds and reference:
