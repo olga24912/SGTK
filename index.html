@@ -1,1 +1,264 @@
-Hello World
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, minimal-ui">
+    <title>SGTK</title>
+    <link href="scripts/light.css" rel="stylesheet" type="text/css">
+
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+</head>
+<body>
+    <div class="top">
+        <img src="scripts/Icon.png" alt="icon" hspace="10">
+        <span class="SGTK">SGTK</span>
+        <span class="titel_text" id="titel_text"></span>
+
+        <div class="search-container">
+            <form action="JavaScript:search()" class="form_search">
+                <input type="text" class="search_text" id="search_text" placeholder="Search.." name="search" autocomplete="off">
+                <button type="submit" class="search_button"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+
+        <div class="zoomInputBox" id="zoomInputBox">
+            <div class="zoom_one_line_block">
+            <div class="zoomInput" id="zoomInput" contenteditable="true" style="font-size: 14px">
+                100%
+            </div>
+            </div>
+            <div class="zoom_one_line_block">
+                <button class="zoomSelect" id="zoomSelect" onclick="zoomDropDown()">
+                    <div class="arrow_down"></div>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="zoomDropdown" class="dropdown-content">
+        <p onclick="zoomPlus()">Zoom +1.5x (Alt=)</p>
+        <p onclick="zoomMinus()">Zoom -1.5x (Alt-)</p>
+    </div>
+
+    <div class="filter_panel">
+        <div class="centerblock">
+            <div class="block_with_line">
+                <div class="block" id="extra_info" style="height: 80px">
+                </div>
+            </div>
+
+            <div class="block_with_line">
+                <div class="block">
+                    <h2 class="section_name">
+                        Layout:
+                    </h2>
+                    <div class="styled-select">
+                        <select id="select_layout">
+                            <option value="free_layout">Free layout</option>
+                            <option value="genome_browser">Genome browser</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="block_with_line" id = "filtration">
+                <div class="block">
+                <h2 class="section_name">
+                Filtration:
+                </h2>
+                <div class="styled-select">
+                <select id="select_show_type">
+                    <option value="full graph">Full graph</option>
+                    <option value="scaffolds"> Scaffolds</option>
+                    <option value="diff in libs">Difference in libs</option>
+                    <option value="ambiguous">Ambiguous</option>
+                    <option value="vertices_local_area">Vertices local area</option>
+                    <option value="edges_local_area">Edges local area</option>
+                </select>
+                </div>
+                </div>
+            </div>
+
+            <div class="block_with_line" id = "change_block">
+            </div>
+
+            <div class="block_with_line">
+                <div class="block">
+                <h2 class="section_name">
+                    Edge types:
+                </h2>
+                <table id="lib_table" cellspacing="5">
+                    <tr>
+                        <th> Id </th>
+                        <th> Type </th>
+                        <th> Name </th>
+                        <th> Min Edge Weight </th>
+                    </tr>
+                </table>
+                </div>
+            </div>
+
+            <div class="block_with_line">
+                <div class="block">
+                <h2 class="section_name">
+                    Vertices:
+                </h2>
+                <div class="one_line_block">
+                    <label class="container">
+                        <p>ID</p>
+                        <input type="checkbox" value="ID" id="vert_checkbox_id" onclick="updateText()">
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+                <div class="one_line_block">
+                    <label class="container" >
+                        <p>Name</p>
+                        <input type="checkbox" value="Name" id="vert_checkbox_name" onclick="updateText()">
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+                <div class="one_line_block">
+                    <label class="container">
+                        <p>Len</p>
+                        <input type="checkbox" value="Len" id="vert_checkbox_len" onclick="updateText()">
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+                <div class="one_line_block">
+                    <label class="container">
+                        <p>Alignment</p>
+                        <input type="checkbox" value="Alignment" id="vert_checkbox_align" onclick="updateText()">
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+
+                <div class="one_line_block">
+                    <label class="container">
+                        <p>Info</p>
+                        <input type="checkbox" value="Info" id="vert_checkbox_info" onclick="updateText()">
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+                <p>
+                    Min contig len:
+                    <input type="number" min="0" id="min_contig_len" value=500>
+                </p>
+                </div>
+            </div>
+
+            <div class="block">
+                <h2 class="section_name">
+                    Edges:
+                </h2>
+
+                <div class="one_line_block">
+                    <label class="container">
+                        <p>ID
+                        <input type="checkbox" value="ID" id="edge_checkbox_id" onclick="updateText()">
+                        <span class="checkmark"></span>
+                        </p>
+                    </label>
+                </div>
+                <div class="one_line_block">
+                    <label class="container" >
+                        <p>Name
+                        <input type="checkbox" value="Name" id="edge_checkbox_name" onclick="updateText()">
+                        <span class="checkmark"></span>
+                        </p>
+                    </label>
+                </div>
+                <div class="one_line_block">
+                    <label class="container">
+                        <p>Weight
+                        <input type="checkbox" value="Weight" id="edge_checkbox_weight" onclick="updateText()">
+                        <span class="checkmark"></span>
+                        </p>
+                    </label>
+                </div>
+                <div class="one_line_block">
+                    <label class="container">
+                        <p>Alignment
+                        <input type="checkbox" value="Alignment" onclick="updateText()">
+                        <span class="checkmark"></span>
+                        </p>
+                    </label>
+                </div>
+                <div class="one_line_block">
+                    <label class="container">
+                        <p>Type
+                        <input type="checkbox" value="Type" id="edge_checkbox_type" onclick="updateText()">
+                        <span class="checkmark"></span>
+                        </p>
+                    </label>
+                </div>
+                <div class="one_line_block">
+                    <label class="container">
+                        <p>Len
+                        <input type="checkbox" value="Len" id="edge_checkbox_len" onclick="updateText()">
+                        <span class="checkmark"></span>
+                        </p>
+                    </label>
+                </div>
+                <div class="one_line_block">
+                    <label class="container">
+                        <p>Info
+                        <input type="checkbox" value="Info" id="edge_checkbox_info" onclick="updateText()">
+                        <span class="checkmark"></span>
+                        </p>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <button class="button" id="filter_button">
+            <span class="button_label">DRAW</span>
+        </button>
+    </div>
+
+    <div class="main_panel" id="mainpanel"></div>
+
+    <div class="show-panel">
+        <div class="cnt_page_block">
+            <div class="cnt_page" id = "cnt_page">
+                <input type="number" min="0" max="0" id = "choose_page">
+                of 0
+            </div>
+        </div>
+        <div class="overflowdiva" id="show_block">
+        </div>
+    </div>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="scripts/scaffoldgraph.js"></script>
+    <script src="scripts/search.js"></script>
+    <script src="scripts/data.js"></script>
+    <!-script src="data/genealignmentb.js"></script->
+    <!-script src="data/genescaffoldgraphb.js"></script->
+    <script src="scripts/defaultWeight.js"></script>
+    <script src="scripts/showListScript.js"></script>
+    <script src="scripts/findAreaScript.js"></script>
+    <script src="scripts/zoomChoose.js"></script>
+    <script src="scripts/freeLayout.js"></script>
+    <script src="scripts/script.js"></script>
+    <script src="scripts/external/cytoscape.js"></script>
+    <script src="scripts/external/dagre.js"></script>
+    <script src="scripts/external/cytoscape-dagre.js"></script>
+    <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/qtip2/3.0.3/jquery.qtip.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qtip2/3.0.3/jquery.qtip.js"></script>
+    <script src="scripts/external/cytoscape-qtip.js"></script>
+    <script src="scripts/external/cytoscape.js-navigator/cytoscape-navigator.js"></script>
+    <script src="scripts/external/FileSaver.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/svg.js/2.4.0/svg.min.js"></script>
+    <script src="scripts/external/cytoscape.js-svg/cytoscape-svg-convertor.js"></script>
+
+    <script src="scripts/handleAlongChromosomes.js"></script>
+    <script src="scripts/handleScaffolds.js"></script>
+    <script src="scripts/handleDiffInLibs.js"></script>
+    <script src="scripts/handleAmbiguous.js"></script>
+</body>
+</html>
