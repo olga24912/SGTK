@@ -117,119 +117,6 @@ function isBigContig(cb, ce, dz) {
     return (ce - cb > dz/10 && ce - cb > min_contig_len);
 }
 
-function findNodeAroundChr(inode, area_size, min_contig_len, isGoodEdge, curNodeSet, openNode, cy) {
-    var ypos = {};
-    var newvert = [];
-    var sumw = {};
-    var rank = {};
-
-    var used_id = new Set();
-    var que = [];
-    var process = new Set();
-    for (var i = 0; i < inode.length; ++i) {
-        var v = inode[i];
-
-        if (contigHasEdgesInThisScala(cy, v.id)) {
-            used_id.add(v.id);
-            rank[v.id] = 0;
-            que.push(v);
-        }
-    }
-
-    var bg = 0;
-    while (bg < que.length) {
-        v = que[bg];
-        bg += 1;
-
-        var curd = rank[v.id];
-        var curv = v.id;
-        process.add(curv);
-        for (i = 0; i < scaffoldgraph.g[curv].length; ++i) {
-            var curedge = scaffoldgraph.g[curv][i];
-            if (isGoodEdge(curedge.id)) {
-                var curu = curedge.to;
-
-                if (isBigContig(0, scaffoldgraph.nodes[curu].len, defZoom) && (!curNodeSet.has(curu) || contigHasEdgesInThisScala(cy, curu))) {
-                    if ((!used_id.has(curu)) && (curd < area_size || curNodeSet.has(curu) || openNode.has(curu))) {
-                        rank[curu] = curd + 1;
-                        used_id.add(curu);
-                        newvert.push(curu);
-                        que.push({id: curu});
-
-                        ypos[curu] = 0;
-                        sumw[curu] = 0;
-                    }
-
-                    if (!process.has(curu)) {
-                        var yc = 0;
-                        if (curd === 0) {
-                            yc = v.ce;
-                        } else {
-                            yc = calcY(curv, ypos[curv], sumw[curv]);
-                        }
-                        yc = yc + getYC_D();
-
-                        ypos[curu] += curedge.weight * yc;
-                        sumw[curu] += curedge.weight;
-                    }
-
-                    if ((curd < area_size || curNodeSet.has(curu) || openNode.has(curu) || (curd === area_size && used_id.has(curu)))) {
-                        edges_to_draw.push(curedge.id);
-                    }
-                }
-            }
-        }
-
-
-        for (i = 0; i < scaffoldgraph.gr[curv].length; ++i) {
-            curedge = scaffoldgraph.gr[curv][i];
-            if (isGoodEdge(curedge.id)) {
-                curu = curedge.from;
-                if (isBigContig(0, scaffoldgraph.nodes[curu].len, defZoom) && (!curNodeSet.has(curu) || contigHasEdgesInThisScala(cy, curu))) {
-                    if ((!used_id.has(curu)) && (curd < area_size || curNodeSet.has(curu) || openNode.has(curu))) {
-                        rank[curu] = curd + 1;
-                        used_id.add(curu);
-                        newvert.push(curu);
-                        que.push({id: curu});
-
-                        ypos[curu] = 0;
-                        sumw[curu] = 0;
-                    }
-
-                    if (!process.has(curu)) {
-                        yc = 0;
-                        if (curd === 0) {
-                            yc = v.cb;
-                        } else {
-                            yc = calcY(curv, ypos[curv], sumw[curv]);
-                        }
-                        yc = yc  - getYC_D();
-
-                        ypos[curu] += curedge.weight * yc;
-                        sumw[curu] += curedge.weight;
-                    }
-
-                    if ((curd < area_size || curNodeSet.has(curu) || openNode.has(curu) || (curd == area_size && used_id.has(curu)))) {
-                        edges_to_draw.push(curedge.id);
-                    }
-                }
-            }
-        }
-
-        edges_to_draw = edges_to_draw.filter(function (value, index, self) {
-            return self.indexOf(value) === index;
-        });
-    }
-
-    var res = [];
-
-    for (i = 0; i < newvert.length; ++i) {
-        res.push({id: newvert[i], rank: rank[newvert[i]], x: calcY(newvert[i], ypos[newvert[i]], sumw[newvert[i]])});
-    }
-
-    return res;
-}
-
 function getWeight(e) {
     var curW = scaffoldgraph.edges[e].weight;
 
@@ -692,6 +579,7 @@ function createGraph(chr, cy, curNodeSet, posx, posmin, posmax, oldPosition, ope
     cy.elements().remove();
     special_nodes.clear();
     curNodeSet.clear();
+    oldPosition.clear();
 
     var inode = [];
 

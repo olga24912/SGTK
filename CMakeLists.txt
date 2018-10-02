@@ -124,7 +124,9 @@ install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/UI/scripts/handleAmbiguous.js"
 install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/UI/scripts/freeLayout.js"
         DESTINATION bin/scripts/
         COMPONENT runtime)
-
+install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/UI/scripts/chromFindVertexRank.js"
+        DESTINATION bin/scripts/
+        COMPONENT runtime)
 
 install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/UI/scripts/Icon.png"
         DESTINATION bin/scripts/
