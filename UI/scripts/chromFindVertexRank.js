@@ -6,6 +6,46 @@ function getYC_D() {
     return 1000/defZoom;
 }
 
+function calcYforV(u, area_size, min_contig_len, isGoodEdge, newNode, curNodeSet, cy, rcoef) {
+    var ypos = 0;
+    var sumw = 0;
+    for (var h = 0; h < scaffoldgraph.g[u].length; ++h) {
+        if (isGoodEdge(scaffoldgraph.g[u][h].id)) {
+            if (scaffoldgraph.nodes[scaffoldgraph.g[u][h].to].len >= min_contig_len) {
+                if (curNodeSet.has(scaffoldgraph.g[u][h].to)) {
+                    if (!newNode.has(scaffoldgraph.g[u][h].to)) {
+                        var v = scaffoldgraph.g[u][h].to;
+                        var curedge = scaffoldgraph.g[u][h];
+                        var yc = cy.$('#' + v).position().x - rcoef * Math.random();
+                        ypos += curedge.weight * yc;
+                        sumw += curedge.weight;
+                    }
+                }
+            }
+        }
+    }
+
+
+    for (h = 0; h < scaffoldgraph.gr[u].length; ++h) {
+        if (isGoodEdge(scaffoldgraph.gr[u][h].id)) {
+            if (scaffoldgraph.nodes[scaffoldgraph.gr[u][h].from].len >= min_contig_len) {
+                if (curNodeSet.has(scaffoldgraph.gr[u][h].from)) {
+                    if (!newNode.has(scaffoldgraph.gr[u][h].from)) {
+                        v = scaffoldgraph.gr[u][h].from;
+                        curedge = scaffoldgraph.gr[u][h];
+                        yc = cy.$('#' + v).position().x + rcoef * Math.random();
+                        ypos += curedge.weight * yc;
+                        sumw += curedge.weight;
+                    }
+                }
+            }
+        }
+    }
+
+    return calcY(u, ypos, sumw);
+}
+
+
 function getLeftOrder(curu, area_size, isGoodEdge, curNodeSet, openNode, cy) {
     var mnOrder = -1;
     for (var i = 0; i < scaffoldgraph.g[curu].length; ++i) {

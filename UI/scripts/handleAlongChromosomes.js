@@ -3,6 +3,10 @@ var maxZoom = 10000000;
 var IntervalTree = {};
 var lastMinX = 0;
 var lastMaxX = 0;
+var mulConst = 10;
+var minZoomUpdate = 1;
+var maxZoomUpdate = 10;
+var widthMulConst = 1;
 
 function generateCoordinateLabel(x, delta) {
     if (defZoom*delta >= 1000000) {
@@ -117,48 +121,12 @@ function getWeight(e) {
     return curW
 }
 
-function calcYforV(u, area_size, min_contig_len, isGoodEdge, newNode, curNodeSet, cy, rcoef) {
-    var ypos = 0;
-    var sumw = 0;
-    for (var h = 0; h < scaffoldgraph.g[u].length; ++h) {
-        if (isGoodEdge(scaffoldgraph.g[u][h].id)) {
-            if (scaffoldgraph.nodes[scaffoldgraph.g[u][h].to].len >= min_contig_len) {
-                if (curNodeSet.has(scaffoldgraph.g[u][h].to)) {
-                    if (!newNode.has(scaffoldgraph.g[u][h].to)) {
-                        var v = scaffoldgraph.g[u][h].to;
-                        var curedge = scaffoldgraph.g[u][h];
-                        var yc = cy.$('#' + v).position().x - rcoef * Math.random();
-                        ypos += curedge.weight * yc;
-                        sumw += curedge.weight;
-                    }
-                }
-            }
-        }
-    }
-
-
-    for (h = 0; h < scaffoldgraph.gr[u].length; ++h) {
-        if (isGoodEdge(scaffoldgraph.gr[u][h].id)) {
-            if (scaffoldgraph.nodes[scaffoldgraph.gr[u][h].from].len >= min_contig_len) {
-                if (curNodeSet.has(scaffoldgraph.gr[u][h].from)) {
-                    if (!newNode.has(scaffoldgraph.gr[u][h].from)) {
-                        v = scaffoldgraph.gr[u][h].from;
-                        curedge = scaffoldgraph.gr[u][h];
-                        yc = cy.$('#' + v).position().x + rcoef * Math.random();
-                        ypos += curedge.weight * yc;
-                        sumw += curedge.weight;
-                    }
-                }
-            }
-        }
-    }
-
-    return calcY(u, ypos, sumw);
-}
-
-
 function getWidth(cy) {
     return 10/cy.zoom();
+}
+
+function getScala(cy) {
+    return 1.5/cy.zoom();
 }
 
 function getDispersion() {
@@ -182,11 +150,11 @@ function getEdgeWeight(cy, e) {
 
     if (scaffoldgraph.libs[edge.lib].type === "FASTG" ||
         scaffoldgraph.libs[edge.lib].type === "GFA") {
-        return 5/cy.zoom();
+        return widthMulConst*5/cy.zoom();
     }
 
     if (scaffoldgraph.libs[edge.lib].type === "SCAFF") {
-        return 3/cy.zoom();
+        return widthMulConst*3/cy.zoom();
     }
 
     if (scaffoldgraph.libs[edge.lib].type === "DNA_PAIR" ||
@@ -195,14 +163,10 @@ function getEdgeWeight(cy, e) {
         scaffoldgraph.libs[edge.lib].type === "RNA_SPLIT_50" ||
         scaffoldgraph.libs[edge.lib].type === "RNA_SPLIT_30" ||
         scaffoldgraph.libs[edge.lib].type === "CONNECTION") {
-        return 1/cy.zoom();
+        return widthMulConst*1/cy.zoom();
     }
 
-    return Math.min(5, Math.log(getWeight(e)) + 1)/cy.zoom();
-}
-
-function getScala(cy) {
-    return 1.5/cy.zoom();
+    return widthMulConst*Math.min(5, Math.log(getWeight(e)) + 1)/cy.zoom();
 }
 
 function geOtherNodeWidth(id) {
@@ -279,11 +243,11 @@ function createNewVerAlongChr(cy, area_size, min_contig_len, isGoodEdge, curNode
 
 function updateZooming(cy, posx, posmin, posmax, oldPosition) {
     var mul = 1;
-    while (cy.zoom()/mul > 10 && defZoom/mul > 1) {
-        mul = mul * 10;
+    while (cy.zoom()/mul > maxZoomUpdate && defZoom/mul > 1) {
+        mul = mul * mulConst;
     }
-    while (cy.zoom()/mul < 1 && defZoom/mul < maxZoom) {
-        mul = mul / 10;
+    while (cy.zoom()/mul < minZoomUpdate && defZoom/mul < maxZoom) {
+        mul = mul / mulConst;
     }
     cy.zoom(cy.zoom()/mul);
 
@@ -591,6 +555,24 @@ function createGraph(chr, cy, curNodeSet, posx, posmin, posmax, oldPosition, ope
 
 function updateGraph(chr, cy) {
     createCoordinates(chr, cy);
+    var wght = getWidth(cy);
+    cy.nodes().filter(function (ele) {
+        return ele.data('rank') === 0;
+    }).data('width', wght);
+
+
+    cy.nodes().filter(function (ele) {
+        return ele.data('faveShape') === 'ellipse';
+    }).forEach(function (node, i) {
+        console.log("node id " + node.id() + " " + geOtherNodeWidth(node.id()));
+        node.data('len', geOtherNodeWidth(node.id()));
+        node.data('width', geOtherNodeWidth(node.id()));
+    });
+
+    cy.edges().forEach(function (edge) {
+        edge.data('weight', getEdgeWeight(cy, parseInt(edge.id().substr(1))));
+        edge.data('scala', getScala(cy));
+    });
 }
 
 
@@ -700,7 +682,12 @@ function drawAlongChromosome(chr) {
     createNewVerAlongChr(cy, area_size, min_contig_len, isGoodEdge, curNodeSet, openNode);
 
     cy.on('zoom', function () {
-        createGraph(chr, cy, curNodeSet, posx, posmin, posmax, oldPosition, openNode);
+        if (cy.zoom() < maxZoomUpdate && cy.zoom() > minZoomUpdate && cy.extent().x1 >= lastMinX && cy.extent().x2 <= lastMaxX) {
+            updateGraph(chr, cy);
+        } else {
+            createGraph(chr, cy, curNodeSet, posx, posmin, posmax, oldPosition, openNode);
+        }
+
         (document.getElementById("zoomInput")).innerText = Math.floor(cy.zoom() * 100 * 100/ defZoom).toString() +  "%";
     });
 
