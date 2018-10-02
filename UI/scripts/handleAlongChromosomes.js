@@ -117,7 +117,7 @@ function isBigContig(cb, ce, dz) {
     return (ce - cb > dz/10 && ce - cb > min_contig_len);
 }
 
-function findNodeAroundChr(inode, area_size, min_contig_len, isGoodEdge, curNodeSet, openNode) {
+function findNodeAroundChr(inode, area_size, min_contig_len, isGoodEdge, curNodeSet, openNode, cy) {
     var ypos = {};
     var newvert = [];
     var sumw = {};
@@ -129,9 +129,11 @@ function findNodeAroundChr(inode, area_size, min_contig_len, isGoodEdge, curNode
     for (var i = 0; i < inode.length; ++i) {
         var v = inode[i];
 
-        used_id.add(v.id);
-        rank[v.id] = 0;
-        que.push(v);
+        if (contigHasEdgesInThisScala(cy, v.id)) {
+            used_id.add(v.id);
+            rank[v.id] = 0;
+            que.push(v);
+        }
     }
 
     var bg = 0;
@@ -147,7 +149,7 @@ function findNodeAroundChr(inode, area_size, min_contig_len, isGoodEdge, curNode
             if (isGoodEdge(curedge.id)) {
                 var curu = curedge.to;
 
-                if (isBigContig(0, scaffoldgraph.nodes[curu].len, defZoom)) {
+                if (isBigContig(0, scaffoldgraph.nodes[curu].len, defZoom) && (!curNodeSet.has(curu) || contigHasEdgesInThisScala(cy, curu))) {
                     if ((!used_id.has(curu)) && (curd < area_size || curNodeSet.has(curu) || openNode.has(curu))) {
                         rank[curu] = curd + 1;
                         used_id.add(curu);
@@ -183,7 +185,7 @@ function findNodeAroundChr(inode, area_size, min_contig_len, isGoodEdge, curNode
             curedge = scaffoldgraph.gr[curv][i];
             if (isGoodEdge(curedge.id)) {
                 curu = curedge.from;
-                if (isBigContig(0, scaffoldgraph.nodes[curu].len, defZoom)) {
+                if (isBigContig(0, scaffoldgraph.nodes[curu].len, defZoom) && (!curNodeSet.has(curu) || contigHasEdgesInThisScala(cy, curu))) {
                     if ((!used_id.has(curu)) && (curd < area_size || curNodeSet.has(curu) || openNode.has(curu))) {
                         rank[curu] = curd + 1;
                         used_id.add(curu);
@@ -287,6 +289,10 @@ function getDispersion() {
 
 function getContigXPosD() {
     return 1000/defZoom;
+}
+
+function contigHasEdgesInThisScala(cy, v) {
+    return cy.getElementById(v).data('len') >= 5;
 }
 
 function getRankDist() {
@@ -613,7 +619,8 @@ function calculateDinamicForDistPoint(cy, deepsPOS, toSmallCoord) {
         var tv = scaffoldgraph.edges[edges_to_draw[g]].to;
         if (special_nodes.has(fv) &&
             special_nodes.has(tv)) {
-            deepsPOS[toSmallCoord[cy.getElementById(fv).data('order')]][toSmallCoord[cy.getElementById(tv).data('order')] - toSmallCoord[cy.getElementById(fv).data('order')]] = 1;
+            deepsPOS[toSmallCoord[cy.getElementById(fv).data('order')]]
+                [toSmallCoord[cy.getElementById(tv).data('order')] - toSmallCoord[cy.getElementById(fv).data('order')]] = 1;
         }
     }
 
@@ -639,8 +646,6 @@ function addEdges(cy) {
     calculateDinamicForDistPoint(cy, deepsPOS, toSmallCoord);
 
     for (var g = 0; g < edges_to_draw.length; ++g) {
-
-
         if (!(isAlign(scaffoldgraph.edges[edges_to_draw[g]].from)) ||
             !(isAlign(scaffoldgraph.edges[edges_to_draw[g]].to))) {
             cy.add({
@@ -696,7 +701,7 @@ function createGraph(chr, cy, curNodeSet, posx, posmin, posmax, oldPosition, ope
     findContigs(cy, chr, inode, posx, posmin, posmax, curNodeSet);
     addContigs(cy, inode, posx, posmin, posmax);
 
-    var vert_to_draw = findNodeAroundChr(inode, area_size, min_contig_len, isGoodEdge, curNodeSet, openNode);
+    var vert_to_draw = findNodeAroundChr(inode, area_size, min_contig_len, isGoodEdge, curNodeSet, openNode, cy);
     addOtherNodes(cy, curNodeSet, vert_to_draw, oldPosition);
 
     addEdges(cy);
@@ -771,6 +776,7 @@ function drawAlongChromosome(chr) {
     var posmin = new Map();
     var posmax = new Map();
     var oldPosition = new Map();
+
     cy = cytoscape({
         container: document.getElementById('mainpanel'),
 
@@ -818,6 +824,7 @@ function drawAlongChromosome(chr) {
         createGraph(chr, cy, curNodeSet, posx, posmin, posmax, oldPosition, openNode);
         (document.getElementById("zoomInput")).innerText = Math.floor(cy.zoom() * 100 * 100/ defZoom).toString() +  "%";
     });
+
     cy.on('pan', function() {
         if (cy.extent().x1 >= lastMinX && cy.extent().x2 <= lastMaxX) {
             updateGraph(chr, cy);
