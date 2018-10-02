@@ -1,3 +1,11 @@
+function calcY(curv, ypos, sumw) {
+    return ypos/sumw;
+}
+
+function getYC_D() {
+    return 1000/defZoom;
+}
+
 function getLeftOrder(curu, area_size, isGoodEdge, curNodeSet, openNode, cy) {
     var mnOrder = -1;
     for (var i = 0; i < scaffoldgraph.g[curu].length; ++i) {
@@ -17,8 +25,8 @@ function getLeftOrder(curu, area_size, isGoodEdge, curNodeSet, openNode, cy) {
         if (isGoodEdge(curedge.id)) {
             u = curedge.from;
             if (curNodeSet.has(u)) {
-                if (mnOrder === -1 || mnOrder > cy.getElementById(curu).data('order')) {
-                    mnOrder = cy.getElementById(curu).data('order');
+                if (mnOrder === -1 || mnOrder > cy.getElementById(u).data('order')) {
+                    mnOrder = cy.getElementById(u).data('order');
                 }
             }
         }
@@ -60,7 +68,6 @@ function handleVertexConnectedToAlignContig(curu, curv, curedge, curNodeSet, cy,
         return -1;
     }
     var rightPos = getRightOrder(curu, area_size, isGoodEdge, curNodeSet, openNode, cy);
-    console.log("Order " + cy.getElementById(curv).data('order') + " " +  rightPos);
     if (cy.getElementById(curv).data('order') !== rightPos) {
         return -1;
     }
@@ -90,19 +97,19 @@ function handleEdge(curedge, curv, curNodeSet, cy, used_id, isGoodEdge, area_siz
         if (!curNodeSet.has(curu) && curNodeSet.has(curv)) {
             curdd = handleVertexConnectedToAlignContig(curu, curv, curedge, curNodeSet, cy, used_id, isGoodEdge,
                 area_size, newvert, que, ypos, sumw, process, curd, openNode, rank, maxRank);
-            console.log("curdd " + curdd);
-            if (curdd === -1) {
-                return;
-            }
         }
 
         if (isBigContig(0, scaffoldgraph.nodes[curu].len, defZoom) && (!curNodeSet.has(curu) || contigHasEdgesInThisScala(cy, curu))) {
-            if ((!used_id.has(curu)) && (curd < area_size || curNodeSet.has(curu) || openNode.has(curu))) {
-                rank[curu] = curdd + 1;
-                used_id.add(curu);
-                newvert.push(curu);
-                que.push({id: curu});
+            if (curdd !== -1) {
+                if ((!used_id.has(curu)) && (curd < area_size || curNodeSet.has(curu) || openNode.has(curu))) {
+                    rank[curu] = curdd + 1;
+                    used_id.add(curu);
+                    newvert.push(curu);
+                    que.push({id: curu});
+                }
+            }
 
+            if (!(curu in ypos)) {
                 ypos[curu] = 0;
                 sumw[curu] = 0;
             }
@@ -123,13 +130,15 @@ function handleEdge(curedge, curv, curNodeSet, cy, used_id, isGoodEdge, area_siz
                     yc = yc - getYC_D();
                 }
 
-                ypos[curu] += curedge.weight * yc;
-                sumw[curu] += curedge.weight;
+                ypos[curu] += /*curedge.weight*/ yc;
+                sumw[curu] += /*curedge.weight*/ 1;
             }
 
-            console.log(rank[curu]);
-            if ((curd < area_size || curNodeSet.has(curu) || openNode.has(curu) || (curd === area_size && used_id.has(curu)))) {
-                edges_to_draw.push(curedge.id);
+            if (curdd !== -1) {
+                //TODO: mistake calculate real dist, not rank;
+                if ((curd < area_size || curNodeSet.has(curu) || openNode.has(curu) || (curd === area_size && used_id.has(curu)))) {
+                    edges_to_draw.push(curedge.id);
+                }
             }
         }
     }

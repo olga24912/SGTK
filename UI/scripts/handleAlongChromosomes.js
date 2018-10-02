@@ -104,15 +104,6 @@ function createCoordinates(chr, cy) {
     }
 }
 
-function calcY(curv, ypos, sumw) {
-    return ypos/sumw;
-}
-
-function getYC_D() {
-    return 1000/defZoom;
-}
-
-
 function isBigContig(cb, ce, dz) {
     return (ce - cb > dz/10 && ce - cb > min_contig_len);
 }
