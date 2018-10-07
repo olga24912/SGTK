@@ -535,37 +535,98 @@ def sortcmp(x, y):
         return 0
     return 1
 
+def save_lens_from_sam(scafflen_by_name, file_name):
+    with open(file_name) as f:
+        for line in f:
+            if (line[0] != '@'):
+                return
+            if (line[0:3] != '@SQ'):
+                continue
+            parts = line.split()
+            scafname = ""
+            curlen = 0
+            for part in parts:
+                if (part[0:2] == 'LN'):
+                    curlen = int(part[3:])
+                if (part[0:2] == 'SN'):
+                    scafname = part[3:]
+            scafflen_by_name[scafname] = curlen
+    return
+
+def parse_cigar(cigar):
+    letCnt = {'S': 0, 'H': 0, 'M': 0, '=': 0, 'X': 0, 'I': 0, 'D': 0, 'N': 0}
+    num = 0
+    for i in range(len(cigar)):
+        if (cigar[i].isdigit()):
+            num = int(num)*10 + int(cigar[i])
+        else:
+            letCnt[cigar[i]] += num
+            num = 0
+    return letCnt
+
+
+def get_align_from_sam_line(line):
+    tokens = line.split("\t")
+    if (len(tokens) < 10):
+        return -1, -1, -1, -1, "", ""
+
+    if (tokens[len(tokens) - 1] == '\n'):
+        tokens.pop()
+    if (tokens[len(tokens) - 1][-1] == '\n'):
+        tokens[len(tokens) - 1] = tokens[len(tokens) - 1][0:-1]
+
+    qcont = tokens[0]
+    rcont = tokens[2]
+    if (rcont == '*'):
+        return -1, -1, -1, -1, "", ""
+
+    l = int(tokens[3])
+    cigar = tokens[5]
+
+    cntSH = 0
+    while (cntSH < len(cigar) and (cigar[cntSH].isdigit() or cigar[cntSH] == 'S' or cigar[cntSH] == 'H') ):
+        cntSH += 1
+
+    letCnt = parse_cigar(cigar[:cntSH])
+    lq = letCnt['S'] + letCnt['H']
+
+    letCnt = parse_cigar(cigar)
+
+    rq = lq + letCnt['M'] + letCnt['='] + letCnt['X'] + letCnt['I']
+    r = l + letCnt['M'] + letCnt['='] + letCnt['X'] + letCnt['D'] + letCnt['N']
+
+    if ((int(tokens[1]) & (1 << 4)) != 0):
+        rq, lq = lq, rq
+
+    return lq, rq, l, r, qcont, rcont
+
 def save_scaffolds_from_fasta(contig_file_name, lib, f):
     prevdir = os.getcwd()
     lib_dir = os.path.dirname(os.path.abspath(lib.name) + "/")
     os.chdir(lib_dir)
-    os.system("nucmer " + lib.path[0] + " " + contig_file_name)
-    os.system("show-coords out.delta -THrgl > out.coords")
+    os.system("minimap2 -ax asm5 " + lib.path[0] + " " + contig_file_name + " > out.sam")
+    #os.system("nucmer " + lib.path[0] + " " + contig_file_name)
+    #os.system("show-coords out.delta -THrgl > out.coords")
 
     global cntedge
     global cntlib
     global idbyname
-    with open("out.coords") as g:
-        f.write("scaffoldlibs.push(new ScaffoldEdgeLib(" + str(cntlib) + ", '" + str(lib.color) + "', '" + str(lib.label) + "', 'SCAFF'));\n")
 
-        contigsAlignment = dict()
-        rcontlist = []
+    f.write("scaffoldlibs.push(new ScaffoldEdgeLib(" + str(cntlib) + ", '" + str(lib.color) + "', '" + str(lib.label) + "', 'SCAFF'));\n")
 
+    contigsAlignment = dict()
+    rcontlist = []
+
+    scafflen_by_name = dict()
+    save_lens_from_sam(scafflen_by_name, "out.sam")
+
+    with open("out.sam") as g:
         for line in g:
-            tokens = line.split("\t")
-            print(tokens)
-            if (tokens[len(tokens) - 1] == '\n'):
-                tokens.pop()
-            if (tokens[len(tokens) - 1][-1] == '\n'):
-                tokens[len(tokens) - 1] = tokens[len(tokens) - 1][0:-1]
+            lq, rq, l, r, qcont, rcont = get_align_from_sam_line(line)
+            if (lq == -1):
+                continue
 
-            lq = int(tokens[2])
-            rq = int(tokens[3])
-            l = int(tokens[0])
-            r = int(tokens[1])
-            qcont = tokens[10]
-            rcont = tokens[9]
-            chrlen = int(tokens[7])
+            chrlen = scafflen_by_name[rcont]
             if (lq > rq):
                 qcont += "-rev"
                 lq, rq = rq, lq
@@ -582,25 +643,25 @@ def save_scaffolds_from_fasta(contig_file_name, lib, f):
                 contigsAlignment[rcont + "-rev"].append((chrlen - r, chrlen - l, id^1))
 
 
-        scafnum = 0
-        for rc in rcontlist:
-            contigsAlignment[rc].sort(key=lambda x: (x[0], -x[1]))
-            f.write("scaffoldlibs["+ str(cntlib) +"].scaffolds.push(new Scaffold('" + rc + "'));\n")
+    scafnum = 0
+    for rc in rcontlist:
+        contigsAlignment[rc].sort(key=lambda x: (x[0], -x[1]))
+        f.write("scaffoldlibs["+ str(cntlib) +"].scaffolds.push(new Scaffold('" + rc + "'));\n")
 
-            lst = 0
-            for i in range(1, len(contigsAlignment[rc])):
-                if (contigsAlignment[rc][i][0] >= contigsAlignment[rc][lst][1] - 100):
-                    f.write("scaffoldedges.push(new ScaffoldEdge(" + str(cntedge) + ", "+ str(contigsAlignment[rc][lst][2]) +
-                        ", " + str(contigsAlignment[rc][i][2]) + ", " + str(cntlib) + ", 1));\n")
-                    f.write("scaffoldedges["+str(cntedge)+"].name='"+ rc + "';\n")
-                    f.write("scaffoldedges["+str(cntedge)+"].len=" + str(contigsAlignment[rc][i][0] - contigsAlignment[rc][lst][1]) + "\n")
-                    f.write("scaffoldlibs["+ str(cntlib) +"].scaffolds["+str(scafnum) +"].edges.push(scaffoldedges["+str(cntedge)+"]);\n")
-                    cntedge += 1
-                    lst = i
+        lst = 0
+        for i in range(1, len(contigsAlignment[rc])):
+            if (contigsAlignment[rc][i][0] >= contigsAlignment[rc][lst][1] - 100):
+                f.write("scaffoldedges.push(new ScaffoldEdge(" + str(cntedge) + ", "+ str(contigsAlignment[rc][lst][2]) +
+                    ", " + str(contigsAlignment[rc][i][2]) + ", " + str(cntlib) + ", 1));\n")
+                f.write("scaffoldedges["+str(cntedge)+"].name='"+ rc + "';\n")
+                f.write("scaffoldedges["+str(cntedge)+"].len=" + str(contigsAlignment[rc][i][0] - contigsAlignment[rc][lst][1]) + "\n")
+                f.write("scaffoldlibs["+ str(cntlib) +"].scaffolds["+str(scafnum) +"].edges.push(scaffoldedges["+str(cntedge)+"]);\n")
+                cntedge += 1
+                lst = i
 
-            scafnum += 1
+        scafnum += 1
 
-        cntlib += 1
+    cntlib += 1
 
     os.chdir(prevdir)
 
@@ -665,12 +726,10 @@ def save_scaffolds_from_path(lib, f):
             scafname = lines[il]
             if (scafname[-1] == '\n'):
                 scafname = scafname[:-1]
-            print(scafname)
             if (scafname[-1] == "'"):
                 continue
 
             tokens = lines[il + 1].split(",")
-            print(tokens)
             if (tokens[len(tokens) - 1] == '\n'):
                 tokens.pop()
 
@@ -767,7 +826,6 @@ def add_refcoord_to_res_file(contig_file_name, f):
 
     for fasta in fasta_seq:
         name, lenn = fasta.id, len(fasta.seq.tostring())
-        print(name)
         chrid[name] = curid
         chrid[name + "-rev"] = curid + 1
         chrlen.append(lenn)
@@ -791,7 +849,6 @@ def add_refcoord_to_res_file(contig_file_name, f):
                 continue
             info = line.split(" ")
             info[-1] = info[-1][:-1]
-            print(info)
             vid = idbyname[info[12]]
             curid = chrid[info[11].split('_')[0]]
             lq = int(info[3])
@@ -846,8 +903,9 @@ def add_ref_to_res_file(contig_file_name, f):
     prevdir = os.getcwd()
     lib_dir = os.path.dirname(os.path.abspath(lib.name) + "/")
     os.chdir(lib_dir)
-    os.system("nucmer -b 10000 " + lib.path[0] + " " + contig_file_name)
-    os.system("show-coords out.delta -THrgl > out.coords")
+    os.system("minimap2 -ax asm5 " + lib.path[0] + " " + contig_file_name + " > out.sam")
+    #os.system("nucmer -b 10000 " + lib.path[0] + " " + contig_file_name)
+    #os.system("show-coords out.delta -THrgl > out.coords")
 
     global idbyname
     global lenbyid
@@ -858,13 +916,16 @@ def add_ref_to_res_file(contig_file_name, f):
     curid = -2
     lastname = '-'
 
-    with open("out.coords") as cf:
+    chrm_len_by_name = dict()
+    save_lens_from_sam(chrm_len_by_name, "out.sam")
+
+    with open("out.sam") as cf:
         for line in cf:
-            info = line.split("\t")
-            info[10] = info[10][:-1]
-            vid = idbyname[info[10]]
-            chrname = info[9]
-            lenf = int(info[7])
+            lq, rq, l, r, qcont, chrname = get_align_from_sam_line(line)
+            if (lq == -1):
+                continue
+            vid = idbyname[qcont]
+            lenf = int(chrm_len_by_name[chrname])
             if (chrname != lastname):
                 curid += 2
                 chrlist.append("new Chromosome(" + str(curid) + ", '" + chrname + "', " + str(lenf) + ")")
@@ -872,12 +933,6 @@ def add_ref_to_res_file(contig_file_name, f):
                 chralig.append([])
                 chralig.append([])
                 lastname = chrname
-
-            lq = int(info[2])
-            rq = int(info[3])
-            l = int(info[0])
-            r = int(info[1])
-
 
             if ((max(rq, lq) - min(rq, lq)) * 100 < lenbyid[vid]):
                 continue
