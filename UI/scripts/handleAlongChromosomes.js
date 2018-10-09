@@ -1,4 +1,4 @@
-var defZoom = 100;
+var defZoom = 10;
 var maxZoom = 10000000;
 var IntervalTree = {};
 var lastMinX = 0;
@@ -275,6 +275,7 @@ function updateZooming(cy, posx, posmin, posmax, oldPosition) {
     while (cy.zoom()/mul < minZoomUpdate && defZoom/mul < maxZoom) {
         mul = mul / mulConst;
     }
+
     cy.zoom(cy.zoom()/mul);
 
     cy.nodes().forEach(function (ele) {
@@ -716,6 +717,7 @@ function drawAlongChromosome(chr) {
     document.getElementById("updateGrpahButton").onclick = function(){
         createGraph(chr, cy, curNodeSet, posx, posmin, posmax, oldPosition, openNode);
         document.getElementById("UpdateGraph").style.visibility = "hidden";
+        (document.getElementById("zoomInput")).innerText = Math.floor(cy.zoom() * 100 * 100/ defZoom).toString() +  "%";
     };
 
     cy.ready(function () {

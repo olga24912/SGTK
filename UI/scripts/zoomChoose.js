@@ -6,9 +6,11 @@ function zoomPlus() {
     if (cy !== null) {
         var width =  document.getElementById('mainpanel').clientWidth;
         var height =  document.getElementById('mainpanel').clientHeight;
-        cy.panBy({x: -(width - width/1.5)/2, y: -(height - height/1.5)/2});
-        cy.pan({x: cy.pan().x * 1.5, y: cy.pan().y * 1.5});
-        cy.zoom(cy.zoom() * 1.5);
+        var changeIn = Math.min(cy.zoom()*1.5, cy.maxZoom())/cy.zoom();
+
+        cy.panBy({x: -(width - width/changeIn)/2, y: -(height - height/changeIn)/2});
+        cy.pan({x: cy.pan().x * changeIn, y: cy.pan().y * changeIn});
+        cy.zoom(cy.zoom() * changeIn);
         if ((document.getElementById("select_layout").value !== "free_layout")) {
             cy.pan({x:cy.pan().x, y: height/3});
         }
@@ -19,9 +21,11 @@ function zoomMinus() {
     if (cy !== null) {
         var width =  document.getElementById('mainpanel').clientWidth;
         var height =  document.getElementById('mainpanel').clientHeight;
-        cy.panBy({x: -(width - width*1.5)/2, y: -(height - height*1.5)/2});
-        cy.pan({x: cy.pan().x / 1.5, y: cy.pan().y / 1.5});
-        cy.zoom(cy.zoom() / 1.5);
+        var changeIn = Math.max(cy.zoom()/1.5, cy.minZoom())/cy.zoom();
+
+        cy.panBy({x: -(width - width/changeIn)/2, y: -(height - height/changeIn)/2});
+        cy.pan({x: cy.pan().x * changeIn, y: cy.pan().y * changeIn});
+        cy.zoom(cy.zoom() * changeIn);
         if ((document.getElementById("select_layout").value !== "free_layout")) {
             cy.pan({x: cy.pan().x, y: height/3});
         }
