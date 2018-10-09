@@ -695,7 +695,9 @@ function drawAlongChromosome(chr) {
         if (cy.zoom() < maxZoomUpdate && cy.zoom() > minZoomUpdate && cy.extent().x1 >= lastMinX && cy.extent().x2 <= lastMaxX) {
             updateGraph(chr, cy);
         } else {
-            createGraph(chr, cy, curNodeSet, posx, posmin, posmax, oldPosition, openNode);
+            document.getElementById("UpdateGraph").style.visibility = "visible";
+            document.getElementById("updateGrpahButton").focus();
+            updateGraph(chr, cy);
         }
 
         (document.getElementById("zoomInput")).innerText = Math.floor(cy.zoom() * 100 * 100/ defZoom).toString() +  "%";
@@ -705,10 +707,16 @@ function drawAlongChromosome(chr) {
         if (cy.extent().x1 >= lastMinX && cy.extent().x2 <= lastMaxX) {
             updateGraph(chr, cy);
         } else {
-            createGraph(chr, cy, curNodeSet, posx, posmin, posmax, oldPosition, openNode);
+            document.getElementById("UpdateGraph").style.visibility = "visible";
+            document.getElementById("updateGrpahButton").focus();
+            updateGraph(chr, cy);
         }
     });
 
+    document.getElementById("updateGrpahButton").onclick = function(){
+        createGraph(chr, cy, curNodeSet, posx, posmin, posmax, oldPosition, openNode);
+        document.getElementById("UpdateGraph").style.visibility = "hidden";
+    };
 
     cy.ready(function () {
         window.cy = this;
