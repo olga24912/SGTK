@@ -725,6 +725,8 @@ function drawAlongChromosome(chr) {
     });
     setTimeout(function() {
         createGraph(chr, cy, curNodeSet, posx, posmin, posmax, oldPosition, openNode);
+        var height =  document.getElementById('mainpanel').clientHeight;
+        cy.pan({x: cy.pan().x, y: height/3});
     }, 1);
 }
 
