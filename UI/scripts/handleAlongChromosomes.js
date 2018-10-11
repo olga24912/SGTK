@@ -577,7 +577,10 @@ function updateGraph(chr, cy) {
     }).forEach(function (node, i) {
         node.data('len', geOtherNodeWidth(node.id()));
         node.data('width', geOtherNodeWidth(node.id()));
-        node.data('notALL', getNotAllValue());
+        console.log(node.data('notALL'));
+        if (node.data('notALL') != 0) {
+            node.data('notALL', getNotAllValue());
+        }
     });
 
     cy.edges().forEach(function (edge) {
