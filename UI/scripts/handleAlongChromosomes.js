@@ -199,6 +199,19 @@ function getPointDistances(cy, e, deepsPOS, toSmallCoord) {
 }
 
 
+function nodePositionChange(cy, posmin, posmax) {
+    cy.on('position', 'node', function (evt) {
+        var v = evt.target.id();
+        if (cy.getElementById(v).data('rank') == 0) {
+            if (posmin.has(parseInt(v))) {
+                if (cy.getElementById(v).position('x') != ((posmin.get(parseInt(v)) + posmax.get(parseInt(v))) / 2)) {
+                    cy.getElementById(v).position('x', (posmin.get(parseInt(v)) + posmax.get(parseInt(v))) / 2);
+                }
+            }
+        }
+    });
+}
+
 function createNewVerAlongChr(cy, area_size, min_contig_len, isGoodEdge, curNodeSet, openNode) {
     cy.on('tap', 'node', function (evt) {
         var newNode = new Set();
@@ -577,7 +590,6 @@ function updateGraph(chr, cy) {
     }).forEach(function (node, i) {
         node.data('len', geOtherNodeWidth(node.id()));
         node.data('width', geOtherNodeWidth(node.id()));
-        console.log(node.data('notALL'));
         if (node.data('notALL') != 0) {
             node.data('notALL', getNotAllValue());
         }
@@ -698,6 +710,7 @@ function drawAlongChromosome(chr) {
         document.getElementById("cynav").remove();
     }
     createNewVerAlongChr(cy, area_size, min_contig_len, isGoodEdge, curNodeSet, openNode);
+    nodePositionChange(cy, posmin, posmax);
 
     cy.on('zoom', function () {
         if (cy.zoom() < maxZoomUpdate && cy.zoom() > minZoomUpdate && cy.extent().x1 >= lastMinX && cy.extent().x2 <= lastMaxX) {
