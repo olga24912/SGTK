@@ -687,6 +687,10 @@ function drawAlongChromosome(chr) {
                 'width': 'data(weight)',
                 'content': 'data(label)'
             })
+            .selector('.found')
+            .css({
+                'opacity': 0.3
+            })
     });
 
     var element =  document.getElementById("cynav");

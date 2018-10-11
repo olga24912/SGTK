@@ -214,6 +214,10 @@ function DrawGraphCytoscapeWithPresetNode(dnodes, dedges, curNodeSet) {
                 //'target-endpoint': '-25% 0px',
                 'target-distance-from-node': '1px'
             })
+            .selector('.found')
+            .css({
+                'opacity': 0.3
+            })
     });
 
     var element =  document.getElementById("cynav");
