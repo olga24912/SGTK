@@ -125,7 +125,7 @@ function handleVertexConnectedToAlignContig(curu, curv, curedge, curNodeSet, cy,
     return maxR;
 }
 
-function handleEdge(curedge, curv, curNodeSet, cy, used_id, isGoodEdge, area_size, newvert, que, ypos, sumw, process, curd, openNode, rank, maxRank, v) {
+function handleEdge(curedge, curv, curNodeSet, cy, used_id, isGoodEdge, area_size, newvert, que, ypos, sumw, process, curd, openNode, rank, maxRank, v, distFromChrm) {
     var isForward = (curedge.to !== curv);
     if (isGoodEdge(curedge.id)) {
         var curu = curedge.to;
@@ -141,8 +141,9 @@ function handleEdge(curedge, curv, curNodeSet, cy, used_id, isGoodEdge, area_siz
 
         if (isBigContig(0, scaffoldgraph.nodes[curu].len, defZoom) && (!curNodeSet.has(curu) || contigHasEdgesInThisScala(cy, curu))) {
             if (curdd !== -1) {
-                if ((!used_id.has(curu)) && (curd < area_size || curNodeSet.has(curu) || openNode.has(curu))) {
+                if ((!used_id.has(curu)) && (distFromChrm[curv] < area_size || curNodeSet.has(curu) || openNode.has(curu))) {
                     rank[curu] = curdd + 1;
+                    distFromChrm[curu] = distFromChrm[curv] + 1;
                     used_id.add(curu);
                     newvert.push(curu);
                     que.push({id: curu});
@@ -176,7 +177,7 @@ function handleEdge(curedge, curv, curNodeSet, cy, used_id, isGoodEdge, area_siz
 
             if (curdd !== -1) {
                 //TODO: mistake calculate real dist, not rank;
-                if ((curd < area_size || curNodeSet.has(curu) || openNode.has(curu) || (curd === area_size && used_id.has(curu)))) {
+                if ((distFromChrm[curv] < area_size || curNodeSet.has(curu) || openNode.has(curu) || (distFromChrm[curv] === area_size && used_id.has(curu)))) {
                     edges_to_draw.push(curedge.id);
                 }
             }
@@ -190,6 +191,7 @@ function findNodeAroundChr(inode, area_size, min_contig_len, isGoodEdge, curNode
     var newvert = [];
     var sumw = {};
     var rank = {};
+    var distFromChrm = {};
 
     var used_id = new Set();
     var que = [];
@@ -205,6 +207,7 @@ function findNodeAroundChr(inode, area_size, min_contig_len, isGoodEdge, curNode
         if (contigHasEdgesInThisScala(cy, v.id)) {
             used_id.add(v.id);
             rank[v.id] = 0;
+            distFromChrm[v.id] = 0;
             que.push(v);
         }
     }
@@ -220,13 +223,13 @@ function findNodeAroundChr(inode, area_size, min_contig_len, isGoodEdge, curNode
         for (i = 0; i < scaffoldgraph.g[curv].length; ++i) {
             var curedge = scaffoldgraph.g[curv][i];
             handleEdge(curedge, curv, curNodeSet, cy, used_id, isGoodEdge, area_size,
-                newvert, que, ypos, sumw, process, curd, openNode, rank, maxRank, v);
+                newvert, que, ypos, sumw, process, curd, openNode, rank, maxRank, v, distFromChrm);
         }
 
         for (i = 0; i < scaffoldgraph.gr[curv].length; ++i) {
             curedge = scaffoldgraph.gr[curv][i];
             handleEdge(curedge, curv, curNodeSet, cy, used_id, isGoodEdge, area_size,
-                newvert, que, ypos, sumw, process, curd, openNode, rank, maxRank, v);
+                newvert, que, ypos, sumw, process, curd, openNode, rank, maxRank, v, distFromChrm);
         }
 
         edges_to_draw = edges_to_draw.filter(function (value, index, self) {
