@@ -136,8 +136,10 @@ function createAddNewNode(cy, curNodeSet) {
 
         for (g = 0; g < nodes_to_draw.length; ++g) {
             if (hasOtherEdges(nodes_to_draw[g], curNodeSet)) {
+                console.log(nodes_to_draw[g].toString() + "  notAll");
                 cy.$('#' + nodes_to_draw[g]).data('notALL', 1);
             } else {
+                console.log(nodes_to_draw[g].toString() + " thats all");
                 cy.$('#' + nodes_to_draw[g]).data('notALL', 0);
             }
         }
@@ -211,6 +213,10 @@ function DrawGraphCytoscapeWithPresetNode(dnodes, dedges, curNodeSet) {
                 'content': 'data(label)',
                 //'target-endpoint': '-25% 0px',
                 'target-distance-from-node': '1px'
+            })
+            .selector('.found')
+            .css({
+                'opacity': 0.3
             })
     });
 

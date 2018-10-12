@@ -2,8 +2,6 @@ var libnum = 0;
 var global_areasize = 0;
 var global_min_contig_len = 0;
 var global_isGoodEdge;
-var nodes_to_draw = [];
-var edges_to_draw = [];
 
 function drawScaffold(i) {
     special_edges.clear();

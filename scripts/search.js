@@ -95,13 +95,34 @@ function search() {
     var scr = 0;
     var nodes = [];
 
+    var highlightFoundNode = function() {
+        if (cntChanges % 2 === 0) {
+            cy.getElementById(idd).addClass('found');
+        } else {
+            cy.getElementById(idd).removeClass('found');
+        }
+        ++cntChanges;
+        if (cntChanges < 6) {
+            setTimeout(highlightFoundNode, 300);
+        }
+    };
+
     if (opt === "genome_browser") {
         getNodesId(IntervalTree[1], nodes);
         var res = parseNode(nodes, scr, vid, request);
         vid = res[1];
 
         cy.zoom((1000/(vid.ce - vid.cb))*defZoom);
-        cy.pan({y: 0, x: -cy.zoom()*vid.cb/defZoom});
+
+        var width =  document.getElementById('mainpanel').clientWidth;
+        var height =  document.getElementById('mainpanel').clientHeight;
+
+        cy.pan({y: height/3, x: width/2 -cy.zoom()*(vid.cb + vid.ce)/(2*defZoom)});
+
+        var cntChanges = 0;
+        var idd = vid.id;
+
+        highlightFoundNode();
     } else {
         nodes = cy.filter('node');
         for (var i = 0; i < nodes.length; ++i) {
@@ -141,12 +162,22 @@ function search() {
 
 
         if (scr > 0 && scr >= scre) {
-            cy.fit(cy.$('#' + vid))
+            cy.fit(cy.$('#' + vid));
+
+            cntChanges = 0;
+            idd = vid;
+
+            highlightFoundNode();
         }
 
 
         if (scre > 0 && scre > scr) {
-            cy.fit(cy.$('#' + eid))
+            cy.fit(cy.$('#' + eid));
+
+            cntChanges = 0;
+            idd = eid;
+
+            highlightFoundNode();
         }
     }
 }
