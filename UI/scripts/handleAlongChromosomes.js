@@ -133,7 +133,7 @@ function getDispersion() {
 }
 
 function getContigXPosD() {
-    return 1000/defZoom;
+    return 10/cy.zoom();//;1000/defZoom;
 }
 
 function getRankDist() {
@@ -310,11 +310,9 @@ function updateZooming(cy, posx, posmin, posmax, oldPosition) {
     }
 }
 
-function processFoundContig(elem, inode, posx, posmin, posmax, curNodeSet, order) {
+function processFoundContig(elem, inode, posx, posmin, posmax, curNodeSet, order,  levelX) {
     var vid = elem.id;
-    if (!(posx.has(vid))) {
-        posx.set(vid, Math.random() * getContigXPosD());
-    }
+    posx.set(vid, -1*levelX.get(vid) * getContigXPosD());
     if (!(posmin.has(vid))) {
         posmin.set(vid, elem.cb);
         posmax.set(vid, elem.ce);
@@ -324,43 +322,43 @@ function processFoundContig(elem, inode, posx, posmin, posmax, curNodeSet, order
     curNodeSet.add(vid);
 }
 
-function findContigsByTree(tr, inode, posx, posmin, posmax, curNodeSet, ymin, ymax, lsm) {
+function findContigsByTree(tr, inode, posx, posmin, posmax, curNodeSet, ymin, ymax, lsm,  levelX) {
     if (tr["lstL"].length === 0) {
         return;
     }
 
     if (ymin <= tr["md"] && ymax >= tr["md"]) {
         for (var i = 0; i < tr["lstL"].length; ++i) {
-            processFoundContig(tr["lstL"][i], inode, posx, posmin, posmax, curNodeSet, tr["lt"]["size"] + i + lsm);
+            processFoundContig(tr["lstL"][i], inode, posx, posmin, posmax, curNodeSet, tr["lt"]["size"] + i + lsm,  levelX);
         }
     } else if (ymax < tr["md"]) {
         for (i = 0; i < tr["lstL"].length; ++i) {
             if (tr["lstL"][i].cb > ymax) {
                 break;
             }
-            processFoundContig(tr["lstL"][i], inode, posx, posmin, posmax, curNodeSet, tr["lt"]["size"] + i + lsm);
+            processFoundContig(tr["lstL"][i], inode, posx, posmin, posmax, curNodeSet, tr["lt"]["size"] + i + lsm,  levelX);
         }
     } else if (ymin > tr["md"]) {
         for (i = 0; i < tr["lstR"].length; ++i) {
             if (tr["lstR"][i].ce < ymin) {
                 break;
             }
-            processFoundContig(tr["lstR"][i], inode, posx, posmin, posmax, curNodeSet, tr["lt"]["size"] + tr["lstR"].length - i - 1 + lsm);
+            processFoundContig(tr["lstR"][i], inode, posx, posmin, posmax, curNodeSet, tr["lt"]["size"] + tr["lstR"].length - i - 1 + lsm,  levelX);
         }
     }
 
     if (ymin < tr["md"]) {
-        findContigsByTree(tr["lt"], inode, posx, posmin, posmax, curNodeSet, ymin, ymax, lsm);
+        findContigsByTree(tr["lt"], inode, posx, posmin, posmax, curNodeSet, ymin, ymax, lsm,  levelX);
     }
     if (ymax > tr["md"]) {
-        findContigsByTree(tr["rt"], inode, posx, posmin, posmax, curNodeSet, ymin, ymax, lsm + tr["lt"]["size"] + tr["lstR"].length);
+        findContigsByTree(tr["rt"], inode, posx, posmin, posmax, curNodeSet, ymin, ymax, lsm + tr["lt"]["size"] + tr["lstR"].length,  levelX);
     }
 }
 
-function findContigs(cy, chr, inode, posx, posmin, posmax, curNodeSet) {
+function findContigs(cy, chr, inode, posx, posmin, posmax, curNodeSet,  levelX) {
     lastMinX = cy.extent().x1 - (cy.extent().x2 - cy.extent().x1);
     lastMaxX = cy.extent().x2 + (cy.extent().x2 - cy.extent().x1);
-    findContigsByTree(IntervalTree[defZoom], inode, posx, posmin, posmax, curNodeSet, lastMinX, lastMaxX, 0);
+    findContigsByTree(IntervalTree[defZoom], inode, posx, posmin, posmax, curNodeSet, lastMinX, lastMaxX, 0,  levelX);
 }
 
 function addContigs(cy, inode, posx, posmin, posmax) {
@@ -553,7 +551,7 @@ function addEdges(cy) {
     }
 }
 
-function createGraph(chr, cy, curNodeSet, posx, posmin, posmax, oldPosition, openNode) {
+function createGraph(chr, cy, curNodeSet, posx, posmin, posmax, oldPosition, openNode, levelX) {
     updateZooming(cy, posx, posmin, posmax, oldPosition);
     cy.elements().remove();
     special_nodes.clear();
@@ -565,7 +563,7 @@ function createGraph(chr, cy, curNodeSet, posx, posmin, posmax, oldPosition, ope
     nodes_to_draw = [];
     edges_to_draw = [];
 
-    findContigs(cy, chr, inode, posx, posmin, posmax, curNodeSet);
+    findContigs(cy, chr, inode, posx, posmin, posmax, curNodeSet,  levelX);
     addContigs(cy, inode, posx, posmin, posmax);
 
     var vert_to_draw = findNodeAroundChr(inode, area_size, min_contig_len, isGoodEdge, curNodeSet, openNode, cy);
@@ -577,12 +575,15 @@ function createGraph(chr, cy, curNodeSet, posx, posmin, posmax, oldPosition, ope
     createCoordinates(chr, cy);
 }
 
-function updateGraph(chr, cy) {
+function updateGraph(chr, cy, levelX) {
     createCoordinates(chr, cy);
     var wght = getWidth(cy);
     cy.nodes().filter(function (ele) {
         return ele.data('rank') === 0;
-    }).data('width', wght);
+    }).forEach(function (node, index) {
+        node.data('width', wght);
+        node.position('y', -1*getContigXPosD()*levelX.get(parseInt(node.id())));
+    });
 
 
     cy.nodes().filter(function (ele) {
@@ -649,6 +650,31 @@ function buildIT(chr, dz) {
     return buildITree(lst);
 }
 
+function calculateContigLevelX(chr, levelX) {
+    var lst = [];
+    var j = 0;
+    var levelList = new Array(20);
+    for (var i = 0; i < chromosomes[chr].alignments.length; ++i) {
+        var curalig = chromosomes[chr].alignments[i];
+        for (j = 0; j < 20; ++j) {
+            levelList[parseInt(j)] = 0;
+        }
+        for (j = 0; j < lst.length; ++j) {
+            if ((curalig.coordb <= lst[j].cb && lst[j].cb <= curalig.coorde) ||
+                (curalig.coordb <= lst[j].ce && lst[j].ce <= curalig.coorde) ||
+                (lst[j].cb <= curalig.coordb && curalig.coordb <= lst[j].ce)) {
+                levelList[parseInt(levelX.get(lst[j].id))] = 1;
+            }
+        }
+        lst.push({id: curalig.node_id, cb: curalig.coordb, ce: curalig.coorde});
+        for (j = 19; j >= 0; --j) {
+            if (levelList[j] === 0) {
+                levelX.set(curalig.node_id, j);
+            }
+        }
+    }
+}
+
 function drawAlongChromosome(chr) {
     defZoom = 100;
     lastMinX = 0;
@@ -663,7 +689,9 @@ function drawAlongChromosome(chr) {
     var posmin = new Map();
     var posmax = new Map();
     var oldPosition = new Map();
-
+    var levelX = new Map();
+    calculateContigLevelX(chr, levelX);
+    
     cy = cytoscape({
         container: document.getElementById('mainpanel'),
 
@@ -714,11 +742,11 @@ function drawAlongChromosome(chr) {
 
     cy.on('zoom', function () {
         if (cy.zoom() < maxZoomUpdate && cy.zoom() > minZoomUpdate && cy.extent().x1 >= lastMinX && cy.extent().x2 <= lastMaxX) {
-            updateGraph(chr, cy);
+            updateGraph(chr, cy, levelX);
         } else {
             document.getElementById("UpdateGraph").style.visibility = "visible";
             document.getElementById("updateGrpahButton").focus();
-            updateGraph(chr, cy);
+            updateGraph(chr, cy, levelX);
         }
 
         (document.getElementById("zoomInput")).innerText = Math.floor(cy.zoom() * 100 * 100/ defZoom).toString() +  "%";
@@ -726,16 +754,16 @@ function drawAlongChromosome(chr) {
 
     cy.on('pan', function() {
         if (cy.extent().x1 >= lastMinX && cy.extent().x2 <= lastMaxX) {
-            updateGraph(chr, cy);
+            updateGraph(chr, cy, levelX);
         } else {
             document.getElementById("UpdateGraph").style.visibility = "visible";
             document.getElementById("updateGrpahButton").focus();
-            updateGraph(chr, cy);
+            updateGraph(chr, cy, levelX);
         }
     });
 
     document.getElementById("updateGrpahButton").onclick = function(){
-        createGraph(chr, cy, curNodeSet, posx, posmin, posmax, oldPosition, openNode);
+        createGraph(chr, cy, curNodeSet, posx, posmin, posmax, oldPosition, openNode, levelX);
         document.getElementById("UpdateGraph").style.visibility = "hidden";
         (document.getElementById("zoomInput")).innerText = Math.floor(cy.zoom() * 100 * 100/ defZoom).toString() +  "%";
     };
@@ -744,7 +772,7 @@ function drawAlongChromosome(chr) {
         window.cy = this;
     });
     setTimeout(function() {
-        createGraph(chr, cy, curNodeSet, posx, posmin, posmax, oldPosition, openNode);
+        createGraph(chr, cy, curNodeSet, posx, posmin, posmax, oldPosition, openNode, levelX);
         var height =  document.getElementById('mainpanel').clientHeight;
         cy.pan({x: cy.pan().x, y: height/3});
     }, 1);
