@@ -129,7 +129,7 @@ function getScala(cy) {
 }
 
 function getDispersion() {
-    return 10;//50;
+    return 250;
 }
 
 function getContigXPosD() {
