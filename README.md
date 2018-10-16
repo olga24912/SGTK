@@ -1,70 +1,50 @@
-# SGTK
+
 1. <a href="#sec1">About SGTK</a><br>
 2. <a href="#sec2">Installation</a><br>
 3. <a href="#sec3">Running SGTK</a><br>
-&nbsp;&nbsp;&nbsp;&nbsp;3.1. <a href="#sec3.1">Input</a><br>
-&nbsp;&nbsp;&nbsp;&nbsp;3.2. <a href="#sec3.2">Command line options</a><br>
-&nbsp;&nbsp;&nbsp;&nbsp;3.3. <a href="#sec3.3">Output</a><br>
-&nbsp;&nbsp;&nbsp;&nbsp;3.4. <a href="#sec3.4">Example</a><br>
+3.1. <a href="#sec3.1">Command line options</a><br>
+3.2. <a href="#sec3.2">Command line examples</a><br>
+3.3. <a href="#sec3.3">Output</a><br>
+3.4. <a href="#sec3.4">Example dataset</a><br>
 4. <a href="#sec4">Visualization</a><br>
 5. <a href="#sec5">References</a><br>
 6. <a href="#sec6">Feedback and bug reports</a><br>
 
 <a name="sec1"></a>
-## 1. About SGTK
-SGTK &ndash; Scaffold Graph ToolKit &ndash; is a tool which is capable of scaffold graph construction and
-interactive visualization using different kinds of sequencing data. This manual will help you to install and run SGTK.
+# 1. About SGTK
+SGTK &ndash; Scaffold Graph ToolKit &ndash; is a tool for construction and
+interactive visualization of scaffold graph. Scaffold graph is a graph where vertices are contigs, and edges represent links between them. Contigs can provided either in FASTA format or as the assembly graph in GFA/FASTG format. 
+Possible linkage information sources are:
+-    paired reads
+-    long reads
+-    paired and unpaired RNA-seq reads
+-    scaffolds
+-    assembly graph in GFA, FASTG formats
+-    reference sequences
 
-The current version of SGTK takes as input a set of contigs and an arbitrary number of linkage information sources, such as:
-    <li>paired reads</li>
-    <li>long reads</li>
-    <li>paired and unpaired RNA-seq reads</li>
-    <li>scaffolds</li>
-    <li>assembly graph in GFA, FASTG formats</li>
-    <li>reference sequences</li>
+SGTK produces a JavaScript-based HTML page that does not require any additional libraries and can be viewed in a regular web browser. Although it was tested in Chrome, FireFox, Opera and Safari, Chrome is preffered.
+However, to contruct a gaph using SGTK application you will need a 64-bit Linux system or Mac OS and Python 3.
+If you plan to construnct graph using sequencing data or refrence genome you will also need the following aligners:
+-    minimap2
+-    STAR
+
+More details are provided below.
 
 <a name="sec2"></a>
-## 2. Installation
-SGTK requires a 64-bit Linux system or Mac OS and Python 3 to be pre-installed on it.
-To use some SGTK option you need next tools to be pre-installed:
-    <li>minimap2</li>
-    <li>STAR</li>
-    <li>nucmer</li>
+# 2. Installation
+To obtain SGTK you can either download binaries, or download source code and compile it yourself.
 
-To obtain SGTK you can either download binaries or download source code and compile it yourself.
+After installation you will get the following files in `bin` directory:
+-    `rna_scaffolder.py`  (main executable script for building rna scaffolders)
+-    `visualize_scaffold_graph.py`  (main executable script for visualization scaffold graph)
+-    `buildApp`  (graph construction module)
+-    `filterApp`  (graph simplification and building scaffolds module)
+-    `mergeGraph`  (graph merging module)
+-    `readSplitter` (module for splitting RNA-seq reads)
+-    `mainPage.html` (main html page for visualization)
+-    `scripts/` (folder containing JS necessary for visualization)
 
-After installation you will get the following files in <code>bin</code> directory:
-    <li><code>rna_scaffolder.py</code>  (main executable script for building rna scaffolders)</li>
-    <li><code>visualize_scaffold_graph.py</code>  (main executable script for visualization scaffold graph) </li>
-    <li><code>buildApp</code>  (graph construction module)</li>
-    <li><code>filterApp</code>  (graph simplification and building scaffolds module)</li>
-    <li><code>mergeGraph</code>  (graph merging module)</li>
-    <li><code>readSplitter</code> (module for splitting RNA-seq reads)</li>
-    <li><code>mainPage.html</code> (main html page for visualization)</li>
-    <li><code>scripts/</code> (folder containing JS necessary for visualization)</li>
-    <li><code>scripts/script.js</code> </li>
-    <li><code>scripts/light.css</code> </li>
-    <li><code>scripts/search.js</code> </li>
-    <li><code>scripts/showListScript.js</code> </li>
-    <li><code>scripts/zoomChoose.js</code> </li>
-    <li><code>scripts/scaffoldgraph.js</code> </li>
-    <li><code>scripts/Icon.png</code> </li>
-    <li><code>scripts/defaultWeight.js</code> </li>
-    <li><code>scripts/findAreaScript.js</code> </li>
-    <li><code>scripts/freeLayout.js</code> </li>
-    <li><code>scripts/handleScaffolds.js</code> </li>
-    <li><code>scripts/handleAlongChromosomes.js</code> </li>
-    <li><code>scripts/handleDiffInLibs.js</code> </li>
-    <li><code>scripts/external/cytoscape.js</code></li>
-    <li><code>scripts/external/cytoscape-dagre.js</code></li>
-    <li><code>scripts/external/dagre.js</code></li>
-    <li><code>scripts/external/cytoscape-qtip.js</code></li>
-    <li><code>scripts/external/cytoscape.js-navigator/bower.json</code></li>
-    <li><code>scripts/external/cytoscape.js-navigator/package.json</code></li>
-    <li><code>scripts/external/cytoscape.js-navigator/cytoscape-navigator.js</code></li>
-    <li><code>scripts/external/cytoscape.js-navigator/gulpfile.js</code></li>
-
-### Downloading SGTK Linux binaries
+## Downloading SGTK Linux binaries
 To download SGTK Linux binaries and extract them, go to the directory in
 which you wish SGTK to be installed and run:
 
@@ -72,17 +52,16 @@ which you wish SGTK to be installed and run:
     unzip SGTK-1.0-Linux.zip
     cd SGTK-1.0-Linux
 
-SGTK ready to use. We also suggest adding SGTK installation directory to the
-PATH variable.
+SGTK is ready to use. You may also consider adding SGTK installation directory to the `PATH` variable.
 
-### Downloading and compiling SGTK source code
+## Downloading and compiling SGTK source code
 To compile SGTK by yourself you will need the following libraries to be pre-installed:
-    <li>g++ (version 5 or higher) / Clang (version 3.6 or higher)</li>
-    <li>cmake (version 3.5 or higher) </li>
-    <li>zlib</li>
-    <li>Threads</li>
-    <li>Boost</li>
-    <li>[SEQAN (version 2.4 or higher)](https://seqan.readthedocs.io/en/seqan-v2.4.0/Infrastructure/Use/Install.html)</li>
+-    gcc (version 5 or higher) / Clang (version 3.6 or higher)
+-    cmake (version 3.5 or higher)
+-    zlib
+-    Threads
+-    Boost
+-    [SEQAN (version 2.4 or higher)](https://seqan.readthedocs.io/en/seqan-v2.4.0/Infrastructure/Use/Install.html)
 
 If you meet these requirements, you can download the SGTK source code:
 
@@ -92,107 +71,164 @@ If you meet these requirements, you can download the SGTK source code:
 and build it with the following script:
 
     ./compile.sh
-SGTK will be built in the directory <code>./bin</code>. If you wish to install SGTK into another directory, you can specify the full path of destination folder by running the following command in <code>bash</code> or <code>sh</code>:
+SGTK will be built in the directory `./bin`. If you wish to install SGTK into another directory, you can specify the full path of destination folder by running:
 
     PREFIX=<destination_dir> ./compile.sh
 for example:
 
     PREFIX=/usr/local ./compile.sh
 
-which will install SGTK into <code>/usr/local/bin</code>.
+which will install SGTK into `/usr/local/bin`.
 
-After the installation you will get the same files in <code>./bin</code> directory (or <code>&lt;destination_dir>/bin</code> if you specified PREFIX). We also suggest adding SGTK installation directory to the <code>PATH</code> variable.
+After the installation you will get the same files in `./bin` directory (or `<destination_dir>/bin` if you specified PREFIX). We also suggest adding SGTK installation directory to the `PATH` variable.
 
 <a name="sec3"></a>
-## 3. Running SGTK
+# 3. Running SGTK
+
+
+SGTK requires at least one set of contigs, which can be provided as usual FASTA file, or as the assembly graph in FASTG/GFA format.
+
+
+To run scaffold graph visualization from the command line, type
+
+    visualize_scaffold_graph.py [options]
+
+Note that we assume that SGTK installation directory is added to the `PATH` variable (otherwise provide full path to SGTK executable: `<installation dir>/visualize_scaffold_graph.py`).
+
+
 <a name="sec3.1"></a>
-### 3.1. Input
-SGTK takes as input contigs, reference and an arbitrary number of linkage
-information sources.
-#### Contigs
-Contigs in FASTA format. You can provide a few contigs files, in this case they will be merged together.
-Make sure that all contigs have different names.
+## Command line options
+All input options are capable of taking only a single or a pair of files if specified. To provide multiple files use the same option again (e.g. `-c contigs1.fa -c contigs2.fa`). See more in the examples.
 
-If you have contigs in forward and reverse-complementary copies, provide only one copy.
-#### Reference
-If you provide reference genome in FASTA format the genome browser visualization will be available.
-In case of providing several files they will be merged together and chromosomes’ names will be changed
-depending on the references’ files names.
+`-h` (or `--help`)
+Print help.
 
-If you have chromosomes in forward and reverse-complementary copies, provide only one copy.
 
-#### Paired-end and mate-pair reads
-SGTK takes paired reads in FASTA or FASTQ format in two files or alignments in SAM/BAM format in two files as well.
-In case of providing reads in FASTA/FASTQ format they will be aligned on contigs by minimap2:
+`-o` (or `--local_output_dir`) ` <output_dir> `
+Specify the output directory. The default output directory is  "./".
+
+
+`-c` (or `--contig`) ` <file_name> `
+File with contigs in FASTA format. You can provide a few contigs files (each one must be preceeded by the option, i.e. `-c contigs1.fa -c contigs2.fa`), in this case they will be merged together. Make sure that all contigs have different names.
+
+
+`--fastg <file_name> `
+File with assembly graph in FASTG format. Edges will be treated as input contigs, the graph itself will be visualized. 
+
+
+`--gfa <file_name> `
+File with assembly graph in GFA format. Edges will be treated as input contigs, the graph itself and scaffolds (paths) will be visualized. 
+
+
+### Linkage sources
+
+`--fr <file_name_1> <file_name_2> `
+ A pair of files with left reads and file with right reads for paired-end/mate-pair DNA library with forward-reverse orientation in FASTA/FASTQ format. Input reads are aligned to contigs using minimap2:
 
     minimap2 -ax sr <contigs_file> <dna1> > dna1.sam
     minimap2 -ax sr <contigs_file> <dna2> > dna2.sam
 
+`--rf <file_name_1> <file_name_2> `
+ A pair of files with left reads and file with right reads for paired-end/mate-pair DNA library with reverse-forward orientation in FASTA/FASTQ format.
 
-#### RNA-seq reads
-You can provide both paired and single RNA-seq reads. Paired reads will be aligned to the contigs by STAR independently. Single reads will be split into two parts and after that will be aligned by STAR.
 
-#### PacBio/Oxford Nanopore reads
-SGTK takes PacBio/Oxford Nanopore reads in FASTA or FASTQ format and aligns them on contigs by minimap2:
+`--ff <file_name_1> <file_name_2> `
+ A pair of files with left reads and file with right reads for paired-end/mate-pair DNA library with forward-forward orientation in FASTA/FASTQ format.
+
+
+
+`--fr_sam <file_name_1> <file_name_2> `
+ A pair of files with left and right reads alignments in SAM/BAM format for paired-end/mate-pair DNA library with forward-reverse orientation.
+
+
+`--rf_sam <file_name_1> <file_name_2> `
+ A pair of files with left and right reads alignments in SAM/BAM format for paired-end/mate-pair DNA library with reverse-forward orientation.
+
+
+`--ff_sam <file_name_1> <file_name_2> `
+ A pair of files with left and right reads alignments in SAM/BAM format for paired-end/mate-pair DNA library with forward-forward orientation.
+
+
+`--long <file_name> `
+ File with PacBio/Oxford Nanopore reads, which will be aligned using minimap2:
 
     minimap2 -x map-pb <contigs_file> <long_reads> > out.paf
 
 
-#### Scaffolds
-There are two ways to provide scaffolds:
-    <li>scaffolds in FASTA format. In this case contigs will be aligned to scaffolds by nucmer.</li>
-    <li>scaffolds paths in INFO format </li>
+`--rna-p <file_name_1> <file_name_2> `
+ A pair of files with left and right reads for paired-end RNA-Seq library. Reads will be aligned to the contigs independently (using STAR).
 
-In INFO format each line describes scaffold in the following format:<br>
 
-    >SCAFFOLD_NAME (CONTIG_NAME_0 CONTIG_ID_0 DIRECTION_0) (CONTIG_NAME_1 CONTIG_ID_1 DIRECTION_1)
+`--rna-s <file_name> `
+ File for single-read RNA-Seq library. Reads will be split into two parts and then aligned to the contigs using STAR.
 
-For example, one line in INFO format:
 
-    >scaffoldName (contigName0 0 +) (contigName1 1 -) (contigName2 2 -) (contigName3 3 +)
+`--ref <file_name> `
+File with reference genome in FASTA format. In case if several files are provided (each file must be preceeded by the option, i.e. `--ref genome1.fa --ref genome2.fa`) they will be merged together and chromosomes names will be changed depending on the files names (useful for metagenomic datasets).
 
-#### Assembly graph
-Assembly graph can be provide in FASTG or in GFA formats. It will be used instead of contigs and connection from
-assembly graph will be detected. In case of graph in GFA format scaffolds(paths) also will be visualized.
 
-#### Connection list
-Also it is possible to provide a file with your own connections, where each line describes one connection in the following format:
+`-s` (or `--scaffolds`) ` <file_name> `
+File with scaffolds in FASTA format, which will be aligned to the contigs using minmap2.
 
-    (CONTIG_NAME_0 CONTOG_DIRECTION_0) (CONTIG_NAME_1 CONTOG_DIRECTION_1) WEIGHT LEN "EXTRA_INFO"
+
+`--scg <file_name> `
+File with connection list. Each line in such file represents a single connection:
+
+    (CONTIG_1 ORIENTATION_1) (CONTIG_2 ORIENTATION_2) WEIGHT DISTANCE "COMMENTS"
 
 For example:
 
-    (contig0 -) (contig1 +) 32.5 1168 "some info about connection"
+    (contig1 -) (contig3 +) 32.5 1168 "this is a reliable connection"
 
-#### Scaffold Graph
-All information about connections will be merged in one scaffold graph in internal format. You can provide
-extra scaffold graph on your own.
+`--scafinfo <file_name> `
+ File with scaffolds in INFO format (intorduced in [Rascaf](https://github.com/mourisl/Rascaf)). In INFO format each line describes a scaffold in the following format:<br>
+
+    >SCAFFOLD_NAME (CONTIG_NAME_1 CONTIG_ID_1 ORIENTATION_1) (CONTIG_NAME_2 CONTIG_ID_2 ORIENTATION_2)
+
+For example:
+
+    >scaffold0001 (contig1 1 +) (contig3 3 -) (contig2 2 -) (contig8 8 +)
+
+
+`--label <label1 label2 ...>`
+List of labels used in visualization for libraries in given order.
+
+`--color <color1 color2 ...>`
+ List of colors usied in visualization for libraries in given order. Color can be provided in any format supported by HTML in double quotes, e.g. as word ("reb", "blue", etc) or as hexidecimal number ("#ff0000").
+
+
+### Scaffold graph in the internal format
+It is also possible to specify scaffold graph in the internal SGTK format with
+
+`--gr <file_name> `
+
+If other linkage sources are provided, they will be merged together into one scaffold graph.
 
 Scaffold graph has the following format:
 
-    LIB_DESCRIPTION
-    NODES_DESCRIPTION
-    EDGES_DESCRIPTION
+    LIBS_DESCRIPTIONS
+    NODES_DESCRIPTIONS
+    EDGES_DESCRIPTIONS
 
-The format for LIB_DESCRIPTION:
+The format for LIBS_DESCRIPTIONS:
 
-    LIB_NUMBER
-    (l LIB_ID LIB_COLOR LIB_NAME LIB_TYPE)*LIB_NUMBER
+    NUMBER_OF_LIBS
+    (l LIB_ID LIB_COLOR LIB_NAME LIB_TYPE) * NUMBER_OF_LIBS
 
-Where LIB_TYPE = {CONNECTION | LONG | DNA_PAIR | RNA_PAIR | RNA_SPLIT_50 | RNA_SPLIT_30 | GFA | FASTG | SCAFF}
-<br>
-<br>
-The format for NODES_DESCRIPTION:
+Where LIB_TYPE = {CONNECTION | LONG | DNA_PAIR | RNA_PAIR | GFA | FASTG | SCAFF}
 
-    NODES_NUMBER
-    (v NODE_ID NODE_NAME NODE_LEN)* NODES_NUMBER
 
-Format for EDGES_DESCRIPTION:
+The format for NODES_DESCRIPTIONS:
 
-    EDGES_NUMBER
-    (e EDGE_ID NODE_ID_0 NODE_ID_1 LIB_ID WEIGHT LEN "EXTRA_INFO")*EDGES_NUMBER
+    NUMBER_OF_NODES
+    (v NODE_ID NODE_NAME NODE_LEN) * NUMBER_OF_NODES
 
-<br>
+Format for EDGES_DESCRIPTIONS:
+
+    NUMBER_OF_EDGES
+    (e EDGE_ID NODE_ID_1 NODE_ID_2 LIB_ID WEIGHT DIST "COMMENTS") * NUMBER_OF_EDGES
+
+For example:
 
     1
     l 0 #ff0000 lib_name DNA_PAIR
@@ -205,143 +241,56 @@ Format for EDGES_DESCRIPTION:
     e 0 0 2 0 32.5 200 "some extra info"
     e 1 3 1 0 32.5 200
 
-Note, that you should specify contigs, FASTG or GFA file.
-
 <a name="sec3.2"></a>
-### 3.2. Command line options
-<p>
-    To run scaffold graph visualization from the command line, type
+## Command line examples
 
+Let's say our dataset consists of:
+- A set of contigs (`contigs.fa`)
+- Illumina paired-end lib (`pe1.fq, pe2.fq`)
+- Illumina mate-pair lib (`mp1.fq, mp2.fq`)
+- PacBio reads (`filtered_subreads.fq`)
+- Several sets of scaffolds generated by different tools (`scaffolds1.fa, scaffolds2.fa, scaffolds3.fa`)
+- Reference genome splitted into separate chromosomes (`chr1.fa, chr2.fa, chr3.fa`)
 
-    visualize_scaffold_graph.py [options]
+In addtion you also would like to set colors and labels for each linkage source.
 
-Note that we assume that SGTK installation directory is added to the <code>PATH</code> variable (otherwise provide full path to SGTK executable: <code>&lt;installation dir>/visualize_scaffold_graph.py</code>).
+Then the commnad line for launching SGTK would look like:
 
-#### Options
-<p>
-    <code>-h</code> (or <code>--help</code>)
-    &nbsp;&nbsp;&nbsp;&nbsp;Print help.
-</p>
-<p>
-    <code>-c</code> (or <code>--contig</code>) <code> &lt;file_name> </code>
-    &nbsp;&nbsp;&nbsp;&nbsp;File with contigs in fasta format.
-</p>
-<p>
-    <code>-s</code> (or <code>--scaffolds</code>) <code> &lt;file_name> </code>
-    &nbsp;&nbsp;&nbsp;&nbsp;File with scaffolds in fasta format.
-</p>
-<p>
-    <code>--fastg &lt;file_name> </code>
-        File with assembly graph in FASTG format.
-</p>
-<p>
-    <code>--gfa &lt;file_name> </code>
-    File with assembly graph in GFA format.
-</p>
-<p>
-    <code>--fr &lt;file_name_1> &lt;file_name_2> </code>
-    &nbsp;&nbsp;&nbsp;&nbsp; File with left reads and file with right reads for paired-end/mate-pair DNA library with forward-reverse orientation.
-</p>
-<p>
-    <code>--rf &lt;file_name_1> &lt;file_name_2> </code>
-    &nbsp;&nbsp;&nbsp;&nbsp; File with left reads and file with right reads for paired-end/mate-pair DNA library with reverse-forward orientation.
-</p>
-<p>
-    <code>--ff &lt;file_name_1> &lt;file_name_2> </code>
-    &nbsp;&nbsp;&nbsp;&nbsp; File with left reads and file with right reads for paired-end/mate-pair DNA library with forward-forward orientation.
-</p>
-
-<p>
-    <code>--fr_sam &lt;file_name_1> &lt;file_name_2> </code>
-    &nbsp;&nbsp;&nbsp;&nbsp; File with left reads alignment and file with right reads alignment in SAM/BAM format for paired-end/mate-pair DNA library with forward-reverse orientation.
-</p>
-<p>
-    <code>--rf_sam &lt;file_name_1> &lt;file_name_2> </code>
-    &nbsp;&nbsp;&nbsp;&nbsp; File with left reads alignment and file with right reads alignment in SAM/BAM format for paired-end/mate-pair DNA library with reverse-forward orientation.
-</p>
-<p>
-    <code>--ff_sam &lt;file_name_1> &lt;file_name_2> </code>
-    &nbsp;&nbsp;&nbsp;&nbsp; File with left reads alignment and file with right reads alignment in SAM/BAM format for paired-end/mate-pair DNA library with forward-forward orientation.
-</p>
-<p>
-    <code>--long &lt;file_name> </code>
-    &nbsp;&nbsp;&nbsp;&nbsp; File with PacBio/Oxford Nanopore reads.
-</p>
-<p>
-    <code>--scg &lt;file_name> </code>
-    &nbsp;&nbsp;&nbsp;&nbsp;File with connection list.
-</p>
-<p>
-    <code>--gr &lt;file_name> </code>
-    &nbsp;&nbsp;&nbsp;&nbsp;File with scaffold graph description.
-</p>
-<p>
-    <code>--rna-p &lt;file_name_1> &lt;file_name_2> </code>
-    &nbsp;&nbsp;&nbsp;&nbsp; File with left reads and file with right reads for paired-end RNA library.
-</p>
-<p>
-    <code>--rna-s &lt;file_name> </code>
-    &nbsp;&nbsp;&nbsp;&nbsp; File for single-read RNA library.
-</p>
-<p>
-    <code>--ref &lt;file_name> </code>
-    &nbsp;&nbsp;&nbsp;&nbsp; File with reference in FASTA format.
-</p>
-<p>
-    <code>--scafinfo &lt;file_name> </code>
-    &nbsp;&nbsp;&nbsp;&nbsp; File with scaffolds in info format.
-</p>
-<p>
-    <code>--label &lt;label1 label2 ...></code>
-    &nbsp;&nbsp;&nbsp;&nbsp; Labels for libraries in given order.
-</p>
-<p>
-    <code>--color &lt;color1 color2 ...></code>
-    &nbsp;&nbsp;&nbsp;&nbsp; Colors for libraries in given order.
-</p>
-<p>
-    <code>-o</code> (or <code>--local_output_dir</code>) <code> &lt;output_dir> </code>
-    &nbsp;&nbsp;&nbsp;&nbsp;Specify the output directory. The default output directory is  "./"
-</p>
+    python3 visualize_scaffold_graph.py -c contigs.fa \
+    --fr pe1.fq pe2.fq  --rf mp1.fq mp2.fq  --long filtered_subreads.fq \
+    -s scaffolds1.fa  -s scaffolds2.fa  -s scaffolds3.fa \
+    --ref chr1.fa --ref chr3.fa --ref chr3.fa \
+    --label PE MP PacBio Tool1 Tool2 Tool3 chr1 chr2 chr3 \
+    --color "#ff0000" "#ffff00" "#00ff00" \
+    -o output_dir
 
 <a name="sec3.3"></a>
-<h4>3.3. Output</h4>
+## Output
 
-SGTK stores all output files in <code>&lt;output_dir> </code>, which is set by the user.
+SGTK stores all output files in `<output_dir> `, which is set by the user.
 
-<ul>
-    <li><code>&lt;output_dir>/scripts/</code> files with scaffold graph description. It is needed for main.html to work properly </li>
-    <li><code>&lt;output_dir>/main.html</code> main file for graph visualization </li>
-</ul>
+-    `<output_dir>/main.html` main file for graph visualization.
+-    `<output_dir>/scripts/` files with scaffold graph description, which are needed for `main.html`. If you intend to transfer the generated vizualization to another machine, do not forget to include this folder.
 
-Run main.html to see visualisation.
+Open `main.html` in any browser to see visualisation. Chrome is preferred. 
 
 <a name="sec3.4"></a>
-### 3.4. Example
-#### Testing example
-To test the toy data set, you can also run the following command from the SGTK <code>bin</code> directory:
+## Example dataset
 
-    python3 visualize_scaffold_graph.py -c ../share/test_dataset/contigs.fasta --fr ../share/test_dataset/read_1.fasta \
-    ../share/test_dataset/read_2.fasta -o test
+SGTK comes with toy dataset, on which you can test your installation:
 
-If you have several paired-end reads, scaffolds and reference:
-<li> contigs
+- contigs (`share/test_dataset/contigs.fasta`)
+- Illumina paired-end library (`share/test_dataset/read_1.fasta, share/test_dataset/read_2.fasta`)
+- assembled scaffolds (`share/test_dataset/scaf.info`)
+- reference genome (`share/test_dataset/ref.fasta`)
 
-    ../share/test_dataset/contigs.fasta
+To test the toy data set, you can run the following command from the SGTK `bin` directory:
 
-<li> paired-end library
-
-    ../share/test_dataset/read_1.fasta
-    ../share/test_dataset/read_2.fasta
-
-<li> scaffolds
-
-    scaf.info
-
-<li> reference
-
-    ref.fasta
-
+    python3 visualize_scaffold_graph.py -c ../share/test_dataset/contigs.fasta \
+    --fr ../share/test_dataset/read_1.fasta ../share/test_dataset/read_2.fasta \
+    --scafinfo ../share/test_dataset/scaf.info \
+    --ref ../share/test_dataset/ref.fasta \
+    -o output
 
 If you would like to set labels and colors, you need to set labels and colors for all libraries in order of definition
 
@@ -349,193 +298,241 @@ If you would like to set labels and colors, you need to set labels and colors fo
     --fr ../share/test_dataset/read_1.fasta ../share/test_dataset/read_2.fasta \
     --scafinfo ../share/test_dataset/scaf.info \
     --ref ../share/test_dataset/ref.fasta \
-    --label pair scaf ref \
+    --label PE scaffolds genome \
     --color "#0000ff" "#00ff00" "#ff0000" \
     -o output
 
 
-#### Visualization example
-To test visualization download SGTK:
+In addition, you can try SGTK visualization examplesm which we uploaded on GitHub. To clone the repository run
 
     git clone https://github.com/olga24912/SGTK.git
     cd SGTK
 
-and open <code>./resources/E.coli/main.html</code> in browser.
+and open `./resources/E.coli/main.html` in browser.
 
-It is example data set which contains next connection source: paired-end reads, pacbio reads.
-Contigs and scaffolds were taken from GFA file, reference was also provide.
+This example is constructed from E.coli paired-end reads and pacbio reads. Contigs and scaffolds were taken from GFA file, reference genome was also provide.
 
 <a name="sec4"></a>
-## 4. Visualization
-### Getting started
-After the graph is built and the web page is generated, you can open main.html in a browser (we recommended to use SGTK in Chrome, however it also was tested in FireFox, Opera and Safari). Before using make sure that scripts folder is located at the same directory as the main.html.
+# 4. Visualization
+## Getting started
+After the graph is constructed and the web page is generated, you can open `main.html` in a web browser (we recommended to use Chrome, however it also was tested in FireFox, Opera and Safari). 
 
 ![First step](https://raw.githubusercontent.com/olga24912/SGTK/develop/resources/pic/firstStep.png)
 
-You can click on DRAW button at the bottom of the left panel and choose a component that you like to draw at the right panel. By default the full graph will be visualized, which is separated into components and if component contains more than 100 nodes and 200 edges it will be randomly split into parts and visualized independently.
+You can click on the `DRAW` button at the bottom of the left panel and choose a component for visualization at the right panel. By default the full graph is separated into components. If a component contains more than 100 nodes and 200 edges it will be randomly split into parts and visualized independently.
 
-### Visualization modes
+SGTK has two layout  modes: (i) free layout and (ii) genome browser. Free layout option is available for all kinds of data. In genome browser layout contigs are aligned along reference chromosomes, which makes it available only if the reference is provided.
 
 ![Layout](https://raw.githubusercontent.com/olga24912/SGTK/develop/resources/pic/layout.png)
 
-There are two layout options: (i) free layout, (ii) genome browser. Free layout option is available for all kinds of data, in genome browser layout contigs are aligned along reference chromosomes and available only if reference is provided.
+## Genome browser layout
+
+In the genome browser mode, vertices of the scaffold graph are displayed as rectangles placed along the reference, lengths of which are proportional to the contigs sizes. Short nodes with adjacent edges are hidden and rendered only when zoomed in.
+
+![Genome browser layout](https://raw.githubusercontent.com/olga24912/SGTK/develop/resources/pic/genomeBrowserLayout.png)
+
+
+## Free layout mode
+
+In case of free layout you can choose one of several filtration options. Once new visualization parameters are set, click the `DRAW` button and choose the component.
 
 ![Filtraton](https://raw.githubusercontent.com/olga24912/SGTK/develop/resources/pic/filtration.png)
 
-In case of free layout you can choose one of filtration options:
-*   Full graph: no filtering is applied,  the full graph will be visualized. Graph will be randomly split into the components and all components will be visualized independently.
-*   Scaffolds: visualization of local area around scaffolds. You need to choose the size of the visualization local area and which scaffolds set you would like to visualize. Also you can visualize only scaffolds of interest. For doing that it is possible to choose minimum scaffold length to be visualized and scaffolds with properties of your interest: with wrong connections, possibly incomplete or with ambiguous connections. When multiple boxes are checked, components that satisfy at least one connection will be shown.
+### Drawing the entire graph
 
-    ![Scaffolds](https://raw.githubusercontent.com/olga24912/SGTK/develop/resources/pic/scaffolds.png)
+No filtering is applied,  the full graph will be visualized. Graph will be randomly split into the components and all components will be visualized independently.
 
-*   Difference in libraries.
 
-    ![Difference in libraries](https://raw.githubusercontent.com/olga24912/SGTK/develop/resources/pic/diffInLibs.png)
+### Drawing graph along scaffold
 
-    Local area of connection will be visualized, where at the same time the chosen libraries are present, and libraries chosen as not present are taken into account.
+This options allows to visualize the graph around selected scaffolds. You may choose the distance from the scaffold hits and which scaffolds set you would like to visualize. 
+You may also filter scaffolds based on their minimal length and other properties:
+- Scaffolds containing wrong connections (i.e. disagreed with the reference genome)
+- Possibly incomplete scaffolds 
+- Scaffolds with ambiguous connections
 
-    You need to choose size of local area, wrong or correct connection(base on reference) you would like to find. It makes sense only if reference is present, if no reference is present all connections are interpreted as wrong.
-    At the example there will be found connections where pacbio edges are present, and scaffolds aren’t present.
+When multiple boxes are checked, components that satisfy at least one parameter will be shown.
 
-*   Ambiguous. Visualize the local area of the specified size of ambiguous connection(inside or outside vertex degree more than one).
-*   Vertices local area
+![Scaffolds](https://raw.githubusercontent.com/olga24912/SGTK/develop/resources/pic/scaffolds.png)
 
-    ![Vertices local area](https://raw.githubusercontent.com/olga24912/SGTK/develop/resources/pic/vert.png)
 
-    Visualize the local area of chosen vertex.
-    You need to write the vertex names or ids separated by spaces or new lines.
 
-*   Edges local area.
+### Drawing graph around vertices 
 
-    ![Edges local area](https://raw.githubusercontent.com/olga24912/SGTK/develop/resources/pic/edges.png)
+Visualizes the vicinity of chosen vertices. Vertices names or ids are specified separated by space or new line.
 
-    Visualize the local area of chosen edges.
-    You need to write the edges ids separated by spaces or new lines.
 
-After choosing layout and filtering setting click DRAW button and choose the component.
+![Vertices local area](https://raw.githubusercontent.com/olga24912/SGTK/develop/resources/pic/vert.png)
 
-### Annotation
-#### Connection sources
+
+### Drawing graph around edges 
+
+Visualizes the vicinity of chosen edges. Edges names or ids are specified separated by space or new line.
+
+![Edges local area](https://raw.githubusercontent.com/olga24912/SGTK/develop/resources/pic/edges.png)
+
+
+### Detecting incorrect connections
+
+In this mode SGTK allows to find the difference between linkage sorces. 
+
+`Wrong` and `Correct` checkboxes allow to set wether we are interested in connection that are supported by the reference genome or not. If the reference genome is not provided all connections are treated as wrong.
+
+Below, for each source type there is a pair of checkboxes: `Present` and `Absent`. SGTK locates pairs of vertices that are connected by all sources marked as `Present` and are not connected by any of the sources marked as `Absent`.
+
+
+![Difference in libraries](https://raw.githubusercontent.com/olga24912/SGTK/develop/resources/pic/diffInLibs.png)
+
+
+### Displaying ambiguous connections
+
+Visualizes the local area of the specified size for vertices that have more than one incoming or outgoing edge.
+
+
+
+## Customizing visualization
+
+### Connection sources
+
+Information about connections sources is diplayed at the left as displayed below.
 
 ![Edges type](https://raw.githubusercontent.com/olga24912/SGTK/develop/resources/pic/edgeType.png)
 
-This is the information about connection sources. Source type can be:
-*   LONG for long reads such as Pacbio or Oxford Nanopore
-*   DNA_PAIR for mate-paired and paired-end dna reads
-*   RNA_PAIR for rna paired-reads
-*   RNA_SPLIT_50/RNA_SPLIT_30 for rna single reads connection
-*   SCAFF for scaffolds connection
-*   GFA for assembly graph connection from GFA file
-*   FASTG for assembly graph connection from FASTG file
-*   CONNECTION for connection from file with connection list
+Supported connection types are:
+*   LONG: long reads such as Pacbio or Oxford Nanopores
+*   DNA_PAIR: mate-pairs and paired-end DNA short reads
+*   RNA_PAIR: paired-end RNA-Seq
+*   RNA_SPLIT_50/RNA_SPLIT_30: RNA-Seq single reads
+*   SCAFF: scaffolds
+*   GFA: assembly graph connections from GFA file
+*   FASTG: assembly graph connections from FASTG file
+*   CONNECTION: from file with connections list
 
-The next column for sources names, the text color represents the edges color for this source.
-The last column represents edges’ weight threshold. You can change this value.  For apply changes click DRAW button.
+The third column shows sources names, text color is the same as color of edges. The last column represents weight threshold for this source, which can be set by user. To apply changes click `DRAW` button.
 
-#### Information to show
 
-You can set up which information will be shown near nodes and edges by marking corresponding check box. These changes will be applied automatically without redrawing.
+### Hinding and displaying information
+
+Using controls displayed below you can set which properties will be shown near vertices and edges. These changes will be applied automatically without redrawing.
 
 ![Vertices info](https://raw.githubusercontent.com/olga24912/SGTK/develop/resources/pic/VertInfo.png)
 
 ![Edges info](https://raw.githubusercontent.com/olga24912/SGTK/develop/resources/pic/EdgeInfo.png)
 
-#### Minimum contig length
+### Minimal contig length
 
 ![Minimum contig length](https://raw.githubusercontent.com/olga24912/SGTK/develop/resources/pic/MinContigLen.png)
 
-You can set up threshold for visualizing nodes. Only nodes corresponding to contigs larger than threshold will be shown. Nodes corresponding to smaller contigs with all related edges will be deleted except the case of scaffolds visualization(A->B->C after filtration becomes A C). For visualization around scaffolds paths through deleted nodes will be shown for scaffold (A->B->C after filtration becomes A->C).
+You can set up threshold for visualizing nodes. Note, that when visualizing nodes along scaffolds contigs shorter than the threshold still will be displayed.
 
-#### Vertices colors
 
-Colors of vertices are correspondent to alignment vertices on chromosomes.
+
+## Understanding visualization
+
+Below we provide brief information on how interprete SGTK visualization.
+
+### Vertices coloring
+
+Colors of vertices correspond to alignment contigs on chromosomes.
+
+
+Blue color means unaligned contig.
 
 ![Default node](https://raw.githubusercontent.com/olga24912/SGTK/develop/resources/pic/DefaultNode.png)
 
-Blue color means unaligned vertex.
+
+In case when a contig is aligned to more than one chromosome, the vertex is colored in sectors. Sector sizes represent the alignment fractions. Only top 3 alignments are shown.
 
 ![Sector node](https://raw.githubusercontent.com/olga24912/SGTK/develop/resources/pic/SectorNode.png)
 
-In case when vertex is aligned to a few chromosomes the vertex will have a few colors. Sector size is corresponded to alignment length. Only top 3 alignments will be shown by sectors.
 
-#### Vertex size
+
+### Vertex size
 
 Size of the vertex is proportional to the contig length in the logarithmic scale.
 
-#### Vertex with border
+### Edges width
+
+Edges have different width depending on source type and visualization mode. The width is assigned in the following order (from thikest to thinest):
+*   Currently visualized scaffold
+*   Connections from the assembly graph (GFA or FASTG)
+*   Scaffolds connections
+*   All other connection types
+
+### Vertex with border
+
+When a vertex has a black border, it means there are hidden adjacent edges, which are not shown at the current picture.
 
 ![Hidden vertex](https://raw.githubusercontent.com/olga24912/SGTK/develop/resources/pic/hiddenVert.png)
 
-Vertex has a black border in case of having hidden connection, not shown on the current picture.
+You can expand the vertex by clicking on this vertex and hidden connection will be shown.
 
 ![Open vertex](https://raw.githubusercontent.com/olga24912/SGTK/develop/resources/pic/openVert.png)
 
-You can click on this vertex and hidden connection will be shown.
+In addtion, the vertex can be removed by clicking on it with the right mouse button.
 
-#### Pale nodes and edges
+### Pale nodes and edges
 
-If you visualize local area of some parts of the graph (for example nodes, edges, scaffolds, difference in sources, ambiguous connection), found parts will have normal opacity and other nodes and edges will have lower opacity.
+When a specific area is displayed (e.g. specified nodes, vertices, etc), focused elements have normal opacity, while the rest are drawn slightly transcparent.
 
 ![Opacity](https://raw.githubusercontent.com/olga24912/SGTK/develop/resources/pic/opacity.png)
 
-#### Edges width
 
-Edges have different width depending on source type and visualization mode. The edges width can be sorted in the following way from biggest width to lowest:
-*   The biggest size have edges which corresponded to current visualized scaffold.
-*   Connection from assembly graph(GFA or FASTG)
-*   Scaffolds connection
-*   All other connection types
 
-#### Genome browser layout
+### Information about edges and nodes
 
-![Genome browser layout](https://raw.githubusercontent.com/olga24912/SGTK/develop/resources/pic/genomeBrowserLayout.png)
-
-In the genome browser mode, vertices of the scaffold graph are displayed as rectangles placed along the reference, lengths of which are proportional to the contigs sizes. Short nodes with related edges are hidden and they are rendered only when zoomed in.
-
-#### Information about edges and nodes
-
-You can see at the top of the left panel general information about the graph:
+General information about the graph is shown at the top of the left panel.
 
 ![Information about graph](https://raw.githubusercontent.com/olga24912/SGTK/develop/resources/pic/graphInfo.png)
 
-When mouse is over node or edge you will see at the top of the left panel information about that node or edge:
+When the courson is pointed over a graph element, information about this node or edge will be displayed at the top of the left panel.
 
 ![Information about node](https://raw.githubusercontent.com/olga24912/SGTK/develop/resources/pic/nodeInfo.png)
 
-### Navigation
 
-#### The view navigation
+
+## Navigation
+
+### View navigator
+
+The view navigator (or "bird’s eye view") shows an overview of the graph. The blue rectangle indicated currently displayed part of the graph. It can be dragged with the mouse to view other part of graph.
+
 ![The view navigation](https://raw.githubusercontent.com/olga24912/SGTK/develop/resources/pic/birdView.png)
-The view navigator(or “bird”’s eye view) is a control that shows an overview of the graph. The blue rectangle indicated currently displayed part of the graph and it can be dragged with the mouse to view other part of graph.
 
-#### Search in free layout
+
+### Search in free layout
+
+You can search for nodes and edges by typing parts of their names/ids in the search bar. 
+
 ![Search](https://raw.githubusercontent.com/olga24912/SGTK/develop/resources/pic/search.png)
 
-You can search for nodes and edges by typing in the search bar id or name of nodes or edges id. You can write only some substring of the name and tips will come up. After searching the graph will be fit on the found node or edge.
 
-#### Search in genome browser
+### Search in genome browser
 
-In genome browser layout it is possible to search only for alignment contigs on displayed chromosomes. After searching the graph will be fit on the found contig.
+In genome browser layout it is possible to search only for contigs aligned the the displayed chromosomes.
 
-#### Zooming
+### Zooming
 
-For zooming you can use: (i) scroll wheel, (ii) keyboard shortcuts(Alt+Plus, Alt+Minus), (iii) set the zoom value at the top right input or (iv) using menu option.
+To zoom in and out you can use: (i) mouse wheel, (ii) keyboard shortcuts (Alt+Plus, Alt+Minus), (iii) set the zoom value at the top right or (iv) using dropdown menu option.
 
 ![Zoom control](https://raw.githubusercontent.com/olga24912/SGTK/develop/resources/pic/zoom1.png)
 
 ![Zoom value changing](https://raw.githubusercontent.com/olga24912/SGTK/develop/resources/pic/zoom2.png)
 
 
-### Keyboard navigation controls
+### Keyboard controls
 
-*   Use Alt+Plus and Alt+Minus for zoom in and out by 1,5 times.
+*   Use Alt+Plus and Alt+Minus for zoom in and out (1,5x).
 *   Use arrow keys to pan the viewport horizontally and vertically.
 *   Use Shift + arrow keys to pan the viewport horizontally and vertically faster.
-*   Use click on the vertex on the right mouse button to delete vertex.
-*   Use Ctrl+Alt+e to export the current picture into PNG format.
+*   Use Ctrl+Alt+e to export the current view into PNG format.
 
 <a name="sec5"></a>
-<h2>5. References </h2>
+# 5. References
+
+SGTK: a toolkit for visualization and assessment of scaffold graphs, Olga Kunyavskaya and Andrey D. Prjibelski. Submitted.
 
 <a name="sec6"></a>
-<h2>6. Feedback and bug reports </h2>
+# 6. Feedback and bug reports
+
+Bug reports, suggestions, feature requests and comments are welcomed at [our GihHub issues page](https://github.com/olga24912/SGTK/issues).
