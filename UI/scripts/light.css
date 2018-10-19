@@ -526,3 +526,34 @@ table tr th {
 
 /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
 .show {display:block;}
+
+.AlertBox {
+    visibility: hidden;
+    position: fixed;
+    border-style: solid;
+    border-width: 2px;
+    background-color: #ddd;
+
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
+    text-align: center;
+
+    width: 300px;
+    height: 80px;
+}
+
+.updateGrpahButton {
+    position: absolute;
+    bottom: 10px;
+    width: 100px;
+    right: 10px;
+}
+
+.dontUpdateGrpahButton {
+    position: absolute;
+    bottom: 10px;
+    width: 100px;
+    right: 120px;
+}
+

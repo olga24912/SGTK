@@ -43,7 +43,7 @@ add_subdirectory(src)
 install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/rna_scaffolder.py"
         DESTINATION bin
         COMPONENT runtime)
-install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/visualize_scaffold_graph.py"
+install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/sgtk.py"
         DESTINATION bin
         COMPONENT runtime)
 install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/resources/test_dataset/ref.fasta"
@@ -124,7 +124,9 @@ install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/UI/scripts/handleAmbiguous.js"
 install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/UI/scripts/freeLayout.js"
         DESTINATION bin/scripts/
         COMPONENT runtime)
-
+install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/UI/scripts/chromFindVertexRank.js"
+        DESTINATION bin/scripts/
+        COMPONENT runtime)
 
 install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/UI/scripts/Icon.png"
         DESTINATION bin/scripts/
