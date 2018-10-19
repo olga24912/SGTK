@@ -10,6 +10,40 @@
 5. <a href="#sec5">References</a><br>
 6. <a href="#sec6">Feedback and bug reports</a><br>
 
+
+# Quick start
+
+## Installation
+You can either download <a href="#sec21">SGTK binaries</a> or <a href="#sec21">compile it by yourself</a>.
+
+If you wish to construct scaffold graph using DNA sequences (long reads, read-pairs, scaffolds or reference genome) you will need [minimap2](https://github.com/lh3/minimap2).
+If you want to use RNA-Seq reads you will need [STAR aligner](https://github.com/alexdobin/STAR).
+
+Graph visualization is stored in HTML file and can be viewed in any web browser.
+
+
+##Running SGTK
+To construnct and visualize the scaffold graph based on contigs run
+
+    visualize_scaffold_graph.py -c <contigs.fa> [--fr <left_pe.fq> <right_pe.fq>]  \
+    [--rf <left_mp.fq> <right_mp.fq>] [--long <pacbio.fq/ont.fq>] \ 
+    [--ref <genome.fa>] [-s <scaffolds.fa>] \
+    -o <output_dir>
+
+Alternatively, instead of <contigs.fa>, one may provide GFA
+
+    visualize_scaffold_graph.py --gfa <graph.gfa> -o <output_dir> [options]
+
+or FASTG file
+
+    visualize_scaffold_graph.py --fastg <graph.fastg> -o <output_dir> [options]
+ 
+After graph construction is finished, open 
+
+    <output_dir>/main.html
+
+in you favourite browser (but better use Chrome).
+
 <a name="sec1"></a>
 # 1. About SGTK
 SGTK &ndash; Scaffold Graph ToolKit &ndash; is a tool for construction and
@@ -25,8 +59,8 @@ Possible linkage information sources are:
 SGTK produces a JavaScript-based HTML page that does not require any additional libraries and can be viewed in a regular web browser. Although it was tested in Chrome, FireFox, Opera and Safari, Chrome is preffered.
 However, to contruct a gaph using SGTK application you will need a 64-bit Linux system or Mac OS and Python 3.
 If you plan to construnct graph using sequencing data or refrence genome you will also need the following aligners:
--    minimap2
--    STAR
+-    [minimap2](https://github.com/lh3/minimap2) for aligning DNA sequences (long reads, read-pairs, scaffolds or reference genome)
+-    [STAR](https://github.com/alexdobin/STAR) for mapping RNA-Seq
 
 More details are provided below.
 
@@ -35,15 +69,16 @@ More details are provided below.
 To obtain SGTK you can either download binaries, or download source code and compile it yourself.
 
 After installation you will get the following files in `bin` directory:
--    `rna_scaffolder.py`  (main executable script for building rna scaffolders)
 -    `visualize_scaffold_graph.py`  (main executable script for visualization scaffold graph)
+-    `rna_scaffolder.py`  (main executable script for building scaffolds using RNA-Seq data)
 -    `buildApp`  (graph construction module)
 -    `filterApp`  (graph simplification and building scaffolds module)
 -    `mergeGraph`  (graph merging module)
 -    `readSplitter` (module for splitting RNA-seq reads)
--    `mainPage.html` (main html page for visualization)
+-    `mainPage.html` (main HTML page for visualization)
 -    `scripts/` (folder containing JS necessary for visualization)
 
+<a name="sec21"></a>
 ## Downloading SGTK Linux binaries
 To download SGTK Linux binaries and extract them, go to the directory in
 which you wish SGTK to be installed and run:
@@ -54,6 +89,7 @@ which you wish SGTK to be installed and run:
 
 SGTK is ready to use. You may also consider adding SGTK installation directory to the `PATH` variable.
 
+<a name="sec22"></a>
 ## Downloading and compiling SGTK source code
 To compile SGTK by yourself you will need the following libraries to be pre-installed:
 -    gcc (version 5 or higher) / Clang (version 3.6 or higher)
@@ -123,10 +159,8 @@ File with assembly graph in GFA format. Edges will be treated as input contigs, 
 ### Linkage sources
 
 `--fr <file_name_1> <file_name_2> `
- A pair of files with left reads and file with right reads for paired-end/mate-pair DNA library with forward-reverse orientation in FASTA/FASTQ format. Input reads are aligned to contigs using minimap2:
-
-    minimap2 -ax sr <contigs_file> <dna1> > dna1.sam
-    minimap2 -ax sr <contigs_file> <dna2> > dna2.sam
+ A pair of files with left reads and file with right reads for paired-end/mate-pair DNA library with forward-reverse orientation in FASTA/FASTQ format. 
+Input reads are aligned to contigs using [minimap2](https://github.com/lh3/minimap2).
 
 `--rf <file_name_1> <file_name_2> `
  A pair of files with left reads and file with right reads for paired-end/mate-pair DNA library with reverse-forward orientation in FASTA/FASTQ format.
@@ -150,25 +184,23 @@ File with assembly graph in GFA format. Edges will be treated as input contigs, 
 
 
 `--long <file_name> `
- File with PacBio/Oxford Nanopore reads, which will be aligned using minimap2:
-
-    minimap2 -x map-pb <contigs_file> <long_reads> > out.paf
-
+ File with PacBio/Oxford Nanopore reads, which will be aligned using [minimap2](https://github.com/lh3/minimap2):
 
 `--rna-p <file_name_1> <file_name_2> `
- A pair of files with left and right reads for paired-end RNA-Seq library. Reads will be aligned to the contigs independently (using STAR).
+ A pair of files with left and right reads for paired-end RNA-Seq library. Reads will be aligned to the contigs independently (using [STAR](https://github.com/alexdobin/STAR)).
 
 
 `--rna-s <file_name> `
- File for single-read RNA-Seq library. Reads will be split into two parts and then aligned to the contigs using STAR.
+ File for single-read RNA-Seq library. Reads will be split into two parts and then aligned to the contigs using [STAR](https://github.com/alexdobin/STAR).
 
 
 `--ref <file_name> `
-File with reference genome in FASTA format. In case if several files are provided (each file must be preceeded by the option, i.e. `--ref genome1.fa --ref genome2.fa`) they will be merged together and chromosomes names will be changed depending on the files names (useful for metagenomic datasets).
+File with reference genome in FASTA format. In case if several files are provided (each file must be preceeded by the option, i.e. `--ref genome1.fa --ref genome2.fa`) 
+they will be merged together and chromosomes names will be changed depending on the files names (useful for metagenomic datasets). Reference sequences are mapped using [minimap2](https://github.com/lh3/minimap2).
 
 
 `-s` (or `--scaffolds`) ` <file_name> `
-File with scaffolds in FASTA format, which will be aligned to the contigs using minmap2.
+File with scaffolds in FASTA format, which will be aligned to the contigs using [minimap2](https://github.com/lh3/minimap2).
 
 
 `--scg <file_name> `
