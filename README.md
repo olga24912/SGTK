@@ -22,7 +22,7 @@ If you want to use RNA-Seq reads you will need [STAR aligner](https://github.com
 Graph visualization is stored in HTML file and can be viewed in any web browser.
 
 
-##Running SGTK
+## Running SGTK
 To construnct and visualize the scaffold graph based on contigs run
 
     visualize_scaffold_graph.py -c <contigs.fa> [--fr <left_pe.fq> <right_pe.fq>]  \
