@@ -43,7 +43,7 @@ add_subdirectory(src)
 install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/rna_scaffolder.py"
         DESTINATION bin
         COMPONENT runtime)
-install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/visualize_scaffold_graph.py"
+install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/sgtk.py"
         DESTINATION bin
         COMPONENT runtime)
 install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/resources/test_dataset/ref.fasta"
