@@ -311,6 +311,7 @@ function handleEdgeLocalArea() {
 }
 
 function handleFilterButton() {
+    document.getElementById("UpdateGraph").style.visibility = "hidden";
     defZoom = 100;
     special_nodes.clear();
     special_edges.clear();
