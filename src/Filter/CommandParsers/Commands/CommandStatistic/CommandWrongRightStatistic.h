@@ -2,6 +2,8 @@
 #define SCAFFOLDER_COMMANDWRONGRIGHTSTATISTIC_H
 
 #include <Filter/CommandParsers/Commands/Command.h>
+#include <Filter/ContigGraph/ContigGraph.h>
+#include <Filter/AligInfo/InfoAboutContigsAlig.h>
 
 namespace filter {
     namespace commands {

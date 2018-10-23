@@ -18,7 +18,8 @@ namespace builder {
             void setGFAFile(std::string file_name);
 
             void evaluate() override;
-
+        private:
+            DECL_LOGGER("GFAGraphBuilder");
         };
     }
 }

@@ -1,11 +1,13 @@
+/*
+ * Graph building main
+ */
+
 #include <Logger/log_writers.hpp>
 #include "Builder/GraphControl.h"
 
-using namespace std;
-
 int main(int argc, char **argv) {
     using namespace builder;
-    logging::create_console_logger("/home/olga/bio-project/bio_scaffolder/scaffolder/src/log.properties");
+    logging::create_console_logger("");
 
     GraphControl graphControl;
     graphControl.evaluate(argc, argv);

@@ -3,6 +3,7 @@
 
 
 #include <Filter/CommandParsers/Commands/Command.h>
+#include <Filter/ContigGraph/ContigGraph.h>
 
 namespace filter {
     namespace commands {

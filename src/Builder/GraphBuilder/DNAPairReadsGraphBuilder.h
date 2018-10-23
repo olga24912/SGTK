@@ -6,7 +6,7 @@
 
 namespace builder {
     namespace graph_builder {
-        class DNAMatePairReadsGraphBuilder : public PairReadGraphBuilder {
+        class DNAPairReadsGraphBuilder : public PairReadGraphBuilder {
         protected:
             int firstRev = 0;
             int secondRev = 1;
@@ -15,7 +15,6 @@ namespace builder {
             int get1Target(const seqan::BamAlignmentRecord &read) const override;
 
         private:
-            DECL_LOGGER("DNAMatePairReadsGraphBuilder");
             int changeEdges(int v1, std::pair<int, int> c1, int v2, std::pair<int, int> c2);
 
         public:
@@ -26,6 +25,8 @@ namespace builder {
             void setRevSecondFlag(int secondRev) {
                 this->secondRev = secondRev;
             }
+        private:
+            DECL_LOGGER("DNAPairReadsGraphBuilder");
         };
     }
 }

@@ -1,9 +1,5 @@
 #include <Filter/CommandParsers/Commands/CommandPrint.h>
 #include <Filter/CommandParsers/Commands/CommandFilter/CommandMergeLib.h>
-#include <Filter/CommandParsers/Commands/CommandFV/CommandFVWithDifInLib.h>
-#include <Filter/CommandParsers/Commands/CommandSetMaxVEinOneFile.h>
-#include <Filter/CommandParsers/Commands/CommandFV/CommandSetFVFork.h>
-#include <Filter/CommandParsers/Commands/CommandFV/CommandSetFVOnlyFirst.h>
 #include <Filter/CommandParsers/Commands/CommandFilter/CommandSetIgnoreEdge.h>
 #include <Filter/CommandParsers/Commands/CommandStatistic/CommandCorrectConnectionStatistic.h>
 #include <Filter/CommandParsers/Commands/CommandStatistic/CommandWeightStatistic.h>
@@ -12,12 +8,8 @@
 #include <Filter/CommandParsers/Commands/CommandStatistic/CommandTwoLibStatistic.h>
 #include <Filter/CommandParsers/Commands/CommandStatistic/CommandHistogram.h>
 #include <Filter/CommandParsers/Commands/CommandStatistic/CommandTwoCompStatistic.h>
-#include <Filter/CommandParsers/Commands/CommandFV/CommandSetFVFewParts.h>
-#include <Filter/CommandParsers/Commands/CommandDW/CommandSetBSDotWriter.h>
-#include <Filter/CommandParsers/Commands/CommandFV/CommandSetFVError.h>
 #include <Filter/CommandParsers/Commands/CommandSetCoordFile.h>
 #include <Filter/CommandParsers/Commands/CommandStatistic/CommandClusterStatistic.h>
-#include <Filter/CommandParsers/Commands/CommandFV/CommandSetFVNotSimplePath.h>
 #include <Filter/CommandParsers/Commands/CommandSetBamFile.h>
 #include <Filter/CommandParsers/Commands/CommandUploadGraph/CommandUploadScaffoldsGraph.h>
 #include <Filter/CommandParsers/Commands/CommandUploadGraph/CommandAddInfoToGraph.h>
@@ -37,27 +29,11 @@ namespace filter {
         const std::string Manager::MIN_EDGE_WEIGHT = "minEdgeW";
         const std::string Manager::MIN_CONTIG_LEN = "minContig";
         const std::string Manager::SET_IGNORE = "setIgnore";
-        const std::string Manager::RESET_IGNORE = "resetIgnore";
         const std::string Manager::SET_IGNORE_EDGE = "setIgnoreEdge";
-        const std::string Manager::WRITE_FULL = "writeFull";
-        const std::string Manager::WRITE_LOCAL = "writeLocal";
-        const std::string Manager::WRITE_ALL_LOCAL = "writeAllLocal";
-        const std::string Manager::WRITE_LOCAL_VERT_IN_SEG = "writeLocalSeg";
-        const std::string Manager::WRITE_BIG_COMP = "writeBig";
-        const std::string Manager::WRITE_LOCAL_ALONG_PATH = "writeAlongChr";
         const std::string Manager::MERGE_SIMPLE_PATH = "mergeSimplePath";
         const std::string Manager::MERGE_LIB = "mergeLib";
         const std::string Manager::PRINT = "print";
         const std::string Manager::EXIT = "exit";
-        const std::string Manager::SET_FV_NOT_PATH_WITH_ALL_LIB = "setFileVNotPathWithAllLib";
-        const std::string Manager::SET_FV_WITH_DIF_IN_LIB = "setFileVWithDifInLib";
-        const std::string Manager::SET_FV_FORK = "setFileVFork";
-        const std::string Manager::SET_FV_ONLY_FIRST = "setFileVOnlyFirst";
-        const std::string Manager::SET_FV_FEW_PARTS = "setFileVFewParts";
-        const std::string Manager::SET_FV_ERROR = "setFileVError";
-        const std::string Manager::SET_FV_NOT_SIMPLE_PATH = "setFileVNotSimplePath";
-        const std::string Manager::SET_BLOCK_SPLIT_DOT_WRITER = "setBlockSplitDotWriter";
-        const std::string Manager::SET_MAX_VE_IN_ONE_FILE = "setMaxVEinOneFile";
         const std::string Manager::SET_COORD_FILE = "setCoordFile";
         const std::string Manager::SET_EXON_BLOCK_FILE = "setExonBlock";
         const std::string Manager::SET_BAM_FILE = "setBamFile";
@@ -83,26 +59,10 @@ namespace filter {
             commandByKeyWord[MIN_CONTIG_LEN] = new CommandMinContig();
             commandByKeyWord[MIN_EDGE_WEIGHT] = new CommandMinEdgeWeight();
             commandByKeyWord[SET_IGNORE] = new CommandSetIgnore();
-            commandByKeyWord[RESET_IGNORE] = new CommandResetIgnore();
             commandByKeyWord[SET_IGNORE_EDGE] = new CommandSetIgnoreEdge();
-            commandByKeyWord[WRITE_FULL] = new CommandWriteFull();
-            commandByKeyWord[WRITE_LOCAL] = new CommandWriteLocal();
-            commandByKeyWord[WRITE_ALL_LOCAL] = new CommandWriteAllLocal();
-            commandByKeyWord[WRITE_LOCAL_VERT_IN_SEG] = new CommandWriteLocalVertInSeg();
-            commandByKeyWord[WRITE_BIG_COMP] = new CommandWriteBigComp();
-            commandByKeyWord[WRITE_LOCAL_ALONG_PATH] = new CommandWriteAlongPath();
             commandByKeyWord[MERGE_SIMPLE_PATH] = new CommandScaffold();
             commandByKeyWord[MERGE_LIB] = new CommandMergeLib();
             commandByKeyWord[PRINT] = new CommandPrint();
-            commandByKeyWord[SET_FV_NOT_PATH_WITH_ALL_LIB] = new CommandSetFVNotWithAllLib();
-            commandByKeyWord[SET_FV_WITH_DIF_IN_LIB] = new CommandFVWithDifInLib();
-            commandByKeyWord[SET_FV_FORK] = new CommandSetFVFork();
-            commandByKeyWord[SET_FV_ONLY_FIRST] = new CommandSetFVOnlyFirst();
-            commandByKeyWord[SET_FV_FEW_PARTS] = new CommandSetFVFewParts();
-            commandByKeyWord[SET_FV_ERROR] = new CommandSetFVError();
-            commandByKeyWord[SET_FV_NOT_SIMPLE_PATH] = new CommandSetFVNotSimplePath();
-            commandByKeyWord[SET_BLOCK_SPLIT_DOT_WRITER] = new CommandSetBSDotWriter();
-            commandByKeyWord[SET_MAX_VE_IN_ONE_FILE] = new CommandSetMaxVEinOneFile();
             commandByKeyWord[SET_COORD_FILE] = new CommandSetCoordFile();
             commandByKeyWord[SET_EXON_BLOCK_FILE] = new CommandSetExonBlockFile();
             commandByKeyWord[SET_BAM_FILE] = new CommandSetBamFile();
@@ -150,17 +110,7 @@ namespace filter {
                 commandByKeyWord[keyWord]->execute(argv, state, graph);
             } else if (keyWord == Manager::EXIT) {
                 return false;
-            } else {
-                std::stringstream ss(keyWord);
-                int v;
-                if (ss >> v && state.name == State::LOCAL) {
-                    std::stringstream sout;
-                    sout << state.fileName << " " << v << " " << state.dist;
-                    CommandWriteLocal().execute(std::string(sout.str()), state, graph);
-                }
-
             }
-
             return true;
         }
     }

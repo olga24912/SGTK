@@ -24,6 +24,8 @@ namespace builder {
             void evaluate() override;
 
             void parseConnection();
+        private:
+            DECL_LOGGER("ConnectionGraphBuilder");
         };
     }
 }

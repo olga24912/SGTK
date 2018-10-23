@@ -1,8 +1,8 @@
 #include <tgmath.h>
-#include "DNAMatePairReadsGraphBuilder.h"
+#include "DNAPairReadsGraphBuilder.h"
 
 
-int builder::graph_builder::DNAMatePairReadsGraphBuilder::get1Target(const seqan::BamAlignmentRecord &read) const {
+int builder::graph_builder::DNAPairReadsGraphBuilder::get1Target(const seqan::BamAlignmentRecord &read) const {
     TRACE("get1Target");
 
     bool isRev = hasFlagRC(read);
@@ -14,7 +14,7 @@ int builder::graph_builder::DNAMatePairReadsGraphBuilder::get1Target(const seqan
 }
 
 
-int builder::graph_builder::DNAMatePairReadsGraphBuilder::get2Target(const seqan::BamAlignmentRecord &read) const {
+int builder::graph_builder::DNAPairReadsGraphBuilder::get2Target(const seqan::BamAlignmentRecord &read) const {
     TRACE("get2Target");
 
     bool isRev = hasFlagRC(read);
@@ -25,7 +25,7 @@ int builder::graph_builder::DNAMatePairReadsGraphBuilder::get2Target(const seqan
     return target;
 }
 
-void builder::graph_builder::DNAMatePairReadsGraphBuilder::incEdgeWeight(seqan::BamAlignmentRecord& read1,
+void builder::graph_builder::DNAPairReadsGraphBuilder::incEdgeWeight(seqan::BamAlignmentRecord& read1,
                                                                  seqan::BamAlignmentRecord& read2) {
     TRACE("incEdgeWeight read1 " << read1.beginPos << " "
                                  << (read1.beginPos + seqan::getAlignmentLengthInRef(read1)) << " RC=" <<  hasFlagRC(read1) <<
@@ -58,7 +58,7 @@ void builder::graph_builder::DNAMatePairReadsGraphBuilder::incEdgeWeight(seqan::
 
 }
 
-int builder::graph_builder::DNAMatePairReadsGraphBuilder::changeEdges(int v1, std::pair<int, int> c1, int v2,
+int builder::graph_builder::DNAPairReadsGraphBuilder::changeEdges(int v1, std::pair<int, int> c1, int v2,
                                                               std::pair<int, int> c2) {
     std::vector<ContigGraph::Edge> edges = graph->getEdgesBetween(v1, v2);
 

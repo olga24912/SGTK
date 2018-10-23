@@ -32,7 +32,7 @@ namespace builder {
         public:
             GraphBuilder() = default;
 
-            //fun that need to call for add conection between contigs;
+            //function which need to call for add conection between contigs;
             virtual void evaluate() = 0;
 
             //set graph, and change lib in it to new.
@@ -44,7 +44,6 @@ namespace builder {
             void setLibType(ContigGraph::Lib::Type ltype) {
                 libType = ltype;
             }
-
         private:
             DECL_LOGGER("GraphBuilder");
         };

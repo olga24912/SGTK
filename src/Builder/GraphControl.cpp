@@ -1,11 +1,10 @@
 #include <Builder/GraphBuilder/RNASplitGraphBuilder.h>
 #include <Builder/GraphBuilder/ConnectionGraphBuilder.h>
-#include <Builder/GraphBuilder/DNAMatePairReadsGraphBuilder.h>
+#include <Builder/GraphBuilder/DNAPairReadsGraphBuilder.h>
 #include <Builder/GraphBuilder/LongGraphBuilder.h>
 #include <Builder/GraphBuilder/FASTGGraphBuilder.h>
 #include <Builder/GraphBuilder/GFAGraphBuilder.h>
 #include "GraphControl.h"
-#include "Builder/GraphBuilder/ReferenceGraphBuilder.h"
 
 namespace builder {
     void GraphControl::evaluate(int argc, char **argv) {
@@ -23,7 +22,7 @@ namespace builder {
             gb->setGraph(&graph);
             gb->evaluate();
         } else if (std::string(argv[1]) == "DNA_PAIR_FR") {
-            DNAMatePairReadsGraphBuilder* gb = new DNAMatePairReadsGraphBuilder;
+            DNAPairReadsGraphBuilder* gb = new DNAPairReadsGraphBuilder;
 
             gb->setFileName1(argv[2]);
             gb->setFileName2(argv[3]);
@@ -36,7 +35,7 @@ namespace builder {
             gb->setGraph(&graph);
             gb->evaluate();
         } else if (std::string(argv[1]) == "DNA_PAIR_RF") {
-            DNAMatePairReadsGraphBuilder* gb = new DNAMatePairReadsGraphBuilder;
+            DNAPairReadsGraphBuilder* gb = new DNAPairReadsGraphBuilder;
 
             gb->setFileName1(argv[2]);
             gb->setFileName2(argv[3]);
@@ -49,7 +48,7 @@ namespace builder {
             gb->setGraph(&graph);
             gb->evaluate();
         } else if (std::string(argv[1]) == "DNA_PAIR_FF") {
-            DNAMatePairReadsGraphBuilder* gb = new DNAMatePairReadsGraphBuilder;
+            DNAPairReadsGraphBuilder* gb = new DNAPairReadsGraphBuilder;
 
             gb->setFileName1(argv[2]);
             gb->setFileName2(argv[3]);
@@ -91,17 +90,6 @@ namespace builder {
 
             gb->setLibName(argv[4]);
             gb->setLibType(ContigGraph::Lib::Type::RNA_SPLIT_30);
-
-            gb->setGraph(&graph);
-            gb->evaluate();
-        } else if (std::string(argv[1]) == "REF") {
-            ReferenceGraphBuilder* gb = new ReferenceGraphBuilder;
-
-            gb->setRefFileName(argv[2]);
-            gb->setQueryFileName(argv[3]);
-            gb->setMinContigLen(atoi(argv[4]));
-            gb->setLibName(argv[5]);
-            gb->setLibType(ContigGraph::Lib::Type::REF);
 
             gb->setGraph(&graph);
             gb->evaluate();

@@ -1,3 +1,4 @@
+#include <Filter/ContigGraph/ContigGraph.h>
 #include "CommandSetIgnoreEdge.h"
 
 namespace filter {

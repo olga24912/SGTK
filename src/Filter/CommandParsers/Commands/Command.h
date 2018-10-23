@@ -4,6 +4,7 @@
 #include <string>
 #include "Filter/CommandParsers/State.h"
 #include <sstream>
+#include <Filter/ContigGraph/ContigGraph.h>
 
 namespace filter {
     namespace commands {

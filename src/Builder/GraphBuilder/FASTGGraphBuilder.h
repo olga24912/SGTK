@@ -25,6 +25,8 @@ namespace builder {
             void evaluate() override;
 
             void parseFASTG();
+        private:
+            DECL_LOGGER("FASTGGraphBuilder");
         };
     }
 }
