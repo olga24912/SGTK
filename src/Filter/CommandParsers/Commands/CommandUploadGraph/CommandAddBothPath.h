@@ -7,6 +7,12 @@
 
 namespace filter {
     namespace commands {
+        /*
+         * addBothPath <bothPathFile> <newLibName> <colorLib>
+         *
+         * Add scaffolds to graph from <bothPathFile>
+         */
+
         class CommandAddBothPath : public Command {
         public:
             void execute(std::string argv, State &state, ContigGraph &graph) override;

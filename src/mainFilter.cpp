@@ -1,3 +1,7 @@
+/*
+ * Graph filtering main
+ */
+
 #include <Logger/log_writers.hpp>
 #include "Filter/CommandParsers/Manager.h"
 

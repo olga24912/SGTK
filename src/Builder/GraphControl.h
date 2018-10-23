@@ -5,16 +5,16 @@
 #include "Builder/GraphBuilder/PairReadGraphBuilder.h"
 
 namespace builder {
-
-/* Graph Control parse args and call other class for
-* build connections and keep info about connections.
+/*
+* Graph Control parse args and call other class for
+* build connections and keep info about connections
 */
     class GraphControl {
     private:
+        //Graph which will be build
         contig_graph::ContigGraph graph;
-        std::string path = ".";
     public:
-        //build connection with this args
+        //Parse arguments and build connection depending on them
         void evaluate(int argc, char **argv);
 
     private:

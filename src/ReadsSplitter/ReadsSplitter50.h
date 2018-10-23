@@ -6,7 +6,9 @@
 #include <seqan/seq_io.h>
 
 namespace reads_splitter {
-//split unmapped reads on two equal parts
+    /*
+     * split unmapped reads on two equal parts
+     */
     class ReadsSplitter50 : public ReadsSplitter {
     public:
         virtual void splitReads(std::string rnaFileName,

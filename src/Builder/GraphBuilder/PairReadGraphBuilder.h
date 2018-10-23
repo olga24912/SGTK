@@ -10,7 +10,9 @@
 
 namespace builder {
     namespace graph_builder {
-//generate connection between contigs by pair reads
+        /*
+         * Generate connection between contigs by paired reads alignments
+         */
         class PairReadGraphBuilder : public GraphBuilder {
         protected:
             std::string fileName1;

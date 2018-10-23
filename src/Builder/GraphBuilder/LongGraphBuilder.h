@@ -6,6 +6,9 @@
 
 namespace builder {
     namespace graph_builder {
+        /*
+         * Generate connection between contigs by long(Nanopore) reads alignments
+         */
         class LongGraphBuilder : public GraphBuilder {
         protected:
             std::string contigFileName;

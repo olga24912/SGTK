@@ -7,6 +7,12 @@
 
 namespace filter {
     namespace commands {
+        /*
+         * addInfoToGraph <infoFile> <newLibName> <colorLib>
+         *
+         * Add scaffolds to graph from <infoFile>
+         */
+
         class CommandAddInfoToGraph : public Command {
         public:
             void execute(std::string argv, State &state, ContigGraph &graph) override;

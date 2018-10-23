@@ -129,6 +129,7 @@ namespace builder {
             ERROR("unkonwn connection type: " << argv[1]);
         }
 
+        std::string path = ".";
         graph.write(path + "/graph.gr");
     }
 }

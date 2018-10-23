@@ -6,6 +6,12 @@
 
 namespace filter {
     namespace commands {
+        /*
+         * minContig <len>
+         *
+         * Delete all contig with length less then <len>
+         */
+
         class CommandMinContig : public Command {
         public:
             void execute(std::string argv, State &state, ContigGraph &graph) override;

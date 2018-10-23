@@ -1,3 +1,7 @@
+/*
+ * Split single RNA-seq reads on parts
+ */
+
 #include <Logger/log_writers.hpp>
 #include <ReadsSplitter/ReadsSplitter.h>
 #include <ReadsSplitter/ReadsSplitter50.h>

@@ -14,13 +14,20 @@
 
 namespace filter {
     namespace contig_graph {
-        // Store graph on contigs with several libs
         class ContigGraph {
         public:
+            //Annotation of exon on contig
             struct Exon {
+                //Start coordinate of exon on contig
                 int b;
+
+                //End coordinate of exon on contig
                 int e;
+
+                //Covarage of exon
                 double cov;
+
+                //Contig ID
                 int id;
 
                 bool operator < (const Exon ex) const {
@@ -29,17 +36,40 @@ namespace filter {
             };
 
             struct Edge {
+                //Edge ID
                 int id = 0;
+
+                //start vertex ID
                 int from = 0;
+
+                //end vertex ID
                 int to = 0;
+
+                //library ID
                 int lib = 0;
+
+                //connection weight
                 double weight = 0;
+
+                //length of connection(distance between contig), -1 if undefined
                 int len = -1;
+
+                //the first coordinate(coordBegin1 <= coordEnd1) of reads alignment on first contig
                 int coordBegin1 = 0;
+
+                //the second coordinate(coordBegin1 <= coordEnd1) of reads alignment on first contig
                 int coordEnd1 = 0;
+
+                //the first coordinate(coordBegin2 <= coordEnd2) of reads alignment on second contig
                 int coordBegin2 = 0;
+
+                //the second coordinate of reads alignment on second contig
                 int coordEnd2 = 0;
+
+                // Chromosome name for reference connection
                 std::string chr_name = "";
+
+                //extra information
                 std::string info = "";
 
                 Edge() {}
@@ -50,12 +80,25 @@ namespace filter {
                         coordEnd1(coordEnd1), coordBegin2(coordBegin2), coordEnd2(coordEnd2) {}
             };
             struct Vertex {
+                //Vertex ID
                 int id;
+
+                //Contig name
                 std::string name;
+
+                //Contig length
                 int len;
+
+                //IDs of outgoings edges
                 std::vector<int> edges;
+
+                //IDs of inconing edges
                 std::vector<int> edgesR;
+
+                //List of exons from first strand
                 std::vector<Exon> exonsStr1;
+
+                //List of exons from second strand
                 std::vector<Exon> exonsStr2;
 
                 Vertex() {}
@@ -103,55 +146,112 @@ namespace filter {
         public:
             std::vector<Exon> getExons(int v, int strand);
 
-            std::vector<int> getEdges(int v); //get all edges from vertex v
-            std::vector<int> getEdgesR(int v); //get all edges to vertex v
+            //get all edges from vertex v
+            std::vector<int> getEdges(int v);
 
-            int getEdgeTo(int e); //if e: v -> u then to[e] = v
-            int getEdgeFrom(int e); //if e: v -> u then from[e] = u
-            int getEdgeWeight(int e); //return wieght of edge e
-            int getEdgeLib(int e); //return lib for this edge
+            //get all edges to vertex v
+            std::vector<int> getEdgesR(int v);
+
+            //if e: v -> u then to[e] = v
+            int getEdgeTo(int e);
+
+            //if e: v -> u then from[e] = u
+            int getEdgeFrom(int e);
+
+            //return wieght of edge e
+            int getEdgeWeight(int e);
+
+            //return lib for this edge
+            int getEdgeLib(int e);
+
+            //get the first coordinate(coordBegin1 <= coordEnd1) of reads alignment on first contig
             int getEdgeCoordB1(int e);
+
+            //get the second coordinate(coordBegin1 <= coordEnd1) of reads alignment on first contig
             int getEdgeCoordE1(int e);
+
+            //get the first coordinate(coordBegin2 <= coordEnd2) of reads alignment on second contig
             int getEdgeCoordB2(int e);
+
+            //get the second coordinate of reads alignment on second contig
             int getEdgeCoordE2(int e);
 
+            //Set the name of chromosome for reference source
             void setEdgeChr(int e, std::string name);
 
-            std::string getLibColor(int l); //return color for this lib
-            std::string getLibName(int l); //return name of this lib
+            //return color for this lib
+            std::string getLibColor(int l);
+
+            //return name of this lib
+            std::string getLibName(int l);
+
+            //return the type of library
             Lib::Type getLibType(int l);
 
+            //get ids of all current sources
             std::vector<int> getLibList();
 
-            int addVertex(int id, std::string name, int len); //add new vertex with this id, name and len
+            //add new vertex with this id, name and len
+            int addVertex(int id, std::string name, int len);
+
+            //add to graph new source
             int addLib(std::string color, std::string name, Lib::Type type);
 
-            int getTargetLen(int id); // get len of contig with id
-            std::string getTargetName(int v); // get name of contig with this id
-            int getTargetId(std::string name); //get id of contig by contig name
-            int getVertexCount(); //get count of vertexs
-            int getLibNum(); //get the count of lib
+            // get len of contig with id
+            int getTargetLen(int id);
+
+            // get name of contig with this id
+            std::string getTargetName(int v);
+
+            //get id of contig by contig name
+            int getTargetId(std::string name);
+
+            //get count of vertexs
+            int getVertexCount();
+
+            //get the count of lib
+            int getLibNum();
+
+            //get maximum vertex id
             int getMaxVertId();
+
+            //get extra Info of edge with id e
             std::string getInfo(int e);
 
+            //get Vertex by Id
             Vertex getVertex(int v) {
                 targets[v].id = v;
                 return targets[v];
             }
 
+            //get list of ids of all available nodes
             std::vector<int> getVertexList();
 
-            void write(std::string fileName); //serialize this graph in .gr format in "fileName" file
-            static ContigGraph read(std::string fileName); //generate ContigGraph from .gr format file
+            //serialize this graph in .gr format in "fileName" file
+            void write(std::string fileName);
 
+            //generate ContigGraph from .gr format file
+            static ContigGraph read(std::string fileName);
+
+            //add new edge between node with ids v1 and v2 with weight w, length betwwen contigs len and with extra info
             int addEdge(int v, int u, int lib, int w, int b1, int e1, int b2, int e2);
+
+            //change edge weight
             void setWeight(int e, int w);
+
+            //change edge coordinate
             void setCoord(int e, int b1, int e1, int b2, int e2);
+
+            //delte edge with ID e
             void delEdge(int e);
+
+            //delete vertex with ID v
             void delVertex(int v);
 
+            //add annotation from <fileName>
             void addExonBlock(std::string fileName);
 
+            //merge source with id l1 and l2, return new Lib
             Lib mergeLib(int l1, int l2, std::string lib_name, double w1, double w2);
         private:
             DECL_LOGGER("ContigGraph");

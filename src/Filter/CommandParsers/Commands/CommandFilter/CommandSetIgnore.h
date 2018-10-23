@@ -6,6 +6,12 @@
 
 namespace filter {
     namespace commands {
+        /*
+         * setIgnore <vertexIdStart> <vertexIdFinish>
+         *
+         * Delete all node with ID between <vertexIdStart> and <vertexIdFinish>
+         */
+
         class CommandSetIgnore : public Command {
         public:
             void execute(std::string argv, State &state, ContigGraph &graph) override;

@@ -1,3 +1,7 @@
+/*
+ * Merge list of graphs in .gr format to one graph
+ */
+
 #include <stdio.h>
 #include <string>
 #include <vector>

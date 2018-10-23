@@ -7,6 +7,9 @@
 
 namespace builder {
     namespace graph_builder {
+        /*
+         * Generate contigs and build connection connection by FASTG file
+         */
         class FASTGGraphBuilder : public GraphBuilder {
         private:
             std::map<std::string, int> contigsId;

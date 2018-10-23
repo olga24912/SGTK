@@ -16,7 +16,12 @@
 namespace filter {
     namespace commands {
         using namespace contig_graph;
-        /* commands:
+/*
+ * Manager parse "filter_config" file, and apply command from file to graph.
+ */
+
+/*
+ * Commands:
  * uploadGraph <filename>
  * uploadScaffoldsGraph <contigFile> <scaffoldFileName>
  * addInfoToGraph <infoFile> <newLibName> <colorLib>

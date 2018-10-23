@@ -5,6 +5,9 @@
 
 namespace builder {
     namespace graph_builder {
+        /*
+         * Generate contigs, build connection and scaffold connection by GFA file
+         */
         class GFAGraphBuilder : public GraphBuilder {
         private:
             std::map<std::string, int> contigsId;

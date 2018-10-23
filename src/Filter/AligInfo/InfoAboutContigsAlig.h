@@ -6,6 +6,10 @@
 namespace filter {
     namespace alig_info {
         using namespace contig_graph;
+        /*
+         * Inforamtion about contig alignment on chromosome
+         */
+
         class InfoAboutContigsAlig {
         public:
             struct Alignment {

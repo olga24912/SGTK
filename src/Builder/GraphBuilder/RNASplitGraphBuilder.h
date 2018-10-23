@@ -5,6 +5,9 @@
 
 namespace builder {
     namespace graph_builder {
+        /*
+         * Generate connection between contigs by RNA split reads alignments
+         */
         class RNASplitGraphBuilder : public PairReadGraphBuilder {
         protected:
             int get2Target(const seqan::BamAlignmentRecord &read) const override;

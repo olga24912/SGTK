@@ -5,6 +5,12 @@
 
 namespace filter {
     namespace commands {
+        /*
+         * uploadScaffoldsGraph <contigFile> <scaffoldFileName>
+         *
+         * Create graph from contigs from <contigFile> and info about scffolds from <scaffoldFileName> in info format
+         */
+
         class CommandUploadScaffoldsGraph : public Command {
         private:
             std::string getContigName(std::string s);

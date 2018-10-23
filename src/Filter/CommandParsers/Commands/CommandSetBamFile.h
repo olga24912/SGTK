@@ -5,6 +5,12 @@
 
 namespace filter {
     namespace commands {
+        /*
+         * setBamFile <bam1FileName> <bam2FileName> <bai1FileName> <bai2FileName> <lib>
+         *
+         * set files with alignments and index for source <lib>. Using for scaffold building.
+         */
+
         class CommandSetBamFile : public Command {
         public:
             void execute(std::string argv, State &state, ContigGraph &graph) override {

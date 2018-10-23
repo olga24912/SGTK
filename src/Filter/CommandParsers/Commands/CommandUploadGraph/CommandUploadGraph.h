@@ -5,8 +5,13 @@
 
 namespace filter {
     namespace commands {
-        //uploadGraph <filename>
-        class CommandUploadGraph : public Command {
+       /*
+        * uploadGraph <filename>
+        *
+        * Upload graph from <filename> in .gr format
+        */
+
+       class CommandUploadGraph : public Command {
         public:
             void execute(std::string argv, State &state, ContigGraph &graph) override;
         };

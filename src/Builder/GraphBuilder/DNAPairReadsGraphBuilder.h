@@ -6,6 +6,9 @@
 
 namespace builder {
     namespace graph_builder {
+        /*
+         *  Generate connection between contigs by DNA paired-end or mate-pair reads alignments
+         */
         class DNAPairReadsGraphBuilder : public PairReadGraphBuilder {
         protected:
             int firstRev = 0;
