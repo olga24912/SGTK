@@ -26,18 +26,18 @@ Graph visualization is stored in HTML file and can be viewed in any web browser.
 ## Running SGTK
 To construnct and visualize the scaffold graph based on contigs run
 
-    visualize_scaffold_graph.py -c <contigs.fa> [--fr <left_pe.fq> <right_pe.fq>]  \
+    sgtk.py -c <contigs.fa> [--fr <left_pe.fq> <right_pe.fq>]  \
     [--rf <left_mp.fq> <right_mp.fq>] [--long <pacbio.fq/ont.fq>] \ 
     [--ref <genome.fa>] [-s <scaffolds.fa>] \
     -o <output_dir>
 
 Alternatively, instead of <contigs.fa>, one may provide GFA
 
-    visualize_scaffold_graph.py --gfa <graph.gfa> -o <output_dir> [options]
+    sgtk.py --gfa <graph.gfa> -o <output_dir> [options]
 
 or FASTG file
 
-    visualize_scaffold_graph.py --fastg <graph.fastg> -o <output_dir> [options]
+    sgtk.py --fastg <graph.fastg> -o <output_dir> [options]
  
 After graph construction is finished, open 
 
@@ -120,7 +120,7 @@ SGTK requires at least one set of contigs, which can be provided as usual FASTA 
 
 To run scaffold graph visualization from the command line, type
 
-    visualize_scaffold_graph.py [options]
+    sgtk.py [options]
 
 Note that we assume that SGTK installation directory is added to the `PATH` variable (otherwise provide full path to SGTK executable: `<installation dir>/visualize_scaffold_graph.py`).
 
@@ -281,7 +281,7 @@ In addtion you also would like to set colors and labels for each linkage source.
 
 Then the commnad line for launching SGTK would look like:
 
-    python3 visualize_scaffold_graph.py -c contigs.fa \
+    python3 sgtk.py -c contigs.fa \
     --fr pe1.fq pe2.fq  --rf mp1.fq mp2.fq  --long filtered_subreads.fq \
     -s scaffolds1.fa  -s scaffolds2.fa  -s scaffolds3.fa \
     --ref chr1.fa --ref chr3.fa --ref chr3.fa \
@@ -311,7 +311,7 @@ SGTK comes with toy dataset, on which you can test your installation:
 
 To test the toy data set, you can run the following command from the SGTK `bin` directory:
 
-    python3 visualize_scaffold_graph.py -c ../share/test_dataset/contigs.fasta \
+    python3 sgtk.py -c ../share/test_dataset/contigs.fasta \
     --fr ../share/test_dataset/read_1.fasta ../share/test_dataset/read_2.fasta \
     --scafinfo ../share/test_dataset/scaf.info \
     --ref ../share/test_dataset/ref.fasta \
@@ -319,7 +319,7 @@ To test the toy data set, you can run the following command from the SGTK `bin` 
 
 If you would like to set labels and colors, you need to set labels and colors for all libraries in order of definition
 
-    python3 visualize_scaffold_graph.py -c ../share/test_dataset/contigs.fasta \
+    python3 sgtk.py -c ../share/test_dataset/contigs.fasta \
     --fr ../share/test_dataset/read_1.fasta ../share/test_dataset/read_2.fasta \
     --scafinfo ../share/test_dataset/scaf.info \
     --ref ../share/test_dataset/ref.fasta \
@@ -328,7 +328,7 @@ If you would like to set labels and colors, you need to set labels and colors fo
     -o output
 
 
-In addition, you can try SGTK visualization examplesm which we uploaded on GitHub. To clone the repository run
+In addition, you can try SGTK visualization examples which we uploaded [here](https://olga24912.github.io/SGTK/). You can also clone the repository:
 
     git clone https://github.com/olga24912/SGTK.git
     cd SGTK
