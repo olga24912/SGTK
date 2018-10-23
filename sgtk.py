@@ -131,32 +131,36 @@ class StoreArgAction(argparse.Action):
 def parse_args():
     global parser
     parser = argparse.ArgumentParser(formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("--contigs", "-c", nargs=1, dest="contigs", help="path to contigs", type=str, action='append')
-    parser.add_argument("--scaffolds", "-s", nargs=1, dest="scaffolds", help="path to scaffolds in fasta format", type=str, action=StoreArgAction)
-    parser.add_argument("--scg", nargs=1, dest="scg", help="path to file with connection list", type=str, action=StoreArgAction)
+    parser.add_argument("--local_output_dir", "-o", nargs=1, help="output folder", type=str)
+
+    parser.add_argument("--contigs", "-c", nargs=1, dest="contigs", help="path to contigs  in FASTA format", type=str, action='append')
+    parser.add_argument("--scaffolds", "-s", nargs=1, dest="scaffolds", help="path to scaffolds in FASTA format", type=str, action=StoreArgAction)
     parser.add_argument("--fastg", nargs=1, dest="fastg", help="path to assembly graph in FASTG format", type=str, action=StoreArgAction)
-    parser.add_argument("--gfa", nargs=1, dest="gfa", help="path to assembly graph in GFA format", type=str, action=StoreArgAction)
-    parser.add_argument("--gr", nargs=1, dest="graph", help="path to graph in .gr format", type=str, action='append')
-    parser.add_argument("--rna-p", dest="rnap", nargs=2, help="path to rna pair reads file", type=str, action=StoreArgAction)
-    parser.add_argument("--rna-s", dest="rnas", nargs=1, help="path to rna read file", type=str, action=StoreArgAction)
+    parser.add_argument("--gfa", nargs=1, dest="gfa", help="path to assembly graph in GFA1 format", type=str, action=StoreArgAction)
 
-    parser.add_argument("--fr", dest="fr", nargs=2, help="path to forward-reverse paired reads file", type=str, action=StoreArgAction)
-    parser.add_argument("--rf", dest="rf", nargs=2, help="path to reverse-forward paired reads file", type=str, action=StoreArgAction)
-    parser.add_argument("--ff", dest="ff", nargs=2, help="path to forward-forward paired reads file", type=str, action=StoreArgAction)
+    parser.add_argument("--fr", dest="fr", nargs=2, help="paths to forward-reverse paired reads in FASTQ/FASTA format", type=str, action=StoreArgAction)
+    parser.add_argument("--rf", dest="rf", nargs=2, help="paths to reverse-forward paired reads in FASTQ/FASTA format", type=str, action=StoreArgAction)
+    parser.add_argument("--ff", dest="ff", nargs=2, help="paths to forward-forward paired reads in FASTQ/FASTA format", type=str, action=StoreArgAction)
 
-    parser.add_argument("--fr_sam", dest="frsam", nargs=2, help="path to alignment of forward-reverse paired reads file in SAM/BAM format", type=str, action=StoreArgAction)
-    parser.add_argument("--rf_sam", dest="rfsam", nargs=2, help="path to alignment of reverse-forward paired reads file in SAM/BAM format", type=str, action=StoreArgAction)
-    parser.add_argument("--ff_sam", dest="ffsam", nargs=2, help="path to alignment of forward-forward paired reads file in SAM/BAM format", type=str, action=StoreArgAction)
+    parser.add_argument("--fr_sam", dest="frsam", nargs=2, help="paths to alignment of forward-reverse paired reads in SAM/BAM format", type=str, action=StoreArgAction)
+    parser.add_argument("--rf_sam", dest="rfsam", nargs=2, help="paths to alignment of reverse-forward paired reads in SAM/BAM format", type=str, action=StoreArgAction)
+    parser.add_argument("--ff_sam", dest="ffsam", nargs=2, help="paths to alignment of forward-forward paired reads in SAM/BAM format", type=str, action=StoreArgAction)
 
-    parser.add_argument("--long", dest="long", nargs=1, help="path to long reads(PacBio/Oxford Nanopore) file", type=str, action=StoreArgAction)
-    parser.add_argument("--local_output_dir", "-o", nargs=1, help="use this output dir", type=str)
-    parser.add_argument("--ref", dest="ref", nargs=1, help="path to reference", type=str, action=StoreArgAction)
+
+    parser.add_argument("--long", dest="long", nargs=1, help="path to long reads (PacBio/Oxford Nanopore) file in FASTQ/FASTA format", type=str, action=StoreArgAction)
+    parser.add_argument("--rna-p", dest="rnap", nargs=2, help="paths to RNA-Seq paired reads  in SAM/BAM format", type=str, action=StoreArgAction)
+    parser.add_argument("--rna-s", dest="rnas", nargs=1, help="path to RNA-Seq single reads  in SAM/BAM format", type=str, action=StoreArgAction)
+
+    parser.add_argument("--ref", dest="ref", nargs=1, help="path to reference genome in FASTA format", type=str, action=StoreArgAction)
     parser.add_argument("--refcoord", dest="refcoord", nargs=2, help="path to ref and to alignment of contigs to reference in coord format", type=str, action=StoreArgAction)
-    parser.add_argument("--scafinfo", nargs=1, help="path to .info file with info about scaffolds", type=str, action=StoreArgAction)
-    parser.add_argument("--scafpath", nargs=1, help="path to scaffold path file with info about scaffolds", type=str, action=StoreArgAction)
 
-    parser.add_argument("--label", "-l", nargs='*', help="list with labels for all libs in definition order", type=str, action='store')
-    parser.add_argument("--color", nargs='*', help="list with color for all libs in definition order", type=str, action='store')
+    parser.add_argument("--gr", nargs=1, dest="graph", help="path to graph in .gr format", type=str, action='append')
+    parser.add_argument("--scg", nargs=1, dest="scg", help="path to file with connection list", type=str, action=StoreArgAction)
+    parser.add_argument("--scafinfo", nargs=1, help="path to .info file with information about scaffolds", type=str, action=StoreArgAction)
+    parser.add_argument("--scafpath", nargs=1, help="path to .paths file with information about scaffolds", type=str, action=StoreArgAction)
+
+    parser.add_argument("--label", "-l", nargs='*', help="list with labels for all sorces in the corresponding order", type=str, action='store')
+    parser.add_argument("--color", nargs='*', help="list with colors for all  sorces in the corresponding order", type=str, action='store')
     args = parser.parse_args()
     return args
 

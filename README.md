@@ -7,14 +7,15 @@
 3.3. <a href="#sec3.3">Output</a><br>
 3.4. <a href="#sec3.4">Example dataset</a><br>
 4. <a href="#sec4">Visualization</a><br>
-5. <a href="#sec5">References</a><br>
-6. <a href="#sec6">Feedback and bug reports</a><br>
+5. <a href="#sec5">RNA-Seq scaffolder</a><br>
+6. <a href="#sec6">References</a><br>
+7. <a href="#sec7">Feedback and bug reports</a><br>
 
 
 # Quick start
 
 ## Installation
-You can either download <a href="#sec21">SGTK binaries</a> or <a href="#sec21">compile it by yourself</a>.
+You can either download <a href="#sec21">SGTK binaries</a> or <a href="#sec21">compile it by yourself</a>. The lates release is can downloaded [here](https://github.com/olga24912/SGTK/releases).
 
 If you wish to construct scaffold graph using DNA sequences (long reads, read-pairs, scaffolds or reference genome) you will need [minimap2](https://github.com/lh3/minimap2).
 If you want to use RNA-Seq reads you will need [STAR aligner](https://github.com/alexdobin/STAR).
@@ -69,7 +70,7 @@ More details are provided below.
 To obtain SGTK you can either download binaries, or download source code and compile it yourself.
 
 After installation you will get the following files in `bin` directory:
--    `visualize_scaffold_graph.py`  (main executable script for visualization scaffold graph)
+-    `sgtk.py`  (main executable script for visualization scaffold graph)
 -    `rna_scaffolder.py`  (main executable script for building scaffolds using RNA-Seq data)
 -    `buildApp`  (graph construction module)
 -    `filterApp`  (graph simplification and building scaffolds module)
@@ -79,15 +80,9 @@ After installation you will get the following files in `bin` directory:
 -    `scripts/` (folder containing JS necessary for visualization)
 
 <a name="sec21"></a>
-## Downloading SGTK Linux binaries
-To download SGTK Linux binaries and extract them, go to the directory in
-which you wish SGTK to be installed and run:
-
-    wget https://github.com/olga24912/SGTK/releases/download/v1.0/SGTK-1.0-Linux.zip
-    unzip SGTK-1.0-Linux.zip
-    cd SGTK-1.0-Linux
-
-SGTK is ready to use. You may also consider adding SGTK installation directory to the `PATH` variable.
+## Downloading SGTK binaries
+SGTK has precompiled binaries for Linux and MacOS. The latest builds can be downloaded for the [GitHub page](https://github.com/olga24912/SGTK/releases).
+Once unpacked, SGTK is ready to use. You may also consider adding SGTK installation directory to the `PATH` variable.
 
 <a name="sec22"></a>
 ## Downloading and compiling SGTK source code
@@ -96,20 +91,18 @@ To compile SGTK by yourself you will need the following libraries to be pre-inst
 -    cmake (version 3.5 or higher)
 -    zlib
 -    Threads
--    Boost
+-    [Biopython](https://biopython.org/)
+-    [Boost](https://www.boost.org/)
 -    [SEQAN (version 2.4 or higher)](https://seqan.readthedocs.io/en/seqan-v2.4.0/Infrastructure/Use/Install.html)
 
-If you meet these requirements, you can download the SGTK source code:
-
-    wget https://github.com/olga24912/SGTK/archive/v1.0.1.zip
-    unzip v1.0.1.zip
-    cd SGTK-1.0.1
-and build it with the following script:
+If you meet these requirements, you can download the SGTK source code [here](https://github.com/olga24912/SGTK/releases). Unpack the archive and build it with the following script:
 
     ./compile.sh
+
 SGTK will be built in the directory `./bin`. If you wish to install SGTK into another directory, you can specify the full path of destination folder by running:
 
     PREFIX=<destination_dir> ./compile.sh
+
 for example:
 
     PREFIX=/usr/local ./compile.sh
@@ -141,7 +134,7 @@ Print help.
 
 
 `-o` (or `--local_output_dir`) ` <output_dir> `
-Specify the output directory. The default output directory is  "./".
+Output directory. The default output directory is  "./".
 
 
 `-c` (or `--contig`) ` <file_name> `
@@ -159,15 +152,15 @@ File with assembly graph in GFA format. Edges will be treated as input contigs, 
 ### Linkage sources
 
 `--fr <file_name_1> <file_name_2> `
- A pair of files with left reads and file with right reads for paired-end/mate-pair DNA library with forward-reverse orientation in FASTA/FASTQ format. 
+ A pair of files with left reads and file with right reads for paired-end/mate-pair DNA library with forward-reverse orientation in FASTQ/FASTA format. 
 Input reads are aligned to contigs using [minimap2](https://github.com/lh3/minimap2).
 
 `--rf <file_name_1> <file_name_2> `
- A pair of files with left reads and file with right reads for paired-end/mate-pair DNA library with reverse-forward orientation in FASTA/FASTQ format.
+ A pair of files with left reads and file with right reads for paired-end/mate-pair DNA library with reverse-forward orientation in FASTQ/FASTA format.
 
 
 `--ff <file_name_1> <file_name_2> `
- A pair of files with left reads and file with right reads for paired-end/mate-pair DNA library with forward-forward orientation in FASTA/FASTQ format.
+ A pair of files with left reads and file with right reads for paired-end/mate-pair DNA library with forward-forward orientation in FASTQ/FASTA format.
 
 
 
@@ -184,14 +177,14 @@ Input reads are aligned to contigs using [minimap2](https://github.com/lh3/minim
 
 
 `--long <file_name> `
- File with PacBio/Oxford Nanopore reads, which will be aligned using [minimap2](https://github.com/lh3/minimap2):
+ File with PacBio/Oxford Nanopore reads in FASTQ/FASTA format, which will be aligned using [minimap2](https://github.com/lh3/minimap2):
 
 `--rna-p <file_name_1> <file_name_2> `
- A pair of files with left and right reads for paired-end RNA-Seq library. Reads will be aligned to the contigs independently (using [STAR](https://github.com/alexdobin/STAR)).
+ A pair of files with left and right reads for paired-end RNA-Seq library in FASTQ/FASTA format. Reads will be aligned to the contigs independently (using [STAR](https://github.com/alexdobin/STAR)).
 
 
 `--rna-s <file_name> `
- File for single-read RNA-Seq library. Reads will be split into two parts and then aligned to the contigs using [STAR](https://github.com/alexdobin/STAR).
+File for single RNA-Seq reads in FASTQ/FASTA format. Reads will be split into two parts and then aligned to the contigs using [STAR](https://github.com/alexdobin/STAR).
 
 
 `--ref <file_name> `
@@ -560,11 +553,42 @@ To zoom in and out you can use: (i) mouse wheel, (ii) keyboard shortcuts (Alt+Pl
 *   Use Ctrl+Alt+e to export the current view into PNG format.
 
 <a name="sec5"></a>
-# 5. References
+# 5. RNA-Seq scaffolder
+
+SGTK also includes a genomic scaffolder, that allows to join contigs using RNA-Seq data. To run the scaffoder type:
+
+    rna_scaffolder.py 
+
+
+Available options are:
+
+`-h` (or `--help`)
+Print help.
+
+
+`-o` (or `--local_output_dir`) ` <output_dir> `
+Output directory.
+
+
+`-c` (or `--contig`) ` <file_name> `
+File with contigs in FASTA format.
+
+`--rna-p <file_name_1> <file_name_2> `
+A pair of files with left and right reads for paired-end RNA-Seq library in FASTQ/FASTA format. Reads will be aligned to the contigs independently (using [STAR](https://github.com/alexdobin/STAR)).
+
+`--rna-s <file_name> `
+File for single RNA-Seq reads in FASTQ/FASTA format. Reads will be split into two parts and then aligned to the contigs using [STAR](https://github.com/alexdobin/STAR).
+
+`--gene_annotation ` <file_name>
+Genes predicted for the given set of contigs (optional). We recomment to build the annotation with [Augustus](http://bioinf.uni-greifswald.de/augustus/).
+
+
+<a name="sec6"></a>
+# 6. References
 
 SGTK: a toolkit for visualization and assessment of scaffold graphs, Olga Kunyavskaya and Andrey D. Prjibelski. Submitted.
 
-<a name="sec6"></a>
-# 6. Feedback and bug reports
+<a name="sec7"></a>
+# 7. Feedback and bug reports
 
 Bug reports, suggestions, feature requests and comments are welcomed at [our GihHub issues page](https://github.com/olga24912/SGTK/issues).
