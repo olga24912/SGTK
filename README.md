@@ -15,10 +15,15 @@
 # Quick start
 
 ## Installation
-You can either download <a href="#sec21">SGTK binaries</a> or <a href="#sec21">compile it by yourself</a>. The latest release can be downloaded [here](https://github.com/olga24912/SGTK/releases).
+The easiest way is to install SGTK via conda:
+
+    conda install -c olga24912 -c conda-forge -c bioconda sgtk
+
+Alternatively, you can either download <a href="#sec21">SGTK binaries</a> or <a href="#sec21">compile it by yourself</a>. The latest release can be downloaded [here](https://github.com/olga24912/SGTK/releases).
 
 If you wish to construct scaffold graph using DNA sequences (long reads, read-pairs, scaffolds or reference genome) you will need [minimap2](https://github.com/lh3/minimap2).
 If you want to use RNA-Seq reads you will need [STAR aligner](https://github.com/alexdobin/STAR).
+Both tools are automatically installed if you use conda.
 
 Graph visualization is stored in HTML file and can be viewed in any web browser.
 
@@ -31,7 +36,7 @@ To construct and visualize the scaffold graph based on contigs run
     [--ref <genome.fa>] [-s <scaffolds.fa>] \
     -o <output_dir>
 
-Alternatively, instead of <contigs.fa>, one may provide GFA
+Alternatively, instead of `<contigs.fa>`, one may provide GFA
 
     sgtk.py --gfa <graph.gfa> -o <output_dir> [options]
 
@@ -39,7 +44,7 @@ or FASTG file
 
     sgtk.py --fastg <graph.fastg> -o <output_dir> [options]
  
-After graph construction is finished, open 
+Once graph construction is finished, open 
 
     <output_dir>/main.html
 
@@ -58,8 +63,9 @@ Possible linkage information sources are:
 -    reference sequences
 
 SGTK produces a JavaScript-based HTML page that does not require any additional libraries and can be viewed in a regular web browser. Although it was tested in Chrome, FireFox, Opera and Safari, Chrome is preferred.
+
 However, to construct a graph using SGTK application you will need a 64-bit Linux system or Mac OS and Python 3.
-If you plan to construct graph using sequencing data or reference genome you will also need the following aligners:
+If you plan to construct graph using sequencing data or reference genome you will also need the following aligners (installed automatically if you use conda):
 -    [minimap2](https://github.com/lh3/minimap2) for aligning DNA sequences (long reads, read-pairs, scaffolds or reference genome)
 -    [STAR](https://github.com/alexdobin/STAR) for mapping RNA-Seq
 
@@ -67,20 +73,14 @@ More details are provided below.
 
 <a name="sec2"></a>
 # 2. Installation
-To obtain SGTK you can either download binaries, or download source code and compile it yourself.
+The easiest way is to install SGTK via conda:
 
-After installation you will get the following files in `bin` directory:
--    `sgtk.py`  (main executable script for visualization scaffold graph)
--    `rna_scaffolder.py`  (main executable script for building scaffolds using RNA-Seq data)
--    `buildApp`  (graph construction module)
--    `filterApp`  (graph simplification and building scaffolds module)
--    `mergeGraph`  (graph merging module)
--    `readSplitter` (module for splitting RNA-seq reads)
--    `mainPage.html` (main HTML page for visualization)
--    `scripts/` (folder containing JS necessary for visualization)
+    conda install -c olga24912 -c conda-forge -c bioconda sgtk
 
-<a name="sec21"></a>
-## Downloading SGTK binaries
+This command also installs [minimap2](https://github.com/lh3/minimap2) and [STAR aligner](https://github.com/alexdobin/STAR).
+
+Alternatively, you can can either download binaries, or download source code and compile it yourself. In this case you need to install [minimap2](https://github.com/lh3/minimap2) and [STAR aligner](https://github.com/alexdobin/STAR) by yourself.
+
 SGTK has precompiled binaries for Linux and MacOS. The latest builds can be downloaded for the [GitHub page](https://github.com/olga24912/SGTK/releases).
 Once unpacked, SGTK is ready to use. You may also consider adding SGTK installation directory to the `PATH` variable.
 
@@ -107,9 +107,18 @@ for example:
 
     PREFIX=/usr/local ./compile.sh
 
-which will install SGTK into `/usr/local/bin`.
+which will install SGTK into `/usr/local/bin`. We also suggest adding SGTK installation directory to the `PATH` variable.
 
-After the installation you will get the same files in `./bin` directory (or `<destination_dir>/bin` if you specified PREFIX). We also suggest adding SGTK installation directory to the `PATH` variable.
+After installation you will get the following files in the installation directory:
+-    `sgtk.py`  (main executable script for visualization scaffold graph)
+-    `rna_scaffolder.py`  (main executable script for building scaffolds using RNA-Seq data)
+-    `buildApp`  (graph construction module)
+-    `filterApp`  (graph simplification and building scaffolds module)
+-    `mergeGraph`  (graph merging module)
+-    `readSplitter` (module for splitting RNA-seq reads)
+-    `mainPage.html` (main HTML page for visualization)
+-    `scripts/` (folder containing JS necessary for visualization)
+
 
 <a name="sec3"></a>
 # 3. Running SGTK
@@ -274,7 +283,7 @@ Let's say our dataset consists of:
 - Illumina paired-end lib (`pe1.fq, pe2.fq`)
 - Illumina mate-pair lib (`mp1.fq, mp2.fq`)
 - PacBio reads (`filtered_subreads.fq`)
-- Several sets of scaffolds generated by different tools (`scaffolds1.fa, scaffolds2.fa, scaffolds3.fa`)
+- Several sets of scaffolds generated by different tools (`scaffolds1. fa, scaffolds2.fa, scaffolds3.fa`)
 - Reference genome splitted into separate chromosomes (`chr1.fa, chr2.fa, chr3.fa`)
 
 In addition you'd like to set the colors and labels for each linkage source.
