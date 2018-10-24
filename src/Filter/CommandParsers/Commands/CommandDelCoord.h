@@ -5,6 +5,11 @@
 
 namespace filter {
     namespace commands {
+        /*
+         * delCoord <lib>
+         *
+         * Merge edges between same nodes, weight = sum of weights, delete coordinate.
+         */
         class CommandDelCoord : public Command {
         public:
             void execute(std::string argv, State &state, ContigGraph &graph) override {

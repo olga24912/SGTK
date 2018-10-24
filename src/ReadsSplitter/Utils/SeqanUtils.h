@@ -7,7 +7,9 @@
 
 namespace reads_splitter {
     namespace utils {
-//handling info from seqans classes
+        /*
+         * handling info from seqans classes
+         */
         class SeqanUtils {
         public:
             //translate dna5 to string

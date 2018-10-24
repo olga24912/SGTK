@@ -6,8 +6,13 @@
 
 namespace filter {
     namespace commands {
-        class CommandPrint : public Command {
+       /*
+        * print <fileName>
+        *
+        * Serialize graph to <fileName> in .gr format
+        */
 
+        class CommandPrint : public Command {
         public:
             void execute(std::string argv, State &state, ContigGraph &graph) override;
         };

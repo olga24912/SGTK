@@ -2,6 +2,7 @@
 #include <seqan/store.h>
 #include <seqan/bam_io.h>
 #include <seqan/seq_io.h>
+#include <Filter/ContigGraph/ContigGraph.h>
 #include "CommandUploadScaffoldsGraph.h"
 
 namespace filter {

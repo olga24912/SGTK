@@ -2,7 +2,6 @@
 #define SCAFFOLDER_COMMANDWEIGHTSTATISTIC_H
 
 #include <Filter/Statistics/Statistic.h>
-#include <Filter/CommandParsers/State.h>
 #include <Filter/CommandParsers/Commands/Command.h>
 
 namespace filter {

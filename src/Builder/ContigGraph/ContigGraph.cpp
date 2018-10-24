@@ -151,11 +151,7 @@ namespace builder {
                     out << " " << " \"coord: " <<
                         edges[i].coordBegin1 << " " << edges[i].coordEnd1 << " " <<
                         edges[i].coordBegin2 << " " << edges[i].coordEnd2;
-                    if (edges[i].chr_name != "") {
-                        out << " chr_name: " << edges[i].chr_name << " \"\n";
-                    } else {
-                        out << "\"\n";
-                    }
+                    out << "\"\n";
                 } else {
                     if (edges[i].info != "") {
                         out << " \"" << edges[i].info << "\"\n";
@@ -235,9 +231,6 @@ namespace builder {
                 if (ss >> tmp) {
                     ss >> g.edges[i].coordBegin1 >> g.edges[i].coordEnd1 >> g.edges[i].coordBegin2 >> g.edges[i].coordEnd2;
                 }
-                if (ss >> tmp) {
-                    ss >> g.edges[i].chr_name;
-                }
             }
 
             in.close();
@@ -252,11 +245,6 @@ namespace builder {
         ContigGraph::Lib::Type ContigGraph::getLibType(int l) {
             TRACE("getLibType l=" << l << " : " << Lib::typeToStr[libs[l].type]);
             return libs[l].type;
-        }
-
-        void ContigGraph::setEdgeChr(int e, std::string name) {
-            TRACE("setEdgeChr e=" << e << " name=" << name);
-            edges[e].chr_name = name;
         }
 
         int ContigGraph::getTargetId(std::string name) {

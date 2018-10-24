@@ -7,6 +7,9 @@
 
 namespace builder {
     namespace graph_builder {
+        /*
+         * Build graph by list of connection between contigs.
+         */
         class ConnectionGraphBuilder : public GraphBuilder {
         private:
             std::map<std::string, int> contigsId;
@@ -24,6 +27,8 @@ namespace builder {
             void evaluate() override;
 
             void parseConnection();
+        private:
+            DECL_LOGGER("ConnectionGraphBuilder");
         };
     }
 }

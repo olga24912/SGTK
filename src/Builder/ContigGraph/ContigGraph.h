@@ -12,22 +12,41 @@
 
 namespace builder {
     namespace contig_graph {
-// Store graph on contigs with several libs
         class ContigGraph {
         public:
             const int MAX_EDGES_CNT=5*1e5;
             struct Edge {
+                //Edge ID
                 int id;
+
+                //start vertex ID
                 int from;
+
+                //end vertex ID
                 int to;
+
+                //library ID
                 int lib;
+
+                //connection weight
                 double weight;
+
+                //length of connection(distance between contig), -1 if undefined
                 int len = -1;
+
+                //the first coordinate(coordBegin1 <= coordEnd1) of reads alignment on first contig
                 int coordBegin1;
+
+                //the second coordinate(coordBegin1 <= coordEnd1) of reads alignment on first contig
                 int coordEnd1;
+
+                //the first coordinate(coordBegin2 <= coordEnd2) of reads alignment on second contig
                 int coordBegin2;
+
+                //the second coordinate of reads alignment on second contig
                 int coordEnd2;
-                std::string chr_name = "";
+
+                //extra information
                 std::string info = "";
 
                 Edge() {}
@@ -45,8 +64,13 @@ namespace builder {
             };
 
             struct Vertex {
+                //vertex ID
                 int id;
+
+                //name of contig
                 std::string name;
+
+                //contig length
                 int len;
 
                 Vertex() {}
@@ -60,6 +84,8 @@ namespace builder {
                     REF, DNA_PAIR, RNA_PAIR, RNA_SPLIT_50, RNA_SPLIT_30, SCAFF, CONNECTION, MATE_PAIR, LONG, FASTG, GFA
                 };
                 static const std::string typeToStr[];
+
+                //TODO: delete
                 std::string color;
                 std::string name;
                 Type type;
@@ -78,9 +104,15 @@ namespace builder {
             };
         private:
             static const int maxClusterSize = 1000;
-            std::vector<std::vector<int> > graph; // graph[v][i] = e store edge id from vertex (e: v -> u)
-            std::vector<std::vector<int> > graphR; // graph[u][i] = e store edge id to vertex (e: v -> u)
-            std::unordered_map<std::string, int> targetId; // return vertex in graph(aka target id) by target name
+
+            // graph[v][i] = e store edge id from vertex (e: v -> u)
+            std::vector<std::vector<int> > graph;
+
+            // graph[u][i] = e store edge id to vertex (e: v -> u)
+            std::vector<std::vector<int> > graphR;
+
+            // return vertex in graph(aka target id) by target name
+            std::unordered_map<std::string, int> targetId;
 
             std::vector<Vertex> targets;
             std::vector<Lib> libs;
@@ -88,32 +120,56 @@ namespace builder {
 
             void filterGraph();
         public:
-            void newLib(std::string name, std::string color, Lib::Type type); //next edge library
+            //next edge library
+            void newLib(std::string name, std::string color, Lib::Type type);
 
-            std::vector<int> getEdges(int v); //get all edges from vertex v
-            std::vector<int> getEdgesR(int v); //get all edges to vertex v
+            //get all edges ids from vertex v
+            std::vector<int> getEdges(int v);
+
+            //get all edges ids to vertex v
+            std::vector<int> getEdgesR(int v);
+
+            //get all edges between vertex v and vertex u
             std::vector<Edge> getEdgesBetween(int v, int u);
 
-            void setEdgeChr(int e, std::string name);
+            //return color for this library
+            std::string getLibColor(int l);
 
-            std::string getLibColor(int l); //return color for this lib
+            //return type of library
             Lib::Type getLibType(int l);
 
-            int incEdgeWeight(int v, int u, int cb1, int ce1, int cb2,
-                              int ce2); //increment edge wight between contigs with id v and u
-            int addVertex(int id, std::string name, int len); //add new vertex with this id, name and len
-            int getTargetLen(int id) const; // get len of contig with id
-            int getVertexCount(); //get count of vertexs
-            int getLibNum(); //get the count of lib
+            //increment edge wight between contigs with id v and u
+            int incEdgeWeight(int v, int u, int cb1, int ce1, int cb2, int ce2);
 
+            //add new vertex with this id, name and len
+            int addVertex(int id, std::string name, int len);
+
+            // get len of contig with id
+            int getTargetLen(int id) const;
+
+            //get count of vertexs
+            int getVertexCount();
+
+            //get the count of lib
+            int getLibNum();
+
+            //get vertex ID by contig name
             int getTargetId(std::string name);
+
+            //add new edge between nodes with ids v1 and v2 with coordinates of reads alignment c1 and c2
             int addEdge(int v1, int v2, std::pair<int, int> c1, std::pair<int, int> c2);
+
+            //add new edge between node with ids v1 and v2 with weight w, length betwwen contigs len and with extra info
             int addEdge (int v1, int v2, double w, int len=-1, std::string info = "");
-            void incEdge(int v, std::pair<int, int> c1, std::pair<int, int> c2);
 
+            //increment edge weight with ID e, and update coordinate
+            void incEdge(int e, std::pair<int, int> c1, std::pair<int, int> c2);
 
-            void write(std::string fileName); //serialize this graph in .gr format in "fileName" file
-            static ContigGraph read(std::string fileName); //generate ContigGraph from .gr format file
+            //serialize this graph in .gr format in "fileName" file
+            void write(std::string fileName);
+
+            //generate ContigGraph from .gr format file
+            static ContigGraph read(std::string fileName);
         private:
             DECL_LOGGER("ContigGraph");
         };

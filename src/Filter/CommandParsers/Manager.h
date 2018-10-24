@@ -7,15 +7,7 @@
 #include <Filter/CommandParsers/Commands/CommandFilter/CommandMinContig.h>
 #include <Filter/CommandParsers/Commands/CommandFilter/CommandMinEdgeWeight.h>
 #include <Filter/CommandParsers/Commands/CommandFilter/CommandSetIgnore.h>
-#include <Filter/CommandParsers/Commands/CommandFilter/CommandResetIgnore.h>
-#include <Filter/CommandParsers/Commands/CommandWrite/CommandWriteFull.h>
-#include <Filter/CommandParsers/Commands/CommandWrite/CommandWriteLocal.h>
-#include <Filter/CommandParsers/Commands/CommandWrite/CommandWriteAllLocal.h>
-#include <Filter/CommandParsers/Commands/CommandWrite/CommandWriteBigComp.h>
-#include <Filter/CommandParsers/Commands/CommandWrite/CommandWriteLocalVertInSeg.h>
-#include <Filter/CommandParsers/Commands/CommandWrite/CommandWriteAlongPath.h>
 #include <Filter/CommandParsers/Commands/CommandScaffold.h>
-#include <Filter/CommandParsers/Commands/CommandFV/CommandSetFVNotPathWithAllLib.h>
 #include "State.h"
 #include "Filter/CommandParsers/Commands/CommandUploadGraph/CommandUploadGraph.h"
 #include <fstream>
@@ -24,7 +16,12 @@
 namespace filter {
     namespace commands {
         using namespace contig_graph;
-        /* commands:
+/*
+ * Manager parse "filter_config" file, and apply command from file to graph.
+ */
+
+/*
+ * Commands:
  * uploadGraph <filename>
  * uploadScaffoldsGraph <contigFile> <scaffoldFileName>
  * addInfoToGraph <infoFile> <newLibName> <colorLib>
@@ -33,26 +30,10 @@ namespace filter {
  * minContig <len>
  * mergeSimplePath <contigsFileName> <outFileName>
  * setIgnore <vertexIdStart> <vertexIdFinish>
- * resetIgnore
  * setIgnoreEdge <edgeId>
  * mergeLib <libNum1> <libNum2> <newLibName>
  * print <fileName>
  * exit
- * writeFull <fileName>
- * WriteLocal <fileName> <dist> <vertexID>*
- * writeAllLocal <fileName> <dist>
- * writeLocalSeg <fileName> <vertexIDStart> <vertexIDFinish> <dist>
- * writeBig <prefixFileName> <size>
- * writeAlongChr <prefixFileName>
- * setFileVNotPathWithAllLib
- * setFileVWithDifInLib <libNum>*
- * setFileVFork <libNum>
- * setFileVOnlyFirst <libNumPresent> <libNumNotPresent>
- * setFileVFewParts
- * setFileVError <coordFileName> <libNum>
- * setFileVNotSimplePath
- * setBlockSplitDotWriter
- * setMaxVEinOneFile <maxVertNum> <maxEdgeNum>
  * setCoordFile <coordFile>
  * setExonBlock <crdFile>
  * setBamFile <bam1FileName> <bam2FileName> <bai1FileName> <bai2FileName> <lib>
@@ -76,28 +57,12 @@ namespace filter {
             static const std::string ADD_BOTH_PATH;
             static const std::string MIN_EDGE_WEIGHT;
             static const std::string MIN_CONTIG_LEN;
-            static const std::string WRITE_FULL;
-            static const std::string WRITE_LOCAL;
-            static const std::string WRITE_LOCAL_VERT_IN_SEG;
-            static const std::string WRITE_ALL_LOCAL;
-            static const std::string WRITE_BIG_COMP;
             static const std::string MERGE_SIMPLE_PATH;
-            static const std::string WRITE_LOCAL_ALONG_PATH;
             static const std::string SET_IGNORE;
-            static const std::string RESET_IGNORE;
             static const std::string SET_IGNORE_EDGE;
             static const std::string MERGE_LIB;
             static const std::string PRINT;
             static const std::string EXIT;
-            static const std::string SET_FV_NOT_PATH_WITH_ALL_LIB;
-            static const std::string SET_FV_WITH_DIF_IN_LIB;
-            static const std::string SET_FV_FORK;
-            static const std::string SET_FV_ONLY_FIRST;
-            static const std::string SET_FV_FEW_PARTS;
-            static const std::string SET_FV_ERROR;
-            static const std::string SET_FV_NOT_SIMPLE_PATH;
-            static const std::string SET_BLOCK_SPLIT_DOT_WRITER;
-            static const std::string SET_MAX_VE_IN_ONE_FILE;
             static const std::string SET_COORD_FILE;
             static const std::string SET_EXON_BLOCK_FILE;
             static const std::string SET_BAM_FILE;

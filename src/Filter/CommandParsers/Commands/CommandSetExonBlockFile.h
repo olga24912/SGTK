@@ -5,6 +5,12 @@
 
 namespace filter {
     namespace commands {
+       /*
+        * setExonBlock <crdFile>
+        *
+        * Set file with annotation in crd format
+        */
+
         class CommandSetExonBlockFile : public Command {
         public:
             void execute(std::string argv, State &state, ContigGraph &graph) override {

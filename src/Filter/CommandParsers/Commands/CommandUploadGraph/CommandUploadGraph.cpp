@@ -1,4 +1,4 @@
-#include <Filter/CommandParsers/State.h>
+#include <Filter/ContigGraph/ContigGraph.h>
 #include "CommandUploadGraph.h"
 
 namespace filter {

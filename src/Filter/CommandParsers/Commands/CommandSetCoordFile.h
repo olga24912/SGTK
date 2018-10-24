@@ -5,6 +5,12 @@
 
 namespace filter {
     namespace commands {
+       /*
+        * setCoordFile <coordFile>
+        *
+        * Set file with alignment contigs on chromosome in coord format
+        */
+
         class CommandSetCoordFile : public Command {
         public:
             void execute(std::string argv, State &state, ContigGraph &graph) override {

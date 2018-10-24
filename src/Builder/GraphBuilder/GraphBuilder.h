@@ -7,14 +7,19 @@
 namespace builder {
     namespace graph_builder {
         using namespace contig_graph;
-// main class for generate conection between contigs.
+        /*
+         * Main class for graph building.
+         */
         class GraphBuilder {
         protected:
-            std::string path; // path/to/the/dir where this class will generate files.
+            // path/to/the/dir where this class will generate files.
+            std::string path;
 
-            ContigGraph *graph; //generated graph
+            //generated graph
+            ContigGraph *graph;
 
-            std::string libName; //name of the lib
+            //name of the lib
+            std::string libName;
             ContigGraph::Lib::Type  libType;
 
             std::string getLibColor() {
@@ -32,19 +37,22 @@ namespace builder {
         public:
             GraphBuilder() = default;
 
-            //fun that need to call for add conection between contigs;
+            //function which need to call for add conection between contigs;
             virtual void evaluate() = 0;
 
-            //set graph, and change lib in it to new.
-            // need to be coll after setLibName
+            /*
+             * set graph, and change lib in it to new.
+             * need to be coll after setLibName
+             */
             virtual void setGraph(ContigGraph *graph);
 
-            //set libName
+            //set name of the library
             void setLibName(std::string libName);
+
+            //set type of the library
             void setLibType(ContigGraph::Lib::Type ltype) {
                 libType = ltype;
             }
-
         private:
             DECL_LOGGER("GraphBuilder");
         };

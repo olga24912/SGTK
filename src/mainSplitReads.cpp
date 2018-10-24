@@ -1,3 +1,7 @@
+/*
+ * Split single RNA-seq reads on parts
+ */
+
 #include <Logger/log_writers.hpp>
 #include <ReadsSplitter/ReadsSplitter.h>
 #include <ReadsSplitter/ReadsSplitter50.h>
@@ -7,7 +11,7 @@ using namespace std;
 
 int main(int argc, char **argv) {
     using namespace reads_splitter;
-    logging::create_console_logger("../log.properties");
+    logging::create_console_logger("");
 
     if (argc != 5) {
         ERROR("expected 4 args: <0|1> - split50 or byUnmappedEnd, <RnafileName>, <ResFileName1>, <ResFileName2>");

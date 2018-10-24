@@ -6,7 +6,9 @@
 #include <seqan/graph_types.h>
 
 namespace reads_splitter {
-//if some read mapped on ref not fully, cut unmmaped end
+    /*
+     * if some read mapped on ref not fully, cut unmmaped end
+     */
     class SplitterByUnmappedEnd : public ReadsSplitter {
     private:
         const int MIN_READ_LEN = 20;

@@ -1,3 +1,7 @@
+/*
+ * Merge list of graphs in .gr format to one graph
+ */
+
 #include <stdio.h>
 #include <string>
 #include <vector>
@@ -7,7 +11,8 @@
 const int MAX_STR_LEN = 1000;
 
 int main(int argc, char ** argv) {
-    logging::create_console_logger("../log.properties");
+    logging::create_console_logger("");
+
     INFO("Start merge libs");
     std::vector<std::string> lib;
     std::vector<std::string> vec;

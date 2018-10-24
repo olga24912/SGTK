@@ -1,11 +1,9 @@
 /*#include <Builder/Tools/SystemAlignmentTools.h>
-#include <Builder/GraphBuilder/DNAPairReadGraphBuilder.h>
 #include "Builder/ReadsSplitter/ReadsSplitter.h"
 #include "Builder/ReadsSplitter/ReadsSplitter50.h"
 #include "Builder/ReadsSplitter/SplitterByUnmappedEnd.h"
 #include "Builder/GraphBuilder/RNAPairReadGraphBuilder.h"
 #include "Builder/GraphBuilder/RNASplitReadGraphBuilder.h"
-#include "Builder/GraphBuilder/ReferenceGraphBuilder.h"
 #include "GenTests/RnaPairReadsTest.h"
 #include "GenTests/SplitReadsTest.h"
 #include "GenTests/DnaPairReadsTest.h"

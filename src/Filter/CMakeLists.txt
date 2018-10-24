@@ -1,16 +1,6 @@
 include_directories(.)
 
 set(SOURCE_FILES
-        Tools/SystemTools.h
-        Writers/DotWriter/DotWriter.h
-        Writers/DotWriter/ChrDotWriter.h
-        Writers/DotWriter/ChrDotWriterBuilder.h
-        Writers/Searcher.h
-        Writers/Writer.h
-        Writers/WriteFullGraph.h
-        Writers/WriteLocal.h
-        Writers/WriteBigComponent.h
-        Writers/GraphSplitter.h
         CommandParsers/Manager.h
         CommandParsers/Commands/Command.h
         CommandParsers/State.h
@@ -18,35 +8,14 @@ set(SOURCE_FILES
         CommandParsers/Commands/CommandFilter/CommandMinContig.h
         CommandParsers/Commands/CommandFilter/CommandMinEdgeWeight.h
         CommandParsers/Commands/CommandFilter/CommandSetIgnore.h
-        CommandParsers/Commands/CommandFilter/CommandResetIgnore.h
-        CommandParsers/Commands/CommandWrite/CommandWriteFull.h
-        CommandParsers/Commands/CommandWrite/CommandWrite.h
-        CommandParsers/Commands/CommandWrite/CommandWriteLocal.h
-        CommandParsers/Commands/CommandWrite/CommandWriteAllLocal.h
-        CommandParsers/Commands/CommandWrite/CommandWriteLocalVertInSeg.h
-        CommandParsers/Commands/CommandWrite/CommandWriteBigComp.h
-        CommandParsers/Commands/CommandWrite/CommandWriteAlongPath.h
         CommandParsers/Commands/CommandScaffold.h
         CommandParsers/Commands/CommandPrint.h
         CommandParsers/Commands/CommandFilter/CommandMergeLib.h
-        CommandParsers/Commands/CommandFV/CommandSetFVNotSimplePath.h
         CommandParsers/Commands/CommandSetBamFile.h
         CommandParsers/Commands/CommandSetExonBlockFile.h
         CommandParsers/Commands/CommandDelCoord.h
-        Writers/FileValidator/FileValidator.h
-        Writers/FileValidator/ValidatorNotPathWithAllLib.h
-        CommandParsers/Commands/CommandFV/CommandSetFV.h
-        CommandParsers/Commands/CommandFV/CommandSetFVNotPathWithAllLib.h
-        Writers/FileValidator/ValidatorWithDifInLib.h
-        CommandParsers/Commands/CommandFV/CommandFVWithDifInLib.h
-        CommandParsers/Commands/CommandSetMaxVEinOneFile.h
         Scaffolder/Scaffolds.h
         Scaffolder/ScaffolderPipeline.h
-        Writers/FileValidator/ValidatorFork.h
-        Writers/FileValidator/ValidatorNotSimplePath.h
-        CommandParsers/Commands/CommandFV/CommandSetFVFork.h
-        CommandParsers/Commands/CommandFV/CommandSetFVOnlyFirst.h
-        Writers/FileValidator/ValidatorOnlyFirst.h
         CommandParsers/Commands/CommandFilter/CommandSetIgnoreEdge.h
         CommandParsers/Commands/CommandUploadGraph/CommandUploadScaffoldsGraph.h
         CommandParsers/Commands/CommandUploadGraph/CommandAddInfoToGraph.h
@@ -69,18 +38,10 @@ set(SOURCE_FILES
         CommandParsers/Commands/CommandStatistic/CommandHistogram.h
         CommandParsers/Commands/CommandStatistic/CommandTwoCompStatistic.h
         Statistics/TwoCompStatistic.h
-        Writers/FileValidator/ValidatorFewParts.h
-        CommandParsers/Commands/CommandFV/CommandSetFVFewParts.h
-        CommandParsers/Commands/CommandDW/CommandSetBSDotWriter.h
-        Writers/DotWriter/DotWriterBuilder.h
-        Writers/DotWriter/BlockSplitDotWriterBuilder.h
-        Writers/DotWriter/BlockSplitDotWriter.h
         Scaffolder/Rule.h
         Scaffolder/RuleBigDifInWeight.h
         Scaffolder/RuleInOneLine.h
         Scaffolder/RuleDelWrongCoonection.h
-        Writers/FileValidator/ValidatorError.h
-        CommandParsers/Commands/CommandFV/CommandSetFVError.h
         CommandParsers/Commands/CommandSetCoordFile.h
         Statistics/ClusterStatistic.h
         CommandParsers/Commands/CommandStatistic/CommandClusterStatistic.h
@@ -98,38 +59,16 @@ set(SOURCE_FILES
         CommandParsers/Commands/CommandStatistic/CommandStrandStatistic.h
         AligInfo/GeneAnnotationContigs.h
 
-        Tools/SystemTools.cpp
-        Writers/DotWriter/DotWriter.cpp
-        Writers/DotWriter/ChrDotWriter.cpp
-        Writers/Searcher.cpp
-        Writers/WriteFullGraph.cpp
-        Writers/WriteLocal.cpp
-        Writers/WriteBigComponent.cpp
-        Writers/GraphSplitter.cpp
         CommandParsers/Manager.cpp
         CommandParsers/Commands/CommandUploadGraph/CommandUploadGraph.cpp
         CommandParsers/Commands/CommandFilter/CommandMinContig.cpp
         CommandParsers/Commands/CommandFilter/CommandMinEdgeWeight.cpp
         CommandParsers/Commands/CommandFilter/CommandSetIgnore.cpp
-        CommandParsers/Commands/CommandFilter/CommandResetIgnore.cpp
-        CommandParsers/Commands/CommandWrite/CommandWriteFull.cpp
-        CommandParsers/Commands/CommandWrite/CommandWrite.cpp
-        CommandParsers/Commands/CommandWrite/CommandWriteLocal.cpp
-        CommandParsers/Commands/CommandWrite/CommandWriteAllLocal.cpp
-        CommandParsers/Commands/CommandWrite/CommandWriteLocalVertInSeg.cpp
-        CommandParsers/Commands/CommandWrite/CommandWriteBigComp.cpp
-        CommandParsers/Commands/CommandWrite/CommandWriteAlongPath.cpp
         CommandParsers/Commands/CommandScaffold.cpp
         CommandParsers/Commands/CommandPrint.cpp
         CommandParsers/Commands/CommandFilter/CommandMergeLib.cpp
-        Writers/FileValidator/ValidatorNotPathWithAllLib.cpp
-        Writers/FileValidator/ValidatorWithDifInLib.cpp
-        CommandParsers/Commands/CommandFV/CommandFVWithDifInLib.cpp
         Scaffolder/Scaffolds.cpp
         Scaffolder/ScaffolderPipeline.cpp
-        Writers/FileValidator/ValidatorFork.cpp
-        Writers/FileValidator/ValidatorNotSimplePath.cpp
-        Writers/FileValidator/ValidatorOnlyFirst.cpp
         CommandParsers/Commands/CommandFilter/CommandSetIgnoreEdge.cpp
         CommandParsers/Commands/CommandUploadGraph/CommandUploadScaffoldsGraph.cpp
         CommandParsers/Commands/CommandUploadGraph/CommandAddInfoToGraph.cpp
@@ -152,13 +91,10 @@ set(SOURCE_FILES
         CommandParsers/Commands/CommandStatistic/CommandHistogram.cpp
         CommandParsers/Commands/CommandStatistic/CommandTwoCompStatistic.cpp
         Statistics/TwoCompStatistic.cpp
-        Writers/FileValidator/ValidatorFewParts.cpp
-        Writers/DotWriter/BlockSplitDotWriter.cpp
         Scaffolder/Rule.cpp
         Scaffolder/RuleBigDifInWeight.cpp
         Scaffolder/RuleInOneLine.cpp
         Scaffolder/RuleDelWrongCoonection.cpp
-        Writers/FileValidator/ValidatorError.cpp
         Statistics/ClusterStatistic.cpp
         CommandParsers/Commands/CommandStatistic/CommandClusterStatistic.cpp
         Scaffolder/RuleDelSmallCycle.cpp
