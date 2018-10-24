@@ -342,26 +342,26 @@ This example is constructed from E.coli paired-end reads and pacbio reads. Conti
 ## Getting started
 After the graph is constructed and the web page is generated, you can open `main.html` in a web browser (we recommended to use Chrome, however it also was tested in FireFox, Opera and Safari). 
 
-![First step](https://raw.githubusercontent.com/olga24912/SGTK/develop/resources/pic/firstStep.png)
+![First step](https://raw.githubusercontent.com/olga24912/SGTK/master/resources/pic/firstStep.png)
 
 You can click on the `DRAW` button at the bottom of the left panel and choose a component for visualization at the right panel. By default the full graph is separated into components. If a component contains more than 100 nodes and 200 edges it will be randomly split into parts and visualized independently.
 
 SGTK has two layout  modes: (i) free layout and (ii) genome browser. Free layout option is available for all kinds of data. In genome browser layout contigs are aligned along reference chromosomes, which makes it available only if the reference is provided.
 
-![Layout](https://raw.githubusercontent.com/olga24912/SGTK/develop/resources/pic/layout.png)
+![Layout](https://raw.githubusercontent.com/olga24912/SGTK/master/resources/pic/layout.png)
 
 ## Genome browser layout
 
 In the genome browser mode, vertices of the scaffold graph are displayed as rectangles placed along the reference, lengths of which are proportional to the contigs sizes. Short nodes with adjacent edges are hidden and rendered only when zoomed in.
 
-![Genome browser layout](https://raw.githubusercontent.com/olga24912/SGTK/develop/resources/pic/genomeBrowserLayout.png)
+![Genome browser layout](https://raw.githubusercontent.com/olga24912/SGTK/master/resources/pic/genomeBrowserLayout.png)
 
 
 ## Free layout mode
 
 In case of free layout you can choose one of several filtration options. Once new visualization parameters are set, click the `DRAW` button and choose the component.
 
-![Filtraton](https://raw.githubusercontent.com/olga24912/SGTK/develop/resources/pic/filtration.png)
+![Filtraton](https://raw.githubusercontent.com/olga24912/SGTK/master/resources/pic/filtration.png)
 
 ### Drawing the entire graph
 
@@ -378,7 +378,7 @@ You may also filter scaffolds based on their minimal length and other properties
 
 When multiple boxes are checked, components that satisfy at least one parameter will be shown.
 
-![Scaffolds](https://raw.githubusercontent.com/olga24912/SGTK/develop/resources/pic/scaffolds.png)
+![Scaffolds](https://raw.githubusercontent.com/olga24912/SGTK/master/resources/pic/scaffolds.png)
 
 
 
@@ -387,14 +387,14 @@ When multiple boxes are checked, components that satisfy at least one parameter 
 Visualizes the vicinity of chosen vertices. Vertices names or ids are specified separated by space or new line.
 
 
-![Vertices local area](https://raw.githubusercontent.com/olga24912/SGTK/develop/resources/pic/vert.png)
+![Vertices local area](https://raw.githubusercontent.com/olga24912/SGTK/master/resources/pic/vert.png)
 
 
 ### Drawing graph around edges 
 
 Visualizes the vicinity of chosen edges. Edges names or ids are specified separated by space or new line.
 
-![Edges local area](https://raw.githubusercontent.com/olga24912/SGTK/develop/resources/pic/edges.png)
+![Edges local area](https://raw.githubusercontent.com/olga24912/SGTK/master/resources/pic/edges.png)
 
 
 ### Detecting incorrect connections
@@ -406,7 +406,7 @@ In this mode SGTK allows to find the difference between linkage sources.
 Below, for each source type there is a pair of checkboxes: `Present` and `Absent`. SGTK locates pairs of vertices that are connected by all sources marked as `Present` and are not connected by any of the sources marked as `Absent`.
 
 
-![Difference in libraries](https://raw.githubusercontent.com/olga24912/SGTK/develop/resources/pic/diffInLibs.png)
+![Difference in libraries](https://raw.githubusercontent.com/olga24912/SGTK/master/resources/pic/diffInLibs.png)
 
 
 ### Displaying ambiguous connections
@@ -421,7 +421,7 @@ Visualizes the local area of the specified size for vertices that have more than
 
 Information about connections sources is displayed at the left as displayed below.
 
-![Edges type](https://raw.githubusercontent.com/olga24912/SGTK/develop/resources/pic/edgeType.png)
+![Edges type](https://raw.githubusercontent.com/olga24912/SGTK/master/resources/pic/edgeType.png)
 
 Supported connection types are:
 *   LONG: long reads such as Pacbio or Oxford Nanopores
@@ -440,13 +440,13 @@ The third column shows sources names, text color is the same as color of edges. 
 
 Using controls displayed below you can set which properties will be shown near vertices and edges. These changes will be applied automatically without redrawing.
 
-![Vertices info](https://raw.githubusercontent.com/olga24912/SGTK/develop/resources/pic/VertInfo.png)
+![Vertices info](https://raw.githubusercontent.com/olga24912/SGTK/master/resources/pic/VertInfo.png)
 
-![Edges info](https://raw.githubusercontent.com/olga24912/SGTK/develop/resources/pic/EdgeInfo.png)
+![Edges info](https://raw.githubusercontent.com/olga24912/SGTK/master/resources/pic/EdgeInfo.png)
 
 ### Minimum contig length
 
-![Minimum contig length](https://raw.githubusercontent.com/olga24912/SGTK/develop/resources/pic/MinContigLen.png)
+![Minimum contig length](https://raw.githubusercontent.com/olga24912/SGTK/master/resources/pic/MinContigLen.png)
 
 You can set up threshold for visualizing nodes. Note, that when visualizing nodes along scaffolds contigs shorter than the threshold still will be displayed.
 
@@ -463,12 +463,12 @@ Colors of vertices correspond to alignment contigs on chromosomes.
 
 Blue color means unaligned contig.
 
-![Default node](https://raw.githubusercontent.com/olga24912/SGTK/develop/resources/pic/DefaultNode.png)
+![Default node](https://raw.githubusercontent.com/olga24912/SGTK/master/resources/pic/DefaultNode.png)
 
 
 In case when a contig is aligned to more than one chromosome, the vertex is colored in sectors. Sector sizes represent the alignment fractions. Only top 3 alignments are shown.
 
-![Sector node](https://raw.githubusercontent.com/olga24912/SGTK/develop/resources/pic/SectorNode.png)
+![Sector node](https://raw.githubusercontent.com/olga24912/SGTK/master/resources/pic/SectorNode.png)
 
 
 
@@ -488,11 +488,11 @@ Edges have different width depending on source type and visualization mode. The 
 
 When a vertex has a black border, it means there are hidden adjacent edges, which are not shown at the current picture.
 
-![Hidden vertex](https://raw.githubusercontent.com/olga24912/SGTK/develop/resources/pic/hiddenVert.png)
+![Hidden vertex](https://raw.githubusercontent.com/olga24912/SGTK/master/resources/pic/hiddenVert.png)
 
 You can expand the vertex by clicking on this vertex and hidden connection will be shown.
 
-![Open vertex](https://raw.githubusercontent.com/olga24912/SGTK/develop/resources/pic/openVert.png)
+![Open vertex](https://raw.githubusercontent.com/olga24912/SGTK/master/resources/pic/openVert.png)
 
 In addtion, the vertex can be removed by clicking on it with the right mouse button.
 
@@ -500,7 +500,7 @@ In addtion, the vertex can be removed by clicking on it with the right mouse but
 
 When a specific area is displayed (e.g. specified nodes, vertices, etc), focused elements have normal opacity, while the rest are drawn slightly transparent.
 
-![Opacity](https://raw.githubusercontent.com/olga24912/SGTK/develop/resources/pic/opacity.png)
+![Opacity](https://raw.githubusercontent.com/olga24912/SGTK/master/resources/pic/opacity.png)
 
 
 
@@ -508,11 +508,11 @@ When a specific area is displayed (e.g. specified nodes, vertices, etc), focused
 
 General information about the graph is shown at the top of the left panel.
 
-![Information about graph](https://raw.githubusercontent.com/olga24912/SGTK/develop/resources/pic/graphInfo.png)
+![Information about graph](https://raw.githubusercontent.com/olga24912/SGTK/master/resources/pic/graphInfo.png)
 
 When the courson is pointed over a graph element, information about this node or edge will be displayed at the top of the left panel.
 
-![Information about node](https://raw.githubusercontent.com/olga24912/SGTK/develop/resources/pic/nodeInfo.png)
+![Information about node](https://raw.githubusercontent.com/olga24912/SGTK/master/resources/pic/nodeInfo.png)
 
 
 
@@ -522,14 +522,14 @@ When the courson is pointed over a graph element, information about this node or
 
 The view navigator (or "bird’s eye view") shows an overview of the graph. The blue rectangle indicated currently displayed part of the graph. It can be dragged with the mouse to view other part of graph.
 
-![The view navigation](https://raw.githubusercontent.com/olga24912/SGTK/develop/resources/pic/birdView.png)
+![The view navigation](https://raw.githubusercontent.com/olga24912/SGTK/master/resources/pic/birdView.png)
 
 
 ### Search in free layout
 
 You can search for nodes and edges by typing parts of their names/ids in the search bar. 
 
-![Search](https://raw.githubusercontent.com/olga24912/SGTK/develop/resources/pic/search.png)
+![Search](https://raw.githubusercontent.com/olga24912/SGTK/master/resources/pic/search.png)
 
 
 ### Search in genome browser
@@ -540,9 +540,9 @@ In genome browser layout it is possible to search only for contigs aligned the t
 
 To zoom in and out you can use: (i) mouse wheel, (ii) keyboard shortcuts (Alt+Plus, Alt+Minus), (iii) set the zoom value at the top right or (iv) using dropdown menu option.
 
-![Zoom control](https://raw.githubusercontent.com/olga24912/SGTK/develop/resources/pic/zoom1.png)
+![Zoom control](https://raw.githubusercontent.com/olga24912/SGTK/master/resources/pic/zoom1.png)
 
-![Zoom value changing](https://raw.githubusercontent.com/olga24912/SGTK/develop/resources/pic/zoom2.png)
+![Zoom value changing](https://raw.githubusercontent.com/olga24912/SGTK/master/resources/pic/zoom2.png)
 
 
 ### Keyboard controls

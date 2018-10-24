@@ -497,7 +497,7 @@ function updeteChangeBlock() {
             "                        <p style='padding-top: 0px; margin-top: 2px;'>present:</p>\n";
 
         var not_present_block = "<div class=\"one_line_block\" id=\"not_present_block\">\n" +
-            "                        <p style='padding-top: 0px; margin-top: 2px;'>not present:</p>\n";
+            "                        <p style='padding-top: 0px; margin-top: 2px;'>absent:</p>\n";
 
         for (var i=0; i < scaffoldgraph.libs.length; ++i) {
             var lib_name = scaffoldgraph.libs[i].name;
