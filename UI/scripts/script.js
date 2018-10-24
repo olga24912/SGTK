@@ -356,23 +356,27 @@ function handleFilterButton() {
     }
 }
 
+function TypeToStr(s) {
+    var typeToRep = {"DNA_PAIR": "Paired reads", "RNA_PAIR": "RNA-Seq (paired)", "RNA_SPLIT_50": "RNA-Seq (single)",
+        "RNA_SPLIT_30": "RNA-Seq (single)", "SCAFF": "Scaffolds", "CONNECTION" : "Connection", "LONG" : "Long reads",
+        "FASTG": "FASTG", "GFA": "GFA"};
+    if (s in typeToRep) {
+        return typeToRep[s]
+    }
+    return s.replace(/_/g, " ");
+}
+
 function InitLibTable() {
     var table = document.getElementById("lib_table");
 
     for (var i=0; i < scaffoldgraph.libs.length; ++i) {
         var tr = document.createElement("tr");
 
-        var td_id = document.createElement("td");
-        var lib_id = document.createElement("p");
-        lib_id.appendChild(document.createTextNode("l" + scaffoldgraph.libs[i].id));
-        td_id.align="center";
-        td_id.appendChild(lib_id);
-
         var td_type = document.createElement("td");
         var lib_type = document.createElement("p");
-        lib_type.appendChild(document.createTextNode((scaffoldgraph.libs[i].type).replace(/_/g, " ")));
+        lib_type.appendChild(document.createTextNode(TypeToStr(scaffoldgraph.libs[i].type)));
         td_type.appendChild(lib_type);
-        td_type.align="center";
+        td_type.align="left";
 
 
         var td_name = document.createElement("td");
@@ -393,7 +397,6 @@ function InitLibTable() {
         td_min_edge_weight.align="center";
         td_min_edge_weight.appendChild(input_weight);
 
-        tr.appendChild(td_id);
         tr.appendChild(td_type);
         tr.appendChild(td_name);
         tr.appendChild(td_min_edge_weight);
