@@ -108,24 +108,6 @@ function createFullLabelForEdge(edge) {
     return label;
 }
 
-
-function getHg(str, maxLen) {
-    var cnt = 0;
-    var sum = 0;
-    for (var i = 0; i < str.length; ++i) {
-        if (i < str.length - 5 && (str[i] === '<' &&  str[i + 1] === '/' &&
-                str[i + 2] === 'b' && str[i + 3] === 'r' && str[i + 4] === '>')) {
-            i += 4;
-            sum += Math.ceil((cnt)/maxLen);
-            cnt = 0;
-        } else {
-            cnt += 1;
-        }
-    }
-    sum += Math.ceil(cnt/maxLen);
-    return sum;
-}
-
 function generateGeneralInfo() {
     return "Nodes: " + scaffoldgraph.nodes.length.toString() + "</br>" +
         "Edges: " + scaffoldgraph.edges.length.toString() + "</br>" +
@@ -134,31 +116,38 @@ function generateGeneralInfo() {
 }
 
 function createInformationShown(cy) {
+    var def_height = 135;
+
     cy.on('mouseover', 'node', function (evt) {
         var v = evt.target.id();
         var printInfo = createFullLabelForNode(v);
-        var hg = getHg(printInfo, 39);
-        document.getElementById("extra_info").style.height = Math.max(80, (hg * 15)).toString() + 'px';
+        document.getElementById("extra_info").style = "";
         document.getElementById("extra_info").innerHTML =
             "<p style='font-size: 14px; margin-top: 0px; margin-bottom: 0px;'>" + printInfo + "</p>";
+        if (document.getElementById("extra_info").clientHeight <= def_height) {
+            document.getElementById("extra_info").style.height = def_height + 'px';
+        }
     });
 
     cy.on('mouseout', 'node', function (evt) {
-        document.getElementById("extra_info").style.height = '80px';
+        document.getElementById("extra_info").style.height = def_height + 'px';
         document.getElementById("extra_info").innerHTML = "<p style='margin-top: 0px; margin-bottom: 0px;'>" + generateGeneralInfo() + "</p>";
     });
 
     cy.on('mouseover', 'edge', function (evt) {
         var v = evt.target.id();
         var printInfo = createFullLabelForEdge(v.substring(1));
-        var hg = getHg(printInfo, 39);
-        document.getElementById("extra_info").style.height = Math.max(80, (hg * 15)).toString() + 'px';
+        document.getElementById("extra_info").style = "";
         document.getElementById("extra_info").innerHTML =
-            "<p style='font-size: 14px; margin-top: 0px; margin-bottom: 0px;'>" + printInfo + "</p>";
+            "<p id='innerTextExtraInfo' style='font-size: 14px; margin-top: 0px; margin-bottom: 0px;'>" + printInfo + "</p>";
+        console.log(document.getElementById("extra_info").clientHeight);
+        if (document.getElementById("extra_info").clientHeight <= def_height) {
+            document.getElementById("extra_info").style.height = def_height + 'px';
+        }
     });
 
     cy.on('mouseout', 'edge', function (evt) {
-        document.getElementById("extra_info").style.height = '80px';
+        document.getElementById("extra_info").style.height = def_height + 'px';
         document.getElementById("extra_info").innerHTML = "<p style='margin-top: 0px; margin-bottom: 0px;'>" + generateGeneralInfo() + "</p>";
     });
 }
