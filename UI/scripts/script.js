@@ -466,14 +466,16 @@ function updeteChangeBlock() {
             "                    <textarea rows=\"6\" id=\"vertext\"></textarea>\n" +
             "                </div>";
     } else if (document.getElementById("select_show_type").value == "diff in libs" ) {
-        var html_code = "<div class=\"block\">\n" +
+        var html_code_1 = "<div class=\"block\">\n" +
             "                    <p>Distance:<br/>\n" +
             "                        <input type=\"number\" min=\"0\" id=\"area_size\" value=1>\n" +
             "                    </p>\n" +
-            "                </div>\n" +
-            "<div class=\"one_line_block\">\n" +
+            "                </div>\n";
+
+        var text_wrong_correct = "<p>Display only</p>";
+        var wrong_correct = "<div class=\"one_line_block\">\n" +
             "                        <label class=\"container\">\n" +
-            "                            <p>Wrong</p>\n" +
+            "                            <p>Wrong connection</p>\n" +
             "                            <input type=\"checkbox\" checked=\"true\" value=\"Wrong\" id=\"checkbox_wrong\">\n" +
             "                            <span class=\"checkmark\"></span>\n" +
             "                        </label>\n" +
@@ -481,17 +483,21 @@ function updeteChangeBlock() {
             "\n" +
             "                    <div class=\"one_line_block\">\n" +
             "                        <label class=\"container\">\n" +
-            "                            <p>Correct</p>\n" +
+            "                            <p>Correct connection</p>\n" +
             "                            <input type=\"checkbox\" checked=\"true\" value=\"Correct\" id=\"checkbox_correct\">\n" +
             "                            <span class=\"checkmark\"></span>\n" +
             "                        </label>\n" +
             "                    </div>\n" +
             "                    <br/>\n";
+
+        var text_after = "<p style='font-size: 12px;'>Wrong and correct connections are detected using reference genome</p>";
+        var text_before_present = "<p style='padding-bottom: 0px; margin-bottom: 0px;'>Display connection where following sources are</p>";
+
         var present_block = "<div class=\"one_line_block\" id=\"present_block\">\n" +
-            "                        Presnt:\n";
+            "                        <p style='padding-top: 0px; margin-top: 2px;'>present:</p>\n";
 
         var not_present_block = "<div class=\"one_line_block\" id=\"not_present_block\">\n" +
-            "                        Not Presnt:\n";
+            "                        <p style='padding-top: 0px; margin-top: 2px;'>not present:</p>\n";
 
         for (var i=0; i < scaffoldgraph.libs.length; ++i) {
             var lib_name = scaffoldgraph.libs[i].name;
@@ -512,7 +518,8 @@ function updeteChangeBlock() {
 
         present_block += "</div>\n";
         not_present_block += "</div>\n";
-        document.getElementById("change_block").innerHTML = html_code + present_block + not_present_block;
+        document.getElementById("change_block").innerHTML = html_code_1 + text_before_present + present_block +
+            not_present_block + text_wrong_correct + wrong_correct + text_after;
     } else if (document.getElementById("select_show_type").value == "scaffolds") {
         document.getElementById("change_block").innerHTML = "<div class=\"block\">\n" +
             "                    <p>Distance: \n<br>" +
