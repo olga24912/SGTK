@@ -455,6 +455,9 @@ def merge_graph(args):
         for gr in args.graph:
             merge_list += gr + " "
 
+    if merge_list == "":
+        return
+    
     merge_list += "graph.gr"
     os.system(path_to_exec_dir + "mergeGraph " + merge_list)
     return
