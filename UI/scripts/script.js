@@ -11,7 +11,7 @@ function createLabelForNode(node) {
         label += scaffoldgraph.nodes[node].name + "\n";
     }
     if (document.getElementById("vert_checkbox_len").checked) {
-        label += "len: " + scaffoldgraph.nodes[node].len + "\n";
+        label += "length: " + scaffoldgraph.nodes[node].len + "\n";
     }
 
     if (document.getElementById("vert_checkbox_align").checked) {
@@ -39,7 +39,7 @@ function createFullLabelForNode(node) {
     var label = "";
     label += "id: " + scaffoldgraph.nodes[node].id + "</br>";
     label += scaffoldgraph.nodes[node].name + "</br>";
-    label += "len: " + scaffoldgraph.nodes[node].len + "</br>";
+    label += "length: " + scaffoldgraph.nodes[node].len + "</br>";
     if (scaffoldgraph.nodes[node].alignments.length > 0) {
         label += "Alignment: ";
         scaffoldgraph.nodes[node].alignments.sort(function (a, b) {
@@ -79,7 +79,7 @@ function createLabelForEdge(edge) {
     }
     if (document.getElementById("edge_checkbox_len").checked) {
         if (scaffoldgraph.edges[edge].len >= 0) {
-            label += "len: " + scaffoldgraph.edges[edge].len + "\n";
+            label += "length: " + scaffoldgraph.edges[edge].len + "\n";
         }
     }
     if (document.getElementById("edge_checkbox_info").checked) {
@@ -100,7 +100,7 @@ function createFullLabelForEdge(edge) {
     label += "w: " + scaffoldgraph.edges[edge].weight + "</br>";
     label += scaffoldgraph.libs[scaffoldgraph.edges[edge].lib].type + "</br>";
     if (scaffoldgraph.edges[edge].len >= 0) {
-        label += "len: " + scaffoldgraph.edges[edge].len + "</br>";
+        label += "length: " + scaffoldgraph.edges[edge].len + "</br>";
     }
     if (scaffoldgraph.edges[edge].info !== "") {
         label += scaffoldgraph.edges[edge].info + "</br>";
