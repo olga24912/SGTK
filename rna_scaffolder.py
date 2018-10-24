@@ -37,11 +37,12 @@ path_to_exec_dir = os.path.dirname(os.path.abspath(__file__)) + "/"
 
 def parse_args():
     parser = argparse.ArgumentParser(formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("--contigs", "-c", nargs=1, dest="contigs", help="path to contigs", type=str)
-    parser.add_argument("--rna-p", dest="rnap", nargs=2, help="path to rna pair reads file", type=str, action='append')
-    parser.add_argument("--rna-s", dest="rnas", nargs=1, help="path to rna read file", type=str, action='append')
-    parser.add_argument("--gene_annotation", nargs=1, help="path to gff file with gene anotation", type=str)
-    parser.add_argument("--local_output_dir", "-o", nargs=1, help="use this output dir", type=str)
+    parser.add_argument("--local_output_dir", "-o", nargs=1, help="output folder", type=str)
+    parser.add_argument("--contigs", "-c", nargs=1, dest="contigs", help="path to contigs  in FASTA format", type=str)
+    parser.add_argument("--rna-p", dest="rnap", nargs=2, help="paths to RNA-Seq paired reads  in SAM/BAM format", type=str, action='append')
+    parser.add_argument("--rna-s", dest="rnas", nargs=1, help="path to RNA-Seq single reads  in SAM/BAM format", type=str,action='append')
+    parser.add_argument("--gene_annotation", nargs=1, help="path to gff file with gene anotation for inputs contigs (optional)", type=str)
+
     args = parser.parse_args()
     return args
 

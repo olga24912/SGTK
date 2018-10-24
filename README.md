@@ -7,14 +7,15 @@
 3.3. <a href="#sec3.3">Output</a><br>
 3.4. <a href="#sec3.4">Example dataset</a><br>
 4. <a href="#sec4">Visualization</a><br>
-5. <a href="#sec5">References</a><br>
-6. <a href="#sec6">Feedback and bug reports</a><br>
+5. <a href="#sec5">RNA-Seq scaffolder</a><br>
+6. <a href="#sec6">References</a><br>
+7. <a href="#sec7">Feedback and bug reports</a><br>
 
 
 # Quick start
 
 ## Installation
-You can either download <a href="#sec21">SGTK binaries</a> or <a href="#sec21">compile it by yourself</a>.
+You can either download <a href="#sec21">SGTK binaries</a> or <a href="#sec21">compile it by yourself</a>. The latest release can be downloaded [here](https://github.com/olga24912/SGTK/releases).
 
 If you wish to construct scaffold graph using DNA sequences (long reads, read-pairs, scaffolds or reference genome) you will need [minimap2](https://github.com/lh3/minimap2).
 If you want to use RNA-Seq reads you will need [STAR aligner](https://github.com/alexdobin/STAR).
@@ -22,21 +23,21 @@ If you want to use RNA-Seq reads you will need [STAR aligner](https://github.com
 Graph visualization is stored in HTML file and can be viewed in any web browser.
 
 
-##Running SGTK
-To construnct and visualize the scaffold graph based on contigs run
+## Running SGTK
+To construct and visualize the scaffold graph based on contigs run
 
-    visualize_scaffold_graph.py -c <contigs.fa> [--fr <left_pe.fq> <right_pe.fq>]  \
+    sgtk.py -c <contigs.fa> [--fr <left_pe.fq> <right_pe.fq>]  \
     [--rf <left_mp.fq> <right_mp.fq>] [--long <pacbio.fq/ont.fq>] \ 
     [--ref <genome.fa>] [-s <scaffolds.fa>] \
     -o <output_dir>
 
 Alternatively, instead of <contigs.fa>, one may provide GFA
 
-    visualize_scaffold_graph.py --gfa <graph.gfa> -o <output_dir> [options]
+    sgtk.py --gfa <graph.gfa> -o <output_dir> [options]
 
 or FASTG file
 
-    visualize_scaffold_graph.py --fastg <graph.fastg> -o <output_dir> [options]
+    sgtk.py --fastg <graph.fastg> -o <output_dir> [options]
  
 After graph construction is finished, open 
 
@@ -56,9 +57,9 @@ Possible linkage information sources are:
 -    assembly graph in GFA, FASTG formats
 -    reference sequences
 
-SGTK produces a JavaScript-based HTML page that does not require any additional libraries and can be viewed in a regular web browser. Although it was tested in Chrome, FireFox, Opera and Safari, Chrome is preffered.
-However, to contruct a gaph using SGTK application you will need a 64-bit Linux system or Mac OS and Python 3.
-If you plan to construnct graph using sequencing data or refrence genome you will also need the following aligners:
+SGTK produces a JavaScript-based HTML page that does not require any additional libraries and can be viewed in a regular web browser. Although it was tested in Chrome, FireFox, Opera and Safari, Chrome is preferred.
+However, to construct a graph using SGTK application you will need a 64-bit Linux system or Mac OS and Python 3.
+If you plan to construct graph using sequencing data or reference genome you will also need the following aligners:
 -    [minimap2](https://github.com/lh3/minimap2) for aligning DNA sequences (long reads, read-pairs, scaffolds or reference genome)
 -    [STAR](https://github.com/alexdobin/STAR) for mapping RNA-Seq
 
@@ -69,7 +70,7 @@ More details are provided below.
 To obtain SGTK you can either download binaries, or download source code and compile it yourself.
 
 After installation you will get the following files in `bin` directory:
--    `visualize_scaffold_graph.py`  (main executable script for visualization scaffold graph)
+-    `sgtk.py`  (main executable script for visualization scaffold graph)
 -    `rna_scaffolder.py`  (main executable script for building scaffolds using RNA-Seq data)
 -    `buildApp`  (graph construction module)
 -    `filterApp`  (graph simplification and building scaffolds module)
@@ -79,15 +80,9 @@ After installation you will get the following files in `bin` directory:
 -    `scripts/` (folder containing JS necessary for visualization)
 
 <a name="sec21"></a>
-## Downloading SGTK Linux binaries
-To download SGTK Linux binaries and extract them, go to the directory in
-which you wish SGTK to be installed and run:
-
-    wget https://github.com/olga24912/SGTK/releases/download/v1.0/SGTK-1.0-Linux.zip
-    unzip SGTK-1.0-Linux.zip
-    cd SGTK-1.0-Linux
-
-SGTK is ready to use. You may also consider adding SGTK installation directory to the `PATH` variable.
+## Downloading SGTK binaries
+SGTK has precompiled binaries for Linux and MacOS. The latest builds can be downloaded for the [GitHub page](https://github.com/olga24912/SGTK/releases).
+Once unpacked, SGTK is ready to use. You may also consider adding SGTK installation directory to the `PATH` variable.
 
 <a name="sec22"></a>
 ## Downloading and compiling SGTK source code
@@ -96,20 +91,18 @@ To compile SGTK by yourself you will need the following libraries to be pre-inst
 -    cmake (version 3.5 or higher)
 -    zlib
 -    Threads
--    Boost
+-    [Biopython](https://biopython.org/)
+-    [Boost](https://www.boost.org/)
 -    [SEQAN (version 2.4 or higher)](https://seqan.readthedocs.io/en/seqan-v2.4.0/Infrastructure/Use/Install.html)
 
-If you meet these requirements, you can download the SGTK source code:
-
-    wget https://github.com/olga24912/SGTK/archive/v1.0.1.zip
-    unzip v1.0.1.zip
-    cd SGTK-1.0.1
-and build it with the following script:
+If you meet these requirements, you can download the SGTK source code [here](https://github.com/olga24912/SGTK/releases). Unpack the archive and build it with the following script:
 
     ./compile.sh
+
 SGTK will be built in the directory `./bin`. If you wish to install SGTK into another directory, you can specify the full path of destination folder by running:
 
     PREFIX=<destination_dir> ./compile.sh
+
 for example:
 
     PREFIX=/usr/local ./compile.sh
@@ -127,7 +120,7 @@ SGTK requires at least one set of contigs, which can be provided as usual FASTA 
 
 To run scaffold graph visualization from the command line, type
 
-    visualize_scaffold_graph.py [options]
+    sgtk.py [options]
 
 Note that we assume that SGTK installation directory is added to the `PATH` variable (otherwise provide full path to SGTK executable: `<installation dir>/visualize_scaffold_graph.py`).
 
@@ -141,11 +134,11 @@ Print help.
 
 
 `-o` (or `--local_output_dir`) ` <output_dir> `
-Specify the output directory. The default output directory is  "./".
+Output directory. The default output directory is  "./".
 
 
 `-c` (or `--contig`) ` <file_name> `
-File with contigs in FASTA format. You can provide a few contigs files (each one must be preceeded by the option, i.e. `-c contigs1.fa -c contigs2.fa`), in this case they will be merged together. Make sure that all contigs have different names.
+File with contigs in FASTA format. You can provide a few contigs files (each one must be preceded by the option, i.e. `-c contigs1.fa -c contigs2.fa`), in this case they will be merged together. Make sure that all contigs have different names.
 
 
 `--fastg <file_name> `
@@ -159,15 +152,15 @@ File with assembly graph in GFA format. Edges will be treated as input contigs, 
 ### Linkage sources
 
 `--fr <file_name_1> <file_name_2> `
- A pair of files with left reads and file with right reads for paired-end/mate-pair DNA library with forward-reverse orientation in FASTA/FASTQ format. 
+ A pair of files with left reads and file with right reads for paired-end/mate-pair DNA library with forward-reverse orientation in FASTQ/FASTA format. 
 Input reads are aligned to contigs using [minimap2](https://github.com/lh3/minimap2).
 
 `--rf <file_name_1> <file_name_2> `
- A pair of files with left reads and file with right reads for paired-end/mate-pair DNA library with reverse-forward orientation in FASTA/FASTQ format.
+ A pair of files with left reads and file with right reads for paired-end/mate-pair DNA library with reverse-forward orientation in FASTQ/FASTA format.
 
 
 `--ff <file_name_1> <file_name_2> `
- A pair of files with left reads and file with right reads for paired-end/mate-pair DNA library with forward-forward orientation in FASTA/FASTQ format.
+ A pair of files with left reads and file with right reads for paired-end/mate-pair DNA library with forward-forward orientation in FASTQ/FASTA format.
 
 
 
@@ -184,18 +177,18 @@ Input reads are aligned to contigs using [minimap2](https://github.com/lh3/minim
 
 
 `--long <file_name> `
- File with PacBio/Oxford Nanopore reads, which will be aligned using [minimap2](https://github.com/lh3/minimap2):
+ File with PacBio/Oxford Nanopore reads in FASTQ/FASTA format, which will be aligned using [minimap2](https://github.com/lh3/minimap2):
 
 `--rna-p <file_name_1> <file_name_2> `
- A pair of files with left and right reads for paired-end RNA-Seq library. Reads will be aligned to the contigs independently (using [STAR](https://github.com/alexdobin/STAR)).
+ A pair of files with left and right reads for paired-end RNA-Seq library in FASTQ/FASTA format. Reads will be aligned to the contigs independently (using [STAR](https://github.com/alexdobin/STAR)).
 
 
 `--rna-s <file_name> `
- File for single-read RNA-Seq library. Reads will be split into two parts and then aligned to the contigs using [STAR](https://github.com/alexdobin/STAR).
+File for single RNA-Seq reads in FASTQ/FASTA format. Reads will be split into two parts and then aligned to the contigs using [STAR](https://github.com/alexdobin/STAR).
 
 
 `--ref <file_name> `
-File with reference genome in FASTA format. In case if several files are provided (each file must be preceeded by the option, i.e. `--ref genome1.fa --ref genome2.fa`) 
+File with reference genome in FASTA format. In case if several files are provided (each file must be preceded by the option, i.e. `--ref genome1.fa --ref genome2.fa`) 
 they will be merged together and chromosomes names will be changed depending on the files names (useful for metagenomic datasets). Reference sequences are mapped using [minimap2](https://github.com/lh3/minimap2).
 
 
@@ -226,7 +219,7 @@ For example:
 List of labels used in visualization for libraries in given order.
 
 `--color <color1 color2 ...>`
- List of colors usied in visualization for libraries in given order. Color can be provided in any format supported by HTML in double quotes, e.g. as word ("reb", "blue", etc) or as hexidecimal number ("#ff0000").
+ List of colors used in visualization for libraries in given order. Color can be provided in any format supported by HTML in double quotes, e.g. as word ("reb", "blue", etc) or as hexadecimal number ("#ff0000").
 
 
 ### Scaffold graph in the internal format
@@ -284,11 +277,11 @@ Let's say our dataset consists of:
 - Several sets of scaffolds generated by different tools (`scaffolds1.fa, scaffolds2.fa, scaffolds3.fa`)
 - Reference genome splitted into separate chromosomes (`chr1.fa, chr2.fa, chr3.fa`)
 
-In addtion you also would like to set colors and labels for each linkage source.
+In addition you'd like to set the colors and labels for each linkage source.
 
-Then the commnad line for launching SGTK would look like:
+Then the command line for launching SGTK would look like:
 
-    python3 visualize_scaffold_graph.py -c contigs.fa \
+    python3 sgtk.py -c contigs.fa \
     --fr pe1.fq pe2.fq  --rf mp1.fq mp2.fq  --long filtered_subreads.fq \
     -s scaffolds1.fa  -s scaffolds2.fa  -s scaffolds3.fa \
     --ref chr1.fa --ref chr3.fa --ref chr3.fa \
@@ -302,7 +295,7 @@ Then the commnad line for launching SGTK would look like:
 SGTK stores all output files in `<output_dir> `, which is set by the user.
 
 -    `<output_dir>/main.html` main file for graph visualization.
--    `<output_dir>/scripts/` files with scaffold graph description, which are needed for `main.html`. If you intend to transfer the generated vizualization to another machine, do not forget to include this folder.
+-    `<output_dir>/scripts/` files with scaffold graph description, which are needed for `main.html`. If you intend to transfer the generated visualization to another machine, do not forget to include this folder.
 
 Open `main.html` in any browser to see visualisation. Chrome is preferred. 
 
@@ -318,7 +311,7 @@ SGTK comes with toy dataset, on which you can test your installation:
 
 To test the toy data set, you can run the following command from the SGTK `bin` directory:
 
-    python3 visualize_scaffold_graph.py -c ../share/test_dataset/contigs.fasta \
+    python3 sgtk.py -c ../share/test_dataset/contigs.fasta \
     --fr ../share/test_dataset/read_1.fasta ../share/test_dataset/read_2.fasta \
     --scafinfo ../share/test_dataset/scaf.info \
     --ref ../share/test_dataset/ref.fasta \
@@ -326,7 +319,7 @@ To test the toy data set, you can run the following command from the SGTK `bin` 
 
 If you would like to set labels and colors, you need to set labels and colors for all libraries in order of definition
 
-    python3 visualize_scaffold_graph.py -c ../share/test_dataset/contigs.fasta \
+    python3 sgtk.py -c ../share/test_dataset/contigs.fasta \
     --fr ../share/test_dataset/read_1.fasta ../share/test_dataset/read_2.fasta \
     --scafinfo ../share/test_dataset/scaf.info \
     --ref ../share/test_dataset/ref.fasta \
@@ -335,7 +328,7 @@ If you would like to set labels and colors, you need to set labels and colors fo
     -o output
 
 
-In addition, you can try SGTK visualization examplesm which we uploaded on GitHub. To clone the repository run
+In addition, you can try SGTK visualization examples which we uploaded [here](https://olga24912.github.io/SGTK/). You can also clone the repository:
 
     git clone https://github.com/olga24912/SGTK.git
     cd SGTK
@@ -406,9 +399,9 @@ Visualizes the vicinity of chosen edges. Edges names or ids are specified separa
 
 ### Detecting incorrect connections
 
-In this mode SGTK allows to find the difference between linkage sorces. 
+In this mode SGTK allows to find the difference between linkage sources. 
 
-`Wrong` and `Correct` checkboxes allow to set wether we are interested in connection that are supported by the reference genome or not. If the reference genome is not provided all connections are treated as wrong.
+`Wrong` and `Correct` checkboxes allow to set whether we are interested in connection that are supported by the reference genome or not. If the reference genome is not provided all connections are treated as wrong.
 
 Below, for each source type there is a pair of checkboxes: `Present` and `Absent`. SGTK locates pairs of vertices that are connected by all sources marked as `Present` and are not connected by any of the sources marked as `Absent`.
 
@@ -426,7 +419,7 @@ Visualizes the local area of the specified size for vertices that have more than
 
 ### Connection sources
 
-Information about connections sources is diplayed at the left as displayed below.
+Information about connections sources is displayed at the left as displayed below.
 
 ![Edges type](https://raw.githubusercontent.com/olga24912/SGTK/develop/resources/pic/edgeType.png)
 
@@ -443,7 +436,7 @@ Supported connection types are:
 The third column shows sources names, text color is the same as color of edges. The last column represents weight threshold for this source, which can be set by user. To apply changes click `DRAW` button.
 
 
-### Hinding and displaying information
+### Hiding and displaying information
 
 Using controls displayed below you can set which properties will be shown near vertices and edges. These changes will be applied automatically without redrawing.
 
@@ -451,7 +444,7 @@ Using controls displayed below you can set which properties will be shown near v
 
 ![Edges info](https://raw.githubusercontent.com/olga24912/SGTK/develop/resources/pic/EdgeInfo.png)
 
-### Minimal contig length
+### Minimum contig length
 
 ![Minimum contig length](https://raw.githubusercontent.com/olga24912/SGTK/develop/resources/pic/MinContigLen.png)
 
@@ -485,7 +478,7 @@ Size of the vertex is proportional to the contig length in the logarithmic scale
 
 ### Edges width
 
-Edges have different width depending on source type and visualization mode. The width is assigned in the following order (from thikest to thinest):
+Edges have different width depending on source type and visualization mode. The width is assigned in the following order (from thickest to thinnest):
 *   Currently visualized scaffold
 *   Connections from the assembly graph (GFA or FASTG)
 *   Scaffolds connections
@@ -505,7 +498,7 @@ In addtion, the vertex can be removed by clicking on it with the right mouse but
 
 ### Pale nodes and edges
 
-When a specific area is displayed (e.g. specified nodes, vertices, etc), focused elements have normal opacity, while the rest are drawn slightly transcparent.
+When a specific area is displayed (e.g. specified nodes, vertices, etc), focused elements have normal opacity, while the rest are drawn slightly transparent.
 
 ![Opacity](https://raw.githubusercontent.com/olga24912/SGTK/develop/resources/pic/opacity.png)
 
@@ -560,11 +553,42 @@ To zoom in and out you can use: (i) mouse wheel, (ii) keyboard shortcuts (Alt+Pl
 *   Use Ctrl+Alt+e to export the current view into PNG format.
 
 <a name="sec5"></a>
-# 5. References
+# 5. RNA-Seq scaffolder
+
+SGTK also includes a genomic scaffolder, that allows to join contigs using RNA-Seq data. To run the scaffolder type:
+
+    rna_scaffolder.py 
+
+
+Available options are:
+
+`-h` (or `--help`)
+Print help.
+
+
+`-o` (or `--local_output_dir`) ` <output_dir> `
+Output directory.
+
+
+`-c` (or `--contig`) ` <file_name> `
+File with contigs in FASTA format.
+
+`--rna-p <file_name_1> <file_name_2> `
+A pair of files with left and right reads for paired-end RNA-Seq library in FASTQ/FASTA format. Reads will be aligned to the contigs independently (using [STAR](https://github.com/alexdobin/STAR)).
+
+`--rna-s <file_name> `
+File for single RNA-Seq reads in FASTQ/FASTA format. Reads will be split into two parts and then aligned to the contigs using [STAR](https://github.com/alexdobin/STAR).
+
+`--gene_annotation ` <file_name>
+Genes predicted for the given set of contigs (optional). We recomment to build the annotation with [Augustus](http://bioinf.uni-greifswald.de/augustus/).
+
+
+<a name="sec6"></a>
+# 6. References
 
 SGTK: a toolkit for visualization and assessment of scaffold graphs, Olga Kunyavskaya and Andrey D. Prjibelski. Submitted.
 
-<a name="sec6"></a>
-# 6. Feedback and bug reports
+<a name="sec7"></a>
+# 7. Feedback and bug reports
 
 Bug reports, suggestions, feature requests and comments are welcomed at [our GihHub issues page](https://github.com/olga24912/SGTK/issues).
