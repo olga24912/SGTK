@@ -116,7 +116,7 @@ function generateGeneralInfo() {
 }
 
 function createInformationShown(cy) {
-    var def_height = 135;
+    var def_height = 140;
 
     cy.on('mouseover', 'node', function (evt) {
         var v = evt.target.id();
