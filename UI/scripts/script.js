@@ -112,7 +112,7 @@ function generateGeneralInfo() {
     return "Nodes: " + scaffoldgraph.nodes.length.toString() + "</br>" +
         "Edges: " + scaffoldgraph.edges.length.toString() + "</br>" +
         "Chromosomes: " + chromosomes.length.toString() + "</br>" +
-        "Libs: " + scaffoldgraph.libs.length.toString() + "</br>";
+        "Sources: " + scaffoldgraph.libs.length.toString() + "</br>";
 }
 
 function createInformationShown(cy) {
@@ -515,7 +515,7 @@ function updeteChangeBlock() {
             "                    <p>Area size: \n<br>" +
             "                        <input type=\"number\" min=\"0\" id=\"area_size\" value=1>\n" +
             "                    </p>\n" +
-            "                    <p>Scaffold lib:\n<br>" +
+            "                    <p>Scaffold source:\n<br>" +
             "                        <div class=\"styled-select\">\n" +
             "                           <select id=\"select_scaff_lib\">\n" +
             "                           </select>\n" +
@@ -567,7 +567,7 @@ document.getElementById("select_layout").addEventListener("change", function(){
             "                <select id=\"select_show_type\">\n" +
             "                    <option value=\"full graph\">Full graph</option>\n" +
             "                    <option value=\"scaffolds\">Scaffolds</option>\n" +
-            "                    <option value=\"diff in libs\">Difference in libs</option>\n" +
+            "                    <option value=\"diff in libs\">Difference in sources</option>\n" +
             "                    <option value=\"ambiguous\">Ambiguous</option>\n" +
             "                    <option value=\"vertices_local_area\">Vertices local area</option>\n" +
             "                    <option value=\"edges_local_area\">Edges local area</option>\n" +
