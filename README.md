@@ -19,7 +19,7 @@ The easiest way is to install SGTK via conda:
 
     conda install -c olga24912 -c conda-forge -c bioconda sgtk
 
-Alternatively, you can either download <a href="#sec21">SGTK binaries</a> or <a href="#sec21">compile it by yourself</a>. The latest release can be downloaded [here](https://github.com/olga24912/SGTK/releases).
+Alternatively, you can either download <a href="#sec21">SGTK binaries</a> or <a href="#sec22">compile it by yourself</a>. The latest release can be downloaded [here](https://github.com/olga24912/SGTK/releases).
 
 If you wish to construct scaffold graph using DNA sequences (long reads, read-pairs, scaffolds or reference genome) you will need [minimap2](https://github.com/lh3/minimap2).
 If you want to use RNA-Seq reads you will need [STAR aligner](https://github.com/alexdobin/STAR).
@@ -73,6 +73,10 @@ More details are provided below.
 
 <a name="sec2"></a>
 # 2. Installation
+
+<a name="sec21"></a>
+## Conda and pre-compiled binaries
+
 The easiest way is to install SGTK via conda:
 
     conda install -c olga24912 -c conda-forge -c bioconda sgtk
@@ -85,7 +89,7 @@ SGTK has precompiled binaries for Linux and MacOS. The latest builds can be down
 Once unpacked, SGTK is ready to use. You may also consider adding SGTK installation directory to the `PATH` variable.
 
 <a name="sec22"></a>
-## Downloading and compiling SGTK source code
+## Compiling SGTK source code
 To compile SGTK by yourself you will need the following libraries to be pre-installed:
 -    gcc (version 5 or higher) / Clang (version 3.6 or higher)
 -    cmake (version 3.5 or higher)
