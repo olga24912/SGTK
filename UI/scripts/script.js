@@ -463,7 +463,7 @@ function updeteChangeBlock() {
             "                    </p>\n" +
             "                </div>\n" +
             "                <div class=\"block\">\n" +
-            "                    <textarea rows=\"6\" id=\"vertext\"></textarea>\n" +
+            "                    <textarea rows=\"6\" id=\"vertext\" placeholder=\"ID1, ID2...\"></textarea>\n" +
             "                </div>";
     } else if (document.getElementById("select_show_type").value == "diff in libs" ) {
         var html_code_1 = "<div class=\"block\">\n" +
