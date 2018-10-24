@@ -1,0 +1,48 @@
+{% set version = "1.1" %}
+
+package: 
+    name: sgtk
+    version: {{ version }}
+
+build: 
+    number: 0
+    skip: True  # [py27]
+
+source:
+    url: https://github.com/olga24912/SGTK/archive/v{{ version }}.zip
+    sha256: 6dd289044b74e88c4f0a295fdf771ce008348c3d89e86e390a69a1bc185dafd3
+    
+requirements:
+    build:
+        - {{ compiler('cxx') }}
+    host:
+        - python >=3
+        - biopython >=1.70 # [not py27]
+        - boost
+        - zlib
+        - seqan-library >=2.4
+        - minimap2
+        - star
+    run:
+        - python >=3
+        - biopython >=1.70 # [not py27]
+        - boost
+        - zlib
+        - seqan-library >=2.4
+        - minimap2
+        - star
+
+about: 
+    home: https://github.com/olga24912/SGTK
+    license: GPLv2
+    summary: SGTK -- Scaffold Graph ToolKit -- is a tool for construction and interactive visualization of scaffold graph.
+
+test:
+    import:
+        - Bio
+    commands:
+        - sgtk.py --help > /dev/null
+        - sgtk.py -c $PREFIX/share/test_dataset/contigs.fasta --fr $PREFIX/share/test_dataset/read_1.fasta $PREFIX/share/test_dataset/read_2.fasta --scafinfo $PREFIX/share/test_dataset/scaf.info --ref $PREFIX/share/test_dataset/ref.fasta -o $PREFIX/out > /dev/null 2> /dev/null
+    
+    requires:
+        - biopython >=1.70 # [not py27]

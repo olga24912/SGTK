@@ -45,7 +45,7 @@
 <div class="filter_panel">
     <div class="centerblock">
         <div class="block_with_line">
-            <div class="block" id="extra_info" style="height: 80px">
+            <div class="block" id="extra_info" style="height: 140px">
             </div>
         </div>
 
@@ -56,7 +56,7 @@
                 </h2>
                 <div class="styled-select">
                     <select id="select_layout">
-                        <option value="free_layout">Free layout</option>
+                        <option value="free_layout">Free(dagre) layout</option>
                         <option value="genome_browser">Genome browser</option>
                     </select>
                 </div>
@@ -71,12 +71,12 @@
                 </h2>
                 <div class="styled-select">
                     <select id="select_show_type">
-                        <option value="full graph">Full graph</option>
-                        <option value="scaffolds"> Scaffolds</option>
-                        <option value="diff in libs">Difference in libs</option>
-                        <option value="ambiguous">Ambiguous</option>
-                        <option value="vertices_local_area">Vertices local area</option>
-                        <option value="edges_local_area">Edges local area</option>
+                        <option value="full graph">full graph</option>
+                        <option value="scaffolds">by scaffold name</option>
+                        <option value="vertices_local_area">by vertex id</option>
+                        <option value="edges_local_area">by edge id</option>
+                        <option value="diff in libs">difference between sources</option>
+                        <option value="ambiguous">ambiguous connection</option>
                     </select>
                 </div>
             </div>
@@ -92,10 +92,9 @@
                 </h2>
                 <table id="lib_table" cellspacing="5">
                     <tr>
-                        <th> Id </th>
-                        <th> Type </th>
+                        <th align="left"> Source type </th>
                         <th> Name </th>
-                        <th> Min Edge Weight </th>
+                        <th> Min edge weight </th>
                     </tr>
                 </table>
             </div>
@@ -122,7 +121,7 @@
                 </div>
                 <div class="one_line_block">
                     <label class="container">
-                        <p>Len</p>
+                        <p>Length</p>
                         <input type="checkbox" value="Len" id="vert_checkbox_len" onclick="updateText()">
                         <span class="checkmark"></span>
                     </label>
@@ -143,7 +142,7 @@
                     </label>
                 </div>
                 <p>
-                    Min contig len:
+                    Minimum contig length:
                     <input type="number" min="0" id="min_contig_len" value=500>
                 </p>
             </div>
@@ -196,7 +195,7 @@
             </div>
             <div class="one_line_block">
                 <label class="container">
-                    <p>Len
+                    <p>Length
                         <input type="checkbox" value="Len" id="edge_checkbox_len" onclick="updateText()">
                         <span class="checkmark"></span>
                     </p>

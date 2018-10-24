@@ -11,7 +11,7 @@ function createLabelForNode(node) {
         label += scaffoldgraph.nodes[node].name + "\n";
     }
     if (document.getElementById("vert_checkbox_len").checked) {
-        label += "len: " + scaffoldgraph.nodes[node].len + "\n";
+        label += "length: " + scaffoldgraph.nodes[node].len + "\n";
     }
 
     if (document.getElementById("vert_checkbox_align").checked) {
@@ -39,7 +39,7 @@ function createFullLabelForNode(node) {
     var label = "";
     label += "id: " + scaffoldgraph.nodes[node].id + "</br>";
     label += scaffoldgraph.nodes[node].name + "</br>";
-    label += "len: " + scaffoldgraph.nodes[node].len + "</br>";
+    label += "length: " + scaffoldgraph.nodes[node].len + "</br>";
     if (scaffoldgraph.nodes[node].alignments.length > 0) {
         label += "Alignment: ";
         scaffoldgraph.nodes[node].alignments.sort(function (a, b) {
@@ -79,7 +79,7 @@ function createLabelForEdge(edge) {
     }
     if (document.getElementById("edge_checkbox_len").checked) {
         if (scaffoldgraph.edges[edge].len >= 0) {
-            label += "len: " + scaffoldgraph.edges[edge].len + "\n";
+            label += "length: " + scaffoldgraph.edges[edge].len + "\n";
         }
     }
     if (document.getElementById("edge_checkbox_info").checked) {
@@ -100,7 +100,7 @@ function createFullLabelForEdge(edge) {
     label += "w: " + scaffoldgraph.edges[edge].weight + "</br>";
     label += scaffoldgraph.libs[scaffoldgraph.edges[edge].lib].type + "</br>";
     if (scaffoldgraph.edges[edge].len >= 0) {
-        label += "len: " + scaffoldgraph.edges[edge].len + "</br>";
+        label += "length: " + scaffoldgraph.edges[edge].len + "</br>";
     }
     if (scaffoldgraph.edges[edge].info !== "") {
         label += scaffoldgraph.edges[edge].info + "</br>";
@@ -108,57 +108,46 @@ function createFullLabelForEdge(edge) {
     return label;
 }
 
-
-function getHg(str, maxLen) {
-    var cnt = 0;
-    var sum = 0;
-    for (var i = 0; i < str.length; ++i) {
-        if (i < str.length - 5 && (str[i] === '<' &&  str[i + 1] === '/' &&
-                str[i + 2] === 'b' && str[i + 3] === 'r' && str[i + 4] === '>')) {
-            i += 4;
-            sum += Math.ceil((cnt)/maxLen);
-            cnt = 0;
-        } else {
-            cnt += 1;
-        }
-    }
-    sum += Math.ceil(cnt/maxLen);
-    return sum;
-}
-
 function generateGeneralInfo() {
     return "Nodes: " + scaffoldgraph.nodes.length.toString() + "</br>" +
         "Edges: " + scaffoldgraph.edges.length.toString() + "</br>" +
         "Chromosomes: " + chromosomes.length.toString() + "</br>" +
-        "Libs: " + scaffoldgraph.libs.length.toString() + "</br>";
+        "Sources: " + scaffoldgraph.libs.length.toString() + "</br>";
 }
 
 function createInformationShown(cy) {
+    var def_height = 140;
+
     cy.on('mouseover', 'node', function (evt) {
         var v = evt.target.id();
         var printInfo = createFullLabelForNode(v);
-        var hg = getHg(printInfo, 39);
-        document.getElementById("extra_info").style.height = Math.max(80, (hg * 15)).toString() + 'px';
+        document.getElementById("extra_info").style = "";
         document.getElementById("extra_info").innerHTML =
             "<p style='font-size: 14px; margin-top: 0px; margin-bottom: 0px;'>" + printInfo + "</p>";
+        if (document.getElementById("extra_info").clientHeight <= def_height) {
+            document.getElementById("extra_info").style.height = def_height + 'px';
+        }
     });
 
     cy.on('mouseout', 'node', function (evt) {
-        document.getElementById("extra_info").style.height = '80px';
+        document.getElementById("extra_info").style.height = def_height + 'px';
         document.getElementById("extra_info").innerHTML = "<p style='margin-top: 0px; margin-bottom: 0px;'>" + generateGeneralInfo() + "</p>";
     });
 
     cy.on('mouseover', 'edge', function (evt) {
         var v = evt.target.id();
         var printInfo = createFullLabelForEdge(v.substring(1));
-        var hg = getHg(printInfo, 39);
-        document.getElementById("extra_info").style.height = Math.max(80, (hg * 15)).toString() + 'px';
+        document.getElementById("extra_info").style = "";
         document.getElementById("extra_info").innerHTML =
-            "<p style='font-size: 14px; margin-top: 0px; margin-bottom: 0px;'>" + printInfo + "</p>";
+            "<p id='innerTextExtraInfo' style='font-size: 14px; margin-top: 0px; margin-bottom: 0px;'>" + printInfo + "</p>";
+        console.log(document.getElementById("extra_info").clientHeight);
+        if (document.getElementById("extra_info").clientHeight <= def_height) {
+            document.getElementById("extra_info").style.height = def_height + 'px';
+        }
     });
 
     cy.on('mouseout', 'edge', function (evt) {
-        document.getElementById("extra_info").style.height = '80px';
+        document.getElementById("extra_info").style.height = def_height + 'px';
         document.getElementById("extra_info").innerHTML = "<p style='margin-top: 0px; margin-bottom: 0px;'>" + generateGeneralInfo() + "</p>";
     });
 }
@@ -367,23 +356,27 @@ function handleFilterButton() {
     }
 }
 
+function TypeToStr(s) {
+    var typeToRep = {"DNA_PAIR": "Paired reads", "RNA_PAIR": "RNA-Seq (paired)", "RNA_SPLIT_50": "RNA-Seq (single)",
+        "RNA_SPLIT_30": "RNA-Seq (single)", "SCAFF": "Scaffolds", "CONNECTION" : "Connection", "LONG" : "Long reads",
+        "FASTG": "FASTG", "GFA": "GFA"};
+    if (s in typeToRep) {
+        return typeToRep[s]
+    }
+    return s.replace(/_/g, " ");
+}
+
 function InitLibTable() {
     var table = document.getElementById("lib_table");
 
     for (var i=0; i < scaffoldgraph.libs.length; ++i) {
         var tr = document.createElement("tr");
 
-        var td_id = document.createElement("td");
-        var lib_id = document.createElement("p");
-        lib_id.appendChild(document.createTextNode("l" + scaffoldgraph.libs[i].id));
-        td_id.align="center";
-        td_id.appendChild(lib_id);
-
         var td_type = document.createElement("td");
         var lib_type = document.createElement("p");
-        lib_type.appendChild(document.createTextNode((scaffoldgraph.libs[i].type).replace(/_/g, " ")));
+        lib_type.appendChild(document.createTextNode(TypeToStr(scaffoldgraph.libs[i].type)));
         td_type.appendChild(lib_type);
-        td_type.align="center";
+        td_type.align="left";
 
 
         var td_name = document.createElement("td");
@@ -404,7 +397,6 @@ function InitLibTable() {
         td_min_edge_weight.align="center";
         td_min_edge_weight.appendChild(input_weight);
 
-        tr.appendChild(td_id);
         tr.appendChild(td_type);
         tr.appendChild(td_name);
         tr.appendChild(td_min_edge_weight);
@@ -466,22 +458,24 @@ function updeteChangeBlock() {
         document.getElementById("change_block").innerHTML = "";
     } else if (document.getElementById("select_show_type").value == "vertices_local_area" || document.getElementById("select_show_type").value == "edges_local_area") {
         document.getElementById("change_block").innerHTML = "<div class=\"block\">\n" +
-            "                    <p>Area size:<br/>\n" +
+            "                    <p>Distance:<br/>\n" +
             "                        <input type=\"number\" min=\"0\" id=\"area_size\" value=1>\n" +
             "                    </p>\n" +
             "                </div>\n" +
             "                <div class=\"block\">\n" +
-            "                    <textarea rows=\"6\" id=\"vertext\"></textarea>\n" +
+            "                    <textarea rows=\"6\" id=\"vertext\" placeholder=\"ID1, ID2...\"></textarea>\n" +
             "                </div>";
     } else if (document.getElementById("select_show_type").value == "diff in libs" ) {
-        var html_code = "<div class=\"block\">\n" +
-            "                    <p>Area size:<br/>\n" +
+        var html_code_1 = "<div class=\"block\">\n" +
+            "                    <p>Distance:<br/>\n" +
             "                        <input type=\"number\" min=\"0\" id=\"area_size\" value=1>\n" +
             "                    </p>\n" +
-            "                </div>\n" +
-            "<div class=\"one_line_block\">\n" +
+            "                </div>\n";
+
+        var text_wrong_correct = "<p>Display only</p>";
+        var wrong_correct = "<div class=\"one_line_block\">\n" +
             "                        <label class=\"container\">\n" +
-            "                            <p>Wrong</p>\n" +
+            "                            <p>Wrong connection</p>\n" +
             "                            <input type=\"checkbox\" checked=\"true\" value=\"Wrong\" id=\"checkbox_wrong\">\n" +
             "                            <span class=\"checkmark\"></span>\n" +
             "                        </label>\n" +
@@ -489,17 +483,21 @@ function updeteChangeBlock() {
             "\n" +
             "                    <div class=\"one_line_block\">\n" +
             "                        <label class=\"container\">\n" +
-            "                            <p>Correct</p>\n" +
+            "                            <p>Correct connection</p>\n" +
             "                            <input type=\"checkbox\" checked=\"true\" value=\"Correct\" id=\"checkbox_correct\">\n" +
             "                            <span class=\"checkmark\"></span>\n" +
             "                        </label>\n" +
             "                    </div>\n" +
             "                    <br/>\n";
+
+        var text_after = "<p style='font-size: 12px;'>Wrong and correct connections are detected using reference genome</p>";
+        var text_before_present = "<p style='padding-bottom: 0px; margin-bottom: 0px;'>Display connection where following sources are</p>";
+
         var present_block = "<div class=\"one_line_block\" id=\"present_block\">\n" +
-            "                        Presnt:\n";
+            "                        <p style='padding-top: 0px; margin-top: 2px;'>present:</p>\n";
 
         var not_present_block = "<div class=\"one_line_block\" id=\"not_present_block\">\n" +
-            "                        Not Presnt:\n";
+            "                        <p style='padding-top: 0px; margin-top: 2px;'>not present:</p>\n";
 
         for (var i=0; i < scaffoldgraph.libs.length; ++i) {
             var lib_name = scaffoldgraph.libs[i].name;
@@ -520,27 +518,28 @@ function updeteChangeBlock() {
 
         present_block += "</div>\n";
         not_present_block += "</div>\n";
-        document.getElementById("change_block").innerHTML = html_code + present_block + not_present_block;
+        document.getElementById("change_block").innerHTML = html_code_1 + text_before_present + present_block +
+            not_present_block + text_wrong_correct + wrong_correct + text_after;
     } else if (document.getElementById("select_show_type").value == "scaffolds") {
         document.getElementById("change_block").innerHTML = "<div class=\"block\">\n" +
-            "                    <p>Area size: \n<br>" +
+            "                    <p>Distance: \n<br>" +
             "                        <input type=\"number\" min=\"0\" id=\"area_size\" value=1>\n" +
             "                    </p>\n" +
-            "                    <p>Scaffold lib:\n<br>" +
+            "                    <p>Scaffold source:\n<br>" +
             "                        <div class=\"styled-select\">\n" +
             "                           <select id=\"select_scaff_lib\">\n" +
             "                           </select>\n" +
             "                       </div>" +
             "                    </p>\n" +
-            "                    <p> Min scaffold len:\n" +
+            "                    <p> Minimum scaffold size:\n" +
             "                    <input type=\"number\" min=\"2\" id=\"min_scaffold_len\" value=2> </p>\n" +
             "                    <label class=\"container\">\n" +
-            "                    <p>Wrong connection(s)\n" +
+            "                    <p id='scaff_wrng_p'>Wrong connection(s)\n" +
             "                    <input type=\"checkbox\" id=\"scaff_wrng\">\n" +
             "                    <span class=\"checkmark\"></span>" +
             "                    </p></label>" +
             "                    <label class=\"container\">\n" +
-            "                    <p>Possibly incomplete\n" +
+            "                    <p id='scaff_cont_p'>Possibly incomplete\n" +
             "                    <input type=\"checkbox\" id=\"scaff_cont\">\n" +
             "                    <span class=\"checkmark\"></span>" +
             "                    </p></label>" +
@@ -552,6 +551,14 @@ function updeteChangeBlock() {
             "                    <p style='font-size: 12px;'>When multiple boxes are checked, components that satisfy at least one connection will be shown.</p>" +
             "                </div>";
 
+        if (chromosomes.length === 0) {
+            document.getElementById("scaff_wrng").disabled = true;
+            document.getElementById("scaff_cont").disabled = true;
+
+            document.getElementById("scaff_wrng_p").style.color = "#aaa";
+            document.getElementById("scaff_cont_p").style.color = "#aaa";
+        }
+
         for (i=0; i < scaffoldgraph.libs.length; ++i) {
             if (scaffoldgraph.libs[i].type == 'SCAFF') {
                 document.getElementById("select_scaff_lib").innerHTML += "<option value=\"" + scaffoldgraph.libs[i].name + "\">" + scaffoldgraph.libs[i].name + "</option>\n";
@@ -559,7 +566,7 @@ function updeteChangeBlock() {
         }
     } else if (document.getElementById("select_show_type").value == "ambiguous") {
         document.getElementById("change_block").innerHTML = "<div class=\"block\">\n" +
-            "                    <p>Area size:<br/>\n" +
+            "                    <p>Distance:<br/>\n" +
             "                        <input type=\"number\" min=\"0\" id=\"area_size\" value=1>\n" +
             "                    </p>\n" +
             "                </div>";
@@ -576,12 +583,12 @@ document.getElementById("select_layout").addEventListener("change", function(){
             "                </h2>\n" +
             "                <div class=\"styled-select\">\n" +
             "                <select id=\"select_show_type\">\n" +
-            "                    <option value=\"full graph\">Full graph</option>\n" +
-            "                    <option value=\"scaffolds\">Scaffolds</option>\n" +
-            "                    <option value=\"diff in libs\">Difference in libs</option>\n" +
-            "                    <option value=\"ambiguous\">Ambiguous</option>\n" +
-            "                    <option value=\"vertices_local_area\">Vertices local area</option>\n" +
-            "                    <option value=\"edges_local_area\">Edges local area</option>\n" +
+            "                    <option value=\"full graph\">full graph</option>\n" +
+            "                    <option value=\"scaffolds\">by scaffold name</option>\n" +
+            "                    <option value=\"vertices_local_area\">by vertex id</option>\n" +
+            "                    <option value=\"edges_local_area\">by edge id</option>\n" +
+            "                    <option value=\"diff in libs\">difference between sources</option>\n" +
+            "                    <option value=\"ambiguous\">ambiguous connection</option>\n" +
             "                </select>\n" +
             "                </div>\n" +
             "                </div>";
@@ -591,7 +598,7 @@ document.getElementById("select_layout").addEventListener("change", function(){
     } else {
         document.getElementById("filtration").innerHTML = "";
         document.getElementById("change_block").innerHTML = "<div class=\"block\">\n" +
-            "                    <p>Area size:<br/>\n" +
+            "                    <p>Distance:<br/>\n" +
             "                        <input type=\"number\" min=\"0\" id=\"area_size\" value=1>\n" +
             "                    </p>\n" +
             "                </div>";
