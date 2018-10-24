@@ -568,12 +568,12 @@ document.getElementById("select_layout").addEventListener("change", function(){
             "                </h2>\n" +
             "                <div class=\"styled-select\">\n" +
             "                <select id=\"select_show_type\">\n" +
-            "                    <option value=\"full graph\">Full graph</option>\n" +
-            "                    <option value=\"scaffolds\">Scaffolds</option>\n" +
-            "                    <option value=\"diff in libs\">Difference in sources</option>\n" +
-            "                    <option value=\"ambiguous\">Ambiguous</option>\n" +
-            "                    <option value=\"vertices_local_area\">Vertices local area</option>\n" +
-            "                    <option value=\"edges_local_area\">Edges local area</option>\n" +
+            "                    <option value=\"full graph\">full graph</option>\n" +
+            "                    <option value=\"scaffolds\">by scaffold name</option>\n" +
+            "                    <option value=\"vertices_local_area\">by vertex id</option>\n" +
+            "                    <option value=\"edges_local_area\">by edge id</option>\n" +
+            "                    <option value=\"diff in libs\">difference between sources</option>\n" +
+            "                    <option value=\"ambiguous\">ambiguous connection</option>\n" +
             "                </select>\n" +
             "                </div>\n" +
             "                </div>";
