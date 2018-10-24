@@ -524,7 +524,7 @@ function updeteChangeBlock() {
             "                           </select>\n" +
             "                       </div>" +
             "                    </p>\n" +
-            "                    <p> Min scaffold len:\n" +
+            "                    <p> Minimum scaffold size:\n" +
             "                    <input type=\"number\" min=\"2\" id=\"min_scaffold_len\" value=2> </p>\n" +
             "                    <label class=\"container\">\n" +
             "                    <p>Wrong connection(s)\n" +
