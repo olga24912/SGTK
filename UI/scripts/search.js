@@ -1,3 +1,9 @@
+/*
+* SetUp search
+*/
+
+
+//Generate the list of results string for genome browser mode
 function getALLNamesFrom(intTree, result) {
     if (intTree.lt !== -1) {
         getALLNamesFrom(intTree.lt, result);
@@ -11,6 +17,7 @@ function getALLNamesFrom(intTree, result) {
     }
 }
 
+//Generate the list of nodes id for current chromosome for genome browser mode
 function getNodesId(intTree, nodes) {
     if (intTree.lt !== -1) {
         getNodesId(intTree.lt, nodes);
@@ -24,7 +31,7 @@ function getNodesId(intTree, nodes) {
     }
 }
 
-
+//SetUp autocomplete for search
 function setupAutocompleteSearch(){
     $("#search_text").autocomplete({
         minLength: 1,
@@ -61,6 +68,7 @@ function setupAutocompleteSearch(){
     });
 }
 
+//Find node for search query string
 function parseNode(nodes, scr, vid, request) {
     for (var i = 0; i < nodes.length; ++i) {
         var cur_scr = 0;
@@ -72,22 +80,22 @@ function parseNode(nodes, scr, vid, request) {
         if (matcher.test(request)) {
             cur_scr += 2;
         }
-        console.log(request);
-        console.log(nodes[i].id);
+
         matcher = new RegExp(scaffoldgraph.nodes[nodes[i].id].name);
         if (matcher.test(request)) {
             cur_scr += 3;
         }
-        console.log(cur_scr);
+
         if (cur_scr > scr) {
             scr = cur_scr;
             vid = nodes[i];
         }
-        console.log(vid.id);
     }
     return [scr, vid];
 }
 
+
+//Main search function
 function search() {
     var request = document.getElementById("search_text").value;
     var opt = document.getElementById("select_layout").value;

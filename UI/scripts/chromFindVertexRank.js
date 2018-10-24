@@ -1,11 +1,19 @@
+/*
+* Find rank(drawing vertical level) for vertex in genome browser mode
+*/
+
+//get y position for vertexID curv(int), ypos = sum position of neighbors, sumw = weight with neighbors
 function calcY(curv, ypos, sumw) {
     return ypos/sumw;
 }
 
+
+//Get distribution for y position for current zomming
 function getYC_D() {
     return 1000/defZoom;
 }
 
+//Calculate y position for vertex u(VertexID, int)
 function calcYforV(u, area_size, min_contig_len, isGoodEdge, newNode, curNodeSet, cy, rcoef) {
     var ypos = 0;
     var sumw = 0;
@@ -45,7 +53,7 @@ function calcYforV(u, area_size, min_contig_len, isGoodEdge, newNode, curNodeSet
     return calcY(u, ypos, sumw);
 }
 
-
+//Get X position of the leftmost neighbor of curu(VertexID, int)
 function getLeftOrder(curu, area_size, isGoodEdge, curNodeSet, openNode, cy) {
     var mnOrder = -1;
     for (var i = 0; i < scaffoldgraph.g[curu].length; ++i) {
@@ -74,6 +82,7 @@ function getLeftOrder(curu, area_size, isGoodEdge, curNodeSet, openNode, cy) {
     return mnOrder;
 }
 
+//Get X position of the rightmost neighbor of curu(VertexID, int)
 function getRightOrder(curu, area_size, isGoodEdge, curNodeSet, openNode, cy) {
     var mxOrder = -1;
     for (var i = 0; i < scaffoldgraph.g[curu].length; ++i) {
@@ -102,6 +111,7 @@ function getRightOrder(curu, area_size, isGoodEdge, curNodeSet, openNode, cy) {
     return mxOrder;
 }
 
+//Find rank for contigs which have connection to chromosome contig
 function handleVertexConnectedToAlignContig(curu, curv, curedge, curNodeSet, cy, used_id, isGoodEdge,
                                             area_size, newvert, que, ypos, sumw, process, curd, openNode, rank, maxRank) {
     if (!isBigContig(0, scaffoldgraph.nodes[curu].len, defZoom)) {
@@ -125,6 +135,7 @@ function handleVertexConnectedToAlignContig(curu, curv, curedge, curNodeSet, cy,
     return maxR;
 }
 
+//Update ranks, after handeling curedge(ScaffoldEdge)
 function handleEdge(curedge, curv, curNodeSet, cy, used_id, isGoodEdge, area_size, newvert, que, ypos, sumw, process, curd, openNode, rank, maxRank, v, distFromChrm) {
     var isForward = (curedge.to !== curv);
     if (isGoodEdge(curedge.id)) {
@@ -176,7 +187,6 @@ function handleEdge(curedge, curv, curNodeSet, cy, used_id, isGoodEdge, area_siz
             }
 
             if (curdd !== -1) {
-                //TODO: mistake calculate real dist, not rank;
                 if ((distFromChrm[curv] < area_size || curNodeSet.has(curu) || openNode.has(curu) || (distFromChrm[curv] === area_size && used_id.has(curu)))) {
                     edges_to_draw.push(curedge.id);
                 }
@@ -185,6 +195,8 @@ function handleEdge(curedge, curv, curNodeSet, cy, used_id, isGoodEdge, area_siz
     }
 }
 
+
+//Generate vertex around chromosomes and found positions for them
 function findNodeAroundChr(inode, area_size, min_contig_len, isGoodEdge, curNodeSet, openNode, cy) {
     var maxRank = {};
     var ypos = {};

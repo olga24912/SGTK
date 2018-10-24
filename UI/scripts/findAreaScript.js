@@ -1,3 +1,7 @@
+/*
+* Find local area around list of nodes
+*/
+
 function findLocalArea(inodes, area_size, min_contig_len, isGoodEdge) {
     var dist = new Map();
     var queue = [];

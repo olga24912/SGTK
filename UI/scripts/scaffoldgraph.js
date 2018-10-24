@@ -1,3 +1,7 @@
+/*
+* "Class" for scaffold graph
+*/
+
 colors = [
     "#3B7423",
     "#90C479",

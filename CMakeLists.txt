@@ -128,6 +128,38 @@ install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/UI/scripts/chromFindVertexRank.js"
         DESTINATION bin/scripts/
         COMPONENT runtime)
 
+install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/UI/scripts/Init.js"
+        DESTINATION bin/scripts/
+        COMPONENT runtime)
+install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/UI/scripts/generateLabel.js"
+        DESTINATION bin/scripts/
+        COMPONENT runtime)
+install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/UI/scripts/handleEdgeLocalArea.js"
+        DESTINATION bin/scripts/
+        COMPONENT runtime)
+install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/UI/scripts/handleFullGraph.js"
+        DESTINATION bin/scripts/
+        COMPONENT runtime)
+install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/UI/scripts/handleVertexLocalArea.js"
+        DESTINATION bin/scripts/
+        COMPONENT runtime)
+install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/UI/scripts/openVertex.js"
+        DESTINATION bin/scripts/
+        COMPONENT runtime)
+install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/UI/scripts/splitingGraphOnParts.js"
+        DESTINATION bin/scripts/
+        COMPONENT runtime)
+install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/UI/scripts/utils.js"
+        DESTINATION bin/scripts/
+        COMPONENT runtime)
+
+
+
+
+
+
+
+
 install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/UI/scripts/Icon.png"
         DESTINATION bin/scripts/
         COMPONENT runtime)

@@ -1,8 +1,15 @@
+/*
+* Create graph for filtration "by scaffold" in free(dagre) layout
+*/
+
+//Source id for scaffold to draw
 var libnum = 0;
+
 var global_areasize = 0;
 var global_min_contig_len = 0;
 var global_isGoodEdge;
 
+//Draw scaffold with id i(int)
 function drawScaffold(i) {
     special_edges.clear();
     special_nodes.clear();
@@ -31,6 +38,7 @@ function drawScaffold(i) {
     cy.fit(cy.$('#' + scaffoldgraph.libs[libnum].scaffolds[i].edges[0].from));
 }
 
+//Check if scaffold with id j(int) from source libnum have wrong connection
 function containWrong(libnum, j) {
     for (var g = 0; g < scaffoldgraph.libs[libnum].scaffolds[j].edges.length; ++g) {
         var e = scaffoldgraph.libs[libnum].scaffolds[j].edges[g].id;
@@ -44,7 +52,7 @@ function containWrong(libnum, j) {
     return false;
 }
 
-
+//Check if scaffold with id j(int) from source libnum have continuation
 function containContinuation(libnum, j) {
     global_min_contig_len = min_contig_len;
     global_isGoodEdge = isGoodEdge;
@@ -94,6 +102,7 @@ function containContinuation(libnum, j) {
     return false;
 }
 
+//Check if scaffold with id j(int) from source libnum contain ambiguous
 function containAmbiguous(libnum, j) {
     for (var g = 0; g < scaffoldgraph.libs[libnum].scaffolds[j].edges.length; ++g) {
         var e = scaffoldgraph.libs[libnum].scaffolds[j].edges[g].id;
@@ -176,6 +185,7 @@ function handleScaffoldsFilter(scafflibname, areasize, min_contig_len, isGoodEdg
     );
 }
 
+//Get vertex inside for edge e(int) missing small contig
 function getEdgeFrom(e) {
     var v = scaffoldgraph.edges[e].from;
     var edges_name = scaffoldgraph.edges[e].name;
@@ -204,6 +214,7 @@ function getEdgeFrom(e) {
     return v;
 }
 
+//Get vertex outside for edge e(int) missing small contig
 function getEdgeTo(e) {
     var v = scaffoldgraph.edges[e].to;
     var edges_name = scaffoldgraph.edges[e].name;
