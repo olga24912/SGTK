@@ -22,5 +22,3 @@ namespace reads_splitter {
 }
 
 #endif //SCAFFOLDER_SPLITTERBYUNMAPPEDEND_H
-
-}
