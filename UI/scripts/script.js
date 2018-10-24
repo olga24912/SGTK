@@ -527,12 +527,12 @@ function updeteChangeBlock() {
             "                    <p> Minimum scaffold size:\n" +
             "                    <input type=\"number\" min=\"2\" id=\"min_scaffold_len\" value=2> </p>\n" +
             "                    <label class=\"container\">\n" +
-            "                    <p>Wrong connection(s)\n" +
+            "                    <p id='scaff_wrng_p'>Wrong connection(s)\n" +
             "                    <input type=\"checkbox\" id=\"scaff_wrng\">\n" +
             "                    <span class=\"checkmark\"></span>" +
             "                    </p></label>" +
             "                    <label class=\"container\">\n" +
-            "                    <p>Possibly incomplete\n" +
+            "                    <p id='scaff_cont_p'>Possibly incomplete\n" +
             "                    <input type=\"checkbox\" id=\"scaff_cont\">\n" +
             "                    <span class=\"checkmark\"></span>" +
             "                    </p></label>" +
@@ -543,6 +543,14 @@ function updeteChangeBlock() {
             "                    </p></label>" +
             "                    <p style='font-size: 12px;'>When multiple boxes are checked, components that satisfy at least one connection will be shown.</p>" +
             "                </div>";
+
+        if (chromosomes.length === 0) {
+            document.getElementById("scaff_wrng").disabled = true;
+            document.getElementById("scaff_cont").disabled = true;
+
+            document.getElementById("scaff_wrng_p").style.color = "#aaa";
+            document.getElementById("scaff_cont_p").style.color = "#aaa";
+        }
 
         for (i=0; i < scaffoldgraph.libs.length; ++i) {
             if (scaffoldgraph.libs[i].type == 'SCAFF') {
