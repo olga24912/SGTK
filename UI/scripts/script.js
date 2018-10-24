@@ -458,7 +458,7 @@ function updeteChangeBlock() {
         document.getElementById("change_block").innerHTML = "";
     } else if (document.getElementById("select_show_type").value == "vertices_local_area" || document.getElementById("select_show_type").value == "edges_local_area") {
         document.getElementById("change_block").innerHTML = "<div class=\"block\">\n" +
-            "                    <p>Area size:<br/>\n" +
+            "                    <p>Distance:<br/>\n" +
             "                        <input type=\"number\" min=\"0\" id=\"area_size\" value=1>\n" +
             "                    </p>\n" +
             "                </div>\n" +
@@ -467,7 +467,7 @@ function updeteChangeBlock() {
             "                </div>";
     } else if (document.getElementById("select_show_type").value == "diff in libs" ) {
         var html_code = "<div class=\"block\">\n" +
-            "                    <p>Area size:<br/>\n" +
+            "                    <p>Distance:<br/>\n" +
             "                        <input type=\"number\" min=\"0\" id=\"area_size\" value=1>\n" +
             "                    </p>\n" +
             "                </div>\n" +
@@ -515,7 +515,7 @@ function updeteChangeBlock() {
         document.getElementById("change_block").innerHTML = html_code + present_block + not_present_block;
     } else if (document.getElementById("select_show_type").value == "scaffolds") {
         document.getElementById("change_block").innerHTML = "<div class=\"block\">\n" +
-            "                    <p>Area size: \n<br>" +
+            "                    <p>Distance: \n<br>" +
             "                        <input type=\"number\" min=\"0\" id=\"area_size\" value=1>\n" +
             "                    </p>\n" +
             "                    <p>Scaffold source:\n<br>" +
@@ -551,7 +551,7 @@ function updeteChangeBlock() {
         }
     } else if (document.getElementById("select_show_type").value == "ambiguous") {
         document.getElementById("change_block").innerHTML = "<div class=\"block\">\n" +
-            "                    <p>Area size:<br/>\n" +
+            "                    <p>Distance:<br/>\n" +
             "                        <input type=\"number\" min=\"0\" id=\"area_size\" value=1>\n" +
             "                    </p>\n" +
             "                </div>";
@@ -583,7 +583,7 @@ document.getElementById("select_layout").addEventListener("change", function(){
     } else {
         document.getElementById("filtration").innerHTML = "";
         document.getElementById("change_block").innerHTML = "<div class=\"block\">\n" +
-            "                    <p>Area size:<br/>\n" +
+            "                    <p>Distance:<br/>\n" +
             "                        <input type=\"number\" min=\"0\" id=\"area_size\" value=1>\n" +
             "                    </p>\n" +
             "                </div>";
