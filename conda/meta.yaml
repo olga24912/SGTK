@@ -1,4 +1,4 @@
-{% set version = "1.1" %}
+{% set version = "1.1.1" %}
 
 package: 
     name: sgtk
@@ -10,7 +10,7 @@ build:
 
 source:
     url: https://github.com/olga24912/SGTK/archive/v{{ version }}.zip
-    sha256: 6dd289044b74e88c4f0a295fdf771ce008348c3d89e86e390a69a1bc185dafd3
+    sha256: 48d3f591009484cdf2637ed21a2a7c31bcfd02fcd1497bc489dd543f8c0b965a
     
 requirements:
     build:
