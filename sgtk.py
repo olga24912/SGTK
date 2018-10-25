@@ -151,8 +151,8 @@ def parse_args():
     parser.add_argument("--rna-p", dest="rnap", nargs=2, help="paths to RNA-Seq paired reads  in SAM/BAM format", type=str, action=StoreArgAction)
     parser.add_argument("--rna-s", dest="rnas", nargs=1, help="path to RNA-Seq single reads  in SAM/BAM format", type=str, action=StoreArgAction)
 
-    parser.add_argument("--ref", dest="ref", nargs=1, help="path to reference genome in FASTA format", type=str, action=StoreArgAction)
-    parser.add_argument("--refcoord", dest="refcoord", nargs=2, help="path to ref and to alignment of contigs to reference in coord format", type=str, action=StoreArgAction)
+    parser.add_argument("--ref", dest="ref", nargs=1, help="path to reference genome in FASTA format", type=str, action='append')
+    parser.add_argument("--refcoord", dest="refcoord", nargs=2, help="path to ref and to alignment of contigs to reference in coord format", type=str, action='append')
 
     parser.add_argument("--gr", nargs=1, dest="graph", help="path to graph in .gr format", type=str, action='append')
     parser.add_argument("--scg", nargs=1, dest="scg", help="path to file with connection list", type=str, action=StoreArgAction)
@@ -819,16 +819,16 @@ def add_conection_to_res_file(f):
             f.write("scaffoldedges[" + str(i) + "].info=\"" + extraInfo + "\";\n")
 
 def add_refcoord_to_res_file(contig_file_name, f):
-    if (len(args.libs["refcoord"]) == 0):
+    if (len(args.refcoord) == 0):
         return
 
-    lib = args.libs["refcoord"][0]
+    lib = args.refcoord[0]
 
     chrid = {}
     chrlen = []
     chrlist = []
     chralig = []
-    fasta_seq = SeqIO.parse(open(lib.path[0]), 'fasta')
+    fasta_seq = SeqIO.parse(open(lib[0]), 'fasta')
     curid = 0
 
     for fasta in fasta_seq:
@@ -850,7 +850,7 @@ def add_refcoord_to_res_file(contig_file_name, f):
     #TODO: del file
     g = open("out.coords", "w")
 
-    with open(lib.path[1]) as cf:
+    with open(lib[1]) as cf:
         for line in cf:
             if ("[S1]     [E1]  |     [S2]     [E2]  |  [LEN 1]  [LEN 2]  |  [% IDY]  | [TAGS]" in line or "====" in line):
                 continue
@@ -890,22 +890,19 @@ def getRefFileName(fileName):
 
 
 def merge_ref_files(ref_libs):
-    if (len(ref_libs) == 1):
-        return ref_libs[0]
-
     with open("ref_merge.fasta", "w") as out:
         for i in range(len(ref_libs)):
-            for record in SeqIO.parse(ref_libs[i].path[0], "fasta"):
-                record.id = getRefFileName(ref_libs[i].path[0]) + "_" + record.id
+            for record in SeqIO.parse(ref_libs[i], "fasta"):
+                record.id = getRefFileName(ref_libs[i]) + "_" + record.id
                 SeqIO.write(record, out, "fasta")
 
     return Lib([os.path.abspath("ref_merge.fasta")], "ref", "ref")
 
 def add_ref_to_res_file(contig_file_name, f):
-    if (len(args.libs["ref"]) == 0):
+    if (len(args.ref) == 0):
         return
 
-    lib = merge_ref_files(args.libs["ref"])
+    lib = merge_ref_files(args.ref)
 
     prevdir = os.getcwd()
     lib_dir = os.path.dirname(os.path.abspath(lib.name) + "/")
@@ -917,11 +914,11 @@ def add_ref_to_res_file(contig_file_name, f):
     global idbyname
     global lenbyid
 
+    chrnameToId = dict()
     chrlist = []
     chralig = []
 
     curid = -2
-    lastname = '-'
 
     chrm_len_by_name = dict()
     save_lens_from_sam(chrm_len_by_name, "out.sam")
@@ -933,23 +930,22 @@ def add_ref_to_res_file(contig_file_name, f):
                 continue
             vid = idbyname[qcont]
             lenf = int(chrm_len_by_name[chrname])
-            if (chrname != lastname):
+            if (chrname not in chrnameToId):
                 curid += 2
                 chrlist.append("new Chromosome(" + str(curid) + ", '" + chrname + "', " + str(lenf) + ")")
                 chrlist.append("new Chromosome(" + str(curid + 1) + ", '" + chrname + "-rev', " + str(lenf) + ")")
                 chralig.append([])
                 chralig.append([])
-                lastname = chrname
+                chrnameToId[chrname] = curid
 
             if ((max(rq, lq) - min(rq, lq)) * 100 < lenbyid[vid]):
                 continue
             
             if (lq > rq):
                 vid ^= 1
-   
 
-            chralig[curid].append("new Alignment(" + str(l) + ", " + str(r) + ", " + str(curid) + ", " + str(vid) + ")")
-            chralig[curid + 1].append("new Alignment(" + str(lenf - r) + ", " + str(lenf - l) + ", " + str(curid + 1) + ", " + str(vid^1) + ")")
+            chralig[chrnameToId[chrname]].append("new Alignment(" + str(l) + ", " + str(r) + ", " + str(chrnameToId[chrname]) + ", " + str(vid) + ")")
+            chralig[chrnameToId[chrname] + 1].append("new Alignment(" + str(lenf - r) + ", " + str(lenf - l) + ", " + str(chrnameToId[chrname] + 1) + ", " + str(vid^1) + ")")
 
     for i in range(len(chrlist)):
         f.write("chromosomes.push(" + chrlist[i] + ");\n")
@@ -1040,6 +1036,16 @@ def run(args):
         for i in range(len(args.graph)):
             args.graph[i] = os.path.abspath(args.graph[i][0])
 
+    if args.ref != None:
+        for i in range(len(args.ref)):
+            args.ref[i] = os.path.abspath(args.ref[i][0])
+
+    if args.refcoord != None:
+        for i in range(len(args.refcoord)):
+            args.refcoord[i][0] = os.path.abspath(args.refcoord[i][0])
+            args.refcoord[i][1] = os.path.abspath(args.refcoord[i][1])
+
+
     out_dir = main_out_dir + "tmp/"
     log.log("OUTPUT DIR: " + out_dir)
     directory = os.path.dirname(out_dir)
@@ -1091,7 +1097,11 @@ def run(args):
     add_conection_to_res_file(f)
     if 'libs' in args:
         save_scaffolds(contig_file_name, args, f)
+
+    if args.ref != None:
         add_ref_to_res_file(contig_file_name, f)
+
+    if args.refcoord != None:
         add_refcoord_to_res_file(contig_file_name, f)
 
     f.write("var scaffoldgraph = new ScaffoldGraph(scaffoldlibs, scaffoldnodes, scaffoldedges);\n")
