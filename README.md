@@ -135,7 +135,7 @@ To run scaffold graph visualization from the command line, type
 
     sgtk.py [options]
 
-Note that we assume that SGTK installation directory is added to the `PATH` variable (otherwise provide full path to SGTK executable: `<installation dir>/visualize_scaffold_graph.py`).
+Note that we assume that SGTK installation directory is added to the `PATH` variable (otherwise provide full path to SGTK executable: `<installation dir>/sgtk.py`).
 
 
 <a name="sec3.1"></a>
@@ -297,9 +297,9 @@ Then the command line for launching SGTK would look like:
     python3 sgtk.py -c contigs.fa \
     --fr pe1.fq pe2.fq  --rf mp1.fq mp2.fq  --long filtered_subreads.fq \
     -s scaffolds1.fa  -s scaffolds2.fa  -s scaffolds3.fa \
-    --ref chr1.fa --ref chr3.fa --ref chr3.fa \
-    --label PE MP PacBio Tool1 Tool2 Tool3 chr1 chr2 chr3 \
-    --color "#ff0000" "#ffff00" "#00ff00" \
+    --ref chr1.fa --ref chr2.fa --ref chr3.fa \
+    --label PE MP PacBio Tool1 Tool2 Tool3 \
+    --color "#ff0000" "#ffff00" "#00ff00" "#ff00ff" "#ffcccc" "#ccff00" \
     -o output_dir
 
 <a name="sec3.3"></a>
@@ -397,7 +397,7 @@ When multiple boxes are checked, components that satisfy at least one parameter 
 
 ### Drawing graph around vertices 
 
-Visualizes the vicinity of chosen vertices. Vertices names or ids are specified separated by space or new line.
+Visualizes the vicinity of chosen vertices. Vertices names or ids are specified separated by space, new line or comma.
 
 
 ![Vertices local area](https://raw.githubusercontent.com/olga24912/SGTK/master/resources/pic/vert.png)
@@ -405,7 +405,7 @@ Visualizes the vicinity of chosen vertices. Vertices names or ids are specified 
 
 ### Drawing graph around edges 
 
-Visualizes the vicinity of chosen edges. Edges names or ids are specified separated by space or new line.
+Visualizes the vicinity of chosen edges. Edges names or ids are specified separated by space, new line or comma.
 
 ![Edges local area](https://raw.githubusercontent.com/olga24912/SGTK/master/resources/pic/edges.png)
 
@@ -437,14 +437,14 @@ Information about connections sources is displayed at the left as displayed belo
 ![Edges type](https://raw.githubusercontent.com/olga24912/SGTK/master/resources/pic/edgeType.png)
 
 Supported connection types are:
-*   LONG: long reads such as Pacbio or Oxford Nanopores
-*   DNA_PAIR: mate-pairs and paired-end DNA short reads
-*   RNA_PAIR: paired-end RNA-Seq
-*   RNA_SPLIT_50/RNA_SPLIT_30: RNA-Seq single reads
-*   SCAFF: scaffolds
+*   Long reads: long reads such as Pacbio or Oxford Nanopores
+*   Paired reads: mate-pairs and paired-end DNA short reads
+*   RNA-Seq (paired): paired-end RNA-Seq
+*   RNA-Seq (single): RNA-Seq single reads
+*   Scaffold
 *   GFA: assembly graph connections from GFA file
 *   FASTG: assembly graph connections from FASTG file
-*   CONNECTION: from file with connections list
+*   Connection: from file with connections list
 
 The third column shows sources names, text color is the same as color of edges. The last column represents weight threshold for this source, which can be set by user. To apply changes click `DRAW` button.
 
