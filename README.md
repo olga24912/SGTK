@@ -21,11 +21,12 @@ The easiest way is to install SGTK via conda:
 
 Alternatively, you can either download <a href="#sec21">SGTK binaries</a> or <a href="#sec22">compile it by yourself</a>. The latest release can be downloaded [here](https://github.com/olga24912/SGTK/releases).
 
+To run SGTK graph construction you need to install [Biopython](https://biopython.org/).
 If you wish to construct scaffold graph using DNA sequences (long reads, read-pairs, scaffolds or reference genome) you will need [minimap2](https://github.com/lh3/minimap2).
 If you want to use RNA-Seq reads you will need [STAR aligner](https://github.com/alexdobin/STAR).
-Both tools are automatically installed if you use conda.
+All packages are automatically installed if you use conda.
 
-Graph visualization is stored in HTML file and can be viewed in any web browser.
+Graph visualization is stored in HTML format and can be viewed in any web browser.
 
 
 ## Running SGTK
@@ -48,7 +49,8 @@ Once graph construction is finished, open
 
     <output_dir>/main.html
 
-in you favourite browser (but better use Chrome).
+in you favourite browser (but better use Chrome). If you intend to transfer the visualization, do not forget to include `<output_dir>/scripts/` folder.
+
 
 <a name="sec1"></a>
 # 1. About SGTK
@@ -81,9 +83,9 @@ The easiest way is to install SGTK via conda:
 
     conda install -c olga24912 -c conda-forge -c bioconda sgtk
 
-This command also installs [minimap2](https://github.com/lh3/minimap2) and [STAR aligner](https://github.com/alexdobin/STAR).
+This command installs all required dependencies, including [minimap2](https://github.com/lh3/minimap2) and [STAR aligner](https://github.com/alexdobin/STAR).
 
-Alternatively, you can can either download binaries, or download source code and compile it yourself. In this case you need to install [minimap2](https://github.com/lh3/minimap2) and [STAR aligner](https://github.com/alexdobin/STAR) by yourself.
+Alternatively, you can can either download binaries, or download source code and compile it yourself. In this case you need to install [Biopython](https://biopython.org/), [minimap2](https://github.com/lh3/minimap2) and [STAR aligner](https://github.com/alexdobin/STAR) by yourself.
 
 SGTK has precompiled binaries for Linux and MacOS. The latest builds can be downloaded for the [GitHub page](https://github.com/olga24912/SGTK/releases).
 Once unpacked, SGTK is ready to use. You may also consider adding SGTK installation directory to the `PATH` variable.
