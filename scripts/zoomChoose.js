@@ -1,7 +1,13 @@
+/*
+*Handle zooming
+*/
+
+//Create zoom drop down menu
 function zoomDropDown() {
     document.getElementById("zoomDropdown").classList.toggle("show");
 }
 
+//Handle zoom +1.5X
 function zoomPlus() {
     if (cy !== null) {
         var width =  document.getElementById('mainpanel').clientWidth;
@@ -17,6 +23,7 @@ function zoomPlus() {
     }
 }
 
+//Handle zoom -1.5X
 function zoomMinus() {
     if (cy !== null) {
         var width =  document.getElementById('mainpanel').clientWidth;
@@ -47,6 +54,8 @@ window.onclick = function(event) {
     }
 };
 
+
+//Handle Alt- and Alt=
 window.addEventListener("keyup", function (evt) {
     if (evt.altKey) {
         var code = (evt.keyCode || evt.which);
@@ -73,6 +82,7 @@ window.addEventListener("keyup", function (evt) {
 });
 
 
+//Handle array manipulation
 window.addEventListener("keydown", function (evt) {
     var delta = 20;
     if (evt.shiftKey) {
@@ -102,7 +112,7 @@ window.addEventListener("keydown", function (evt) {
     }
 });
 
-
+//Handle zooming from input
 function updateZoomFromInput() {
     var inputVal = parseInt(document.getElementById("zoomInput").innerText);
 

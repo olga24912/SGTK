@@ -1,3 +1,7 @@
+/*
+* Create graph for filtration "difference between sources" in free(dagre) layout
+*/
+
 function handleDiffInLibsFilter(areasize, min_contig_len, isGoodEdge) {
     special_nodes.clear();
     special_edges.clear();

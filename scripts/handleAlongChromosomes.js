@@ -1,3 +1,7 @@
+/*
+* Create graph for filtration in genome browser mode
+*/
+
 var defZoom = 10;
 var maxZoom = 10000000;
 var IntervalTree = {};
@@ -18,6 +22,8 @@ function generateCoordinateLabel(x, delta) {
     }
 }
 
+
+//Generate nodes for coordinate
 function createCoordinates(chr, cy) {
     var cur_zoom = cy.zoom();
     var cur_coord = cy.extent();
@@ -212,6 +218,8 @@ function nodePositionChange(cy, posmin, posmax) {
     });
 }
 
+
+//open vertex
 function createNewVerAlongChr(cy, area_size, min_contig_len, isGoodEdge, curNodeSet, openNode) {
     cy.on('tap', 'node', function (evt) {
         var newNode = new Set();
@@ -280,6 +288,8 @@ function createNewVerAlongChr(cy, area_size, min_contig_len, isGoodEdge, curNode
     });
 }
 
+
+//Update current zooming
 function updateZooming(cy, posx, posmin, posmax, oldPosition) {
     var mul = 1;
     while (cy.zoom()/mul > maxZoomUpdate && defZoom/mul > 1) {
@@ -322,6 +332,10 @@ function processFoundContig(elem, inode, posx, posmin, posmax, curNodeSet, order
     curNodeSet.add(vid);
 }
 
+
+/*
+*Find list of contigs in interval tree for current position and zoom
+ */
 function findContigsByTree(tr, inode, posx, posmin, posmax, curNodeSet, ymin, ymax, lsm,  levelX) {
     if (tr["lstL"].length === 0) {
         return;
@@ -361,6 +375,8 @@ function findContigs(cy, chr, inode, posx, posmin, posmax, curNodeSet,  levelX) 
     findContigsByTree(IntervalTree[defZoom], inode, posx, posmin, posmax, curNodeSet, lastMinX, lastMaxX, 0,  levelX);
 }
 
+
+//Add contigs to cytoscape
 function addContigs(cy, inode, posx, posmin, posmax) {
     for (i = 0; i < inode.length; ++i) {
         var vid = inode[i].id;
@@ -394,6 +410,8 @@ function addContigs(cy, inode, posx, posmin, posmax) {
     }
 }
 
+
+//Add not align vertex to cytoscape
 function addOtherNodes(cy, curNodeSet, vert_to_draw, oldPosition) {
     for (var g = 0; g < vert_to_draw.length; ++g) {
         curNodeSet.add(vert_to_draw[g].id);
@@ -437,6 +455,8 @@ function addOtherNodes(cy, curNodeSet, vert_to_draw, oldPosition) {
     }
 }
 
+
+//calculate edges distance point
 function calculateDinamicForDistPoint(cy, deepsPOS, toSmallCoord) {
     var idslist = [];
 
@@ -504,6 +524,8 @@ function isAlign(u) {
     return cy.getElementById(u).data('faveShape') === 'rectangle';
 }
 
+
+//Add edges to cytoscape
 function addEdges(cy) {
     var deepsPOS = [];
     var toSmallCoord = {};
@@ -551,6 +573,7 @@ function addEdges(cy) {
     }
 }
 
+//Rebuilt graph
 function createGraph(chr, cy, curNodeSet, posx, posmin, posmax, oldPosition, openNode, levelX) {
     updateZooming(cy, posx, posmin, posmax, oldPosition);
     cy.elements().remove();
@@ -575,6 +598,8 @@ function createGraph(chr, cy, curNodeSet, posx, posmin, posmax, oldPosition, ope
     createCoordinates(chr, cy);
 }
 
+
+//update graph on small pan or zoom
 function updateGraph(chr, cy, levelX) {
     createCoordinates(chr, cy);
     var wght = getWidth(cy);
@@ -602,6 +627,10 @@ function updateGraph(chr, cy, levelX) {
     });
 }
 
+
+/*
+* Built interval Tree for fast search of contigs
+*/
 
 //var tmp = [];
 function buildITree(lst) {
@@ -650,6 +679,8 @@ function buildIT(chr, dz) {
     return buildITree(lst);
 }
 
+
+//Generate vertical position level for chromosomes node
 function calculateContigLevelX(chr, levelX) {
     var lst = [];
     var j = 0;
@@ -675,6 +706,7 @@ function calculateContigLevelX(chr, levelX) {
     }
 }
 
+//generate cytoscape graph for genome browser
 function drawAlongChromosome(chr) {
     defZoom = 100;
     lastMinX = 0;

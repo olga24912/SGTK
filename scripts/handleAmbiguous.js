@@ -1,3 +1,7 @@
+/*
+* Create graph for filtration "ambiguous connection" in free(dagre) layout
+*/
+
 function isAmbigTo(i, areasize, min_contig_len, isGoodEdge, nodes_id) {
     if (scaffoldgraph.nodes[i].len < min_contig_len) {
         return;

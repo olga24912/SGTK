@@ -1,3 +1,7 @@
+/*
+* Create list of components
+*/
+
 function createComponentShowList(draw, write, get_title, cnt_comp) {
     cur_show_id = 0;
     var show_block = document.getElementById("show_block");
