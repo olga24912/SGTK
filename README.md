@@ -167,15 +167,15 @@ File with assembly graph in GFA format. Edges will be treated as input contigs, 
 ### Linkage sources
 
 `--fr <file_name_1> <file_name_2> `
- A pair of files with left reads and file with right reads for paired-end/mate-pair DNA library with forward-reverse orientation in FASTQ/FASTA format. 
+ A pair of files with left and right reads for paired-end/mate-pair DNA library with forward-reverse orientation in FASTQ/FASTA format. 
 Input reads are aligned to contigs using [minimap2](https://github.com/lh3/minimap2).
 
 `--rf <file_name_1> <file_name_2> `
- A pair of files with left reads and file with right reads for paired-end/mate-pair DNA library with reverse-forward orientation in FASTQ/FASTA format.
+ A pair of files with left and right reads for paired-end/mate-pair DNA library with reverse-forward orientation in FASTQ/FASTA format.
 
 
 `--ff <file_name_1> <file_name_2> `
- A pair of files with left reads and file with right reads for paired-end/mate-pair DNA library with forward-forward orientation in FASTQ/FASTA format.
+ A pair of files with left and right reads for paired-end/mate-pair DNA library with forward-forward orientation in FASTQ/FASTA format.
 
 
 
@@ -221,7 +221,7 @@ For example:
     (contig1 -) (contig3 +) 32.5 1168 "this is a reliable connection"
 
 `--scafinfo <file_name> `
- File with scaffolds in INFO format (intorduced in [Rascaf](https://github.com/mourisl/Rascaf)). In INFO format each line describes a scaffold in the following format:<br>
+ File with scaffolds in INFO format (introduced in [Rascaf](https://github.com/mourisl/Rascaf)). In INFO format each line describes a scaffold in the following format:<br>
 
     >SCAFFOLD_NAME (CONTIG_NAME_1 CONTIG_ID_1 ORIENTATION_1) (CONTIG_NAME_2 CONTIG_ID_2 ORIENTATION_2)
 
@@ -231,10 +231,10 @@ For example:
 
 
 `--label <label1 label2 ...>`
-List of labels used in visualization for libraries in given order.
+List of labels used in visualization for libraries in given order. Labeling is not available for reference sequences.
 
 `--color <color1 color2 ...>`
- List of colors used in visualization for libraries in given order. Color can be provided in any format supported by HTML in double quotes, e.g. as word ("reb", "blue", etc) or as hexadecimal number ("#ff0000").
+ List of colors used in visualization for libraries in given order. Color can be provided in any format supported by HTML in double quotes, e.g. as word ("reb", "blue", etc) or as hexadecimal number ("#ff0000"). Coloring is not available for reference sequences.
 
 
 ### Scaffold graph in the internal format
@@ -297,9 +297,9 @@ In addition you'd like to set the colors and labels for each linkage source.
 Then the command line for launching SGTK would look like:
 
     python3 sgtk.py -c contigs.fa \
+    --ref chr1.fa --ref chr2.fa --ref chr3.fa \
     --fr pe1.fq pe2.fq  --rf mp1.fq mp2.fq  --long filtered_subreads.fq \
     -s scaffolds1.fa  -s scaffolds2.fa  -s scaffolds3.fa \
-    --ref chr1.fa --ref chr2.fa --ref chr3.fa \
     --label PE MP PacBio Tool1 Tool2 Tool3 \
     --color "#ff0000" "#ffff00" "#00ff00" "#ff00ff" "#ffcccc" "#ccff00" \
     -o output_dir
@@ -335,11 +335,11 @@ To test the toy data set, you can run the following command from the SGTK `bin` 
 If you would like to set labels and colors, you need to set labels and colors for all libraries in order of definition
 
     python3 sgtk.py -c ../share/test_dataset/contigs.fasta \
+    --ref ../share/test_dataset/ref.fasta \
     --fr ../share/test_dataset/read_1.fasta ../share/test_dataset/read_2.fasta \
     --scafinfo ../share/test_dataset/scaf.info \
-    --ref ../share/test_dataset/ref.fasta \
-    --label PE scaffolds genome \
-    --color "#0000ff" "#00ff00" "#ff0000" \
+    --label PE scaffolds \
+    --color "#0000ff" "#00ff00" \
     -o output
 
 
@@ -509,7 +509,7 @@ You can expand the vertex by clicking on this vertex and hidden connection will 
 
 ![Open vertex](https://raw.githubusercontent.com/olga24912/SGTK/master/resources/pic/openVert.png)
 
-In addtion, the vertex can be removed by clicking on it with the right mouse button.
+In addition, the vertex can be removed by clicking on it with the right mouse button.
 
 ### Pale nodes and edges
 
@@ -595,7 +595,7 @@ A pair of files with left and right reads for paired-end RNA-Seq library in FAST
 File for single RNA-Seq reads in FASTQ/FASTA format. Reads will be split into two parts and then aligned to the contigs using [STAR](https://github.com/alexdobin/STAR).
 
 `--gene_annotation ` <file_name>
-Genes predicted for the given set of contigs (optional). We recomment to build the annotation with [Augustus](http://bioinf.uni-greifswald.de/augustus/).
+Genes predicted for the given set of contigs (optional). We recommend to build the annotation with [Augustus](http://bioinf.uni-greifswald.de/augustus/).
 
 
 <a name="sec6"></a>
