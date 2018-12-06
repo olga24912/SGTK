@@ -647,6 +647,7 @@ function ScaffoldGraph(libs, nodes, edges) {
     this.g = [];
     this.gr = [];
 
+    console.log(this.nodes.length);
     var i = 0;
     for (i=0; i < this.nodes.length; ++i) {
         this.id_by_name.set(this.nodes[i].name, this.nodes[i].id);
