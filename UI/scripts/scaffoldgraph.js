@@ -714,3 +714,8 @@ function Alignment(coord_begin, coord_end, chr_id, node_id/*, coordnb, coordne*/
     this.chr_id = chr_id;
     this.node_id = node_id;
 }
+
+var scaffoldnodes = [];
+var scaffoldedges = [];
+var chromosomes = [];
+var scaffoldlibs = [];
