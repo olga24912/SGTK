@@ -145,7 +145,6 @@ function createInformationShown(cy) {
         document.getElementById("extra_info").style = "";
         document.getElementById("extra_info").innerHTML =
             "<p id='innerTextExtraInfo' style='font-size: 14px; margin-top: 0px; margin-bottom: 0px;'>" + printInfo + "</p>";
-        console.log(document.getElementById("extra_info").clientHeight);
         if (document.getElementById("extra_info").clientHeight <= def_height) {
             document.getElementById("extra_info").style.height = def_height + 'px';
         }

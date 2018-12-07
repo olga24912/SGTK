@@ -214,6 +214,19 @@ function nodePositionChange(cy, posmin, posmax) {
                     cy.getElementById(v).position('x', (posmin.get(parseInt(v)) + posmax.get(parseInt(v))) / 2);
                 }
             }
+
+            var order = cy.getElementById(v).data('order');
+            var y1 = cy.nodes("[order = " + (order + 1).toString() + "]").position('y');
+            var y2 = cy.nodes("[order = " + (order - 1).toString() + "]").position('y');
+            var y = cy.getElementById(v).position('y');
+            var direction = 1 - 2 * Math.round(Math.random());
+            if (y1 !== undefined && Math.abs(y - y1) < getContigXPosD()) {
+                cy.getElementById(v).position('y', y1 + direction * (getContigXPosD()));
+            }
+
+            if (y2 !== undefined && Math.abs(y - y2) < getContigXPosD()) {
+                cy.getElementById(v).position('y', y2 + direction * (getContigXPosD()));
+            }
         }
     });
 }
