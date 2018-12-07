@@ -139,7 +139,7 @@ function getDispersion() {
 }
 
 function getContigXPosD() {
-    return 10/cy.zoom();//;1000/defZoom;
+    return 11/cy.zoom();//;1000/defZoom;
 }
 
 function getRankDist() {
@@ -324,10 +324,10 @@ function processFoundContig(elem, inode, posx, posmin, posmax, curNodeSet, order
     var vid = elem.id;
     posx.set(vid, -1*levelX.get(vid) * getContigXPosD());
     if (!(posmin.has(vid))) {
-        posmin.set(vid, elem.cb);
-        posmax.set(vid, elem.ce);
+        posmin.set(vid, elem.cb/defZoom);
+        posmax.set(vid, elem.ce/defZoom);
     }
-    inode.push({id: elem.id, cb: elem.cb, ce: elem.ce, order: order});
+    inode.push({id: elem.id, cb: elem.cb/defZoom, ce: elem.ce/defZoom, order: order});
     special_nodes.add(vid);
     curNodeSet.add(vid);
 }
@@ -372,7 +372,7 @@ function findContigsByTree(tr, inode, posx, posmin, posmax, curNodeSet, ymin, ym
 function findContigs(cy, chr, inode, posx, posmin, posmax, curNodeSet,  levelX) {
     lastMinX = cy.extent().x1 - (cy.extent().x2 - cy.extent().x1);
     lastMaxX = cy.extent().x2 + (cy.extent().x2 - cy.extent().x1);
-    findContigsByTree(IntervalTree[defZoom], inode, posx, posmin, posmax, curNodeSet, lastMinX, lastMaxX, 0,  levelX);
+    findContigsByTree(IntervalTree, inode, posx, posmin, posmax, curNodeSet, lastMinX*defZoom, lastMaxX*defZoom, 0,  levelX);
 }
 
 
@@ -711,9 +711,7 @@ function drawAlongChromosome(chr) {
     defZoom = 100;
     lastMinX = 0;
     lastMaxX = 0;
-    for (var i = 1; i <= maxZoom; i *= 10) {
-        IntervalTree[i] = buildIT(chr, i);
-    }
+    IntervalTree = buildIT(chr, 1);
 
     var curNodeSet = new Set();
     var openNode = new Set();
