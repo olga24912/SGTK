@@ -11,6 +11,8 @@ var mulConst = 10;
 var minZoomUpdate = 0.1;
 var maxZoomUpdate = 1;
 var widthAddConst = 1;
+var EPS = 0.0001;
+var graphUpdating = false;
 
 function generateCoordinateLabel(x, delta) {
     if (defZoom*delta >= 1000000) {
@@ -158,6 +160,16 @@ function isBigContig(cb, ce, dz) {
     return (/*ce - cb > dz*5 &&*/ ce - cb > min_contig_len);
 }
 
+function printThisContig(cb, ce, dz) {
+    if (isBigContig(cb, ce, dz)) {
+        if (Math.random() < (ce - cb)/(10* dz)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
+
 function geOtherNodeWidth(id) {
     return (Math.log(scaffoldgraph.nodes[id].len)*4)/cy.zoom();
 }
@@ -208,7 +220,7 @@ function getPointDistances(cy, e, deepsPOS, toSmallCoord) {
 function nodePositionChange(cy, posmin, posmax) {
     cy.on('position', 'node', function (evt) {
         var v = evt.target.id();
-        if (cy.getElementById(v).data('rank') == 0) {
+        if (graphUpdating === false && cy.getElementById(v).data('rank') === 0) {
             if (posmin.has(parseInt(v))) {
                 if (cy.getElementById(v).position('x') != ((posmin.get(parseInt(v)) + posmax.get(parseInt(v))) / 2)) {
                     cy.getElementById(v).position('x', (posmin.get(parseInt(v)) + posmax.get(parseInt(v))) / 2);
@@ -220,11 +232,11 @@ function nodePositionChange(cy, posmin, posmax) {
             var y2 = cy.nodes("[order = " + (order - 1).toString() + "]").position('y');
             var y = cy.getElementById(v).position('y');
             var direction = 1 - 2 * Math.round(Math.random());
-            if (y1 !== undefined && Math.abs(y - y1) < getContigXPosD()) {
+            if (y1 !== undefined && Math.abs(y - y1) < getContigXPosD() - EPS) {
                 cy.getElementById(v).position('y', y1 + direction * (getContigXPosD()));
             }
 
-            if (y2 !== undefined && Math.abs(y - y2) < getContigXPosD()) {
+            if (y2 !== undefined && Math.abs(y - y2) < getContigXPosD() - EPS) {
                 cy.getElementById(v).position('y', y2 + direction * (getContigXPosD()));
             }
         }
@@ -335,14 +347,16 @@ function updateZooming(cy, posx, posmin, posmax, oldPosition) {
 
 function processFoundContig(elem, inode, posx, posmin, posmax, curNodeSet, order,  levelX) {
     var vid = elem.id;
-    posx.set(vid, -1*levelX.get(vid) * getContigXPosD());
-    if (!(posmin.has(vid))) {
-        posmin.set(vid, elem.cb/defZoom);
-        posmax.set(vid, elem.ce/defZoom);
+    if (printThisContig(elem.cb, elem.ce, defZoom)) {
+        posx.set(vid, -1 * levelX.get(vid) * getContigXPosD());
+        if (!(posmin.has(vid))) {
+            posmin.set(vid, elem.cb / defZoom);
+            posmax.set(vid, elem.ce / defZoom);
+        }
+        inode.push({id: elem.id, cb: elem.cb / defZoom, ce: elem.ce / defZoom, order: order});
+        special_nodes.add(vid);
+        curNodeSet.add(vid);
     }
-    inode.push({id: elem.id, cb: elem.cb/defZoom, ce: elem.ce/defZoom, order: order});
-    special_nodes.add(vid);
-    curNodeSet.add(vid);
 }
 
 
@@ -398,7 +412,7 @@ function addContigs(cy, inode, posx, posmin, posmax) {
             data: {
                 id: vid,
                 label: createLabelForNode(vid),
-                len: inode[i].ce - inode[i].cb,
+                len: Math.max(inode[i].ce - inode[i].cb, 2),
                 color: genColorNode(vid),
                 width: getWidth(cy),
                 rank: 0,
@@ -614,6 +628,8 @@ function createGraph(chr, cy, curNodeSet, posx, posmin, posmax, oldPosition, ope
 
 //update graph on small pan or zoom
 function updateGraph(chr, cy, levelX) {
+    graphUpdating = true;
+
     createCoordinates(chr, cy);
     var wght = getWidth(cy);
     cy.nodes().filter(function (ele) {
@@ -638,6 +654,8 @@ function updateGraph(chr, cy, levelX) {
         edge.data('weight', getEdgeWeight(cy, parseInt(edge.id().substr(1))));
         edge.data('scala', getScala(cy));
     });
+
+    graphUpdating = false;
 }
 
 
