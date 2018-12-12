@@ -2,6 +2,7 @@
 import sys
 import os
 import argparse
+import json
 from shutil import copyfile
 from shutil import move
 from Bio import SeqIO
@@ -468,34 +469,32 @@ lenbyid = []
 cntedge = 0
 cntlib = 0
 
+output_json = dict()
+
+
 #save id to idbyname
 #write node info to data
-def gen_id_from_contig_file(contig_file_name, f):
+def gen_id_from_contig_file(contig_file_name):
     fasta_seq = SeqIO.parse(open(contig_file_name), 'fasta')
     id = 0
-    nodestr = "var scaffoldnodes = ["
+    output_json['nodes'] = []
     for fasta in fasta_seq:
         name, lenn = fasta.id, len(fasta.seq.tostring())
         idbyname[name] = id
         idbyname[name + "-rev"] = id + 1
         lenbyid.append(lenn)
         lenbyid.append(lenn)
-        if (id != 0):
-            nodestr += ', '
-        nodestr += "new ScaffoldNode(" + str(id) + ", '" + name + "', " + str(lenn) + "), "
-        nodestr += "new ScaffoldNode(" + str(id + 1) + ", '" + name + "-rev', " + str(lenn) + ")"
+        output_json['nodes'].append({'id': id, 'name': name, 'len': lenn})
+        output_json['nodes'].append({'id': id + 1, 'name': name + "-rev", 'len': lenn})
         id += 2
-    nodestr += "];"
-    f.write(nodestr)
 
 
-def save_scaffolds_from_info(lib, f):
+def save_scaffolds_from_info(lib):
     global cntedge
     global cntlib
     global idbyname
     with open(lib.path[0]) as g:
-        f.write("scaffoldlibs.push(new ScaffoldEdgeLib(" + str(cntlib) + ", '" + str(lib.color) + "', '" + str(lib.label) + "', 'SCAFF'));\n")
-
+        output_json['libs'].append({'id': cntlib, 'color': lib.color, 'name': lib.label, 'type': 'SCAFF', 'scaffolds': []})
         scafnum = 0
 
         for line in g:
@@ -503,8 +502,8 @@ def save_scaffolds_from_info(lib, f):
             if (tokens[len(tokens) - 1] == '\n'):
                 tokens.pop()
 
-            f.write("scaffoldlibs["+ str(cntlib) +"].scaffolds.push(new Scaffold('" + tokens[0][1:] + "'));\n")
-            f.write("scaffoldlibs["+ str(cntlib) +"].scaffolds.push(new Scaffold('" + tokens[0][1:] + "-rev'));\n")
+            output_json['libs'][-1]['scaffolds'].append({'name': tokens[0][1:], 'edges': []})
+            output_json['libs'][-1]['scaffolds'].append({'name': tokens[0][1:] + "-rev", 'edges': []})
 
             nodeslist = []
             for i in range(1, len(tokens), 3):
@@ -516,17 +515,13 @@ def save_scaffolds_from_info(lib, f):
 
 
             for i in range(1, len(nodeslist)):
-                f.write("scaffoldedges.push(new ScaffoldEdge(" + str(cntedge) + ", "+ str(nodeslist[i - 1]) +
-                        ", " + str(nodeslist[i]) + ", " + str(cntlib) + ", 1));\n")
-                f.write("scaffoldedges["+str(cntedge)+"].name='"+ tokens[0][1:] + "';\n")
-                f.write("scaffoldlibs["+ str(cntlib) +"].scaffolds["+str(scafnum) +"].edges.push(scaffoldedges["+str(cntedge)+"]);\n")
+                output_json['libs'][-1]['scaffolds'][-2]['edges'].append({'id': cntedge, 'from': nodeslist[i - 1],
+                                                                          'to': nodeslist[i], 'weight': 1})
                 cntedge += 1
 
             for i in range(len(nodeslist)-2, -1, -1):
-                f.write("scaffoldedges.push(new ScaffoldEdge(" + str(cntedge) + ", "+ str(nodeslist[i + 1]^1) +
-                        ", " + str(nodeslist[i]^1) + ", " + str(cntlib) + ", 1));\n")
-                f.write("scaffoldedges["+str(cntedge)+"].name='"+ tokens[0][1:] + "-rev';\n")
-                f.write("scaffoldlibs["+ str(cntlib) +"].scaffolds["+str(scafnum+1) +"].edges.push(scaffoldedges["+str(cntedge)+"]);\n")
+                output_json['libs'][-1]['scaffolds'][-1]['edges'].append({'id': cntedge, 'from': nodeslist[i + 1]^1,
+                                                                          'to': nodeslist[i]^1, 'weight': 1})
                 cntedge += 1
 
             scafnum += 2
@@ -607,7 +602,8 @@ def get_align_from_sam_line(line):
 
     return lq, rq, l, r, qcont, rcont
 
-def save_scaffolds_from_fasta(contig_file_name, lib, f):
+
+def save_scaffolds_from_fasta(contig_file_name, lib):
     prevdir = os.getcwd()
     lib_dir = os.path.dirname(os.path.abspath(lib.name) + "/")
     os.chdir(lib_dir)
@@ -619,7 +615,7 @@ def save_scaffolds_from_fasta(contig_file_name, lib, f):
     global cntlib
     global idbyname
 
-    f.write("scaffoldlibs.push(new ScaffoldEdgeLib(" + str(cntlib) + ", '" + str(lib.color) + "', '" + str(lib.label) + "', 'SCAFF'));\n")
+    output_json['libs'].append({'id': cntlib, 'color': lib.color, 'name': lib.label, 'type': 'SCAFF', 'scaffolds': []})
 
     contigsAlignment = dict()
     rcontlist = []
@@ -653,19 +649,17 @@ def save_scaffolds_from_fasta(contig_file_name, lib, f):
     scafnum = 0
     for rc in rcontlist:
         contigsAlignment[rc].sort(key=lambda x: (x[0], -x[1]))
-        f.write("scaffoldlibs["+ str(cntlib) +"].scaffolds.push(new Scaffold('" + rc + "'));\n")
+        output_json['libs'][-1]['scaffolds'].append({'name': rc, 'edges': []})
 
         lst = 0
         for i in range(1, len(contigsAlignment[rc])):
             if (contigsAlignment[rc][i][0] >= contigsAlignment[rc][lst][1] - 100):
-                f.write("scaffoldedges.push(new ScaffoldEdge(" + str(cntedge) + ", "+ str(contigsAlignment[rc][lst][2]) +
-                    ", " + str(contigsAlignment[rc][i][2]) + ", " + str(cntlib) + ", 1));\n")
-                f.write("scaffoldedges["+str(cntedge)+"].name='"+ rc + "';\n")
-                f.write("scaffoldedges["+str(cntedge)+"].len=" + str(contigsAlignment[rc][i][0] - contigsAlignment[rc][lst][1]) + "\n")
-                f.write("scaffoldlibs["+ str(cntlib) +"].scaffolds["+str(scafnum) +"].edges.push(scaffoldedges["+str(cntedge)+"]);\n")
+                output_json['libs'][-1]['scaffolds'][-1]['edges'].append({})
+                output_json['libs'][-1]['scaffolds'][-1]['edges'].append({'id': cntedge, 'from': contigsAlignment[rc][lst][2],
+                                                                          'to': contigsAlignment[rc][i][2], 'weight': 1,
+                                                                          'len': contigsAlignment[rc][i][0] - contigsAlignment[rc][lst][1]})
                 cntedge += 1
                 lst = i
-
         scafnum += 1
 
     cntlib += 1
@@ -673,12 +667,12 @@ def save_scaffolds_from_fasta(contig_file_name, lib, f):
     os.chdir(prevdir)
 
 
-def save_scaffolds_from_gfa(lib, f):
+def save_scaffolds_from_gfa(lib):
     global cntedge
     global cntlib
     global idbyname
     with open(lib.path[0]) as g:
-        f.write("scaffoldlibs.push(new ScaffoldEdgeLib(" + str(cntlib) + ", '" + str(lib.color) + "', '" + str(lib.label) + "', 'SCAFF'));\n")
+        output_json['libs'].append({'id': cntlib, 'color': lib.color, 'name': lib.label, 'type': 'SCAFF', 'scaffolds': []})
 
         scafnum = 0
 
@@ -687,8 +681,8 @@ def save_scaffolds_from_gfa(lib, f):
             if (tokens[0] != 'P'):
                 continue
 
-            f.write("scaffoldlibs["+ str(cntlib) +"].scaffolds.push(new Scaffold('" + tokens[1] + "'));\n")
-            f.write("scaffoldlibs["+ str(cntlib) +"].scaffolds.push(new Scaffold('" + tokens[1] + "-rev'));\n")
+            output_json['libs'][-1]['scaffolds'].append({'name': tokens[1], 'edges': []})
+            output_json['libs'][-1]['scaffolds'].append({'name': tokens[1] + "-rev", 'edges': []})
 
             nodeslist = []
             tt = tokens[2].split(',')
@@ -701,30 +695,26 @@ def save_scaffolds_from_gfa(lib, f):
 
 
             for i in range(1, len(nodeslist)):
-                f.write("scaffoldedges.push(new ScaffoldEdge(" + str(cntedge) + ", "+ str(nodeslist[i - 1]) +
-                        ", " + str(nodeslist[i]) + ", " + str(cntlib) + ", 1));\n")
-                f.write("scaffoldedges["+str(cntedge)+"].name='"+ tokens[0][1:] + "';\n")
-                f.write("scaffoldlibs["+ str(cntlib) +"].scaffolds["+str(scafnum) +"].edges.push(scaffoldedges["+str(cntedge)+"]);\n")
+                output_json['libs'][-1]['scaffolds'][-2]['edges'].append({'id': cntedge, 'from': nodeslist[i - 1],
+                                                                          'to': nodeslist[i], 'weight': 1})
                 cntedge += 1
 
             for i in range(len(nodeslist)-2, -1, -1):
-                f.write("scaffoldedges.push(new ScaffoldEdge(" + str(cntedge) + ", "+ str(nodeslist[i + 1]^1) +
-                        ", " + str(nodeslist[i]^1) + ", " + str(cntlib) + ", 1));\n")
-                f.write("scaffoldedges["+str(cntedge)+"].name='"+ tokens[0][1:] + "-rev';\n")
-                f.write("scaffoldlibs["+ str(cntlib) +"].scaffolds["+str(scafnum+1) +"].edges.push(scaffoldedges["+str(cntedge)+"]);\n")
+                output_json['libs'][-1]['scaffolds'][-1]['edges'].append({'id': cntedge, 'from': nodeslist[i + 1]^1,
+                                                                          'to': nodeslist[i]^1, 'weight': 1})
                 cntedge += 1
 
             scafnum += 2
     cntlib += 1
 
 
-def save_scaffolds_from_path(lib, f):
+def save_scaffolds_from_path(lib):
     global cntedge
     global cntlib
     global idbyname
     global partnametoname
     with open(lib.path[0]) as g:
-        f.write("scaffoldlibs.push(new ScaffoldEdgeLib(" + str(cntlib) + ", '" + str(lib.color) + "', '" + str(lib.label) + "', 'SCAFF'));\n")
+        output_json['libs'].append({'id': cntlib, 'color': lib.color, 'name': lib.label, 'type': 'SCAFF', 'scaffolds': []})
 
         scafnum = 0
         lines = g.readlines()
@@ -743,8 +733,8 @@ def save_scaffolds_from_path(lib, f):
             if (tokens[len(tokens) - 1][-1] == '\n'):
                 tokens[len(tokens) - 1] = tokens[len(tokens) - 1][:-1]
 
-            f.write("scaffoldlibs["+ str(cntlib) +"].scaffolds.push(new Scaffold('" + scafname + "'));\n")
-            f.write("scaffoldlibs["+ str(cntlib) +"].scaffolds.push(new Scaffold('" + scafname + "-rev'));\n")
+            output_json['libs'][-1]['scaffolds'].append({'name': scafname, 'edges': []})
+            output_json['libs'][-1]['scaffolds'].append({'name': scafname + "-rev", 'edges': []})
 
             nodeslist = []
             for i in range(0, len(tokens)):
@@ -756,39 +746,40 @@ def save_scaffolds_from_path(lib, f):
 
 
             for i in range(1, len(nodeslist)):
-                f.write("scaffoldedges.push(new ScaffoldEdge(" + str(cntedge) + ", "+ str(nodeslist[i - 1]) +
-                        ", " + str(nodeslist[i]) + ", " + str(cntlib) + ", 1));\n")
-                f.write("scaffoldedges["+str(cntedge)+"].name='"+ scafname + "';\n")
-                f.write("scaffoldlibs["+ str(cntlib) +"].scaffolds["+str(scafnum) +"].edges.push(scaffoldedges["+str(cntedge)+"]);\n")
+                output_json['libs'][-1]['scaffolds'][-2]['edges'].append({'id': cntedge, 'from': nodeslist[i - 1],
+                                                                          'to': nodeslist[i], 'weight': 1})
                 cntedge += 1
 
             for i in range(len(nodeslist)-2, -1, -1):
-                f.write("scaffoldedges.push(new ScaffoldEdge(" + str(cntedge) + ", "+ str(nodeslist[i + 1]^1) +
-                        ", " + str(nodeslist[i]^1) + ", " + str(cntlib) + ", 1));\n")
-                f.write("scaffoldedges["+str(cntedge)+"].name='"+ scafname + "-rev';\n")
-                f.write("scaffoldlibs["+ str(cntlib) +"].scaffolds["+str(scafnum+1) +"].edges.push(scaffoldedges["+str(cntedge)+"]);\n")
+                output_json['libs'][-1]['scaffolds'][-1]['edges'].append({'id': cntedge, 'from': nodeslist[i + 1] ^ 1,
+                                                                          'to': nodeslist[i] ^ 1, 'weight': 1})
                 cntedge += 1
 
             scafnum += 2
     cntlib += 1
 
 
-
-def save_scaffolds(contig_file_name, args, f):
+def save_scaffolds(contig_file_name, args):
     for lib in args.libs["scafinfo"]:
-        save_scaffolds_from_info(lib, f)
+        save_scaffolds_from_info(lib)
 
     for lib in args.libs["scafpath"]:
-        save_scaffolds_from_path(lib, f)
+        save_scaffolds_from_path(lib)
 
     for lib in args.libs["scaffolds"]:
-        save_scaffolds_from_fasta(contig_file_name, lib, f)
+        save_scaffolds_from_fasta(contig_file_name, lib)
 
     for lib in args.libs["gfa"]:
-        save_scaffolds_from_gfa(lib, f)
+        save_scaffolds_from_gfa(lib)
 
 
-def add_conection_to_res_file(f):
+def get_lib_pos_by_id(libid):
+    for i in range(len(output_json['libs'])):
+        if (output_json['libs'][i]['id'] == libid):
+            return i
+    return -1
+
+def add_conection_to_res_file():
     global cntlib
     global cntedge
     if (not os.path.isfile("graph.gr")):
@@ -800,7 +791,7 @@ def add_conection_to_res_file(f):
         for i in range(cntlib):
             libsinfo = g.readline().split(" ")
             libsinfo[4] = libsinfo[4][:-1]
-            f.write("scaffoldlibs.push(new ScaffoldEdgeLib(" + libsinfo[1] + ", '" + libsinfo[2] + "', '" + libsinfo[3] + "', '" + libsinfo[4] + "'));\n")
+            output_json['libs'].append({'id': int(libsinfo[1]), 'color': libsinfo[2], 'name': libsinfo[3], 'type': libsinfo[4], 'edges': []})
 
         nodecnt = int(g.readline())
 
@@ -814,11 +805,13 @@ def add_conection_to_res_file(f):
             if ("\""  in curs):
                 extraInfo = curs.split("\"")[1]
             edgesinfo = curs.split()
-            f.write("scaffoldedges.push(new ScaffoldEdge(" + edgesinfo[1] + ", " + edgesinfo[2] + ", " + edgesinfo[3] + ", " + edgesinfo[4] + ", " + edgesinfo[5] + "));\n")
-            f.write("scaffoldedges[" + str(i) + "].len=" + str(edgesinfo[6]) + ";\n")
-            f.write("scaffoldedges[" + str(i) + "].info=\"" + extraInfo + "\";\n")
 
-def add_refcoord_to_res_file(contig_file_name, f):
+            output_json['libs'][get_lib_pos_by_id(int(edgesinfo[4]))]['edges'].append({'id': int(edgesinfo[1]), 'from': int(edgesinfo[2]),
+                                                                                  'to': int(edgesinfo[3]), 'weight': float(edgesinfo[5]),
+                                                                                  'len': edgesinfo[6], 'info': extraInfo})
+
+
+def add_refcoord_to_res_file():
     if (len(args.refcoord) == 0):
         return
 
@@ -826,8 +819,6 @@ def add_refcoord_to_res_file(contig_file_name, f):
 
     chrid = {}
     chrlen = []
-    chrlist = []
-    chralig = []
     fasta_seq = SeqIO.parse(open(lib[0]), 'fasta')
     curid = 0
 
@@ -837,10 +828,8 @@ def add_refcoord_to_res_file(contig_file_name, f):
         chrid[name + "-rev"] = curid + 1
         chrlen.append(lenn)
         chrlen.append(lenn)
-        chrlist.append("new Chromosome(" + str(curid) + ", '" + name + "', " + str(lenn) + ")")
-        chrlist.append("new Chromosome(" + str(curid + 1) + ", '" + name + "-rev', " + str(lenn) + ")")
-        chralig.append([])
-        chralig.append([])
+        output_json["chromosomes"].append({"id": curid, "name": name, "len": lenn})
+        output_json["chromosomes"].append({"id": curid + 1, "name": name + "-rev", "len": lenn})
         curid += 2
 
     global idbyname
@@ -868,22 +857,13 @@ def add_refcoord_to_res_file(contig_file_name, f):
             if (lq > rq):
                 vid ^= 1
 
-            chralig[curid].append("new Alignment(" + str(l) + ", " + str(r) + ", " + str(curid) + ", " + str(vid) + ")")
-            chralig[curid + 1].append("new Alignment(" + str(lenf - r) + ", " + str(lenf - l) + ", " + str(curid + 1) + ", " + str(vid^1) + ")")
+            output_json["alignments"].append({"coord_begin": l, "coord_end": r,
+                                              "chr_id": curid, "node_id": vid})
+            output_json["alignments"].append({"coord_begin": lenf - r, "coord_end": lenf - l,
+                                              "chr_id": curid + 1, "node_id": vid ^ 1})
             g.write(str(l) + " " + str(r) + " " + str(lq) + " " + str(rq) + " 0 0 0 " + str(lenf) + " 0 " + info[11].split('_')[0] + " " + info[12] + "\n")
-
     g.close()
 
-    for i in range(len(chrlist)):
-        f.write("chromosomes.push(" + chrlist[i] + ");\n")
-
-    for i in range(len(chrlist)):
-        f.write("chromosomes[" + str(i) + "].alignments = " + "[")
-        for j in range(len(chralig[i])):
-            f.write(chralig[i][j])
-            if (j != len(chralig[i]) - 1):
-                f.write(", ")
-        f.write("];\n")
     
 def getRefFileName(fileName):
     return fileName.split('/')[-1].split('.')[0]
@@ -898,7 +878,7 @@ def merge_ref_files(ref_libs):
 
     return Lib([os.path.abspath("ref_merge.fasta")], "ref", "ref")
 
-def add_ref_to_res_file(contig_file_name, f):
+def add_ref_to_res_file(contig_file_name):
     if (len(args.ref) == 0):
         return
 
@@ -915,8 +895,6 @@ def add_ref_to_res_file(contig_file_name, f):
     global lenbyid
 
     chrnameToId = dict()
-    chrlist = []
-    chralig = []
 
     curid = -2
 
@@ -932,10 +910,8 @@ def add_ref_to_res_file(contig_file_name, f):
             lenf = int(chrm_len_by_name[chrname])
             if (chrname not in chrnameToId):
                 curid += 2
-                chrlist.append("new Chromosome(" + str(curid) + ", '" + chrname + "', " + str(lenf) + ")")
-                chrlist.append("new Chromosome(" + str(curid + 1) + ", '" + chrname + "-rev', " + str(lenf) + ")")
-                chralig.append([])
-                chralig.append([])
+                output_json["chromosomes"].append({"id": curid, "name": chrname, "len": lenf})
+                output_json["chromosomes"].append({"id": curid + 1, "name": chrname + "-rev", "len": lenf})
                 chrnameToId[chrname] = curid
 
             if ((max(rq, lq) - min(rq, lq)) * 100 < lenbyid[vid]):
@@ -944,19 +920,8 @@ def add_ref_to_res_file(contig_file_name, f):
             if (lq > rq):
                 vid ^= 1
 
-            chralig[chrnameToId[chrname]].append("new Alignment(" + str(l) + ", " + str(r) + ", " + str(chrnameToId[chrname]) + ", " + str(vid) + ")")
-            chralig[chrnameToId[chrname] + 1].append("new Alignment(" + str(lenf - r) + ", " + str(lenf - l) + ", " + str(chrnameToId[chrname] + 1) + ", " + str(vid^1) + ")")
-
-    for i in range(len(chrlist)):
-        f.write("chromosomes.push(" + chrlist[i] + ");\n")
-
-    for i in range(len(chrlist)):
-        f.write("chromosomes[" + str(i) + "].alignments = " + "[")
-        for j in range(len(chralig[i])):
-            f.write(chralig[i][j])
-            if (j != len(chralig[i]) - 1):
-                f.write(", ")
-        f.write("];\n")
+            output_json["alignments"].append({"coord_begin": l, "coord_end": r, "chr_id": chrnameToId[chrname], "node_id": vid})
+            output_json["alignments"].append({"coord_begin": lenf - r, "coord_end": lenf - l, "chr_id": chrnameToId[chrname] + 1, "node_id": vid^1})
 
     os.chdir(prevdir)
 
@@ -1089,29 +1054,30 @@ def run(args):
 
     merge_graph(args) #result file graph.gr
 
-    f = open("data.js", 'w')
-    gen_id_from_contig_file(contig_file_name, f)
-    f.write("var scaffoldlibs = [];\n")
-    f.write("var scaffoldedges = [];\n")
-    f.write("var chromosomes = [];\n")
-    add_conection_to_res_file(f)
+    gen_id_from_contig_file(contig_file_name)
+    output_json['libs'] = []
+    output_json['chromosomes'] = []
+    output_json["alignments"] = []
+
+    add_conection_to_res_file()
     if 'libs' in args:
-        save_scaffolds(contig_file_name, args, f)
+        save_scaffolds(contig_file_name, args)
 
     if args.ref != None:
-        add_ref_to_res_file(contig_file_name, f)
+        add_ref_to_res_file(contig_file_name)
 
     if args.refcoord != None:
-        add_refcoord_to_res_file(contig_file_name, f)
+        add_refcoord_to_res_file()
 
-    f.write("var scaffoldgraph = new ScaffoldGraph(scaffoldlibs, scaffoldnodes, scaffoldedges);\n")
+    f = open("data.json", 'w')
+    f.write(json.dumps(output_json))
     f.close()
 
     directory = os.path.dirname(main_out_dir)
     os.chdir(directory)
 
     os.system("cp -r " + path_to_exec_dir + "/scripts ./")
-    move("tmp/data.js", "./scripts/data.js")
+    move("tmp/data.json", "./scripts/data.json")
     os.system("cp " + path_to_exec_dir + "/mainPage.html ./main.html")
     return
 

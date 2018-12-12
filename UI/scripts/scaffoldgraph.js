@@ -647,6 +647,7 @@ function ScaffoldGraph(libs, nodes, edges) {
     this.g = [];
     this.gr = [];
 
+    console.log(this.nodes.length);
     var i = 0;
     for (i=0; i < this.nodes.length; ++i) {
         this.id_by_name.set(this.nodes[i].name, this.nodes[i].id);
@@ -713,3 +714,8 @@ function Alignment(coord_begin, coord_end, chr_id, node_id/*, coordnb, coordne*/
     this.chr_id = chr_id;
     this.node_id = node_id;
 }
+
+var scaffoldnodes = [];
+var scaffoldedges = [];
+var chromosomes = [];
+var scaffoldlibs = [];

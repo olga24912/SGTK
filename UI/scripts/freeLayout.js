@@ -118,9 +118,9 @@ function DrawGraphCytoscapeWithPresetNode(dnodes, dedges, curNodeSet) {
             ranker: 'tight-tree', //'longest-path',//'network-simplex',//
             edgeWeight: function( edge ){
                 return edge.width();
-                console.log(edge.id());
-                console.log(100*special_edges.has(parseInt(edge.id().substring(1, edge.id().length))));
-                return 100*special_edges.has(edge.id().substring(1, edge.id().length));
+                //console.log(edge.id());
+                //console.log(100*special_edges.has(parseInt(edge.id().substring(1, edge.id().length))));
+                //return 100*special_edges.has(edge.id().substring(1, edge.id().length));
             }
         },
 
