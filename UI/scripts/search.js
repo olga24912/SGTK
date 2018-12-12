@@ -41,7 +41,7 @@ function setupAutocompleteSearch(){
             var opt = document.getElementById("select_layout").value;
             var result = [];
             if (opt === "genome_browser") {
-                getALLNamesFrom(IntervalTree[1], result);
+                getALLNamesFrom(IntervalTree, result);
             } else {
                 var nodes = cy.filter('node');
                 for (var i = 0; i < nodes.length; ++i) {
@@ -116,7 +116,7 @@ function search() {
     };
 
     if (opt === "genome_browser") {
-        getNodesId(IntervalTree[1], nodes);
+        getNodesId(IntervalTree, nodes);
         var res = parseNode(nodes, scr, vid, request);
         vid = res[1];
 
