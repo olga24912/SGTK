@@ -1069,15 +1069,17 @@ def run(args):
     if args.refcoord != None:
         add_refcoord_to_res_file()
 
-    f = open("data.json", 'w')
+    f = open("data.js", 'w')
+    f.write("json_graph=")
     f.write(json.dumps(output_json))
+    f.write(";")
     f.close()
 
     directory = os.path.dirname(main_out_dir)
     os.chdir(directory)
 
     os.system("cp -r " + path_to_exec_dir + "/scripts ./")
-    move("tmp/data.json", "./scripts/data.json")
+    move("tmp/data.js", "./scripts/data.js")
     os.system("cp " + path_to_exec_dir + "/mainPage.html ./main.html")
     return
 

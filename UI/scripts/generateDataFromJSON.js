@@ -65,11 +65,12 @@ function fill_scaffoldGraph(obj) {
     scaffoldgraph = new ScaffoldGraph(scaffoldlibs, scaffoldnodes, scaffoldedges);
 }
 
-var toJson = function(obj){ return obj.json(); };
-var json_graph = fetch('scripts/data.json').then(toJson);
-json_graph.then(fill_nodes);
-json_graph.then(fill_libs);
-json_graph.then(fill_chromosomes);
-json_graph.then(fill_alignments);
-json_graph.then(fill_scaffoldGraph);
-json_graph.then(main);
+//var toJson = function(obj){ return obj.json(); };
+//var json_graph = fetch('scripts/data.json').then(toJson);
+fill_nodes(json_graph);
+fill_libs(json_graph);
+fill_chromosomes(json_graph);
+fill_alignments(json_graph);
+fill_scaffoldGraph(json_graph);
+delete json_graph;
+main();
