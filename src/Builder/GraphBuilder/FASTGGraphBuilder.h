@@ -13,14 +13,12 @@ namespace builder {
         class FASTGGraphBuilder : public GraphBuilder {
         private:
             std::string fastgFileName;
-            std::string contigFileName;
 
             void initGraph();
             std::string parseFirstEdge(std::string s);
             std::vector<std::string> parseFollowingEdges(std::string s);
         public:
             void setFASTGFile(std::string file_name);
-            void setContigFile(std::string file_name);
 
             void evaluate() override;
 

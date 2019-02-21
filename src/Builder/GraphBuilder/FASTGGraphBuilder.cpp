@@ -11,11 +11,6 @@ namespace builder {
             parseFASTG();
         }
 
-        void FASTGGraphBuilder::setContigFile(std::string file_name) {
-            contigFileName = file_name;
-
-        }
-
         void FASTGGraphBuilder::initGraph() {
             bool firstLib = (graph->getLibNum() == 1);
             seqan::SeqFileIn seqFileIn(contigFileName.c_str());

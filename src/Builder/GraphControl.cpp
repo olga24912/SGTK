@@ -64,7 +64,7 @@ namespace builder {
             LongGraphBuilder* gb = new LongGraphBuilder;
 
             gb->setFileName(argv[2]);
-            gb->setContigFileName(argv[3]);
+            gb->setContigFile(argv[3]);
 
             gb->setLibName(argv[4]);
             gb->setLibType(ContigGraph::Lib::Type::LONG);

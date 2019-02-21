@@ -15,6 +15,9 @@ namespace builder {
             // path/to/the/dir where this class will generate files.
             std::string path;
 
+            //path to file with contigs in fatsa format. "" or "*" if not present
+            std::string contigFileName;
+
             //generated graph
             ContigGraph *graph;
 
@@ -45,6 +48,9 @@ namespace builder {
              * need to be coll after setLibName
              */
             virtual void setGraph(ContigGraph *graph);
+
+            //set name of file with contigs
+            void setContigFile(const std::string& file_name);
 
             //set name of the library
             void setLibName(std::string libName);

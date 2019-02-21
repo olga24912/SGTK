@@ -4,10 +4,6 @@ void builder::graph_builder::LongGraphBuilder::setFileName(const std::string &fi
     this->fileName = fileName;
 }
 
-void builder::graph_builder::LongGraphBuilder::setContigFileName(const std::string &fileName) {
-    this->contigFileName = fileName;
-}
-
 void builder::graph_builder::LongGraphBuilder::initGraph() {
     seqan::CharString seqFileName(contigFileName.c_str());
     seqan::CharString id;

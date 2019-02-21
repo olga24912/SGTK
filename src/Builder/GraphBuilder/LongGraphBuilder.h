@@ -11,7 +11,6 @@ namespace builder {
          */
         class LongGraphBuilder : public GraphBuilder {
         protected:
-            std::string contigFileName;
             std::string fileName;
 
             struct AligInfo {

@@ -36,5 +36,9 @@ namespace builder {
             DEBUG("setLibName libName=" << libName);
             this->libName = libName;
         }
+
+        void GraphBuilder::setContigFile(const std::string& file_name) {
+            contigFileName = file_name;
+        }
     }
 }
