@@ -8,7 +8,7 @@ void builder::graph_builder::LongGraphBuilder::setContigFileName(const std::stri
     this->contigFileName = fileName;
 }
 
-void builder::graph_builder::LongGraphBuilder::readHeaderInit() {
+void builder::graph_builder::LongGraphBuilder::initGraph() {
     seqan::CharString seqFileName(contigFileName.c_str());
     seqan::CharString id;
     seqan::Dna5String seq;
@@ -25,7 +25,7 @@ void builder::graph_builder::LongGraphBuilder::readHeaderInit() {
 }
 
 void builder::graph_builder::LongGraphBuilder::evaluate() {
-    readHeaderInit();
+    initGraph();
     std::ifstream in(fileName);
     std::string s;
     int i= 0;
