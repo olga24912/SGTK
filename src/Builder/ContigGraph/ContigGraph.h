@@ -156,6 +156,9 @@ namespace builder {
             //get vertex ID by contig name
             int getTargetId(std::string name);
 
+            //get contig name by vertex id
+            std::string getTargetName(int id) const;
+
             //add new edge between nodes with ids v1 and v2 with coordinates of reads alignment c1 and c2
             int addEdge(int v1, int v2, std::pair<int, int> c1, std::pair<int, int> c2);
 

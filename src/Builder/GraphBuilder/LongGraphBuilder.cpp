@@ -80,9 +80,6 @@ void builder::graph_builder::LongGraphBuilder::updateEdges(std::string s) {
             }
         }
 
-        if (readname == "m120803_004251_42142_c100388622550000001523034210251213_s1_p0/62974/934_7891") {
-            std::cerr << u << " " << v << " " << nodename << " "  << aligInfo[i].nodename << "\n";
-        }
         if (u != -1 && v != -1) {
             graph->incEdgeWeight(u, v, 0, 0, 0, 0);
             graph->incEdgeWeight(v ^ 1, u ^ 1, 0, 0, 0, 0);

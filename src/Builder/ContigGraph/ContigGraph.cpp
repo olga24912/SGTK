@@ -305,5 +305,10 @@ namespace builder {
             graphR[v2].push_back(e);
             return e;
         }
+
+        std::string ContigGraph::getTargetName(int id) const {
+            TRACE("get target " << id << " name: " << targets[id].name);
+            return targets[id].name;
+        }
     }
 }
