@@ -34,17 +34,11 @@ namespace builder {
 
                 std::string seq = dna5ToString(seqan::toCString(seqs[i]), seqan::length(seqs[i]));
 
-                contigsId[name] = 2 * i;
-                contigsName.push_back(name);
-
                 if (firstLib) {
                     graph->addVertex(2 * i, name, (int) seq.length());
                 }
 
                 name += "-rev";
-
-                contigsId[name] = 2 * i + 1;
-                contigsName.push_back(name);
 
                 if (firstLib) {
                     graph->addVertex(2 * i + 1, name, (int) seq.length());
@@ -99,7 +93,7 @@ namespace builder {
                     std::string sc = parseFirstEdge(name);
 
                     for (int i = 0; i < followContigs.size(); ++i) {
-                        graph->addEdge(contigsId[followContigs[i]], contigsId[sc], 1, 0, "");
+                        graph->addEdge(graph->getTargetId(followContigs[i]), graph->getTargetId(sc), 1, 0, "");
                     }
                 }
             }

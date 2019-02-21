@@ -12,9 +12,6 @@ namespace builder {
          */
         class FASTGGraphBuilder : public GraphBuilder {
         private:
-            std::map<std::string, int> contigsId;
-            std::vector<std::string> contigsName;
-
             std::string fastgFileName;
             std::string contigFileName;
 
