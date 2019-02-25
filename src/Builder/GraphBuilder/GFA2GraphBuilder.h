@@ -12,11 +12,16 @@ namespace builder {
         class GFA2GraphBuilder : public GraphBuilder {
         private:
             std::string gfaFileName;
+            void handleSline(std::string& name, int slen, int i);
+            void handleEline();
+            void handleGline();
+
         public:
             void setGFAFile(std::string file_name);
             void evaluate() override;
         private:
             DECL_LOGGER("GFA2GraphBuilder");
+
         };
     }
 }
