@@ -12,6 +12,7 @@ set(SOURCE_FILES GraphControl.cpp GraphControl.h
         GraphBuilder/LongGraphBuilder.cpp GraphBuilder/LongGraphBuilder.h
         GraphBuilder/FASTGGraphBuilder.cpp GraphBuilder/FASTGGraphBuilder.h
         GraphBuilder/GFAGraphBuilder.cpp GraphBuilder/GFAGraphBuilder.h
+        GraphBuilder/GFA2GraphBuilder.cpp GraphBuilder/GFA2GraphBuilder.h
         ContigGraph/ContigGraph.cpp ContigGraph/ContigGraph.h)
 
 add_library(builder_lib ${SOURCE_FILES})
