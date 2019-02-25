@@ -26,7 +26,6 @@ namespace builder {
 
             std::vector<AligInfo> aligInfo;
 
-            void initGraph();
             void updateEdges(std::string s);
         public:
             LongGraphBuilder() = default;

@@ -1,3 +1,4 @@
+#include <seqan/store.h>
 #include "GraphBuilder.h"
 
 namespace builder {
@@ -39,6 +40,27 @@ namespace builder {
 
         void GraphBuilder::setContigFile(const std::string& file_name) {
             contigFileName = file_name;
+        }
+
+        void GraphBuilder::initGraph() {
+            if (graph->getLibNum() > 1) return;
+            seqan::CharString seqFileName(contigFileName.c_str());
+            seqan::CharString id;
+            seqan::Dna5String seq;
+
+            seqan::SeqFileIn seqFileIn(toCString(seqFileName));
+            int idd = 0;
+            while (!seqan::atEnd(seqFileIn)) {
+                readRecord(id, seq, seqFileIn);
+                std::string name = std::string(seqan::toCString(id));
+                std::stringstream ss;
+                ss << name;
+                ss >> name;
+                graph->addVertex(idd, name, seqan::length(seq));
+                idd += 1;
+                graph->addVertex(idd, name + "-rev", seqan::length(seq));
+                idd += 1;
+            }
         }
     }
 }

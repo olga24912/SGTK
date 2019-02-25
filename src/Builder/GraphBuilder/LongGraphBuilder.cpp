@@ -4,22 +4,6 @@ void builder::graph_builder::LongGraphBuilder::setFileName(const std::string &fi
     this->fileName = fileName;
 }
 
-void builder::graph_builder::LongGraphBuilder::initGraph() {
-    seqan::CharString seqFileName(contigFileName.c_str());
-    seqan::CharString id;
-    seqan::Dna5String seq;
-
-    seqan::SeqFileIn seqFileIn(toCString(seqFileName));
-    int idd = 0;
-    while (!seqan::atEnd(seqFileIn)) {
-        readRecord(id, seq, seqFileIn);
-        graph->addVertex(idd, std::string(seqan::toCString(id)), seqan::length(seq));
-        idd += 1;
-        graph->addVertex(idd, std::string(seqan::toCString(id)) + "-rev", seqan::length(seq));
-        idd += 1;
-    }
-}
-
 void builder::graph_builder::LongGraphBuilder::evaluate() {
     initGraph();
     std::ifstream in(fileName);

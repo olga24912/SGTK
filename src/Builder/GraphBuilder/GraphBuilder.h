@@ -37,6 +37,8 @@ namespace builder {
 
             //translate dna5 to string
             static std::string dna5ToString(seqan::Dna5 *seq, int len);
+
+            virtual void initGraph();
         public:
             GraphBuilder() = default;
 

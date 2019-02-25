@@ -14,7 +14,6 @@ namespace builder {
         private:
             std::string fastgFileName;
 
-            void initGraph();
             std::string parseFirstEdge(std::string s);
             std::vector<std::string> parseFollowingEdges(std::string s);
         public:

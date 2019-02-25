@@ -13,8 +13,6 @@ namespace builder {
         class ConnectionGraphBuilder : public GraphBuilder {
         private:
             std::string connectionFileName;
-
-            void initGraph();
         public:
             void setConnectionFile(std::string file_name);
 

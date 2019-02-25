@@ -11,36 +11,6 @@ namespace builder {
             parseFASTG();
         }
 
-        void FASTGGraphBuilder::initGraph() {
-            bool firstLib = (graph->getLibNum() == 1);
-            seqan::SeqFileIn seqFileIn(contigFileName.c_str());
-
-            seqan::StringSet<seqan::CharString> ids;
-            seqan::StringSet<seqan::Dna5String> seqs;
-
-            seqan::readRecords(ids, seqs, seqFileIn);
-
-            for (unsigned i = 0; i < length(ids); ++i) {
-                std::string name = std::string(seqan::toCString(ids[i]));
-
-                std::stringstream ss;
-                ss << name;
-                ss >> name;
-
-                std::string seq = dna5ToString(seqan::toCString(seqs[i]), seqan::length(seqs[i]));
-
-                if (firstLib) {
-                    graph->addVertex(2 * i, name, (int) seq.length());
-                }
-
-                name += "-rev";
-
-                if (firstLib) {
-                    graph->addVertex(2 * i + 1, name, (int) seq.length());
-                }
-            }
-        }
-
         std::string FASTGGraphBuilder::parseFirstEdge(std::string s) {
             std::string res="";
             int i =0;
