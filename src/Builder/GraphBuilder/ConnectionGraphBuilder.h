@@ -12,17 +12,11 @@ namespace builder {
          */
         class ConnectionGraphBuilder : public GraphBuilder {
         private:
-            std::map<std::string, int> contigsId;
-            std::vector<std::string> contigsName;
-
-            std::string contigFileName;
             std::string connectionFileName;
 
             void initGraph();
         public:
             void setConnectionFile(std::string file_name);
-
-            void setContigFile(std::string file_name);
 
             void evaluate() override;
 

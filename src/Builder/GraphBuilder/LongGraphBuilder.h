@@ -32,7 +32,6 @@ namespace builder {
             LongGraphBuilder() = default;
 
             void setFileName(const std::string &fileName);
-            void setContigFileName(const std::string &fileName);
 
             virtual void evaluate();
 

@@ -59,6 +59,8 @@ namespace builder {
             void setLibType(ContigGraph::Lib::Type ltype) {
                 libType = ltype;
             }
+
+
         private:
             DECL_LOGGER("GraphBuilder");
         };

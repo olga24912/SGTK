@@ -6,10 +6,6 @@ namespace builder {
             connectionFileName = file_name;
         }
 
-        void ConnectionGraphBuilder::setContigFile(std::string file_name) {
-            contigFileName = file_name;
-        }
-
         void ConnectionGraphBuilder::evaluate() {
             initGraph();
             parseConnection();
@@ -33,17 +29,11 @@ namespace builder {
 
                 std::string seq = dna5ToString(seqan::toCString(seqs[i]), seqan::length(seqs[i]));
 
-                contigsId[name] = 2 * i;
-                contigsName.push_back(name);
-
                 if (firstLib) {
                     graph->addVertex(2 * i, name, (int) seq.length());
                 }
 
                 name += "-rev";
-
-                contigsId[name] = 2 * i + 1;
-                contigsName.push_back(name);
 
                 if (firstLib) {
                     graph->addVertex(2 * i + 1, name, (int) seq.length());
@@ -85,8 +75,8 @@ namespace builder {
                     sc += "-rev";
                 }
 
-                graph->addEdge(contigsId[fr], contigsId[sc], w, len, info);
-                graph->addEdge(contigsId[sc]^1, contigsId[fr]^1, w, len, info);
+                graph->addEdge(graph->getTargetId(fr), graph->getTargetId(sc), w, len, info);
+                graph->addEdge(graph->getTargetId(sc)^1, graph->getTargetId(fr)^1, w, len, info);
             }
 
             in.close();
