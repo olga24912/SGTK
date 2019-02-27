@@ -13,8 +13,7 @@ namespace builder {
         void GFA2GraphBuilder::evaluate() {
             bool firstLib = (graph->getLibNum() == 1);
             if (this->contigFileName != "*" &&
-                this->contigFileName != "" &&
-                    !firstLib) {
+                this->contigFileName != "" && firstLib) {
                 initGraph();
                 firstLib = false;
             }
