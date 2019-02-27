@@ -55,13 +55,13 @@ in you favourite browser (but better use Chrome). If you intend to transfer the 
 <a name="sec1"></a>
 # 1. About SGTK
 SGTK &ndash; Scaffold Graph ToolKit &ndash; is a tool for construction and
-interactive visualization of scaffold graph. Scaffold graph is a graph where vertices are contigs, and edges represent links between them. Contigs can provided either in FASTA format or as the assembly graph in GFA/FASTG format. 
+interactive visualization of scaffold graph. Scaffold graph is a graph where vertices are contigs, and edges represent links between them. Contigs can provided either in FASTA format or as the assembly graph in GFA/GFA2/FASTG format.
 Possible linkage information sources are:
 -    paired reads
 -    long reads
 -    paired and unpaired RNA-seq reads
 -    scaffolds
--    assembly graph in GFA, FASTG formats
+-    assembly graph in GFA1, GFA2, FASTG formats
 -    reference sequences
 
 SGTK produces a JavaScript-based HTML page that does not require any additional libraries and can be viewed in a regular web browser. Although it was tested in Chrome, FireFox, Opera and Safari, Chrome is preferred.
@@ -130,7 +130,7 @@ After installation you will get the following files in the installation director
 # 3. Running SGTK
 
 
-SGTK requires at least one set of contigs, which can be provided as usual FASTA file, or as the assembly graph in FASTG/GFA format.
+SGTK requires at least one set of contigs, which can be provided as usual FASTA file, or as the assembly graph in FASTG/GFA/GFA2 format.
 
 
 To run scaffold graph visualization from the command line, type
@@ -161,7 +161,11 @@ File with assembly graph in FASTG format. Edges will be treated as input contigs
 
 
 `--gfa <file_name> `
-File with assembly graph in GFA format. Edges will be treated as input contigs, the graph itself and scaffolds (paths) will be visualized. 
+File with assembly graph in GFA1 format. Edges will be treated as input contigs, the graph itself and scaffolds (paths) will be visualized.
+
+
+`--gfa2 <file_name> `
+File with assembly graph in GFA2 format. If segments are present they will be treated as input contigs. Otherwise, file with contigs must be provided. The graph with gap edges will be visualized. Note, that GFA2 is supported only partially.
 
 
 ### Linkage sources
@@ -255,7 +259,7 @@ The format for LIBS_DESCRIPTIONS:
     NUMBER_OF_LIBS
     (l LIB_ID LIB_COLOR LIB_NAME LIB_TYPE) * NUMBER_OF_LIBS
 
-Where LIB_TYPE = {CONNECTION | LONG | DNA_PAIR | RNA_PAIR | GFA | FASTG | SCAFF}
+Where LIB_TYPE = {CONNECTION | LONG | DNA_PAIR | RNA_PAIR | GFA | GFA2 | FASTG | SCAFF}
 
 
 The format for NODES_DESCRIPTIONS:
@@ -445,6 +449,7 @@ Supported connection types are:
 *   RNA-Seq (single): RNA-Seq single reads
 *   Scaffold
 *   GFA: assembly graph connections from GFA file
+*   GFA2: assembly graph connections from GFA2 file
 *   FASTG: assembly graph connections from FASTG file
 *   Connection: from file with connections list
 
@@ -495,7 +500,7 @@ Size of the vertex is proportional to the contig length in the logarithmic scale
 
 Edges have different width depending on source type and visualization mode. The width is assigned in the following order (from thickest to thinnest):
 *   Currently visualized scaffold
-*   Connections from the assembly graph (GFA or FASTG)
+*   Connections from the assembly graph (GFA1, GFA2 or FASTG)
 *   Scaffolds connections
 *   All other connection types
 
