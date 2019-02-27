@@ -79,9 +79,9 @@ namespace builder {
             };
 
             struct Lib {
-                static const int typeCnt = 11;
+                static const int typeCnt = 12;
                 enum Type {
-                    REF, DNA_PAIR, RNA_PAIR, RNA_SPLIT_50, RNA_SPLIT_30, SCAFF, CONNECTION, MATE_PAIR, LONG, FASTG, GFA
+                    REF, DNA_PAIR, RNA_PAIR, RNA_SPLIT_50, RNA_SPLIT_30, SCAFF, CONNECTION, MATE_PAIR, LONG, FASTG, GFA, GFA2
                 };
                 static const std::string typeToStr[];
 

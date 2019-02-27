@@ -178,7 +178,8 @@ function getEdgeWeight(cy, e) {
     var edge = scaffoldgraph.edges[e];
 
     if (scaffoldgraph.libs[edge.lib].type === "FASTG" ||
-        scaffoldgraph.libs[edge.lib].type === "GFA") {
+        scaffoldgraph.libs[edge.lib].type === "GFA" || 
+        scaffoldgraph.libs[edge.lib].type === "GFA2") {
         return (widthAddConst + 5)/cy.zoom();
     }
 

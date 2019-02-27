@@ -7,7 +7,7 @@
 function TypeToStr(s) {
     var typeToRep = {"DNA_PAIR": "Paired reads", "RNA_PAIR": "RNA-Seq (paired)", "RNA_SPLIT_50": "RNA-Seq (single)",
         "RNA_SPLIT_30": "RNA-Seq (single)", "SCAFF": "Scaffolds", "CONNECTION" : "Connection", "LONG" : "Long reads",
-        "FASTG": "FASTG", "GFA": "GFA"};
+        "FASTG": "FASTG", "GFA": "GFA", "GFA2": "GFA2"};
     if (s in typeToRep) {
         return typeToRep[s]
     }

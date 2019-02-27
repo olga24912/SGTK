@@ -6,7 +6,8 @@ namespace builder {
     namespace contig_graph {
         const std::string ContigGraph::Lib::typeToStr[] = {"REF", "DNA_PAIR", "RNA_PAIR", "RNA_SPLIT_50",
                                                            "RNA_SPLIT_30",
-                                                           "SCAFF", "CONNECTION",  "MATE_PAIR", "LONG", "FASTG", "GFA"};
+                                                           "SCAFF", "CONNECTION",  "MATE_PAIR", "LONG", "FASTG", "GFA",
+                                                           "GFA2"};
 
         int ContigGraph::getLibNum() {
             TRACE("get lib num: " << (int) libs.size());

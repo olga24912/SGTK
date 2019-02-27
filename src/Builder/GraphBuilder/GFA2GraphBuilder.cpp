@@ -35,29 +35,53 @@ namespace builder {
                         ss >> slen;
                         std::string record;
                         ss >> record;
-                        handleSline(name, slen, i);
+
+                        graph->addVertex(2 * i, name, slen);
+                        graph->addVertex(2 * i + 1, name + "-rev", slen);
                     }
                     ++i;
                 } else if (RecordType == 'E') {
+                    std::string eid, sid1, sid2, beg1, end1, beg2, end2;
+                    ss >> eid >> sid1 >> sid2 >> beg1 >> end1 >> beg2 >> end2;
+                    if (sid1.back() == '-') {
+                        sid1 += "rev";
+                    } else {
+                        sid1.pop_back();
+                    }
+
+                    if (sid2.back() == '-') {
+                        sid2 += "rev";
+                    } else {
+                        sid2.pop_back();
+                    }
+
+                    if (end1.back() == '$' && beg2 == "0") {
+                        graph->addEdge(graph->getTargetId(sid1), graph->getTargetId(sid2), 1, 0, "");
+                        graph->addEdge(graph->getTargetId(sid2)^1, graph->getTargetId(sid1)^1, 1, 0, "");
+                    } else if (end2.back() == '$' && beg1 == "0") {
+                        graph->addEdge(graph->getTargetId(sid2), graph->getTargetId(sid1), 1, 0, "");
+                        graph->addEdge(graph->getTargetId(sid1)^1, graph->getTargetId(sid2)^1, 1, 0, "");
+                    }
                 } else if (RecordType == 'G') {
+                    std::string gid, sid1, sid2;
+                    int dist;
+                    ss >> gid >> sid1 >> sid2 >> dist;
+                    if (sid1.back() == '-') {
+                        sid1 += "rev";
+                    } else {
+                        sid1.pop_back();
+                    }
+
+                    if (sid2.back() == '-') {
+                        sid2 += "rev";
+                    } else {
+                        sid2.pop_back();
+                    }
+
+                    graph->addEdge(graph->getTargetId(sid1), graph->getTargetId(sid2), 1, dist, "");
+                    graph->addEdge(graph->getTargetId(sid2)^1, graph->getTargetId(sid1)^1, 1, dist, "");
                 }
             }
-
-
-
-        }
-
-        void GFA2GraphBuilder::handleEline() {
-
-        }
-
-        void GFA2GraphBuilder::handleGline() {
-
-        }
-
-        void GFA2GraphBuilder::handleSline(std::string &name, int slen, int i) {
-            graph->addVertex(2 * i, name, slen);
-            graph->addVertex(2 * i + 1, name + "-rev", slen);
         }
     }
 }

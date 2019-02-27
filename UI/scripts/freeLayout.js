@@ -15,7 +15,8 @@ function generateEdgeWeight(eid) {
     }
 
     if (scaffoldgraph.libs[edge.lib].type === "FASTG" ||
-        scaffoldgraph.libs[edge.lib].type === "GFA") {
+        scaffoldgraph.libs[edge.lib].type === "GFA" || 
+        scaffoldgraph.libs[edge.lib].type === "GFA2") {
         return 4;
     }
 

@@ -4,6 +4,7 @@
 #include <Builder/GraphBuilder/LongGraphBuilder.h>
 #include <Builder/GraphBuilder/FASTGGraphBuilder.h>
 #include <Builder/GraphBuilder/GFAGraphBuilder.h>
+#include <Builder/GraphBuilder/GFA2GraphBuilder.h>
 #include "GraphControl.h"
 
 namespace builder {
@@ -122,6 +123,17 @@ namespace builder {
 
             gb->setLibName(argv[3]);
             gb->setLibType(ContigGraph::Lib::Type::GFA);
+
+            gb->setGraph(&graph);
+            gb->evaluate();
+        } else if (std::string(argv[1]) == "GFA2") {
+            GFA2GraphBuilder* gb = new GFA2GraphBuilder;
+
+            gb->setGFAFile(argv[2]);
+            gb->setContigFile(argv[3]);
+
+            gb->setLibName(argv[4]);
+            gb->setLibType(ContigGraph::Lib::Type::GFA2);
 
             gb->setGraph(&graph);
             gb->evaluate();

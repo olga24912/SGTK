@@ -107,7 +107,7 @@ class Lib:
         f.close()
         g.close()
 
-libsType = {"rnap", "rnas", "rf", "ff", "scg", "ref", "scafinfo", "scafpath", "scaffolds", "refcoord", "fr", "long", "fastg", "gfa", "frsam", "rfsam", "ffsam"}
+libsType = {"rnap", "rnas", "rf", "ff", "scg", "ref", "scafinfo", "scafpath", "scaffolds", "refcoord", "fr", "long", "fastg", "gfa", "frsam", "rfsam", "ffsam", "gfa2"}
 
 class StoreArgAction(argparse.Action):
     def __call__(self, parser, namespace, values, option_string=None):
@@ -138,6 +138,7 @@ def parse_args():
     parser.add_argument("--scaffolds", "-s", nargs=1, dest="scaffolds", help="path to scaffolds in FASTA format", type=str, action=StoreArgAction)
     parser.add_argument("--fastg", nargs=1, dest="fastg", help="path to assembly graph in FASTG format", type=str, action=StoreArgAction)
     parser.add_argument("--gfa", nargs=1, dest="gfa", help="path to assembly graph in GFA1 format", type=str, action=StoreArgAction)
+    parser.add_argument("--gfa2", nargs=1, dest="gfa2", help="path to assembly graph in GFA2 format", type=str, action=StoreArgAction)
 
     parser.add_argument("--fr", dest="fr", nargs=2, help="paths to forward-reverse paired reads in FASTQ/FASTA format", type=str, action=StoreArgAction)
     parser.add_argument("--rf", dest="rf", nargs=2, help="paths to reverse-forward paired reads in FASTQ/FASTA format", type=str, action=StoreArgAction)
@@ -404,6 +405,14 @@ def build_graph(contig_file_name, args):
         os.chdir(lib_dir)
         os.system(path_to_exec_dir + "buildApp GFA " + lib.path[0] + " " + lib.label)
         os.chdir(prevdir)
+
+    for lib in args.libs["gfa2"]:
+        prevdir = os.getcwd()
+        log.log("START BUILD GRAPH: " + lib.label)
+        lib_dir = os.path.dirname(os.path.abspath(lib.name) + "/")
+        os.chdir(lib_dir)
+        os.system(path_to_exec_dir + "buildApp GFA2 " + lib.path[0] + " " + contig_file_name + " "+ lib.label)
+        os.chdir(prevdir)
         
     return
 
@@ -444,7 +453,7 @@ def merge_graph(args):
             for lib in args.libs[lib_type]:
                 if lib_type == "rnap" or lib_type == "rnas" or lib_type == "fr" or lib_type == "rf" or \
                         lib_type == "long" or lib_type == "ff" or lib_type == "scg" or lib_type=="fastg" \
-                        or lib_type=="gfa" or lib_type == "frsam" or lib_type == "rfsam" or lib_type == "ffsam":
+                        or lib_type=="gfa" or lib_type=="gfa2" or lib_type == "frsam" or lib_type == "rfsam" or lib_type == "ffsam":
                     lib.fix_graph_file()
                     if lib_type != "rnas":
                         merge_list += lib.name + "/graph.gr "
@@ -978,13 +987,36 @@ def gfa_to_contigs(args):
         args.contigs.append(os.path.abspath('contigs.fasta'))
         os.chdir(prevdir)
 
+def gfa2_to_contigs(args):
+    for lib in args.libs['gfa2']:
+        lib_dir = os.path.dirname(os.path.abspath(lib.name) + "/")
+        if not os.path.exists(lib_dir):
+            os.makedirs(lib_dir)
+        prevdir = os.getcwd()
+        os.chdir(lib_dir)
+
+        with open("contigs.fasta", "w") as out:
+            lines = [line.rstrip('\n') for line in open(lib.path[0])]
+            for line in lines:
+                parts = line.split()
+                if (parts[0] == 'S'):
+                    record = SeqRecord(Seq(parts[3], IUPAC.ambiguous_dna), id=parts[1], description='')
+                    SeqIO.write(record, out, "fasta")
+
+        if (args.contigs == None):
+            args.contigs = []
+
+        args.contigs.append(os.path.abspath('contigs.fasta'))
+        os.chdir(prevdir)
+
 
 def run(args):
     if (len(sys.argv) == 1):
         parser.print_help()
         sys.exit()
 
-    if args.contigs == None and (('libs' not in args) or (len(args.libs['fastg']) == 0)) and (('libs' not in args) or (len(args.libs['gfa']) == 0)):
+    if args.contigs == None and (('libs' not in args) or (len(args.libs['fastg']) == 0)) \
+            and (('libs' not in args) or (len(args.libs['gfa']) == 0)) and (('libs' not in args) or (len(args.libs['gfa2']) == 0)):
         log.err("none contig/FASTG/GFA file provide")
         sys.exit()
 
@@ -1022,6 +1054,7 @@ def run(args):
     if 'libs' in args:
         fastg_to_contigs(args)
         gfa_to_contigs(args)
+        gfa2_to_contigs(args)
 
     contig_file_name = ""
     if (len(args.contigs) == 1):
