@@ -24,33 +24,58 @@ def compileSGTK():
 
         
 class BaseTests(object):
-    def test_from_local(self):
+    def test_load(self):
         self.driver.get('file:///home/olga/tmp/testSGTK/out/main.html')
         time.sleep(5)
         self.assertEqual('SGTK', self.driver.title)
 
-    def tearDown(self):
-        self.driver.quit()
+        info = self.driver.find_element_by_xpath("//div[@id='extra_info']/p[1]")
+        self.assertEqual('Nodes: 850\nEdges: 19279\nChromosomes: 2\nSources: 4', info.text)
+
+        trs_libs = self.driver.find_elements_by_xpath("//table[@id='lib_table']/tr")
+        self.assertEqual(len(trs_libs), 4)
+
+        blocks = self.driver.find_elements_by_xpath("//div[@id='show_block']/div[@class='block']")
+        page_num = self.driver.find_element_by_id("choose_page").get_attribute('max')
+        self.assertGreater(len(blocks), 0)
+        self.assertEqual(len(blocks), int(page_num))
+
+        graph = self.driver.find_elements_by_class_name("__________cytoscape_container")
+        self.assertEqual(len(graph), 1)
+        
+        
 
 
 class FirefoxTests(unittest.TestCase, BaseTests):
     def setUp(self):
         self.driver = webdriver.Firefox()
 
+    def tearDown(self):
+        self.driver.quit()
+
 
 class ChromeTests(unittest.TestCase, BaseTests):
     def setUp(self):
         self.driver = webdriver.Chrome()
+
+    def tearDown(self):
+        self.driver.quit()
 
 
 class OperaTests(unittest.TestCase, BaseTests):
     def setUp(self):
         self.driver = webdriver.Opera()
 
+    def tearDown(self):
+        self.driver.quit()
+
 
 #class SafariTests(unittest.TestCase, BaseTests):
 #    def setUp(self):
 #        self.driver = webdriver.Safari()
+#
+#    def tearDown(self):
+#        self.driver.quit()
 
 
 if __name__ == '__main__':
