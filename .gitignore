@@ -1,6 +1,6 @@
 *.idea
 *.vpp.*
-test
+data
 *.vux
 cmake-build-debug
 *.ipynb_checkpoints
