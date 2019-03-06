@@ -2,10 +2,10 @@
 
 import unittest
 import os
+import time
 from selenium import webdriver
 
 def compileSGTK():
-    #delete id exixsts
     if os.path.exists("~/tmp/testSGTK"):
         shutil.rmtree("~/tmp/testSGTK")
     
@@ -21,20 +21,38 @@ def compileSGTK():
               " --long " + long_path + 
               " --ref " + ref_path +
               " -o ~/tmp/testSGTK/out")
+
         
-
-class Selenium2OnLocal(unittest.TestCase):
-    def setUp(self):
-        self.driver = webdriver.Firefox()
-
+class BaseTests(object):
     def test_from_local(self):
         self.driver.get('file:///home/olga/tmp/testSGTK/out/main.html')
+        time.sleep(5)
         self.assertEqual('SGTK', self.driver.title)
 
     def tearDown(self):
         self.driver.quit()
 
 
+class FirefoxTests(unittest.TestCase, BaseTests):
+    def setUp(self):
+        self.driver = webdriver.Firefox()
+
+
+class ChromeTests(unittest.TestCase, BaseTests):
+    def setUp(self):
+        self.driver = webdriver.Chrome()
+
+
+class OperaTests(unittest.TestCase, BaseTests):
+    def setUp(self):
+        self.driver = webdriver.Opera()
+
+
+#class SafariTests(unittest.TestCase, BaseTests):
+#    def setUp(self):
+#        self.driver = webdriver.Safari()
+
+
 if __name__ == '__main__':
-    compileSGTK()
+    #compileSGTK()
     unittest.main()
