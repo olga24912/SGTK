@@ -218,7 +218,44 @@
         </button>
     </div>
     <div class="tabcontent" id="highlight_tab">
-    </div>
+        <div class="centerblock">
+            <div class="block_with_line">
+                <div class="block">
+                    <p>
+                        Default connection:
+                    </p>
+                    <div class="styled-select">
+                        <select id="default_connection">
+                            <option value="one_edge">one edge (->)</option>
+                            <option value="shortest_path">shortest path (-->)</option>
+                            <option value="none">none ( )</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="block_with_line">
+                <div class="block"></div>
+                <div class="block">
+                    <textarea rows="6" id="vertext" placeholder="ID1 -> ID2..."></textarea>
+                </div>
+            </div>
+
+            <div class="block">
+                <p>
+                    Included edges types
+                </p>
+                <table id="included_libs" cellspacing="5">
+                    <tr>
+                        <th align="left"> Source type </th>
+                        <th> Name </th>
+                        <th> Included </th>
+                    </tr>
+                </table>
+
+            </div>
+
+        </div>
 </div>
 
 <div class="main_panel" id="mainpanel"></div>
