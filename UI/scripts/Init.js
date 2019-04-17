@@ -14,27 +14,36 @@ function TypeToStr(s) {
     return s.replace(/_/g, " ");
 }
 
+function getTdType(i) {
+    var td_type = document.createElement("td");
+    var lib_type = document.createElement("p");
+    lib_type.appendChild(document.createTextNode(TypeToStr(scaffoldgraph.libs[i].type)));
+    td_type.appendChild(lib_type);
+    td_type.align="left";
+    return td_type
+}
+
+function getTdName(i) {
+    var td_name = document.createElement("td");
+    var lib_name = document.createElement("p");
+    lib_name.style.color = scaffoldgraph.libs[i].color;
+    lib_name.appendChild(document.createTextNode(scaffoldgraph.libs[i].name));
+    lib_name.id = "color" + scaffoldgraph.libs[i].name;
+    td_name.align="center";
+    td_name.appendChild(lib_name);
+    return td_name;
+}
+
 //Init information about sources
 function InitLibTable() {
     var table = document.getElementById("lib_table");
+    var included_libs_tabel = document.getElementById("included_libs");
 
     for (var i=0; i < scaffoldgraph.libs.length; ++i) {
         var tr = document.createElement("tr");
-
-        var td_type = document.createElement("td");
-        var lib_type = document.createElement("p");
-        lib_type.appendChild(document.createTextNode(TypeToStr(scaffoldgraph.libs[i].type)));
-        td_type.appendChild(lib_type);
-        td_type.align="left";
+        var tr_highlight = document.createElement("tr");
 
 
-        var td_name = document.createElement("td");
-        var lib_name = document.createElement("p");
-        lib_name.style.color = scaffoldgraph.libs[i].color;
-        lib_name.appendChild(document.createTextNode(scaffoldgraph.libs[i].name));
-        lib_name.id = "color" + scaffoldgraph.libs[i].name;
-        td_name.align="center";
-        td_name.appendChild(lib_name);
 
         var td_min_edge_weight = document.createElement("td");
         var input_weight = document.createElement("input");
@@ -46,10 +55,29 @@ function InitLibTable() {
         td_min_edge_weight.align="center";
         td_min_edge_weight.appendChild(input_weight);
 
-        tr.appendChild(td_type);
-        tr.appendChild(td_name);
+        var td_check_box = document.createElement("td");
+        var label = document.createElement("label");
+        label.className = "container";
+        var input_check_box = document.createElement("input");
+        input_check_box.type = "checkbox";
+        input_check_box.id = "include_lib_" + scaffoldgraph.libs[i].name;
+        var span = document.createElement("span");
+        span.className = "checkmark";
+        span.style="left: 20px";
+        label.appendChild(input_check_box);
+        label.appendChild(span);
+        td_check_box.appendChild(label);
+        td_check_box.align="right";
+
+        tr.appendChild(getTdType(i));
+        tr.appendChild(getTdName(i));
         tr.appendChild(td_min_edge_weight);
         table.appendChild(tr);
+
+        tr_highlight.appendChild(getTdType(i));
+        tr_highlight.appendChild(getTdName(i));
+        tr_highlight.appendChild(td_check_box);
+        included_libs_tabel.appendChild(tr_highlight);
     }
 }
 
