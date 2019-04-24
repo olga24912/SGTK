@@ -10,9 +10,18 @@ function updateHighlight() {
     var text_elements = document.getElementById("highlight_elements").value;
     var elements_id = parseTextWithElements(text_elements);
 
-    cy.nodes().forEach(function (node, index) {
-        node.removeClass("highlight");
+    cy.elements().forEach(function (element, index) {
+        element.removeClass("highlight");
     });
+
+    for (var i = 0; i < elements_id.length - 1; ++i) {
+        cy.edges().filter(function (ele) {
+            return ele.data('source') === elements_id[i] &&
+                ele.data('target') === elements_id[i + 1]
+        }).forEach(function(edge, index){
+           edge.addClass("highlight");
+        });
+    }
 
     cy.nodes().filter(function (ele) {
         return elements_id.indexOf(ele.data('id')) >= 0;
