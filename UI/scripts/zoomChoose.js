@@ -84,6 +84,13 @@ window.addEventListener("keyup", function (evt) {
 
 //Handle array manipulation
 window.addEventListener("keydown", function (evt) {
+    var inputs = ['input', 'select', 'button', 'textarea'];
+
+    if (document.activeElement &&
+        inputs.indexOf(document.activeElement.tagName.toLowerCase()) !== -1) {
+        return;
+    }
+
     var delta = 20;
     if (evt.shiftKey) {
         delta = 100;
