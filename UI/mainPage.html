@@ -241,7 +241,7 @@
             <div class="block_with_line">
                 <div class="block"></div>
                 <div class="block">
-                    <textarea rows="6" id="vertext" placeholder="ID1 -> ID2..."></textarea>
+                    <textarea rows="6" id="highlight_elements" placeholder="ID1 -> ID2..." onkeyup=updateHighlight()></textarea>
                 </div>
             </div>
 
@@ -259,6 +259,7 @@
             </div>
 
         </div>
+</div>
 </div>
 
 <div class="main_panel" id="mainpanel"></div>
@@ -324,6 +325,7 @@
 <script src="scripts/handleAmbiguous.js"></script>
 <script type="text/javascript" src="scripts/data.js"></script>
 <script src="scripts/generateDataFromJSON.js"></script>
+<script src="scripts/highlight.js"></script>
 
 </body>
 </html>

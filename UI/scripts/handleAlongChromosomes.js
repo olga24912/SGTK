@@ -793,6 +793,11 @@ function drawAlongChromosome(chr) {
             .css({
                 'opacity': 0.3
             })
+            .selector('.highlight')
+            .css({
+                'overlay-color': '#2A4986',
+                'overlay-opacity': "0.5"
+            })
     });
 
     var element =  document.getElementById("cynav");

@@ -155,6 +155,10 @@ install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/UI/scripts/utils.js"
 install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/UI/scripts/generateDataFromJSON.js"
         DESTINATION bin/scripts/
         COMPONENT runtime)
+install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/UI/scripts/highlight.js"
+        DESTINATION bin/scripts/
+        COMPONENT runtime)
+
 
 install(PROGRAMS "${CMAKE_CURRENT_SOURCE_DIR}/UI/scripts/Icon.png"
         DESTINATION bin/scripts/
