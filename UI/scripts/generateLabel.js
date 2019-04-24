@@ -124,34 +124,46 @@ function createInformationShown(cy) {
     var def_height = 140;
 
     cy.on('mouseover', 'node', function (evt) {
-        var v = evt.target.id();
-        var printInfo = createFullLabelForNode(v);
-        document.getElementById("extra_info").style = "";
-        document.getElementById("extra_info").innerHTML =
-            "<p style='font-size: 14px; margin-top: 0px; margin-bottom: 0px;'>" + printInfo + "</p>";
-        if (document.getElementById("extra_info").clientHeight <= def_height) {
-            document.getElementById("extra_info").style.height = def_height + 'px';
+        var elements = document.getElementsByClassName("extra_info");
+        for (var i = 0; i < elements.length; ++i) {
+            var v = evt.target.id();
+            var printInfo = createFullLabelForNode(v);
+            elements[i].style = "";
+            elements[i].innerHTML =
+                "<p style='font-size: 14px; margin-top: 0px; margin-bottom: 0px;'>" + printInfo + "</p>";
+            if (elements[i].clientHeight <= def_height) {
+                elements[i].style.height = def_height + 'px';
+            }
         }
     });
 
     cy.on('mouseout', 'node', function (evt) {
-        document.getElementById("extra_info").style.height = def_height + 'px';
-        document.getElementById("extra_info").innerHTML = "<p style='margin-top: 0px; margin-bottom: 0px;'>" + generateGeneralInfo() + "</p>";
+        var elements = document.getElementsByClassName("extra_info");
+        for (var i = 0; i < elements.length; ++i) {
+            elements[i].style.height = def_height + 'px';
+            elements[i].innerHTML = "<p style='margin-top: 0px; margin-bottom: 0px;'>" + generateGeneralInfo() + "</p>";
+        }
     });
 
     cy.on('mouseover', 'edge', function (evt) {
         var v = evt.target.id();
         var printInfo = createFullLabelForEdge(v.substring(1));
-        document.getElementById("extra_info").style = "";
-        document.getElementById("extra_info").innerHTML =
-            "<p id='innerTextExtraInfo' style='font-size: 14px; margin-top: 0px; margin-bottom: 0px;'>" + printInfo + "</p>";
-        if (document.getElementById("extra_info").clientHeight <= def_height) {
-            document.getElementById("extra_info").style.height = def_height + 'px';
+        var elements = document.getElementsByClassName("extra_info");
+        for (var i = 0; i < elements.length; ++i) {
+            elements[i].style = "";
+            elements[i].innerHTML =
+                "<p id='innerTextExtraInfo' style='font-size: 14px; margin-top: 0px; margin-bottom: 0px;'>" + printInfo + "</p>";
+            if (elements[i].clientHeight <= def_height) {
+                elements[i].style.height = def_height + 'px';
+            }
         }
     });
 
     cy.on('mouseout', 'edge', function (evt) {
-        document.getElementById("extra_info").style.height = def_height + 'px';
-        document.getElementById("extra_info").innerHTML = "<p style='margin-top: 0px; margin-bottom: 0px;'>" + generateGeneralInfo() + "</p>";
+        var elements = document.getElementsByClassName("extra_info");
+        for (var i = 0; i < elements.length; ++i) {
+            elements[i].style.height = def_height + 'px';
+            elements[i].innerHTML = "<p style='margin-top: 0px; margin-bottom: 0px;'>" + generateGeneralInfo() + "</p>";
+        }
     });
 }

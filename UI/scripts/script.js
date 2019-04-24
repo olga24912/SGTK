@@ -148,7 +148,10 @@ function main() {
     setupAutocompleteSearch();
     putEdgesNumForScaffolds();
     handleFilterButton();
-    document.getElementById("extra_info").innerHTML = "<p style='margin-top: 0px; margin-bottom: 0px;'>" + generateGeneralInfo() + "</p>";
+    var elements = document.getElementsByClassName("extra_info");
+    for (var i = 0; i < elements.length; ++i) {
+        elements[i].innerHTML = "<p style='margin-top: 0px; margin-bottom: 0px;'>" + generateGeneralInfo() + "</p>";
+    }
 
     /*
     * Updating filter panele
