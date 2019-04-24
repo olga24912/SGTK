@@ -1,5 +1,5 @@
 function parseTextWithElements(text_elements) {
-    var res = text_elements.split(" ");
+    var res = text_elements.split(/[\s\n\t;,]+/);
     /*for (var i = 0; i < res.length; ++i) {
         res[i] = parseInt(res[i])
     }*/
