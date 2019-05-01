@@ -49,14 +49,25 @@ function parseTextWithElements(text_elements) {
     text_elements = text_elements.replace(/;/g, ' $1 ').trim();
     text_elements = text_elements.replace(/([^-])(-)(>)/g, '$1 $2$3 ').trim();
     text_elements = text_elements.replace(/(-)(-)(>)/g, ' $1$2$3 ').trim();
-    var res = text_elements.split(/[\s\n\t,]+/);
+    var tokens = text_elements.split(/[\s\n\t,]+/);
     var connectionList = [];
     var vertexList = [];
-    for (var i = 0; i < res.length; ++i) {
-        if (scaffoldgraph.id_by_name.has(res[i])) {
-            res[i] = scaffoldgraph.id_by_name.get(res[i]).toString()
+    var res = [];
+    for (var i = 0; i < tokens.length; ++i) {
+        if (scaffoldgraph.id_by_name.has(tokens[i])) {
+            res.push(scaffoldgraph.id_by_name.get(tokens[i]).toString())
+        } else if (scaffoldgraph.scaffold_by_name.has(tokens[i])) {
+            scaffols = scaffoldgraph.scaffold_by_name.get(tokens[i]).edges;
+            res.push(scaffols[0].from.toString());
+            for (var j = 0; j < scaffols.length; ++j) {
+                res.push(scaffols[j].to.toString())
+            }
+        } else {
+                res.push(tokens[i])
         }
+    }
 
+    for (i = 0; i < res.length; ++i) {
         if (res[i] !== "->" && res[i] !== ';' && res[i] !== "-->") {
             vertexList.push(res[i])
         }
@@ -79,7 +90,7 @@ function parseTextWithElements(text_elements) {
             i += 1;
         } else if (res[i] === "-->") {
             var clist = getShortestPath(res[i - 1], res[i + 1]);
-            for (var j = 0; j < clist.length; ++j) {
+            for (j = 0; j < clist.length; ++j) {
                 connectionList.push(clist[j]);
             }
         } else {
