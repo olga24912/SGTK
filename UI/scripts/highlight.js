@@ -56,6 +56,31 @@ function getShortestPath(sv, fv) {
     }
 }
 
+function addNoneConnection(connectionList, from, to) {
+    connectionList.push({
+        "type": "none",
+        "from": from,
+        "to": to
+    });
+}
+
+function addEdgeConnection(connectionList, from, to) {
+    connectionList.push({
+        "type": "edge",
+        "from": from,
+        "to": to
+    });
+}
+
+function addPathConnection(connectionList, from, to) {
+    var clist = getShortestPath(from, to);
+    for (var j = 0; j < clist.length; ++j) {
+        connectionList.push(clist[j]);
+    }
+}
+
+
+
 function parseTextWithElements(text_elements) {
     text_elements = text_elements.replace(/;/g, ' $1 ').trim();
     text_elements = text_elements.replace(/([^-])(-)(>)/g, '$1 $2$3 ').trim();
@@ -90,24 +115,14 @@ function parseTextWithElements(text_elements) {
 
     for (i = 1; i < res.length; ++i) {
         if (res[i] === ";") {
-            connectionList.push({
-                "type": "none",
-                "from": res[i - 1],
-                "to": res[i + 1]
-            });
+            addNoneConnection(connectionList, res[i - 1], res[i + 1]);
             i += 1;
         } else if (res[i] === "->") {
-            connectionList.push({
-                "type": "edge",
-                "from": res[i - 1],
-                "to": res[i + 1]
-            });
+            addEdgeConnection(connectionList, res[i - 1], res[i + 1]);
             i += 1;
         } else if (res[i] === "-->") {
-            var clist = getShortestPath(res[i - 1], res[i + 1]);
-            for (j = 0; j < clist.length; ++j) {
-                connectionList.push(clist[j]);
-            }
+            addPathConnection(connectionList, res[i - 1], res[i + 1]);
+            i += 1;
         } else if (res[i].length > 1 && res[i][0] === '-' && res[i][res[i].length - 1] === '>') {
             connectionList.push({
                 "type": "edge",
@@ -115,12 +130,17 @@ function parseTextWithElements(text_elements) {
                 "to": res[i + 1],
                 "edge_id": res[i].substring(1, res[i].length - 1)
             });
+            i += 1;
         } else {
-            connectionList.push({
-                "type": "edge",
-                "from": res[i - 1],
-                "to": res[i]
-            });
+            var edge_type = document.getElementById("default_connection");
+            edge_type = edge_type.options[edge_type.selectedIndex].value;
+            if (edge_type === "one_edge") {
+                addEdgeConnection(connectionList, res[i - 1], res[i]);
+            } else if (edge_type === "shortest_path") {
+                addPathConnection(connectionList, res[i - 1], res[i]);
+            } else {
+                addNoneConnection(connectionList, res[i - 1], res[i]);
+            }
         }
     }
     return [vertexList, connectionList];
