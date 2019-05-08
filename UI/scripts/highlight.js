@@ -68,6 +68,10 @@ function parseTextWithElements(text_elements) {
     }
 
     for (i = 0; i < res.length; ++i) {
+        if (res[i].length > 1 && res[i][0] === '-' && res[i][res[i].length - 1] === '>') {
+            continue
+        }
+
         if (res[i] !== "->" && res[i] !== ';' && res[i] !== "-->") {
             vertexList.push(res[i])
         }
@@ -93,6 +97,13 @@ function parseTextWithElements(text_elements) {
             for (j = 0; j < clist.length; ++j) {
                 connectionList.push(clist[j]);
             }
+        } else if (res[i].length > 1 && res[i][0] === '-' && res[i][res[i].length - 1] === '>') {
+            connectionList.push({
+                "type": "edge",
+                "from": res[i - 1],
+                "to": res[i + 1],
+                "edge_id": res[i].substring(1, res[i].length - 1)
+            });
         } else {
             connectionList.push({
                 "type": "edge",
@@ -117,6 +128,9 @@ function updateHighlight() {
             continue;
         }
         cy.edges().filter(function (ele) {
+            if ("edge_id" in connectionList[i]) {
+                return ele.data("id") === ("e" + connectionList[i]["edge_id"]);
+            }
             return ele.data('source') === connectionList[i]["from"] &&
                 ele.data('target') === connectionList[i]["to"]
         }).forEach(function(edge, index){
