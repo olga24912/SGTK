@@ -1,3 +1,14 @@
+function isHighlightEdge(eid) {
+    if (!isGoodEdge(eid)) {
+        return false;
+    }
+
+    var edge = scaffoldgraph.edges[eid];
+    var lib = scaffoldgraph.libs[edge.lib];
+    var checkmark_inbox = document.getElementById("include_lib_" + lib.id);
+    return checkmark_inbox.checked;
+}
+
 function getShortestPath(sv, fv) {
     var dist = {};
     dist[sv] = 0;
@@ -15,7 +26,7 @@ function getShortestPath(sv, fv) {
         for (var i = 0; i < scaffoldgraph.g[cv].length; ++i) {
             var cedge = scaffoldgraph.g[cv][i];
             var tov = cedge.to;
-            if (isGoodEdge(cedge.id)) {
+            if (isHighlightEdge(cedge.id)) {
                 if (!(tov in dist) || (dist[tov] > dist[cv] + 1)) {
                     dist[tov] = dist[cv] + 1;
                     edges[tov] = scaffoldgraph.g[cv][i];
@@ -131,8 +142,12 @@ function updateHighlight() {
             if ("edge_id" in connectionList[i]) {
                 return ele.data("id") === ("e" + connectionList[i]["edge_id"]);
             }
-            return ele.data('source') === connectionList[i]["from"] &&
-                ele.data('target') === connectionList[i]["to"]
+            if (isHighlightEdge(ele.data("id").substring(1))) {
+                return ele.data('source') === connectionList[i]["from"] &&
+                    ele.data('target') === connectionList[i]["to"]
+            } else {
+                return false;
+            }
         }).forEach(function(edge, index){
            edge.addClass("highlight");
         });

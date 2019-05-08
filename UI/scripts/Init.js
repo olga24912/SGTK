@@ -60,7 +60,9 @@ function InitLibTable() {
         label.className = "container";
         var input_check_box = document.createElement("input");
         input_check_box.type = "checkbox";
-        input_check_box.id = "include_lib_" + scaffoldgraph.libs[i].name;
+        input_check_box.checked = true;
+        input_check_box.id = "include_lib_" + scaffoldgraph.libs[i].id;
+        input_check_box.addEventListener("change", updateHighlight);
         var span = document.createElement("span");
         span.className = "checkmark";
         span.style="left: 20px";
