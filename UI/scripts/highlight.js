@@ -79,13 +79,15 @@ function addPathConnection(connectionList, from, to) {
     }
 }
 
-
-
-function parseTextWithElements(text_elements) {
+function getTokens(text_elements) {
     text_elements = text_elements.replace(/;/g, ' $1 ').trim();
     text_elements = text_elements.replace(/([^-])(-)(>)/g, '$1 $2$3 ').trim();
     text_elements = text_elements.replace(/(-)(-)(>)/g, ' $1$2$3 ').trim();
-    var tokens = text_elements.split(/[\s\n\t,]+/);
+    return text_elements.split(/[\s\n\t,]+/);
+}
+
+function parseTextWithElements(text_elements) {
+    var tokens = getTokens(text_elements);
     var connectionList = [];
     var vertexList = [];
     var res = [];
@@ -177,5 +179,45 @@ function updateHighlight() {
         return elements_id.indexOf(ele.data('id')) >= 0;
     }).forEach(function (node, index) {
         node.addClass("highlight");
+    });
+}
+
+function highlightAutocompleteSetUp() {
+    function getVertexNameList() {
+        var result = [];
+        for (var i = 0; i < scaffoldgraph.nodes.length; ++i) {
+            result.push(scaffoldgraph.nodes[i].name);
+        }
+        for (i = 0; i < scaffoldgraph.nodes.length; ++i) {
+            result.push(scaffoldgraph.nodes[i].id.toString());
+        }
+
+        return result;
+    }
+
+    $("#highlight_elements").autocomplete({
+        minLength : 0,
+        maxLength : 200,
+        autoFocus : true,
+        source : function(request, response) {
+            var tokens = getTokens(request.term.toString());
+            var lastToken = tokens[tokens.length - 1];
+            var res = getVertexNameList();
+
+            var matcher = new RegExp(lastToken);
+            res = $.grep(res, function (value) {
+                return matcher.test(value);
+            });
+
+            res.length = Math.min(res.length, 20);
+            response(res);
+        },
+        select : function(event, ui) {
+            var tokens = getTokens(this.value);
+            tokens.pop();
+            tokens.push(ui.item.value);
+            this.value = tokens.join(" ");
+            return false;
+        }
     });
 }

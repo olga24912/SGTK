@@ -146,6 +146,7 @@ function main() {
     InitLibTable();
     InitAlignmentsForNodes();
     setupAutocompleteSearch();
+    highlightAutocompleteSetUp();
     putEdgesNumForScaffolds();
     handleFilterButton();
     var elements = document.getElementsByClassName("extra_info");
