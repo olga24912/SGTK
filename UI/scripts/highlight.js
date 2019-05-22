@@ -211,11 +211,11 @@ function highlightAutocompleteSetUp() {
                 inCy = 1;
             }
 
-            /*if (value in scaffoldgraph.id_by_name) {
-                if (ele.data('id') == scaffoldgraph.id_by_name[value]) {
+            if (scaffoldgraph.id_by_name.has(value)) {
+                if (node.data('id') == scaffoldgraph.id_by_name.get(value)) {
                     inCy = 1;
                 }
-            }*/
+            }
         });
         return inCy;
     }
