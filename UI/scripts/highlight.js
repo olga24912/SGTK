@@ -195,6 +195,31 @@ function highlightAutocompleteSetUp() {
         return result;
     }
 
+    function getPathNamesList() {
+        var result = [];
+        let keys = Array.from(scaffoldgraph.scaffold_by_name.keys());
+        for (var i = 0; i < keys.length; ++i) {
+            result.push(keys[i]);
+        }
+        return result;
+    }
+
+    function valueInCurrentCy(value) {
+        var inCy = 0;
+        cy.nodes().forEach(function (node, index) {
+            if (node.data('id') == value) {
+                inCy = 1;
+            }
+
+            /*if (value in scaffoldgraph.id_by_name) {
+                if (ele.data('id') == scaffoldgraph.id_by_name[value]) {
+                    inCy = 1;
+                }
+            }*/
+        });
+        return inCy;
+    }
+
     $("#highlight_elements").autocomplete({
         minLength : 0,
         maxLength : 200,
@@ -202,11 +227,17 @@ function highlightAutocompleteSetUp() {
         source : function(request, response) {
             var tokens = getTokens(request.term.toString());
             var lastToken = tokens[tokens.length - 1];
-            var res = getVertexNameList();
+            var res = getPathNamesList().concat(getVertexNameList());
 
             var matcher = new RegExp(lastToken);
             res = $.grep(res, function (value) {
                 return matcher.test(value);
+            });
+
+            res = res.sort(function(a, b) {
+                var via = valueInCurrentCy(a);
+                var vib = valueInCurrentCy(b);
+                return vib - via;
             });
 
             res.length = Math.min(res.length, 20);
