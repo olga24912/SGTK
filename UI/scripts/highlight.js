@@ -220,13 +220,21 @@ function highlightAutocompleteSetUp() {
         return inCy;
     }
 
+    function isNewToken(reqStr, tokens) {
+        return tokens.length == 0 || (" \n\t,->".indexOf(reqStr[reqStr.length - 1]) >= 0);
+    }
+
     $("#highlight_elements").autocomplete({
         minLength : 0,
         maxLength : 200,
         autoFocus : true,
         source : function(request, response) {
-            var tokens = getTokens(request.term.toString());
-            var lastToken = tokens[tokens.length - 1];
+            var reqStr = request.term.toString();
+            var tokens = getTokens(reqStr);
+            var lastToken = "";
+            if (!isNewToken(reqStr, tokens)) {
+                lastToken = tokens[tokens.length - 1];
+            }
             var res = getPathNamesList().concat(getVertexNameList());
 
             var matcher = new RegExp(lastToken);
@@ -245,9 +253,14 @@ function highlightAutocompleteSetUp() {
         },
         select : function(event, ui) {
             var tokens = getTokens(this.value);
-            tokens.pop();
+            if (!isNewToken(this.value, tokens)) {
+                tokens.pop();
+            }
             tokens.push(ui.item.value);
             this.value = tokens.join(" ");
+            return false;
+        },
+        focus: function (event, ui) {
             return false;
         }
     });
