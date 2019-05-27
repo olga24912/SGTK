@@ -202,6 +202,7 @@ function DrawGraphCytoscapeWithPresetNode(dnodes, dedges, curNodeSet) {
     createInformationShown(cy);
     //createTapInfo(cy);
     createAddNewNode(cy, curNodeSet);
+    highlightOnTap(cy)
 }
 
 

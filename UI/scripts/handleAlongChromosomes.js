@@ -806,6 +806,7 @@ function drawAlongChromosome(chr) {
     }
     createNewVerAlongChr(cy, area_size, min_contig_len, isGoodEdge, curNodeSet, openNode);
     nodePositionChange(cy, posmin, posmax);
+    highlightOnTap(cy);
 
     cy.on('zoom', function () {
         if (cy.zoom() < maxZoomUpdate && cy.zoom() > minZoomUpdate && cy.extent().x1 >= lastMinX && cy.extent().x2 <= lastMaxX) {
