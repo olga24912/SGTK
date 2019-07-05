@@ -37,7 +37,11 @@ function getShortestPath(sv, fv) {
     }
 
     if (!(fv in dist)) {
-        return [];
+        return [{
+            "type": "edge",
+            "from": sv.toString(),
+            "to": fv.toString()
+        }];
     } else {
         var connectionList = [];
         cv = fv;
@@ -182,7 +186,6 @@ function updateHighlight() {
            edge.addClass("highlight");
         });
 
-        console.log(cntHighlight);
         edge_id = "f" + connectionList[i]["from"] + "_" + connectionList[i]["to"];
         if (cntHighlight === 0) {
             cy.add({
@@ -203,8 +206,6 @@ function updateHighlight() {
     cy.edges().filter(function (ele) {
         return ele.data("id")[0] === 'f';
     }).forEach(function (value) { value.addClass("fake"); });
-
-    console.log(cy.edges());
 
     cy.nodes().filter(function (ele) {
         return elements_id.indexOf(ele.data('id')) >= 0;
