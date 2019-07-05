@@ -798,6 +798,11 @@ function drawAlongChromosome(chr) {
                 'overlay-color': '#2A4986',
                 'overlay-opacity': "0.5"
             })
+            .selector('.fake')
+            .css({
+                'overlay-color': "#FF3503",
+                'overlay-opacity': "1"
+            })
     });
 
     var element =  document.getElementById("cynav");

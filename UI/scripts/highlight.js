@@ -156,10 +156,17 @@ function updateHighlight() {
         element.removeClass("highlight");
     });
 
+    cy.edges().filter(function (value) {
+        return value.hasClass("fake");
+    }).remove();
+
     for (var i = 0; i < connectionList.length; ++i) {
         if (connectionList[i]["type"] === "none") {
             continue;
         }
+
+        var cntHighlight = 0;
+
         cy.edges().filter(function (ele) {
             if ("edge_id" in connectionList[i]) {
                 return ele.data("id") === ("e" + connectionList[i]["edge_id"]);
@@ -171,9 +178,33 @@ function updateHighlight() {
                 return false;
             }
         }).forEach(function(edge, index){
+            cntHighlight += 1;
            edge.addClass("highlight");
         });
+
+        console.log(cntHighlight);
+        edge_id = "f" + connectionList[i]["from"] + "_" + connectionList[i]["to"];
+        if (cntHighlight === 0) {
+            cy.add({
+                group: 'edges',
+                data: {
+                    id: edge_id,
+                    source: connectionList[i]["from"],
+                    target: connectionList[i]["to"],
+                    label: "",
+                    faveColor: "#000",
+                    weight: 1,
+                    special: 0,
+                    lstyle: 'solid'}
+            });
+        }
     }
+
+    cy.edges().filter(function (ele) {
+        return ele.data("id")[0] === 'f';
+    }).forEach(function (value) { value.addClass("fake"); });
+
+    console.log(cy.edges());
 
     cy.nodes().filter(function (ele) {
         return elements_id.indexOf(ele.data('id')) >= 0;
