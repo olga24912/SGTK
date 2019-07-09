@@ -443,7 +443,7 @@ function highlightAutocompleteSetUp() {
 }
 
 function highlightOnTap(cy) {
-    cy.on('taphold', 'node', function (evt) {
+    cy.on('tap', 'node', function (evt) {
         var v = evt.target.id();
         var highlight_text = document.getElementById('highlight_elements');
         highlight_text.value += " " + v;
