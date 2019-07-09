@@ -528,10 +528,11 @@ table tr th {
 .show {display:block;}
 
 .AlertBox {
+    margin: 10px;
     visibility: hidden;
     position: fixed;
     border-style: solid;
-    border-width: 2px;
+    border-width: 1px;
     background-color: #ddd;
 
     top: 0;
@@ -539,8 +540,8 @@ table tr th {
     transform: translate(-50%, 0);
     text-align: center;
 
-    width: 300px;
-    height: 80px;
+    width: 400px;
+    height: 100px;
 }
 
 .updateGrpahButton {

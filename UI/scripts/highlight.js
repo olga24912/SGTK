@@ -152,10 +152,145 @@ function parseTextWithElements(text_elements) {
     return [vertexList, connectionList];
 }
 
-function updateHighlight() {
+function allVertexInCy(connectionList) {
+    for (var i = 0; i < connectionList.length; ++i) {
+        var elem = cy.getElementById(connectionList[i]["from"]);
+        if (elem.length === 0) {
+            return false;
+        }
+        var elem = cy.getElementById(connectionList[i]["to"]);
+        if (elem.length === 0) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+function add_vertex(vid, prev_vid) {
+    var xc = 0;
+    var yc = 0;
+
+    if (prev_vid !== undefined) {
+        xc = cy.getElementById(prev_vid).position('x') + 100;
+        yc = cy.getElementById(prev_vid).position('y');
+    }
+
+    var spe = 0;
+    var opt = document.getElementById("select_show_type").value;
+    if (opt === "full graph") {
+        spe = 1;
+    }
+
+    var nnode = {
+        group: "nodes",
+        data: {
+            id: vid,
+            label: createLabelForNode(vid),
+            len: 2*Math.log2(scaffoldgraph.nodes[vid].len)/Math.log2(1.5),
+            notALL: 0,
+            color: genColorNode(vid),
+
+            color1: "#2A4986",
+            color2: "#2A4986",
+            color3: "#2A4986",
+            cnt1: 100,
+            cnt2: 0,
+            cnt3: 0,
+            special: spe
+        },
+        position: {
+            y: yc,
+            x: xc
+        }
+    };
+    updateColorsNode(vid, nnode);
+    cy.add(nnode);
+
+    function inCy(vid) {
+        var elem = cy.getElementById(vid);
+        if (elem.length === 0) {
+            return false;
+        }
+        return true
+    }
+
+    function addEdgeWithId(eid) {
+        if (!inCy(getEdgeTo(eid)) || !inCy(getEdgeFrom(eid))) {
+            return;
+        }
+        if (inCy("e" + eid.toString())) {
+            return;
+        }
+        if (!isGoodEdge(eid)) {
+            return;
+        }
+
+        spe = 0;
+        opt = document.getElementById("select_show_type").value;
+        if (opt === "full graph") {
+            spe = 1;
+        }
+
+        cy.add({
+            group: "edges",
+            data: {
+                id: "e" + eid.toString(),
+                source: getEdgeFrom(eid),
+                target: getEdgeTo(eid),
+                label: createLabelForEdge(eid),
+                faveColor: scaffoldgraph.libs[scaffoldgraph.edges[eid].lib].color,
+                weight: generateEdgeWeight(eid),
+                lstyle: 'dotted',
+                special: spe
+            }
+        });
+    }
+
+    for (g = 0; g < scaffoldgraph.g[vid].length; ++g) {
+        var eid = scaffoldgraph.g[vid][g].id;
+        addEdgeWithId(eid);
+    }
+
+    for (g = 0; g < scaffoldgraph.gr[vid].length; ++g) {
+        var eid = scaffoldgraph.gr[vid][g].id;
+        addEdgeWithId(eid);
+    }
+}
+
+function add_miss_vertex(connectionList) {
+    for (var i = 0; i < connectionList.length; ++i) {
+        var elem = cy.getElementById(connectionList[i]["from"]);
+        if (elem.length === 0) {
+            add_vertex(connectionList[i]["from"]);
+        }
+        
+        var elem = cy.getElementById(connectionList[i]["to"]);
+        if (elem.length === 0) {
+            add_vertex(connectionList[i]["to"], connectionList[i]["from"]);
+        }
+    }
+}
+
+function check_miss_vertex(connectionList) {
+    if (allVertexInCy(connectionList) === false) {
+        document.getElementById("AlertBoxNotAllVertexPresent").style.visibility = "visible";
+    } else {
+        document.getElementById("AlertBoxNotAllVertexPresent").style.visibility = "hidden";
+    }
+}
+
+function updateHighlight(with_update=false) {
     var text_elements = document.getElementById("highlight_elements").value;
     var res = parseTextWithElements(text_elements);
     var elements_id = res[0], connectionList = res[1];
+
+    if (with_update === false){
+        check_miss_vertex(connectionList);
+    } else {
+        add_miss_vertex(connectionList);
+    }
+
     cy.elements().forEach(function (element, index) {
         element.removeClass("highlight");
     });
@@ -212,6 +347,15 @@ function updateHighlight() {
     }).forEach(function (node, index) {
         node.addClass("highlight");
     });
+
+    document.getElementById("DontRedrawButton").onclick = function(){
+        document.getElementById("AlertBoxNotAllVertexPresent").style.visibility = "hidden";
+    };
+
+    document.getElementById("RedrawButton").onclick = function(){
+        document.getElementById("AlertBoxNotAllVertexPresent").style.visibility = "hidden";
+        updateHighlight(true);
+    };
 }
 
 function highlightAutocompleteSetUp() {
