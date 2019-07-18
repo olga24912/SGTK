@@ -53,6 +53,9 @@ function handleFilterButton() {
     }
 
     isGoodEdge = function (e) {
+        if (e === undefined) {
+            return true;
+        }
         if (min_edge_weight[scaffoldgraph.edges[e].lib] > scaffoldgraph.edges[e].weight) {
             return false;
         }

@@ -1,4 +1,8 @@
 function isHighlightEdge(eid) {
+    if (eid.includes("_")) {
+        return false;
+    }
+
     if (!isGoodEdge(eid)) {
         return false;
     }
