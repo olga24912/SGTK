@@ -19,6 +19,14 @@ function createAddNewNode(cy, curNodeSet) {
         var needAddVert = [];
         var needAddEdge = [];
         var newNode = new Set();
+        console.log(curNodeSet);
+
+        var curNodeSet = new Set();
+        cy.nodes().forEach(function (node, index) {
+            curNodeSet.add(parseInt(node.data('id')))
+        });
+        console.log(curNodeSet);
+
         findConnectedVertex(v, needAddVert, needAddEdge, newNode, area_size, min_contig_len, isGoodEdge, curNodeSet);
 
         for (g = 0; g < needAddVert.length; ++g) {
