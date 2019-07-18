@@ -1,5 +1,5 @@
 function isHighlightEdge(eid) {
-    if (eid.includes("_")) {
+    if (eid.toString().includes("_")) {
         return false;
     }
 
