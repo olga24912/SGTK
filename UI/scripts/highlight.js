@@ -208,6 +208,7 @@ function add_vertex(vid, prev_vid) {
             x: xc
         }
     };
+    nodes_to_draw.push(parseInt(vid));
     updateColorsNode(vid, nnode);
     cy.add(nnode);
 
@@ -274,6 +275,19 @@ function add_miss_vertex(connectionList) {
             add_vertex(connectionList[i]["to"], connectionList[i]["from"]);
         }
     }
+    var curNodeSet = new Set();
+    cy.nodes().forEach(function (node, index) {
+        curNodeSet.add(node.data('id'))
+    });
+
+    cy.nodes().forEach(function (node, index) {
+        curNodeSet.add(node.data('id'));
+        if (hasOtherEdges(node.data('id'), curNodeSet)) {
+            node.data('notALL', 1);
+        } else {
+            node.data('notALL', 0);
+        }
+    });
 }
 
 function check_miss_vertex(connectionList) {
