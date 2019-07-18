@@ -90,6 +90,7 @@ function createAddNewNode(cy, curNodeSet) {
                 cy.$('#' + nodes_to_draw[g]).data('notALL', 0);
             }
         }
+        cy.ignoreTap = true
         //createTapInfo(cy);
     });
 }

@@ -311,6 +311,7 @@ function createNewVerAlongChr(cy, area_size, min_contig_len, isGoodEdge, curNode
             }
         }
         //createTapInfo(cy);
+        cy.ignoreTap = true
     });
 }
 

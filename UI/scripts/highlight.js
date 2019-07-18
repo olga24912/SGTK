@@ -448,6 +448,10 @@ function highlightAutocompleteSetUp() {
 
 function highlightOnTap(cy) {
     cy.on('tap', 'node', function (evt) {
+        if (cy.ignoreTap) {
+            delete cy.ignoreTap;
+            return
+        }
         var v = evt.target.id();
         var highlight_text = document.getElementById('highlight_elements');
         highlight_text.value += " " + v;
