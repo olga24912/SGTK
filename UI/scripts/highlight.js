@@ -104,9 +104,13 @@ function parseTextWithElements(text_elements) {
             res.push(scaffoldgraph.id_by_name.get(tokens[i]).toString())
         } else if (scaffoldgraph.scaffold_by_name.has(tokens[i])) {
             scaffols = scaffoldgraph.scaffold_by_name.get(tokens[i]).edges;
-            res.push(scaffols[0].from.toString());
+            if (scaffoldgraph.nodes[scaffols[0].from].len >= min_contig_len) {
+                res.push(scaffols[0].from.toString());
+            }
             for (var j = 0; j < scaffols.length; ++j) {
-                res.push(scaffols[j].to.toString())
+                if (scaffoldgraph.nodes[scaffols[j].to].len >= min_contig_len) {
+                    res.push(scaffols[j].to.toString())
+                }
             }
         } else {
                 res.push(tokens[i])
@@ -277,12 +281,11 @@ function add_miss_vertex(connectionList) {
     }
     var curNodeSet = new Set();
     cy.nodes().forEach(function (node, index) {
-        curNodeSet.add(node.data('id'))
+        curNodeSet.add(parseInt(node.data('id')))
     });
 
     cy.nodes().forEach(function (node, index) {
-        curNodeSet.add(node.data('id'));
-        if (hasOtherEdges(node.data('id'), curNodeSet)) {
+        if (hasOtherEdges(parseInt(node.data('id')), curNodeSet)) {
             node.data('notALL', 1);
         } else {
             node.data('notALL', 0);
