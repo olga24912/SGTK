@@ -625,6 +625,8 @@ function createGraph(chr, cy, curNodeSet, posx, posmin, posmax, oldPosition, ope
 
     createInformationShown(cy);
     createCoordinates(chr, cy);
+
+    updateHighlight();
 }
 
 
