@@ -15,7 +15,8 @@ function generateEdgeWeight(eid) {
     }
 
     if (scaffoldgraph.libs[edge.lib].type === "FASTG" ||
-        scaffoldgraph.libs[edge.lib].type === "GFA") {
+        scaffoldgraph.libs[edge.lib].type === "GFA" || 
+        scaffoldgraph.libs[edge.lib].type === "GFA2") {
         return 4;
     }
 
@@ -118,9 +119,9 @@ function DrawGraphCytoscapeWithPresetNode(dnodes, dedges, curNodeSet) {
             ranker: 'tight-tree', //'longest-path',//'network-simplex',//
             edgeWeight: function( edge ){
                 return edge.width();
-                console.log(edge.id());
-                console.log(100*special_edges.has(parseInt(edge.id().substring(1, edge.id().length))));
-                return 100*special_edges.has(edge.id().substring(1, edge.id().length));
+                //console.log(edge.id());
+                //console.log(100*special_edges.has(parseInt(edge.id().substring(1, edge.id().length))));
+                //return 100*special_edges.has(edge.id().substring(1, edge.id().length));
             }
         },
 
@@ -167,6 +168,16 @@ function DrawGraphCytoscapeWithPresetNode(dnodes, dedges, curNodeSet) {
             .css({
                 'opacity': 0.3
             })
+            .selector('.highlight')
+            .css({
+                'overlay-color': '#2A4986',
+                'overlay-opacity': "0.5"
+            })
+            .selector('.fake')
+            .css({
+                'overlay-color': "#FF3503",
+                'overlay-opacity': "0.5"
+            })
     });
 
     var element =  document.getElementById("cynav");
@@ -196,6 +207,7 @@ function DrawGraphCytoscapeWithPresetNode(dnodes, dedges, curNodeSet) {
     createInformationShown(cy);
     //createTapInfo(cy);
     createAddNewNode(cy, curNodeSet);
+    highlightOnTap(cy)
 }
 
 

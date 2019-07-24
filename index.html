@@ -1,14 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, minimal-ui">
     <title>SGTK</title>
     <link href="scripts/light.css" rel="stylesheet" type="text/css">
-
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
 <body>
 <div class="top">
@@ -43,186 +40,241 @@
 </div>
 
 <div class="filter_panel">
-    <div class="centerblock">
-        <div class="block_with_line">
-            <div class="block" id="extra_info" style="height: 140px">
-            </div>
-        </div>
-
-        <div class="block_with_line">
-            <div class="block">
-                <h2 class="section_name">
-                    Layout:
-                </h2>
-                <div class="styled-select">
-                    <select id="select_layout">
-                        <option value="free_layout">Free(dagre) layout</option>
-                        <option value="genome_browser">Genome browser</option>
-                    </select>
+    <div class="tab">
+        <button class="tablinks active" onclick="openTab(event, 'filter_tab')"><p>Filtration</p></button>
+        <button class="tablinks" onclick="openTab(event, 'highlight_tab')"><p>Highlight</p></button>
+    </div>
+    <div class="tabcontent" id="filter_tab">
+        <div class="centerblock">
+            <div class="block_with_line">
+                <div class="block extra_info" style="height: 140px">
                 </div>
             </div>
-        </div>
 
-
-        <div class="block_with_line" id = "filtration">
-            <div class="block">
-                <h2 class="section_name">
-                    Filtration:
-                </h2>
-                <div class="styled-select">
-                    <select id="select_show_type">
-                        <option value="full graph">full graph</option>
-                        <option value="scaffolds">by scaffold name</option>
-                        <option value="vertices_local_area">by vertex id</option>
-                        <option value="edges_local_area">by edge id</option>
-                        <option value="diff in libs">difference between sources</option>
-                        <option value="ambiguous">ambiguous connection</option>
-                    </select>
+            <div class="block_with_line">
+                <div class="block">
+                    <h2 class="section_name">
+                        Layout:
+                    </h2>
+                    <div class="styled-select">
+                        <select id="select_layout">
+                            <option value="free_layout">Free(dagre) layout</option>
+                            <option value="genome_browser">Genome browser</option>
+                        </select>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="block_with_line" id = "change_block">
-        </div>
 
-        <div class="block_with_line">
-            <div class="block">
-                <h2 class="section_name">
-                    Edge types:
-                </h2>
-                <table id="lib_table" cellspacing="5">
-                    <tr>
-                        <th align="left"> Source type </th>
-                        <th> Name </th>
-                        <th> Min edge weight </th>
-                    </tr>
-                </table>
+            <div class="block_with_line" id = "filtration">
+                <div class="block">
+                    <h2 class="section_name">
+                        Filtration:
+                    </h2>
+                    <div class="styled-select">
+                        <select id="select_show_type">
+                            <option value="full graph">full graph</option>
+                            <option value="scaffolds">by scaffold name</option>
+                            <option value="vertices_local_area">by vertex id</option>
+                            <option value="edges_local_area">by edge id</option>
+                            <option value="diff in libs">difference between sources</option>
+                            <option value="ambiguous">ambiguous connection</option>
+                        </select>
+                    </div>
+                </div>
             </div>
-        </div>
 
-        <div class="block_with_line">
+            <div class="block_with_line" id = "change_block">
+            </div>
+
+            <div class="block_with_line">
+                <div class="block">
+                    <h2 class="section_name">
+                        Edge types:
+                    </h2>
+                    <table id="lib_table" cellspacing="5">
+                        <tr>
+                            <th align="left"> Source type </th>
+                            <th> Name </th>
+                            <th> Min edge weight </th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="block_with_line">
+                <div class="block">
+                    <h2 class="section_name">
+                        Vertices:
+                    </h2>
+                    <div class="one_line_block">
+                        <label class="container">
+                            <p>ID</p>
+                            <input type="checkbox" value="ID" id="vert_checkbox_id" onclick="updateText()">
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                    <div class="one_line_block">
+                        <label class="container" >
+                            <p>Name</p>
+                            <input type="checkbox" value="Name" id="vert_checkbox_name" onclick="updateText()">
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                    <div class="one_line_block">
+                        <label class="container">
+                            <p>Length</p>
+                            <input type="checkbox" value="Len" id="vert_checkbox_len" onclick="updateText()">
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                    <div class="one_line_block">
+                        <label class="container">
+                            <p>Alignment</p>
+                            <input type="checkbox" value="Alignment" id="vert_checkbox_align" onclick="updateText()">
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+
+                    <div class="one_line_block">
+                        <label class="container">
+                            <p>Info</p>
+                            <input type="checkbox" value="Info" id="vert_checkbox_info" onclick="updateText()">
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                    <p>
+                        Minimum contig length:
+                        <input type="number" min="0" id="min_contig_len" value=500>
+                    </p>
+                </div>
+            </div>
+
             <div class="block">
                 <h2 class="section_name">
-                    Vertices:
+                    Edges:
                 </h2>
+
                 <div class="one_line_block">
                     <label class="container">
-                        <p>ID</p>
-                        <input type="checkbox" value="ID" id="vert_checkbox_id" onclick="updateText()">
-                        <span class="checkmark"></span>
+                        <p>ID
+                            <input type="checkbox" value="ID" id="edge_checkbox_id" onclick="updateText()">
+                            <span class="checkmark"></span>
+                        </p>
                     </label>
                 </div>
                 <div class="one_line_block">
                     <label class="container" >
-                        <p>Name</p>
-                        <input type="checkbox" value="Name" id="vert_checkbox_name" onclick="updateText()">
-                        <span class="checkmark"></span>
+                        <p>Name
+                            <input type="checkbox" value="Name" id="edge_checkbox_name" onclick="updateText()">
+                            <span class="checkmark"></span>
+                        </p>
                     </label>
                 </div>
                 <div class="one_line_block">
                     <label class="container">
-                        <p>Length</p>
-                        <input type="checkbox" value="Len" id="vert_checkbox_len" onclick="updateText()">
-                        <span class="checkmark"></span>
+                        <p>Weight
+                            <input type="checkbox" value="Weight" id="edge_checkbox_weight" onclick="updateText()">
+                            <span class="checkmark"></span>
+                        </p>
                     </label>
                 </div>
                 <div class="one_line_block">
                     <label class="container">
-                        <p>Alignment</p>
-                        <input type="checkbox" value="Alignment" id="vert_checkbox_align" onclick="updateText()">
-                        <span class="checkmark"></span>
+                        <p>Alignment
+                            <input type="checkbox" value="Alignment" onclick="updateText()">
+                            <span class="checkmark"></span>
+                        </p>
                     </label>
                 </div>
-
                 <div class="one_line_block">
                     <label class="container">
-                        <p>Info</p>
-                        <input type="checkbox" value="Info" id="vert_checkbox_info" onclick="updateText()">
-                        <span class="checkmark"></span>
+                        <p>Type
+                            <input type="checkbox" value="Type" id="edge_checkbox_type" onclick="updateText()">
+                            <span class="checkmark"></span>
+                        </p>
                     </label>
                 </div>
-                <p>
-                    Minimum contig length:
-                    <input type="number" min="0" id="min_contig_len" value=500>
-                </p>
+                <div class="one_line_block">
+                    <label class="container">
+                        <p>Length
+                            <input type="checkbox" value="Len" id="edge_checkbox_len" onclick="updateText()">
+                            <span class="checkmark"></span>
+                        </p>
+                    </label>
+                </div>
+                <div class="one_line_block">
+                    <label class="container">
+                        <p>Info
+                            <input type="checkbox" value="Info" id="edge_checkbox_info" onclick="updateText()">
+                            <span class="checkmark"></span>
+                        </p>
+                    </label>
+                </div>
             </div>
         </div>
-
-        <div class="block">
-            <h2 class="section_name">
-                Edges:
-            </h2>
-
-            <div class="one_line_block">
-                <label class="container">
-                    <p>ID
-                        <input type="checkbox" value="ID" id="edge_checkbox_id" onclick="updateText()">
-                        <span class="checkmark"></span>
-                    </p>
-                </label>
-            </div>
-            <div class="one_line_block">
-                <label class="container" >
-                    <p>Name
-                        <input type="checkbox" value="Name" id="edge_checkbox_name" onclick="updateText()">
-                        <span class="checkmark"></span>
-                    </p>
-                </label>
-            </div>
-            <div class="one_line_block">
-                <label class="container">
-                    <p>Weight
-                        <input type="checkbox" value="Weight" id="edge_checkbox_weight" onclick="updateText()">
-                        <span class="checkmark"></span>
-                    </p>
-                </label>
-            </div>
-            <div class="one_line_block">
-                <label class="container">
-                    <p>Alignment
-                        <input type="checkbox" value="Alignment" onclick="updateText()">
-                        <span class="checkmark"></span>
-                    </p>
-                </label>
-            </div>
-            <div class="one_line_block">
-                <label class="container">
-                    <p>Type
-                        <input type="checkbox" value="Type" id="edge_checkbox_type" onclick="updateText()">
-                        <span class="checkmark"></span>
-                    </p>
-                </label>
-            </div>
-            <div class="one_line_block">
-                <label class="container">
-                    <p>Length
-                        <input type="checkbox" value="Len" id="edge_checkbox_len" onclick="updateText()">
-                        <span class="checkmark"></span>
-                    </p>
-                </label>
-            </div>
-            <div class="one_line_block">
-                <label class="container">
-                    <p>Info
-                        <input type="checkbox" value="Info" id="edge_checkbox_info" onclick="updateText()">
-                        <span class="checkmark"></span>
-                    </p>
-                </label>
-            </div>
-        </div>
+        <button class="button" id="filter_button">
+            <span class="button_label">DRAW</span>
+        </button>
     </div>
-    <button class="button" id="filter_button">
-        <span class="button_label">DRAW</span>
-    </button>
+    <div class="tabcontent" id="highlight_tab">
+        <div class="centerblock">
+            <div class="block_with_line">
+                <div class="block extra_info" style="height: 140px">
+                </div>
+            </div>
+
+            <div class="block_with_line">
+                <div class="block">
+                    <p>
+                        Default connection:
+                    </p>
+                    <div class="styled-select">
+                        <select id="default_connection" onchange="updateHighlight()">
+                            <option value="one_edge">one edge (->)</option>
+                            <option value="shortest_path">shortest path (-->)</option>
+                            <option value="none">none (;)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="block">
+                    <textarea rows="6" id="highlight_elements" placeholder="ID1 -> ID2..." onkeyup=updateHighlight()></textarea>
+                </div>
+            </div>
+
+            <div class="block">
+                <h2 class="section_name">
+                    Included edges types
+                </h2>
+                <table id="included_libs" cellspacing="5">
+                    <tr>
+                        <th align="left"> Source type </th>
+                        <th> Name </th>
+                        <th> Included </th>
+                    </tr>
+                </table>
+            </div>
+
+        </div>
+</div>
 </div>
 
-<div class="main_panel" id="mainpanel"></div>
+<div class="main_panel" id="mainpanel" onclick=document.activeElement.blur()></div>
 
 <div id="UpdateGraph" class="AlertBox">
     <span class="helper"></span>
     <div>
         <p>Update the graph?</p>
         <button class="updateGrpahButton" id="updateGrpahButton">Update</button>
+    </div>
+</div>
+
+<div id="AlertBoxNotAllVertexPresent" class="AlertBox">
+    <span class="helper"></span>
+    <div>
+        <p>Not all vertices are present! Would you like to redraw?</p>
+        <button class="updateGrpahButton" id="RedrawButton">Yes</button>
+        <button class="dontUpdateGrpahButton" id="DontRedrawButton">No</button>
     </div>
 </div>
 
@@ -240,7 +292,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script src="scripts/scaffoldgraph.js"></script>
 <script src="scripts/search.js"></script>
-<script src="scripts/data.js"></script>
+<!-script src="scripts/data.js"></script-!>
 <!-script src="scripts/data/genealignmentb.js"></script->
 <!-script src="scripts/data/genescaffoldgraphb.js"></script->
 <script src="scripts/chromFindVertexRank.js"></script>
@@ -257,12 +309,12 @@
 <script src="scripts/handleFullGraph.js"></script>
 <script src="scripts/handleVertexLocalArea.js"></script>
 <script src="scripts/handleEdgeLocalArea.js"></script>
+<script src="scripts/highlight.js"></script>
 <script src="scripts/Init.js"></script>
 <script src="scripts/script.js"></script>
 <script src="scripts/external/cytoscape.js"></script>
 <script src="scripts/external/dagre.js"></script>
 <script src="scripts/external/cytoscape-dagre.js"></script>
-<script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
 
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/qtip2/3.0.3/jquery.qtip.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -270,11 +322,16 @@
 <script src="scripts/external/cytoscape-qtip.js"></script>
 <script src="scripts/external/cytoscape.js-navigator/cytoscape-navigator.js"></script>
 <script src="scripts/external/FileSaver.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/svg.js/2.4.0/svg.min.js"></script>
-<script src="scripts/external/cytoscape.js-svg/cytoscape-svg-convertor.js"></script>
+
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <script src="scripts/handleAlongChromosomes.js"></script>
 <script src="scripts/handleDiffInLibs.js"></script>
 <script src="scripts/handleAmbiguous.js"></script>
+<script type="text/javascript" src="scripts/data.js"></script>
+<script src="scripts/generateDataFromJSON.js"></script>
+
 </body>
 </html>

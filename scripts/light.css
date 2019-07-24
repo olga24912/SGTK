@@ -32,7 +32,7 @@ p {
     overflow-y: scroll;
     overflow-x: hidden;
 
-    height: 92%;
+    height: calc(100% - 60px);
     padding-top: 10px;
     padding-right: 10px;
     padding-bottom: 10px;
@@ -257,7 +257,7 @@ svg {
     width: 268px;
 }
 
-textarea { width:98%; }
+textarea { width:98%;}
 
 input{ width: 30%;}
 
@@ -528,10 +528,11 @@ table tr th {
 .show {display:block;}
 
 .AlertBox {
+    margin: 10px;
     visibility: hidden;
     position: fixed;
     border-style: solid;
-    border-width: 2px;
+    border-width: 1px;
     background-color: #ddd;
 
     top: 0;
@@ -539,8 +540,8 @@ table tr th {
     transform: translate(-50%, 0);
     text-align: center;
 
-    width: 300px;
-    height: 80px;
+    width: 400px;
+    height: 100px;
 }
 
 .updateGrpahButton {
@@ -555,5 +556,64 @@ table tr th {
     bottom: 10px;
     width: 100px;
     right: 120px;
+}
+
+/* Style the tab */
+.tab {
+    overflow: hidden;
+    background-color: #F5F5F5;
+    display: flex;
+}
+
+/* Style the buttons that are used to open the tab content */
+.tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    flex: 1;
+    padding: 5px 10px;
+    transition: 0.3s;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+    background-color:  #ccc;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+    background-color: #fff;
+}
+
+.tab button.active p {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    line-height: normal;
+    font-size: 18px;
+    color: #2A4986;
+}
+
+.tab button p {
+    font-family: Roboto;
+    font-style: normal;
+    line-height: normal;
+    font-size: 18px;
+    color: #BECCE0;
+}
+
+.tab button:hover p {
+    font-family: Roboto;
+    font-style: normal;
+    line-height: normal;
+    font-size: 18px;
+    color: #2A4986;
+}
+
+/* Style the tab content */
+.tabcontent {
+    height: calc(100% - 50px);
 }
 

@@ -644,6 +644,7 @@ function ScaffoldGraph(libs, nodes, edges) {
     this.edges = edges;
 
     this.id_by_name = new Map();
+    this.scaffold_by_name = new Map();
     this.g = [];
     this.gr = [];
 
@@ -657,6 +658,12 @@ function ScaffoldGraph(libs, nodes, edges) {
     for (i = 0; i < this.edges.length; ++i) {
         this.g[this.edges[i].from].push(this.edges[i]);
         this.gr[this.edges[i].to].push(this.edges[i]);
+    }
+
+    for (i=0; i < this.libs.length; ++i) {
+        for (var j = 0; j < this.libs[i].scaffolds.length; ++j) {
+            this.scaffold_by_name.set(this.libs[i].scaffolds[j].name, this.libs[i].scaffolds[j]);
+        }
     }
 }
 
@@ -713,3 +720,8 @@ function Alignment(coord_begin, coord_end, chr_id, node_id/*, coordnb, coordne*/
     this.chr_id = chr_id;
     this.node_id = node_id;
 }
+
+var scaffoldnodes = [];
+var scaffoldedges = [];
+var chromosomes = [];
+var scaffoldlibs = [];
