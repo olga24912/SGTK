@@ -802,7 +802,7 @@ function drawAlongChromosome(chr) {
             .selector('.fake')
             .css({
                 'overlay-color': "#FF3503",
-                'overlay-opacity': "1"
+                'overlay-opacity': "0.5"
             })
     });
 

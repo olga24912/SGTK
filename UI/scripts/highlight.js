@@ -88,10 +88,12 @@ function addPathConnection(connectionList, from, to) {
 }
 
 function getTokens(text_elements) {
-    text_elements = text_elements.replace(/;/g, ' $1 ').trim();
+    text_elements = text_elements.replace(/(;)/g, ' $1 ').trim();
     text_elements = text_elements.replace(/([^-])(-)(>)/g, '$1 $2$3 ').trim();
     text_elements = text_elements.replace(/(-)(-)(>)/g, ' $1$2$3 ').trim();
-    return text_elements.split(/[\s\n\t,]+/);
+    text_elements = text_elements.replace(/(\n)/g, ' $1 ').trim();
+    text_elements = text_elements.replace(/(,)/g, ' $1 ').trim();
+    return text_elements.split(/[\s\t]+/);
 }
 
 function parseTextWithElements(text_elements) {
@@ -354,6 +356,9 @@ function updateHighlight(with_update=false) {
                     faveColor: "#000",
                     weight: 1,
                     special: 0,
+                    curveStyle: "bezier",
+                    controlPointDistances: 1,
+                    scala: getScala(cy),
                     lstyle: 'solid'}
             });
         }
@@ -418,7 +423,7 @@ function highlightAutocompleteSetUp() {
     }
 
     function isNewToken(reqStr, tokens) {
-        return tokens.length == 0 || (" \n\t,->".indexOf(reqStr[reqStr.length - 1]) >= 0);
+        return tokens.length == 0 || (" \n\t,->;".indexOf(reqStr[reqStr.length - 1]) >= 0);
     }
 
     $("#highlight_elements").autocomplete({
@@ -431,6 +436,8 @@ function highlightAutocompleteSetUp() {
             var lastToken = "";
             if (!isNewToken(reqStr, tokens)) {
                 lastToken = tokens[tokens.length - 1];
+            } else {
+                return;
             }
             var res = getPathNamesList().concat(getVertexNameList());
 
@@ -454,7 +461,10 @@ function highlightAutocompleteSetUp() {
                 tokens.pop();
             }
             tokens.push(ui.item.value);
+            console.log(tokens);
             this.value = tokens.join(" ");
+            this.value = this.value.replace(/ ;/g, ';').trim();
+            this.value = this.value.replace(/ ,/g, ',').trim();
             return false;
         },
         focus: function (event, ui) {
