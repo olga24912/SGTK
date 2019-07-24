@@ -204,6 +204,7 @@ function findNodeAroundChr(inode, area_size, min_contig_len, isGoodEdge, curNode
     var sumw = {};
     var rank = {};
     var distFromChrm = {};
+    var smallEdgeList = [];
 
     var used_id = new Set();
     var que = [];

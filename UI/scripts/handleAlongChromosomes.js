@@ -554,11 +554,39 @@ function isAlign(u) {
 }
 
 
+function addSmallEdges(cy, inode) {
+    for (var g = 0; g < inode.length; ++g) {
+        var uid = inode[g].id;
+        for (var j = 0; j < scaffoldgraph.g[uid].length; ++j) {
+            var cur_edge = scaffoldgraph.g[uid][j];
+            if (isGoodEdge(cur_edge.id) && isAlign(cur_edge.to) && !contigHasEdgesInThisScala(cy, uid) &&
+                !contigHasEdgesInThisScala(cy, cur_edge.to)) {
+                cy.add({
+                    group: "edges",
+                    data: {
+                        id: "e" + cur_edge.id.toString(),
+                        source: cur_edge.from,
+                        target: cur_edge.to,
+                        label: createLabelForEdge(cur_edge.id),
+                        faveColor: scaffoldgraph.libs[cur_edge.lib].color,
+                        weight: 1,
+                        curveStyle: "unbundled-bezier",
+                        controlPointDistances: 50,
+                        scala: 1
+                    }
+                });
+            }
+
+        }
+    }
+}
+
 //Add edges to cytoscape
-function addEdges(cy) {
+function addEdges(cy, inode) {
     var deepsPOS = [];
     var toSmallCoord = {};
     calculateDinamicForDistPoint(cy, deepsPOS, toSmallCoord);
+    addSmallEdges(cy, inode);
 
     for (var g = 0; g < edges_to_draw.length; ++g) {
         if (!(isAlign(scaffoldgraph.edges[edges_to_draw[g]].from)) ||
@@ -621,7 +649,7 @@ function createGraph(chr, cy, curNodeSet, posx, posmin, posmax, oldPosition, ope
     var vert_to_draw = findNodeAroundChr(inode, area_size, min_contig_len, isGoodEdge, curNodeSet, openNode, cy);
     addOtherNodes(cy, curNodeSet, vert_to_draw, oldPosition);
 
-    addEdges(cy);
+    addEdges(cy, inode);
 
     createInformationShown(cy);
     createCoordinates(chr, cy);
@@ -655,8 +683,10 @@ function updateGraph(chr, cy, levelX) {
     });
 
     cy.edges().forEach(function (edge) {
-        edge.data('weight', getEdgeWeight(cy, parseInt(edge.id().substr(1))));
-        edge.data('scala', getScala(cy));
+        if (contigHasEdgesInThisScala(cy, edge.data("source")) && contigHasEdgesInThisScala(cy, edge.data("target"))) {
+            edge.data('weight', getEdgeWeight(cy, parseInt(edge.id().substr(1))));
+            edge.data('scala', getScala(cy));
+        }
     });
 
     graphUpdating = false;
