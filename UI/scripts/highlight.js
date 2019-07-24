@@ -356,8 +356,8 @@ function updateHighlight(with_update=false) {
                     faveColor: "#000",
                     weight: 1,
                     special: 0,
-                    curveStyle: "bezier",
-                    controlPointDistances: 1,
+                    curveStyle: "unbundled-bezier",
+                    controlPointDistances: 100,
                     scala: getScala(cy),
                     lstyle: 'solid'}
             });
