@@ -247,7 +247,12 @@ function nodePositionChange(cy, posmin, posmax) {
 
 //open vertex
 function createNewVerAlongChr(cy, area_size, min_contig_len, isGoodEdge, curNodeSet, openNode) {
-    cy.on('taphold', 'node', function (evt) {
+    cy.on('tap', 'node', function (evt) {
+        if (cy.ignoreTap) {
+            delete cy.ignoreTap;
+            return
+        }
+
         var newNode = new Set();
         var v = evt.target.id();
         openNode.add(v);

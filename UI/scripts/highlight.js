@@ -296,7 +296,7 @@ function add_miss_vertex(connectionList) {
 }
 
 function check_miss_vertex(connectionList) {
-    if (allVertexInCy(connectionList) === false) {
+    if (allVertexInCy(connectionList) === false && (document.getElementById("select_layout").value === "free_layout")) {
         document.getElementById("AlertBoxNotAllVertexPresent").style.visibility = "visible";
     } else {
         document.getElementById("AlertBoxNotAllVertexPresent").style.visibility = "hidden";
@@ -474,11 +474,7 @@ function highlightAutocompleteSetUp() {
 }
 
 function highlightOnTap(cy) {
-    cy.on('tap', 'node', function (evt) {
-        if (cy.ignoreTap) {
-            delete cy.ignoreTap;
-            return
-        }
+    cy.on('taphold', 'node', function (evt) {
         var v = evt.target.id();
         var highlight_text = document.getElementById('highlight_elements');
         highlight_text.value += " " + v;

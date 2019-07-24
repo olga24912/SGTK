@@ -14,7 +14,12 @@ function getYforNewVert(v, u, evt, isGoodEdge) {
 }
 
 function createAddNewNode(cy, curNodeSet) {
-    cy.on('taphold', 'node', function (evt) {
+    cy.on('tap', 'node', function (evt) {
+        if (cy.ignoreTap) {
+            delete cy.ignoreTap;
+            return
+        }
+
         var v = evt.target.id();
         var needAddVert = [];
         var needAddEdge = [];
