@@ -470,7 +470,59 @@ Using controls displayed below you can set which properties will be shown near v
 
 You can set up threshold for visualizing nodes. Note, that when visualizing nodes along scaffolds contigs shorter than the threshold still will be displayed.
 
+## Path highlight
+![Default node](https://raw.githubusercontent.com/olga24912/SGTK/master/resources/pic/Highlight.png)
 
+You can highlight vertex, edges, pathes and scaffolds.
+Open highlight pan for doing that.
+
+### Highlighted path description
+
+#### Path description
+
+![Default node](https://raw.githubusercontent.com/olga24912/SGTK/master/resources/pic/HighlightPathDescription.png)
+
+You can write highlight description to that window.
+
+There are following types of description:
+* `scaffold_name`  - scaffold name for highlight all vertex and connections corresponding to that scaffold.
+* `a` - contig name or contig id to highlight vertex.
+* `a --> b` - will be find and highlight the shortest path between vertices.
+* `a -> b` - highlight contigs a and b and connections between them.
+* `a; b` - highlight a and b indipendatly.
+* `a -eid> b` - highlight contigs a, b and edge with eid if it connected this two vertices.
+* `a b`   in this case will be used default connection between contigs a and b.
+
+a and b are contigs name or id.
+
+#### Tapholding
+
+You can add vertex to the end of highlighting list by tapholding the vertex.
+
+#### Default connection
+![Default node](https://raw.githubusercontent.com/olga24912/SGTK/master/resources/pic/HighlightDefaultConnetction.png)
+
+You can choose which connection will be use by default: path, edge or none.
+
+### Fake edges
+
+![Default node](https://raw.githubusercontent.com/olga24912/SGTK/master/resources/pic/HighlightFakeEdge.png)
+
+In case of edge or path absent fake connection between
+two vertices will be red highlighting.
+
+### Path extension
+![Default node](https://raw.githubusercontent.com/olga24912/SGTK/master/resources/pic/HighlightPathExtansionQuestion.png)
+![Default node](https://raw.githubusercontent.com/olga24912/SGTK/master/resources/pic/HighlightPathExtantion.png)
+
+If the path not completely present on screen
+you will be asked about showing absent vertices.
+### Included sources
+![Default node](https://raw.githubusercontent.com/olga24912/SGTK/master/resources/pic/HighlightSourcesEx0.png)
+![Default node](https://raw.githubusercontent.com/olga24912/SGTK/master/resources/pic/HighlightSourcesEx1.png)
+![Default node](https://raw.githubusercontent.com/olga24912/SGTK/master/resources/pic/HighlightSourcesEx2.png)
+
+You can choose which sources to take into account in path highlighting.
 
 ## Understanding visualization
 
@@ -604,9 +656,10 @@ Genes predicted for the given set of contigs (optional). We recommend to build t
 
 
 <a name="sec6"></a>
-# 6. References
+# 6. Citation
+If you use SGTK in your research, please cite the following publication:
 
-SGTK: a toolkit for visualization and assessment of scaffold graphs, Olga Kunyavskaya and Andrey D. Prjibelski. Submitted.
+[Olga Kunyavskaya, Andrey D Prjibelski (2019). SGTK: a toolkit for visualization and assessment of scaffold graphs. Bioinformatics, 35(13), 2303–2305.](https://doi.org/10.1093/bioinformatics/bty956)
 
 <a name="sec7"></a>
 # 7. Feedback and bug reports
