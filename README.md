@@ -512,14 +512,17 @@ In case of edge or path absent fake connection between
 two vertices will be red highlighting.
 
 ### Path extension
-![Default node](https://raw.githubusercontent.com/olga24912/SGTK/master/resources/pic/HighlightPathExtansionQuestion.png)
-![Default node](https://raw.githubusercontent.com/olga24912/SGTK/master/resources/pic/HighlightPathExtantion.png)
+![Default node](https://raw.githubusercontent.com/olga24912/SGTK/master/resources/pic/HighlightPathExtensionQuestion.png)
+
+![Default node](https://raw.githubusercontent.com/olga24912/SGTK/master/resources/pic/HighlightPathExtension.png)
 
 If the path not completely present on screen
 you will be asked about showing absent vertices.
 ### Included sources
 ![Default node](https://raw.githubusercontent.com/olga24912/SGTK/master/resources/pic/HighlightSourcesEx0.png)
+
 ![Default node](https://raw.githubusercontent.com/olga24912/SGTK/master/resources/pic/HighlightSourcesEx1.png)
+
 ![Default node](https://raw.githubusercontent.com/olga24912/SGTK/master/resources/pic/HighlightSourcesEx2.png)
 
 You can choose which sources to take into account in path highlighting.
