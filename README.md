@@ -484,16 +484,16 @@ You can set up threshold for visualizing nodes. Note, that when visualizing node
 
 <a name="sec4.5"></a>
 ## 4.5. Highlighting paths
-![Default node](https://raw.githubusercontent.com/olga24912/SGTK/master/resources/pic/Highlight.png)
 
 To ease the analysis, you can also highlight vertices, edges, paths and entire scaffolds.
 To use this functionality, switch to highlight tab (top left).
 
+![Default node](https://raw.githubusercontent.com/olga24912/SGTK/master/resources/pic/Highlight.png)
+
+
 ### Highlighted path description
 
 #### Path description
-
-![Default node](https://raw.githubusercontent.com/olga24912/SGTK/master/resources/pic/HighlightPathDescription.png)
 
 To highlight a set of edges or vertices, one needs to specify them in the text box using simple description script.
 
@@ -507,6 +507,8 @@ There are following types of highlight description are currently supported:
 * `a b`   in this case the default connection type between vertices a and b will be used (see below).
 
 Each vertex is specified by corresponding contig name or id.
+
+![Default node](https://raw.githubusercontent.com/olga24912/SGTK/master/resources/pic/HighlightPathDescription.png)
 
 #### Default connection
 
