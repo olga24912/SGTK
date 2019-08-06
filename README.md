@@ -523,7 +523,7 @@ To extend currently highlighted path, you can hold your left mouse button while 
 
 
 ### Extending displayed component
-If a path or a set of vertices/edges chosen to be highlighted is not entirely displayed in the current view, you will be prompted to about extending the view and showing absent vertices.
+If a path or a set of vertices/edges chosen to be highlighted is not entirely displayed in the current view, you will be prompted about extending the view and showing absent vertices.
 
 ![Default node](https://raw.githubusercontent.com/olga24912/SGTK/master/resources/pic/HighlightPathExtensionQuestion.png)
 
@@ -543,7 +543,7 @@ You can also choose which connection types will be highlighted.
 
 ### Missing edges
 
-If a user asks to highlight a vertex between two vertices that are not connected, a fake edge will be drawn between them and highlighted with red color (instead of typical blue highlight).
+If a user asks to highlight an edge between two vertices that are not connected, a fake edge will be drawn between them and highlighted with red color (instead of typical blue highlight).
 Such option can be useful, for example, when comparing scaffolds obtained with different methods.
 
 ![Default node](https://raw.githubusercontent.com/olga24912/SGTK/master/resources/pic/HighlightFakeEdge.png)
