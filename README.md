@@ -7,6 +7,13 @@
 3.3. <a href="#sec3.3">Output</a><br>
 3.4. <a href="#sec3.4">Example dataset</a><br>
 4. <a href="#sec4">Visualization</a><br>
+4.1. <a href="#sec4.1">Getting started</a><br>
+4.2. <a href="#sec4.2">Genome browser layout</a><br>
+4.3. <a href="#sec4.3">Free layout mode</a><br>
+4.4. <a href="#sec4.4">Customizing visualization</a><br>
+4.5. <a href="#sec4.5">Highlighting paths</a><br>
+4.6. <a href="#sec4.6">Understanding visualization</a><br>
+4.7. <a href="#sec4.7">Navigation</a><br>
 5. <a href="#sec5">RNA-Seq scaffolder</a><br>
 6. <a href="#sec6">References</a><br>
 7. <a href="#sec7">Feedback and bug reports</a><br>
@@ -141,7 +148,7 @@ Note that we assume that SGTK installation directory is added to the `PATH` vari
 
 
 <a name="sec3.1"></a>
-## Command line options
+## 3.1. Command line options
 All input options are capable of taking only a single or a pair of files if specified. To provide multiple files use the same option again (e.g. `-c contigs1.fa -c contigs2.fa`). See more in the examples.
 
 `-h` (or `--help`)
@@ -286,7 +293,7 @@ For example:
     e 1 3 1 0 32.5 200
 
 <a name="sec3.2"></a>
-## Command line examples
+## 3.2. Command line examples
 
 Let's say our dataset consists of:
 - A set of contigs (`contigs.fa`)
@@ -309,7 +316,7 @@ Then the command line for launching SGTK would look like:
     -o output_dir
 
 <a name="sec3.3"></a>
-## Output
+## 3.3. Output
 
 SGTK stores all output files in `<output_dir> `, which is set by the user.
 
@@ -319,7 +326,7 @@ SGTK stores all output files in `<output_dir> `, which is set by the user.
 Open `main.html` in any browser to see visualisation. Chrome is preferred. 
 
 <a name="sec3.4"></a>
-## Example dataset
+## 3.4. Example dataset
 
 SGTK comes with toy dataset, on which you can test your installation:
 
@@ -358,7 +365,10 @@ This example is constructed from E.coli paired-end reads and pacbio reads. Conti
 
 <a name="sec4"></a>
 # 4. Visualization
-## Getting started
+
+<a name="sec4.1"></a>
+## 4.1. Getting started
+
 After the graph is constructed and the web page is generated, you can open `main.html` in a web browser (we recommended to use Chrome, however it also was tested in FireFox, Opera and Safari). 
 
 ![First step](https://raw.githubusercontent.com/olga24912/SGTK/master/resources/pic/firstStep.png)
@@ -369,14 +379,15 @@ SGTK has two layout  modes: (i) free layout and (ii) genome browser. Free layout
 
 ![Layout](https://raw.githubusercontent.com/olga24912/SGTK/master/resources/pic/layout.png)
 
-## Genome browser layout
+<a name="sec4.2"></a>
+## 4.2. Genome browser layout
 
 In the genome browser mode, vertices of the scaffold graph are displayed as rectangles placed along the reference, lengths of which are proportional to the contigs sizes. Short nodes with adjacent edges are hidden and rendered only when zoomed in.
 
 ![Genome browser layout](https://raw.githubusercontent.com/olga24912/SGTK/master/resources/pic/genomeBrowserLayout.png)
 
-
-## Free layout mode
+<a name="sec4.3"></a>
+## 4.3. Free layout mode
 
 In case of free layout you can choose one of several filtration options. Once new visualization parameters are set, click the `DRAW` button and choose the component.
 
@@ -434,7 +445,8 @@ Visualizes the local area of the specified size for vertices that have more than
 
 
 
-## Customizing visualization
+<a name="sec4.4"></a>
+## 4.4. Customizing visualization
 
 ### Connection sources
 
@@ -470,64 +482,76 @@ Using controls displayed below you can set which properties will be shown near v
 
 You can set up threshold for visualizing nodes. Note, that when visualizing nodes along scaffolds contigs shorter than the threshold still will be displayed.
 
-## Path highlight
+<a name="sec4.5"></a>
+## 4.5. Highlighting paths
+
+To ease the analysis, you can also highlight vertices, edges, paths and entire scaffolds.
+To use this functionality, switch to highlight tab (top left).
+
 ![Default node](https://raw.githubusercontent.com/olga24912/SGTK/master/resources/pic/Highlight.png)
 
-You can highlight vertex, edges, pathes and scaffolds.
-Open highlight pan for doing that.
 
 ### Highlighted path description
 
 #### Path description
 
+To highlight a set of edges or vertices, one needs to specify them in the text box using simple description script.
+
+There are following types of highlight description are currently supported:
+* `scaffold_name`  - scaffold name to highlight; will highlight all vertices and connections corresponding to this scaffold.
+* `a` - contig name or contig id to highlight the corresponding vertex.
+* `a --> b` - will find and highlight the shortest path between vertices a and b.
+* `a -> b` - highlight vertices a and b and all connections between them.
+* `a; b` - highlight vertices a and b without highlighting any connections between them.
+* `a -eid> b` - highlight vertices a and b, as well as edge eid if it connects these two vertices.
+* `a b`   in this case the default connection type between vertices a and b will be used (see below).
+
+Each vertex is specified by corresponding contig name or id.
+
 ![Default node](https://raw.githubusercontent.com/olga24912/SGTK/master/resources/pic/HighlightPathDescription.png)
 
-You can write highlight description to that window.
-
-There are following types of description:
-* `scaffold_name`  - scaffold name for highlight all vertex and connections corresponding to that scaffold.
-* `a` - contig name or contig id to highlight vertex.
-* `a --> b` - will be find and highlight the shortest path between vertices.
-* `a -> b` - highlight contigs a and b and connections between them.
-* `a; b` - highlight a and b indipendatly.
-* `a -eid> b` - highlight contigs a, b and edge with eid if it connected this two vertices.
-* `a b`   in this case will be used default connection between contigs a and b.
-
-a and b are contigs name or id.
-
-#### Tapholding
-
-You can add vertex to the end of highlighting list by tapholding the vertex.
-
 #### Default connection
+
+To choose the default connection type use the appropriate drop-down menu. Available types are: path, edge or none.
+
 ![Default node](https://raw.githubusercontent.com/olga24912/SGTK/master/resources/pic/HighlightDefaultConnetction.png)
 
-You can choose which connection will be use by default: path, edge or none.
 
-### Fake edges
+#### Extending highlighted paths
 
-![Default node](https://raw.githubusercontent.com/olga24912/SGTK/master/resources/pic/HighlightFakeEdge.png)
+To extend currently highlighted path, you can hold your left mouse button while pointing on the vertex of interest.
 
-In case of edge or path absent fake connection between
-two vertices will be red highlighting.
 
-### Path extension
+### Extending displayed component
+If a path or a set of vertices/edges chosen to be highlighted is not entirely displayed in the current view, you will be prompted about extending the view and showing absent vertices.
+
 ![Default node](https://raw.githubusercontent.com/olga24912/SGTK/master/resources/pic/HighlightPathExtensionQuestion.png)
 
 ![Default node](https://raw.githubusercontent.com/olga24912/SGTK/master/resources/pic/HighlightPathExtension.png)
 
-If the path not completely present on screen
-you will be asked about showing absent vertices.
-### Included sources
+
+### Included connection sources
+
+You can also choose which connection types will be highlighted.
+
 ![Default node](https://raw.githubusercontent.com/olga24912/SGTK/master/resources/pic/HighlightSourcesEx0.png)
 
 ![Default node](https://raw.githubusercontent.com/olga24912/SGTK/master/resources/pic/HighlightSourcesEx1.png)
 
 ![Default node](https://raw.githubusercontent.com/olga24912/SGTK/master/resources/pic/HighlightSourcesEx2.png)
 
-You can choose which sources to take into account in path highlighting.
 
-## Understanding visualization
+### Missing edges
+
+If a user asks to highlight an edge between two vertices that are not connected, a fake edge will be drawn between them and highlighted with red color (instead of typical blue highlight).
+Such option can be useful, for example, when comparing scaffolds obtained with different methods.
+
+![Default node](https://raw.githubusercontent.com/olga24912/SGTK/master/resources/pic/HighlightFakeEdge.png)
+
+
+
+<a name="sec4.6"></a>
+## 4.6. Understanding visualization
 
 Below we provide brief information on how interprete SGTK visualization.
 
@@ -591,7 +615,8 @@ When the courson is pointed over a graph element, information about this node or
 
 
 
-## Navigation
+<a name="sec4.7"></a>
+## 4.7. Navigation
 
 ### View navigator
 
