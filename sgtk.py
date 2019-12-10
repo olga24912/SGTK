@@ -663,7 +663,7 @@ def save_scaffolds_from_fasta(contig_file_name, lib):
         lst = 0
         for i in range(1, len(contigsAlignment[rc])):
             if (contigsAlignment[rc][i][0] >= contigsAlignment[rc][lst][1] - 100):
-                output_json['libs'][-1]['scaffolds'][-1]['edges'].append({})
+
                 output_json['libs'][-1]['scaffolds'][-1]['edges'].append({'id': cntedge, 'from': contigsAlignment[rc][lst][2],
                                                                           'to': contigsAlignment[rc][i][2], 'weight': 1,
                                                                           'len': contigsAlignment[rc][i][0] - contigsAlignment[rc][lst][1]})
