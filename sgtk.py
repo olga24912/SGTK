@@ -832,7 +832,7 @@ def add_refcoord_to_res_file():
     curid = 0
 
     for fasta in fasta_seq:
-        name, lenn = fasta.id, len(fasta.seq.tostring())
+        name, lenn = fasta.id, len(str(fasta.seq))
         chrid[name] = curid
         chrid[name + "-rev"] = curid + 1
         chrlen.append(lenn)
