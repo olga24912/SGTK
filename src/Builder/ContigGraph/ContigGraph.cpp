@@ -120,7 +120,7 @@ namespace builder {
                 }
             }
 
-            edges.resize(swp);
+            edges.resize(swp + 1);
         }
 
         void ContigGraph::write(std::string fileName) {
