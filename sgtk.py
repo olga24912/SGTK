@@ -164,7 +164,7 @@ def parse_args():
     parser.add_argument("--label", "-l", nargs='*', help="list with labels for all sorces in the corresponding order", type=str, action='store')
     parser.add_argument("--color", nargs='*', help="list with colors for all  sorces in the corresponding order", type=str, action='store')
 
-    parser.add_argument("--max-output-edges", nargs=1, default=500000, dest="max_output_edges", help="maximum number of edges in output graph (default=500000)", type=int, action='store')
+    parser.add_argument("--max-output-edges", default=500000, dest="max_output_edges", help="maximum number of edges in output graph (default=500000)", type=str, action='store')
     args = parser.parse_args()
     return args
 
@@ -490,7 +490,7 @@ def gen_id_from_contig_file(contig_file_name):
     id = 0
     output_json['nodes'] = []
     for fasta in fasta_seq:
-        name, lenn = fasta.id, len(fasta.seq.tostring())
+        name, lenn = fasta.id, len(str(fasta.seq))
         idbyname[name] = id
         idbyname[name + "-rev"] = id + 1
         lenbyid.append(lenn)

@@ -91,7 +91,7 @@ namespace builder {
         }
 
 
-        void ContigGraph::filterGraph(int max_output_edges=500000) {
+        void ContigGraph::filterGraph(int max_output_edges) {
             WARN("GRAPH is too big... Small edges deletion.");
             int cntEdges[501];
             for (int i = 0; i < 501; ++i) {
@@ -123,7 +123,7 @@ namespace builder {
             edges.resize(swp + 1);
         }
 
-        void ContigGraph::write(std::string fileName, int max_output_edges=500000) {
+        void ContigGraph::write(std::string fileName, int max_output_edges) {
             INFO("start write graph to " << fileName);
             std::ofstream out(fileName);
             DEBUG("libs num=" << libs.size() << " vertex num=" << graph.size() << " edegs num=" << edges.size());
