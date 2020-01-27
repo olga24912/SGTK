@@ -163,6 +163,8 @@ def parse_args():
 
     parser.add_argument("--label", "-l", nargs='*', help="list with labels for all sorces in the corresponding order", type=str, action='store')
     parser.add_argument("--color", nargs='*', help="list with colors for all  sorces in the corresponding order", type=str, action='store')
+
+    parser.add_argument("--max-output-edges", nargs=1, default=500000, dest="max_output_edges", help="maximum number of edges in output graph (default=500000)", type=int, action='store')
     args = parser.parse_args()
     return args
 
@@ -302,34 +304,34 @@ def alig_reads(contig_file_name, args):
 
     return
 
-def runGraphBuilder(lib_name, prevdir, type, label):
+def runGraphBuilder(lib_name, prevdir, type, label, max_output_edges):
     log.log("START BUILD GRAPH: " + lib_name)
     lib_dir = os.path.dirname(os.path.abspath(lib_name) + "/")
     os.chdir(lib_dir)
-    os.system(path_to_exec_dir + "buildApp " + type + " rna1.sam rna2.sam " + label)
+    os.system(path_to_exec_dir + "buildApp " + type + " rna1.sam rna2.sam " + label + " " + max_output_edges)
     os.chdir(prevdir)
     return
 
 def build_graph(contig_file_name, args):
     for lib in args.libs["rnap"]:
         prevdir = os.getcwd()
-        runGraphBuilder(lib.name, prevdir, "RNA_PAIR", lib.label)
-        runGraphBuilder(lib.name + "_50_1", prevdir, "RNA_SPLIT_50", lib.label)
-        runGraphBuilder(lib.name + "_50_2", prevdir, "RNA_SPLIT_50", lib.label)
-        runGraphBuilder(lib.name + "_30_1", prevdir, "RNA_SPLIT_30", lib.label)
-        runGraphBuilder(lib.name + "_30_2", prevdir, "RNA_SPLIT_30", lib.label)
+        runGraphBuilder(lib.name, prevdir, "RNA_PAIR", lib.label, args.max_output_edges)
+        runGraphBuilder(lib.name + "_50_1", prevdir, "RNA_SPLIT_50", lib.label, args.max_output_edges)
+        runGraphBuilder(lib.name + "_50_2", prevdir, "RNA_SPLIT_50", lib.label, args.max_output_edges)
+        runGraphBuilder(lib.name + "_30_1", prevdir, "RNA_SPLIT_30", lib.label, args.max_output_edges)
+        runGraphBuilder(lib.name + "_30_2", prevdir, "RNA_SPLIT_30", lib.label, args.max_output_edges)
 
     for lib in args.libs["rnas"]:
         prevdir = os.getcwd()
-        runGraphBuilder(lib.name + "_50", prevdir, "RNA_SPLIT_50", lib.label)
-        runGraphBuilder(lib.name + "_30", prevdir, "RNA_SPLIT_30", lib.label)
+        runGraphBuilder(lib.name + "_50", prevdir, "RNA_SPLIT_50", lib.label, args.max_output_edges)
+        runGraphBuilder(lib.name + "_30", prevdir, "RNA_SPLIT_30", lib.label, args.max_output_edges)
 
     for lib in args.libs["fr"]:
         prevdir = os.getcwd()
         log.log("START BUILD GRAPH: " + lib.label)
         lib_dir = os.path.dirname(os.path.abspath(lib.name) + "/")
         os.chdir(lib_dir)
-        os.system(path_to_exec_dir + "buildApp DNA_PAIR_FR dna1.sam dna2.sam " + lib.label)
+        os.system(path_to_exec_dir + "buildApp DNA_PAIR_FR dna1.sam dna2.sam " + lib.label + " " + args.max_output_edges)
         os.chdir(prevdir)
 
     for lib in args.libs["rf"]:
@@ -337,7 +339,7 @@ def build_graph(contig_file_name, args):
         log.log("START BUILD GRAPH: " + lib.label)
         lib_dir = os.path.dirname(os.path.abspath(lib.name) + "/")
         os.chdir(lib_dir)
-        os.system(path_to_exec_dir + "buildApp DNA_PAIR_RF dna1.sam dna2.sam " + lib.label)
+        os.system(path_to_exec_dir + "buildApp DNA_PAIR_RF dna1.sam dna2.sam " + lib.label + " " + args.max_output_edges)
         os.chdir(prevdir)
 
     for lib in args.libs["ff"]:
@@ -345,7 +347,7 @@ def build_graph(contig_file_name, args):
         log.log("START BUILD GRAPH: " + lib.label)
         lib_dir = os.path.dirname(os.path.abspath(lib.name) + "/")
         os.chdir(lib_dir)
-        os.system(path_to_exec_dir + "buildApp DNA_PAIR_FF dna1.sam dna2.sam " + lib.label)
+        os.system(path_to_exec_dir + "buildApp DNA_PAIR_FF dna1.sam dna2.sam " + lib.label + " " + args.max_output_edges)
         os.chdir(prevdir)
 
 
@@ -354,7 +356,7 @@ def build_graph(contig_file_name, args):
         log.log("START BUILD GRAPH: " + lib.label)
         lib_dir = os.path.dirname(os.path.abspath(lib.name) + "/")
         os.chdir(lib_dir)
-        os.system(path_to_exec_dir + "buildApp DNA_PAIR_FR " + lib.path[0] + " " + lib.path[1]  + " " + lib.label)
+        os.system(path_to_exec_dir + "buildApp DNA_PAIR_FR " + lib.path[0] + " " + lib.path[1]  + " " + lib.label + " " + args.max_output_edges)
         os.chdir(prevdir)
 
     for lib in args.libs["rfsam"]:
@@ -362,7 +364,7 @@ def build_graph(contig_file_name, args):
         log.log("START BUILD GRAPH: " + lib.label)
         lib_dir = os.path.dirname(os.path.abspath(lib.name) + "/")
         os.chdir(lib_dir)
-        os.system(path_to_exec_dir + "buildApp DNA_PAIR_RF " + lib.path[0] + " " + lib.path[1]  + " " + lib.label)
+        os.system(path_to_exec_dir + "buildApp DNA_PAIR_RF " + lib.path[0] + " " + lib.path[1]  + " " + lib.label + " " + args.max_output_edges)
         os.chdir(prevdir)
 
     for lib in args.libs["ffsam"]:
@@ -370,7 +372,7 @@ def build_graph(contig_file_name, args):
         log.log("START BUILD GRAPH: " + lib.label)
         lib_dir = os.path.dirname(os.path.abspath(lib.name) + "/")
         os.chdir(lib_dir)
-        os.system(path_to_exec_dir + "buildApp DNA_PAIR_FF " + lib.path[0] + " " + lib.path[1]  + " " + lib.label)
+        os.system(path_to_exec_dir + "buildApp DNA_PAIR_FF " + lib.path[0] + " " + lib.path[1]  + " " + lib.label + " " + args.max_output_edges)
         os.chdir(prevdir)
 
 
@@ -379,7 +381,7 @@ def build_graph(contig_file_name, args):
         log.log("START BUILD GRAPH: " + lib.label)
         lib_dir = os.path.dirname(os.path.abspath(lib.name) + "/")
         os.chdir(lib_dir)
-        os.system(path_to_exec_dir + "buildApp LONG out.paf " + contig_file_name + " " + lib.label)
+        os.system(path_to_exec_dir + "buildApp LONG out.paf " + contig_file_name + " " + lib.label + " " + args.max_output_edges)
         os.chdir(prevdir)
 
     for lib in args.libs["scg"]:
@@ -387,7 +389,7 @@ def build_graph(contig_file_name, args):
         log.log("START BUILD GRAPH: " + lib.label)
         lib_dir = os.path.dirname(os.path.abspath(lib.name) + "/")
         os.chdir(lib_dir)
-        os.system(path_to_exec_dir + "buildApp CONNECTION " + lib.path[0] + " " + contig_file_name + " " + lib.label)
+        os.system(path_to_exec_dir + "buildApp CONNECTION " + lib.path[0] + " " + contig_file_name + " " + lib.label + " " + args.max_output_edges)
         os.chdir(prevdir)
 
     for lib in args.libs["fastg"]:
@@ -395,7 +397,7 @@ def build_graph(contig_file_name, args):
         log.log("START BUILD GRAPH: " + lib.label)
         lib_dir = os.path.dirname(os.path.abspath(lib.name) + "/")
         os.chdir(lib_dir)
-        os.system(path_to_exec_dir + "buildApp FASTG " + lib.path[0] + " " + contig_file_name + " " + lib.label)
+        os.system(path_to_exec_dir + "buildApp FASTG " + lib.path[0] + " " + contig_file_name + " " + lib.label + " " + args.max_output_edges)
         os.chdir(prevdir)
 
     for lib in args.libs["gfa"]:
@@ -403,7 +405,7 @@ def build_graph(contig_file_name, args):
         log.log("START BUILD GRAPH: " + lib.label)
         lib_dir = os.path.dirname(os.path.abspath(lib.name) + "/")
         os.chdir(lib_dir)
-        os.system(path_to_exec_dir + "buildApp GFA " + lib.path[0] + " " + lib.label)
+        os.system(path_to_exec_dir + "buildApp GFA " + lib.path[0] + " " + lib.label + " " + args.max_output_edges)
         os.chdir(prevdir)
 
     for lib in args.libs["gfa2"]:
@@ -411,7 +413,7 @@ def build_graph(contig_file_name, args):
         log.log("START BUILD GRAPH: " + lib.label)
         lib_dir = os.path.dirname(os.path.abspath(lib.name) + "/")
         os.chdir(lib_dir)
-        os.system(path_to_exec_dir + "buildApp GFA2 " + lib.path[0] + " " + contig_file_name + " "+ lib.label)
+        os.system(path_to_exec_dir + "buildApp GFA2 " + lib.path[0] + " " + contig_file_name + " "+ lib.label + " " + args.max_output_edges)
         os.chdir(prevdir)
         
     return

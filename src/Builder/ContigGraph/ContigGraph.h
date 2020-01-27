@@ -14,7 +14,6 @@ namespace builder {
     namespace contig_graph {
         class ContigGraph {
         public:
-            const int MAX_EDGES_CNT=5*1e5;
             struct Edge {
                 //Edge ID
                 int id;
@@ -118,7 +117,7 @@ namespace builder {
             std::vector<Lib> libs;
             std::vector<Edge> edges;
 
-            void filterGraph();
+            void filterGraph(int max_output_edges=500000);
         public:
             //next edge library
             void newLib(std::string name, std::string color, Lib::Type type);
@@ -169,7 +168,7 @@ namespace builder {
             void incEdge(int e, std::pair<int, int> c1, std::pair<int, int> c2);
 
             //serialize this graph in .gr format in "fileName" file
-            void write(std::string fileName);
+            void write(std::string fileName, int max_output_edges=500000);
 
             //generate ContigGraph from .gr format file
             static ContigGraph read(std::string fileName);
