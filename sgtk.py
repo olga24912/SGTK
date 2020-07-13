@@ -331,7 +331,7 @@ def build_graph(contig_file_name, args):
         log.log("START BUILD GRAPH: " + lib.label)
         lib_dir = os.path.dirname(os.path.abspath(lib.name) + "/")
         os.chdir(lib_dir)
-        os.system(path_to_exec_dir + "buildApp DNA_PAIR_FR dna1.sam dna2.sam " + lib.label + " " + args.max_output_edges)
+        os.system(path_to_exec_dir + "buildApp DNA_PAIR_FR dna1.sam dna2.sam " + lib.label + " " + str(args.max_output_edges))
         os.chdir(prevdir)
 
     for lib in args.libs["rf"]:
@@ -339,7 +339,7 @@ def build_graph(contig_file_name, args):
         log.log("START BUILD GRAPH: " + lib.label)
         lib_dir = os.path.dirname(os.path.abspath(lib.name) + "/")
         os.chdir(lib_dir)
-        os.system(path_to_exec_dir + "buildApp DNA_PAIR_RF dna1.sam dna2.sam " + lib.label + " " + args.max_output_edges)
+        os.system(path_to_exec_dir + "buildApp DNA_PAIR_RF dna1.sam dna2.sam " + lib.label + " " + str(args.max_output_edges))
         os.chdir(prevdir)
 
     for lib in args.libs["ff"]:
@@ -347,7 +347,7 @@ def build_graph(contig_file_name, args):
         log.log("START BUILD GRAPH: " + lib.label)
         lib_dir = os.path.dirname(os.path.abspath(lib.name) + "/")
         os.chdir(lib_dir)
-        os.system(path_to_exec_dir + "buildApp DNA_PAIR_FF dna1.sam dna2.sam " + lib.label + " " + args.max_output_edges)
+        os.system(path_to_exec_dir + "buildApp DNA_PAIR_FF dna1.sam dna2.sam " + lib.label + " " + str(args.max_output_edges))
         os.chdir(prevdir)
 
 
@@ -356,7 +356,7 @@ def build_graph(contig_file_name, args):
         log.log("START BUILD GRAPH: " + lib.label)
         lib_dir = os.path.dirname(os.path.abspath(lib.name) + "/")
         os.chdir(lib_dir)
-        os.system(path_to_exec_dir + "buildApp DNA_PAIR_FR " + lib.path[0] + " " + lib.path[1]  + " " + lib.label + " " + args.max_output_edges)
+        os.system(path_to_exec_dir + "buildApp DNA_PAIR_FR " + lib.path[0] + " " + lib.path[1]  + " " + lib.label + " " + str(args.max_output_edges))
         os.chdir(prevdir)
 
     for lib in args.libs["rfsam"]:
@@ -364,7 +364,7 @@ def build_graph(contig_file_name, args):
         log.log("START BUILD GRAPH: " + lib.label)
         lib_dir = os.path.dirname(os.path.abspath(lib.name) + "/")
         os.chdir(lib_dir)
-        os.system(path_to_exec_dir + "buildApp DNA_PAIR_RF " + lib.path[0] + " " + lib.path[1]  + " " + lib.label + " " + args.max_output_edges)
+        os.system(path_to_exec_dir + "buildApp DNA_PAIR_RF " + lib.path[0] + " " + lib.path[1]  + " " + lib.label + " " + str(args.max_output_edges))
         os.chdir(prevdir)
 
     for lib in args.libs["ffsam"]:
@@ -372,7 +372,7 @@ def build_graph(contig_file_name, args):
         log.log("START BUILD GRAPH: " + lib.label)
         lib_dir = os.path.dirname(os.path.abspath(lib.name) + "/")
         os.chdir(lib_dir)
-        os.system(path_to_exec_dir + "buildApp DNA_PAIR_FF " + lib.path[0] + " " + lib.path[1]  + " " + lib.label + " " + args.max_output_edges)
+        os.system(path_to_exec_dir + "buildApp DNA_PAIR_FF " + lib.path[0] + " " + lib.path[1]  + " " + lib.label + " " + str(args.max_output_edges))
         os.chdir(prevdir)
 
 
@@ -381,7 +381,7 @@ def build_graph(contig_file_name, args):
         log.log("START BUILD GRAPH: " + lib.label)
         lib_dir = os.path.dirname(os.path.abspath(lib.name) + "/")
         os.chdir(lib_dir)
-        os.system(path_to_exec_dir + "buildApp LONG out.paf " + contig_file_name + " " + lib.label + " " + args.max_output_edges)
+        os.system(path_to_exec_dir + "buildApp LONG out.paf " + contig_file_name + " " + lib.label + " " + str(args.max_output_edges))
         os.chdir(prevdir)
 
     for lib in args.libs["scg"]:
@@ -389,7 +389,7 @@ def build_graph(contig_file_name, args):
         log.log("START BUILD GRAPH: " + lib.label)
         lib_dir = os.path.dirname(os.path.abspath(lib.name) + "/")
         os.chdir(lib_dir)
-        os.system(path_to_exec_dir + "buildApp CONNECTION " + lib.path[0] + " " + contig_file_name + " " + lib.label + " " + args.max_output_edges)
+        os.system(path_to_exec_dir + "buildApp CONNECTION " + lib.path[0] + " " + contig_file_name + " " + lib.label + " " + str(args.max_output_edges))
         os.chdir(prevdir)
 
     for lib in args.libs["fastg"]:
@@ -397,7 +397,7 @@ def build_graph(contig_file_name, args):
         log.log("START BUILD GRAPH: " + lib.label)
         lib_dir = os.path.dirname(os.path.abspath(lib.name) + "/")
         os.chdir(lib_dir)
-        os.system(path_to_exec_dir + "buildApp FASTG " + lib.path[0] + " " + contig_file_name + " " + lib.label + " " + args.max_output_edges)
+        os.system(path_to_exec_dir + "buildApp FASTG " + lib.path[0] + " " + contig_file_name + " " + lib.label + " " + str(args.max_output_edges))
         os.chdir(prevdir)
 
     for lib in args.libs["gfa"]:
@@ -405,7 +405,7 @@ def build_graph(contig_file_name, args):
         log.log("START BUILD GRAPH: " + lib.label)
         lib_dir = os.path.dirname(os.path.abspath(lib.name) + "/")
         os.chdir(lib_dir)
-        os.system(path_to_exec_dir + "buildApp GFA " + lib.path[0] + " " + lib.label + " " + args.max_output_edges)
+        os.system(path_to_exec_dir + "buildApp GFA " + lib.path[0] + " " + lib.label + " " + str(args.max_output_edges))
         os.chdir(prevdir)
 
     for lib in args.libs["gfa2"]:
@@ -413,7 +413,7 @@ def build_graph(contig_file_name, args):
         log.log("START BUILD GRAPH: " + lib.label)
         lib_dir = os.path.dirname(os.path.abspath(lib.name) + "/")
         os.chdir(lib_dir)
-        os.system(path_to_exec_dir + "buildApp GFA2 " + lib.path[0] + " " + contig_file_name + " "+ lib.label + " " + args.max_output_edges)
+        os.system(path_to_exec_dir + "buildApp GFA2 " + lib.path[0] + " " + contig_file_name + " "+ lib.label + " " + str(args.max_output_edges))
         os.chdir(prevdir)
         
     return
